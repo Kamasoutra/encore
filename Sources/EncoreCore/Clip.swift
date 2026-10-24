@@ -1,7 +1,7 @@
 import Foundation
 import CryptoKit
 
-public enum ClipKind: String, Codable, CaseIterable, Identifiable {
+public enum ClipKind: String, Codable, CaseIterable, Identifiable, Sendable {
     case text, link, image, file, color, code
     public var id: String { rawValue }
     public var title: String {
@@ -36,7 +36,7 @@ public enum ClipKind: String, Codable, CaseIterable, Identifiable {
     }
 }
 
-public struct Clip: Codable, Identifiable, Equatable {
+public struct Clip: Codable, Identifiable, Equatable, Sendable {
     public var id: UUID
     public var fingerprint: String
     public var kind: ClipKind
@@ -79,7 +79,7 @@ public struct Clip: Codable, Identifiable, Equatable {
     public var isProtected: Bool { favorite || !collectionIDs.isEmpty }
 }
 
-public struct ClipCollection: Codable, Identifiable, Equatable {
+public struct ClipCollection: Codable, Identifiable, Equatable, Sendable {
     public var id: UUID
     public var name: String
     public var colorIndex: Int
@@ -88,12 +88,12 @@ public struct ClipCollection: Codable, Identifiable, Equatable {
     }
 }
 
-public struct PasteItem: Codable, Equatable {
+public struct PasteItem: Codable, Equatable, Sendable {
     public var representations: [String: Data]
     public init(_ representations: [String: Data]) { self.representations = representations }
 }
 
-public struct ClipPayload: Codable, Equatable {
+public struct ClipPayload: Codable, Equatable, Sendable {
     public var items: [PasteItem]
     public init(items: [PasteItem]) { self.items = items }
     public static func text(_ text: String) -> ClipPayload {
@@ -114,7 +114,7 @@ public struct ClipPayload: Codable, Equatable {
     public var byteCount: Int { items.reduce(0) { $0 + $1.representations.values.reduce(0) { $0 + $1.count } } }
 }
 
-public struct Library: Codable {
+public struct Library: Codable, Sendable {
     public var version = 1
     public var clips: [Clip] = []
     public var collections: [ClipCollection] = []

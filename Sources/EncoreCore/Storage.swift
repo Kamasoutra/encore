@@ -1,12 +1,16 @@
 import Foundation
 
-public final class Storage {
+public final class Storage: @unchecked Sendable {
     public let root: URL
     private let queue = DispatchQueue(label: "local.kama.Encore.storage", qos: .utility)
     private let encoder = JSONEncoder()
     private let decoder = JSONDecoder()
     private var failed = false
-    public var onError: ((String) -> Void)?
+    private var errorHandler: (@MainActor @Sendable (String) -> Void)?
+    public var onError: (@MainActor @Sendable (String) -> Void)? {
+        get { queue.sync { errorHandler } }
+        set { queue.sync { errorHandler = newValue } }
+    }
 
     public init(root: URL) throws {
         self.root = root
@@ -15,11 +19,13 @@ public final class Storage {
     }
 
     public func load() throws -> Library {
-        let url = root.appendingPathComponent("Library.json")
-        guard FileManager.default.fileExists(atPath: url.path) else { return Library() }
-        let library = try decoder.decode(Library.self, from: Data(contentsOf: url))
-        guard library.version == 1 else { throw CocoaError(.coderReadCorrupt) }
-        return library
+        try queue.sync {
+            let url = root.appendingPathComponent("Library.json")
+            guard FileManager.default.fileExists(atPath: url.path) else { return Library() }
+            let library = try decoder.decode(Library.self, from: Data(contentsOf: url))
+            guard library.version == 1 else { throw CocoaError(.coderReadCorrupt) }
+            return library
+        }
     }
 
     public func payload(_ id: UUID) -> ClipPayload? {
@@ -39,7 +45,8 @@ public final class Storage {
                 for id in deleting { try? FileManager.default.removeItem(at: payloadURL(id)) }
             } catch {
                 failed = true
-                DispatchQueue.main.async { self.onError?(error.localizedDescription) }
+                let handler = errorHandler
+                DispatchQueue.main.async { handler?(error.localizedDescription) }
             }
         }
     }
