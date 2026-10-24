@@ -1,0 +1,19 @@
+name: macOS
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  test-and-build:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v7
+      - name: Test
+        run: swift test
+      - name: Build application
+        run: bash scripts/build.sh
+      - name: Validate bundle
+        run: |
+          plutil -lint dist/Encore.app/Contents/Info.plist
+          codesign --verify --strict dist/Encore.app
