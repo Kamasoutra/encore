@@ -162,11 +162,11 @@ import EncoreCore
         reconcileSelection()
     }
 
-    func assignCollection(_ collection: UUID, ids: Set<UUID>? = nil) {
+    func assignCollection(_ collection: UUID, ids: Set<UUID>? = nil, toggle: Bool = true) {
         let chosen = ids ?? selection
         let allMembers = library.clips.filter { chosen.contains($0.id) }.allSatisfy { $0.collectionIDs.contains(collection) }
         for index in library.clips.indices where chosen.contains(library.clips[index].id) {
-            if allMembers { library.clips[index].collectionIDs.remove(collection) }
+            if toggle && allMembers { library.clips[index].collectionIDs.remove(collection) }
             else { library.clips[index].collectionIDs.insert(collection) }
         }
         save()

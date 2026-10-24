@@ -24,6 +24,7 @@ final class AppModelTests: XCTestCase {
             model.library.collections = [a, b]
             model.assignCollection(a.id, ids: [id])
             model.assignCollection(b.id, ids: [id])
+            model.assignCollection(b.id, ids: [id], toggle: false)
             XCTAssertEqual(model.library.clips[0].collectionIDs, [a.id, b.id])
             model.deleteCollection(a)
             XCTAssertEqual(model.library.clips.count, 1)

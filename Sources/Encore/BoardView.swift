@@ -92,7 +92,7 @@ struct BoardView: View {
                                 guard let provider = providers.first else { return false }
                                 provider.loadDataRepresentation(forTypeIdentifier: "local.kama.encore.clip-id") { data, _ in
                                     guard let data, let value = String(data: data, encoding: .utf8), let id = UUID(uuidString: value) else { return }
-                                    DispatchQueue.main.async { model.assignCollection(collection.id, ids: [id]) }
+                                    DispatchQueue.main.async { model.assignCollection(collection.id, ids: [id], toggle: false) }
                                 }
                                 return true
                             }
@@ -332,7 +332,7 @@ struct ClipCard: View {
         case .text:
             VStack(alignment: .leading, spacing: 7) {
                 if !clip.title.isEmpty { Text(clip.title).font(.system(size: 14, weight: .semibold)).lineLimit(1) }
-                Text(clip.text).font(.system(size: compact ? 12 : 14)).lineSpacing(5).lineLimit(compact ? 5 : 10).frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                Text(String(clip.text.prefix(3000))).font(.system(size: compact ? 12 : 14)).lineSpacing(5).lineLimit(compact ? 5 : 10).frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             }.padding(15).background(accent.opacity(scheme == .dark ? 0.055 : 0.035)).clipShape(RoundedRectangle(cornerRadius: 9)).padding(.horizontal, 8)
         }
     }
@@ -352,7 +352,7 @@ struct ClipCard: View {
             Divider()
             Button("Nouvelle collection…") { model.createCollection() }
         }
-        Button("Ajouter à la file") { model.enqueue(Array(ids)) }
+        Button("Ajouter à la file") { model.enqueue(model.filtered.filter { ids.contains($0.id) }.map(\.id)) }
         Button("Aperçu et édition") { model.inspector = clip }
         if !clip.text.isEmpty {
             Menu("Transformer une copie") { ForEach(TextAction.allCases) { action in Button(action.title) { model.transform(action, clip: clip) } } }
