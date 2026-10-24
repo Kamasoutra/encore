@@ -80,6 +80,7 @@ final class EncorePanel: NSPanel {
             MainActor.assumeIsolated {
                 guard let self, let app = note.userInfo?[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication, app.bundleIdentifier != Bundle.main.bundleIdentifier else { return }
                 self.previousApplication = app
+                if self.panel.isVisible { self.hide() }
             }
         }
         screenObserver = NotificationCenter.default.addObserver(forName: NSApplication.didChangeScreenParametersNotification, object: nil, queue: .main) { [weak self] _ in

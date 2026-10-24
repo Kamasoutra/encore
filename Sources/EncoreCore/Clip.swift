@@ -28,7 +28,7 @@ public enum ClipKind: String, Codable, CaseIterable, Identifiable, Sendable {
         if hasFiles { return .file }
         if hasImage { return .image }
         let value = text.trimmingCharacters(in: .whitespacesAndNewlines)
-        if value.range(of: "^#[0-9a-fA-F]{3}([0-9a-fA-F]{3})?([0-9a-fA-F]{2})?$", options: .regularExpression) != nil { return .color }
+        if value.range(of: "^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$", options: .regularExpression) != nil { return .color }
         if !value.contains(where: \.isWhitespace), let url = URL(string: value), ["https", "http"].contains(url.scheme?.lowercased() ?? ""), url.host != nil { return .link }
         let patterns = ["^(import |func |class |struct |def |const |let |var |SELECT |#!/)", "[{};]\\s*\\n", "^\\s*[\\[{]\\s*\"", "^\\s*(curl |git |ssh |docker |npm |brew )"]
         if patterns.contains(where: { value.range(of: $0, options: .regularExpression) != nil }) { return .code }

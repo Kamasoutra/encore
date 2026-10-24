@@ -6,8 +6,8 @@ enum Palette {
     static let accent = Color(red: 0.56, green: 0.37, blue: 0.96)
     static let collection: [Color] = [accent, .pink, .teal, .orange, .blue]
     static func color(_ hex: String) -> Color {
-        var value = hex.trimmingCharacters(in: CharacterSet(charactersIn: "#"))
-        if value.count == 3 { value = value.map { "\($0)\($0)" }.joined() }
+        var value = hex.trimmingCharacters(in: .whitespacesAndNewlines).trimmingCharacters(in: CharacterSet(charactersIn: "#"))
+        if value.count == 3 || value.count == 4 { value = value.map { "\($0)\($0)" }.joined() }
         let number = UInt64(value, radix: 16) ?? 0xA78BFA
         if value.count == 8 { return Color(.sRGB, red: Double((number >> 24) & 255) / 255, green: Double((number >> 16) & 255) / 255, blue: Double((number >> 8) & 255) / 255, opacity: Double(number & 255) / 255) }
         return Color(red: Double((number >> 16) & 255) / 255, green: Double((number >> 8) & 255) / 255, blue: Double(number & 255) / 255)
