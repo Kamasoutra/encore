@@ -1,8 +1,12 @@
+<img src="docs/icon.png" width="96" alt="Encore app icon">
+
 # Encore
 
 **Your clipboard. Yours to keep.**
 
 A native, local-first clipboard manager for macOS. Press **⇧⌘V**, browse a visual shelf of everything you copied, and paste without breaking your flow. No subscription, account, telemetry, or runtime dependencies. MIT licensed.
+
+**Early release.** Core and integration tests pass; some interactive paths still need validation. See the [validation notes](docs/VALIDATION.md).
 
 ## Features
 
