@@ -281,10 +281,10 @@ struct BoardView: View {
             Spacer(minLength: 4)
             if model.status.isEmpty {
                 if model.expanded {
-                    hint("← →", L("navigate"))
+                    hint("← ↑ ↓ →", L("navigate"))
                     hint("↩", L("paste"))
                     hint("⌘E", L("Edit"))
-                    Button { withAnimation(reduceMotion ? .easeOut(duration: 0.15) : .spring(duration: 0.34, bounce: 0.12)) { model.expanded = false } } label: { hint("↓", L("reduce")) }.buttonStyle(.plain)
+                    Button { withAnimation(reduceMotion ? .easeOut(duration: 0.15) : .spring(duration: 0.34, bounce: 0.12)) { model.expanded = false } } label: { hint(L("hold ↓"), L("reduce")) }.buttonStyle(.plain)
                 } else {
                     Button { withAnimation(reduceMotion ? .easeOut(duration: 0.15) : .spring(duration: 0.34, bounce: 0.12)) { model.expanded = true } } label: { hint("↑", L("explore")) }.buttonStyle(.plain)
                     hint("↩", L("paste"))

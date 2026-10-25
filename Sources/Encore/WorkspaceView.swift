@@ -61,10 +61,12 @@ struct LibraryBody: View {
                 if model.kind != nil || model.source != nil || !model.query.isEmpty {
                     Button(L("Clear filters")) { model.kind = nil; model.source = nil; model.query = "" }.controlSize(.small)
                 }
-                VStack(alignment: .leading, spacing: 6) {
-                    ProgressView(value: min(1, Double(model.totalBytes) / Double(max(1, model.preferences.storageLimitMB * 1_048_576)))).progressViewStyle(.linear).tint(Palette.accent)
-                    Text("\(Int64(model.totalBytes).formatted(.byteCount(style: .binary).locale(Localization.locale))) / \((Int64(model.preferences.storageLimitMB) * 1_048_576).formatted(.byteCount(style: .binary).locale(Localization.locale)))").font(.system(size: 11)).foregroundStyle(.secondary).monospacedDigit()
-                }.padding(.top, 4)
+            }.padding(16)
+        }
+        .safeAreaInset(edge: .bottom, spacing: 0) {
+            VStack(alignment: .leading, spacing: 6) {
+                ProgressView(value: min(1, Double(model.totalBytes) / Double(max(1, model.preferences.storageLimitMB * 1_048_576)))).progressViewStyle(.linear).tint(Palette.accent)
+                Text("\(Int64(model.totalBytes).formatted(.byteCount(style: .binary).locale(Localization.locale))) / \((Int64(model.preferences.storageLimitMB) * 1_048_576).formatted(.byteCount(style: .binary).locale(Localization.locale)))").font(.system(size: 11)).foregroundStyle(.secondary).monospacedDigit()
             }.padding(16)
         }
     }
@@ -119,10 +121,16 @@ struct LibraryBody: View {
                         }
                     }
                 }.padding(16)
+                .background(GeometryReader { geometry in
+                    let card = (compact ? 196 : 236) * scale
+                    Color.clear.onAppear { model.libraryColumns = max(1, Int((geometry.size.width - 32 + 12) / (card + 12))) }
+                        .onChange(of: geometry.size.width) { _, width in model.libraryColumns = max(1, Int((width - 32 + 12) / (card + 12))) }
+                })
             }
             .onChange(of: model.cursor) { _, id in
                 guard let id else { return }
-                withAnimation(reduceMotion ? nil : .easeOut(duration: 0.15)) { proxy.scrollTo(id, anchor: .center) }
+                // No anchor: scroll only when the card leaves the view, so the day headers stay put.
+                withAnimation(reduceMotion ? nil : .easeOut(duration: 0.15)) { proxy.scrollTo(id) }
             }
             .onAppear { if let id = model.cursor { proxy.scrollTo(id, anchor: .center) } }
         }

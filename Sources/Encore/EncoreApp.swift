@@ -40,6 +40,7 @@ final class EncorePanel: NSPanel {
     private var applicationsObserver: NSObjectProtocol?
     private var quickLookPanel: NSPanel?
     private var shownExpanded = false
+    private var downPress: Date?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         let demo = CommandLine.arguments.contains("--demo")
@@ -292,11 +293,15 @@ final class EncorePanel: NSPanel {
             model.searchFocused = false; panel.makeFirstResponder(nil); return nil
         case 126 where !editing:
             if command, let first = model.filtered.first { model.select(first.id) }
-            else { setExpanded(true) }
+            else if model.expanded { model.moveRow(-1, extend: shift) }
+            else if !event.isARepeat { setExpanded(true) }
             return nil
         case 125 where !editing:
+            // In the library a tap moves down a row and holding ↓ goes back to the shelf.
             if command, let last = model.filtered.last { model.select(last.id) }
-            else if model.expanded { setExpanded(false) }
+            else if event.isARepeat {
+                if model.expanded, let start = downPress, Date().timeIntervalSince(start) > 0.4 { downPress = nil; setExpanded(false) }
+            } else if model.expanded { downPress = Date(); model.moveRow(1, extend: shift) }
             else { hide() }
             return nil
         case 48:
@@ -417,7 +422,7 @@ final class EncorePanel: NSPanel {
             arrow.move(to: NSPoint(x: -2.9, y: 1.8)); arrow.line(to: NSPoint(x: 1.2, y: 1.8))
             arrow.appendArc(withCenter: NSPoint(x: 1.2, y: -0.3), radius: 2.1, startAngle: 90, endAngle: -90, clockwise: true)
             arrow.line(to: NSPoint(x: -0.8, y: -2.4))
-            arrow.lineWidth = 1.3; arrow.lineCapStyle = .round; arrow.lineJoinStyle = .round
+            arrow.lineWidth = 1; arrow.lineCapStyle = .round; arrow.lineJoinStyle = .round
             NSGraphicsContext.current?.compositingOperation = .clear
             arrow.stroke()
             NSGraphicsContext.restoreGraphicsState()

@@ -25,6 +25,7 @@ struct PeerStatus: Identifiable, Equatable {
     @Published var quickLook = false { didSet { if quickLook != oldValue { updateQuickLook?() } } }
     /// Frame of the cursor card in panel coordinates, used to anchor the floating preview.
     var cursorFrame: CGRect = .zero
+    var libraryColumns = 1
     @Published var inspector: Clip? { didSet { if let inspector { presentInspector?(inspector) } } }
     @Published var queue: [UUID] = []
     @Published var collecting = false { didSet { if !collecting && oldValue { stackTap?.stop() } } }
@@ -142,6 +143,24 @@ struct PeerStatus: Identifiable, Equatable {
         let next = max(0, min(items.count - 1, position + delta))
         let id = items[next].id
         select(id, modifiers: extend ? .shift : [])
+    }
+
+    /// Moves to the card above or below in the library grid, whose rows restart at each day section.
+    func moveRow(_ delta: Int, extend: Bool = false) {
+        let sections = ClipSection.group(filtered, now: displayTime).map { $0.items.map(\.clip.id) }
+        guard let s = sections.firstIndex(where: { $0.contains(cursor ?? UUID()) }) ?? (sections.isEmpty ? nil : 0) else { return }
+        let columns = max(1, libraryColumns)
+        let i = sections[s].firstIndex(of: cursor ?? UUID()) ?? 0
+        let column = i % columns
+        var target: UUID?
+        if delta > 0 {
+            if i / columns < (sections[s].count - 1) / columns { target = sections[s][min(i + columns, sections[s].count - 1)] }
+            else if s + 1 < sections.count { target = sections[s + 1][min(column, sections[s + 1].count - 1)] }
+        } else {
+            if i >= columns { target = sections[s][i - columns] }
+            else if s > 0 { let above = sections[s - 1]; target = above[min((above.count - 1) / columns * columns + column, above.count - 1)] }
+        }
+        if let target { select(target, modifiers: extend ? .shift : []) }
     }
 
     @discardableResult func accept(_ clip: Clip, payload: ClipPayload) -> Bool {
