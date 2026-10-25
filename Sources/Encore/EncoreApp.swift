@@ -384,12 +384,49 @@ final class EncorePanel: NSPanel {
 
     private func installStatusItem() {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
-        statusItem.button?.image = NSImage(systemSymbolName: "square.on.square", accessibilityDescription: "Encore")
+        statusItem.button?.image = Self.statusImage
         statusItem.button?.toolTip = L("Encore — your clipboard history")
         statusItem.button?.target = self
         statusItem.button?.action = #selector(statusClick)
         statusItem.button?.sendAction(on: [.leftMouseUp, .rightMouseUp])
     }
+
+    /// The app icon reduced to a template: an outlined back card and a solid front card with the arrow cut out.
+    private static let statusImage: NSImage = {
+        let image = NSImage(size: NSSize(width: 18, height: 18), flipped: false) { _ in
+            let card = NSBezierPath(roundedRect: NSRect(x: -4.6, y: -5.6, width: 9.2, height: 11.2), xRadius: 2, yRadius: 2)
+            NSGraphicsContext.saveGraphicsState()
+            let back = NSAffineTransform()
+            back.translateX(by: 7.2, yBy: 9.6); back.rotate(byDegrees: 14); back.concat()
+            card.lineWidth = 1.4
+            NSColor.black.setStroke(); card.stroke()
+            NSGraphicsContext.restoreGraphicsState()
+            NSGraphicsContext.saveGraphicsState()
+            let front = NSAffineTransform()
+            front.translateX(by: 10.6, yBy: 8.2); front.rotate(byDegrees: -7); front.concat()
+            // Clear a gap around the front card so the outline behind it reads as a separate card.
+            let gap = card.copy() as! NSBezierPath
+            gap.lineWidth = 2.6
+            NSGraphicsContext.current?.compositingOperation = .clear
+            gap.stroke()
+            NSGraphicsContext.current?.compositingOperation = .sourceOver
+            NSColor.black.setFill(); card.fill()
+            // The u-turn arrow, drawn as a path so it stays crisp at menu-bar size.
+            let arrow = NSBezierPath()
+            arrow.move(to: NSPoint(x: -0.7, y: 4.2)); arrow.line(to: NSPoint(x: -3.1, y: 1.8)); arrow.line(to: NSPoint(x: -0.7, y: -0.6))
+            arrow.move(to: NSPoint(x: -2.9, y: 1.8)); arrow.line(to: NSPoint(x: 1.2, y: 1.8))
+            arrow.appendArc(withCenter: NSPoint(x: 1.2, y: -0.3), radius: 2.1, startAngle: 90, endAngle: -90, clockwise: true)
+            arrow.line(to: NSPoint(x: -0.8, y: -2.4))
+            arrow.lineWidth = 1.3; arrow.lineCapStyle = .round; arrow.lineJoinStyle = .round
+            NSGraphicsContext.current?.compositingOperation = .clear
+            arrow.stroke()
+            NSGraphicsContext.restoreGraphicsState()
+            return true
+        }
+        image.isTemplate = true
+        image.accessibilityDescription = "Encore"
+        return image
+    }()
 
     @objc private func statusClick() {
         if NSApp.currentEvent?.type == .rightMouseUp {
