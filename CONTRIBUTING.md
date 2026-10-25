@@ -7,7 +7,7 @@ swift test
 bash scripts/build.sh
 ```
 
-`EncoreCore` contains the content model, retention policy, filters, and text transformations. `Encore` contains the AppKit lifecycle and integrations, SwiftUI interface, and local Vision OCR. Core also owns persistence and portable backup validation. There are no third-party dependencies.
+`EncoreCore` contains the content model, retention policy, filters, and text transformations. `Encore` contains the AppKit lifecycle and integrations, SwiftUI interface, and local Vision OCR. Core also owns persistence and portable backup validation. The only third-party dependency is Sparkle, for updates.
 
 Keep changes focused. Include meaningful tests for data preservation, privacy decisions, filters, retention, and transformations. For interface or keyboard changes, verify the actual app and report the macOS version, architecture, and behavior you observed.
 
@@ -15,6 +15,6 @@ Test at least: ⇧⌘V from another app; arrows and Return; Escape returning to 
 
 Use `--demo` for screenshots. Never commit clipboard databases, backups, receipts, credentials, personal screenshots, or build output. Do not include real clipboard content in bug reports.
 
-Please discuss changes that introduce networking, telemetry, cloud synchronization, or new permissions before implementing them. The default experience must remain local and usable without an account.
+Please discuss changes that introduce networking, telemetry, cloud synchronization, or new permissions before implementing them. Sharing between paired Macs stays on the local network and end-to-end encrypted. The default experience must remain local and usable without an account.
 
-Tagged releases use `.github/workflows/release.yml`: a matching `v<CFBundleShortVersionString>` tag tests and packages an arm64 ad-hoc build, then publishes a pre-release ZIP and SHA-256 checksum. Never include signing credentials or clipboard data in the repository.
+Tagged releases use `.github/workflows/release.yml`: a matching `v<CFBundleShortVersionString>` tag tests and packages a signed arm64 build, then publishes the ZIP, a SHA-256 checksum and the Sparkle `appcast.xml`. Never include signing credentials or clipboard data in the repository.
