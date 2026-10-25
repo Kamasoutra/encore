@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>%lld characters</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>few</key>
+			<string>%lld символа</string>
+			<key>many</key>
+			<string>%lld символов</string>
+			<key>one</key>
+			<string>%lld символ</string>
+			<key>other</key>
+			<string>%lld символа</string>
+		</dict>
+	</dict>
+	<key>%lld days</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>few</key>
+			<string>%lld дня</string>
+			<key>many</key>
+			<string>%lld дней</string>
+			<key>one</key>
+			<string>%lld день</string>
+			<key>other</key>
+			<string>%lld дня</string>
+		</dict>
+	</dict>
+	<key>%lld days (unit)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>few</key>
+			<string>дня</string>
+			<key>many</key>
+			<string>дней</string>
+			<key>one</key>
+			<string>день</string>
+			<key>other</key>
+			<string>дня</string>
+		</dict>
+	</dict>
+	<key>%lld hours (unit)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>few</key>
+			<string>часа</string>
+			<key>many</key>
+			<string>часов</string>
+			<key>one</key>
+			<string>час</string>
+			<key>other</key>
+			<string>часа</string>
+		</dict>
+	</dict>
+	<key>%lld items</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>few</key>
+			<string>%lld элемента</string>
+			<key>many</key>
+			<string>%lld элементов</string>
+			<key>one</key>
+			<string>%lld элемент</string>
+			<key>other</key>
+			<string>%lld элемента</string>
+		</dict>
+	</dict>
+	<key>%lld items deleted · ⌘Z to undo</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>few</key>
+			<string>Удалено %lld элемента · ⌘Z — отменить</string>
+			<key>many</key>
+			<string>Удалено %lld элементов · ⌘Z — отменить</string>
+			<key>one</key>
+			<string>Удален %lld элемент · ⌘Z — отменить</string>
+			<key>other</key>
+			<string>Удалено %lld элемента · ⌘Z — отменить</string>
+		</dict>
+	</dict>
+	<key>%lld items would expire immediately.</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>few</key>
+			<string>Срок хранения сразу истечет у %lld элементов.</string>
+			<key>many</key>
+			<string>Срок хранения сразу истечет у %lld элементов.</string>
+			<key>one</key>
+			<string>Срок хранения сразу истечет у %lld элемента.</string>
+			<key>other</key>
+			<string>Срок хранения сразу истечет у %lld элемента.</string>
+		</dict>
+	</dict>
+	<key>%lld minutes (unit)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>few</key>
+			<string>минуты</string>
+			<key>many</key>
+			<string>минут</string>
+			<key>one</key>
+			<string>минута</string>
+			<key>other</key>
+			<string>минуты</string>
+		</dict>
+	</dict>
+	<key>%lld months (unit)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>few</key>
+			<string>месяца</string>
+			<key>many</key>
+			<string>месяцев</string>
+			<key>one</key>
+			<string>месяц</string>
+			<key>other</key>
+			<string>месяца</string>
+		</dict>
+	</dict>
+	<key>%lld new items imported</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>few</key>
+			<string>Импортировано %lld новых элемента</string>
+			<key>many</key>
+			<string>Импортировано %lld новых элементов</string>
+			<key>one</key>
+			<string>Импортирован %lld новый элемент</string>
+			<key>other</key>
+			<string>Импортировано %lld нового элемента</string>
+		</dict>
+	</dict>
+	<key>%lld weeks (unit)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>few</key>
+			<string>недели</string>
+			<key>many</key>
+			<string>недель</string>
+			<key>one</key>
+			<string>неделя</string>
+			<key>other</key>
+			<string>недели</string>
+		</dict>
+	</dict>
+	<key>Apply and delete %lld items</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>few</key>
+			<string>Применить и удалить %lld элемента</string>
+			<key>many</key>
+			<string>Применить и удалить %lld элементов</string>
+			<key>one</key>
+			<string>Применить и удалить %lld элемент</string>
+			<key>other</key>
+			<string>Применить и удалить %lld элемента</string>
+		</dict>
+	</dict>
+</dict>
+</plist>

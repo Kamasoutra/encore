@@ -100,7 +100,7 @@ final class LocalizationTests: XCTestCase {
         XCTAssertEqual(Locale.Language(identifier: "he").characterDirection, .rightToLeft)
     }
 
-    func testEveryLanguageHasFrenchKeysAndNoEmptyValue() throws {
+    func testEveryLanguageHasTheSourceKeysAndNoEmptyValue() throws {
         let french = try strings("fr"), frenchPlurals = try plurals("fr")
         XCTAssertGreaterThan(french.count + frenchPlurals.count, 300)
         XCTAssertTrue(Set(french.keys).isDisjoint(with: frenchPlurals.keys), "une clé plurielle ne doit pas figurer dans Localizable.strings")

@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>%lld characters</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>one</key>
+			<string>%lld carattere</string>
+			<key>many</key>
+			<string>%lld di caratteri</string>
+			<key>other</key>
+			<string>%lld caratteri</string>
+		</dict>
+	</dict>
+	<key>%lld days</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>one</key>
+			<string>%lld giorno</string>
+			<key>many</key>
+			<string>%lld di giorni</string>
+			<key>other</key>
+			<string>%lld giorni</string>
+		</dict>
+	</dict>
+	<key>%lld days (unit)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>one</key>
+			<string>giorno</string>
+			<key>many</key>
+			<string>giorni</string>
+			<key>other</key>
+			<string>giorni</string>
+		</dict>
+	</dict>
+	<key>%lld hours (unit)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>one</key>
+			<string>ora</string>
+			<key>many</key>
+			<string>ore</string>
+			<key>other</key>
+			<string>ore</string>
+		</dict>
+	</dict>
+	<key>%lld items</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>one</key>
+			<string>%lld elemento</string>
+			<key>many</key>
+			<string>%lld di elementi</string>
+			<key>other</key>
+			<string>%lld elementi</string>
+		</dict>
+	</dict>
+	<key>%lld items deleted · ⌘Z to undo</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>one</key>
+			<string>%lld elemento eliminato · ⌘Z per annullare</string>
+			<key>many</key>
+			<string>%lld di elementi eliminati · ⌘Z per annullare</string>
+			<key>other</key>
+			<string>%lld elementi eliminati · ⌘Z per annullare</string>
+		</dict>
+	</dict>
+	<key>%lld items would expire immediately.</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>one</key>
+			<string>%lld elemento scadrebbe subito.</string>
+			<key>many</key>
+			<string>%lld di elementi scadrebbero subito.</string>
+			<key>other</key>
+			<string>%lld elementi scadrebbero subito.</string>
+		</dict>
+	</dict>
+	<key>%lld minutes (unit)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>one</key>
+			<string>minuto</string>
+			<key>many</key>
+			<string>minuti</string>
+			<key>other</key>
+			<string>minuti</string>
+		</dict>
+	</dict>
+	<key>%lld months (unit)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>one</key>
+			<string>mese</string>
+			<key>many</key>
+			<string>mesi</string>
+			<key>other</key>
+			<string>mesi</string>
+		</dict>
+	</dict>
+	<key>%lld new items imported</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>one</key>
+			<string>%lld nuovo elemento importato</string>
+			<key>many</key>
+			<string>%lld di nuovi elementi importati</string>
+			<key>other</key>
+			<string>%lld nuovi elementi importati</string>
+		</dict>
+	</dict>
+	<key>%lld weeks (unit)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>one</key>
+			<string>settimana</string>
+			<key>many</key>
+			<string>settimane</string>
+			<key>other</key>
+			<string>settimane</string>
+		</dict>
+	</dict>
+	<key>Apply and delete %lld items</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>one</key>
+			<string>Applica ed elimina %lld elemento</string>
+			<key>many</key>
+			<string>Applica ed elimina %lld di elementi</string>
+			<key>other</key>
+			<string>Applica ed elimina %lld elementi</string>
+		</dict>
+	</dict>
+</dict>
+</plist>

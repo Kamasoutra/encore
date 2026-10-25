@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>%lld characters</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>few</key>
+			<string>%lld أحرف</string>
+			<key>many</key>
+			<string>%lld حرفًا</string>
+			<key>one</key>
+			<string>حرف واحد</string>
+			<key>other</key>
+			<string>%lld حرف</string>
+			<key>two</key>
+			<string>حرفان</string>
+			<key>zero</key>
+			<string>%lld حرف</string>
+		</dict>
+	</dict>
+	<key>%lld days</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>few</key>
+			<string>%lld أيام</string>
+			<key>many</key>
+			<string>%lld يومًا</string>
+			<key>one</key>
+			<string>يوم واحد</string>
+			<key>other</key>
+			<string>%lld يوم</string>
+			<key>two</key>
+			<string>يومان</string>
+			<key>zero</key>
+			<string>%lld يوم</string>
+		</dict>
+	</dict>
+	<key>%lld days (unit)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>few</key>
+			<string>أيام</string>
+			<key>many</key>
+			<string>يومًا</string>
+			<key>one</key>
+			<string>يوم</string>
+			<key>other</key>
+			<string>يوم</string>
+			<key>two</key>
+			<string>يومان</string>
+			<key>zero</key>
+			<string>يوم</string>
+		</dict>
+	</dict>
+	<key>%lld hours (unit)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>few</key>
+			<string>ساعات</string>
+			<key>many</key>
+			<string>ساعة</string>
+			<key>one</key>
+			<string>ساعة</string>
+			<key>other</key>
+			<string>ساعة</string>
+			<key>two</key>
+			<string>ساعتان</string>
+			<key>zero</key>
+			<string>ساعة</string>
+		</dict>
+	</dict>
+	<key>%lld items</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>few</key>
+			<string>%lld عناصر</string>
+			<key>many</key>
+			<string>%lld عنصرًا</string>
+			<key>one</key>
+			<string>عنصر واحد</string>
+			<key>other</key>
+			<string>%lld عنصر</string>
+			<key>two</key>
+			<string>عنصران</string>
+			<key>zero</key>
+			<string>%lld عنصر</string>
+		</dict>
+	</dict>
+	<key>%lld items deleted · ⌘Z to undo</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>few</key>
+			<string>تم حذف %lld عناصر · ⌘Z للتراجع</string>
+			<key>many</key>
+			<string>تم حذف %lld عنصرًا · ⌘Z للتراجع</string>
+			<key>one</key>
+			<string>تم حذف عنصر واحد · ⌘Z للتراجع</string>
+			<key>other</key>
+			<string>تم حذف %lld عنصر · ⌘Z للتراجع</string>
+			<key>two</key>
+			<string>تم حذف عنصرين · ⌘Z للتراجع</string>
+			<key>zero</key>
+			<string>تم حذف %lld عنصر · ⌘Z للتراجع</string>
+		</dict>
+	</dict>
+	<key>%lld items would expire immediately.</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>few</key>
+			<string>ستنتهي صلاحية %lld عناصر فورًا.</string>
+			<key>many</key>
+			<string>ستنتهي صلاحية %lld عنصرًا فورًا.</string>
+			<key>one</key>
+			<string>ستنتهي صلاحية عنصر واحد فورًا.</string>
+			<key>other</key>
+			<string>ستنتهي صلاحية %lld عنصر فورًا.</string>
+			<key>two</key>
+			<string>ستنتهي صلاحية عنصرين فورًا.</string>
+			<key>zero</key>
+			<string>لن تنتهي صلاحية أي عنصر فورًا.</string>
+		</dict>
+	</dict>
+	<key>%lld minutes (unit)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>few</key>
+			<string>دقائق</string>
+			<key>many</key>
+			<string>دقيقة</string>
+			<key>one</key>
+			<string>دقيقة</string>
+			<key>other</key>
+			<string>دقيقة</string>
+			<key>two</key>
+			<string>دقيقتان</string>
+			<key>zero</key>
+			<string>دقيقة</string>
+		</dict>
+	</dict>
+	<key>%lld months (unit)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>few</key>
+			<string>أشهر</string>
+			<key>many</key>
+			<string>شهرًا</string>
+			<key>one</key>
+			<string>شهر</string>
+			<key>other</key>
+			<string>شهر</string>
+			<key>two</key>
+			<string>شهران</string>
+			<key>zero</key>
+			<string>شهر</string>
+		</dict>
+	</dict>
+	<key>%lld new items imported</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>few</key>
+			<string>تم استيراد %lld عناصر جديدة</string>
+			<key>many</key>
+			<string>تم استيراد %lld عنصرًا جديدًا</string>
+			<key>one</key>
+			<string>تم استيراد عنصر جديد واحد</string>
+			<key>other</key>
+			<string>تم استيراد %lld عنصر جديد</string>
+			<key>two</key>
+			<string>تم استيراد عنصرين جديدين</string>
+			<key>zero</key>
+			<string>لم يُستورد أي عنصر جديد</string>
+		</dict>
+	</dict>
+	<key>%lld weeks (unit)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>few</key>
+			<string>أسابيع</string>
+			<key>many</key>
+			<string>أسبوعًا</string>
+			<key>one</key>
+			<string>أسبوع</string>
+			<key>other</key>
+			<string>أسبوع</string>
+			<key>two</key>
+			<string>أسبوعان</string>
+			<key>zero</key>
+			<string>أسبوع</string>
+		</dict>
+	</dict>
+	<key>Apply and delete %lld items</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>few</key>
+			<string>تطبيق وحذف %lld عناصر</string>
+			<key>many</key>
+			<string>تطبيق وحذف %lld عنصرًا</string>
+			<key>one</key>
+			<string>تطبيق وحذف عنصر واحد</string>
+			<key>other</key>
+			<string>تطبيق وحذف %lld عنصر</string>
+			<key>two</key>
+			<string>تطبيق وحذف عنصرين</string>
+			<key>zero</key>
+			<string>تطبيق وحذف %lld عنصر</string>
+		</dict>
+	</dict>
+</dict>
+</plist>

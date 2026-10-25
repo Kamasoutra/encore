@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>%lld characters</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>few</key>
+			<string>%lld znaky</string>
+			<key>many</key>
+			<string>%lld znaku</string>
+			<key>one</key>
+			<string>%lld znak</string>
+			<key>other</key>
+			<string>%lld znaků</string>
+		</dict>
+	</dict>
+	<key>%lld days</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>few</key>
+			<string>%lld dny</string>
+			<key>many</key>
+			<string>%lld dne</string>
+			<key>one</key>
+			<string>%lld den</string>
+			<key>other</key>
+			<string>%lld dní</string>
+		</dict>
+	</dict>
+	<key>%lld days (unit)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>few</key>
+			<string>dny</string>
+			<key>many</key>
+			<string>dne</string>
+			<key>one</key>
+			<string>den</string>
+			<key>other</key>
+			<string>dní</string>
+		</dict>
+	</dict>
+	<key>%lld hours (unit)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>few</key>
+			<string>hodiny</string>
+			<key>many</key>
+			<string>hodiny</string>
+			<key>one</key>
+			<string>hodina</string>
+			<key>other</key>
+			<string>hodin</string>
+		</dict>
+	</dict>
+	<key>%lld items</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>few</key>
+			<string>%lld položky</string>
+			<key>many</key>
+			<string>%lld položky</string>
+			<key>one</key>
+			<string>%lld položka</string>
+			<key>other</key>
+			<string>%lld položek</string>
+		</dict>
+	</dict>
+	<key>%lld items deleted · ⌘Z to undo</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>few</key>
+			<string>%lld položky smazány · ⌘Z pro odvolání</string>
+			<key>many</key>
+			<string>%lld položky smazáno · ⌘Z pro odvolání</string>
+			<key>one</key>
+			<string>%lld položka smazána · ⌘Z pro odvolání</string>
+			<key>other</key>
+			<string>%lld položek smazáno · ⌘Z pro odvolání</string>
+		</dict>
+	</dict>
+	<key>%lld items would expire immediately.</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>few</key>
+			<string>%lld položkám by okamžitě vypršela doba.</string>
+			<key>many</key>
+			<string>%lld položky by okamžitě vypršela doba.</string>
+			<key>one</key>
+			<string>%lld položce by okamžitě vypršela doba.</string>
+			<key>other</key>
+			<string>%lld položkám by okamžitě vypršela doba.</string>
+		</dict>
+	</dict>
+	<key>%lld minutes (unit)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>few</key>
+			<string>minuty</string>
+			<key>many</key>
+			<string>minuty</string>
+			<key>one</key>
+			<string>minuta</string>
+			<key>other</key>
+			<string>minut</string>
+		</dict>
+	</dict>
+	<key>%lld months (unit)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>few</key>
+			<string>měsíce</string>
+			<key>many</key>
+			<string>měsíce</string>
+			<key>one</key>
+			<string>měsíc</string>
+			<key>other</key>
+			<string>měsíců</string>
+		</dict>
+	</dict>
+	<key>%lld new items imported</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>few</key>
+			<string>Importovány %lld nové položky</string>
+			<key>many</key>
+			<string>Importováno %lld nové položky</string>
+			<key>one</key>
+			<string>Importována %lld nová položka</string>
+			<key>other</key>
+			<string>Importováno %lld nových položek</string>
+		</dict>
+	</dict>
+	<key>%lld weeks (unit)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>few</key>
+			<string>týdny</string>
+			<key>many</key>
+			<string>týdne</string>
+			<key>one</key>
+			<string>týden</string>
+			<key>other</key>
+			<string>týdnů</string>
+		</dict>
+	</dict>
+	<key>Apply and delete %lld items</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>few</key>
+			<string>Použít a smazat %lld položky</string>
+			<key>many</key>
+			<string>Použít a smazat %lld položky</string>
+			<key>one</key>
+			<string>Použít a smazat %lld položku</string>
+			<key>other</key>
+			<string>Použít a smazat %lld položek</string>
+		</dict>
+	</dict>
+</dict>
+</plist>
