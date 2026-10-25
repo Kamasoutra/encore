@@ -4,7 +4,7 @@ import EncoreCore
 @MainActor enum DemoFixtures {
     static func create(in directory: URL) throws -> [URL] {
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
-        let png = directory.appendingPathComponent("Une bonne idée.png")
+        let png = directory.appendingPathComponent("A good idea.png")
         let bitmap = NSBitmapImageRep(bitmapDataPlanes: nil, pixelsWide: 900, pixelsHigh: 1100, bitsPerSample: 8, samplesPerPixel: 4, hasAlpha: true, isPlanar: false, colorSpaceName: .deviceRGB, bytesPerRow: 0, bitsPerPixel: 0)!
         NSGraphicsContext.saveGraphicsState()
         NSGraphicsContext.current = NSGraphicsContext(bitmapImageRep: bitmap)
@@ -18,7 +18,7 @@ import EncoreCore
         NSGraphicsContext.restoreGraphicsState()
         try bitmap.representation(using: .png, properties: [:])!.write(to: png)
 
-        let pdf = directory.appendingPathComponent("Notes de projet.pdf")
+        let pdf = directory.appendingPathComponent("Project notes.pdf")
         var page = CGRect(x: 0, y: 0, width: 600, height: 800)
         guard let context = CGContext(pdf as CFURL, mediaBox: &page, nil) else { throw CocoaError(.fileWriteUnknown) }
         context.beginPDFPage(nil)
@@ -26,9 +26,9 @@ import EncoreCore
         NSGraphicsContext.current = NSGraphicsContext(cgContext: context, flipped: false)
         NSColor.white.setFill(); NSRect(x: 0, y: 0, width: 600, height: 800).fill()
         NSColor(red: 0.55, green: 0.36, blue: 0.93, alpha: 1).setFill(); NSRect(x: 42, y: 698, width: 44, height: 5).fill()
-        ("Notes de projet" as NSString).draw(at: NSPoint(x: 42, y: 638), withAttributes: [.font: NSFont.systemFont(ofSize: 34, weight: .bold), .foregroundColor: NSColor.black])
-        ("LES BONNES IDÉES MÉRITENT DE RESTER." as NSString).draw(at: NSPoint(x: 43, y: 607), withAttributes: [.font: NSFont.systemFont(ofSize: 11, weight: .medium), .foregroundColor: NSColor.gray])
-        for (index, title) in ["01  Capturer sans interrompre", "02  Retrouver en un instant", "03  Conserver ce qui compte", "04  Reprendre le fil"].enumerated() {
+        ("Project notes" as NSString).draw(at: NSPoint(x: 42, y: 638), withAttributes: [.font: NSFont.systemFont(ofSize: 34, weight: .bold), .foregroundColor: NSColor.black])
+        ("GOOD IDEAS DESERVE TO STAY." as NSString).draw(at: NSPoint(x: 43, y: 607), withAttributes: [.font: NSFont.systemFont(ofSize: 11, weight: .medium), .foregroundColor: NSColor.gray])
+        for (index, title) in ["01  Capture without interruption", "02  Find it in an instant", "03  Keep what matters", "04  Pick up the thread"].enumerated() {
             let y = CGFloat(505 - index * 110)
             (title as NSString).draw(at: NSPoint(x: 43, y: y), withAttributes: [.font: NSFont.systemFont(ofSize: 18, weight: .semibold), .foregroundColor: NSColor.darkGray])
             for line in 0..<3 {
@@ -42,9 +42,9 @@ import EncoreCore
     }
 
     static func richText() throws -> (String, ClipPayload) {
-        let text = "Les bonnes idées\nméritent de revenir.\n\nUne pensée au bon moment.\nUn extrait à garder.\nLe détail qui change tout."
+        let text = "Good ideas\ndeserve an encore.\n\nA thought at the right time.\nA quote worth keeping.\nThe detail that changes everything."
         let value = NSMutableAttributedString(string: text, attributes: [.font: NSFont.systemFont(ofSize: 15), .foregroundColor: NSColor.labelColor])
-        value.addAttributes([.font: NSFont(name: "Georgia-Bold", size: 23) ?? NSFont.systemFont(ofSize: 23, weight: .bold)], range: (text as NSString).range(of: "Les bonnes idées\nméritent de revenir."))
+        value.addAttributes([.font: NSFont(name: "Georgia-Bold", size: 23) ?? NSFont.systemFont(ofSize: 23, weight: .bold)], range: (text as NSString).range(of: "Good ideas\ndeserve an encore."))
         let rtf = try value.data(from: NSRange(location: 0, length: value.length), documentAttributes: [.documentType: NSAttributedString.DocumentType.rtf])
         return (text, ClipPayload(items: [.init([NSPasteboard.PasteboardType.string.rawValue: Data(text.utf8), NSPasteboard.PasteboardType.rtf.rawValue: rtf])]))
     }

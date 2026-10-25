@@ -783,11 +783,11 @@ struct PeerStatus: Identifiable, Equatable {
 
     private func seedDemo() {
         let samples: [(String, String, String)] = [
-            ("Design is how it works.\n\nLes bonnes idées méritent\nd’être retrouvées.", "Notes", "com.apple.Notes"),
+            ("Design is not just what it looks like and feels like.\n\nDesign is how it works.", "Notes", "com.apple.Notes"),
             ("https://developer.apple.com/design/human-interface-guidelines", "Safari", "com.apple.Safari"),
             ("#A78BFA", "Figma", "com.figma.Desktop"),
             ("struct GoodIdea {\n    let captured = true\n    let forgotten = false\n\n    func encore() {\n        paste(with: .joy)\n    }\n}", "Xcode", "com.apple.dt.Xcode"),
-            ("Bonjour,\n\nMerci pour votre retour !\nJe regarde ça et reviens vers vous dans la journée.\n\nBonne journée,", "Mail", "com.apple.mail"),
+            ("Hi Sam,\n\nThanks for the feedback!\nI’ll take a look and get back to you today.\n\nBest,", "Mail", "com.apple.mail"),
             ("https://github.com", "Safari", "com.apple.Safari")
         ]
         for (index, value) in samples.reversed().enumerated() {
@@ -795,7 +795,7 @@ struct PeerStatus: Identifiable, Equatable {
             let clip = Clip(fingerprint: payload.fingerprint, kind: .detect(text: value.0), text: value.0, sourceName: value.1, sourceBundle: value.2, copiedAt: Date().addingTimeInterval(-Double(samples.count - index) * 180), favorite: index == 1, byteCount: payload.byteCount)
             accept(clip, payload: payload)
         }
-        library.collections = [.init(name: "Travail", colorIndex: 0), .init(name: "Inspiration", colorIndex: 1), .init(name: "Snippets", colorIndex: 2)]
+        library.collections = [.init(name: "Work", colorIndex: 0), .init(name: "Inspiration", colorIndex: 1), .init(name: "Snippets", colorIndex: 2)]
         if let root = storage?.root, let urls = try? DemoFixtures.create(in: root.appendingPathComponent("Examples")) {
             for (index, url) in urls.enumerated() {
                 let payload = ClipPayload(items: [.init([NSPasteboard.PasteboardType.fileURL.rawValue: Data(url.absoluteString.utf8)])])
