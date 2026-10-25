@@ -128,24 +128,6 @@
 			<string>%lld nouveaux éléments importés</string>
 		</dict>
 	</dict>
-	<key>%lld résultat(s)</key>
-	<dict>
-		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@count@</string>
-		<key>count</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
-			<key>NSStringFormatValueTypeKey</key>
-			<string>lld</string>
-			<key>many</key>
-			<string>%lld de résultats</string>
-			<key>one</key>
-			<string>%lld résultat</string>
-			<key>other</key>
-			<string>%lld résultats</string>
-		</dict>
-	</dict>
 	<key>%lld semaine(s) (unité)</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>

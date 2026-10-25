@@ -4,13 +4,13 @@ import ServiceManagement
 import EncoreCore
 
 private enum SettingsSection: String, CaseIterable, Identifiable {
-    case general, privacy, retention, data, shortcuts
+    case general, privacy, retention, data, peers, shortcuts
     var id: String { rawValue }
     var title: String {
-        switch self { case .general: L("Général"); case .privacy: L("Confidentialité"); case .retention: L("Rétention"); case .data: L("Données"); case .shortcuts: L("Raccourcis") }
+        switch self { case .general: L("Général"); case .privacy: L("Confidentialité"); case .retention: L("Rétention"); case .data: L("Données"); case .peers: L("Autres Mac"); case .shortcuts: L("Raccourcis") }
     }
     var symbol: String {
-        switch self { case .general: "slider.horizontal.3"; case .privacy: "hand.raised"; case .retention: "clock.arrow.circlepath"; case .data: "externaldrive"; case .shortcuts: "keyboard" }
+        switch self { case .general: "slider.horizontal.3"; case .privacy: "hand.raised"; case .retention: "clock.arrow.circlepath"; case .data: "externaldrive"; case .peers: "laptopcomputer"; case .shortcuts: "keyboard" }
     }
     var subtitle: String {
         switch self {
@@ -18,6 +18,7 @@ private enum SettingsSection: String, CaseIterable, Identifiable {
         case .privacy: L("Choisissez ce qu’Encore peut garder. Tout reste sur ce Mac.")
         case .retention: L("Une durée par taille et type. La première règle correspondante l’emporte.")
         case .data: L("Conservation, sauvegardes et espace utilisé.")
+        case .peers: L("Retrouvez ici ce que vous copiez sur vos autres Mac. En direct sur le réseau local, chiffré, sans compte.")
         case .shortcuts: L("Retrouver, sélectionner, coller. Sans quitter le clavier.")
         }
     }
@@ -45,6 +46,7 @@ struct SettingsView: View {
                     case .privacy: privacy
                     case .retention: RetentionSettingsView(model: model)
                     case .data: data
+                    case .peers: peers
                     case .shortcuts: shortcuts
                     }
                 }.frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -57,6 +59,7 @@ struct SettingsView: View {
             .background(Color(nsColor: .windowBackgroundColor))
             .onChange(of: model.preferences) { _, _ in model.preferencesChanged() }
             .onAppear { model.refreshInstalledExclusions() }
+            .sheet(isPresented: $model.pairingSheet, onDismiss: { model.closePairing() }) { PairingSheet(model: model) }
     }
 
     private var sidebar: some View {
@@ -238,6 +241,32 @@ struct SettingsView: View {
         }.formStyle(.grouped)
     }
 
+    private var peers: some View {
+        Form {
+            Section(L("Partage")) {
+                Toggle(L("Partager l’historique avec mes Mac appairés"), isOn: $model.preferences.shareWithPeers).disabled(model.peerService == nil)
+                LabeledContent(L("Nom de ce Mac"), value: model.deviceName)
+                caption(L("Désactivé par défaut. Vos Mac appairés peuvent alors parcourir cet historique et récupérer un élément à la demande, sur le réseau local uniquement. Rien n’est copié automatiquement. Les applications exclues, les fichiers et les contenus confidentiels ne sont jamais partagés."))
+            }
+            Section(L("Mac appairés")) {
+                if model.peers.isEmpty { Text(L("Aucun Mac appairé")).foregroundStyle(.secondary).padding(.vertical, 8) }
+                ForEach(model.peers) { peer in
+                    HStack(spacing: 10) {
+                        Image(systemName: "laptopcomputer").font(.system(size: 18)).foregroundStyle(.secondary).frame(width: 27)
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(peer.device.name).font(.system(size: 13))
+                            Text(peer.online ? L("En ligne") : L("Hors ligne")).font(.system(size: 12)).foregroundStyle(peer.online ? Palette.accent : .secondary)
+                        }
+                        Spacer()
+                        Button(L("Retirer"), role: .destructive) { model.revokePeer(peer.id) }.help(L("Effacer le secret partagé avec \(peer.device.name)"))
+                    }.padding(.vertical, 4)
+                }
+                Button { model.pairingSheet = true } label: { Label(L("Appairer un Mac…"), systemImage: "plus") }.disabled(model.peerService == nil)
+                caption(L("L’appairage se fait une seule fois : vérifiez que les deux Mac affichent le même code à 6 chiffres. Le secret partagé reste dans le Trousseau de chaque Mac. Retirer un Mac l’efface."))
+            }
+        }.formStyle(.grouped)
+    }
+
     private var shortcuts: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 21) {
@@ -334,4 +363,73 @@ struct SettingsView: View {
             }
         }
     }
+}
+
+private struct PairingSheet: View {
+    @ObservedObject var model: AppModel
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text(L("Appairer un Mac")).font(.system(size: 17, weight: .semibold))
+            if let session = model.pairing, let state = model.pairingState { progress(session, state) } else { discovery }
+        }.padding(24).frame(width: 440).frame(minHeight: 250, alignment: .top)
+            .environment(\.locale, Localization.locale)
+    }
+
+    private var discovery: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            note(L("Activez « Partager l’historique avec mes Mac appairés » sur l’autre Mac, puis choisissez-le ci-dessous. Les deux Mac doivent être sur le même réseau."))
+            VStack(spacing: 0) {
+                if model.nearbyMacs.isEmpty {
+                    HStack(spacing: 8) { ProgressView().controlSize(.small); Text(L("Recherche des Mac à proximité…")).foregroundStyle(.secondary) }.frame(maxWidth: .infinity, alignment: .leading).padding(12)
+                }
+                ForEach(model.nearbyMacs) { device in
+                    HStack(spacing: 10) {
+                        Image(systemName: "laptopcomputer").foregroundStyle(.secondary).frame(width: 22)
+                        Text(device.name)
+                        Spacer()
+                        Button(L("Appairer")) { model.beginPairing(with: device) }
+                    }.padding(.horizontal, 12).padding(.vertical, 8)
+                    if device.id != model.nearbyMacs.last?.id { Divider().padding(.horizontal, 12) }
+                }
+            }.background(Color(nsColor: .controlBackgroundColor), in: RoundedRectangle(cornerRadius: 10))
+            Spacer(minLength: 0)
+            HStack { Spacer(); Button(L("Annuler")) { model.closePairing() }.keyboardShortcut(.cancelAction) }
+        }
+    }
+
+    @ViewBuilder private func progress(_ session: PairingSession, _ state: PairingSession.State) -> some View {
+        let name = session.remote?.name ?? "Mac"
+        switch state {
+        case .connecting:
+            HStack(spacing: 8) { ProgressView().controlSize(.small); Text(L("Connexion…")).foregroundStyle(.secondary) }
+            Spacer(minLength: 0)
+            HStack { Spacer(); Button(L("Annuler")) { model.closePairing() }.keyboardShortcut(.cancelAction) }
+        case .comparing, .confirmed:
+            note(session.incoming ? L("\(name) demande à être appairé. Vérifiez que les deux Mac affichent le même code.") : L("Vérifiez que \(name) affiche le même code."))
+            Text(formatted(session.code ?? "")).font(.system(size: 40, weight: .semibold, design: .monospaced)).frame(maxWidth: .infinity).padding(.vertical, 6).textSelection(.enabled)
+            if state == .confirmed { note(L("En attente de confirmation sur l’autre Mac…")) }
+            Spacer(minLength: 0)
+            HStack {
+                Spacer()
+                Button(L("Annuler")) { model.closePairing() }.keyboardShortcut(.cancelAction)
+                Button(L("Confirmer")) { model.confirmPairing() }.keyboardShortcut(.defaultAction).disabled(state == .confirmed)
+            }
+        case .paired:
+            Label(L("\(name) est appairé."), systemImage: "checkmark.circle.fill").foregroundStyle(Palette.accent)
+            Spacer(minLength: 0)
+            HStack { Spacer(); Button(L("Terminé")) { model.closePairing() }.keyboardShortcut(.defaultAction) }
+        case .failed:
+            Label(L("Appairage annulé ou impossible. Aucun secret n’a été enregistré."), systemImage: "xmark.octagon").foregroundStyle(.secondary)
+            Spacer(minLength: 0)
+            HStack {
+                Spacer()
+                Button(L("Fermer")) { model.closePairing() }.keyboardShortcut(.cancelAction)
+                Button(L("Réessayer")) { model.resetPairing() }.keyboardShortcut(.defaultAction)
+            }
+        }
+    }
+
+    private func formatted(_ code: String) -> String { code.count == 6 ? "\(code.prefix(3)) \(code.suffix(3))" : code }
+    private func note(_ text: String) -> some View { Text(text).font(.system(size: 12)).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true) }
 }

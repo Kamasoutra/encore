@@ -17,5 +17,7 @@
     <key>SUFeedURL</key><string>https://github.com/Kamasoutra/encore/releases/latest/download/appcast.xml</string>
     <key>SUPublicEDKey</key><string>nxhSwI/lMMNihff3cnCFlUXepDWCY4YDm2sq0oqZ6XU=</string>
     <key>SUEnableAutomaticChecks</key><true/>
+    <key>NSLocalNetworkUsageDescription</key><string>Encore se connecte directement à vos autres Mac appairés sur le réseau local pour partager l’historique du presse-papiers, sans serveur.</string>
+    <key>NSBonjourServices</key><array><string>_encore._tcp</string></array>
     <key>NSHumanReadableCopyright</key><string>© 2026 Encore contributors. MIT License.</string>
 </dict></plist>
