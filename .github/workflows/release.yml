@@ -7,6 +7,8 @@ permissions:
 concurrency:
   group: release-${{ github.ref }}
   cancel-in-progress: false
+env:
+  SPARKLE_VERSION: 2.10.0
 jobs:
   package:
     runs-on: macos-15
@@ -23,26 +25,49 @@ jobs:
           test "$RELEASE_TAG" = "v$version"
       - name: Test
         run: swift test
+      - name: Import signing identity
+        env:
+          SIGNING_P12: ${{ secrets.ENCORE_SIGNING_P12 }}
+          SIGNING_PASSWORD: ${{ secrets.ENCORE_SIGNING_PASSWORD }}
+        run: |
+          keychain="$RUNNER_TEMP/signing.keychain-db"
+          keychain_password=$(openssl rand -base64 24)
+          echo "$SIGNING_P12" | base64 --decode > "$RUNNER_TEMP/signing.p12"
+          security create-keychain -p "$keychain_password" "$keychain"
+          security set-keychain-settings -lut 3600 "$keychain"
+          security unlock-keychain -p "$keychain_password" "$keychain"
+          security import "$RUNNER_TEMP/signing.p12" -k "$keychain" -P "$SIGNING_PASSWORD" -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$keychain_password" "$keychain" >/dev/null
+          security list-keychains -d user -s "$keychain" $(security list-keychains -d user | tr -d '"')
+          rm "$RUNNER_TEMP/signing.p12"
+          echo "ENCORE_SIGNING_IDENTITY=Encore Developer" >> "$GITHUB_ENV"
       - name: Build and validate
         run: |
           bash scripts/build.sh
           plutil -lint dist/Encore.app/Contents/Info.plist
-          codesign --verify --strict dist/Encore.app
+          codesign --verify --strict --deep dist/Encore.app
+          codesign -d -r- dist/Encore.app 2>&1 | grep -q 'certificate root'
           test "$(lipo -archs dist/Encore.app/Contents/MacOS/Encore)" = arm64
-      - name: Package
+      - name: Package and sign update
+        env:
+          SPARKLE_PRIVATE_KEY: ${{ secrets.SPARKLE_PRIVATE_KEY }}
         run: |
           version=$(/usr/libexec/PlistBuddy -c 'Print CFBundleShortVersionString' Resources/Info.plist)
-          cd dist
-          ditto -c -k --sequesterRsrc --keepParent Encore.app "Encore-$version-macOS-arm64.zip"
-          shasum -a 256 "Encore-$version-macOS-arm64.zip" > SHA256SUMS
-      - name: Publish pre-release
+          archive="Encore-$version-macOS-arm64.zip"
+          (cd dist && ditto -c -k --sequesterRsrc --keepParent Encore.app "$archive" && shasum -a 256 "$archive" > SHA256SUMS)
+          curl -fsSL "https://github.com/sparkle-project/Sparkle/releases/download/$SPARKLE_VERSION/Sparkle-$SPARKLE_VERSION.tar.xz" | tar -xJ -C "$RUNNER_TEMP" ./bin/sign_update
+          signature=$(echo "$SPARKLE_PRIVATE_KEY" | "$RUNNER_TEMP/bin/sign_update" --ed-key-file - "dist/$archive")
+          bash scripts/appcast.sh "dist/$archive" "$signature" > dist/appcast.xml
+          xmllint --noout dist/appcast.xml
+      - name: Publish release
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
           RELEASE_TAG: ${{ github.ref_name }}
         run: |
+          assets=(dist/Encore-*-macOS-arm64.zip dist/SHA256SUMS dist/appcast.xml)
           if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
-            gh release upload "$RELEASE_TAG" dist/Encore-*-macOS-arm64.zip dist/SHA256SUMS --clobber
+            gh release upload "$RELEASE_TAG" "${assets[@]}" --clobber
           else
-            gh release create "$RELEASE_TAG" dist/Encore-*-macOS-arm64.zip dist/SHA256SUMS --verify-tag --prerelease --title "Encore ${RELEASE_TAG#v}" --notes-file .github/RELEASE_NOTES.md
+            gh release create "$RELEASE_TAG" "${assets[@]}" --verify-tag --latest --title "Encore ${RELEASE_TAG#v}" --notes-file .github/RELEASE_NOTES.md
           fi

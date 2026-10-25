@@ -25,6 +25,7 @@ private enum SettingsSection: String, CaseIterable, Identifiable {
 
 struct SettingsView: View {
     @ObservedObject var model: AppModel
+    @ObservedObject private var updates = Updates.shared
     @State private var section: SettingsSection = .general
     @State private var launchAtLogin = SMAppService.mainApp.status == .enabled
 
@@ -216,6 +217,17 @@ struct SettingsView: View {
                     Button(L("Ouvrir le dossier")) { if let root = model.storage?.root { NSWorkspace.shared.open(root) } }
                 }
                 Button(L("Effacer l’historique…"), role: .destructive) { model.clearHistory() }
+            }
+            if updates.available {
+                Section(L("Mises à jour")) {
+                    Toggle(L("Rechercher automatiquement les mises à jour"), isOn: Binding(get: { updates.automaticallyChecks }, set: { updates.automaticallyChecks = $0 }))
+                    HStack {
+                        Text(L("Version \(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "")")).foregroundStyle(.secondary)
+                        Spacer()
+                        Button(L("Rechercher maintenant")) { updates.check() }
+                    }
+                    caption(L("Les mises à jour viennent des versions publiées sur GitHub et sont vérifiées par signature avant installation."))
+                }
             }
         }.formStyle(.grouped)
     }

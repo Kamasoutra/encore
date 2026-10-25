@@ -332,3 +332,9 @@
 "← → sélectionner · ↩ coller · espace éditer · ↓ réduire" = "← → select · ↩ paste · space edit · ↓ reduce";
 "⌘F ou saisir" = "⌘F or start typing";
 "⌘⇧C est déjà utilisé par une autre app. La pile reste accessible dans le panneau." = "⌘⇧C is already used by another app. The queue is available from the shelf.";
+"Les mises à jour viennent des versions publiées sur GitHub et sont vérifiées par signature avant installation." = "Updates come from releases published on GitHub and are verified by signature before installing.";
+"Mises à jour" = "Updates";
+"Rechercher automatiquement les mises à jour" = "Check for updates automatically";
+"Rechercher les mises à jour…" = "Check for Updates…";
+"Rechercher maintenant" = "Check Now";
+"Version %@" = "Version %@";

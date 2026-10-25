@@ -357,6 +357,7 @@ final class EncorePanel: NSPanel {
             menu.addItem(withTitle: model.preferences.captureEnabled ? L("Mettre la capture en pause") : L("Reprendre la capture"), action: #selector(toggleCapture), keyEquivalent: "")
             menu.addItem(.separator())
             menu.addItem(withTitle: L("Réglages…"), action: #selector(settingsAction), keyEquivalent: "")
+            if Updates.shared.available { menu.addItem(withTitle: L("Rechercher les mises à jour…"), action: #selector(checkForUpdates), keyEquivalent: "") }
             menu.addItem(withTitle: L("À propos d’Encore"), action: #selector(about), keyEquivalent: "")
             menu.addItem(.separator())
             menu.addItem(withTitle: L("Quitter Encore"), action: #selector(quit), keyEquivalent: "")
@@ -371,6 +372,7 @@ final class EncorePanel: NSPanel {
     @objc private func openBoard() { show() }
     @objc private func toggleCapture() { model.preferences.captureEnabled.toggle(); model.preferencesChanged() }
     @objc private func settingsAction() { openSettings() }
+    @objc private func checkForUpdates() { Updates.shared.check() }
     @objc private func quit() { NSApp.terminate(nil) }
     @objc private func about() {
         NSApp.activate(ignoringOtherApps: true)
@@ -383,6 +385,7 @@ final class EncorePanel: NSPanel {
         let app = NSMenu()
         let aboutItem = app.addItem(withTitle: L("À propos d’Encore"), action: #selector(about), keyEquivalent: "")
         aboutItem.target = self
+        if Updates.shared.available { app.addItem(withTitle: L("Rechercher les mises à jour…"), action: #selector(checkForUpdates), keyEquivalent: "").target = self }
         app.addItem(.separator())
         let settings = app.addItem(withTitle: L("Réglages…"), action: #selector(settingsAction), keyEquivalent: ",")
         settings.target = self

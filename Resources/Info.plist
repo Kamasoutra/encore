@@ -14,5 +14,8 @@
     <key>LSMinimumSystemVersion</key><string>14.0</string>
     <key>LSUIElement</key><true/>
     <key>NSHighResolutionCapable</key><true/>
+    <key>SUFeedURL</key><string>https://github.com/Kamasoutra/encore/releases/latest/download/appcast.xml</string>
+    <key>SUPublicEDKey</key><string>nxhSwI/lMMNihff3cnCFlUXepDWCY4YDm2sq0oqZ6XU=</string>
+    <key>SUEnableAutomaticChecks</key><true/>
     <key>NSHumanReadableCopyright</key><string>© 2026 Encore contributors. MIT License.</string>
 </dict></plist>
