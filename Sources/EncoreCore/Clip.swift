@@ -51,8 +51,10 @@ public struct Clip: Codable, Identifiable, Equatable, Sendable {
     public var recognizedText: String
     public var byteCount: Int
     public var fileNames: [String]
+    public var firstCopiedAt: Date?
+    public var referencedFileBytes: Int64?
 
-    public init(id: UUID = UUID(), fingerprint: String = "", kind: ClipKind, text: String, title: String = "", sourceName: String = "Encore", sourceBundle: String = "", copiedAt: Date = Date(), favorite: Bool = false, byteCount: Int = 0, fileNames: [String] = []) {
+    public init(id: UUID = UUID(), fingerprint: String = "", kind: ClipKind, text: String, title: String = "", sourceName: String = "Encore", sourceBundle: String = "", copiedAt: Date = Date(), favorite: Bool = false, byteCount: Int = 0, fileNames: [String] = [], referencedFileBytes: Int64? = nil) {
         self.id = id
         self.fingerprint = fingerprint
         self.kind = kind
@@ -66,6 +68,8 @@ public struct Clip: Codable, Identifiable, Equatable, Sendable {
         self.recognizedText = ""
         self.byteCount = byteCount
         self.fileNames = fileNames
+        self.firstCopiedAt = copiedAt
+        self.referencedFileBytes = referencedFileBytes
     }
 
     public var displayTitle: String {
@@ -77,6 +81,11 @@ public struct Clip: Codable, Identifiable, Equatable, Sendable {
     }
 
     public var isProtected: Bool { favorite || !collectionIDs.isEmpty }
+    public var firstCopyDate: Date { firstCopiedAt ?? copiedAt }
+    public var retentionByteCount: Int64? {
+        if kind == .file { return referencedFileBytes.flatMap { $0 >= 0 ? $0 : nil } }
+        return Int64(max(0, byteCount))
+    }
 }
 
 public struct ClipCollection: Codable, Identifiable, Equatable, Sendable {
@@ -102,7 +111,7 @@ public struct ClipPayload: Codable, Equatable, Sendable {
     public var fingerprint: String {
         var hash = SHA256()
         for item in items {
-            for key in item.representations.keys.sorted() {
+            for key in item.representations.keys.sorted() where key != "org.nspasteboard.source" {
                 let data = item.representations[key]!
                 hash.update(data: Data("\(key.utf8.count):\(key):\(data.count):".utf8))
                 hash.update(data: data)
@@ -112,6 +121,12 @@ public struct ClipPayload: Codable, Equatable, Sendable {
         return hash.finalize().map { String(format: "%02x", $0) }.joined()
     }
     public var byteCount: Int { items.reduce(0) { $0 + $1.representations.values.reduce(0) { $0 + $1.count } } }
+    public var fileURLs: [URL] {
+        items.compactMap { item in
+            guard let data = item.representations["public.file-url"], let string = String(data: data, encoding: .utf8), let url = URL(string: string), url.isFileURL else { return nil }
+            return url
+        }
+    }
 }
 
 public struct Library: Codable, Sendable {
@@ -123,7 +138,9 @@ public struct Library: Codable, Sendable {
     @discardableResult public mutating func upsert(_ clip: Clip) -> UUID {
         if let index = clips.firstIndex(where: { $0.fingerprint == clip.fingerprint && !clip.fingerprint.isEmpty }) {
             var existing = clips.remove(at: index)
+            existing.firstCopiedAt = existing.firstCopyDate
             existing.copiedAt = clip.copiedAt
+            existing.referencedFileBytes = clip.referencedFileBytes
             existing.sourceName = clip.sourceName
             existing.sourceBundle = clip.sourceBundle
             clips.insert(existing, at: 0)
@@ -134,11 +151,17 @@ public struct Library: Codable, Sendable {
     }
 
     public mutating func prune(days: Int, limit: Int, now: Date = Date()) -> [UUID] {
-        let cutoff = now.addingTimeInterval(-Double(days) * 86_400)
+        prune(policy: RetentionPolicy(fallback: days > 0 ? .init(days, .days) : .forever), limit: limit, now: now)
+    }
+
+    public mutating func prune(policy: RetentionPolicy, limit: Int, now: Date = Date()) -> [UUID] {
         var ordinary = 0
-        let removed = clips.filter { clip in
-            if clip.isProtected { return false }
-            if days > 0 && clip.copiedAt < cutoff { return true }
+        let ordered = clips.sorted { $0.copiedAt > $1.copiedAt }
+        let removed = ordered.filter { clip in
+            let decision = policy.decision(for: clip)
+            if decision.protected { return false }
+            if decision.isExpired(at: now) { return true }
+            if decision.isRuleManaged { return false }
             ordinary += 1
             return limit > 0 && ordinary > limit
         }.map(\.id)

@@ -1,4 +1,5 @@
 import Foundation
+import EncoreCore
 
 struct Preferences: Codable, Equatable {
     var retentionDays = 30
@@ -12,6 +13,54 @@ struct Preferences: Codable, Equatable {
     var compact = false
     var appearance = "system"
     var shortcut = "commandShiftV"
+    var retentionRules: [RetentionRule] = []
+    var cardScale: Double = 1
+    var importScreenshots = false
+    var screenshotFolder: String?
+    var soundsEnabled = true
+    var soundTheme: SoundTheme = .soft
+    var soundVolume = 0.35
+    var captureSoundPath: String?
+    var pasteSoundPath: String?
+    var displayTarget = "active"
+
+    var retentionPolicy: RetentionPolicy {
+        RetentionPolicy(rules: retentionRules, fallback: retentionDays > 0 ? .init(retentionDays, .days) : .forever)
+    }
+
+    init() {}
+
+    private enum CodingKeys: String, CodingKey {
+        case retentionDays, historyLimit, storageLimitMB, captureEnabled, ignoreSensitive, recognizeImages
+        case excludedBundleIDs, panelHeight, compact, appearance, shortcut, retentionRules, cardScale, importScreenshots, screenshotFolder
+        case soundsEnabled, soundTheme, soundVolume, captureSoundPath, pasteSoundPath, displayTarget
+    }
+
+    init(from decoder: Decoder) throws {
+        self.init()
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        retentionDays = try values.decodeIfPresent(Int.self, forKey: .retentionDays) ?? retentionDays
+        historyLimit = try values.decodeIfPresent(Int.self, forKey: .historyLimit) ?? historyLimit
+        storageLimitMB = try values.decodeIfPresent(Int.self, forKey: .storageLimitMB) ?? storageLimitMB
+        captureEnabled = try values.decodeIfPresent(Bool.self, forKey: .captureEnabled) ?? captureEnabled
+        ignoreSensitive = try values.decodeIfPresent(Bool.self, forKey: .ignoreSensitive) ?? ignoreSensitive
+        recognizeImages = try values.decodeIfPresent(Bool.self, forKey: .recognizeImages) ?? recognizeImages
+        excludedBundleIDs = try values.decodeIfPresent([String].self, forKey: .excludedBundleIDs) ?? excludedBundleIDs
+        panelHeight = try values.decodeIfPresent(Double.self, forKey: .panelHeight) ?? panelHeight
+        compact = try values.decodeIfPresent(Bool.self, forKey: .compact) ?? compact
+        appearance = try values.decodeIfPresent(String.self, forKey: .appearance) ?? appearance
+        shortcut = try values.decodeIfPresent(String.self, forKey: .shortcut) ?? shortcut
+        retentionRules = try values.decodeIfPresent([RetentionRule].self, forKey: .retentionRules) ?? []
+        cardScale = min(1.5, max(0.75, try values.decodeIfPresent(Double.self, forKey: .cardScale) ?? 1))
+        importScreenshots = try values.decodeIfPresent(Bool.self, forKey: .importScreenshots) ?? false
+        screenshotFolder = try values.decodeIfPresent(String.self, forKey: .screenshotFolder)
+        soundsEnabled = try values.decodeIfPresent(Bool.self, forKey: .soundsEnabled) ?? true
+        soundTheme = try values.decodeIfPresent(SoundTheme.self, forKey: .soundTheme) ?? .soft
+        soundVolume = min(1, max(0, try values.decodeIfPresent(Double.self, forKey: .soundVolume) ?? 0.35))
+        captureSoundPath = try values.decodeIfPresent(String.self, forKey: .captureSoundPath)
+        pasteSoundPath = try values.decodeIfPresent(String.self, forKey: .pasteSoundPath)
+        displayTarget = try values.decodeIfPresent(String.self, forKey: .displayTarget) ?? "active"
+    }
 
     static func load(demo: Bool) -> Preferences {
         guard !demo, let data = UserDefaults.standard.data(forKey: "preferences"), let value = try? JSONDecoder().decode(Self.self, from: data) else { return .init() }

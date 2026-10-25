@@ -30,11 +30,16 @@ final class EncorePanel: NSPanel {
     private var screenObserver: NSObjectProtocol?
     private var previousApplication: NSRunningApplication?
     private var permissionTimer: Timer?
+    private var retentionTimer: Timer?
+    private var wakeObserver: NSObjectProtocol?
     private var aboutWindow: NSWindow?
+    private var screenshots: ScreenshotImporter!
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         let demo = CommandLine.arguments.contains("--demo")
         model = AppModel(demo: demo)
+        screenshots = ScreenshotImporter(model: model)
+        model.updateScreenshotCapture = { [weak self] in self?.screenshots.configure() }
         model.togglePanel = { [weak self] in self?.toggle() }
         model.dismissPanel = { [weak self] in self?.hide() }
         model.showSettings = { [weak self] in self?.openSettings() }
@@ -72,7 +77,7 @@ final class EncorePanel: NSPanel {
         }
         mouseMonitor = NSEvent.addGlobalMonitorForEvents(matching: [.leftMouseDown, .rightMouseDown]) { [weak self] _ in
             MainActor.assumeIsolated {
-                guard let self, self.panel.isVisible, self.panel.attachedSheet == nil, NSApp.modalWindow == nil else { return }
+                guard let self, !self.model.demo, self.panel.isVisible, self.panel.attachedSheet == nil, NSApp.modalWindow == nil else { return }
                 self.hide()
             }
         }
@@ -80,16 +85,27 @@ final class EncorePanel: NSPanel {
             MainActor.assumeIsolated {
                 guard let self, let app = note.userInfo?[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication, app.bundleIdentifier != Bundle.main.bundleIdentifier else { return }
                 self.previousApplication = app
-                if self.panel.isVisible { self.hide() }
+                if !self.model.demo && self.panel.isVisible { self.hide() }
             }
         }
         screenObserver = NotificationCenter.default.addObserver(forName: NSApplication.didChangeScreenParametersNotification, object: nil, queue: .main) { [weak self] _ in
-            MainActor.assumeIsolated { if self?.panel.isVisible == true { self?.positionPanel() } }
+            MainActor.assumeIsolated {
+                self?.model.objectWillChange.send()
+                if self?.panel.isVisible == true { self?.positionPanel() }
+            }
         }
         permissionTimer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { [weak self] _ in
             MainActor.assumeIsolated { self?.model.accessibilityGranted = AXIsProcessTrusted() }
         }
+        retentionTimer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
+            MainActor.assumeIsolated { self?.model.prune() }
+        }
+        RunLoop.main.add(retentionTimer!, forMode: .common)
+        wakeObserver = NSWorkspace.shared.notificationCenter.addObserver(forName: NSWorkspace.didWakeNotification, object: nil, queue: .main) { [weak self] _ in
+            MainActor.assumeIsolated { self?.model.prune() }
+        }
         model.clipboard.start()
+        screenshots.configure()
         if demo || CommandLine.arguments.contains("--show") || !UserDefaults.standard.bool(forKey: "hasLaunched") {
             if !demo { UserDefaults.standard.set(true, forKey: "hasLaunched") }
             show()
@@ -100,13 +116,16 @@ final class EncorePanel: NSPanel {
 
     func applicationWillTerminate(_ notification: Notification) {
         model.clipboard.stop(); model.stackTap.stop(); hotkeys.stop()
+        screenshots.stop()
         permissionTimer?.invalidate()
+        retentionTimer?.invalidate()
         model.preferences.save(demo: model.demo)
         model.storage?.flush()
         if let keyMonitor { NSEvent.removeMonitor(keyMonitor) }
         if let mouseMonitor { NSEvent.removeMonitor(mouseMonitor) }
         if let activationObserver { NSWorkspace.shared.notificationCenter.removeObserver(activationObserver) }
         if let screenObserver { NotificationCenter.default.removeObserver(screenObserver) }
+        if let wakeObserver { NSWorkspace.shared.notificationCenter.removeObserver(wakeObserver) }
     }
 
     private func registerShortcuts() {
@@ -122,7 +141,7 @@ final class EncorePanel: NSPanel {
 
     private func positionPanel() {
         let mouse = NSEvent.mouseLocation
-        let screen = panel.isVisible ? panel.screen : NSScreen.screens.first { $0.frame.contains(mouse) }
+        let screen = ScreenPlacement.screen(target: model.preferences.displayTarget, screens: NSScreen.screens, pointer: mouse, current: panel.isVisible ? panel.screen : nil)
         let frame = (screen ?? NSScreen.main ?? NSScreen.screens[0]).visibleFrame
         let width = max(600, frame.width - 24)
         let height = min(frame.height - 30, model.preferences.panelHeight)
@@ -153,7 +172,7 @@ final class EncorePanel: NSPanel {
         let flags = event.modifierFlags.intersection([.command, .shift, .option, .control])
         let command = flags.contains(.command)
         let shift = flags.contains(.shift)
-        let editing = panel.firstResponder is NSTextView
+        let editing = (panel.firstResponder as? NSTextView)?.isFieldEditor == true || model.searchFocused
         let character = event.charactersIgnoringModifiers?.lowercased() ?? ""
         if command {
             switch character {
@@ -165,6 +184,8 @@ final class EncorePanel: NSPanel {
             case "t": model.preferences.captureEnabled.toggle(); model.preferencesChanged(); return nil
             case "e", "r": model.inspector = model.selected; return nil
             case "d": model.toggleFavorite(); return nil
+            case "+", "=": model.zoomCards(0.05); return nil
+            case "-": model.zoomCards(-0.05); return nil
             case "z" where !editing: model.undoDelete(); return nil
             case "a" where !editing: model.selection = Set(model.filtered.map(\.id)); return nil
             case "c" where !editing: model.paste(copyOnly: true); return nil
@@ -195,6 +216,13 @@ final class EncorePanel: NSPanel {
             model.move(event.keyCode == 124 ? 1 : -1, extend: shift); return nil
         case 125 where editing:
             model.searchFocused = false; panel.makeFirstResponder(nil); return nil
+        case 126 where !editing:
+            if command, let first = model.filtered.first { model.select(first.id) }
+            return nil
+        case 125 where !editing:
+            if command, let last = model.filtered.last { model.select(last.id) }
+            else { hide() }
+            return nil
         case 48:
             model.searchFocused.toggle()
             if !model.searchFocused { panel.makeFirstResponder(nil) }
@@ -205,7 +233,7 @@ final class EncorePanel: NSPanel {
             model.remove(); return nil
         default: break
         }
-        if !editing && !command && !flags.contains(.control) && !flags.contains(.option), let text = event.characters, text.unicodeScalars.allSatisfy({ !CharacterSet.controlCharacters.contains($0) }), !text.isEmpty {
+        if !editing && !command && !flags.contains(.control) && !flags.contains(.option) && event.specialKey == nil, let text = event.characters, text.unicodeScalars.allSatisfy({ !CharacterSet.controlCharacters.contains($0) }), !text.isEmpty {
             model.query += text
             model.searchFocused = true
             return nil
@@ -219,7 +247,7 @@ final class EncorePanel: NSPanel {
 
     private func openSettings() {
         if settingsWindow == nil {
-            let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 600, height: 590), styleMask: [.titled, .closable, .miniaturizable], backing: .buffered, defer: false)
+            let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 780, height: 680), styleMask: [.titled, .closable, .miniaturizable], backing: .buffered, defer: false)
             window.title = "Réglages d’Encore"
             window.isReleasedWhenClosed = false
             window.contentView = NSHostingView(rootView: SettingsView(model: model))

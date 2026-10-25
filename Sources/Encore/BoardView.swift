@@ -1,6 +1,7 @@
 import AppKit
 import SwiftUI
 import EncoreCore
+import UniformTypeIdentifiers
 
 enum Palette {
     static let accent = Color(red: 0.56, green: 0.37, blue: 0.96)
@@ -39,22 +40,18 @@ struct BoardView: View {
     @ObservedObject var model: AppModel
     @FocusState private var searchFocus: Bool
     @Environment(\.colorScheme) private var scheme
-    @State private var dragHeight: Double?
     private var compact: Bool { model.preferences.compact }
 
     var body: some View {
         VStack(spacing: 0) {
-            Capsule().fill(.secondary.opacity(0.35)).frame(width: 40, height: 4).padding(.top, 7).padding(.bottom, 3)
-                .frame(maxWidth: .infinity).contentShape(Rectangle())
-                .gesture(DragGesture().onChanged { gesture in
-                    if dragHeight == nil { dragHeight = model.preferences.panelHeight }
-                    model.preferences.panelHeight = min(650, max(280, (dragHeight ?? 380) - gesture.translation.height))
-                    model.resizePanel?()
-                }.onEnded { _ in dragHeight = nil; model.preferencesChanged() })
+            ResizeHandle { height in
+                model.preferences.panelHeight = height
+                model.preferencesChanged()
+            }.frame(height: 16)
                 .help("Glissez pour ajuster la hauteur")
             toolbar
             if let error = model.storageError {
-                Label("Sauvegarde indisponible : \(error)", systemImage: "exclamationmark.triangle").font(.system(size: 11)).foregroundStyle(.red).padding(.horizontal, 24).padding(.bottom, 8)
+                Label("Sauvegarde indisponible : \(error)", systemImage: "exclamationmark.triangle").font(.system(size: 12)).foregroundStyle(.red).padding(.horizontal, 24).padding(.bottom, 8)
             }
             HStack(spacing: 0) {
                 if model.filtered.isEmpty { emptyState.frame(maxWidth: .infinity, maxHeight: .infinity) }
@@ -74,11 +71,27 @@ struct BoardView: View {
     }
 
     private var toolbar: some View {
-        HStack(spacing: 14) {
+        GeometryReader { geometry in
+            HStack(spacing: 14) {
             HStack(spacing: 8) {
                 EncoreMark()
-                Text("encore").font(.system(size: 21, weight: .bold, design: .rounded)).tracking(-0.6)
-            }.padding(.trailing, 4)
+                Text("encore").font(.system(size: 21, weight: .semibold)).tracking(-0.5)
+            }.frame(width: 115, alignment: .leading)
+            Spacer(minLength: 0)
+            HStack(spacing: 11) {
+                searchBar.frame(width: geometry.size.width > 1500 ? 300 : 180)
+                filterMenu
+                toolButton("rectangle.stack", help: "File de collage", active: model.queueVisible) { withAnimation(.easeInOut(duration: 0.18)) { model.queueVisible.toggle() } }
+                toolButton("gearshape", help: "Réglages · ⌘,") { model.showSettings?() }
+                toolButton("xmark", help: "Fermer · Échap") { model.dismissPanel?() }
+            }
+            }
+            collectionsBar.frame(width: max(160, geometry.size.width - (geometry.size.width > 1500 ? 980 : 720))).position(x: geometry.size.width / 2, y: 21)
+        }.frame(height: 42).padding(.horizontal, 25).padding(.top, 1).padding(.bottom, 15)
+    }
+
+    private var collectionsBar: some View {
+        GeometryReader { geometry in
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 5) {
                     boardButton("Historique", symbol: "clock.arrow.circlepath", id: "history", color: Palette.accent)
@@ -86,7 +99,7 @@ struct BoardView: View {
                     ForEach(model.library.collections) { collection in
                         boardButton(collection.name, symbol: "circle.fill", id: collection.id.uuidString, color: Palette.collection[collection.colorIndex % Palette.collection.count])
                             .contextMenu {
-                                Button("Supprimer la collection", role: .destructive) { model.deleteCollection(collection) }
+                                Button(role: .destructive) { model.deleteCollection(collection) } label: { Label("Supprimer la collection", systemImage: "trash") }
                             }
                             .onDrop(of: ["local.kama.encore.clip-id"], isTargeted: nil) { providers in
                                 guard let provider = providers.first else { return false }
@@ -99,10 +112,13 @@ struct BoardView: View {
                     }
                     Button { model.createCollection() } label: { Image(systemName: "plus").font(.system(size: 12, weight: .semibold)).frame(width: 26, height: 30) }
                         .buttonStyle(.plain).help("Créer une collection · ⌘⇧N").accessibilityLabel("Nouvelle collection")
-                }
-            }.frame(minWidth: 180)
-            searchBar.frame(width: 240)
-            Menu {
+                }.frame(minWidth: geometry.size.width)
+            }
+        }.frame(height: 36)
+    }
+
+    private var filterMenu: some View {
+        Menu {
                 Button("Tous les types") { model.kind = nil }
                 ForEach(ClipKind.allCases) { kind in
                     Button { model.kind = kind } label: { Label(kind.title, systemImage: kind.symbol) }
@@ -113,19 +129,15 @@ struct BoardView: View {
             } label: {
                 Image(systemName: "line.3.horizontal.decrease").font(.system(size: 15)).foregroundStyle(model.kind != nil || model.source != nil ? Palette.accent : .secondary)
             }.menuStyle(.borderlessButton).frame(width: 22).help("Filtrer par type ou application").accessibilityLabel("Filtres")
-            toolButton("rectangle.stack", help: "File de collage", active: model.queueVisible) { withAnimation(.easeInOut(duration: 0.18)) { model.queueVisible.toggle() } }
-            toolButton("gearshape", help: "Réglages · ⌘,") { model.showSettings?() }
-            toolButton("xmark", help: "Fermer · Échap") { model.dismissPanel?() }
-        }.padding(.horizontal, 23).padding(.top, 5).padding(.bottom, 15)
     }
 
     private func boardButton(_ title: String, symbol: String, id: String, color: Color) -> some View {
         Button { model.board = id } label: {
             HStack(spacing: 6) {
                 Image(systemName: symbol).font(.system(size: symbol == "circle.fill" ? 7 : 12, weight: .medium)).foregroundStyle(model.board == id ? color : .secondary)
-                Text(title).font(.system(size: 12, weight: model.board == id ? .semibold : .medium)).lineLimit(1)
+                Text(title).font(.system(size: 13, weight: model.board == id ? .semibold : .medium)).lineLimit(1)
             }
-            .padding(.horizontal, 11).frame(height: 31)
+            .padding(.horizontal, 12).frame(height: 35)
             .background(model.board == id ? color.opacity(0.13) : .clear, in: Capsule())
             .overlay(Capsule().strokeBorder(model.board == id ? color.opacity(0.23) : .clear))
         }.buttonStyle(.plain).accessibilityAddTraits(model.board == id ? [.isSelected] : [])
@@ -134,13 +146,13 @@ struct BoardView: View {
     private var searchBar: some View {
         HStack(spacing: 7) {
             Image(systemName: "magnifyingglass").foregroundStyle(.secondary)
-            TextField("Rechercher…", text: $model.query).textFieldStyle(.plain).font(.system(size: 12)).focused($searchFocus)
+            TextField("Rechercher…", text: $model.query).textFieldStyle(.plain).font(.system(size: 13)).focused($searchFocus)
                 .accessibilityLabel("Rechercher dans l’historique")
-            if model.query.isEmpty { Text("⌘F").font(.system(size: 10, design: .monospaced)).foregroundStyle(.tertiary) }
+            if model.query.isEmpty { Text("⌘F").font(.system(size: 12, weight: .medium)).foregroundStyle(.secondary) }
             else { Button { model.query = "" } label: { Image(systemName: "xmark.circle.fill").foregroundStyle(.secondary) }.buttonStyle(.plain).accessibilityLabel("Effacer la recherche") }
-        }.padding(.horizontal, 10).frame(height: 32)
-            .background(.primary.opacity(0.045), in: RoundedRectangle(cornerRadius: 10))
-            .overlay(RoundedRectangle(cornerRadius: 10).strokeBorder(searchFocus ? Palette.accent.opacity(0.65) : .primary.opacity(0.06)))
+        }.padding(.horizontal, 12).frame(height: 38)
+            .background(.primary.opacity(0.065), in: RoundedRectangle(cornerRadius: 11))
+            .overlay(RoundedRectangle(cornerRadius: 11).strokeBorder(searchFocus ? Palette.accent.opacity(0.8) : .primary.opacity(0.13)))
     }
 
     private var cards: some View {
@@ -169,7 +181,7 @@ struct BoardView: View {
                 Button("Effacer les filtres") { model.kind = nil; model.source = nil; model.query = "" }.buttonStyle(.bordered)
             } else if !model.accessibilityGranted {
                 Button("Activer le collage direct") { model.requestAccessibility() }.buttonStyle(.borderedProminent).padding(.top, 6)
-                Text("Sans autorisation, Encore recopie les éléments ; vous les collez avec ⌘V.").font(.system(size: 10)).foregroundStyle(.tertiary)
+                Text("Sans autorisation, Encore recopie les éléments ; vous les collez avec ⌘V.").font(.system(size: 12)).foregroundStyle(.tertiary)
             }
         }.padding(24)
     }
@@ -177,14 +189,14 @@ struct BoardView: View {
     private var footer: some View {
         HStack(spacing: 12) {
             Circle().fill(model.preferences.captureEnabled ? Color.green : Color.orange).frame(width: 5, height: 5)
-            Text(model.preferences.captureEnabled ? "\(model.filtered.count) élément\(model.filtered.count == 1 ? "" : "s")" : "Capture en pause").font(.system(size: 10, weight: .medium))
+            Text(model.preferences.captureEnabled ? "\(model.filtered.count) élément\(model.filtered.count == 1 ? "" : "s")" : "Capture en pause").font(.system(size: 12, weight: .medium))
             if let kind = model.kind {
-                Button { model.kind = nil } label: { Label(kind.title, systemImage: "xmark.circle.fill").font(.system(size: 10)) }.buttonStyle(.plain).foregroundStyle(Palette.accent)
+                Button { model.kind = nil } label: { Label(kind.title, systemImage: "xmark.circle.fill").font(.system(size: 12)) }.buttonStyle(.plain).foregroundStyle(Palette.accent)
             }
             if let source = model.source {
-                Button { model.source = nil } label: { Label(model.sources.first { $0.0 == source }?.1 ?? source, systemImage: "xmark.circle.fill").font(.system(size: 10)) }.buttonStyle(.plain).foregroundStyle(Palette.accent)
+                Button { model.source = nil } label: { Label(model.sources.first { $0.0 == source }?.1 ?? source, systemImage: "xmark.circle.fill").font(.system(size: 12)) }.buttonStyle(.plain).foregroundStyle(Palette.accent)
             }
-            if !model.status.isEmpty { Text(model.status).font(.system(size: 11)).foregroundStyle(Palette.accent).lineLimit(1) }
+            if !model.status.isEmpty { Text(model.status).font(.system(size: 12)).foregroundStyle(Palette.accent).lineLimit(1) }
             Spacer(minLength: 4)
             if model.status.isEmpty {
                 hint("← →", "naviguer")
@@ -192,20 +204,20 @@ struct BoardView: View {
                 hint("⇧↩", "texte brut")
                 hint("espace", "aperçu")
             }
-            Text("100 % local").font(.system(size: 9, weight: .medium)).foregroundStyle(.tertiary).padding(.leading, 4)
-        }.foregroundStyle(.secondary).padding(.horizontal, 25).frame(height: 33)
+            Text("100 % local").font(.system(size: 12, weight: .medium)).foregroundStyle(.secondary).padding(.leading, 4)
+        }.foregroundStyle(.secondary).padding(.horizontal, 25).frame(height: 42)
             .overlay(alignment: .top) { Rectangle().fill(.primary.opacity(0.06)).frame(height: 1).padding(.horizontal, 24) }
     }
 
     private func hint(_ keys: String, _ label: String) -> some View {
         HStack(spacing: 4) {
-            Text(keys).font(.system(size: 9, weight: .medium, design: .monospaced)).padding(.horizontal, 4).padding(.vertical, 2).background(.primary.opacity(0.055), in: RoundedRectangle(cornerRadius: 3))
-            Text(label).font(.system(size: 9))
+            Text(keys).font(.system(size: 12, weight: .semibold)).foregroundStyle(.primary).padding(.horizontal, 6).padding(.vertical, 4).background(.primary.opacity(0.09), in: RoundedRectangle(cornerRadius: 5))
+            Text(label).font(.system(size: 12)).foregroundStyle(.primary.opacity(0.8))
         }
     }
 
     private func toolButton(_ symbol: String, help: String, active: Bool = false, action: @escaping () -> Void) -> some View {
-        Button(action: action) { Image(systemName: symbol).font(.system(size: 14, weight: .medium)).foregroundStyle(active ? Palette.accent : .secondary).frame(width: 22, height: 28) }.buttonStyle(.plain).help(help).accessibilityLabel(help)
+        Button(action: action) { Image(systemName: symbol).font(.system(size: 15, weight: .medium)).foregroundStyle(active ? Palette.accent : .primary.opacity(0.8)).frame(width: 29, height: 34) }.buttonStyle(.plain).help(help).accessibilityLabel(help)
     }
 
     private var queueSidebar: some View {
@@ -213,18 +225,18 @@ struct BoardView: View {
             HStack {
                 Label("File de collage", systemImage: "rectangle.stack").font(.system(size: 12, weight: .semibold))
                 Spacer()
-                Text("\(model.queue.count)").font(.system(size: 10, weight: .bold)).foregroundStyle(Palette.accent)
+                Text("\(model.queue.count)").font(.system(size: 12, weight: .bold)).foregroundStyle(Palette.accent)
             }
-            Text(model.collecting ? "Copiez pour ajouter · ⌘V pour coller" : "Ajoutez des cartes, puis activez la file.").font(.system(size: 10)).foregroundStyle(.secondary)
+            Text(model.collecting ? "Copiez pour ajouter · ⌘V pour coller" : "Ajoutez des cartes, puis activez la file.").font(.system(size: 12)).foregroundStyle(.secondary)
             ScrollView {
                 VStack(spacing: 7) {
                     ForEach(Array(model.queue.enumerated()), id: \.element) { index, id in
                         if let clip = model.library.clips.first(where: { $0.id == id }) {
                             HStack(spacing: 7) {
-                                Text("\(index + 1)").font(.system(size: 10, weight: .semibold, design: .monospaced)).foregroundStyle(Palette.accent)
-                                Text(clip.displayTitle).font(.system(size: 11)).lineLimit(1)
+                                Text("\(index + 1)").font(.system(size: 12, weight: .semibold)).foregroundStyle(Palette.accent)
+                                Text(clip.displayTitle).font(.system(size: 12)).lineLimit(1)
                                 Spacer(minLength: 0)
-                                Button { model.queue.removeAll { $0 == id } } label: { Image(systemName: "xmark").font(.system(size: 9)) }.buttonStyle(.plain).accessibilityLabel("Retirer de la file")
+                                Button { model.queue.removeAll { $0 == id } } label: { Image(systemName: "xmark").font(.system(size: 11)) }.buttonStyle(.plain).accessibilityLabel("Retirer de la file")
                             }.padding(9).background(.primary.opacity(0.04), in: RoundedRectangle(cornerRadius: 8))
                         }
                     }
@@ -250,25 +262,36 @@ struct ClipCard: View {
     private var selected: Bool { model.selection.contains(clip.id) }
     private var accent: Color { Palette.accent(clip.kind) }
     private var ids: Set<UUID> { selected ? model.selection : [clip.id] }
+    private var scale: Double { model.preferences.cardScale }
+    private var typeTitle: String {
+        guard clip.kind == .file, let name = clip.fileNames.first else { return clip.kind.title }
+        let ext = (name as NSString).pathExtension
+        if ext.lowercased() == "pdf" { return "PDF" }
+        if let type = UTType(filenameExtension: ext), type.conforms(to: .image) { return "Image" }
+        return clip.kind.title
+    }
 
     var body: some View {
         VStack(spacing: 0) {
-            HStack(spacing: 6) {
-                sourceIcon.frame(width: 16, height: 16)
-                Text(clip.sourceName).font(.system(size: 10, weight: .medium)).lineLimit(1).foregroundStyle(.secondary)
+            HStack(spacing: 9) {
+                VStack(alignment: .leading, spacing: 3) {
+                    Text(typeTitle).font(.system(size: 14, weight: .semibold))
+                    Text(clip.sourceName).font(.system(size: 12, weight: .medium)).foregroundStyle(.white.opacity(0.9)).lineLimit(1)
+                }
                 Spacer(minLength: 2)
-                if clip.favorite { Image(systemName: "star.fill").font(.system(size: 10)).foregroundStyle(.orange) }
-                if !clip.collectionIDs.isEmpty { Image(systemName: "folder.fill").font(.system(size: 9)).foregroundStyle(Palette.accent) }
-                if index < 9 { Text("⌘\(index + 1)").font(.system(size: 10, weight: .semibold, design: .monospaced)).foregroundStyle(selected ? Palette.accent : .secondary) }
-            }.padding(.horizontal, 14).frame(height: 37)
+                if clip.favorite { Image(systemName: "star.fill").font(.system(size: 12)).foregroundStyle(.yellow) }
+                sourceIcon.frame(width: 29, height: 29).help(clip.sourceName)
+            }.foregroundStyle(.white).padding(.horizontal, 14).frame(height: 53)
+                .background(LinearGradient(colors: [accent, accent.opacity(0.8)], startPoint: .topLeading, endPoint: .bottomTrailing).overlay(.black.opacity(0.24)))
             cardContent.frame(maxWidth: .infinity, maxHeight: .infinity).clipped()
             HStack {
-                Label(clip.kind.title, systemImage: clip.kind.symbol).font(.system(size: 9, weight: .medium)).foregroundStyle(accent)
+                if index < 9 { Text("⌘\(index + 1)").font(.system(size: 12, weight: .semibold)).foregroundStyle(selected ? Palette.accent : .secondary) }
+                Image(systemName: model.retentionDecision(for: clip).expiresAt == nil ? "infinity" : "clock").font(.system(size: 12)).foregroundStyle(.secondary).help(model.retentionSummary(for: clip))
                 Spacer()
-                Text(clip.copiedAt, style: .relative).font(.system(size: 9)).foregroundStyle(.tertiary).lineLimit(1)
-            }.padding(.horizontal, 14).frame(height: 29)
+                Text(clip.copiedAt, style: .relative).font(.system(size: 12)).foregroundStyle(.secondary).lineLimit(1).help("Copié le \(clip.copiedAt.formatted(date: .numeric, time: .standard))")
+            }.padding(.horizontal, 14).frame(height: 32)
         }
-        .frame(width: compact ? 200 : 246)
+        .frame(width: (compact ? 200 : 258) * scale)
         .background(scheme == .dark ? Color(red: 0.14, green: 0.14, blue: 0.18) : .white)
         .clipShape(RoundedRectangle(cornerRadius: 16))
         .overlay(RoundedRectangle(cornerRadius: 16).strokeBorder(selected ? Palette.accent : .primary.opacity(hovered ? 0.18 : 0.07), lineWidth: selected ? 2 : 1))
@@ -287,9 +310,7 @@ struct ClipCard: View {
     }
 
     @ViewBuilder private var sourceIcon: some View {
-        if let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: clip.sourceBundle) {
-            Image(nsImage: NSWorkspace.shared.icon(forFile: url.path)).resizable().interpolation(.high)
-        } else { Image(systemName: "app.fill").resizable().foregroundStyle(accent) }
+        Image(nsImage: ApplicationCatalog.app(clip.sourceBundle).icon).resizable().interpolation(.high)
     }
 
     @ViewBuilder private var cardContent: some View {
@@ -299,7 +320,7 @@ struct ClipCard: View {
                 Palette.color(clip.text)
                 VStack(spacing: 7) {
                     Text(clip.text.uppercased()).font(.system(size: 30, weight: .medium, design: .rounded)).tracking(-1)
-                    Text("Un peu de couleur.").font(.system(size: 11)).opacity(0.75)
+                    Text("HEX").font(.system(size: 12)).opacity(0.75)
                 }.foregroundStyle(.white).shadow(color: .black.opacity(0.25), radius: 4, y: 1)
             }.clipShape(RoundedRectangle(cornerRadius: 9)).padding(.horizontal, 8)
         case .link:
@@ -311,58 +332,74 @@ struct ClipCard: View {
                 }
                 VStack(alignment: .leading, spacing: 4) {
                     Text(clip.displayTitle).font(.system(size: 14, weight: .semibold)).lineLimit(1)
-                    Text(URL(string: clip.text)?.path.removingPercentEncoding ?? clip.text).font(.system(size: 10)).foregroundStyle(.secondary).lineLimit(2)
+                    Text(URL(string: clip.text)?.path.removingPercentEncoding ?? clip.text).font(.system(size: 12)).foregroundStyle(.secondary).lineLimit(2)
                 }.padding(12).frame(maxWidth: .infinity, alignment: .leading)
             }.background(accent.opacity(0.04)).clipShape(RoundedRectangle(cornerRadius: 9)).padding(.horizontal, 8)
         case .image:
             if let image = model.image(for: clip) {
-                ZStack { Color.primary.opacity(0.025); Image(nsImage: image).resizable().scaledToFit().padding(6) }.clipShape(RoundedRectangle(cornerRadius: 9)).padding(.horizontal, 8)
+                GeometryReader { geometry in Image(nsImage: image).resizable().scaledToFill().frame(width: geometry.size.width, height: geometry.size.height).clipped() }
             } else { Image(systemName: "photo").font(.system(size: 36)).foregroundStyle(.secondary) }
         case .file:
-            VStack(spacing: 12) {
-                Image(systemName: clip.fileNames.count > 1 ? "doc.on.doc.fill" : "doc.fill").font(.system(size: 45, weight: .light)).foregroundStyle(accent.gradient)
-                Text(clip.displayTitle).font(.system(size: 13, weight: .medium)).lineLimit(2).multilineTextAlignment(.center)
-                if clip.fileNames.count > 1 { Text("\(clip.fileNames.count) fichiers").font(.system(size: 10)).foregroundStyle(.secondary) }
-            }.padding(18)
+            VStack(spacing: 0) {
+                FilePreview(previews: model.filePreviews, clip: clip, urls: model.fileURLs(for: clip))
+                HStack {
+                    Text(clip.displayTitle).font(.system(size: 12, weight: .medium)).lineLimit(2)
+                    if clip.fileNames.count > 1 { Text("+\(clip.fileNames.count - 1)").font(.system(size: 12, weight: .semibold)).foregroundStyle(.secondary) }
+                }.padding(.horizontal, 12).padding(.vertical, 8).frame(maxWidth: .infinity, alignment: .leading)
+            }
         case .code:
             VStack(alignment: .leading, spacing: 8) {
                 if !clip.title.isEmpty { Text(clip.title).font(.system(size: 12, weight: .semibold)) }
-                Text(highlightedCode(clip.text)).font(.system(size: compact ? 10 : 11, design: .monospaced)).lineSpacing(4).lineLimit(compact ? 7 : 12).frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                Text(highlightedCode(clip.text)).font(.system(size: compact ? 12 : 13, design: .monospaced)).lineSpacing(4).lineLimit(compact ? 7 : 12).frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             }.padding(13).background(Palette.accent.opacity(0.045)).clipShape(RoundedRectangle(cornerRadius: 9)).padding(.horizontal, 8)
         case .text:
-            VStack(alignment: .leading, spacing: 7) {
+            if let rich = model.richText(for: clip) {
+                RichTextPreview(text: rich, scale: scale)
+            } else {
+                VStack(alignment: .leading, spacing: 7) {
                 if !clip.title.isEmpty { Text(clip.title).font(.system(size: 14, weight: .semibold)).lineLimit(1) }
-                Text(String(clip.text.prefix(3000))).font(.system(size: compact ? 12 : 14)).lineSpacing(5).lineLimit(compact ? 5 : 10).frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-            }.padding(15).background(accent.opacity(scheme == .dark ? 0.055 : 0.035)).clipShape(RoundedRectangle(cornerRadius: 9)).padding(.horizontal, 8)
+                Text(String(clip.text.prefix(3000))).font(.system(size: (compact ? 13 : 15) * scale)).lineSpacing(5).lineLimit(compact ? 7 : 14).frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                }.padding(15).background(accent.opacity(scheme == .dark ? 0.055 : 0.035))
+            }
         }
     }
 
     @ViewBuilder private var contextActions: some View {
-        Button("Coller") { model.paste(model.library.clips.filter { ids.contains($0.id) }) }
-        Button("Coller en texte brut") { model.paste(model.library.clips.filter { ids.contains($0.id) }, plain: true) }
-        Button("Copier") { model.paste(model.library.clips.filter { ids.contains($0.id) }, copyOnly: true) }
+        if let file = model.fileURLs(for: clip).first {
+            Button { NSWorkspace.shared.open(file) } label: { Label("Ouvrir", systemImage: "arrow.up.forward.app") }.keyboardShortcut("o")
+            ShareLink(item: file) { Label("Partager", systemImage: "square.and.arrow.up") }
+            Divider()
+        } else if clip.kind == .link, let url = URL(string: clip.text) {
+            Button { NSWorkspace.shared.open(url) } label: { Label("Ouvrir le lien", systemImage: "arrow.up.forward.app") }.keyboardShortcut("o")
+            ShareLink(item: url) { Label("Partager", systemImage: "square.and.arrow.up") }
+            Divider()
+        }
+        Button { model.paste(model.library.clips.filter { ids.contains($0.id) }) } label: { Label("Coller", systemImage: "doc.on.clipboard") }.keyboardShortcut(.return, modifiers: [])
+        Button { model.paste(model.library.clips.filter { ids.contains($0.id) }, plain: true) } label: { Label("Coller en texte brut", systemImage: "text.alignleft") }.keyboardShortcut(.return, modifiers: .shift)
+        Button { model.paste(model.library.clips.filter { ids.contains($0.id) }, copyOnly: true) } label: { Label("Copier", systemImage: "doc.on.doc") }.keyboardShortcut("c")
         Divider()
-        Button(clip.favorite ? "Retirer des favoris" : "Ajouter aux favoris") { model.toggleFavorite(ids) }
-        Menu("Collections") {
+        Button { model.toggleFavorite(ids) } label: { Label(clip.favorite ? "Retirer des favoris" : "Ajouter aux favoris", systemImage: clip.favorite ? "star.slash" : "star") }
+        Menu {
             ForEach(model.library.collections) { collection in
                 Button { model.assignCollection(collection.id, ids: ids) } label: {
                     Label(collection.name, systemImage: clip.collectionIDs.contains(collection.id) ? "checkmark" : "folder")
                 }
             }
             Divider()
-            Button("Nouvelle collection…") { model.createCollection() }
-        }
-        Button("Ajouter à la file") { model.enqueue(model.filtered.filter { ids.contains($0.id) }.map(\.id)) }
-        Button("Aperçu et édition") { model.inspector = clip }
+            Button { model.createCollection() } label: { Label("Nouvelle collection…", systemImage: "folder.badge.plus") }
+        } label: { Label("Collections", systemImage: "folder") }
+        Button { model.enqueue(model.filtered.filter { ids.contains($0.id) }.map(\.id)) } label: { Label("Ajouter à la file", systemImage: "text.badge.plus") }
+        Divider()
+        Button { model.inspector = clip } label: { Label("Aperçu et édition", systemImage: "eye") }.keyboardShortcut(.space, modifiers: [])
         if !clip.text.isEmpty {
-            Menu("Transformer une copie") { ForEach(TextAction.allCases) { action in Button(action.title) { model.transform(action, clip: clip) } } }
+            Menu { ForEach(TextAction.allCases) { action in Button(action.title) { model.transform(action, clip: clip) } } } label: { Label("Transformer une copie", systemImage: "wand.and.stars") }
         }
         if clip.kind == .image {
-            Button("Reconnaître le texte") { model.recognize(clip.id) }
-            if !clip.recognizedText.isEmpty { Button("Créer un texte depuis l’image") { model.addText(clip.recognizedText) } }
+            Button { model.recognize(clip.id) } label: { Label("Reconnaître le texte", systemImage: "text.viewfinder") }
+            if !clip.recognizedText.isEmpty { Button { model.addText(clip.recognizedText) } label: { Label("Créer un texte depuis l’image", systemImage: "text.badge.plus") } }
         }
         Divider()
-        Button("Supprimer", role: .destructive) { model.remove(ids) }
+        Button(role: .destructive) { model.remove(ids) } label: { Label("Supprimer", systemImage: "trash") }
     }
 
     private func itemProvider() -> NSItemProvider {

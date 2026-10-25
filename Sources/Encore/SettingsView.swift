@@ -1,116 +1,215 @@
 import AppKit
 import SwiftUI
 import ServiceManagement
+import EncoreCore
+
+private enum SettingsSection: String, CaseIterable, Identifiable {
+    case general, privacy, retention, data, shortcuts
+    var id: String { rawValue }
+    var title: String {
+        switch self { case .general: "Général"; case .privacy: "Confidentialité"; case .retention: "Rétention"; case .data: "Données"; case .shortcuts: "Raccourcis" }
+    }
+    var symbol: String {
+        switch self { case .general: "slider.horizontal.3"; case .privacy: "hand.raised"; case .retention: "clock.arrow.circlepath"; case .data: "externaldrive"; case .shortcuts: "keyboard" }
+    }
+    var subtitle: String {
+        switch self {
+        case .general: "Un presse-papiers qui s’adapte à votre façon de travailler."
+        case .privacy: "Choisissez ce qu’Encore peut garder. Tout reste sur ce Mac."
+        case .retention: "La bonne durée pour chaque contenu."
+        case .data: "Conservation, sauvegardes et espace utilisé."
+        case .shortcuts: "Retrouver, sélectionner, coller. Sans quitter le clavier."
+        }
+    }
+}
 
 struct SettingsView: View {
     @ObservedObject var model: AppModel
-    @State private var tab = 0
+    @State private var section: SettingsSection = .general
     @State private var launchAtLogin = SMAppService.mainApp.status == .enabled
-    @State private var excluded = ""
 
     var body: some View {
-        VStack(spacing: 0) {
-            HStack(spacing: 14) {
-                EncoreMark(size: 42)
-                VStack(alignment: .leading, spacing: 3) {
-                    Text("Encore").font(.system(size: 25, weight: .bold, design: .rounded))
-                    Text("Votre presse-papiers. Pour de bon.").font(.system(size: 12)).foregroundStyle(.secondary)
+        HStack(spacing: 0) {
+            sidebar
+            Divider()
+            VStack(alignment: .leading, spacing: 0) {
+                VStack(alignment: .leading, spacing: 6) {
+                    Text(section.title).font(.system(size: 23, weight: .semibold))
+                    Text(section.subtitle).font(.system(size: 13)).foregroundStyle(.secondary)
+                }.padding(.horizontal, 25).padding(.vertical, 23)
+                Divider()
+                Group {
+                    switch section {
+                    case .general: general
+                    case .privacy: privacy
+                    case .retention: RetentionSettingsView(model: model)
+                    case .data: data
+                    case .shortcuts: shortcuts
+                    }
+                }.frame(maxWidth: .infinity, maxHeight: .infinity)
+                if !model.status.isEmpty {
+                    Text(model.status).font(.system(size: 12)).foregroundStyle(Palette.accent).padding(.horizontal, 24).padding(.vertical, 10)
                 }
-                Spacer()
-                Text("v0.1.0").font(.system(size: 11, design: .monospaced)).foregroundStyle(.tertiary)
-            }.padding(24)
-            TabView(selection: $tab) {
-                general.tabItem { Label("Général", systemImage: "slider.horizontal.3") }.tag(0)
-                privacy.tabItem { Label("Confidentialité", systemImage: "hand.raised") }.tag(1)
-                data.tabItem { Label("Données", systemImage: "externaldrive") }.tag(2)
-                shortcuts.tabItem { Label("Clavier", systemImage: "keyboard") }.tag(3)
-            }.padding(.horizontal, 20).padding(.bottom, 20)
-            if !model.status.isEmpty { Text(model.status).font(.system(size: 11)).foregroundStyle(Palette.accent).padding(.bottom, 12) }
-        }.frame(width: 600, height: 590).tint(Palette.accent)
-            .onAppear { excluded = model.preferences.excludedBundleIDs.joined(separator: "\n") }
+            }
+        }.frame(width: 780, height: 680).font(.system(size: 13)).tint(Palette.accent)
+            .background(Color(nsColor: .windowBackgroundColor))
             .onChange(of: model.preferences) { _, _ in model.preferencesChanged() }
+    }
+
+    private var sidebar: some View {
+        VStack(alignment: .leading, spacing: 22) {
+            HStack(spacing: 10) { EncoreMark(size: 35); Text("Encore").font(.system(size: 22, weight: .semibold)) }.padding(.horizontal, 7).padding(.top, 13)
+            VStack(spacing: 5) {
+                ForEach(SettingsSection.allCases) { item in
+                    Button { section = item } label: {
+                        HStack(spacing: 10) {
+                            Image(systemName: item.symbol).font(.system(size: 15)).frame(width: 19)
+                            Text(item.title).font(.system(size: 13, weight: section == item ? .semibold : .regular))
+                            Spacer(minLength: 0)
+                        }.foregroundStyle(section == item ? Palette.accent : .primary)
+                            .padding(.horizontal, 11).frame(height: 37)
+                            .background(section == item ? Palette.accent.opacity(0.13) : .clear, in: RoundedRectangle(cornerRadius: 8))
+                    }.buttonStyle(.plain).accessibilityAddTraits(section == item ? [.isSelected] : [])
+                }
+            }
+            Spacer()
+            VStack(alignment: .leading, spacing: 7) {
+                Label("100 % local", systemImage: "lock.shield").font(.system(size: 12)).foregroundStyle(.secondary)
+                HStack {
+                    Text("v\(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "dev")").font(.system(size: 12)).foregroundStyle(.secondary)
+                    Spacer()
+                    Link("GitHub ↗", destination: URL(string: "https://github.com/Kamasoutra/encore")!).font(.system(size: 12))
+                }
+            }.padding(8)
+        }.padding(15).frame(width: 175).background(.primary.opacity(0.025))
     }
 
     private var general: some View {
         Form {
             Section("Au quotidien") {
-                Toggle("Enregistrer les nouvelles copies", isOn: $model.preferences.captureEnabled).disabled(model.storage == nil)
-                Toggle("Ouvrir à la connexion", isOn: $launchAtLogin).onChange(of: launchAtLogin) { _, value in
+                Toggle("Enregistrer les nouvelles copies", isOn: $model.preferences.captureEnabled).disabled(model.storage == nil || model.storageError != nil)
+                Toggle("Ouvrir à la connexion", isOn: $launchAtLogin).disabled(model.demo).onChange(of: launchAtLogin) { _, value in
                     do {
                         if value { try SMAppService.mainApp.register() } else { try SMAppService.mainApp.unregister() }
                     } catch { model.notify("Démarrage automatique : \(error.localizedDescription)"); launchAtLogin = SMAppService.mainApp.status == .enabled }
                 }
-                Picker("Raccourci d’ouverture", selection: $model.preferences.shortcut) {
-                    Text("⌘⇧V — comme Paste").tag("commandShiftV")
-                    Text("⌘⌥V").tag("commandOptionV")
+                Picker("Ouvrir Encore", selection: $model.preferences.shortcut) {
+                    Text("⌘⇧V").tag("commandShiftV"); Text("⌘⌥V").tag("commandOptionV")
                 }.onChange(of: model.preferences.shortcut) { _, _ in model.updateShortcuts?() }
-                Text("Actuellement : \(model.shortcutStatus). Secours : ⌃⌥⌘V.").font(.system(size: 10)).foregroundStyle(.secondary)
+                caption("Raccourci actif : \(model.shortcutStatus). Secours : ⌃⌥⌘V.")
             }
             Section("Apparence") {
                 Picker("Thème", selection: $model.preferences.appearance) {
-                    Text("Système").tag("system")
-                    Text("Clair").tag("light")
-                    Text("Sombre").tag("dark")
+                    Text("Système").tag("system"); Text("Clair").tag("light"); Text("Sombre").tag("dark")
                 }
                 Toggle("Cartes compactes", isOn: $model.preferences.compact)
-                Text("Glissez la poignée en haut du panneau pour régler sa hauteur.").font(.system(size: 10)).foregroundStyle(.secondary)
+                HStack {
+                    Text("Taille des cartes")
+                    Slider(value: $model.preferences.cardScale, in: 0.75...1.5, step: 0.05).frame(width: 160)
+                    Text(model.preferences.cardScale, format: .percent.precision(.fractionLength(0))).monospacedDigit().frame(width: 46)
+                }
+                caption("Glissez la poignée au-dessus du panneau pour régler sa hauteur. ⌘+ et ⌘− ajustent les cartes.")
+            }
+            Section("Écran d’affichage") {
+                Picker("Afficher le panneau sur", selection: $model.preferences.displayTarget) {
+                    Text("Écran actuel · au pointeur").tag("active")
+                    Text("Écran principal de macOS").tag("primary")
+                    ForEach(NSScreen.screens, id: \.self) { screen in
+                        if let id = ScreenPlacement.identifier(screen) { Text(screen.localizedName).tag(id) }
+                    }
+                    if !["active", "primary"].contains(model.preferences.displayTarget), !NSScreen.screens.contains(where: { ScreenPlacement.identifier($0) == model.preferences.displayTarget }) {
+                        Text("Écran déconnecté · principal en secours").tag(model.preferences.displayTarget)
+                    }
+                }.onChange(of: model.preferences.displayTarget) { _, _ in model.resizePanel?() }
+                caption("Le moniteur choisi est mémorisé. S’il est débranché, Encore utilise l’écran principal jusqu’à son retour.")
+            }
+            Section("Retour sonore") {
+                Toggle("Jouer un son à la copie et au collage", isOn: $model.preferences.soundsEnabled)
+                Picker("Ambiance", selection: $model.preferences.soundTheme) { ForEach(SoundTheme.allCases) { theme in Text(theme.title).tag(theme) } }
+                HStack {
+                    Text("Volume")
+                    Slider(value: $model.preferences.soundVolume, in: 0...1).frame(width: 180)
+                    Text(model.preferences.soundVolume, format: .percent.precision(.fractionLength(0))).monospacedDigit().frame(width: 44)
+                }
+                HStack {
+                    Button { FeedbackSounds.play(.capture, preferences: model.preferences) } label: { Label("Copie", systemImage: "play.circle") }
+                    Button { FeedbackSounds.play(.paste, preferences: model.preferences) } label: { Label("Collage", systemImage: "play.circle") }
+                }
+                if model.preferences.soundTheme == .custom {
+                    soundFileRow("Copie", path: model.preferences.captureSoundPath, action: .capture)
+                    soundFileRow("Collage", path: model.preferences.pasteSoundPath, action: .paste)
+                }
             }
             Section("Collage direct") {
                 HStack {
-                    Label(model.accessibilityGranted ? "Autorisé" : "Autorisation Accessibilité nécessaire", systemImage: model.accessibilityGranted ? "checkmark.shield" : "lock")
-                    Spacer()
-                    Button("Configurer") { model.requestAccessibility() }
+                    Label(model.accessibilityGranted ? "Autorisé" : "Autorisation nécessaire", systemImage: model.accessibilityGranted ? "checkmark.shield" : "lock")
+                    Spacer(); Button("Configurer…") { model.requestAccessibility() }
                 }
-                Text("Permet de coller au curseur et d’utiliser la file de collage. Sans autorisation, Encore recopie l’élément pour un ⌘V manuel.").font(.system(size: 10)).foregroundStyle(.secondary)
+                caption("L’autorisation Accessibilité permet le collage au curseur et en série. Sans elle, Encore recopie l’élément pour un ⌘V manuel.")
             }
         }.formStyle(.grouped)
     }
 
     private var privacy: some View {
         Form {
-            Section("Ce qui reste privé") {
+            Section("Capture") {
                 Toggle("Ignorer les contenus confidentiels et temporaires", isOn: $model.preferences.ignoreSensitive)
-                Toggle("Reconnaître le texte des images, sur ce Mac", isOn: $model.preferences.recognizeImages)
-                Text("Aucun compte, aucune télémétrie, aucun serveur. L’OCR utilise Vision d’Apple localement. Les liens ne sont pas chargés à votre insu.").font(.system(size: 11)).foregroundStyle(.secondary)
+                Toggle("Reconnaître le texte des images", isOn: $model.preferences.recognizeImages)
+                caption("L’OCR fonctionne sur ce Mac. Aucun compte ni télémétrie. Les liens ne sont pas chargés en arrière-plan.")
             }
             Section("Applications exclues") {
-                Text("Un identifiant d’application par ligne. Les gestionnaires de mots de passe courants sont exclus par défaut.").font(.system(size: 11)).foregroundStyle(.secondary)
-                TextEditor(text: $excluded).font(.system(size: 11, design: .monospaced)).frame(height: 110)
-                    .onChange(of: excluded) { _, value in model.preferences.excludedBundleIDs = value.split(whereSeparator: \.isNewline).map { $0.trimmingCharacters(in: .whitespaces) }.filter { !$0.isEmpty } }
-                Button("Exclure une application…") {
-                    let panel = NSOpenPanel()
-                    panel.allowedContentTypes = [.application]
-                    panel.directoryURL = URL(fileURLWithPath: "/Applications")
-                    guard panel.runModal() == .OK, let url = panel.url, let bundle = Bundle(url: url)?.bundleIdentifier else { return }
-                    if !model.preferences.excludedBundleIDs.contains(bundle) { model.preferences.excludedBundleIDs.append(bundle) }
-                    excluded = model.preferences.excludedBundleIDs.joined(separator: "\n")
+                VStack(spacing: 0) {
+                    ForEach(model.preferences.excludedBundleIDs, id: \.self) { bundle in
+                        let app = ApplicationCatalog.app(bundle)
+                        HStack(spacing: 10) {
+                            Image(nsImage: app.icon).resizable().interpolation(.high).frame(width: 27, height: 27)
+                            Text(app.name).font(.system(size: 13))
+                            Spacer()
+                            Button(role: .destructive) { model.preferences.excludedBundleIDs.removeAll { $0 == bundle } } label: { Image(systemName: "minus.circle").foregroundStyle(.secondary) }.buttonStyle(.plain).help("Retirer \(app.name) des exclusions")
+                        }.padding(.vertical, 8).help(bundle)
+                        if bundle != model.preferences.excludedBundleIDs.last { Divider() }
+                    }
                 }
+                Button { addExcludedApp() } label: { Label("Ajouter une application…", systemImage: "plus") }
+                caption("Les gestionnaires de mots de passe courants sont exclus par défaut. Les anciennes copies ne sont pas supprimées lorsqu’une application est exclue.")
             }
-            Text("La détection des secrets n’est pas infaillible, notamment avec les extensions de navigateur. Excluez l’application concernée pour arrêter sa capture. Les anciennes copies restent dans l’historique.").font(.system(size: 10)).foregroundStyle(.secondary).padding(.horizontal, 18)
+            Section("Captures d’écran natives") {
+                Toggle("Importer les nouvelles captures enregistrées", isOn: Binding(get: { model.preferences.importScreenshots }, set: { value in
+                    if value { chooseScreenshotFolder() } else { model.preferences.importScreenshots = false }
+                }))
+                if model.preferences.importScreenshots {
+                    HStack {
+                        Label((model.preferences.screenshotFolder as NSString?)?.lastPathComponent ?? "Bureau", systemImage: "folder")
+                        Spacer()
+                        Button("Changer…") { chooseScreenshotFolder() }
+                    }
+                }
+                caption("Les nouvelles captures de ce dossier rejoignent l’historique sans modifier votre presse-papiers. Le dossier est surveillé uniquement quand Encore et la capture sont actifs. Les captures existantes ne sont pas importées.")
+            }
+            caption("Certaines extensions de navigateur n’identifient pas les secrets. Vous pouvez exclure leur navigateur si nécessaire.")
         }.formStyle(.grouped)
     }
 
     private var data: some View {
         Form {
             Section("Conservation") {
-                Picker("Garder l’historique", selection: $model.preferences.retentionDays) {
-                    Text("7 jours").tag(7); Text("30 jours").tag(30); Text("90 jours").tag(90); Text("1 an").tag(365); Text("Sans expiration").tag(0)
+                LabeledContent("Durée sans règle", value: model.preferences.retentionDays == 0 ? "Indéfiniment" : "\(model.preferences.retentionDays) jours")
+                Button { section = .retention } label: { Label("Configurer les règles de rétention", systemImage: "clock.arrow.circlepath") }
+                Picker("Éléments sans règle", selection: $model.preferences.historyLimit) {
+                    Text("500 maximum").tag(500); Text("2 000 maximum").tag(2000); Text("10 000 maximum").tag(10000); Text("Sans limite de nombre").tag(0)
                 }
-                Picker("Nombre maximal d’éléments", selection: $model.preferences.historyLimit) {
-                    Text("500").tag(500); Text("2 000").tag(2000); Text("10 000").tag(10000)
+                Picker("Budget de contenu intégré", selection: $model.preferences.storageLimitMB) {
+                    Text("100 Mio").tag(100); Text("500 Mio").tag(500); Text("2 Gio").tag(2000)
                 }
-                Picker("Budget de contenu", selection: $model.preferences.storageLimitMB) {
-                    Text("100 Mo").tag(100); Text("500 Mo").tag(500); Text("2 Go").tag(2000)
-                }
-                Text("Favoris et collections sont conservés sans expiration. Les nouvelles copies sont ignorées si le budget est atteint. Limite de 25 Mo par copie. Le stockage réel inclut l’encodage et les métadonnées.").font(.system(size: 10)).foregroundStyle(.secondary)
+                caption("Favoris, collections et éléments sous règle échappent à la limite de nombre. Le budget plein bloque les nouvelles copies. Limite technique : 25 Mio de contenu intégré par copie.")
             }
             Section("Bibliothèque locale") {
                 LabeledContent("Éléments", value: "\(model.library.clips.count)")
-                LabeledContent("Contenu brut", value: ByteCountFormatter.string(fromByteCount: Int64(model.totalBytes), countStyle: .file))
-                Text("Stockage local en clair, protégé par les permissions de votre compte macOS. Les fichiers copiés sont référencés, pas dupliqués.").font(.system(size: 10)).foregroundStyle(.secondary)
+                LabeledContent("Contenu conservé", value: ByteCountFormatter.string(fromByteCount: Int64(model.totalBytes), countStyle: .file))
+                caption("Les fichiers sont référencés et ne sont pas dupliqués. Leur taille sert aux règles, mais ne consomme pas le budget d’Encore. Le stockage et les sauvegardes restent en clair.")
                 HStack {
-                    Button("Exporter…") { model.exportLibrary() }
-                    Button("Importer…") { model.importLibrary() }
+                    Button { model.exportLibrary() } label: { Label("Exporter…", systemImage: "square.and.arrow.up") }
+                    Button { model.importLibrary() } label: { Label("Importer…", systemImage: "square.and.arrow.down") }
                     Spacer()
                     Button("Ouvrir le dossier") { if let root = model.storage?.root { NSWorkspace.shared.open(root) } }
                 }
@@ -120,28 +219,63 @@ struct SettingsView: View {
     }
 
     private var shortcuts: some View {
-        Form {
-            Section("Le clavier avant tout") {
-                shortcut("Ouvrir / fermer", keys: model.shortcutStatus)
-                shortcut("File de collage", keys: "⌘⇧C")
-                shortcut("Naviguer", keys: "← →")
-                shortcut("Coller / texte brut", keys: "↩ / ⇧↩")
-                shortcut("Collage rapide", keys: "⌘1 … ⌘9")
-                shortcut("Aperçu / édition", keys: "Espace / ⌘E")
-                shortcut("Rechercher", keys: "⌘F ou saisir")
-                shortcut("Favori / ajouter à la file", keys: "⌘D / ⌘⇧↩")
-                shortcut("Créer un extrait / une collection", keys: "⌘N / ⌘⇧N")
-                shortcut("Supprimer / annuler", keys: "⌫ / ⌘Z")
-                shortcut("Pause / réglages", keys: "⌘T / ⌘,")
-            }
-            Section("Recherche avancée") {
-                Text("app:safari   type:image   date:today\nafter:2026-10-01   before:2026-11-01").font(.system(size: 11, design: .monospaced)).textSelection(.enabled)
-                Text("Les mots se combinent. La recherche ignore les accents et trouve aussi le texte reconnu dans les images.").font(.system(size: 10)).foregroundStyle(.secondary)
-            }
-        }.formStyle(.grouped)
+        ScrollView {
+            VStack(alignment: .leading, spacing: 21) {
+                shortcutGroup("Essentiels", items: [("Ouvrir / fermer", model.shortcutStatus), ("Coller", "↩"), ("Coller en texte brut", "⇧↩"), ("Collage rapide", "⌘1 … ⌘9"), ("File de collage", "⌘⇧C")])
+                shortcutGroup("Navigation", items: [("Sélectionner", "← →"), ("Étendre la sélection", "⇧←  ⇧→"), ("Aperçu", "Espace"), ("Rechercher", "⌘F ou saisir"), ("Taille des cartes", "⌘+  ⌘−"), ("Tout sélectionner", "⌘A")])
+                shortcutGroup("Organiser & éditer", items: [("Éditer", "⌘E"), ("Favori", "⌘D"), ("Ajouter à la file", "⌘⇧↩"), ("Nouvel extrait", "⌘N"), ("Nouvelle collection", "⌘⇧N"), ("Supprimer / annuler", "⌫ / ⌘Z"), ("Pause de capture", "⌘T"), ("Réglages", "⌘,")])
+                VStack(alignment: .leading, spacing: 10) {
+                    Text("Recherche avancée").font(.system(size: 13, weight: .semibold))
+                    Text("app:safari   type:image   date:today\nafter:2026-10-01   before:2026-11-01").font(.system(size: 12, design: .monospaced)).textSelection(.enabled)
+                    caption("Combinez les mots et filtres. La recherche ignore les accents et inclut le texte reconnu dans les images.")
+                }
+            }.padding(24)
+        }
     }
 
-    private func shortcut(_ title: String, keys: String) -> some View {
-        HStack { Text(title).font(.system(size: 11)); Spacer(); Text(keys).font(.system(size: 11, design: .monospaced)).foregroundStyle(.secondary) }
+    private func shortcutGroup(_ title: String, items: [(String, String)]) -> some View {
+        VStack(alignment: .leading, spacing: 9) {
+            Text(title).font(.system(size: 13, weight: .semibold)).foregroundStyle(.secondary)
+            VStack(spacing: 0) {
+                ForEach(items, id: \.0) { item in
+                    HStack {
+                        Text(item.0).font(.system(size: 13))
+                        Spacer()
+                        Text(item.1).font(.system(size: 13, weight: .medium)).monospacedDigit().foregroundStyle(.primary).padding(.horizontal, 8).padding(.vertical, 5).background(.primary.opacity(0.065), in: RoundedRectangle(cornerRadius: 6))
+                    }.padding(.horizontal, 14).padding(.vertical, 8)
+                    if item.0 != items.last?.0 { Divider().padding(.horizontal, 14) }
+                }
+            }.background(Color(nsColor: .controlBackgroundColor), in: RoundedRectangle(cornerRadius: 12))
+        }
+    }
+
+    private func caption(_ text: String) -> some View { Text(text).font(.system(size: 12)).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true) }
+    private func addExcludedApp() {
+        let panel = NSOpenPanel()
+        panel.allowedContentTypes = [.application]; panel.directoryURL = URL(fileURLWithPath: "/Applications")
+        guard panel.runModal() == .OK, let url = panel.url, let bundle = Bundle(url: url)?.bundleIdentifier else { return }
+        if !model.preferences.excludedBundleIDs.contains(bundle) { model.preferences.excludedBundleIDs.append(bundle) }
+    }
+    private func chooseScreenshotFolder() {
+        let panel = NSOpenPanel()
+        panel.canChooseDirectories = true; panel.canChooseFiles = false
+        panel.directoryURL = model.preferences.screenshotFolder.map { URL(fileURLWithPath: $0) } ?? ScreenshotImporter.defaultFolder
+        panel.message = "Choisissez le dossier où macOS enregistre vos captures d’écran."
+        guard panel.runModal() == .OK, let url = panel.url else { return }
+        model.preferences.screenshotFolder = url.path
+        model.preferences.importScreenshots = true
+    }
+    private func soundFileRow(_ title: String, path: String?, action: FeedbackSounds.Action) -> some View {
+        HStack {
+            Text(title)
+            Spacer()
+            Text(path.map { ($0 as NSString).lastPathComponent } ?? "Son doux par défaut").foregroundStyle(.secondary).lineLimit(1)
+            Button("Choisir…") {
+                let panel = NSOpenPanel(); panel.allowedContentTypes = [.audio]
+                guard panel.runModal() == .OK, let url = panel.url else { return }
+                guard NSSound(contentsOf: url, byReference: true) != nil else { model.notify("Ce format audio n’est pas pris en charge."); return }
+                if action == .capture { model.preferences.captureSoundPath = url.path } else { model.preferences.pasteSoundPath = url.path }
+            }
+        }
     }
 }

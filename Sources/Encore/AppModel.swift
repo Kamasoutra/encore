@@ -29,10 +29,13 @@ import EncoreCore
     var updateShortcuts: (() -> Void)?
     var updateAppearance: (() -> Void)?
     var resizePanel: (() -> Void)?
+    var updateScreenshotCapture: (() -> Void)?
     var clipboard: ClipboardService!
     var stackTap: StackTap!
     let demo: Bool
     var storage: Storage?
+    let filePreviews = FilePreviews()
+    private var richTextCache: [UUID: NSAttributedString] = [:]
     private var deleted: [(Clip, ClipPayload)] = []
     private var selectionAnchor: UUID?
     private var statusTask: Task<Void, Never>?
@@ -43,6 +46,7 @@ import EncoreCore
     init(demo: Bool, pasteboard: NSPasteboard = .general) {
         self.demo = demo
         self.preferences = Preferences.load(demo: demo)
+        if demo { preferences.displayTarget = "primary" }
         do {
             let root = demo ? FileManager.default.temporaryDirectory.appendingPathComponent("Encore-Demo-\(ProcessInfo.processInfo.processIdentifier)") : FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].appendingPathComponent("Encore")
             let store = try Storage(root: root)
@@ -59,7 +63,7 @@ import EncoreCore
         }
         clipboard = ClipboardService(model: self, pasteboard: pasteboard)
         stackTap = StackTap(model: self)
-        if demo { seedDemo() } else { prune() }
+        if demo { seedDemo() } else { refreshFileSizes(); prune() }
         resetSelection()
     }
 
@@ -112,36 +116,86 @@ import EncoreCore
 
     @discardableResult func accept(_ clip: Clip, payload: ClipPayload) -> Bool {
         guard storage != nil, storageError == nil else { return false }
+        prune()
         let existed = library.clips.contains { $0.fingerprint == clip.fingerprint }
         if !existed && totalBytes + payload.byteCount > preferences.storageLimitMB * 1_048_576 {
             notify("Stockage plein : augmentez la limite ou supprimez des éléments.")
             return false
         }
         let id = library.upsert(clip)
+        richTextCache.removeValue(forKey: id)
         if !existed { storage?.save(library, payload: (id, payload)) } else { save() }
         if collecting && !queue.contains(id) { queue.append(id) }
         if selection.isEmpty { resetSelection() }
         prune()
         if preferences.recognizeImages, clip.kind == .image { recognize(id) }
+        playSound(.capture)
         return true
     }
 
     func save() { storage?.save(library) }
 
-    func prune() {
-        let removed = library.prune(days: preferences.retentionDays, limit: preferences.historyLimit)
+    func prune(now: Date = Date()) {
+        let removed = library.prune(policy: preferences.retentionPolicy, limit: preferences.historyLimit, now: now)
         if !removed.isEmpty {
             queue.removeAll { removed.contains($0) }
             for id in removed { thumbnails.removeValue(forKey: id) }
+            filePreviews.remove(Set(removed))
             storage?.save(library, deleting: removed)
             reconcileSelection()
         }
+    }
+
+    func retentionDecision(for clip: Clip) -> RetentionDecision { preferences.retentionPolicy.decision(for: clip) }
+
+    func refreshFileSizes() {
+        var changed = false
+        for index in library.clips.indices where library.clips[index].kind == .file && library.clips[index].referencedFileBytes == nil {
+            if let payload = storage?.payload(library.clips[index].id), let size = PasteboardCapture.referencedSize(of: payload.fileURLs) {
+                library.clips[index].referencedFileBytes = size
+                changed = true
+            }
+        }
+        if changed { save() }
+    }
+
+    func retentionSummary(for clip: Clip) -> String {
+        let decision = retentionDecision(for: clip)
+        let date = clip.copiedAt.formatted(date: .numeric, time: .standard)
+        let expiration = decision.expiresAt.map { "Expiration : \($0.formatted(date: .numeric, time: .standard))" } ?? "Conservé indéfiniment"
+        let reason = decision.protected ? "Favori ou collection" : decision.ruleName ?? "Durée par défaut"
+        return "Copié le \(date)\n\(expiration)\n\(reason)"
+    }
+
+    func retentionRemovalCount(rules: [RetentionRule], fallbackDays: Int) -> Int {
+        var snapshot = library
+        let policy = RetentionPolicy(rules: rules, fallback: fallbackDays > 0 ? .init(fallbackDays, .days) : .forever)
+        return snapshot.prune(policy: policy, limit: preferences.historyLimit).count
+    }
+
+    func applyRetention(rules: [RetentionRule], fallbackDays: Int) {
+        guard rules.allSatisfy(\.isValid), fallbackDays >= 0 else { notify("Une règle de rétention est invalide."); return }
+        preferences.retentionRules = rules
+        preferences.retentionDays = fallbackDays
+        preferencesChanged()
+        notify("Règles de rétention enregistrées")
+    }
+
+    func zoomCards(_ amount: Double) {
+        preferences.cardScale = min(1.5, max(0.75, preferences.cardScale + amount))
+        preferencesChanged()
+    }
+
+    private func playSound(_ action: FeedbackSounds.Action) {
+        guard !demo, preferences.soundsEnabled else { return }
+        FeedbackSounds.play(action, preferences: preferences)
     }
 
     func preferencesChanged() {
         preferences.save(demo: demo)
         prune()
         updateAppearance?()
+        updateScreenshotCapture?()
     }
 
     func notify(_ message: String) {
@@ -181,6 +235,7 @@ import EncoreCore
         queue.removeAll { chosen.contains($0) }
         selection.subtract(chosen)
         for id in chosen { thumbnails.removeValue(forKey: id) }
+        filePreviews.remove(chosen)
         let remaining = filtered
         cursor = remaining.isEmpty ? nil : remaining[min(position, remaining.count - 1)].id
         selection = Set(cursor.map { [$0] } ?? [])
@@ -206,17 +261,19 @@ import EncoreCore
         guard !values.isEmpty else { return }
         let payloads = values.compactMap { storage?.payload($0.id) }
         guard payloads.count == values.count else { notify("Le contenu est indisponible sur le disque."); return }
+        let origin = values.count == 1 ? values[0].sourceBundle : ""
         if plain {
             let text = values.map { $0.text.isEmpty ? $0.recognizedText : $0.text }.joined(separator: "\n")
             guard !text.isEmpty else { notify("Cet élément ne contient pas de texte."); return }
-            clipboard.write(.text(text))
+            clipboard.write(.text(text), sourceBundle: origin)
         } else if values.count > 1 && values.allSatisfy({ [.text, .code, .link, .color].contains($0.kind) }) {
-            clipboard.write(.text(values.map(\.text).joined(separator: "\n")))
+            clipboard.write(.text(values.map(\.text).joined(separator: "\n")), sourceBundle: origin)
         } else {
-            clipboard.write(ClipPayload(items: payloads.flatMap(\.items)))
+            clipboard.write(ClipPayload(items: payloads.flatMap(\.items)), sourceBundle: origin)
         }
         for index in library.clips.indices where values.contains(where: { $0.id == library.clips[index].id }) { library.clips[index].lastUsedAt = Date() }
         save()
+        playSound(.paste)
         guard !copyOnly else { notify("Copié dans le presse-papiers"); return }
         accessibilityGranted = AXIsProcessTrusted()
         let target = activateTarget?()
@@ -268,7 +325,8 @@ import EncoreCore
             notify("File arrêtée : le contenu de l’élément est indisponible.")
             return false
         }
-        clipboard.write(payload)
+        clipboard.write(payload, sourceBundle: library.clips.first(where: { $0.id == id })?.sourceBundle ?? "")
+        playSound(.paste)
         queue.removeFirst()
         if queue.isEmpty { collecting = false; notify("File terminée") }
         return true
@@ -299,6 +357,8 @@ import EncoreCore
         library.clips[index].kind = .detect(text: text)
         library.clips[index].fingerprint = payload.fingerprint
         library.clips[index].byteCount = payload.byteCount
+        library.clips[index].referencedFileBytes = nil
+        richTextCache.removeValue(forKey: id)
         for duplicate in duplicates {
             library.clips[index].favorite = library.clips[index].favorite || duplicate.favorite
             library.clips[index].collectionIDs.formUnion(duplicate.collectionIDs)
@@ -326,6 +386,18 @@ import EncoreCore
         if thumbnails.count >= 40 { thumbnails.removeAll() }
         thumbnails[clip.id] = image
         return image
+    }
+
+    func fileURLs(for clip: Clip) -> [URL] { storage?.payload(clip.id)?.fileURLs ?? [] }
+
+    func richText(for clip: Clip) -> NSAttributedString? {
+        if let cached = richTextCache[clip.id] { return cached }
+        guard let payload = storage?.payload(clip.id), let data = payload.items.first?.representations[NSPasteboard.PasteboardType.rtf.rawValue], data.count < 1_000_000,
+              let attributed = NSAttributedString(rtf: data, documentAttributes: nil) else { return nil }
+        let preview = attributed.attributedSubstring(from: NSRange(location: 0, length: min(6000, attributed.length)))
+        if richTextCache.count >= 30 { richTextCache.removeAll() }
+        richTextCache[clip.id] = preview
+        return preview
     }
 
     nonisolated private static func imageData(_ payload: ClipPayload) -> Data? {
@@ -419,7 +491,7 @@ import EncoreCore
             let result = try backup.merged(into: library, budgetBytes: preferences.storageLimitMB * 1_048_576)
             library = result.library
             storage?.save(library, payloads: result.payloads)
-            prune(); resetSelection()
+            refreshFileSizes(); prune(); resetSelection()
             notify("\(result.payloads.count) nouvel élément(s) importé(s)")
         } catch { notify("Import impossible : \(error.localizedDescription)") }
     }
@@ -453,6 +525,16 @@ import EncoreCore
             accept(clip, payload: payload)
         }
         library.collections = [.init(name: "Travail", colorIndex: 0), .init(name: "Inspiration", colorIndex: 1), .init(name: "Snippets", colorIndex: 2)]
+        if let root = storage?.root, let urls = try? DemoFixtures.create(in: root.appendingPathComponent("Examples")) {
+            for (index, url) in urls.enumerated() {
+                let payload = ClipPayload(items: [.init([NSPasteboard.PasteboardType.fileURL.rawValue: Data(url.absoluteString.utf8)])])
+                accept(Clip(fingerprint: payload.fingerprint, kind: .file, text: "", sourceName: "Finder", sourceBundle: "com.apple.finder", copiedAt: Date().addingTimeInterval(-Double(240 + index * 70)), byteCount: payload.byteCount, fileNames: [url.lastPathComponent], referencedFileBytes: PasteboardCapture.referencedSize(of: [url])), payload: payload)
+            }
+        }
+        if let (text, payload) = try? DemoFixtures.richText() {
+            accept(Clip(fingerprint: payload.fingerprint, kind: .text, text: text, sourceName: "Notes", sourceBundle: "com.apple.Notes", copiedAt: Date().addingTimeInterval(-90), byteCount: payload.byteCount), payload: payload)
+        }
+        library.clips.sort { $0.copiedAt > $1.copiedAt }
         save()
     }
 }

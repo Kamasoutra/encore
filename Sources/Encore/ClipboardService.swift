@@ -6,38 +6,67 @@ import EncoreCore
     private let pasteboard: NSPasteboard
     private var changeCount: Int
     private var timer: Timer?
+    private var activationObserver: NSObjectProtocol?
+    private var activeOrigin: ClipboardOrigin
 
-    init(model: AppModel, pasteboard: NSPasteboard = .general) { self.model = model; self.pasteboard = pasteboard; changeCount = pasteboard.changeCount }
+    init(model: AppModel, pasteboard: NSPasteboard = .general, initialOrigin: ClipboardOrigin? = nil) {
+        self.model = model; self.pasteboard = pasteboard; changeCount = pasteboard.changeCount
+        let app = NSWorkspace.shared.frontmostApplication
+        activeOrigin = initialOrigin ?? ClipboardOrigin(bundleID: app?.bundleIdentifier ?? "", name: app?.localizedName ?? "Origine inconnue")
+    }
 
     func start() {
         guard !model.demo else { return }
-        timer = Timer.scheduledTimer(withTimeInterval: 0.4, repeats: true) { [weak self] _ in
+        activationObserver = NSWorkspace.shared.notificationCenter.addObserver(forName: NSWorkspace.didActivateApplicationNotification, object: nil, queue: .main) { [weak self] notification in
+            MainActor.assumeIsolated {
+                guard let app = notification.userInfo?[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication else { return }
+                self?.noteActivation(.init(bundleID: app.bundleIdentifier ?? "", name: app.localizedName ?? "Origine inconnue"))
+            }
+        }
+        timer = Timer.scheduledTimer(withTimeInterval: 0.2, repeats: true) { [weak self] _ in
             MainActor.assumeIsolated { self?.poll() }
         }
         RunLoop.main.add(timer!, forMode: .common)
     }
 
-    func stop() { timer?.invalidate(); timer = nil }
+    func stop() {
+        timer?.invalidate(); timer = nil
+        if let activationObserver { NSWorkspace.shared.notificationCenter.removeObserver(activationObserver) }
+        activationObserver = nil
+    }
+
+    func noteActivation(_ origin: ClipboardOrigin) {
+        poll()
+        activeOrigin = origin
+    }
 
     func poll() {
         guard pasteboard.changeCount != changeCount else { return }
         changeCount = pasteboard.changeCount
         guard model.preferences.captureEnabled, model.storage != nil else { return }
-        let app = NSWorkspace.shared.frontmostApplication
-        let bundle = app?.bundleIdentifier ?? ""
+        var origin = activeOrigin
+        if let declared = pasteboard.string(forType: .init("org.nspasteboard.source")) {
+            if declared.isEmpty || declared.count > 255 { origin = .unknown }
+            else {
+                let appURL = NSWorkspace.shared.urlForApplication(withBundleIdentifier: declared)
+                origin = ClipboardOrigin(bundleID: declared, name: appURL.map { FileManager.default.displayName(atPath: $0.path).replacingOccurrences(of: ".app", with: "") } ?? declared)
+            }
+        }
+        let bundle = origin.bundleID
         guard bundle != Bundle.main.bundleIdentifier, !model.preferences.excludedBundleIDs.contains(bundle) else { return }
         if model.preferences.ignoreSensitive && isSecureField() { return }
         do {
-            if let capture = try PasteboardCapture.read(pasteboard, sourceName: app?.localizedName ?? "Application", sourceBundle: bundle, ignoreSensitive: model.preferences.ignoreSensitive) {
+            if let capture = try PasteboardCapture.read(pasteboard, sourceName: origin.name, sourceBundle: bundle, ignoreSensitive: model.preferences.ignoreSensitive) {
                 model.accept(capture.clip, payload: capture.payload)
             }
         } catch { model.notify(error.localizedDescription) }
     }
 
-    func write(_ payload: ClipPayload) {
+    func write(_ payload: ClipPayload, sourceBundle: String? = nil) {
         let items = payload.items.map { item in
             let value = NSPasteboardItem()
             for (type, data) in item.representations { value.setData(data, forType: .init(type)) }
+            value.setString(sourceBundle ?? Bundle.main.bundleIdentifier ?? "", forType: .init("org.nspasteboard.source"))
             return value
         }
         pasteboard.clearContents()

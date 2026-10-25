@@ -33,6 +33,8 @@ public struct Backup: Codable {
         for entry in entries {
             let fingerprint = entry.payload.fingerprint
             if let index = indices[fingerprint] {
+                library.clips[index].firstCopiedAt = min(library.clips[index].firstCopyDate, entry.clip.firstCopyDate)
+                library.clips[index].copiedAt = max(library.clips[index].copiedAt, entry.clip.copiedAt)
                 library.clips[index].favorite = library.clips[index].favorite || entry.clip.favorite
                 library.clips[index].collectionIDs.formUnion(entry.clip.collectionIDs.intersection(collectionIDs))
                 continue
@@ -42,6 +44,7 @@ public struct Backup: Codable {
             ids.insert(clip.id)
             clip.fingerprint = fingerprint
             clip.byteCount = entry.payload.byteCount
+            if clip.referencedFileBytes.map({ $0 < 0 }) == true { clip.referencedFileBytes = nil }
             clip.collectionIDs.formIntersection(collectionIDs)
             indices[fingerprint] = library.clips.count
             library.clips.append(clip)

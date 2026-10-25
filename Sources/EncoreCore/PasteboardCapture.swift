@@ -31,11 +31,23 @@ public enum PasteboardCapture {
         let hasImage = types.contains { [NSPasteboard.PasteboardType.png.rawValue, NSPasteboard.PasteboardType.tiff.rawValue, "public.jpeg", "public.heic"].contains($0) }
         guard pasteboard.changeCount == count, !text.isEmpty || !files.isEmpty || hasImage else { return nil }
         let kind = ClipKind.detect(text: text, hasImage: hasImage, hasFiles: !files.isEmpty)
-        return (Clip(fingerprint: payload.fingerprint, kind: kind, text: text, sourceName: sourceName, sourceBundle: sourceBundle, byteCount: bytes, fileNames: files.map(\.lastPathComponent)), payload)
+        return (Clip(fingerprint: payload.fingerprint, kind: kind, text: text, sourceName: sourceName, sourceBundle: sourceBundle, byteCount: bytes, fileNames: files.map(\.lastPathComponent), referencedFileBytes: referencedSize(of: files)), payload)
+    }
+
+    public static func referencedSize(of files: [URL]) -> Int64? {
+        guard !files.isEmpty else { return nil }
+        var total: Int64 = 0
+        for url in files {
+            guard url.isFileURL, let values = try? url.resourceValues(forKeys: [.fileSizeKey, .isRegularFileKey]), values.isRegularFile == true, let size = values.fileSize, size >= 0 else { return nil }
+            let sum = total.addingReportingOverflow(Int64(size))
+            guard !sum.overflow else { return nil }
+            total = sum.partialValue
+        }
+        return total
     }
 
     public enum CaptureError: LocalizedError {
         case tooLarge
-        public var errorDescription: String? { "Élément ignoré : limite de 25 Mo par copie." }
+        public var errorDescription: String? { "Élément ignoré : limite de 25 Mio de contenu intégré par copie." }
     }
 }
