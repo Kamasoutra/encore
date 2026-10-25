@@ -410,13 +410,13 @@ struct ClipCard: View {
         .accessibilityAction { model.select(clip.id); model.paste([clip]) }
     }
 
-    /// Retention only speaks when it matters: kept forever, or expiring within a day.
+    /// Time left before the clip expires, in orange during its last day.
     @ViewBuilder private var retention: some View {
-        let deadline = model.retentionDecision(for: clip).expiresAt
-        if deadline == nil {
+        if let deadline = model.retentionDecision(for: clip).expiresAt {
+            let soon = deadline.timeIntervalSince(model.displayTime) < 86_400
+            Label(model.remainingRetention(for: clip), systemImage: "clock").labelStyle(.titleAndIcon).font(.system(size: 11 * scale, weight: .medium)).foregroundStyle(soon ? AnyShapeStyle(.orange) : AnyShapeStyle(.tertiary)).lineLimit(1)
+        } else {
             Image(systemName: "infinity").font(.system(size: 11 * scale, weight: .medium)).foregroundStyle(.tertiary).accessibilityLabel(L("Kept forever"))
-        } else if let deadline, deadline.timeIntervalSince(model.displayTime) < 86_400 {
-            Text(model.remainingRetention(for: clip)).font(.system(size: 11 * scale, weight: .medium)).foregroundStyle(.orange).lineLimit(1)
         }
     }
 
