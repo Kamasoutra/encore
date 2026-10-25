@@ -53,7 +53,7 @@ jobs:
           SPARKLE_PRIVATE_KEY: ${{ secrets.SPARKLE_PRIVATE_KEY }}
         run: |
           version=$(/usr/libexec/PlistBuddy -c 'Print CFBundleShortVersionString' Resources/Info.plist)
-          archive="Encore-$version-macOS-arm64.zip"
+          archive="Encore-macOS-arm64.zip"
           (cd dist && ditto -c -k --sequesterRsrc --keepParent Encore.app "$archive" && shasum -a 256 "$archive" > SHA256SUMS)
           curl -fsSL "https://github.com/sparkle-project/Sparkle/releases/download/$SPARKLE_VERSION/Sparkle-$SPARKLE_VERSION.tar.xz" | tar -xJ -C "$RUNNER_TEMP" ./bin/sign_update
           signature=$(echo "$SPARKLE_PRIVATE_KEY" | "$RUNNER_TEMP/bin/sign_update" --ed-key-file - "dist/$archive")
@@ -65,7 +65,7 @@ jobs:
           GH_REPO: ${{ github.repository }}
           RELEASE_TAG: ${{ github.ref_name }}
         run: |
-          assets=(dist/Encore-*-macOS-arm64.zip dist/SHA256SUMS dist/appcast.xml)
+          assets=(dist/Encore-macOS-arm64.zip dist/SHA256SUMS dist/appcast.xml)
           if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
             gh release upload "$RELEASE_TAG" "${assets[@]}" --clobber
           else
