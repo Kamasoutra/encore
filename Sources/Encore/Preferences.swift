@@ -20,6 +20,7 @@ struct Preferences: Codable, Equatable {
     var retentionRules: [RetentionRule] = []
     var cardScale: Double = 1
     var importScreenshots = false
+    var copyScreenshotsToClipboard = true
     var screenshotFolder: String?
     var soundsEnabled = true
     var soundTheme: SoundTheme = .default
@@ -37,7 +38,7 @@ struct Preferences: Codable, Equatable {
 
     private enum CodingKeys: String, CodingKey {
         case retentionDays, historyLimit, storageLimitMB, captureEnabled, ignoreSensitive, recognizeImages
-        case excludedBundleIDs, panelHeight, compact, appearance, shortcut, retentionRules, cardScale, importScreenshots, screenshotFolder
+        case excludedBundleIDs, panelHeight, compact, appearance, shortcut, retentionRules, cardScale, importScreenshots, copyScreenshotsToClipboard, screenshotFolder
         case soundsEnabled, soundTheme, soundVolume, captureSoundPath, pasteSoundPath, displayTarget, stackShortcutEnabled, disabledDefaultExclusions, language
     }
 
@@ -61,6 +62,7 @@ struct Preferences: Codable, Equatable {
         retentionRules = try values.decodeIfPresent([RetentionRule].self, forKey: .retentionRules) ?? []
         cardScale = min(1.5, max(0.75, try values.decodeIfPresent(Double.self, forKey: .cardScale) ?? 1))
         importScreenshots = try values.decodeIfPresent(Bool.self, forKey: .importScreenshots) ?? false
+        copyScreenshotsToClipboard = try values.decodeIfPresent(Bool.self, forKey: .copyScreenshotsToClipboard) ?? !importScreenshots
         screenshotFolder = try values.decodeIfPresent(String.self, forKey: .screenshotFolder)
         soundsEnabled = try values.decodeIfPresent(Bool.self, forKey: .soundsEnabled) ?? true
         soundTheme = try values.decodeIfPresent(SoundTheme.self, forKey: .soundTheme) ?? .default

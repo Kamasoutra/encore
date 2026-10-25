@@ -338,3 +338,6 @@
 "Rechercher les mises à jour…" = "Check for Updates…";
 "Rechercher maintenant" = "Check Now";
 "Version %@" = "Version %@";
+"Copier aussi dans le presse-papiers" = "Also copy to the clipboard";
+"Permet de coller la capture avec ⌘V. Une copie effectuée après la capture reste prioritaire." = "Paste the screenshot with ⌘V. Anything copied after the screenshot takes priority.";
+"Les nouvelles captures de ce dossier rejoignent l’historique. Le dossier est surveillé uniquement quand Encore et la capture sont actifs. Les captures existantes ne sont pas importées." = "New screenshots in this folder join your history. The folder is watched while Encore and capture are active. Existing screenshots are not imported.";

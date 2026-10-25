@@ -57,6 +57,7 @@ import ImageIO
     func enqueue(_ url: URL) {
         guard model.preferences.importScreenshots, model.preferences.captureEnabled, url.isFileURL, seen.insert(url.path).inserted else { return }
         let currentGeneration = generation
+        let clipboardRevision = model.clipboard.revision
         reader.async { [weak self] in
             do {
                 let values = try url.resourceValues(forKeys: [.fileSizeKey, .creationDateKey, .isRegularFileKey])
@@ -65,13 +66,13 @@ import ImageIO
                 guard data.count <= PasteboardCapture.maxBytes else { throw PasteboardCapture.CaptureError.tooLarge }
                 DispatchQueue.main.async {
                     guard let self, self.generation == currentGeneration else { return }
-                    self.importImage(data, url: url, capturedAt: values.creationDate ?? Date())
+                    self.importImage(data, url: url, capturedAt: values.creationDate ?? Date(), clipboardRevision: clipboardRevision)
                 }
             } catch { DispatchQueue.main.async { self?.model.notify(L("Capture ignorée : \(error.localizedDescription)")) } }
         }
     }
 
-    func importImage(_ data: Data, url: URL, capturedAt: Date) {
+    func importImage(_ data: Data, url: URL, capturedAt: Date, clipboardRevision: Int? = nil) {
         guard model.preferences.importScreenshots, model.preferences.captureEnabled,
               url.isFileURL, !model.preferences.excludedBundleIDs.contains("com.apple.screencaptureui"), data.count <= PasteboardCapture.maxBytes,
               let source = CGImageSourceCreateWithData(data as CFData, [kCGImageSourceShouldCache: false] as CFDictionary),
@@ -87,5 +88,12 @@ import ImageIO
         let payload = ClipPayload(items: [.init([type: data])])
         let clip = Clip(fingerprint: payload.fingerprint, kind: .image, text: "", title: url.deletingPathExtension().lastPathComponent, sourceName: L("Capture d’écran"), sourceBundle: "com.apple.screencaptureui", copiedAt: capturedAt, byteCount: payload.byteCount)
         model.accept(clip, payload: payload)
+        guard model.preferences.copyScreenshotsToClipboard else { return }
+        let expectedRevision = clipboardRevision ?? model.clipboard.revision
+        model.clipboard.poll()
+        let currentRevision = model.clipboard.revision
+        guard currentRevision == expectedRevision || currentRevision == model.clipboard.automaticScreenshotRevision,
+              model.clipboard.lastChangeAt <= capturedAt else { return }
+        model.clipboard.write(payload, sourceBundle: "com.apple.screencaptureui", screenshotCapturedAt: capturedAt)
     }
 }

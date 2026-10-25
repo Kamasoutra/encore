@@ -8,6 +8,9 @@ import EncoreCore
     private var timer: Timer?
     private var activationObserver: NSObjectProtocol?
     private var activeOrigin: ClipboardOrigin
+    private(set) var lastChangeAt = Date.distantPast
+    private(set) var automaticScreenshotRevision: Int?
+    var revision: Int { pasteboard.changeCount }
 
     init(model: AppModel, pasteboard: NSPasteboard = .general, initialOrigin: ClipboardOrigin? = nil) {
         self.model = model; self.pasteboard = pasteboard; changeCount = pasteboard.changeCount
@@ -43,6 +46,8 @@ import EncoreCore
     func poll() {
         guard pasteboard.changeCount != changeCount else { return }
         changeCount = pasteboard.changeCount
+        lastChangeAt = Date()
+        automaticScreenshotRevision = nil
         guard model.preferences.captureEnabled, model.storage != nil else { return }
         var origin = activeOrigin
         if let declared = pasteboard.string(forType: .init("org.nspasteboard.source")) {
@@ -62,7 +67,7 @@ import EncoreCore
         } catch { model.notify(error.localizedDescription) }
     }
 
-    func write(_ payload: ClipPayload, sourceBundle: String? = nil) {
+    func write(_ payload: ClipPayload, sourceBundle: String? = nil, screenshotCapturedAt: Date? = nil) {
         let items = payload.items.map { item in
             let value = NSPasteboardItem()
             for (type, data) in item.representations { value.setData(data, forType: .init(type)) }
@@ -72,6 +77,8 @@ import EncoreCore
         pasteboard.clearContents()
         pasteboard.writeObjects(items)
         changeCount = pasteboard.changeCount
+        lastChangeAt = screenshotCapturedAt ?? Date()
+        automaticScreenshotRevision = screenshotCapturedAt == nil ? nil : changeCount
     }
 
     private func isSecureField() -> Bool {

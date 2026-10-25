@@ -21,6 +21,7 @@ final class CaptureAndFeedbackTests: XCTestCase {
             let data = try Data(contentsOf: png)
             let captured = Date().addingTimeInterval(-5)
             model.preferences.importScreenshots = true
+            model.preferences.copyScreenshotsToClipboard = false
             ScreenshotImporter(model: model).importImage(data, url: png, capturedAt: captured)
             let clip = try XCTUnwrap(model.library.clips.first)
             XCTAssertEqual(clip.kind, .image); XCTAssertEqual(clip.sourceBundle, "com.apple.screencaptureui")

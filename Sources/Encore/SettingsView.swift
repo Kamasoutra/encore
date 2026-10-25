@@ -182,8 +182,14 @@ struct SettingsView: View {
                         Spacer()
                         Button(L("Changer…")) { chooseScreenshotFolder() }
                     }
+                    Toggle(L("Copier aussi dans le presse-papiers"), isOn: $model.preferences.copyScreenshotsToClipboard)
+                    caption(L("Permet de coller la capture avec ⌘V. Une copie effectuée après la capture reste prioritaire."))
                 }
-                caption(L("Les nouvelles captures de ce dossier rejoignent l’historique sans modifier votre presse-papiers. Le dossier est surveillé uniquement quand Encore et la capture sont actifs. Les captures existantes ne sont pas importées."))
+                if model.preferences.importScreenshots && model.preferences.copyScreenshotsToClipboard {
+                    caption(L("Les nouvelles captures de ce dossier rejoignent l’historique. Le dossier est surveillé uniquement quand Encore et la capture sont actifs. Les captures existantes ne sont pas importées."))
+                } else {
+                    caption(L("Les nouvelles captures de ce dossier rejoignent l’historique sans modifier votre presse-papiers. Le dossier est surveillé uniquement quand Encore et la capture sont actifs. Les captures existantes ne sont pas importées."))
+                }
             }
             caption(L("Certaines extensions de navigateur n’identifient pas les secrets. Vous pouvez exclure leur navigateur si nécessaire."))
         }.formStyle(.grouped)
