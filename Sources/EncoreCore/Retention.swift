@@ -5,12 +5,12 @@ public enum RetentionUnit: String, Codable, CaseIterable, Identifiable, Sendable
     public var id: String { rawValue }
     public var title: String {
         switch self {
-        case .minutes: "minute(s)"
-        case .hours: "heure(s)"
-        case .days: "jour(s)"
-        case .weeks: "semaine(s)"
-        case .months: "mois"
-        case .forever: "Indéfiniment"
+        case .minutes: L("minute(s)")
+        case .hours: L("heure(s)")
+        case .days: L("jour(s)")
+        case .weeks: L("semaine(s)")
+        case .months: L("mois")
+        case .forever: L("Indéfiniment")
         }
     }
     private var component: Calendar.Component {
@@ -35,7 +35,7 @@ public struct RetentionDuration: Codable, Equatable, Sendable {
     public init(_ value: Int = 1, _ unit: RetentionUnit = .days) { self.value = value; self.unit = unit }
     public static let forever = RetentionDuration(1, .forever)
     public var isValid: Bool { unit == .forever || (1...10_000).contains(value) }
-    public var title: String { unit == .forever ? "Indéfiniment" : "\(value) \(unit.title)" }
+    public var title: String { unit == .forever ? L("Indéfiniment") : "\(value) \(unit.title)" }
     public func expiration(from date: Date, calendar: Calendar = .current) -> Date? {
         guard isValid else { return nil }
         return unit.expiration(from: date, value: value, calendar: calendar)
@@ -51,7 +51,7 @@ public struct RetentionRule: Codable, Equatable, Identifiable, Sendable {
     public var maximumBytes: Int64?
     public var duration: RetentionDuration
 
-    public init(id: UUID = UUID(), name: String = "Nouvelle règle", enabled: Bool = true, kind: ClipKind? = nil, minimumBytes: Int64 = 0, maximumBytes: Int64? = nil, duration: RetentionDuration = .init(7, .days)) {
+    public init(id: UUID = UUID(), name: String = L("Nouvelle règle"), enabled: Bool = true, kind: ClipKind? = nil, minimumBytes: Int64 = 0, maximumBytes: Int64? = nil, duration: RetentionDuration = .init(7, .days)) {
         self.id = id; self.name = name; self.enabled = enabled; self.kind = kind
         self.minimumBytes = minimumBytes; self.maximumBytes = maximumBytes; self.duration = duration
     }
@@ -68,10 +68,10 @@ public struct RetentionRule: Codable, Equatable, Identifiable, Sendable {
 
     public static var examples: [RetentionRule] {
         [
-            .init(name: "Gros éléments", minimumBytes: 3_000_000_000, duration: .init(1, .hours)),
-            .init(name: "De 0,5 à 1 Go", minimumBytes: 500_000_000, maximumBytes: 1_000_000_000, duration: .init(2, .days)),
-            .init(name: "À partir de 300 Mo", minimumBytes: 300_000_000, duration: .init(1, .weeks)),
-            .init(name: "Petits textes", kind: .text, maximumBytes: 1_000_000, duration: .forever)
+            .init(name: L("3 Go et plus"), minimumBytes: 3_000_000_000, duration: .init(1, .hours)),
+            .init(name: L("De 500 Mo à 3 Go"), minimumBytes: 500_000_000, maximumBytes: 3_000_000_000, duration: .init(2, .days)),
+            .init(name: L("De 300 à 500 Mo"), minimumBytes: 300_000_000, maximumBytes: 500_000_000, duration: .init(1, .weeks)),
+            .init(name: L("Petits textes"), kind: .text, maximumBytes: 1_000_000, duration: .forever)
         ]
     }
 }

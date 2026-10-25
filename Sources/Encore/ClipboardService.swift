@@ -12,7 +12,7 @@ import EncoreCore
     init(model: AppModel, pasteboard: NSPasteboard = .general, initialOrigin: ClipboardOrigin? = nil) {
         self.model = model; self.pasteboard = pasteboard; changeCount = pasteboard.changeCount
         let app = NSWorkspace.shared.frontmostApplication
-        activeOrigin = initialOrigin ?? ClipboardOrigin(bundleID: app?.bundleIdentifier ?? "", name: app?.localizedName ?? "Origine inconnue")
+        activeOrigin = initialOrigin ?? ClipboardOrigin(bundleID: app?.bundleIdentifier ?? "", name: app?.localizedName ?? L("Origine inconnue"))
     }
 
     func start() {
@@ -20,7 +20,7 @@ import EncoreCore
         activationObserver = NSWorkspace.shared.notificationCenter.addObserver(forName: NSWorkspace.didActivateApplicationNotification, object: nil, queue: .main) { [weak self] notification in
             MainActor.assumeIsolated {
                 guard let app = notification.userInfo?[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication else { return }
-                self?.noteActivation(.init(bundleID: app.bundleIdentifier ?? "", name: app.localizedName ?? "Origine inconnue"))
+                self?.noteActivation(.init(bundleID: app.bundleIdentifier ?? "", name: app.localizedName ?? L("Origine inconnue")))
             }
         }
         timer = Timer.scheduledTimer(withTimeInterval: 0.2, repeats: true) { [weak self] _ in

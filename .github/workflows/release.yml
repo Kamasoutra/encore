@@ -44,5 +44,5 @@ jobs:
           if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
             gh release upload "$RELEASE_TAG" dist/Encore-*-macOS-arm64.zip dist/SHA256SUMS --clobber
           else
-            gh release create "$RELEASE_TAG" dist/Encore-*-macOS-arm64.zip dist/SHA256SUMS --verify-tag --prerelease --title "Encore ${RELEASE_TAG#v}" --notes-file docs/RELEASE.md
+            gh release create "$RELEASE_TAG" dist/Encore-*-macOS-arm64.zip dist/SHA256SUMS --verify-tag --prerelease --title "Encore ${RELEASE_TAG#v}" --notes-file .github/RELEASE_NOTES.md
           fi

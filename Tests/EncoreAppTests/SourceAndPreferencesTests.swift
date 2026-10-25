@@ -57,6 +57,7 @@ final class SourceAndPreferencesTests: XCTestCase {
     func testPreferencesMigrateWithoutLosingOldUserSettings() throws {
         let old = Data(#"{"retentionDays":90,"compact":true,"appearance":"dark","excludedBundleIDs":["test.private"]}"#.utf8)
         let preferences = try JSONDecoder().decode(Preferences.self, from: old)
+        XCTAssertEqual(preferences.language, "fr")
         XCTAssertEqual(preferences.retentionDays, 90); XCTAssertTrue(preferences.compact)
         XCTAssertEqual(preferences.appearance, "dark"); XCTAssertEqual(preferences.excludedBundleIDs, ["test.private"])
         XCTAssertTrue(preferences.retentionRules.isEmpty); XCTAssertFalse(preferences.importScreenshots)

@@ -89,7 +89,7 @@ final class AppModelTests: XCTestCase {
             model.preferences.storageLimitMB = 0
             model.addText("rejected")
             XCTAssertEqual(model.library.clips.map(\.text), ["existing"])
-            XCTAssertTrue(model.status.contains("Stockage plein"))
+            XCTAssertEqual(model.status, L("Stockage plein : augmentez la limite ou supprimez des éléments."))
         }
     }
 
@@ -182,7 +182,7 @@ final class AppModelTests: XCTestCase {
             model.storage?.flush()
             XCTAssertFalse(model.advanceQueue())
             XCTAssertFalse(model.collecting)
-            XCTAssertTrue(model.status.contains("indisponible"))
+            XCTAssertEqual(model.status, L("File arrêtée : le contenu de l’élément est indisponible."))
         }
     }
 

@@ -6,11 +6,11 @@ public enum ClipKind: String, Codable, CaseIterable, Identifiable, Sendable {
     public var id: String { rawValue }
     public var title: String {
         switch self {
-        case .text: "Texte"
-        case .link: "Liens"
-        case .image: "Images"
-        case .file: "Fichiers"
-        case .color: "Couleurs"
+        case .text: L("Texte")
+        case .link: L("Liens")
+        case .image: L("Images")
+        case .file: L("Fichiers")
+        case .color: L("Couleurs")
         case .code: "Code"
         }
     }
@@ -22,6 +22,16 @@ public enum ClipKind: String, Codable, CaseIterable, Identifiable, Sendable {
         case .file: "doc"
         case .color: "paintpalette"
         case .code: "chevron.left.forwardslash.chevron.right"
+        }
+    }
+    public var searchNames: [String] {
+        switch self {
+        case .text: ["text", "texte"]
+        case .link: ["links", "liens"]
+        case .image: ["images"]
+        case .file: ["files", "fichiers"]
+        case .color: ["colors", "couleurs"]
+        case .code: ["code"]
         }
     }
     public static func detect(text: String, hasImage: Bool = false, hasFiles: Bool = false) -> ClipKind {
@@ -74,10 +84,10 @@ public struct Clip: Codable, Identifiable, Equatable, Sendable {
 
     public var displayTitle: String {
         if !title.isEmpty { return title }
-        if kind == .file { return fileNames.first ?? "Fichier" }
-        if kind == .image { return "Image copiée" }
+        if kind == .file { return fileNames.first ?? L("Fichier") }
+        if kind == .image { return L("Image copiée") }
         if kind == .link, let url = URL(string: text) { return url.host?.replacingOccurrences(of: "www.", with: "") ?? text }
-        return String(text.split(separator: "\n").first.map(String.init)?.prefix(100) ?? "Sans titre".prefix(100))
+        return String(text.split(separator: "\n").first.map(String.init)?.prefix(100) ?? L("Sans titre").prefix(100))
     }
 
     public var isProtected: Bool { favorite || !collectionIDs.isEmpty }
@@ -177,15 +187,15 @@ public enum TextAction: String, CaseIterable, Identifiable {
     public var id: String { rawValue }
     public var title: String {
         switch self {
-        case .trim: "Nettoyer les espaces"
+        case .trim: L("Nettoyer les espaces")
         case .uppercase: "MAJUSCULES"
         case .lowercase: "minuscules"
-        case .prettyJSON: "Formater le JSON"
-        case .compactJSON: "Compacter le JSON"
-        case .decodeURL: "Décoder l’URL"
-        case .cleanURL: "Retirer les paramètres de suivi"
-        case .base64Encode: "Encoder en Base64"
-        case .base64Decode: "Décoder le Base64"
+        case .prettyJSON: L("Formater le JSON")
+        case .compactJSON: L("Compacter le JSON")
+        case .decodeURL: L("Décoder l’URL")
+        case .cleanURL: L("Retirer les paramètres de suivi")
+        case .base64Encode: L("Encoder en Base64")
+        case .base64Decode: L("Décoder le Base64")
         }
     }
     public func apply(_ text: String) throws -> String {
@@ -213,6 +223,6 @@ public enum TextAction: String, CaseIterable, Identifiable {
     }
     public enum TransformError: LocalizedError {
         case invalidInput
-        public var errorDescription: String? { "Le contenu ne correspond pas à cette transformation." }
+        public var errorDescription: String? { L("Le contenu ne correspond pas à cette transformation.") }
     }
 }

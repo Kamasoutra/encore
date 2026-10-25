@@ -12,5 +12,10 @@ if [ ! -f dist/Encore.icns ]; then
     iconutil -c icns dist/Encore.iconset -o dist/Encore.icns
 fi
 cp dist/Encore.icns "$bundle/Contents/Resources/Encore.icns"
-codesign --force --sign - --identifier local.kama.Encore "$bundle"
+for resources in "$bin_path"/Encore_*.bundle; do
+    if [ -d "$resources" ]; then
+        ditto "$resources" "$bundle/Contents/Resources/$(basename "$resources")"
+    fi
+done
+codesign --force --sign "${ENCORE_SIGNING_IDENTITY:--}" --identifier local.kama.Encore "$bundle"
 printf 'Built: %s/%s\n' "$PWD" "$bundle"

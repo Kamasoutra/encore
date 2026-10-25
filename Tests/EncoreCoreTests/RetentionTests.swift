@@ -8,7 +8,7 @@ final class RetentionTests: XCTestCase {
 
     func testExamplesResolveOverlapsAndExactSizeBoundaries() {
         let policy = RetentionPolicy(rules: RetentionRule.examples)
-        for (bytes, seconds) in [(3_000_000_000, 3600.0), (500_000_000, 172800.0), (999_999_999, 172800.0), (1_000_000_000, 604800.0), (300_000_000, 604800.0), (299_999_999, 2592000.0)] {
+        for (bytes, seconds) in [(3_000_000_000, 3600.0), (2_999_999_999, 172800.0), (2_000_000_000, 172800.0), (1_000_000_000, 172800.0), (999_999_999, 172800.0), (500_000_000, 172800.0), (499_999_999, 604800.0), (300_000_000, 604800.0), (299_999_999, 2592000.0)] {
             XCTAssertEqual(policy.decision(for: clip(bytes), calendar: utc).expiresAt, now.addingTimeInterval(seconds), "\(bytes)")
         }
         XCTAssertNil(policy.decision(for: clip(999_999, kind: .text), calendar: utc).expiresAt)

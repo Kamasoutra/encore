@@ -1,3 +1,4 @@
+import EncoreCore
 import AppKit
 import SwiftUI
 
@@ -16,7 +17,7 @@ struct ResizeHandle: NSViewRepresentable {
             super.init(frame: .zero)
             setAccessibilityElement(true)
             setAccessibilityRole(.splitter)
-            setAccessibilityLabel("Redimensionner le panneau")
+            setAccessibilityLabel(L("Redimensionner le panneau"))
         }
         required init?(coder: NSCoder) { nil }
         override func resetCursorRects() { addCursorRect(bounds, cursor: .resizeUpDown) }

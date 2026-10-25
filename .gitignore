@@ -3,3 +3,5 @@ dist/
 .swiftpm/
 .DS_Store
 tmp/
+docs/
+.docs/

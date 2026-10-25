@@ -22,9 +22,13 @@ public struct ClipQuery {
             if word.hasPrefix("app:") { return clip.sourceName.lowercased().contains(word.dropFirst(4)) || clip.sourceBundle.lowercased().contains(word.dropFirst(4)) }
             if word.hasPrefix("type:") {
                 let value = String(word.dropFirst(5))
-                return clip.kind.rawValue == value || clip.kind.title.folding(options: [.diacriticInsensitive, .caseInsensitive], locale: .current).hasPrefix(value)
+                return clip.kind.searchNames.contains { $0.hasPrefix(value) }
             }
             if word == "date:today" || word == "date:aujourdhui" { return calendar.isDate(clip.copiedAt, inSameDayAs: now) }
+            if word == "date:week" {
+                guard let week = calendar.dateInterval(of: .weekOfYear, for: now) else { return false }
+                return clip.copiedAt >= week.start && clip.copiedAt < week.end
+            }
             if word.hasPrefix("after:") || word.hasPrefix("before:") {
                 let value = String(word.dropFirst(word.hasPrefix("after:") ? 6 : 7))
                 let formatter = DateFormatter()

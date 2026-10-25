@@ -41,7 +41,7 @@ public final class Storage: @unchecked Sendable {
                 try FileManager.default.setAttributes([.posixPermissions: 0o600], ofItemAtPath: damaged.path)
                 try write(data, to: url)
                 metadataDate = try url.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate
-                recoveredMessage = "Bibliothèque restaurée depuis la sauvegarde. Le fichier endommagé a été conservé dans Recovery."
+                recoveredMessage = L("Bibliothèque restaurée depuis la sauvegarde. Le fichier endommagé a été conservé dans Recovery.")
                 return library
             }
         }

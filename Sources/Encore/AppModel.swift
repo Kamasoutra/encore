@@ -14,6 +14,7 @@ import EncoreCore
     @Published var selection: Set<UUID> = []
     @Published var cursor: UUID?
     @Published var searchFocused = false
+    @Published var expanded = false { didSet { if expanded != oldValue { resizePanel?() } } }
     @Published var inspector: Clip? { didSet { if let inspector { presentInspector?(inspector) } } }
     @Published var queue: [UUID] = []
     @Published var collecting = false { didSet { if !collecting && oldValue { stackTap?.stop() } } }
@@ -23,6 +24,7 @@ import EncoreCore
     @Published var shortcutStatus = "⌘⇧V"
     @Published var accessibilityGranted = AXIsProcessTrusted()
     @Published var storageError: String?
+    @Published private(set) var installedExcludedBundleIDs: [String] = []
     var togglePanel: (() -> Void)?
     var dismissPanel: (() -> Void)?
     var showSettings: (() -> Void)?
@@ -32,6 +34,7 @@ import EncoreCore
     var resizePanel: (() -> Void)?
     var updateScreenshotCapture: (() -> Void)?
     var presentInspector: ((Clip) -> Void)?
+    var updateLanguage: (() -> Void)?
     var clipboard: ClipboardService!
     var stackTap: StackTap!
     let demo: Bool
@@ -50,6 +53,7 @@ import EncoreCore
     init(demo: Bool, pasteboard: NSPasteboard = .general) {
         self.demo = demo
         self.preferences = Preferences.load(demo: demo)
+        Localization.language = preferences.language
         if demo { preferences.displayTarget = "primary" }
         do {
             let root = demo ? FileManager.default.temporaryDirectory.appendingPathComponent("Encore-Demo-\(ProcessInfo.processInfo.processIdentifier)") : FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].appendingPathComponent("Encore")
@@ -59,7 +63,7 @@ import EncoreCore
             store.onError = { [weak self] message in
                 self?.storageError = message
                 self?.preferences.captureEnabled = false
-                self?.notify("Échec de sauvegarde : \(message)")
+                self?.notify(L("Échec de sauvegarde : \(message)"))
             }
         } catch {
             storageError = error.localizedDescription
@@ -67,6 +71,7 @@ import EncoreCore
         }
         clipboard = ClipboardService(model: self, pasteboard: pasteboard)
         stackTap = StackTap(model: self)
+        refreshInstalledExclusions()
         if demo { seedDemo() } else { refreshFileSizes(); prune() }
         resetSelection()
         if let notice = storage?.recoveryNotice { notify(notice) }
@@ -124,7 +129,7 @@ import EncoreCore
         prune()
         let existed = library.clips.contains { $0.fingerprint == clip.fingerprint }
         if !existed && totalBytes + payload.byteCount > preferences.storageLimitMB * 1_048_576 {
-            notify("Stockage plein : augmentez la limite ou supprimez des éléments.")
+            notify(L("Stockage plein : augmentez la limite ou supprimez des éléments."))
             return false
         }
         let id = library.upsert(clip)
@@ -144,9 +149,9 @@ import EncoreCore
     func reloadStorage() {
         guard let root = storage?.root else { return }
         let alert = NSAlert()
-        alert.messageText = "Recharger la bibliothèque depuis le disque ?"
-        alert.informativeText = "Les changements non sauvegardés seront abandonnés. La capture restera en pause pour vous laisser vérifier le résultat."
-        alert.addButton(withTitle: "Annuler"); alert.addButton(withTitle: "Recharger")
+        alert.messageText = L("Recharger la bibliothèque depuis le disque ?")
+        alert.informativeText = L("Les changements non sauvegardés seront abandonnés. La capture restera en pause pour vous laisser vérifier le résultat.")
+        alert.addButton(withTitle: L("Annuler")); alert.addButton(withTitle: L("Recharger"))
         guard alert.runModal() == .alertSecondButtonReturn else { return }
         do {
             storage?.flush()
@@ -157,8 +162,8 @@ import EncoreCore
             collecting = false; queue = []; deleted = []
             thumbnails.removeAll(); richTextCache.removeAll(); checkedRichText.removeAll(); fileURLCache.removeAll()
             resetSelection()
-            notify(next.recoveryNotice ?? "Bibliothèque rechargée. La capture est en pause.")
-        } catch { notify("Rechargement impossible : \(error.localizedDescription)") }
+            notify(next.recoveryNotice ?? L("Bibliothèque rechargée. La capture est en pause."))
+        } catch { notify(L("Rechargement impossible : \(error.localizedDescription)")) }
     }
 
     func prune(now: Date = Date()) {
@@ -179,11 +184,27 @@ import EncoreCore
 
     func relativeAge(_ date: Date) -> String {
         let age = max(0, displayTime.timeIntervalSince(date))
-        if age < 60 { return "À l’instant" }
-        if age < 3600 { return "il y a \(Int(age / 60)) min" }
-        if age < 86400 { return "il y a \(Int(age / 3600)) h" }
-        if age < 604800 { return "il y a \(Int(age / 86400)) j" }
+        if age < 60 { return L("À l’instant") }
+        if age < 3600 { return L("il y a \(Int(age / 60)) min") }
+        if age < 86400 { return L("il y a \(Int(age / 3600)) h") }
+        if age < 604800 { return L("il y a \(Int(age / 86400)) j") }
         return date.formatted(date: .numeric, time: .omitted)
+    }
+
+    func remainingRetention(for clip: Clip) -> String {
+        guard let deadline = retentionDecision(for: clip).expiresAt else { return L("Indéfiniment") }
+        let seconds = deadline.timeIntervalSince(displayTime)
+        guard seconds > 0 else { return L("Expiration imminente") }
+        if seconds < 60 { return L("Expire dans moins d’1 min") }
+        let formatter = DateComponentsFormatter()
+        var calendar = Calendar.current
+        calendar.locale = Localization.locale
+        formatter.calendar = calendar
+        formatter.allowedUnits = [.day, .hour, .minute]
+        formatter.maximumUnitCount = 1
+        formatter.unitsStyle = .abbreviated
+        let duration = formatter.string(from: seconds) ?? ""
+        return L("Expire dans \(duration)")
     }
 
     private func clearPreviewCaches(_ ids: Set<UUID>) {
@@ -204,9 +225,9 @@ import EncoreCore
     func retentionSummary(for clip: Clip) -> String {
         let decision = retentionDecision(for: clip)
         let date = clip.copiedAt.formatted(date: .numeric, time: .standard)
-        let expiration = decision.expiresAt.map { "Expiration : \($0.formatted(date: .numeric, time: .standard))" } ?? "Conservé indéfiniment"
-        let reason = decision.protected ? "Favori ou collection" : decision.ruleName ?? "Durée par défaut"
-        return "Copié le \(date)\n\(expiration)\n\(reason)"
+        let expiration = decision.expiresAt.map { L("Expiration : \($0.formatted(date: .numeric, time: .standard))") } ?? L("Conservé indéfiniment")
+        let reason = decision.protected ? L("Favori ou collection") : decision.ruleName ?? L("Durée par défaut")
+        return L("Copié le \(date)\n\(expiration)\n\(reason)")
     }
 
     func retentionRemovalCount(rules: [RetentionRule], fallbackDays: Int) -> Int {
@@ -216,11 +237,11 @@ import EncoreCore
     }
 
     func applyRetention(rules: [RetentionRule], fallbackDays: Int) {
-        guard rules.allSatisfy(\.isValid), fallbackDays >= 0 else { notify("Une règle de rétention est invalide."); return }
+        guard rules.allSatisfy(\.isValid), fallbackDays >= 0 else { notify(L("Une règle de rétention est invalide.")); return }
         preferences.retentionRules = rules
         preferences.retentionDays = fallbackDays
         preferencesChanged()
-        notify("Règles de rétention enregistrées")
+        notify(L("Règles de rétention enregistrées"))
     }
 
     func zoomCards(_ amount: Double) {
@@ -234,10 +255,30 @@ import EncoreCore
     }
 
     func preferencesChanged() {
+        if Localization.language != preferences.language {
+            Localization.language = preferences.language
+            updateLanguage?()
+            objectWillChange.send()
+        }
         preferences.save(demo: demo)
         prune()
         updateAppearance?()
         updateScreenshotCapture?()
+    }
+
+    func refreshInstalledExclusions() {
+        let candidates = Set(Preferences.defaultExcludedBundleIDs + preferences.excludedBundleIDs)
+        let installed = Set(candidates.filter { ApplicationCatalog.installedURL($0) != nil })
+        var next = preferences
+        next.reconcileDefaultExclusions(installed: installed)
+        if next != preferences { preferences = next; preferences.save(demo: demo) }
+        let visible = preferences.excludedBundleIDs.filter { installed.contains($0) }
+        if visible != installedExcludedBundleIDs { ApplicationCatalog.invalidate(); installedExcludedBundleIDs = visible }
+    }
+
+    func removeExcludedApp(_ id: String) {
+        preferences.removeExcludedApp(id)
+        refreshInstalledExclusions()
     }
 
     func notify(_ message: String) {
@@ -283,7 +324,7 @@ import EncoreCore
         cursor = remaining.isEmpty ? nil : remaining[min(position, remaining.count - 1)].id
         selection = Set(cursor.map { [$0] } ?? [])
         storage?.save(library, deleting: Array(chosen))
-        notify("\(chosen.count) élément(s) supprimé(s) · ⌘Z pour annuler")
+        notify(L("\(chosen.count) élément(s) supprimé(s) · ⌘Z pour annuler"))
     }
 
     func undoDelete() {
@@ -296,18 +337,18 @@ import EncoreCore
         deleted = []
         save()
         resetSelection()
-        notify("Suppression annulée")
+        notify(L("Suppression annulée"))
     }
 
     func paste(_ clips: [Clip]? = nil, plain: Bool = false, copyOnly: Bool = false) {
         let values = clips ?? selectedClips
         guard !values.isEmpty else { return }
         let payloads = values.compactMap { storage?.payload($0.id) }
-        guard payloads.count == values.count else { notify("Le contenu est indisponible sur le disque."); return }
+        guard payloads.count == values.count else { notify(L("Le contenu est indisponible sur le disque.")); return }
         let origin = values.count == 1 ? values[0].sourceBundle : ""
         if plain {
             let text = values.map { $0.text.isEmpty ? $0.recognizedText : $0.text }.joined(separator: "\n")
-            guard !text.isEmpty else { notify("Cet élément ne contient pas de texte."); return }
+            guard !text.isEmpty else { notify(L("Cet élément ne contient pas de texte.")); return }
             clipboard.write(.text(text), sourceBundle: origin)
         } else if values.count > 1 && values.allSatisfy({ [.text, .code, .link, .color].contains($0.kind) }) {
             clipboard.write(.text(values.map(\.text).joined(separator: "\n")), sourceBundle: origin)
@@ -317,7 +358,7 @@ import EncoreCore
         for index in library.clips.indices where values.contains(where: { $0.id == library.clips[index].id }) { library.clips[index].lastUsedAt = Date() }
         save()
         playSound(.paste)
-        guard !copyOnly else { notify("Copié dans le presse-papiers"); return }
+        guard !copyOnly else { notify(L("Copié dans le presse-papiers")); return }
         accessibilityGranted = AXIsProcessTrusted()
         let target = activateTarget?()
         dismissPanel?()
@@ -325,7 +366,7 @@ import EncoreCore
             target.activate(options: [])
             deliverPaste(to: target, attempts: 12)
         } else {
-            notify("Copié · utilisez ⌘V, ou activez le collage direct dans les réglages.")
+            notify(L("Copié · utilisez ⌘V, ou activez le collage direct dans les réglages."))
         }
     }
 
@@ -334,7 +375,7 @@ import EncoreCore
             guard let self else { return }
             guard target.isActive else {
                 if attempts > 0 { self.deliverPaste(to: target, attempts: attempts - 1) }
-                else { self.notify("Copié · cliquez dans l’application et faites ⌘V.") }
+                else { self.notify(L("Copié · cliquez dans l’application et faites ⌘V.")) }
                 return
             }
             let source = CGEventSource(stateID: .combinedSessionState)
@@ -350,28 +391,28 @@ import EncoreCore
     func enqueue(_ ids: [UUID]? = nil) {
         for id in ids ?? selectedClips.map(\.id) where !queue.contains(id) { queue.append(id) }
         queueVisible = true
-        notify("Ajouté à la file · activez le collage en série dans le panneau")
+        notify(L("Ajouté à la file · activez le collage en série dans le panneau"))
     }
 
     func toggleCollecting() {
-        if collecting { collecting = false; notify("Collage en série désactivé"); return }
-        guard stackTap.enable() else { requestAccessibility(); notify("Autorisez Encore dans Accessibilité, puis réessayez."); return }
+        if collecting { collecting = false; notify(L("Collage en série désactivé")); return }
+        guard stackTap.enable() else { requestAccessibility(); notify(L("Autorisez Encore dans Accessibilité, puis réessayez.")); return }
         collecting = true
         queueVisible = true
-        notify("File active · copiez, puis collez dans l’ordre avec ⌘V")
+        notify(L("File active · copiez, puis collez dans l’ordre avec ⌘V"))
     }
 
     func advanceQueue() -> Bool {
         guard collecting, let id = queue.first else { return false }
         guard let payload = storage?.payload(id) else {
             collecting = false
-            notify("File arrêtée : le contenu de l’élément est indisponible.")
+            notify(L("File arrêtée : le contenu de l’élément est indisponible."))
             return false
         }
         clipboard.write(payload, sourceBundle: library.clips.first(where: { $0.id == id })?.sourceBundle ?? "")
         playSound(.paste)
         queue.removeFirst()
-        if queue.isEmpty { collecting = false; notify("File terminée") }
+        if queue.isEmpty { collecting = false; notify(L("File terminée")) }
         return true
     }
 
@@ -384,7 +425,7 @@ import EncoreCore
     @discardableResult func addText(_ text: String, title: String = "") -> Bool {
         guard !text.isEmpty else { return false }
         let payload = ClipPayload.text(text)
-        guard payload.byteCount <= PasteboardCapture.maxBytes else { notify("Limite de 25 Mo par élément."); return false }
+        guard payload.byteCount <= PasteboardCapture.maxBytes else { notify(L("Limite de 25 Mo par élément.")); return false }
         let accepted = accept(Clip(fingerprint: payload.fingerprint, kind: .detect(text: text), text: text, title: title, byteCount: payload.byteCount), payload: payload)
         resetSelection()
         return accepted
@@ -394,7 +435,7 @@ import EncoreCore
         guard storageError == nil, let index = library.clips.firstIndex(where: { $0.id == id }) else { return false }
         let payload = ClipPayload.text(text)
         let duplicates = library.clips.filter { $0.id != id && $0.fingerprint == payload.fingerprint }
-        guard payload.byteCount <= PasteboardCapture.maxBytes, totalBytes - library.clips[index].byteCount - duplicates.reduce(0, { $0 + $1.byteCount }) + payload.byteCount <= preferences.storageLimitMB * 1_048_576 else { notify("Limite de stockage atteinte."); return false }
+        guard payload.byteCount <= PasteboardCapture.maxBytes, totalBytes - library.clips[index].byteCount - duplicates.reduce(0, { $0 + $1.byteCount }) + payload.byteCount <= preferences.storageLimitMB * 1_048_576 else { notify(L("Limite de stockage atteinte.")); return false }
         library.clips[index].text = text
         library.clips[index].title = title
         library.clips[index].kind = .detect(text: text)
@@ -483,20 +524,20 @@ import EncoreCore
                     guard let index = self.library.clips.firstIndex(where: { $0.id == id }) else { return }
                     self.library.clips[index].recognizedText = text
                     self.save()
-                    if !text.isEmpty { self.notify("Texte de l’image reconnu · recherche disponible") }
+                    if !text.isEmpty { self.notify(L("Texte de l’image reconnu · recherche disponible")) }
                 }
-            } catch { DispatchQueue.main.async { self?.ocrJobs.remove(id); self?.notify("Reconnaissance impossible : \(error.localizedDescription)") } }
+            } catch { DispatchQueue.main.async { self?.ocrJobs.remove(id); self?.notify(L("Reconnaissance impossible : \(error.localizedDescription)")) } }
         }
     }
 
     func createCollection() {
         let alert = NSAlert()
-        alert.messageText = "Nouvelle collection"
-        alert.informativeText = "Gardez vos éléments ensemble. Ils seront conservés sans expiration."
+        alert.messageText = L("Nouvelle collection")
+        alert.informativeText = L("Gardez vos éléments ensemble. Ils seront conservés sans expiration.")
         let field = NSTextField(frame: NSRect(x: 0, y: 0, width: 280, height: 26))
-        field.placeholderString = "Nom de la collection"
+        field.placeholderString = L("Nom de la collection")
         alert.accessoryView = field
-        alert.addButton(withTitle: "Créer"); alert.addButton(withTitle: "Annuler")
+        alert.addButton(withTitle: L("Créer")); alert.addButton(withTitle: L("Annuler"))
         alert.window.initialFirstResponder = field
         guard alert.runModal() == .alertFirstButtonReturn else { return }
         let name = field.stringValue.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -512,14 +553,14 @@ import EncoreCore
         for index in library.clips.indices { library.clips[index].collectionIDs.remove(collection.id) }
         if board == collection.id.uuidString { board = "history" }
         save()
-        notify("Collection supprimée · ses éléments restent dans l’historique")
+        notify(L("Collection supprimée · ses éléments restent dans l’historique"))
     }
 
     func exportLibrary() {
         let panel = NSSavePanel()
         panel.allowedContentTypes = [.json]
         panel.nameFieldStringValue = "Encore-backup.json"
-        panel.message = "Cette sauvegarde contient votre historique et ses contenus en clair. Conservez-la dans un endroit sûr."
+        panel.message = L("Cette sauvegarde contient votre historique et ses contenus en clair. Conservez-la dans un endroit sûr.")
         guard panel.runModal() == .OK, let url = panel.url else { return }
         do {
             storage?.flush()
@@ -527,7 +568,7 @@ import EncoreCore
             guard entries.count == library.clips.count else { throw CocoaError(.fileReadCorruptFile) }
             try JSONEncoder().encode(Backup(version: 1, collections: library.collections, entries: entries)).write(to: url, options: .atomic)
             try FileManager.default.setAttributes([.posixPermissions: 0o600], ofItemAtPath: url.path)
-            notify("Sauvegarde exportée")
+            notify(L("Sauvegarde exportée"))
         } catch { notify(error.localizedDescription) }
     }
 
@@ -543,15 +584,15 @@ import EncoreCore
             library = result.library
             storage?.save(library, payloads: result.payloads)
             refreshFileSizes(); prune(); resetSelection()
-            notify("\(result.payloads.count) nouvel élément(s) importé(s)")
-        } catch { notify("Import impossible : \(error.localizedDescription)") }
+            notify(L("\(result.payloads.count) nouvel élément(s) importé(s)"))
+        } catch { notify(L("Import impossible : \(error.localizedDescription)")) }
     }
 
     func clearHistory() {
         let alert = NSAlert()
-        alert.messageText = "Effacer l’historique ?"
-        alert.informativeText = "Les favoris et les éléments des collections seront conservés. Cette action est définitive."
-        alert.addButton(withTitle: "Annuler"); alert.addButton(withTitle: "Effacer")
+        alert.messageText = L("Effacer l’historique ?")
+        alert.informativeText = L("Les favoris et les éléments des collections seront conservés. Cette action est définitive.")
+        alert.addButton(withTitle: L("Annuler")); alert.addButton(withTitle: L("Effacer"))
         guard alert.runModal() == .alertSecondButtonReturn else { return }
         let ids = library.clips.filter { !$0.isProtected }.map(\.id)
         library.clips.removeAll { !$0.isProtected }

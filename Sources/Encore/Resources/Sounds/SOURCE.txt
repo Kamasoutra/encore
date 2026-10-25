@@ -1,0 +1,10 @@
+Kenney — Interface Sounds 1.0
+https://kenney.nl/assets/interface-sounds
+CC0 1.0. Converted to mono PCM WAV; peak gain and short edge fades adjusted.
+
+soft-capture.wav: tick_001.ogg
+soft-paste.wav: select_001.ogg
+crystal-capture.wav: click_002.ogg
+crystal-paste.wav: tick_004.ogg
+retro-capture.wav: pluck_001.ogg
+retro-paste.wav: pluck_002.ogg

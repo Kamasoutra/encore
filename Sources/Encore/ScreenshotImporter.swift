@@ -35,7 +35,7 @@ import ImageIO
             })
         }
         self.query = query
-        if !query.start() { model.notify("La surveillance des captures est indisponible pour ce dossier.") }
+        if !query.start() { model.notify(L("La surveillance des captures est indisponible pour ce dossier.")) }
     }
 
     func stop() {
@@ -67,7 +67,7 @@ import ImageIO
                     guard let self, self.generation == currentGeneration else { return }
                     self.importImage(data, url: url, capturedAt: values.creationDate ?? Date())
                 }
-            } catch { DispatchQueue.main.async { self?.model.notify("Capture ignorée : \(error.localizedDescription)") } }
+            } catch { DispatchQueue.main.async { self?.model.notify(L("Capture ignorée : \(error.localizedDescription)")) } }
         }
     }
 
@@ -85,7 +85,7 @@ import ImageIO
         default: return
         }
         let payload = ClipPayload(items: [.init([type: data])])
-        let clip = Clip(fingerprint: payload.fingerprint, kind: .image, text: "", title: url.deletingPathExtension().lastPathComponent, sourceName: "Capture d’écran", sourceBundle: "com.apple.screencaptureui", copiedAt: capturedAt, byteCount: payload.byteCount)
+        let clip = Clip(fingerprint: payload.fingerprint, kind: .image, text: "", title: url.deletingPathExtension().lastPathComponent, sourceName: L("Capture d’écran"), sourceBundle: "com.apple.screencaptureui", copiedAt: capturedAt, byteCount: payload.byteCount)
         model.accept(clip, payload: payload)
     }
 }

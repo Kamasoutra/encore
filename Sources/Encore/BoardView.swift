@@ -53,15 +53,24 @@ struct BoardView: View {
     private var compact: Bool { model.preferences.compact }
 
     var body: some View {
+        Group {
+            if model.expanded { WorkspaceView(model: model) }
+            else { shelf }
+        }
+        .environment(\.locale, Localization.locale)
+        .tint(Palette.accent)
+    }
+
+    private var shelf: some View {
         VStack(spacing: 0) {
             ResizeHandle { height in
                 model.preferences.panelHeight = height
                 model.preferencesChanged()
             }.frame(height: 16)
-                .help("Glissez pour ajuster la hauteur")
+                .help(L("Glissez pour ajuster la hauteur"))
             toolbar
             if let error = model.storageError {
-                Label("Sauvegarde indisponible : \(error)", systemImage: "exclamationmark.triangle").font(.system(size: 12)).foregroundStyle(.red).padding(.horizontal, 24).padding(.bottom, 8)
+                Label(L("Sauvegarde indisponible : \(error)"), systemImage: "exclamationmark.triangle").font(.system(size: 12)).foregroundStyle(.red).padding(.horizontal, 24).padding(.bottom, 8)
             }
             HStack(spacing: 0) {
                 if model.filtered.isEmpty { emptyState.frame(maxWidth: .infinity, maxHeight: .infinity) }
@@ -90,9 +99,9 @@ struct BoardView: View {
             HStack(spacing: 11) {
                 searchBar.frame(width: geometry.size.width > 1500 ? 300 : 180)
                 filterMenu
-                toolButton("rectangle.stack", help: "File de collage", active: model.queueVisible) { withAnimation(.easeInOut(duration: 0.18)) { model.queueVisible.toggle() } }
-                toolButton("gearshape", help: "Réglages · ⌘,") { model.showSettings?() }
-                toolButton("xmark", help: "Fermer · Échap") { model.dismissPanel?() }
+                toolButton("rectangle.stack", help: L("File de collage"), active: model.queueVisible) { withAnimation(.easeInOut(duration: 0.18)) { model.queueVisible.toggle() } }
+                toolButton("gearshape", help: L("Réglages · ⌘,")) { model.showSettings?() }
+                toolButton("xmark", help: L("Fermer · Échap")) { model.dismissPanel?() }
             }
             }
             collectionsBar.frame(width: max(160, geometry.size.width - (geometry.size.width > 1500 ? 980 : 720))).position(x: geometry.size.width / 2, y: 21)
@@ -103,12 +112,12 @@ struct BoardView: View {
         GeometryReader { geometry in
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 5) {
-                    boardButton("Historique", symbol: "clock.arrow.circlepath", id: "history", color: Palette.accent)
-                    boardButton("Favoris", symbol: "star", id: "favorites", color: .orange)
+                    boardButton(L("Historique"), symbol: "clock.arrow.circlepath", id: "history", color: Palette.accent)
+                    boardButton(L("Favoris"), symbol: "star", id: "favorites", color: .orange)
                     ForEach(model.library.collections) { collection in
                         boardButton(collection.name, symbol: "circle.fill", id: collection.id.uuidString, color: Palette.collection[collection.colorIndex % Palette.collection.count])
                             .contextMenu {
-                                Button(role: .destructive) { model.deleteCollection(collection) } label: { Label("Supprimer la collection", systemImage: "trash") }
+                                Button(role: .destructive) { model.deleteCollection(collection) } label: { Label(L("Supprimer la collection"), systemImage: "trash") }
                             }
                             .onDrop(of: ["local.kama.encore.clip-id"], isTargeted: nil) { providers in
                                 guard let provider = providers.first else { return false }
@@ -120,7 +129,7 @@ struct BoardView: View {
                             }
                     }
                     Button { model.createCollection() } label: { Image(systemName: "plus").font(.system(size: 12, weight: .semibold)).frame(width: 26, height: 30) }
-                        .buttonStyle(.plain).help("Créer une collection · ⌘⇧N").accessibilityLabel("Nouvelle collection")
+                        .buttonStyle(.plain).help(L("Créer une collection · ⌘⇧N")).accessibilityLabel(L("Nouvelle collection"))
                 }.frame(minWidth: geometry.size.width)
             }
         }.frame(height: 36)
@@ -128,16 +137,16 @@ struct BoardView: View {
 
     private var filterMenu: some View {
         Menu {
-                Button("Tous les types") { model.kind = nil }
+                Button(L("Tous les types")) { model.kind = nil }
                 ForEach(ClipKind.allCases) { kind in
                     Button { model.kind = kind } label: { Label(kind.title, systemImage: kind.symbol) }
                 }
                 Divider()
-                Button("Toutes les applications") { model.source = nil }
+                Button(L("Toutes les applications")) { model.source = nil }
                 ForEach(model.sources, id: \.0) { source in Button(source.1) { model.source = source.0 } }
             } label: {
                 Image(systemName: "line.3.horizontal.decrease").font(.system(size: 15)).foregroundStyle(model.kind != nil || model.source != nil ? Palette.accent : .secondary)
-            }.menuStyle(.borderlessButton).frame(width: 22).help("Filtrer par type ou application").accessibilityLabel("Filtres")
+            }.menuStyle(.borderlessButton).frame(width: 22).help(L("Filtrer par type ou application")).accessibilityLabel(L("Filtres"))
     }
 
     private func boardButton(_ title: String, symbol: String, id: String, color: Color) -> some View {
@@ -155,10 +164,10 @@ struct BoardView: View {
     private var searchBar: some View {
         HStack(spacing: 7) {
             Image(systemName: "magnifyingglass").foregroundStyle(.secondary)
-            TextField("Rechercher…", text: $model.query).textFieldStyle(.plain).font(.system(size: 13)).focused($searchFocus)
-                .accessibilityLabel("Rechercher dans l’historique")
+            TextField(L("Rechercher…"), text: $model.query).textFieldStyle(.plain).font(.system(size: 13)).focused($searchFocus)
+                .accessibilityLabel(L("Rechercher dans l’historique"))
             if model.query.isEmpty { Text("⌘F").font(.system(size: 12, weight: .medium)).foregroundStyle(.secondary) }
-            else { Button { model.query = "" } label: { Image(systemName: "xmark.circle.fill").foregroundStyle(.secondary) }.buttonStyle(.plain).accessibilityLabel("Effacer la recherche") }
+            else { Button { model.query = "" } label: { Image(systemName: "xmark.circle.fill").foregroundStyle(.secondary) }.buttonStyle(.plain).accessibilityLabel(L("Effacer la recherche")) }
         }.padding(.horizontal, 12).frame(height: 38)
             .background(.primary.opacity(0.065), in: RoundedRectangle(cornerRadius: 11))
             .overlay(RoundedRectangle(cornerRadius: 11).strokeBorder(searchFocus ? Palette.accent.opacity(0.8) : .primary.opacity(0.13)))
@@ -184,13 +193,13 @@ struct BoardView: View {
     private var emptyState: some View {
         VStack(spacing: 10) {
             Image(systemName: model.library.clips.isEmpty ? "doc.on.clipboard" : "magnifyingglass").font(.system(size: 32, weight: .light)).foregroundStyle(Palette.accent).padding(.bottom, 3)
-            Text(model.library.clips.isEmpty ? "Vos idées, à portée de clavier." : "Aucun élément trouvé").font(.system(size: 21, weight: .semibold, design: .rounded))
-            Text(model.library.clips.isEmpty ? "Copiez un texte, un lien ou une image. Retrouvez-le ici avec \(model.shortcutStatus)." : "Essayez un autre mot ou retirez les filtres.").font(.system(size: 12)).foregroundStyle(.secondary)
+            Text(model.library.clips.isEmpty ? L("Vos idées, à portée de clavier.") : L("Aucun élément trouvé")).font(.system(size: 21, weight: .semibold, design: .rounded))
+            Text(model.library.clips.isEmpty ? L("Copiez un texte, un lien ou une image. Retrouvez-le ici avec \(model.shortcutStatus).") : L("Essayez un autre mot ou retirez les filtres.")).font(.system(size: 12)).foregroundStyle(.secondary)
             if model.kind != nil || model.source != nil || !model.query.isEmpty {
-                Button("Effacer les filtres") { model.kind = nil; model.source = nil; model.query = "" }.buttonStyle(.bordered)
+                Button(L("Effacer les filtres")) { model.kind = nil; model.source = nil; model.query = "" }.buttonStyle(.bordered)
             } else if !model.accessibilityGranted {
-                Button("Activer le collage direct") { model.requestAccessibility() }.buttonStyle(.borderedProminent).padding(.top, 6)
-                Text("Sans autorisation, Encore recopie les éléments ; vous les collez avec ⌘V.").font(.system(size: 12)).foregroundStyle(.tertiary)
+                Button(L("Activer le collage direct")) { model.requestAccessibility() }.buttonStyle(.borderedProminent).padding(.top, 6)
+                Text(L("Sans autorisation, Encore recopie les éléments ; vous les collez avec ⌘V.")).font(.system(size: 12)).foregroundStyle(.tertiary)
             }
         }.padding(24)
     }
@@ -198,7 +207,7 @@ struct BoardView: View {
     private var footer: some View {
         HStack(spacing: 12) {
             Circle().fill(model.preferences.captureEnabled ? Color.green : Color.orange).frame(width: 5, height: 5)
-            Text(model.preferences.captureEnabled ? "\(model.filtered.count) élément\(model.filtered.count == 1 ? "" : "s")" : "Capture en pause").font(.system(size: 12, weight: .medium))
+            Text(model.preferences.captureEnabled ? L("\(model.filtered.count) élément\(model.filtered.count == 1 ? "" : "s")") : L("Capture en pause")).font(.system(size: 12, weight: .medium))
             if let kind = model.kind {
                 Button { model.kind = nil } label: { Label(kind.title, systemImage: "xmark.circle.fill").font(.system(size: 12)) }.buttonStyle(.plain).foregroundStyle(Palette.accent)
             }
@@ -208,12 +217,14 @@ struct BoardView: View {
             if !model.status.isEmpty { Text(model.status).font(.system(size: 12)).foregroundStyle(Palette.accent).lineLimit(1) }
             Spacer(minLength: 4)
             if model.status.isEmpty {
-                hint("← →", "naviguer")
-                hint("↩", "coller")
-                hint("⇧↩", "texte brut")
-                hint("espace", "aperçu")
+                hint("← →", L("naviguer"))
+                Button { model.expanded = true } label: { hint("↑", L("explorer")) }.buttonStyle(.plain)
+                hint("↓", L("réduire"))
+                hint("↩", L("coller"))
+                hint("⇧↩", L("texte brut"))
+                hint(L("espace"), L("aperçu"))
             }
-            Text("100 % local").font(.system(size: 12, weight: .medium)).foregroundStyle(.secondary).padding(.leading, 4)
+            Text(L("100 % local")).font(.system(size: 12, weight: .medium)).foregroundStyle(.secondary).padding(.leading, 4)
         }.foregroundStyle(.secondary).padding(.horizontal, 25).frame(height: 42)
             .overlay(alignment: .top) { Rectangle().fill(.primary.opacity(0.06)).frame(height: 1).padding(.horizontal, 24) }
     }
@@ -232,11 +243,11 @@ struct BoardView: View {
     private var queueSidebar: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
-                Label("File de collage", systemImage: "rectangle.stack").font(.system(size: 12, weight: .semibold))
+                Label(L("File de collage"), systemImage: "rectangle.stack").font(.system(size: 12, weight: .semibold))
                 Spacer()
                 Text("\(model.queue.count)").font(.system(size: 12, weight: .bold)).foregroundStyle(Palette.accent)
             }
-            Text(model.collecting ? "Copiez pour ajouter · ⌘V pour coller" : "Ajoutez des cartes, puis activez la file.").font(.system(size: 12)).foregroundStyle(.secondary)
+            Text(model.collecting ? L("Copiez pour ajouter · ⌘V pour coller") : L("Ajoutez des cartes, puis activez la file.")).font(.system(size: 12)).foregroundStyle(.secondary)
             ScrollView {
                 VStack(spacing: 7) {
                     ForEach(Array(model.queue.enumerated()), id: \.element) { index, id in
@@ -245,17 +256,17 @@ struct BoardView: View {
                                 Text("\(index + 1)").font(.system(size: 12, weight: .semibold)).foregroundStyle(Palette.accent)
                                 Text(clip.displayTitle).font(.system(size: 12)).lineLimit(1)
                                 Spacer(minLength: 0)
-                                Button { model.queue.removeAll { $0 == id } } label: { Image(systemName: "xmark").font(.system(size: 11)) }.buttonStyle(.plain).accessibilityLabel("Retirer de la file")
+                                Button { model.queue.removeAll { $0 == id } } label: { Image(systemName: "xmark").font(.system(size: 11)) }.buttonStyle(.plain).accessibilityLabel(L("Retirer de la file"))
                             }.padding(9).background(.primary.opacity(0.04), in: RoundedRectangle(cornerRadius: 8))
                         }
                     }
                 }
             }
             HStack {
-                Button(model.collecting ? "Arrêter" : "Activer") { model.toggleCollecting() }.buttonStyle(.borderedProminent).controlSize(.small)
+                Button(model.collecting ? L("Arrêter") : L("Activer")) { model.toggleCollecting() }.buttonStyle(.borderedProminent).controlSize(.small)
                 Spacer()
-                Button { model.queue.reverse() } label: { Image(systemName: "arrow.up.arrow.down") }.buttonStyle(.plain).help("Inverser l’ordre")
-                Button { model.queue = []; model.collecting = false } label: { Image(systemName: "trash") }.buttonStyle(.plain).help("Vider la file")
+                Button { model.queue.reverse() } label: { Image(systemName: "arrow.up.arrow.down") }.buttonStyle(.plain).help(L("Inverser l’ordre"))
+                Button { model.queue = []; model.collecting = false } label: { Image(systemName: "trash") }.buttonStyle(.plain).help(L("Vider la file"))
             }
         }.padding(14).frame(width: 235).background(.primary.opacity(0.025)).overlay(alignment: .leading) { Rectangle().fill(.primary.opacity(0.07)).frame(width: 1) }.padding(.bottom, 10)
     }
@@ -285,25 +296,26 @@ struct ClipCard: View {
             HStack(spacing: 9) {
                 VStack(alignment: .leading, spacing: 3) {
                     Text(typeTitle).font(.system(size: 14 * scale, weight: .semibold))
-                    Text(clip.sourceName).font(.system(size: 12 * scale, weight: .medium)).foregroundStyle(.white.opacity(0.9)).lineLimit(1)
+                    Text(model.relativeAge(clip.firstCopyDate)).font(.system(size: max(11, 12 * scale), weight: .medium)).foregroundStyle(.white.opacity(0.9)).lineLimit(1)
                 }
                 Spacer(minLength: 2)
                 if clip.favorite { Image(systemName: "star.fill").font(.system(size: 12 * scale)).foregroundStyle(.yellow) }
-                sourceIcon.frame(width: 29 * scale, height: 29 * scale).help(clip.sourceName)
-            }.foregroundStyle(.white).padding(.horizontal, 14).frame(height: 53 * scale)
+                sourceIcon.frame(width: 40 * scale, height: 40 * scale).help(clip.sourceName)
+            }.foregroundStyle(.white).padding(.horizontal, 12).frame(height: 48 * scale)
                 .background(LinearGradient(colors: [accent, accent.opacity(0.8)], startPoint: .topLeading, endPoint: .bottomTrailing).overlay(.black.opacity(0.24)))
             cardContent.frame(maxWidth: .infinity, maxHeight: .infinity).clipped()
             HStack {
                 if index < 9 { Text("⌘\(index + 1)").font(.system(size: 12 * scale, weight: .semibold)).foregroundStyle(selected ? Palette.accent : .secondary) }
                 Image(systemName: model.retentionDecision(for: clip).expiresAt == nil ? "infinity" : "clock").font(.system(size: 12 * scale)).foregroundStyle(.secondary).help(model.retentionSummary(for: clip))
                 Spacer()
-                Text(model.relativeAge(clip.copiedAt)).font(.system(size: 12 * scale)).foregroundStyle(.secondary).lineLimit(1).help("Copié le \(clip.copiedAt.formatted(date: .numeric, time: .standard))")
+                Text(model.remainingRetention(for: clip)).font(.system(size: max(11, 12 * scale))).foregroundStyle(.secondary).lineLimit(1).help(model.retentionSummary(for: clip))
             }.padding(.horizontal, 14).frame(height: 32 * scale)
         }
         .frame(width: (compact ? 200 : 258) * scale)
         .background(scheme == .dark ? Color(red: 0.14, green: 0.14, blue: 0.18) : .white)
         .clipShape(RoundedRectangle(cornerRadius: 16))
-        .overlay(RoundedRectangle(cornerRadius: 16).strokeBorder(selected ? Palette.accent : .primary.opacity(hovered ? 0.18 : 0.07), lineWidth: selected ? 2 : 1))
+        .overlay(RoundedRectangle(cornerRadius: 16).strokeBorder(selected ? Palette.accent : .primary.opacity(hovered ? 0.18 : 0.07), lineWidth: selected ? 2.5 : 1))
+        .shadow(color: selected ? Palette.accent.opacity(0.2) : .clear, radius: 7)
         .shadow(color: .black.opacity(scheme == .dark ? 0.14 : 0.05), radius: 6, y: 3)
         .contentShape(RoundedRectangle(cornerRadius: 16))
         .onHover { hovered = $0 }
@@ -313,7 +325,7 @@ struct ClipCard: View {
         .onDrag { itemProvider() }
         .accessibilityElement(children: .combine)
         .accessibilityLabel("\(clip.kind.title), \(clip.displayTitle), \(clip.sourceName)")
-        .accessibilityValue(selected ? "Sélectionné" : "")
+        .accessibilityValue(selected ? L("Sélectionné") : "")
         .accessibilityAddTraits(.isButton)
         .accessibilityAction { model.select(clip.id) }
     }
@@ -375,19 +387,19 @@ struct ClipCard: View {
 
     @ViewBuilder private var contextActions: some View {
         if let file = model.fileURLs(for: clip).first {
-            Button { NSWorkspace.shared.open(file) } label: { Label("Ouvrir", systemImage: "arrow.up.forward.app") }.keyboardShortcut("o")
-            ShareLink(item: file) { Label("Partager", systemImage: "square.and.arrow.up") }
+            Button { NSWorkspace.shared.open(file) } label: { Label(L("Ouvrir"), systemImage: "arrow.up.forward.app") }.keyboardShortcut("o")
+            ShareLink(item: file) { Label(L("Partager"), systemImage: "square.and.arrow.up") }
             Divider()
         } else if clip.kind == .link, let url = URL(string: clip.text) {
-            Button { NSWorkspace.shared.open(url) } label: { Label("Ouvrir le lien", systemImage: "arrow.up.forward.app") }.keyboardShortcut("o")
-            ShareLink(item: url) { Label("Partager", systemImage: "square.and.arrow.up") }
+            Button { NSWorkspace.shared.open(url) } label: { Label(L("Ouvrir le lien"), systemImage: "arrow.up.forward.app") }.keyboardShortcut("o")
+            ShareLink(item: url) { Label(L("Partager"), systemImage: "square.and.arrow.up") }
             Divider()
         }
-        Button { model.paste(model.library.clips.filter { ids.contains($0.id) }) } label: { Label("Coller", systemImage: "doc.on.clipboard") }.keyboardShortcut(.return, modifiers: [])
-        Button { model.paste(model.library.clips.filter { ids.contains($0.id) }, plain: true) } label: { Label("Coller en texte brut", systemImage: "text.alignleft") }.keyboardShortcut(.return, modifiers: .shift)
-        Button { model.paste(model.library.clips.filter { ids.contains($0.id) }, copyOnly: true) } label: { Label("Copier", systemImage: "doc.on.doc") }.keyboardShortcut("c")
+        Button { model.paste(model.library.clips.filter { ids.contains($0.id) }) } label: { Label(L("Coller"), systemImage: "doc.on.clipboard") }.keyboardShortcut(.return, modifiers: [])
+        Button { model.paste(model.library.clips.filter { ids.contains($0.id) }, plain: true) } label: { Label(L("Coller en texte brut"), systemImage: "text.alignleft") }.keyboardShortcut(.return, modifiers: .shift)
+        Button { model.paste(model.library.clips.filter { ids.contains($0.id) }, copyOnly: true) } label: { Label(L("Copier"), systemImage: "doc.on.doc") }.keyboardShortcut("c")
         Divider()
-        Button { model.toggleFavorite(ids) } label: { Label(clip.favorite ? "Retirer des favoris" : "Ajouter aux favoris", systemImage: clip.favorite ? "star.slash" : "star") }
+        Button { model.toggleFavorite(ids) } label: { Label(clip.favorite ? L("Retirer des favoris") : L("Ajouter aux favoris"), systemImage: clip.favorite ? "star.slash" : "star") }
         Menu {
             ForEach(model.library.collections) { collection in
                 Button { model.assignCollection(collection.id, ids: ids) } label: {
@@ -395,20 +407,20 @@ struct ClipCard: View {
                 }
             }
             Divider()
-            Button { model.createCollection() } label: { Label("Nouvelle collection…", systemImage: "folder.badge.plus") }
+            Button { model.createCollection() } label: { Label(L("Nouvelle collection…"), systemImage: "folder.badge.plus") }
         } label: { Label("Collections", systemImage: "folder") }
-        Button { model.enqueue(model.filtered.filter { ids.contains($0.id) }.map(\.id)) } label: { Label("Ajouter à la file", systemImage: "text.badge.plus") }
+        Button { model.enqueue(model.filtered.filter { ids.contains($0.id) }.map(\.id)) } label: { Label(L("Ajouter à la file"), systemImage: "text.badge.plus") }
         Divider()
-        Button { model.inspector = clip } label: { Label("Aperçu et édition", systemImage: "eye") }.keyboardShortcut(.space, modifiers: [])
+        Button { model.inspector = clip } label: { Label(L("Aperçu et édition"), systemImage: "eye") }.keyboardShortcut(.space, modifiers: [])
         if !clip.text.isEmpty {
-            Menu { ForEach(TextAction.allCases) { action in Button(action.title) { model.transform(action, clip: clip) } } } label: { Label("Transformer une copie", systemImage: "wand.and.stars") }
+            Menu { ForEach(TextAction.allCases) { action in Button(action.title) { model.transform(action, clip: clip) } } } label: { Label(L("Transformer une copie"), systemImage: "wand.and.stars") }
         }
         if clip.kind == .image {
-            Button { model.recognize(clip.id) } label: { Label("Reconnaître le texte", systemImage: "text.viewfinder") }
-            if !clip.recognizedText.isEmpty { Button { model.addText(clip.recognizedText) } label: { Label("Créer un texte depuis l’image", systemImage: "text.badge.plus") } }
+            Button { model.recognize(clip.id) } label: { Label(L("Reconnaître le texte"), systemImage: "text.viewfinder") }
+            if !clip.recognizedText.isEmpty { Button { model.addText(clip.recognizedText) } label: { Label(L("Créer un texte depuis l’image"), systemImage: "text.badge.plus") } }
         }
         Divider()
-        Button(role: .destructive) { model.remove(ids) } label: { Label("Supprimer", systemImage: "trash") }
+        Button(role: .destructive) { model.remove(ids) } label: { Label(L("Supprimer"), systemImage: "trash") }
     }
 
     private func itemProvider() -> NSItemProvider {

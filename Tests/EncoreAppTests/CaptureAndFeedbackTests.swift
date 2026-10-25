@@ -65,10 +65,14 @@ final class CaptureAndFeedbackTests: XCTestCase {
         }
     }
 
-    @MainActor func testAllBundledSoundVariantsExistWithoutPlayingAudio() async {
+    @MainActor func testAllBundledSoundVariantsExistWithoutPlayingAudio() async throws {
         for theme in SoundTheme.allCases where theme != .custom {
-            XCTAssertNotNil(NSSound(named: .init(theme.name(for: .capture))))
-            XCTAssertNotNil(NSSound(named: .init(theme.name(for: .paste))))
+            for action in [FeedbackSounds.Action.capture, .paste] {
+                let url = try XCTUnwrap(FeedbackSounds.bundledURL(action, theme: theme))
+                let sound = try XCTUnwrap(NSSound(contentsOf: url, byReference: false))
+                XCTAssertGreaterThan(sound.duration, 0.005)
+                XCTAssertLessThan(sound.duration, 0.2)
+            }
         }
     }
 
@@ -81,4 +85,22 @@ final class CaptureAndFeedbackTests: XCTestCase {
         XCTAssertNil(ScreenPlacement.screen(target: "primary", screens: [], pointer: .zero, current: nil))
         XCTAssertNotNil(ScreenPlacement.identifier(first))
     }
+    @MainActor func testRemainingRetentionUsesTheDeadlineAndPinsStayForever() async throws {
+        try withModel { model, _, _ in
+            let previous = Localization.language
+            defer { Localization.language = previous }
+            Localization.language = "en"
+            let copied = Date()
+            var clip = Clip(kind: .file, text: "", copiedAt: copied, referencedFileBytes: 3_000_000_000)
+            clip.firstCopiedAt = copied.addingTimeInterval(-86400)
+            model.preferences.retentionRules = RetentionRule.examples
+            model.displayTime = copied.addingTimeInterval(3590)
+            XCTAssertEqual(model.remainingRetention(for: clip), "Expires in under 1 min")
+            model.displayTime = copied.addingTimeInterval(3600)
+            XCTAssertEqual(model.remainingRetention(for: clip), "Expiring now")
+            clip.favorite = true
+            XCTAssertEqual(model.remainingRetention(for: clip), "Forever")
+        }
+    }
+
 }

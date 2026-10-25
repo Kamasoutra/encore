@@ -1,111 +1,81 @@
-<p align="center">
-  <img src="docs/icon.png" width="104" alt="Encore icon">
-</p>
+<p align="center"><img src="assets/icon.png" width="104" alt="Encore"></p>
 <h1 align="center">Encore</h1>
 <p align="center"><strong>Your clipboard. Yours to keep.</strong></p>
-<p align="center">A native clipboard shelf for macOS. Local, open source, and subscription-free.</p>
-<p align="center">
-  <a href="https://github.com/Kamasoutra/encore/releases/download/v0.2.1/Encore-0.2.1-macOS-arm64.zip"><strong>Download for Apple Silicon ↓</strong></a>
-  · <a href="https://github.com/Kamasoutra/encore/releases/tag/v0.2.1">Release notes</a>
-  · <a href="docs/FEATURES.md">Feature status</a>
-</p>
-<p align="center">macOS 14+ · SwiftUI + AppKit · MIT · French interface</p>
+<p align="center">A native clipboard manager for macOS. Local, open source, subscription-free.</p>
+<p align="center"><a href="https://github.com/Kamasoutra/encore/releases/download/v0.3.0/Encore-0.3.0-macOS-arm64.zip"><strong>Download for Apple Silicon ↓</strong></a> · <a href="https://github.com/Kamasoutra/encore/releases">Releases</a></p>
+<p align="center">macOS 14+ · Français / English · MIT</p>
 
-![Encore's native clipboard shelf, with text, image, PDF, link, color and code previews](docs/shelf-dark.png)
-
-Press **⇧⌘V**, find a card, and press **Return**. Keep what matters, let the rest expire, and get back to your work. No account, telemetry, or runtime dependencies.
+![Encore clipboard shelf](assets/shelf-dark.png)
 
 <details>
-<summary>Light mode and native settings</summary>
+<summary>Full library view</summary>
 
-![Encore in light mode](docs/shelf-light.png)
-
-<p>
-  <img src="docs/settings-retention.png" width="48%" alt="Ordered retention rules by size and duration">
-  <img src="docs/settings-shortcuts.png" width="48%" alt="Readable native keyboard shortcut settings">
-</p>
+![Searchable library with filters and preview](assets/workspace.png)
 
 </details>
 
+Press **⇧⌘V** to open your clipboard history. Choose an item and press **Return** to paste. Press **↑** for the full library, with a searchable list, filters, and a preview. **↓** brings you back to the shelf.
+
+- Text, rich text, links, images, files, code, and colors.
+- Native image and document thumbnails, including files copied from Finder.
+- Search by content, application, type, date, and locally recognized image text.
+- Favorites, collections, plain-text paste, multi-selection, and a sequential paste queue.
+- Retention rules by size and type, with first/last-copy timestamps and time remaining before expiry.
+- Quiet sound sets, custom audio, card zoom, and a choice of display.
+- Installed-app exclusions and optional import of newly saved macOS screenshots.
+- French and English, with automatic or manual language selection.
+
 ## Install
 
-1. [Download the ZIP](https://github.com/Kamasoutra/encore/releases/download/v0.2.1/Encore-0.2.1-macOS-arm64.zip), unzip it, and move **Encore.app** to Applications.
-2. Launch Encore. This early build is **ad-hoc signed, not Apple-notarized**. If macOS blocks it, follow [Apple's per-app Open Anyway instructions](https://support.apple.com/en-us/102445) in System Settings → Privacy & Security, after checking the release and its checksum.
-3. Quit any app already using ⇧⌘V, then copy something. The menu-bar icon also opens Encore; **⌃⌥⌘V** is the fallback shortcut.
-4. Enable Encore in **System Settings → Privacy & Security → Accessibility** for direct paste at the cursor and sequential paste. Without permission, Encore copies the selection for you to paste with ⌘V.
+[Download the ZIP](https://github.com/Kamasoutra/encore/releases/download/v0.3.0/Encore-0.3.0-macOS-arm64.zip), unzip, and move **Encore.app** to Applications. Quit any clipboard app already using ⇧⌘V. Encore also has a menu-bar button and the fallback shortcut **⌃⌥⌘V**.
 
-**Pre-release 0.2.1:** Apple Silicon binary; Intel downloads and Homebrew installation are planned. Updates are manual. Replacing an ad-hoc build may require granting Accessibility again. See [what has actually been validated](docs/VALIDATION.md).
+These early builds are **ad-hoc signed and not notarized**. If macOS blocks the first launch, follow [Apple's Open Anyway instructions](https://support.apple.com/en-us/102445). Releases include a SHA-256 checksum. Intel builds, automatic updates, and Homebrew are not available yet.
 
-## A visual memory for your clipboard
+Direct paste needs **System Settings → Privacy & Security → Accessibility**. Ad-hoc updates can invalidate an earlier grant even when Encore still appears enabled: turn the entry off and on, or remove it and add the installed app again. Without access, Encore copies the item and you paste with ⌘V.
 
-- **Native previews.** Images, PDFs and other supported documents get Quick Look thumbnails, including files copied from Finder. Rich text keeps its formatting in the card. Links use a local preview without visiting the site.
-- **A shelf that fits.** Resize its height, zoom cards with ⌘+ / ⌘−, choose light/dark/system appearance, and place it on the current, primary, or a specific display.
-- **Keyboard first.** Arrows, quick paste with ⌘1–9 (including AZERTY), plain-text paste, multiple selection, and a resizable preview/editor.
-- **Find and organize.** Search content, app, type, dates, and locally recognized image text. Keep favorites and collections; one item can belong to several collections.
-- **Keep the original.** Retain rich pasteboard representations and multiple files. Collect a temporary FIFO queue and paste items one by one with ⌘V.
-- **Make it yours.** Sounds for capture and paste, three built-in sound pairs, volume, and custom audio files. Optional import of newly saved native screenshots.
-- **Stay in control.** Capture pause, app exclusions with names and icons, local OCR, JSON backup/import, deletion undo, and non-destructive text transformations.
+## Keep the useful things
 
-## Retention with finer control
+Retention rules are evaluated from top to bottom. The first match wins. The presets use explicit ranges:
 
-A large file reference should not have to live as long as a short note. Create **ordered rules by content type and size**, with durations in minutes, hours, days, weeks, months, or forever.
-
-| Example rule, in priority order | Keep for |
+| Content size | Retention |
 | --- | --- |
-| At least 3 GB | 1 hour |
-| 500 MB to less than 1 GB | 2 days |
-| At least 300 MB | 1 week |
-| Plain text below 1 MB | Forever |
+| 3 GB and above | 1 hour |
+| 500 MB to less than 3 GB | 2 days |
+| 300 MB to less than 500 MB | 1 week |
+| Text below 1 MB | Forever |
+| Everything else | Your default duration |
 
-The **first matching rule wins**. Settings can load these examples as a draft; nothing is removed until you apply. Preview the impact before confirming removals.
+Re-copying an item renews its expiry. Favorites and collection items stay indefinitely. Changes are previewed before you apply them; existing rules are never silently replaced by a new preset.
 
-Every item retains its first and most recent copy times. Recopying renews expiry. Favorites and collection items stay indefinitely; items matched by a rule bypass the generic item-count limit. Unmatched items use the fallback duration.
-
-For files, rules use the referenced files' size without copying their contents. A 3 GB file reference is supported; a **3 GB embedded clipboard payload is not**. Embedded content is limited to **25 MiB per copy**. Retention thresholds use decimal MB/GB; the content budget uses binary MiB/GiB. Unknown file sizes fall back to the default policy.
+File rules use the original files' logical size. Files are referenced rather than copied into Encore, so a multi-gigabyte file reference uses little storage. Moving or deleting originals can make an entry unavailable. Embedded clipboard data is limited to **25 MiB per copy**.
 
 ## Keyboard
 
 | Action | Shortcut |
 | --- | --- |
-| Show / hide | ⇧⌘V (or ⌥⌘V in Settings) |
-| Emergency show / hide | ⌃⌥⌘V |
-| Start / stop sequential queue | ⇧⌘C globally, when enabled |
-| Navigate / extend selection | ← → / ⇧← ⇧→ |
-| Dismiss from cards / keep selection | ↓ / ↑ |
+| Show / hide | ⇧⌘V |
+| Full library / reduce | ↑ / ↓ |
+| Select / extend selection | ← → / ⇧← ⇧→ |
 | Paste / plain text | Return / ⇧Return |
-| Quick paste | ⌘1–9 on the number row; add ⇧ for plain text |
-| Preview / edit | Space / ⌘E |
-| Search | Type, or ⌘F |
-| Move focus between search and cards | Tab |
-| Favorite | ⌘D |
-| Add selection to queue | ⇧⌘Return |
-| New text / collection | ⌘N / ⇧⌘N |
-| Select all / copy selection | ⌘A / ⌘C |
-| Delete / undo deletion | Delete / ⌘Z |
-| Next / previous collection | ⌘→ / ⌘← |
-| Zoom cards | ⌘+ / ⌘− |
-| Pause capture / settings | ⌘T / ⌘, |
-| Clear search, then dismiss | Escape |
+| Quick paste | ⌘1–9, including AZERTY |
+| Search / preview | ⌘F / Space |
+| Favorite / settings | ⌘D / ⌘, |
+| Delete / undo | Delete / ⌘Z |
+| Card size | ⌘+ / ⌘− |
 
-Search examples: `app:safari type:link`, `type:image invoice`, `date:today`, `after:2026-10-01 before:2026-11-01`. Dates use your Mac's time zone; `before:` excludes that day. The optional global queue shortcut reserves ⇧⌘C and is off by default; a fully configurable shortcut recorder is planned.
+Search supports `app:safari type:link`, `date:today`, `date:week`, and `after:2026-10-01 before:2026-11-01`. The optional global queue shortcut ⇧⌘C is off by default.
 
-## Data and privacy
+## Your data
 
-- No networking, analytics, third-party SDKs, or remote link previews in the app.
-- Library: `~/Library/Application Support/Encore/`. Preferences: UserDefaults under `local.kama.Encore`.
-- Content and JSON exports are **unencrypted**. Directories are owner-only (0700), files owner-only (0600). This does not isolate your clipboard from other processes running as you.
-- Files are references. Moving/deleting originals can break those entries; exports do not include the original files.
-- Defaults: 30 days, 2,000 unprotected/unmatched items, and 500 MiB of raw embedded content. Encoding, metadata, OCR, and recovery files add disk overhead. A full budget **refuses new copies with a notice**, preserving existing retained items.
-- An automatic previous-index backup helps recover a damaged `Library.json`; the damaged file is preserved in `Recovery/`. This is not a complete versioned backup of payloads or referenced files. Export regularly if history matters to you.
-- The first launch starts with the **next** copy. Password-manager apps and confidential/transient pasteboard markers are excluded by default; not every app or browser extension supplies those markers.
-- Saved screenshot import is **off by default**. When enabled, it watches new macOS screenshot metadata in a folder you select while Encore is running. It relies on Spotlight indexing; it does not scan your screen or replace the current clipboard.
-- The sequential queue's event tap exists only while the queue is active and does not log keystrokes. Synthetic paste events bypass it.
+No account, telemetry, remote link previews, or network requests in the app. History lives in `~/Library/Application Support/Encore/`; preferences use the `local.kama.Encore` defaults domain. Storage and exported backups are **unencrypted** and restricted to your macOS account.
 
-Changing exclusions does not delete earlier entries. Clearing history preserves favorites/collections and asks for confirmation. Deleting a collection keeps its contents in history.
+Defaults are 30 days, 2,000 unmatched/unprotected items, and a 500 MiB raw-content budget. Pins and rule-managed items bypass the count limit. A full content budget refuses new copies with a notice. Metadata, encoding, and recovery files add disk overhead.
 
-## Build and contribute
+Password-manager exclusions depend on installed apps. Confidential/transient clipboard markers are honored, but not every app supplies them. Screenshot import is off by default, depends on Spotlight, and watches only newly saved screenshots in your chosen folder while Encore is running.
 
-No compilation is needed to use the download above. For development, install Xcode with Swift 5.10+ and select its command-line tools:
+## Development
+
+Swift 5.10+, macOS 14+, no third-party runtime dependencies.
 
 ```sh
 git clone https://github.com/Kamasoutra/encore.git
@@ -115,14 +85,8 @@ bash scripts/build.sh
 open dist/Encore.app
 ```
 
-For screenshots and UI exploration with original synthetic content and a temporary library:
+Use `open -n dist/Encore.app --args --demo` for a separate, synthetic library. Quit the normal instance first. For development builds, `ENCORE_SIGNING_IDENTITY` lets the build script reuse an existing code-signing identity; the default is ad hoc.
 
-```sh
-open -n dist/Encore.app --args --demo
-```
+Encore is independently implemented and includes no Paste code or assets. UI sound samples are adapted from [Kenney's Interface Sounds](https://kenney.nl/assets/interface-sounds), released under CC0; attribution and source files are bundled with the sounds.
 
-Quit the normal instance first: global shortcuts are shared. Demo mode does not capture your clipboard or save your preferences.
-
-Encore is an independent implementation. It uses no Paste code, branding, or assets, and leaves your Paste installation and library untouched. iCloud, mobile apps, collaborative boards, encryption, web previews, and AI integrations are future projects, not features of this release.
-
-[Feature status](docs/FEATURES.md) · [Validation](docs/VALIDATION.md) · [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md) · [MIT license](LICENSE)
+[Contributing](CONTRIBUTING.md) · [Security](SECURITY.md) · [MIT license](LICENSE)
