@@ -1,13 +1,18 @@
-Native clipboard history for macOS 14+. Apple Silicon pre-release.
+Native clipboard history for macOS 14+, Apple Silicon.
 
-- A full library view with search, filters, and preview: ↑ to expand, ↓ to reduce.
-- Larger app icons, smaller card headers, capture age above and expiry below.
-- French and English, selectable in Settings.
-- Short UI sounds from Kenney's CC0 pack, plus custom audio.
-- Exclusions that reflect installed apps and detect new installations.
-- Explicit retention presets covering 500 MB–3 GB.
-- Continuous volume/card-size controls and clearer Accessibility status.
+- A redesigned shelf that grows into the full library: press ↑ to explore, hold ↓ to come back.
+- Space opens a floating preview above the selected card.
+- Browse and paste the recent history of your other Macs, paired with a code and end-to-end encrypted.
+- Encore now updates itself from GitHub releases.
+- A stable signature: Accessibility stays allowed from one update to the next.
+- 30 languages, with plurals, local formats and right-to-left layouts.
+- Six new sound sets, Paper by default, with instant previews in Settings.
+- Every card shows the time left before it expires.
+- A polished app icon and a menu bar icon drawn from it.
+- A warning in the shelf, and at the top of Settings, when direct paste is not allowed.
 
 Download the ZIP, unzip, and move Encore.app to Applications. SHA256SUMS contains its checksum.
 
-This build is ad-hoc signed, not notarized. [Apple's first-launch instructions](https://support.apple.com/en-us/102445). Updating may require re-enabling Encore in Accessibility. History is unencrypted; files are references; embedded payloads are limited to 25 MiB.
+Coming from 0.3.0: turn Encore off and on once in System Settings → Privacy & Security → Accessibility, or remove it and add it again. Later updates keep the permission.
+
+Encore is not notarized yet. [Apple's first-launch instructions](https://support.apple.com/en-us/102445). History is unencrypted; files are references; embedded payloads are limited to 25 MiB.
