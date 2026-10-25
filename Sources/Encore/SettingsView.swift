@@ -87,6 +87,21 @@ struct SettingsView: View {
 
     private var general: some View {
         Form {
+            Section(L("Direct paste")) {
+                HStack {
+                    Label(model.accessibilityGranted ? L("Direct paste allowed") : L("Manual paste active"), systemImage: model.accessibilityGranted ? "checkmark.shield.fill" : "exclamationmark.triangle.fill")
+                        .foregroundStyle(model.accessibilityGranted ? Color.green : Color.orange)
+                    Spacer()
+                    if !model.accessibilityGranted {
+                        Button(L("Check again")) { model.accessibilityGranted = AXIsProcessTrusted() }
+                        Button(L("macOS Settings…")) { model.requestAccessibility() }.buttonStyle(.borderedProminent)
+                    }
+                }
+                caption(L("Accessibility access enables direct and sequential paste. Without it, Encore copies the item for you to paste with ⌘V."))
+                if !model.accessibilityGranted {
+                    caption(L("macOS has not authorized this version of Encore. If access was already granted, turn Encore off and on in Accessibility. If needed, remove the old entry and add the installed app. Ad-hoc signatures can invalidate access after an update."))
+                }
+            }
             Section(L("Everyday use")) {
                 Toggle(L("Save new clipboard items"), isOn: $model.preferences.captureEnabled).disabled(model.storage == nil || model.storageError != nil)
                 Toggle(L("Launch at login"), isOn: $launchAtLogin).disabled(model.demo).onChange(of: launchAtLogin) { _, value in
@@ -134,18 +149,6 @@ struct SettingsView: View {
                 if model.preferences.soundTheme == .custom {
                     soundFileRow(L("On copy"), path: model.preferences.captureSoundPath, action: .capture)
                     soundFileRow(L("On paste"), path: model.preferences.pasteSoundPath, action: .paste)
-                }
-            }
-            Section(L("Direct paste")) {
-                HStack {
-                    Label(model.accessibilityGranted ? L("Direct paste allowed") : L("Manual paste active"), systemImage: model.accessibilityGranted ? "checkmark.shield" : "lock")
-                    Spacer()
-                    Button(L("Check again")) { model.accessibilityGranted = AXIsProcessTrusted() }
-                    Button(L("macOS Settings…")) { model.requestAccessibility() }
-                }
-                caption(L("Accessibility access enables direct and sequential paste. Without it, Encore copies the item for you to paste with ⌘V."))
-                if !model.accessibilityGranted {
-                    caption(L("macOS has not authorized this version of Encore. If access was already granted, turn Encore off and on in Accessibility. If needed, remove the old entry and add the installed app. Ad-hoc signatures can invalidate access after an update."))
                 }
             }
         }.formStyle(.grouped)
