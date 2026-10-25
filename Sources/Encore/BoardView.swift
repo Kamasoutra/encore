@@ -6,6 +6,16 @@ import UniformTypeIdentifiers
 enum Palette {
     static let accent = Color(red: 0.56, green: 0.37, blue: 0.96)
     static let collection: [Color] = [accent, .pink, .teal, .orange, .blue]
+    static func swatchText(_ hex: String, dark: Bool) -> Color {
+        guard let color = NSColor(Self.color(hex)).usingColorSpace(.sRGB) else { return .primary }
+        let background = dark ? 0.14 : 1.0
+        let channels = [color.redComponent, color.greenComponent, color.blueComponent].map { component -> Double in
+            let value = Double(component * color.alphaComponent) + background * Double(1 - color.alphaComponent)
+            return value <= 0.04045 ? value / 12.92 : pow((value + 0.055) / 1.055, 2.4)
+        }
+        let luminance = channels[0] * 0.2126 + channels[1] * 0.7152 + channels[2] * 0.0722
+        return luminance > 0.179 ? .black : .white
+    }
     static func color(_ hex: String) -> Color {
         var value = hex.trimmingCharacters(in: .whitespacesAndNewlines).trimmingCharacters(in: CharacterSet(charactersIn: "#"))
         if value.count == 3 || value.count == 4 { value = value.map { "\($0)\($0)" }.joined() }
@@ -61,13 +71,12 @@ struct BoardView: View {
             footer
         }
         .background(.ultraThinMaterial)
-        .background(scheme == .dark ? Color(red: 0.08, green: 0.075, blue: 0.105).opacity(0.92) : Color(red: 0.97, green: 0.965, blue: 0.985).opacity(0.94))
+        .background(scheme == .dark ? Color(red: 0.08, green: 0.075, blue: 0.105).opacity(0.25) : Color(red: 0.97, green: 0.965, blue: 0.985).opacity(0.3))
         .clipShape(RoundedRectangle(cornerRadius: 24))
         .overlay(RoundedRectangle(cornerRadius: 24).strokeBorder(.white.opacity(scheme == .dark ? 0.14 : 0.7), lineWidth: 1))
         .tint(Palette.accent)
         .onChange(of: model.searchFocused) { _, value in searchFocus = value }
         .onChange(of: searchFocus) { _, value in model.searchFocused = value }
-        .sheet(item: $model.inspector) { clip in InspectorView(model: model, clip: clip) }
     }
 
     private var toolbar: some View {
@@ -275,21 +284,21 @@ struct ClipCard: View {
         VStack(spacing: 0) {
             HStack(spacing: 9) {
                 VStack(alignment: .leading, spacing: 3) {
-                    Text(typeTitle).font(.system(size: 14, weight: .semibold))
-                    Text(clip.sourceName).font(.system(size: 12, weight: .medium)).foregroundStyle(.white.opacity(0.9)).lineLimit(1)
+                    Text(typeTitle).font(.system(size: 14 * scale, weight: .semibold))
+                    Text(clip.sourceName).font(.system(size: 12 * scale, weight: .medium)).foregroundStyle(.white.opacity(0.9)).lineLimit(1)
                 }
                 Spacer(minLength: 2)
-                if clip.favorite { Image(systemName: "star.fill").font(.system(size: 12)).foregroundStyle(.yellow) }
-                sourceIcon.frame(width: 29, height: 29).help(clip.sourceName)
-            }.foregroundStyle(.white).padding(.horizontal, 14).frame(height: 53)
+                if clip.favorite { Image(systemName: "star.fill").font(.system(size: 12 * scale)).foregroundStyle(.yellow) }
+                sourceIcon.frame(width: 29 * scale, height: 29 * scale).help(clip.sourceName)
+            }.foregroundStyle(.white).padding(.horizontal, 14).frame(height: 53 * scale)
                 .background(LinearGradient(colors: [accent, accent.opacity(0.8)], startPoint: .topLeading, endPoint: .bottomTrailing).overlay(.black.opacity(0.24)))
             cardContent.frame(maxWidth: .infinity, maxHeight: .infinity).clipped()
             HStack {
-                if index < 9 { Text("⌘\(index + 1)").font(.system(size: 12, weight: .semibold)).foregroundStyle(selected ? Palette.accent : .secondary) }
-                Image(systemName: model.retentionDecision(for: clip).expiresAt == nil ? "infinity" : "clock").font(.system(size: 12)).foregroundStyle(.secondary).help(model.retentionSummary(for: clip))
+                if index < 9 { Text("⌘\(index + 1)").font(.system(size: 12 * scale, weight: .semibold)).foregroundStyle(selected ? Palette.accent : .secondary) }
+                Image(systemName: model.retentionDecision(for: clip).expiresAt == nil ? "infinity" : "clock").font(.system(size: 12 * scale)).foregroundStyle(.secondary).help(model.retentionSummary(for: clip))
                 Spacer()
-                Text(clip.copiedAt, style: .relative).font(.system(size: 12)).foregroundStyle(.secondary).lineLimit(1).help("Copié le \(clip.copiedAt.formatted(date: .numeric, time: .standard))")
-            }.padding(.horizontal, 14).frame(height: 32)
+                Text(model.relativeAge(clip.copiedAt)).font(.system(size: 12 * scale)).foregroundStyle(.secondary).lineLimit(1).help("Copié le \(clip.copiedAt.formatted(date: .numeric, time: .standard))")
+            }.padding(.horizontal, 14).frame(height: 32 * scale)
         }
         .frame(width: (compact ? 200 : 258) * scale)
         .background(scheme == .dark ? Color(red: 0.14, green: 0.14, blue: 0.18) : .white)
@@ -319,20 +328,20 @@ struct ClipCard: View {
             ZStack {
                 Palette.color(clip.text)
                 VStack(spacing: 7) {
-                    Text(clip.text.uppercased()).font(.system(size: 30, weight: .medium, design: .rounded)).tracking(-1)
-                    Text("HEX").font(.system(size: 12)).opacity(0.75)
-                }.foregroundStyle(.white).shadow(color: .black.opacity(0.25), radius: 4, y: 1)
+                    Text(clip.text.uppercased()).font(.system(size: 30 * scale, weight: .medium, design: .rounded)).tracking(-1)
+                    Text("HEX").font(.system(size: 12 * scale)).opacity(0.75)
+                }.foregroundStyle(Palette.swatchText(clip.text, dark: scheme == .dark))
             }.clipShape(RoundedRectangle(cornerRadius: 9)).padding(.horizontal, 8)
         case .link:
             VStack(alignment: .leading, spacing: 0) {
                 ZStack(alignment: .bottomLeading) {
                     LinearGradient(colors: [accent.opacity(0.9), Color(red: 0.08, green: 0.28, blue: 0.35)], startPoint: .topTrailing, endPoint: .bottomLeading)
-                    Image(systemName: "globe.europe.africa.fill").font(.system(size: 82, weight: .ultraLight)).foregroundStyle(.white.opacity(0.13)).frame(maxWidth: .infinity, alignment: .trailing).padding(8)
-                    Image(systemName: "arrow.up.right").font(.system(size: 25, weight: .light)).foregroundStyle(.white).padding(16)
+                    Image(systemName: "globe.europe.africa.fill").font(.system(size: 82 * scale, weight: .ultraLight)).foregroundStyle(.white.opacity(0.13)).frame(maxWidth: .infinity, alignment: .trailing).padding(8)
+                    Image(systemName: "arrow.up.right").font(.system(size: 25 * scale, weight: .light)).foregroundStyle(.white).padding(16)
                 }
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(clip.displayTitle).font(.system(size: 14, weight: .semibold)).lineLimit(1)
-                    Text(URL(string: clip.text)?.path.removingPercentEncoding ?? clip.text).font(.system(size: 12)).foregroundStyle(.secondary).lineLimit(2)
+                    Text(clip.displayTitle).font(.system(size: 14 * scale, weight: .semibold)).lineLimit(1)
+                    Text(URL(string: clip.text)?.path.removingPercentEncoding ?? clip.text).font(.system(size: 12 * scale)).foregroundStyle(.secondary).lineLimit(2)
                 }.padding(12).frame(maxWidth: .infinity, alignment: .leading)
             }.background(accent.opacity(0.04)).clipShape(RoundedRectangle(cornerRadius: 9)).padding(.horizontal, 8)
         case .image:
@@ -343,21 +352,21 @@ struct ClipCard: View {
             VStack(spacing: 0) {
                 FilePreview(previews: model.filePreviews, clip: clip, urls: model.fileURLs(for: clip))
                 HStack {
-                    Text(clip.displayTitle).font(.system(size: 12, weight: .medium)).lineLimit(2)
-                    if clip.fileNames.count > 1 { Text("+\(clip.fileNames.count - 1)").font(.system(size: 12, weight: .semibold)).foregroundStyle(.secondary) }
+                    Text(clip.displayTitle).font(.system(size: 12 * scale, weight: .medium)).lineLimit(2)
+                    if clip.fileNames.count > 1 { Text("+\(clip.fileNames.count - 1)").font(.system(size: 12 * scale, weight: .semibold)).foregroundStyle(.secondary) }
                 }.padding(.horizontal, 12).padding(.vertical, 8).frame(maxWidth: .infinity, alignment: .leading)
             }
         case .code:
             VStack(alignment: .leading, spacing: 8) {
-                if !clip.title.isEmpty { Text(clip.title).font(.system(size: 12, weight: .semibold)) }
-                Text(highlightedCode(clip.text)).font(.system(size: compact ? 12 : 13, design: .monospaced)).lineSpacing(4).lineLimit(compact ? 7 : 12).frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                if !clip.title.isEmpty { Text(clip.title).font(.system(size: 12 * scale, weight: .semibold)) }
+                Text(highlightedCode(clip.text)).font(.system(size: (compact ? 12 : 13) * scale, design: .monospaced)).lineSpacing(4).lineLimit(compact ? 7 : 12).frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             }.padding(13).background(Palette.accent.opacity(0.045)).clipShape(RoundedRectangle(cornerRadius: 9)).padding(.horizontal, 8)
         case .text:
             if let rich = model.richText(for: clip) {
                 RichTextPreview(text: rich, scale: scale)
             } else {
                 VStack(alignment: .leading, spacing: 7) {
-                if !clip.title.isEmpty { Text(clip.title).font(.system(size: 14, weight: .semibold)).lineLimit(1) }
+                if !clip.title.isEmpty { Text(clip.title).font(.system(size: 14 * scale, weight: .semibold)).lineLimit(1) }
                 Text(String(clip.text.prefix(3000))).font(.system(size: (compact ? 13 : 15) * scale)).lineSpacing(5).lineLimit(compact ? 7 : 14).frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                 }.padding(15).background(accent.opacity(scheme == .dark ? 0.055 : 0.035))
             }

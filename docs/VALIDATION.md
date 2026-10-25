@@ -1,47 +1,50 @@
 # Validation
 
-Initial development: 25 October 2026, on an Apple Silicon Mac running macOS 26.6.2, using Xcode 27.1 / Swift 6.4 in Swift 5 language mode.
+25 October 2026. Development machine: Apple Silicon, macOS 26.6.2, Xcode 27.1 / Swift 6.4, Swift 5 language mode. Minimum deployment target: macOS 14.
 
-## Automated checks
+## Automated
 
-`swift test`: **39 tests passing** across `EncoreCoreTests` and `EncoreAppTests`.
+`swift test`: **63 tests** across the core and app targets, with no failures. Tests cover:
 
-Covered behavior:
+- Classification, deduplication, rich/custom representations, multiple files, size limits, sensitive markers and source attribution across app switches.
+- Ordered size/type retention, boundaries, fallback, calendar duration, recopy timestamps, pin/count exemptions and rule application preview.
+- A sparse 3 GB file reference: metadata used for expiry without reading/copying the file or deleting its original.
+- Preference migration, retention/screenshot/sound/display options, and opt-in queue shortcut persistence.
+- AZERTY/QWERTY physical number-row shortcuts and contrasting labels on white/black/transparent swatches.
+- Search, transformations, selection ranges, deletion/undo, edits, FIFO queue delivery and plain-text restore.
+- Storage serialization, file permissions, write-failure protection, corrupt-index failure, backup-index recovery with the damaged file preserved, and portable backup validation.
+- A real local Vision OCR request on a generated image.
+- Screenshot image validation, opt-in/pause/exclusion checks, preserved capture date, and unchanged isolated clipboard.
+- Availability of all named system sounds; display identity/fallback behavior against the actual connected screen inventory.
 
-- Recopying preserves favorites, collection memberships, and OCR text.
-- Retention and count limits never remove protected items.
-- Content classification distinguishes URLs, code, colors, images, files, and ordinary numeric codes.
-- Capture preserves rich/custom representations, long text, and multiple file entries.
-- Sensitive/transient markers in any pasteboard item prevent capture.
-- Oversize copies are rejected.
-- Search combines content, source, kind, favorites, collections, local dates, and recognized image text.
-- JSON, Base64, URL, and tracking-parameter transformations preserve the intended data.
-- Persistence survives reopening, uses owner-only permissions, serializes writes, removes deleted payloads, and stops committing queued snapshots after a write failure.
-- Corrupt metadata raises an error instead of silently returning an empty library.
-- Backup restore validates payload sizes, recomputes hashes/counts, merges pins/collections, handles ID collisions, and deduplicates content.
-- Model selection extends and shrinks ranges correctly and does not wrap past the ends.
-- Deletion cleans the queue, and undo restores content and metadata.
-- Editing to existing content merges pins without duplicate cards.
-- Queue delivery preserves FIFO order, disarms on completion, and stops on a missing payload.
-- Plain-text copying strips styles without modifying the retained original.
-- A real Apple Vision request recognizes a generated test image, and its text becomes searchable.
+Pasteboard tests use unique isolated pasteboards, not the user's general clipboard. Model tests use temporary storage and synthetic fixtures.
 
-Pasteboard tests use uniquely named, isolated macOS pasteboards; they do not inspect or overwrite the user's general clipboard. OCR tests generate their own image. Demo/model tests use a temporary library.
+`bash scripts/build.sh`, `plutil -lint`, and `codesign --verify --strict` validate the local arm64 app bundle. The tag workflow repeats tests/build and publishes a ZIP/checksum only after bundle validation.
 
-`bash scripts/build.sh` produces an arm64 app bundle on the development Mac. The bundle is checked with `plutil -lint` and `codesign --verify --strict`.
+## Actual native UI
 
-## Native visual check
+The app was launched with `--demo`, using original generated text, PNG and PDF content, separately from the user's library. Native screenshots were inspected, rather than a mockup.
 
-The actual application was launched in demo mode and its dark horizontal shelf was visually inspected: toolbar, source-app icons, text/link/color/code cards, selection outline, collections, search, and keyboard hints were rendered. This is an app-window check, not a web mockup.
+Observed:
 
-## Still requiring interactive validation
+- Dark shelf renders rich text, full-size PNG/PDF thumbnails, type/source headers, centered collections, side search, and larger keyboard hints.
+- Repeated Up presses retain card selection, an empty search, and all nine demo items. Right/Left changes the selected card.
+- Dragging the native handle by 170 screen points changes shelf height from 380 to 550, keeping the bottom edge at the same screen coordinate.
+- Space opens the independent 740 × 700 content inspector even when the shelf is below 300 points. Closing returns to the shelf.
+- Down dismisses the shelf from the cards.
+- Settings renders the native sidebar; clicking Privacy shows actual names/icons for excluded apps. Down from the focused sidebar advances to Retention.
+- Settings and the shelf were also visually checked in light mode; the shortcut tab has readable labels/keycaps in both themes. Loading retention examples creates a draft without applying or deleting anything.
 
-The macOS session locked during the native UI session. These end-to-end paths have not yet been verified on the development Mac:
+The computer-use connector's panel snapshots repeatedly failed its stale-window guard. Keyboard/drag checks were therefore performed through the macOS Accessibility API and native CGEvents against the demo process, with live AX state and window frames read back. This does not establish physical-device usability or frame-rate performance.
 
-- Global shortcuts while another app is active, including conflicts.
-- Restoring focus and pasting directly into TextEdit with Accessibility permission.
-- Native event-tap interception of repeated physical ⌘V presses in another app.
-- Search-field focus changes, inspector sheets, drag/drop, resizing, both themes, full-screen Spaces, and multiple displays.
-- Launch at login, and running on macOS 14/15 or Intel hardware.
+Public screenshots contain only synthetic demo data.
 
-Automated tests for the underlying behavior do not establish these interactive outcomes. Treat version 0.1.0 as an early release until these checks are completed.
+## Not yet established end to end
+
+- Direct paste/focus restoration into another app and interception of repeated physical ⌘V: the newly ad-hoc-signed app lacks Accessibility authorization. Tests of payload/queue logic do not establish these outcomes.
+- Audio actually heard at the speakers, including capture and Return-triggered paste. Sound resources and event wiring are checked; auditory quality needs user feedback.
+- Native saved screenshot → Spotlight metadata update → watcher import. Import logic is tested; indexing delays, privacy permissions and folder exclusions still need live validation.
+- Current/fixed display placement through a full user journey, mixed-DPI displays, and full-screen Spaces. Screen inventory/fallback logic is tested.
+- Launch at login, VoiceOver/high contrast, macOS 14 compatibility, Intel hardware, quarantined first launch, and a complete large-library performance/security audit.
+
+The JSON index's synchronous initial load and snapshot write cost remain known limitations. Treat 0.2.0 as a pre-release, not as fully validated parity with Paste.

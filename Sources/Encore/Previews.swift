@@ -64,6 +64,8 @@ struct FilePreview: View {
 struct RichTextPreview: NSViewRepresentable {
     let text: NSAttributedString
     var scale: Double = 1
+    final class Coordinator { var text: NSAttributedString?; var scale = 0.0 }
+    func makeCoordinator() -> Coordinator { Coordinator() }
 
     func makeNSView(context: Context) -> NSTextView {
         let view = PreviewTextView()
@@ -81,6 +83,8 @@ struct RichTextPreview: NSViewRepresentable {
         return view
     }
     func updateNSView(_ view: NSTextView, context: Context) {
+        guard context.coordinator.text !== text || context.coordinator.scale != scale else { return }
+        context.coordinator.text = text; context.coordinator.scale = scale
         let copy = NSMutableAttributedString(attributedString: text)
         let range = NSRange(location: 0, length: copy.length)
         text.enumerateAttribute(.font, in: range) { value, span, _ in

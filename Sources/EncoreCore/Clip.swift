@@ -166,6 +166,7 @@ public struct Library: Codable, Sendable {
             return limit > 0 && ordinary > limit
         }.map(\.id)
         let ids = Set(removed)
+        guard !ids.isEmpty else { return [] }
         clips.removeAll { ids.contains($0.id) }
         return removed
     }

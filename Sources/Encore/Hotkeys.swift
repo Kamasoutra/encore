@@ -19,12 +19,12 @@ import Carbon
         }, 1, &spec, Unmanaged.passUnretained(self).toOpaque(), &handler)
     }
 
-    func register(alternate: Bool) {
+    func register(alternate: Bool, stackEnabled: Bool = false) {
         for ref in references { UnregisterEventHotKey(ref) }
         references.removeAll()
         let modifiers = alternate ? UInt32(cmdKey | optionKey) : UInt32(cmdKey | shiftKey)
         primaryAvailable = add(id: 1, code: UInt32(kVK_ANSI_V), modifiers: modifiers)
-        stackAvailable = add(id: 2, code: UInt32(kVK_ANSI_C), modifiers: UInt32(cmdKey | shiftKey))
+        stackAvailable = stackEnabled && add(id: 2, code: UInt32(kVK_ANSI_C), modifiers: UInt32(cmdKey | shiftKey))
         _ = add(id: 3, code: UInt32(kVK_ANSI_V), modifiers: UInt32(cmdKey | optionKey | controlKey))
     }
 

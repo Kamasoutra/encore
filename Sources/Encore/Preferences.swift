@@ -13,6 +13,7 @@ struct Preferences: Codable, Equatable {
     var compact = false
     var appearance = "system"
     var shortcut = "commandShiftV"
+    var stackShortcutEnabled = false
     var retentionRules: [RetentionRule] = []
     var cardScale: Double = 1
     var importScreenshots = false
@@ -33,7 +34,7 @@ struct Preferences: Codable, Equatable {
     private enum CodingKeys: String, CodingKey {
         case retentionDays, historyLimit, storageLimitMB, captureEnabled, ignoreSensitive, recognizeImages
         case excludedBundleIDs, panelHeight, compact, appearance, shortcut, retentionRules, cardScale, importScreenshots, screenshotFolder
-        case soundsEnabled, soundTheme, soundVolume, captureSoundPath, pasteSoundPath, displayTarget
+        case soundsEnabled, soundTheme, soundVolume, captureSoundPath, pasteSoundPath, displayTarget, stackShortcutEnabled
     }
 
     init(from decoder: Decoder) throws {
@@ -50,6 +51,7 @@ struct Preferences: Codable, Equatable {
         compact = try values.decodeIfPresent(Bool.self, forKey: .compact) ?? compact
         appearance = try values.decodeIfPresent(String.self, forKey: .appearance) ?? appearance
         shortcut = try values.decodeIfPresent(String.self, forKey: .shortcut) ?? shortcut
+        stackShortcutEnabled = try values.decodeIfPresent(Bool.self, forKey: .stackShortcutEnabled) ?? false
         retentionRules = try values.decodeIfPresent([RetentionRule].self, forKey: .retentionRules) ?? []
         cardScale = min(1.5, max(0.75, try values.decodeIfPresent(Double.self, forKey: .cardScale) ?? 1))
         importScreenshots = try values.decodeIfPresent(Bool.self, forKey: .importScreenshots) ?? false

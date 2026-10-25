@@ -13,10 +13,6 @@ struct RetentionSettingsView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            VStack(alignment: .leading, spacing: 6) {
-                Text("Gardez l’essentiel. Allégez le reste.").font(.system(size: 20, weight: .semibold))
-                Text("Une durée pour chaque taille et type de contenu. La première règle correspondante l’emporte.").font(.system(size: 13)).foregroundStyle(.secondary)
-            }
             HStack {
                 Label("Règles de conservation", systemImage: "line.3.horizontal.decrease").font(.system(size: 13, weight: .semibold))
                 Spacer()

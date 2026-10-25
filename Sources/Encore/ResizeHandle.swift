@@ -36,6 +36,7 @@ struct ResizeHandle: NSViewRepresentable {
         }
         override func mouseUp(with event: NSEvent) {
             guard startFrame != nil, let window else { return }
+            mouseDragged(with: event)
             startFrame = nil
             onFinish(window.frame.height)
         }

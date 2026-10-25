@@ -5,3 +5,5 @@
 - A copied image file needs an image thumbnail, and a PDF needs a document thumbnail. A generic file icon is only a fallback.
 - Keep application UI typography consistent. Content previews may preserve their original document typography; that is separate from the app's controls and labels.
 - Handle navigation keys before type-to-search. Special-key Unicode values are not ordinary text: up must not insert a hidden search character, and down can explicitly dismiss the card shelf.
+- Clipboard shortcuts for the number row must work on AZERTY without requiring Shift. Resolve physical number keys and reject extra Option/Control modifiers.
+- A detail view must fit independently of the shelf height. Use a resizable window and confirm before discarding text edits.

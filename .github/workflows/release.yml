@@ -1,0 +1,48 @@
+name: Release
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: read
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  package:
+    runs-on: macos-15
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+      - name: Validate version and architecture
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          test "$(uname -m)" = arm64
+          version=$(/usr/libexec/PlistBuddy -c 'Print CFBundleShortVersionString' Resources/Info.plist)
+          test "$RELEASE_TAG" = "v$version"
+      - name: Test
+        run: swift test
+      - name: Build and validate
+        run: |
+          bash scripts/build.sh
+          plutil -lint dist/Encore.app/Contents/Info.plist
+          codesign --verify --strict dist/Encore.app
+          test "$(lipo -archs dist/Encore.app/Contents/MacOS/Encore)" = arm64
+      - name: Package
+        run: |
+          version=$(/usr/libexec/PlistBuddy -c 'Print CFBundleShortVersionString' Resources/Info.plist)
+          cd dist
+          ditto -c -k --sequesterRsrc --keepParent Encore.app "Encore-$version-macOS-arm64.zip"
+          shasum -a 256 "Encore-$version-macOS-arm64.zip" > SHA256SUMS
+      - name: Publish pre-release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            gh release upload "$RELEASE_TAG" dist/Encore-*-macOS-arm64.zip dist/SHA256SUMS --clobber
+          else
+            gh release create "$RELEASE_TAG" dist/Encore-*-macOS-arm64.zip dist/SHA256SUMS --verify-tag --prerelease --title "Encore ${RELEASE_TAG#v}" --notes-file docs/RELEASE.md
+          fi

@@ -6,6 +6,10 @@ public final class Storage: @unchecked Sendable {
     private let encoder = JSONEncoder()
     private let decoder = JSONDecoder()
     private var failed = false
+    private var metadataDate: Date?
+    private var lastBackup = Date.distantPast
+    private var recoveredMessage: String?
+    public var recoveryNotice: String? { queue.sync { recoveredMessage } }
     private var errorHandler: (@MainActor @Sendable (String) -> Void)?
     public var onError: (@MainActor @Sendable (String) -> Void)? {
         get { queue.sync { errorHandler } }
@@ -22,9 +26,24 @@ public final class Storage: @unchecked Sendable {
         try queue.sync {
             let url = root.appendingPathComponent("Library.json")
             guard FileManager.default.fileExists(atPath: url.path) else { return Library() }
-            let library = try decoder.decode(Library.self, from: Data(contentsOf: url))
-            guard library.version == 1 else { throw CocoaError(.coderReadCorrupt) }
-            return library
+            do {
+                let library = try decodeLibrary(Data(contentsOf: url))
+                metadataDate = try url.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate
+                return library
+            } catch {
+                let originalError = error
+                let backup = root.appendingPathComponent("Library.backup.json")
+                guard let data = try? Data(contentsOf: backup), let library = try? decodeLibrary(data) else { throw originalError }
+                let recovery = root.appendingPathComponent("Recovery")
+                try FileManager.default.createDirectory(at: recovery, withIntermediateDirectories: true, attributes: [.posixPermissions: 0o700])
+                let damaged = recovery.appendingPathComponent("Library-damaged-\(UUID().uuidString).json")
+                try FileManager.default.copyItem(at: url, to: damaged)
+                try FileManager.default.setAttributes([.posixPermissions: 0o600], ofItemAtPath: damaged.path)
+                try write(data, to: url)
+                metadataDate = try url.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate
+                recoveredMessage = "Bibliothèque restaurée depuis la sauvegarde. Le fichier endommagé a été conservé dans Recovery."
+                return library
+            }
         }
     }
 
@@ -41,7 +60,20 @@ public final class Storage: @unchecked Sendable {
             guard !failed else { return }
             do {
                 for (id, value) in payloads { try write(encoder.encode(value), to: payloadURL(id)) }
-                try write(encoder.encode(library), to: root.appendingPathComponent("Library.json"))
+                let metadata = root.appendingPathComponent("Library.json")
+                let backup = root.appendingPathComponent("Library.backup.json")
+                if FileManager.default.fileExists(atPath: metadata.path),
+                   metadataDate == (try? metadata.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate),
+                   Date().timeIntervalSince(lastBackup) >= 60 || !FileManager.default.fileExists(atPath: backup.path) {
+                    let staged = root.appendingPathComponent(".Library-backup-\(UUID())")
+                    try FileManager.default.copyItem(at: metadata, to: staged)
+                    if FileManager.default.fileExists(atPath: backup.path) { _ = try FileManager.default.replaceItemAt(backup, withItemAt: staged) }
+                    else { try FileManager.default.moveItem(at: staged, to: backup) }
+                    try FileManager.default.setAttributes([.posixPermissions: 0o600], ofItemAtPath: backup.path)
+                    lastBackup = Date()
+                }
+                try write(encoder.encode(library), to: metadata)
+                metadataDate = try metadata.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate
                 for id in deleting { try? FileManager.default.removeItem(at: payloadURL(id)) }
             } catch {
                 failed = true
@@ -52,6 +84,12 @@ public final class Storage: @unchecked Sendable {
     }
 
     public func flush() { queue.sync {} }
+
+    private func decodeLibrary(_ data: Data) throws -> Library {
+        let library = try decoder.decode(Library.self, from: data)
+        guard library.version == 1 else { throw CocoaError(.coderReadCorrupt) }
+        return library
+    }
 
     private func payloadURL(_ id: UUID) -> URL { root.appendingPathComponent("Items/\(id.uuidString).json") }
     private func write(_ data: Data, to url: URL) throws {

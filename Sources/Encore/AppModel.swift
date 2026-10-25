@@ -14,9 +14,10 @@ import EncoreCore
     @Published var selection: Set<UUID> = []
     @Published var cursor: UUID?
     @Published var searchFocused = false
-    @Published var inspector: Clip?
+    @Published var inspector: Clip? { didSet { if let inspector { presentInspector?(inspector) } } }
     @Published var queue: [UUID] = []
-    @Published var collecting = false
+    @Published var collecting = false { didSet { if !collecting && oldValue { stackTap?.stop() } } }
+    @Published var displayTime = Date()
     @Published var queueVisible = false
     @Published var status = ""
     @Published var shortcutStatus = "⌘⇧V"
@@ -30,12 +31,15 @@ import EncoreCore
     var updateAppearance: (() -> Void)?
     var resizePanel: (() -> Void)?
     var updateScreenshotCapture: (() -> Void)?
+    var presentInspector: ((Clip) -> Void)?
     var clipboard: ClipboardService!
     var stackTap: StackTap!
     let demo: Bool
     var storage: Storage?
     let filePreviews = FilePreviews()
     private var richTextCache: [UUID: NSAttributedString] = [:]
+    private var checkedRichText = Set<UUID>()
+    private var fileURLCache: [UUID: [URL]] = [:]
     private var deleted: [(Clip, ClipPayload)] = []
     private var selectionAnchor: UUID?
     private var statusTask: Task<Void, Never>?
@@ -50,8 +54,8 @@ import EncoreCore
         do {
             let root = demo ? FileManager.default.temporaryDirectory.appendingPathComponent("Encore-Demo-\(ProcessInfo.processInfo.processIdentifier)") : FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].appendingPathComponent("Encore")
             let store = try Storage(root: root)
-            library = try store.load()
             storage = store
+            library = try store.load()
             store.onError = { [weak self] message in
                 self?.storageError = message
                 self?.preferences.captureEnabled = false
@@ -65,6 +69,7 @@ import EncoreCore
         stackTap = StackTap(model: self)
         if demo { seedDemo() } else { refreshFileSizes(); prune() }
         resetSelection()
+        if let notice = storage?.recoveryNotice { notify(notice) }
     }
 
     var filtered: [Clip] {
@@ -124,6 +129,7 @@ import EncoreCore
         }
         let id = library.upsert(clip)
         richTextCache.removeValue(forKey: id)
+        checkedRichText.remove(id); fileURLCache.removeValue(forKey: id)
         if !existed { storage?.save(library, payload: (id, payload)) } else { save() }
         if collecting && !queue.contains(id) { queue.append(id) }
         if selection.isEmpty { resetSelection() }
@@ -135,11 +141,34 @@ import EncoreCore
 
     func save() { storage?.save(library) }
 
+    func reloadStorage() {
+        guard let root = storage?.root else { return }
+        let alert = NSAlert()
+        alert.messageText = "Recharger la bibliothèque depuis le disque ?"
+        alert.informativeText = "Les changements non sauvegardés seront abandonnés. La capture restera en pause pour vous laisser vérifier le résultat."
+        alert.addButton(withTitle: "Annuler"); alert.addButton(withTitle: "Recharger")
+        guard alert.runModal() == .alertSecondButtonReturn else { return }
+        do {
+            storage?.flush()
+            let next = try Storage(root: root)
+            let restored = try next.load()
+            next.onError = { [weak self] error in self?.storageError = error; self?.preferences.captureEnabled = false }
+            storage = next; library = restored; storageError = nil
+            collecting = false; queue = []; deleted = []
+            thumbnails.removeAll(); richTextCache.removeAll(); checkedRichText.removeAll(); fileURLCache.removeAll()
+            resetSelection()
+            notify(next.recoveryNotice ?? "Bibliothèque rechargée. La capture est en pause.")
+        } catch { notify("Rechargement impossible : \(error.localizedDescription)") }
+    }
+
     func prune(now: Date = Date()) {
-        let removed = library.prune(policy: preferences.retentionPolicy, limit: preferences.historyLimit, now: now)
+        var snapshot = library
+        let removed = snapshot.prune(policy: preferences.retentionPolicy, limit: preferences.historyLimit, now: now)
         if !removed.isEmpty {
+            library = snapshot
             queue.removeAll { removed.contains($0) }
             for id in removed { thumbnails.removeValue(forKey: id) }
+            clearPreviewCaches(Set(removed))
             filePreviews.remove(Set(removed))
             storage?.save(library, deleting: removed)
             reconcileSelection()
@@ -147,6 +176,19 @@ import EncoreCore
     }
 
     func retentionDecision(for clip: Clip) -> RetentionDecision { preferences.retentionPolicy.decision(for: clip) }
+
+    func relativeAge(_ date: Date) -> String {
+        let age = max(0, displayTime.timeIntervalSince(date))
+        if age < 60 { return "À l’instant" }
+        if age < 3600 { return "il y a \(Int(age / 60)) min" }
+        if age < 86400 { return "il y a \(Int(age / 3600)) h" }
+        if age < 604800 { return "il y a \(Int(age / 86400)) j" }
+        return date.formatted(date: .numeric, time: .omitted)
+    }
+
+    private func clearPreviewCaches(_ ids: Set<UUID>) {
+        for id in ids { richTextCache.removeValue(forKey: id); checkedRichText.remove(id); fileURLCache.removeValue(forKey: id) }
+    }
 
     func refreshFileSizes() {
         var changed = false
@@ -235,6 +277,7 @@ import EncoreCore
         queue.removeAll { chosen.contains($0) }
         selection.subtract(chosen)
         for id in chosen { thumbnails.removeValue(forKey: id) }
+        clearPreviewCaches(chosen)
         filePreviews.remove(chosen)
         let remaining = filtered
         cursor = remaining.isEmpty ? nil : remaining[min(position, remaining.count - 1)].id
@@ -359,6 +402,7 @@ import EncoreCore
         library.clips[index].byteCount = payload.byteCount
         library.clips[index].referencedFileBytes = nil
         richTextCache.removeValue(forKey: id)
+        checkedRichText.remove(id); fileURLCache.removeValue(forKey: id)
         for duplicate in duplicates {
             library.clips[index].favorite = library.clips[index].favorite || duplicate.favorite
             library.clips[index].collectionIDs.formUnion(duplicate.collectionIDs)
@@ -388,14 +432,21 @@ import EncoreCore
         return image
     }
 
-    func fileURLs(for clip: Clip) -> [URL] { storage?.payload(clip.id)?.fileURLs ?? [] }
+    func fileURLs(for clip: Clip) -> [URL] {
+        if let cached = fileURLCache[clip.id] { return cached }
+        let urls = storage?.payload(clip.id)?.fileURLs ?? []
+        if fileURLCache.count >= 80 { fileURLCache.removeAll() }
+        fileURLCache[clip.id] = urls
+        return urls
+    }
 
     func richText(for clip: Clip) -> NSAttributedString? {
-        if let cached = richTextCache[clip.id] { return cached }
+        if checkedRichText.contains(clip.id) { return richTextCache[clip.id] }
+        if checkedRichText.count >= 80 { checkedRichText.removeAll(); richTextCache.removeAll() }
+        checkedRichText.insert(clip.id)
         guard let payload = storage?.payload(clip.id), let data = payload.items.first?.representations[NSPasteboard.PasteboardType.rtf.rawValue], data.count < 1_000_000,
               let attributed = NSAttributedString(rtf: data, documentAttributes: nil) else { return nil }
         let preview = attributed.attributedSubstring(from: NSRange(location: 0, length: min(6000, attributed.length)))
-        if richTextCache.count >= 30 { richTextCache.removeAll() }
         richTextCache[clip.id] = preview
         return preview
     }
@@ -506,6 +557,7 @@ import EncoreCore
         library.clips.removeAll { !$0.isProtected }
         queue.removeAll { ids.contains($0) }
         deleted = []; thumbnails.removeAll()
+        clearPreviewCaches(Set(ids)); filePreviews.remove(Set(ids))
         storage?.save(library, deleting: ids)
         resetSelection()
     }

@@ -16,7 +16,7 @@ private enum SettingsSection: String, CaseIterable, Identifiable {
         switch self {
         case .general: "Un presse-papiers qui s’adapte à votre façon de travailler."
         case .privacy: "Choisissez ce qu’Encore peut garder. Tout reste sur ce Mac."
-        case .retention: "La bonne durée pour chaque contenu."
+        case .retention: "Une durée par taille et type. La première règle correspondante l’emporte."
         case .data: "Conservation, sauvegardes et espace utilisé."
         case .shortcuts: "Retrouver, sélectionner, coller. Sans quitter le clavier."
         }
@@ -59,19 +59,14 @@ struct SettingsView: View {
     private var sidebar: some View {
         VStack(alignment: .leading, spacing: 22) {
             HStack(spacing: 10) { EncoreMark(size: 35); Text("Encore").font(.system(size: 22, weight: .semibold)) }.padding(.horizontal, 7).padding(.top, 13)
-            VStack(spacing: 5) {
+            List(selection: Binding<SettingsSection?>(get: { section }, set: { if let value = $0 { section = value } })) {
                 ForEach(SettingsSection.allCases) { item in
-                    Button { section = item } label: {
-                        HStack(spacing: 10) {
-                            Image(systemName: item.symbol).font(.system(size: 15)).frame(width: 19)
-                            Text(item.title).font(.system(size: 13, weight: section == item ? .semibold : .regular))
-                            Spacer(minLength: 0)
-                        }.foregroundStyle(section == item ? Palette.accent : .primary)
-                            .padding(.horizontal, 11).frame(height: 37)
-                            .background(section == item ? Palette.accent.opacity(0.13) : .clear, in: RoundedRectangle(cornerRadius: 8))
-                    }.buttonStyle(.plain).accessibilityAddTraits(section == item ? [.isSelected] : [])
+                    Label(item.title, systemImage: item.symbol)
+                        .font(.system(size: 13))
+                        .padding(.vertical, 4)
+                        .tag(item)
                 }
-            }
+            }.listStyle(.sidebar).scrollContentBackground(.hidden)
             Spacer()
             VStack(alignment: .leading, spacing: 7) {
                 Label("100 % local", systemImage: "lock.shield").font(.system(size: 12)).foregroundStyle(.secondary)
@@ -97,6 +92,9 @@ struct SettingsView: View {
                     Text("⌘⇧V").tag("commandShiftV"); Text("⌘⌥V").tag("commandOptionV")
                 }.onChange(of: model.preferences.shortcut) { _, _ in model.updateShortcuts?() }
                 caption("Raccourci actif : \(model.shortcutStatus). Secours : ⌃⌥⌘V.")
+                Toggle("Réserver ⌘⇧C pour la pile de collage", isOn: $model.preferences.stackShortcutEnabled)
+                    .onChange(of: model.preferences.stackShortcutEnabled) { _, _ in model.updateShortcuts?() }
+                caption("Désactivé par défaut pour conserver ce raccourci dans vos autres applications. La pile reste accessible depuis le panneau.")
             }
             Section("Apparence") {
                 Picker("Thème", selection: $model.preferences.appearance) {
@@ -199,11 +197,15 @@ struct SettingsView: View {
                     Text("500 maximum").tag(500); Text("2 000 maximum").tag(2000); Text("10 000 maximum").tag(10000); Text("Sans limite de nombre").tag(0)
                 }
                 Picker("Budget de contenu intégré", selection: $model.preferences.storageLimitMB) {
-                    Text("100 Mio").tag(100); Text("500 Mio").tag(500); Text("2 Gio").tag(2000)
+                    Text("100 Mio").tag(100); Text("500 Mio").tag(500); Text("2 000 Mio").tag(2000)
                 }
                 caption("Favoris, collections et éléments sous règle échappent à la limite de nombre. Le budget plein bloque les nouvelles copies. Limite technique : 25 Mio de contenu intégré par copie.")
             }
             Section("Bibliothèque locale") {
+                if let error = model.storageError {
+                    Label(error, systemImage: "exclamationmark.triangle").foregroundStyle(.red)
+                    Button("Recharger la bibliothèque…") { model.reloadStorage() }
+                }
                 LabeledContent("Éléments", value: "\(model.library.clips.count)")
                 LabeledContent("Contenu conservé", value: ByteCountFormatter.string(fromByteCount: Int64(model.totalBytes), countStyle: .file))
                 caption("Les fichiers sont référencés et ne sont pas dupliqués. Leur taille sert aux règles, mais ne consomme pas le budget d’Encore. Le stockage et les sauvegardes restent en clair.")
@@ -221,7 +223,7 @@ struct SettingsView: View {
     private var shortcuts: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 21) {
-                shortcutGroup("Essentiels", items: [("Ouvrir / fermer", model.shortcutStatus), ("Coller", "↩"), ("Coller en texte brut", "⇧↩"), ("Collage rapide", "⌘1 … ⌘9"), ("File de collage", "⌘⇧C")])
+                shortcutGroup("Essentiels", items: [("Ouvrir / fermer", model.shortcutStatus), ("Coller", "↩"), ("Coller en texte brut", "⇧↩"), ("Collage rapide", "⌘1 … ⌘9"), ("File de collage", model.preferences.stackShortcutEnabled ? "⌘⇧C" : "Via le panneau")])
                 shortcutGroup("Navigation", items: [("Sélectionner", "← →"), ("Étendre la sélection", "⇧←  ⇧→"), ("Aperçu", "Espace"), ("Rechercher", "⌘F ou saisir"), ("Taille des cartes", "⌘+  ⌘−"), ("Tout sélectionner", "⌘A")])
                 shortcutGroup("Organiser & éditer", items: [("Éditer", "⌘E"), ("Favori", "⌘D"), ("Ajouter à la file", "⌘⇧↩"), ("Nouvel extrait", "⌘N"), ("Nouvelle collection", "⌘⇧N"), ("Supprimer / annuler", "⌫ / ⌘Z"), ("Pause de capture", "⌘T"), ("Réglages", "⌘,")])
                 VStack(alignment: .leading, spacing: 10) {

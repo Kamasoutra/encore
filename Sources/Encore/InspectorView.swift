@@ -4,13 +4,16 @@ import EncoreCore
 struct InspectorView: View {
     @ObservedObject var model: AppModel
     let clip: Clip
+    var onClose: (() -> Void)?
+    var onDirtyChange: ((Bool) -> Void)?
     @Environment(\.dismiss) private var dismiss
     @State private var text: String
     @State private var title: String
     @State private var edited = false
 
-    init(model: AppModel, clip: Clip) {
+    init(model: AppModel, clip: Clip, onClose: (() -> Void)? = nil, onDirtyChange: ((Bool) -> Void)? = nil) {
         self.model = model; self.clip = clip
+        self.onClose = onClose; self.onDirtyChange = onDirtyChange
         _text = State(initialValue: clip.text)
         _title = State(initialValue: clip.title)
     }
@@ -39,8 +42,8 @@ struct InspectorView: View {
             if editable {
                 TextField("Titre facultatif", text: $title).textFieldStyle(.roundedBorder)
                 TextEditor(text: $text).font(.system(size: 13, design: clip.kind == .code ? .monospaced : .default)).scrollContentBackground(.hidden).padding(10).background(.primary.opacity(0.035), in: RoundedRectangle(cornerRadius: 12))
-                    .onChange(of: text) { _, _ in edited = true }
-                    .onChange(of: title) { _, _ in edited = true }
+                    .onChange(of: text) { _, _ in edited = true; onDirtyChange?(true) }
+                    .onChange(of: title) { _, _ in edited = true; onDirtyChange?(true) }
                 HStack {
                     Text("\(text.count) caractères").font(.system(size: 11)).foregroundStyle(.secondary)
                     Spacer()
@@ -57,7 +60,7 @@ struct InspectorView: View {
                 Image(nsImage: image).resizable().scaledToFit().frame(maxWidth: .infinity, maxHeight: 300).background(.primary.opacity(0.025), in: RoundedRectangle(cornerRadius: 12))
                 if !current.recognizedText.isEmpty {
                     ScrollView { Text(current.recognizedText).font(.system(size: 12)).textSelection(.enabled).frame(maxWidth: .infinity, alignment: .leading).padding(12) }.frame(height: 100).background(.primary.opacity(0.035), in: RoundedRectangle(cornerRadius: 10))
-                    Button("Créer un extrait texte") { model.addText(current.recognizedText); dismiss() }
+                    Button("Créer un extrait texte") { model.addText(current.recognizedText); finish() }
                 } else { Button("Reconnaître le texte de l’image") { model.recognize(clip.id) } }
             } else if clip.kind == .file {
                 FilePreview(previews: model.filePreviews, clip: clip, urls: model.fileURLs(for: clip), fitContent: true).frame(maxWidth: .infinity, maxHeight: .infinity).clipShape(RoundedRectangle(cornerRadius: 10))
@@ -72,14 +75,15 @@ struct InspectorView: View {
             HStack {
                 if editable && edited { Text("Enregistrer remplace les formats de cet élément par du texte.").font(.system(size: 12)).foregroundStyle(.secondary).frame(maxWidth: 285, alignment: .leading) }
                 Spacer()
-                Button("Fermer") { dismiss() }.keyboardShortcut(.cancelAction)
+                Button("Fermer") { finish() }.keyboardShortcut(.cancelAction)
                 if editable {
                     Button("Enregistrer") {
                         let saved = model.library.clips.contains(where: { $0.id == clip.id }) ? model.updateText(clip.id, text: text, title: title) : model.addText(text, title: title)
-                        if saved { dismiss() }
+                        if saved { onDirtyChange?(false); finish() }
                     }.buttonStyle(.borderedProminent).disabled(!edited || text.isEmpty).keyboardShortcut("s", modifiers: .command)
                 }
             }
-        }.padding(25).frame(width: 680, height: 620).font(.system(size: 13)).tint(Palette.accent)
+        }.padding(25).frame(minWidth: 560, maxWidth: .infinity, minHeight: 520, maxHeight: .infinity).font(.system(size: 13)).tint(Palette.accent)
     }
+    private func finish() { if let onClose { onClose() } else { dismiss() } }
 }
