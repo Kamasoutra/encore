@@ -5,29 +5,55 @@
 <p align="center"><a href="https://github.com/Kamasoutra/encore/releases/latest/download/Encore-macOS-arm64.zip"><strong>Download for Apple Silicon ↓</strong></a> · <a href="https://github.com/Kamasoutra/encore/releases">Releases</a></p>
 <p align="center">macOS 14+ · 30 languages · MIT</p>
 
-![Encore shelf](assets/shelf-dark.png)
+<p align="center"><code>brew install --cask kamasoutra/tap/encore</code></p>
 
-Press **⇧⌘V**, pick an item, press **Return**: it is pasted where you were typing. Press **↑** to grow the shelf into a full library with filters and a large preview.
+![Encore in action: the shelf, a floating preview, and the library](assets/demo.gif)
 
-![Encore library](assets/workspace.png)
+You copy all day. Encore remembers it, so you can stop copying the same things twice. Press **⇧⌘V** wherever you type, pick a card, press **Return**: it is pasted right there. No window to manage, no app to switch to.
 
-## Why Encore
+## A shelf at your fingertips
 
-- **Everything you copy.** Text, rich text, links, images, files, code, and colors, each with a card that shows what it is.
-- **Find it in seconds.** Search by content, app, type, date, or text recognized in images, on your Mac.
-- **Keep what matters.** Favorites, collections, and retention rules by size and type. Every card shows how long it stays.
-- **Paste the way you need.** Plain text, multiple items, ⌘1–9 quick paste, and a sequential paste queue.
-- **Your other Macs.** Pair two Macs on the same network and browse each other's recent history. End-to-end encrypted, no server.
-- **Stays up to date.** Signed updates straight from GitHub releases.
-- **Feels native.** Built with SwiftUI and AppKit. Light and dark, right-to-left languages, and quiet sounds you can pick and preview.
+![The Encore shelf](assets/shelf-dark.png)
+
+Your latest copies sit in a shelf at the bottom of the screen, newest first. Each card shows what it holds at a glance: the text itself, the image, the page of a PDF, the color swatch, the code with its highlighting, and the app it came from. Arrows to move, Return to paste, ⇧Return for plain text, ⌘1–9 for the first nine. Press **Space** to preview a card in full size without leaving the shelf.
+
+## A library when you need to dig
+
+![The Encore library](assets/workspace.png)
+
+Press **↑** and the shelf grows into a full library: every copy grouped by day, filters by type, app and date, and a large preview with when it was first and last copied. Just start typing to search, including the text inside your images, recognized on your Mac. Hold **↓** to come back.
+
+## Built to keep only what matters
+
+- **Favorites and collections** keep snippets, addresses and templates forever, and you can drag cards into them.
+- **Retention rules** by size and type clean up the heavy stuff on their own. Every card tells you how long it stays.
+- **Exclusions** keep password managers out, and content that apps mark as confidential is skipped.
+- **A paste queue** pastes several items in order, one ⌘V at a time.
+
+## Your other Macs, without a cloud
+
+Pair two Macs on the same network with a 6-digit code, and each one appears as a tab in the shelf. Browse the other Mac's recent copies and paste them as if they were yours. The connection is end-to-end encrypted, keys stay in each Mac's Keychain, and there is no server or account involved.
+
+## Native, down to the details
+
+Built with SwiftUI and AppKit, not a web view. Light and dark appearances, 30 languages including right-to-left ones, a menu bar icon, quiet sound sets you can preview in one click, and signed updates straight from GitHub releases.
 
 ## Install
 
-1. [Download the ZIP](https://github.com/Kamasoutra/encore/releases/latest/download/Encore-macOS-arm64.zip), unzip, and move **Encore.app** to **Applications**.
-2. Open it. Encore is not notarized yet: if macOS blocks the first launch, follow [Apple's Open Anyway steps](https://support.apple.com/en-us/102445).
-3. Allow **System Settings → Privacy & Security → Accessibility** so Return pastes directly. Without it, Encore copies the item and you press ⌘V. The shelf shows a warning until access is granted.
+**With Homebrew**
 
-Quit any other clipboard app that uses ⇧⌘V. Encore also lives in the menu bar and answers to **⌃⌥⌘V**. Each release includes a SHA-256 checksum. Intel builds and Homebrew are not available yet.
+```sh
+brew install --cask kamasoutra/tap/encore
+```
+
+**Or by hand:** [download the ZIP](https://github.com/Kamasoutra/encore/releases/latest/download/Encore-macOS-arm64.zip), unzip it, and move **Encore.app** to **Applications**.
+
+Then:
+
+1. Open Encore. It is not notarized yet: if macOS blocks the first launch, follow [Apple's Open Anyway steps](https://support.apple.com/en-us/102445).
+2. Allow it in **System Settings → Privacy & Security → Accessibility** so Return pastes directly. Without it, Encore copies the item and you press ⌘V, and the shelf shows a warning until access is granted.
+
+Quit any other clipboard app that uses ⇧⌘V. Encore also lives in the menu bar and answers to **⌃⌥⌘V**. Requires macOS 14 or later on Apple Silicon. Each release includes a SHA-256 checksum.
 
 ## Keyboard
 
