@@ -387,3 +387,9 @@
 "Papier" = "Paper";
 "Piano" = "Piano";
 "Verre" = "Glass";
+"Les mises à jour viennent des versions publiées sur GitHub et sont vérifiées par signature avant installation." = "Updates come from releases published on GitHub and are verified by signature before installing.";
+"Mises à jour" = "Updates";
+"Rechercher automatiquement les mises à jour" = "Check for updates automatically";
+"Rechercher les mises à jour…" = "Check for Updates…";
+"Rechercher maintenant" = "Check Now";
+"Version %@" = "Version %@";
