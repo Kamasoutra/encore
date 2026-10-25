@@ -40,7 +40,7 @@ final class EncorePanel: NSPanel {
     private var applicationsObserver: NSObjectProtocol?
     private var quickLookPanel: NSPanel?
     private var shownExpanded = false
-    private var downPress: (time: Date, cursor: UUID?, selection: Set<UUID>)?
+    private var downPress: DispatchWorkItem?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         let demo = CommandLine.arguments.contains("--demo")
@@ -82,7 +82,7 @@ final class EncorePanel: NSPanel {
             else { self?.toggle() }
         }
         registerShortcuts()
-        keyMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { [weak self] event in
+        keyMonitor = NSEvent.addLocalMonitorForEvents(matching: [.keyDown, .keyUp]) { [weak self] event in
             let passThrough = MainActor.assumeIsolated {
                 guard let self else { return true }
                 return self.handleKey(event) != nil
@@ -243,6 +243,7 @@ final class EncorePanel: NSPanel {
     private func toggle() { panel.isVisible ? hide() : show() }
 
     private func handleKey(_ event: NSEvent) -> NSEvent? {
+        if event.type == .keyUp { return handleKeyUp(event) }
         guard event.window === panel, panel.isVisible, panel.attachedSheet == nil, NSApp.modalWindow == nil else { return event }
         let flags = event.modifierFlags.intersection([.command, .shift, .option, .control])
         let command = flags.contains(.command)
@@ -300,15 +301,13 @@ final class EncorePanel: NSPanel {
         case 125 where !editing:
             // In the library a tap moves down a row and holding ↓ goes back to the shelf.
             if command, let last = model.filtered.last { model.select(last.id) }
-            else if event.isARepeat {
-                if model.expanded, let press = downPress, Date().timeIntervalSince(press.time) > 0.4 {
-                    // The first press already moved a row: go back to the card the user was on.
-                    downPress = nil
-                    model.cursor = press.cursor; model.selection = press.selection
-                    setExpanded(false)
-                }
-            } else if model.expanded { downPress = (Date(), model.cursor, model.selection); model.moveRow(1, extend: shift) }
-            else { hide() }
+            else if event.isARepeat { }
+            else if model.expanded {
+                // In the library ↓ waits: released quickly it moves down a row, held it returns to the shelf.
+                let hold = DispatchWorkItem { [weak self] in self?.downPress = nil; self?.setExpanded(false) }
+                downPress?.cancel(); downPress = hold
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.35, execute: hold)
+            } else { hide() }
             return nil
         case 48:
             model.searchFocused.toggle()
@@ -327,6 +326,13 @@ final class EncorePanel: NSPanel {
             return nil
         }
         return event
+    }
+
+    private func handleKeyUp(_ event: NSEvent) -> NSEvent? {
+        guard event.keyCode == 125, let hold = downPress else { return event }
+        hold.cancel(); downPress = nil
+        model.moveRow(1, extend: event.modifierFlags.contains(.shift))
+        return nil
     }
 
     private func newText() {
