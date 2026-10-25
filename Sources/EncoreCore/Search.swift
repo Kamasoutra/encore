@@ -29,6 +29,7 @@ public struct ClipQuery {
                 guard let week = calendar.dateInterval(of: .weekOfYear, for: now) else { return false }
                 return clip.copiedAt >= week.start && clip.copiedAt < week.end
             }
+            if word == "date:7d" || word == "date:30d" { return clip.copiedAt >= now.addingTimeInterval(word == "date:7d" ? -7 * 86_400 : -30 * 86_400) }
             if word.hasPrefix("after:") || word.hasPrefix("before:") {
                 let value = String(word.dropFirst(word.hasPrefix("after:") ? 6 : 7))
                 let formatter = DateFormatter()

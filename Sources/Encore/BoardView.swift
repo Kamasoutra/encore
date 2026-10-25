@@ -27,26 +27,74 @@ enum Palette {
         if value.count == 8 { return Color(.sRGB, red: Double((number >> 24) & 255) / 255, green: Double((number >> 16) & 255) / 255, blue: Double((number >> 8) & 255) / 255, opacity: Double(number & 255) / 255) }
         return Color(red: Double((number >> 16) & 255) / 255, green: Double((number >> 8) & 255) / 255, blue: Double(number & 255) / 255)
     }
-    static func accent(_ kind: ClipKind) -> Color {
-        switch kind {
-        case .text: Color(red: 0.88, green: 0.57, blue: 0.26)
-        case .code: Color(red: 0.57, green: 0.48, blue: 0.95)
-        case .link: Color(red: 0.15, green: 0.65, blue: 0.61)
-        case .color: .pink
-        case .image: Color(red: 0.35, green: 0.61, blue: 0.91)
-        case .file: .blue
+    /// Type colours: a light tone that reads on dark cards, a deeper one for light cards.
+    static func accent(_ kind: ClipKind, dark: Bool = true) -> Color {
+        let (r, g, b): (Double, Double, Double) = switch kind {
+        case .text: (0.95, 0.65, 0.40)
+        case .code: (0.77, 0.66, 1.0)
+        case .link: (0.37, 0.83, 0.77)
+        case .color: (1.0, 0.50, 0.65)
+        case .image: (0.49, 0.71, 1.0)
+        case .file: (0.66, 0.65, 1.0)
         }
+        return dark ? Color(red: r, green: g, blue: b) : Color(red: r * 0.62, green: g * 0.6, blue: b * 0.72)
     }
+    static func monogram(_ host: String) -> Color {
+        let hue = Double(host.unicodeScalars.reduce(UInt32(5381)) { ($0 << 5) &+ $0 &+ $1.value } % 360) / 360
+        return Color(hue: hue, saturation: 0.45, brightness: 0.62)
+    }
+    static func card(_ dark: Bool) -> Color { dark ? Color(red: 0.17, green: 0.17, blue: 0.2).opacity(0.86) : Color.white.opacity(0.92) }
 }
 
 struct EncoreMark: View {
-    var size: CGFloat = 28
+    var size: CGFloat = 22
     var body: some View {
         ZStack {
-            RoundedRectangle(cornerRadius: size * 0.22).fill(Palette.accent.opacity(0.3)).frame(width: size * 0.7, height: size * 0.8).rotationEffect(.degrees(-16)).offset(x: -size * 0.12, y: -size * 0.04)
-            RoundedRectangle(cornerRadius: size * 0.22).fill(LinearGradient(colors: [Color(red: 0.78, green: 0.63, blue: 1), Palette.accent], startPoint: .topLeading, endPoint: .bottomTrailing)).frame(width: size * 0.7, height: size * 0.8).rotationEffect(.degrees(9)).offset(x: size * 0.1, y: size * 0.05)
-            Image(systemName: "arrow.uturn.backward").font(.system(size: size * 0.36, weight: .bold)).foregroundStyle(.white).offset(x: size * 0.1, y: size * 0.05)
+            RoundedRectangle(cornerRadius: size * 0.2).fill(Palette.accent.opacity(0.35)).frame(width: size * 0.68, height: size * 0.78).rotationEffect(.degrees(-14)).offset(x: -size * 0.12, y: -size * 0.02)
+            RoundedRectangle(cornerRadius: size * 0.2).fill(LinearGradient(colors: [Color(red: 0.87, green: 0.8, blue: 1), Palette.accent], startPoint: .topLeading, endPoint: .bottomTrailing)).frame(width: size * 0.68, height: size * 0.78).rotationEffect(.degrees(8)).offset(x: size * 0.1, y: size * 0.04)
+            Image(systemName: "arrow.counterclockwise").font(.system(size: size * 0.32, weight: .heavy)).foregroundStyle(.white).rotationEffect(.degrees(8)).offset(x: size * 0.1, y: size * 0.04)
         }.frame(width: size, height: size).accessibilityHidden(true)
+    }
+}
+
+/// Behind-window blur for the borderless panel; macOS renders it opaque when Reduce Transparency is on.
+struct SurfaceBackground: NSViewRepresentable {
+    var radius: CGFloat
+    func makeNSView(context: Context) -> NSVisualEffectView {
+        let view = NSVisualEffectView()
+        view.material = .popover; view.blendingMode = .behindWindow; view.state = .active
+        view.maskImage = Self.mask(radius)
+        return view
+    }
+    func updateNSView(_ view: NSVisualEffectView, context: Context) {}
+    static func mask(_ radius: CGFloat) -> NSImage {
+        let size = NSSize(width: radius * 2 + 1, height: radius * 2 + 1)
+        let image = NSImage(size: size, flipped: false) { rect in NSColor.black.setFill(); NSBezierPath(roundedRect: rect, xRadius: radius, yRadius: radius).fill(); return true }
+        image.capInsets = NSEdgeInsets(top: radius, left: radius, bottom: radius, right: radius)
+        image.resizingMode = .stretch
+        return image
+    }
+}
+
+struct ClipSection: Identifiable {
+    struct Item: Identifiable { let index: Int; let clip: Clip; var id: UUID { clip.id } }
+    let id: String
+    let title: String
+    var items: [Item]
+
+    static func group(_ clips: [Clip], now: Date) -> [ClipSection] {
+        var calendar = Calendar.current; calendar.locale = Localization.locale
+        var sections: [ClipSection] = []
+        for (index, clip) in clips.enumerated() {
+            let date = clip.copiedAt
+            let (id, title): (String, String) = if calendar.isDate(date, inSameDayAs: now) { ("today", L("Aujourd’hui")) }
+                else if let yesterday = calendar.date(byAdding: .day, value: -1, to: now), calendar.isDate(date, inSameDayAs: yesterday) { ("yesterday", L("Hier")) }
+                else if let week = calendar.dateInterval(of: .weekOfYear, for: now), week.contains(date) { ("week", L("Cette semaine")) }
+                else { ("month-\(calendar.component(.year, from: date))-\(calendar.component(.month, from: date))", date.formatted(Date.FormatStyle(locale: Localization.locale).month(.wide).year())) }
+            if sections.last?.id == id { sections[sections.count - 1].items.append(.init(index: index, clip: clip)) }
+            else { sections.append(ClipSection(id: id, title: title, items: [.init(index: index, clip: clip)])) }
+        }
+        return sections
     }
 }
 
@@ -54,150 +102,161 @@ struct BoardView: View {
     @ObservedObject var model: AppModel
     @FocusState private var searchFocus: Bool
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Namespace private var cardSpace
     private var compact: Bool { model.preferences.compact }
 
     var body: some View {
-        Group {
-            if model.expanded { WorkspaceView(model: model) }
-            else { shelf }
-        }
-        .localized()
-        .tint(Palette.accent)
-    }
-
-    private var shelf: some View {
         VStack(spacing: 0) {
-            ResizeHandle { height in
-                model.preferences.panelHeight = height
-                model.preferencesChanged()
-            }.frame(height: 16)
-                .help(L("Glissez pour ajuster la hauteur"))
+            Group {
+                if model.expanded { Color.clear } else {
+                    ResizeHandle(onFinish: { height in
+                        model.preferences.panelHeight = height
+                        model.preferencesChanged()
+                    })
+                    .help(L("Glissez pour ajuster la hauteur"))
+                }
+            }.frame(height: 12)
             toolbar
             if let error = model.storageError {
-                Label(L("Sauvegarde indisponible : \(error)"), systemImage: "exclamationmark.triangle").font(.system(size: 12)).foregroundStyle(.red).padding(.horizontal, 24).padding(.bottom, 8)
+                Label(L("Sauvegarde indisponible : \(error)"), systemImage: "exclamationmark.triangle").font(.system(size: 12)).foregroundStyle(.red).padding(.horizontal, 16).padding(.bottom, 8)
             }
-            HStack(spacing: 0) {
-                if model.filtered.isEmpty { emptyState.frame(maxWidth: .infinity, maxHeight: .infinity) }
-                else { cards }
-                if model.queueVisible { queueSidebar }
-            }
+            Group {
+                if model.expanded {
+                    LibraryBody(model: model, namespace: cardSpace)
+                        .transition(reduceMotion ? .opacity : .asymmetric(insertion: .opacity.animation(.easeOut(duration: 0.2).delay(0.08)), removal: .opacity.animation(.easeIn(duration: 0.12))))
+                } else {
+                    HStack(spacing: 0) {
+                        if model.filtered.isEmpty { emptyState.frame(maxWidth: .infinity, maxHeight: .infinity) }
+                        else { cards }
+                        if model.queueVisible { queueSidebar }
+                    }
+                }
+            }.frame(maxHeight: .infinity)
             footer
         }
-        .background(.ultraThinMaterial)
-        .background(scheme == .dark ? Color(red: 0.08, green: 0.075, blue: 0.105).opacity(0.25) : Color(red: 0.97, green: 0.965, blue: 0.985).opacity(0.3))
-        .clipShape(RoundedRectangle(cornerRadius: 24))
-        .overlay(RoundedRectangle(cornerRadius: 24).strokeBorder(.white.opacity(scheme == .dark ? 0.14 : 0.7), lineWidth: 1))
+        .background(SurfaceBackground(radius: 20))
+        .background(RoundedRectangle(cornerRadius: 20).fill(scheme == .dark ? Color.black.opacity(0.18) : Color.white.opacity(0.25)))
+        .clipShape(RoundedRectangle(cornerRadius: 20))
+        .overlay(RoundedRectangle(cornerRadius: 20).strokeBorder(.white.opacity(scheme == .dark ? 0.12 : 0.6), lineWidth: 1))
+        .localized()
         .tint(Palette.accent)
         .onChange(of: model.searchFocused) { _, value in searchFocus = value }
         .onChange(of: searchFocus) { _, value in model.searchFocused = value }
+        .onAppear { searchFocus = model.searchFocused }
+        .onPreferenceChange(CursorFrameKey.self) { frame in
+            model.cursorFrame = frame
+            if model.quickLook { model.updateQuickLook?() }
+        }
     }
 
     private var toolbar: some View {
-        GeometryReader { geometry in
-            HStack(spacing: 14) {
+        HStack(spacing: 16) {
             HStack(spacing: 8) {
                 EncoreMark()
-                Text("encore").font(.system(size: 21, weight: .semibold)).tracking(-0.5)
-            }.frame(width: 115, alignment: .leading)
-            Spacer(minLength: 0)
-            HStack(spacing: 11) {
-                searchBar.frame(width: geometry.size.width > 1500 ? 300 : 180)
-                filterMenu
+                Text("encore").font(.system(size: 15, weight: .semibold)).tracking(-0.2)
+                if model.expanded { Text(L("Bibliothèque")).font(.system(size: 13)).foregroundStyle(.secondary).transition(.opacity) }
+            }.frame(maxWidth: .infinity, alignment: .leading)
+            collectionsBar.layoutPriority(1)
+            HStack(spacing: 4) {
+                searchBar.frame(width: 240)
+                if !model.expanded { filterMenu }
                 toolButton("rectangle.stack", help: L("File de collage"), active: model.queueVisible) { withAnimation(.easeInOut(duration: 0.18)) { model.queueVisible.toggle() } }
                 toolButton("gearshape", help: L("Réglages · ⌘,")) { model.showSettings?() }
                 toolButton("xmark", help: L("Fermer · Échap")) { model.dismissPanel?() }
-            }
-            }
-            collectionsBar.frame(width: max(160, geometry.size.width - (geometry.size.width > 1500 ? 980 : 720))).position(x: geometry.size.width / 2, y: 21)
-        }.frame(height: 42).padding(.horizontal, 25).padding(.top, 1).padding(.bottom, 15)
+            }.frame(maxWidth: .infinity, alignment: .trailing)
+        }.frame(height: 32).padding(.horizontal, 16).padding(.bottom, 8)
     }
 
     private var collectionsBar: some View {
-        GeometryReader { geometry in
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 5) {
-                    boardButton(L("Historique"), symbol: "clock.arrow.circlepath", id: "history", color: Palette.accent)
-                    boardButton(L("Favoris"), symbol: "star", id: "favorites", color: .orange)
-                    ForEach(model.library.collections) { collection in
-                        boardButton(collection.name, symbol: "circle.fill", id: collection.id.uuidString, color: Palette.collection[collection.colorIndex % Palette.collection.count])
-                            .contextMenu {
-                                Button(role: .destructive) { model.deleteCollection(collection) } label: { Label(L("Supprimer la collection"), systemImage: "trash") }
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 2) {
+                boardButton(L("Historique"), symbol: nil, id: "history", color: Palette.accent)
+                boardButton(L("Favoris"), symbol: "star.fill", id: "favorites", color: .orange)
+                ForEach(model.library.collections) { collection in
+                    boardButton(collection.name, symbol: "circle.fill", id: collection.id.uuidString, color: Palette.collection[collection.colorIndex % Palette.collection.count])
+                        .contextMenu {
+                            Button(role: .destructive) { model.deleteCollection(collection) } label: { Label(L("Supprimer la collection"), systemImage: "trash") }
+                        }
+                        .onDrop(of: ["local.kama.encore.clip-id"], isTargeted: nil) { providers in
+                            guard let provider = providers.first else { return false }
+                            provider.loadDataRepresentation(forTypeIdentifier: "local.kama.encore.clip-id") { data, _ in
+                                guard let data, let value = String(data: data, encoding: .utf8), let id = UUID(uuidString: value) else { return }
+                                DispatchQueue.main.async { model.assignCollection(collection.id, ids: [id], toggle: false) }
                             }
-                            .onDrop(of: ["local.kama.encore.clip-id"], isTargeted: nil) { providers in
-                                guard let provider = providers.first else { return false }
-                                provider.loadDataRepresentation(forTypeIdentifier: "local.kama.encore.clip-id") { data, _ in
-                                    guard let data, let value = String(data: data, encoding: .utf8), let id = UUID(uuidString: value) else { return }
-                                    DispatchQueue.main.async { model.assignCollection(collection.id, ids: [id], toggle: false) }
-                                }
-                                return true
-                            }
-                    }
-                    Button { model.createCollection() } label: { Image(systemName: "plus").font(.system(size: 12, weight: .semibold)).frame(width: 26, height: 30) }
-                        .buttonStyle(.plain).help(L("Créer une collection · ⌘⇧N")).accessibilityLabel(L("Nouvelle collection"))
-                }.frame(minWidth: geometry.size.width)
-            }
-        }.frame(height: 36)
+                            return true
+                        }
+                }
+                Button { model.createCollection() } label: { Image(systemName: "plus").font(.system(size: 12, weight: .semibold)).frame(width: 26, height: 26) }
+                    .buttonStyle(.plain).foregroundStyle(.secondary).help(L("Créer une collection · ⌘⇧N")).accessibilityLabel(L("Nouvelle collection"))
+            }.padding(2).background(.primary.opacity(0.06), in: RoundedRectangle(cornerRadius: 8))
+        }.frame(maxWidth: 640).fixedSize(horizontal: true, vertical: false)
     }
 
     private var filterMenu: some View {
         Menu {
-                Button(L("Tous les types")) { model.kind = nil }
-                ForEach(ClipKind.allCases) { kind in
-                    Button { model.kind = kind } label: { Label(kind.title, systemImage: kind.symbol) }
-                }
-                Divider()
-                Button(L("Toutes les applications")) { model.source = nil }
-                ForEach(model.sources, id: \.0) { source in Button(source.1) { model.source = source.0 } }
-            } label: {
-                Image(systemName: "line.3.horizontal.decrease").font(.system(size: 15)).foregroundStyle(model.kind != nil || model.source != nil ? Palette.accent : .secondary)
-            }.menuStyle(.borderlessButton).frame(width: 22).help(L("Filtrer par type ou application")).accessibilityLabel(L("Filtres"))
+            Button(L("Tous les types")) { model.kind = nil }
+            ForEach(ClipKind.allCases) { kind in
+                Button { model.kind = kind } label: { Label(kind.title, systemImage: kind.symbol) }
+            }
+            Divider()
+            Button(L("Toutes les applications")) { model.source = nil }
+            ForEach(model.sources, id: \.0) { source in Button(source.1) { model.source = source.0 } }
+        } label: {
+            Image(systemName: "line.3.horizontal.decrease").font(.system(size: 14)).foregroundStyle(model.kind != nil || model.source != nil ? Palette.accent : .secondary)
+        }.menuStyle(.borderlessButton).menuIndicator(.hidden).frame(width: 28, height: 28).help(L("Filtrer par type ou application")).accessibilityLabel(L("Filtres"))
     }
 
-    private func boardButton(_ title: String, symbol: String, id: String, color: Color) -> some View {
-        Button { model.board = id } label: {
+    private func boardButton(_ title: String, symbol: String?, id: String, color: Color) -> some View {
+        let selected = model.board == id
+        return Button { model.board = id } label: {
             HStack(spacing: 6) {
-                Image(systemName: symbol).font(.system(size: symbol == "circle.fill" ? 7 : 12, weight: .medium)).foregroundStyle(model.board == id ? color : .secondary)
-                Text(title).font(.system(size: 13, weight: model.board == id ? .semibold : .medium)).lineLimit(1)
+                if let symbol { Image(systemName: symbol).font(.system(size: symbol == "circle.fill" ? 7 : 10, weight: .semibold)).foregroundStyle(color) }
+                Text(title).font(.system(size: 13, weight: selected ? .semibold : .regular)).lineLimit(1)
             }
-            .padding(.horizontal, 12).frame(height: 35)
-            .background(model.board == id ? color.opacity(0.13) : .clear, in: Capsule())
-            .overlay(Capsule().strokeBorder(model.board == id ? color.opacity(0.23) : .clear))
-        }.buttonStyle(.plain).accessibilityAddTraits(model.board == id ? [.isSelected] : [])
+            .foregroundStyle(selected ? .primary : .secondary)
+            .padding(.horizontal, 12).frame(height: 26)
+            .background(selected ? Color.primary.opacity(0.13) : .clear, in: RoundedRectangle(cornerRadius: 6))
+            .contentShape(Rectangle())
+        }.buttonStyle(.plain).accessibilityAddTraits(selected ? [.isSelected] : [])
     }
 
     private var searchBar: some View {
-        HStack(spacing: 7) {
-            Image(systemName: "magnifyingglass").foregroundStyle(.secondary)
+        HStack(spacing: 6) {
+            Image(systemName: "magnifyingglass").font(.system(size: 12, weight: .medium)).foregroundStyle(.secondary)
             TextField(L("Rechercher…"), text: $model.query).textFieldStyle(.plain).font(.system(size: 13)).focused($searchFocus)
                 .accessibilityLabel(L("Rechercher dans l’historique"))
-            if model.query.isEmpty { Text("⌘F").font(.system(size: 12, weight: .medium)).foregroundStyle(.secondary) }
+            if model.query.isEmpty { Text(Localization.keys("⌘F")).font(.system(size: 11, weight: .medium)).foregroundStyle(.tertiary) }
             else { Button { model.query = "" } label: { Image(systemName: "xmark.circle.fill").foregroundStyle(.secondary) }.buttonStyle(.plain).accessibilityLabel(L("Effacer la recherche")) }
-        }.padding(.horizontal, 12).frame(height: 38)
-            .background(.primary.opacity(0.065), in: RoundedRectangle(cornerRadius: 11))
-            .overlay(RoundedRectangle(cornerRadius: 11).strokeBorder(searchFocus ? Palette.accent.opacity(0.8) : .primary.opacity(0.13)))
+        }.padding(.horizontal, 8).frame(height: 28)
+            .background(.primary.opacity(0.07), in: RoundedRectangle(cornerRadius: 8))
+            .overlay(RoundedRectangle(cornerRadius: 8).strokeBorder(searchFocus ? Palette.accent.opacity(0.8) : .primary.opacity(0.08)))
     }
 
     private var cards: some View {
         ScrollViewReader { proxy in
             ScrollView(.horizontal, showsIndicators: false) {
-                LazyHStack(spacing: 13) {
-                    ForEach(Array(model.filtered.enumerated()), id: \.element.id) { index, clip in
-                        ClipCard(model: model, clip: clip, index: index, compact: compact)
-                            .id(clip.id)
+                LazyHStack(spacing: 12) {
+                    ForEach(ClipSection.group(model.filtered, now: model.displayTime)) { section in
+                        DaySeparator(title: section.title)
+                        ForEach(section.items) { item in
+                            ClipCard(model: model, clip: item.clip, index: item.index, compact: compact, namespace: cardSpace).id(item.clip.id)
+                        }
                     }
-                }.padding(.horizontal, 24).padding(.top, 4).padding(.bottom, 13)
+                }.padding(.horizontal, 16).padding(.top, 4).padding(.bottom, 12)
             }
             .onChange(of: model.cursor) { _, id in
                 guard let id else { return }
-                withAnimation(.easeOut(duration: 0.15)) { proxy.scrollTo(id, anchor: .center) }
+                withAnimation(reduceMotion ? nil : .easeOut(duration: 0.15)) { proxy.scrollTo(id, anchor: .center) }
             }
+            .onAppear { if let id = model.cursor { proxy.scrollTo(id, anchor: .center) } }
         }
     }
 
     private var emptyState: some View {
         VStack(spacing: 10) {
-            Image(systemName: model.library.clips.isEmpty ? "doc.on.clipboard" : "magnifyingglass").font(.system(size: 32, weight: .light)).foregroundStyle(Palette.accent).padding(.bottom, 3)
-            Text(model.library.clips.isEmpty ? L("Vos idées, à portée de clavier.") : L("Aucun élément trouvé")).font(.system(size: 21, weight: .semibold, design: .rounded))
+            Image(systemName: model.library.clips.isEmpty ? "doc.on.clipboard" : "magnifyingglass").font(.system(size: 30, weight: .light)).foregroundStyle(Palette.accent).padding(.bottom, 3)
+            Text(model.library.clips.isEmpty ? L("Vos idées, à portée de clavier.") : L("Aucun élément trouvé")).font(.system(size: 19, weight: .semibold, design: .rounded))
             Text(model.library.clips.isEmpty ? L("Copiez un texte, un lien ou une image. Retrouvez-le ici avec \(model.shortcutStatus).") : L("Essayez un autre mot ou retirez les filtres.")).font(.system(size: 12)).foregroundStyle(.secondary)
             if model.kind != nil || model.source != nil || !model.query.isEmpty {
                 Button(L("Effacer les filtres")) { model.kind = nil; model.source = nil; model.query = "" }.buttonStyle(.bordered)
@@ -209,39 +268,44 @@ struct BoardView: View {
     }
 
     private var footer: some View {
-        HStack(spacing: 12) {
-            Circle().fill(model.preferences.captureEnabled ? Color.green : Color.orange).frame(width: 5, height: 5)
-            Text(model.preferences.captureEnabled ? L("\(model.filtered.count) élément(s)") : L("Capture en pause")).font(.system(size: 12, weight: .medium))
+        HStack(spacing: 14) {
+            Circle().fill(model.preferences.captureEnabled ? Color.green : Color.orange).frame(width: 6, height: 6)
+            Text(model.preferences.captureEnabled ? L("\(model.filtered.count) élément(s)") : L("Capture en pause")).font(.system(size: 11, weight: .medium)).monospacedDigit()
             if let kind = model.kind {
-                Button { model.kind = nil } label: { Label(kind.title, systemImage: "xmark.circle.fill").font(.system(size: 12)) }.buttonStyle(.plain).foregroundStyle(Palette.accent)
+                Button { model.kind = nil } label: { Label(kind.title, systemImage: "xmark.circle.fill").font(.system(size: 11)) }.buttonStyle(.plain).foregroundStyle(Palette.accent)
             }
             if let source = model.source {
-                Button { model.source = nil } label: { Label(model.sources.first { $0.0 == source }?.1 ?? source, systemImage: "xmark.circle.fill").font(.system(size: 12)) }.buttonStyle(.plain).foregroundStyle(Palette.accent)
+                Button { model.source = nil } label: { Label(model.sources.first { $0.0 == source }?.1 ?? source, systemImage: "xmark.circle.fill").font(.system(size: 11)) }.buttonStyle(.plain).foregroundStyle(Palette.accent)
             }
-            if !model.status.isEmpty { Text(model.status).font(.system(size: 12)).foregroundStyle(Palette.accent).lineLimit(1) }
+            if !model.status.isEmpty { Text(model.status).font(.system(size: 11)).foregroundStyle(Palette.accent).lineLimit(1) }
             Spacer(minLength: 4)
             if model.status.isEmpty {
-                hint("← →", L("naviguer"))
-                Button { model.expanded = true } label: { hint("↑", L("explorer")) }.buttonStyle(.plain)
-                hint("↓", L("réduire"))
-                hint("↩", L("coller"))
-                hint("⇧↩", L("texte brut"))
-                hint(L("espace"), L("aperçu"))
+                if model.expanded {
+                    hint("← →", L("naviguer"))
+                    hint("↩", L("coller"))
+                    hint("⌘E", L("Éditer"))
+                    Button { withAnimation(reduceMotion ? .easeOut(duration: 0.15) : .spring(duration: 0.34, bounce: 0.12)) { model.expanded = false } } label: { hint("↓", L("réduire")) }.buttonStyle(.plain)
+                } else {
+                    Button { withAnimation(reduceMotion ? .easeOut(duration: 0.15) : .spring(duration: 0.34, bounce: 0.12)) { model.expanded = true } } label: { hint("↑", L("explorer")) }.buttonStyle(.plain)
+                    hint("↩", L("coller"))
+                    hint("⇧↩", L("texte brut"))
+                    hint(L("espace"), L("aperçu"))
+                }
             }
-            Text(L("100 % local")).font(.system(size: 12, weight: .medium)).foregroundStyle(.secondary).padding(.leading, 4)
-        }.foregroundStyle(.secondary).padding(.horizontal, 25).frame(height: 42)
-            .overlay(alignment: .top) { Rectangle().fill(.primary.opacity(0.06)).frame(height: 1).padding(.horizontal, 24) }
+            Text(L("100 % local")).font(.system(size: 11, weight: .medium)).foregroundStyle(.tertiary).padding(.leading, 2)
+        }.foregroundStyle(.secondary).padding(.horizontal, 16).frame(height: 34)
+            .overlay(alignment: .top) { Rectangle().fill(.primary.opacity(0.07)).frame(height: 1) }
     }
 
     private func hint(_ keys: String, _ label: String) -> some View {
         HStack(spacing: 4) {
-            Text(Localization.keys(keys)).font(.system(size: 12, weight: .semibold)).foregroundStyle(.primary).padding(.horizontal, 6).padding(.vertical, 4).background(.primary.opacity(0.09), in: RoundedRectangle(cornerRadius: 5))
-            Text(label).font(.system(size: 12)).foregroundStyle(.primary.opacity(0.8))
+            Text(Localization.keys(keys)).font(.system(size: 11, weight: .semibold)).foregroundStyle(.primary).padding(.horizontal, 5).padding(.vertical, 2).background(.primary.opacity(0.1), in: RoundedRectangle(cornerRadius: 4))
+            Text(label).font(.system(size: 11))
         }
     }
 
     private func toolButton(_ symbol: String, help: String, active: Bool = false, action: @escaping () -> Void) -> some View {
-        Button(action: action) { Image(systemName: symbol).font(.system(size: 15, weight: .medium)).foregroundStyle(active ? Palette.accent : .primary.opacity(0.8)).frame(width: 29, height: 34) }.buttonStyle(.plain).help(help).accessibilityLabel(help)
+        Button(action: action) { Image(systemName: symbol).font(.system(size: 14, weight: .medium)).foregroundStyle(active ? Palette.accent : .secondary).frame(width: 28, height: 28).contentShape(Rectangle()) }.buttonStyle(.plain).help(help).accessibilityLabel(help)
     }
 
     private var queueSidebar: some View {
@@ -253,7 +317,7 @@ struct BoardView: View {
             }
             Text(model.collecting ? L("Copiez pour ajouter · ⌘V pour coller") : L("Ajoutez des cartes, puis activez la file.")).font(.system(size: 12)).foregroundStyle(.secondary)
             ScrollView {
-                VStack(spacing: 7) {
+                VStack(spacing: 6) {
                     ForEach(Array(model.queue.enumerated()), id: \.element) { index, id in
                         if let clip = model.library.clips.first(where: { $0.id == id }) {
                             HStack(spacing: 7) {
@@ -261,7 +325,7 @@ struct BoardView: View {
                                 Text(clip.displayTitle).font(.system(size: 12)).lineLimit(1)
                                 Spacer(minLength: 0)
                                 Button { model.queue.removeAll { $0 == id } } label: { Image(systemName: "xmark").font(.system(size: 11)) }.buttonStyle(.plain).accessibilityLabel(L("Retirer de la file"))
-                            }.padding(9).background(.primary.opacity(0.04), in: RoundedRectangle(cornerRadius: 8))
+                            }.padding(8).background(.primary.opacity(0.05), in: RoundedRectangle(cornerRadius: 8))
                         }
                     }
                 }
@@ -272,7 +336,19 @@ struct BoardView: View {
                 Button { model.queue.reverse() } label: { Image(systemName: "arrow.up.arrow.down") }.buttonStyle(.plain).help(L("Inverser l’ordre"))
                 Button { model.queue = []; model.collecting = false } label: { Image(systemName: "trash") }.buttonStyle(.plain).help(L("Vider la file"))
             }
-        }.padding(14).frame(width: 235).background(.primary.opacity(0.025)).overlay(alignment: .leading) { Rectangle().fill(.primary.opacity(0.07)).frame(width: 1) }.padding(.bottom, 10)
+        }.padding(14).frame(width: 235).background(.primary.opacity(0.03)).overlay(alignment: .leading) { Rectangle().fill(.primary.opacity(0.07)).frame(width: 1) }.padding(.bottom, 10)
+    }
+}
+
+struct DaySeparator: View {
+    let title: String
+    var body: some View {
+        Text(title.uppercased(with: Localization.locale)).font(.system(size: 10, weight: .semibold)).tracking(0.8).foregroundStyle(.secondary).lineLimit(1).fixedSize()
+            .rotationEffect(.degrees(-90))
+            .frame(width: 18, height: 140)
+            .frame(maxHeight: .infinity, alignment: .top)
+            .overlay(alignment: .leading) { Rectangle().fill(.primary.opacity(0.12)).frame(width: 1) }
+            .accessibilityAddTraits(.isHeader)
     }
 }
 
@@ -281,115 +357,209 @@ struct ClipCard: View {
     let clip: Clip
     let index: Int
     let compact: Bool
+    var height: CGFloat? = nil
+    var namespace: Namespace.ID? = nil
     @Environment(\.colorScheme) private var scheme
     @State private var hovered = false
     private var selected: Bool { model.selection.contains(clip.id) }
-    private var accent: Color { Palette.accent(clip.kind) }
+    private var dark: Bool { scheme == .dark }
     private var ids: Set<UUID> { selected ? model.selection : [clip.id] }
     private var scale: Double { model.preferences.cardScale }
-    private var typeTitle: String {
-        guard clip.kind == .file, let name = clip.fileNames.first else { return clip.kind.title }
-        let ext = (name as NSString).pathExtension
-        if ext.lowercased() == "pdf" { return "PDF" }
-        if let type = UTType(filenameExtension: ext), type.conforms(to: .image) { return "Image" }
-        return clip.kind.title
-    }
 
     var body: some View {
         VStack(spacing: 0) {
-            HStack(spacing: 9) {
-                VStack(alignment: .leading, spacing: 3) {
-                    Text(typeTitle).font(.system(size: 14 * scale, weight: .semibold))
-                    Text(model.relativeAge(clip.firstCopyDate)).font(.system(size: max(11, 12 * scale), weight: .medium)).foregroundStyle(.white.opacity(0.9)).lineLimit(1)
+            HStack(spacing: 8 * scale) {
+                VStack(alignment: .leading, spacing: 1) {
+                    Text(clip.typeTitle).font(.system(size: 12 * scale, weight: .bold)).foregroundStyle(Palette.accent(clip.kind, dark: dark))
+                    Text(model.relativeAge(clip.firstCopyDate)).font(.system(size: max(10, 11 * scale))).foregroundStyle(.secondary).lineLimit(1)
                 }
                 Spacer(minLength: 2)
-                if clip.favorite { Image(systemName: "star.fill").font(.system(size: 12 * scale)).foregroundStyle(.yellow) }
-                sourceIcon.frame(width: 40 * scale, height: 40 * scale).help(clip.sourceName)
-            }.foregroundStyle(.white).padding(.horizontal, 12).frame(height: 48 * scale)
-                .background(LinearGradient(colors: [accent, accent.opacity(0.8)], startPoint: .topLeading, endPoint: .bottomTrailing).overlay(.black.opacity(0.24)))
-            cardContent.frame(maxWidth: .infinity, maxHeight: .infinity).clipped()
-            HStack {
-                if index < 9 { Text("⌘\(index + 1)").font(.system(size: 12 * scale, weight: .semibold)).foregroundStyle(selected ? Palette.accent : .secondary) }
-                Image(systemName: model.retentionDecision(for: clip).expiresAt == nil ? "infinity" : "clock").font(.system(size: 12 * scale)).foregroundStyle(.secondary).help(model.retentionSummary(for: clip))
-                Spacer()
-                Text(model.remainingRetention(for: clip)).font(.system(size: max(11, 12 * scale))).foregroundStyle(.secondary).lineLimit(1).help(model.retentionSummary(for: clip))
-            }.padding(.horizontal, 14).frame(height: 32 * scale)
+                if clip.favorite { Image(systemName: "star.fill").font(.system(size: 12 * scale)).foregroundStyle(.yellow).accessibilityLabel(L("Favoris")) }
+                Image(nsImage: ApplicationCatalog.app(clip.sourceBundle).icon).resizable().interpolation(.high).frame(width: 28 * scale, height: 28 * scale).help(clip.sourceName)
+            }.padding(.leading, 12).padding(.trailing, 10).frame(height: 42 * scale)
+                .background(Palette.accent(clip.kind).opacity(dark ? 0.16 : 0.14))
+            ClipContent(model: model, clip: clip, scale: scale, compact: compact).frame(maxWidth: .infinity, maxHeight: .infinity).clipped()
+            HStack(spacing: 6) {
+                if index < 9 {
+                    Text(Localization.keys("⌘\(index + 1)")).font(.system(size: 11 * scale, weight: .medium)).monospacedDigit().foregroundStyle(selected ? .primary : .secondary)
+                        .padding(.horizontal, 5).padding(.vertical, 1)
+                        .overlay(RoundedRectangle(cornerRadius: 4).strokeBorder(selected ? Palette.accent : .primary.opacity(0.15)))
+                }
+                Spacer(minLength: 0)
+                retention
+            }.padding(.horizontal, 12).frame(height: 28 * scale).help(model.retentionSummary(for: clip))
         }
-        .frame(width: (compact ? 200 : 258) * scale)
-        .background(scheme == .dark ? Color(red: 0.14, green: 0.14, blue: 0.18) : .white)
-        .clipShape(RoundedRectangle(cornerRadius: 16))
-        .overlay(RoundedRectangle(cornerRadius: 16).strokeBorder(selected ? Palette.accent : .primary.opacity(hovered ? 0.18 : 0.07), lineWidth: selected ? 2.5 : 1))
-        .shadow(color: selected ? Palette.accent.opacity(0.2) : .clear, radius: 7)
-        .shadow(color: .black.opacity(scheme == .dark ? 0.14 : 0.05), radius: 6, y: 3)
-        .contentShape(RoundedRectangle(cornerRadius: 16))
+        .frame(width: (compact ? 196 : 236) * scale, height: height)
+        .background(Palette.card(dark))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .overlay(RoundedRectangle(cornerRadius: 12).strokeBorder(selected ? Palette.accent : .primary.opacity(hovered ? 0.2 : 0.08), lineWidth: selected ? 2 : 1))
+        .background(RoundedRectangle(cornerRadius: 16).fill(selected ? Palette.accent.opacity(0.28) : .clear).padding(-4))
+        .shadow(color: .black.opacity(dark ? 0.22 : 0.06), radius: hovered ? 10 : 5, y: hovered ? 4 : 2)
+        .modifier(MatchedCard(id: clip.id, namespace: namespace))
+        .background { if model.cursor == clip.id { GeometryReader { proxy in Color.clear.preference(key: CursorFrameKey.self, value: proxy.frame(in: .global)) } } }
+        .contentShape(RoundedRectangle(cornerRadius: 12))
         .onHover { hovered = $0 }
         .onTapGesture(count: 2) { model.select(clip.id); model.paste([clip], plain: NSEvent.modifierFlags.contains(.shift)) }
         .onTapGesture { model.select(clip.id, modifiers: NSEvent.modifierFlags) }
-        .contextMenu { contextActions }
+        .contextMenu { ClipActions(model: model, clip: clip, ids: ids) }
         .onDrag { itemProvider() }
         .accessibilityElement(children: .combine)
         .accessibilityLabel(L("\(clip.kind.title), \(clip.displayTitle), \(clip.sourceName)"))
         .accessibilityValue(selected ? L("Sélectionné") : "")
         .accessibilityAddTraits(.isButton)
-        .accessibilityAction { model.select(clip.id) }
+        .accessibilityAction { model.select(clip.id); model.paste([clip]) }
     }
 
-    @ViewBuilder private var sourceIcon: some View {
-        Image(nsImage: ApplicationCatalog.app(clip.sourceBundle).icon).resizable().interpolation(.high)
+    /// Retention only speaks when it matters: kept forever, or expiring within a day.
+    @ViewBuilder private var retention: some View {
+        let deadline = model.retentionDecision(for: clip).expiresAt
+        if deadline == nil {
+            Image(systemName: "infinity").font(.system(size: 11 * scale, weight: .medium)).foregroundStyle(.tertiary).accessibilityLabel(L("Conservé indéfiniment"))
+        } else if let deadline, deadline.timeIntervalSince(model.displayTime) < 86_400 {
+            Text(model.remainingRetention(for: clip)).font(.system(size: 11 * scale, weight: .medium)).foregroundStyle(.orange).lineLimit(1)
+        }
     }
 
-    @ViewBuilder private var cardContent: some View {
+    private func itemProvider() -> NSItemProvider {
+        let provider = NSItemProvider()
+        provider.registerDataRepresentation(forTypeIdentifier: "local.kama.encore.clip-id", visibility: .ownProcess) { completion in completion(Data(clip.id.uuidString.utf8), nil); return nil }
+        if let payload = model.storage?.payload(clip.id), let item = payload.items.first {
+            for (type, data) in item.representations {
+                provider.registerDataRepresentation(forTypeIdentifier: type, visibility: .all) { completion in completion(data, nil); return nil }
+            }
+        }
+        provider.suggestedName = clip.displayTitle
+        return provider
+    }
+}
+
+struct CursorFrameKey: PreferenceKey {
+    static let defaultValue = CGRect.zero
+    static func reduce(value: inout CGRect, nextValue: () -> CGRect) { let next = nextValue(); if next != .zero { value = next } }
+}
+
+struct MatchedCard: ViewModifier {
+    let id: UUID
+    let namespace: Namespace.ID?
+    func body(content: Content) -> some View {
+        if let namespace { content.matchedGeometryEffect(id: id, in: namespace) } else { content }
+    }
+}
+
+extension Clip {
+    var typeTitle: String {
+        guard kind == .file, let name = fileNames.first else { return kind.itemTitle }
+        let ext = (name as NSString).pathExtension
+        if ext.lowercased() == "pdf" { return "PDF" }
+        if let type = UTType(filenameExtension: ext), type.conforms(to: .image) { return ClipKind.image.itemTitle }
+        return kind.itemTitle
+    }
+}
+
+/// The body of a clip, shared by cards and the large preview.
+struct ClipContent: View {
+    @ObservedObject var model: AppModel
+    let clip: Clip
+    var scale: Double = 1
+    var compact = false
+    var large = false
+    @Environment(\.colorScheme) private var scheme
+
+    var body: some View {
         switch clip.kind {
         case .color:
-            ZStack {
-                Palette.color(clip.text)
-                VStack(spacing: 7) {
-                    Text(clip.text.uppercased()).font(.system(size: 30 * scale, weight: .medium, design: .rounded)).tracking(-1)
-                    Text("HEX").font(.system(size: 12 * scale)).opacity(0.75)
-                }.foregroundStyle(Palette.swatchText(clip.text, dark: scheme == .dark))
-            }.clipShape(RoundedRectangle(cornerRadius: 9)).padding(.horizontal, 8)
+            VStack(alignment: .leading, spacing: 2) {
+                Spacer(minLength: 0)
+                Text(clip.text.uppercased()).font(.system(size: (large ? 40 : 24) * scale, weight: .semibold, design: .rounded)).tracking(-0.5)
+                Text("HEX").font(.system(size: 11 * scale)).opacity(0.7)
+            }.foregroundStyle(Palette.swatchText(clip.text, dark: scheme == .dark)).padding(12).frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
+                .background(Palette.color(clip.text), in: RoundedRectangle(cornerRadius: 8))
+                .overlay(RoundedRectangle(cornerRadius: 8).strokeBorder(.primary.opacity(0.1)))
+                .padding(8)
         case .link:
-            VStack(alignment: .leading, spacing: 0) {
-                ZStack(alignment: .bottomLeading) {
-                    LinearGradient(colors: [accent.opacity(0.9), Color(red: 0.08, green: 0.28, blue: 0.35)], startPoint: .topTrailing, endPoint: .bottomLeading)
-                    Image(systemName: "globe.europe.africa.fill").font(.system(size: 82 * scale, weight: .ultraLight)).foregroundStyle(.white.opacity(0.13)).frame(maxWidth: .infinity, alignment: .trailing).padding(8)
-                    Image(systemName: "arrow.up.right").font(.system(size: 25 * scale, weight: .light)).foregroundStyle(.white).padding(16)
+            let url = URL(string: clip.text)
+            let host = clip.displayTitle
+            VStack(alignment: .leading, spacing: 12 * scale) {
+                HStack(spacing: 10) {
+                    Text(host.first.map { String($0).uppercased() } ?? "·").font(.system(size: 16 * scale, weight: .bold)).foregroundStyle(.white)
+                        .frame(width: 38 * scale, height: 38 * scale).background(Palette.monogram(host), in: Circle())
+                    Text(host).font(.system(size: 15 * scale, weight: .semibold)).lineLimit(1)
                 }
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(clip.displayTitle).font(.system(size: 14 * scale, weight: .semibold)).lineLimit(1)
-                    Text(URL(string: clip.text)?.path.removingPercentEncoding ?? clip.text).font(.system(size: 12 * scale)).foregroundStyle(.secondary).lineLimit(2)
-                }.padding(12).frame(maxWidth: .infinity, alignment: .leading)
-            }.background(accent.opacity(0.04)).clipShape(RoundedRectangle(cornerRadius: 9)).padding(.horizontal, 8)
+                Text(url.map { ($0.path.removingPercentEncoding ?? $0.path) + ($0.query.map { "?\($0)" } ?? "") } ?? clip.text)
+                    .font(.system(size: 13 * scale)).foregroundStyle(.secondary).lineLimit(large ? nil : 4).textSelection(.enabled)
+                if large, let url { Button { NSWorkspace.shared.open(url) } label: { Label(L("Ouvrir le lien"), systemImage: "arrow.up.forward.app") } }
+            }.padding(14).frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         case .image:
             if let image = model.image(for: clip) {
-                GeometryReader { geometry in Image(nsImage: image).resizable().scaledToFill().frame(width: geometry.size.width, height: geometry.size.height).clipped() }
-            } else { Image(systemName: "photo").font(.system(size: 36)).foregroundStyle(.secondary) }
+                if large { Image(nsImage: image).resizable().scaledToFit().frame(maxWidth: .infinity, maxHeight: .infinity) }
+                else {
+                    GeometryReader { geometry in Image(nsImage: image).resizable().scaledToFill().frame(width: geometry.size.width, height: geometry.size.height).clipped() }
+                        .overlay(alignment: .bottomLeading) {
+                            Text(Self.imageInfo(image, bytes: clip.byteCount)).font(.system(size: 11 * scale, weight: .medium)).foregroundStyle(.white.opacity(0.92)).monospacedDigit()
+                                .padding(.horizontal, 12).padding(.top, 18).padding(.bottom, 8).frame(maxWidth: .infinity, alignment: .leading)
+                                .background(LinearGradient(colors: [.clear, .black.opacity(0.55)], startPoint: .top, endPoint: .bottom))
+                        }
+                }
+            } else { Image(systemName: "photo").font(.system(size: 36)).foregroundStyle(.secondary).frame(maxWidth: .infinity, maxHeight: .infinity) }
         case .file:
             VStack(spacing: 0) {
-                FilePreview(previews: model.filePreviews, clip: clip, urls: model.fileURLs(for: clip))
-                HStack {
-                    Text(clip.displayTitle).font(.system(size: 12 * scale, weight: .medium)).lineLimit(2)
-                    if clip.fileNames.count > 1 { Text("+\(clip.fileNames.count - 1)").font(.system(size: 12 * scale, weight: .semibold)).foregroundStyle(.secondary) }
+                FilePreview(previews: model.filePreviews, clip: clip, urls: model.fileURLs(for: clip), fitContent: large)
+                VStack(alignment: .leading, spacing: 2) {
+                    HStack(spacing: 4) {
+                        Text(clip.displayTitle).font(.system(size: 12 * scale, weight: .semibold)).lineLimit(large ? 3 : 1)
+                        if clip.fileNames.count > 1 { Text("+\(clip.fileNames.count - 1)").font(.system(size: 12 * scale, weight: .semibold)).foregroundStyle(.secondary) }
+                    }
+                    if let bytes = clip.referencedFileBytes { Text(Localization.bytes(bytes)).font(.system(size: 11 * scale)).foregroundStyle(.secondary).monospacedDigit() }
                 }.padding(.horizontal, 12).padding(.vertical, 8).frame(maxWidth: .infinity, alignment: .leading)
             }
         case .code:
-            VStack(alignment: .leading, spacing: 8) {
-                if !clip.title.isEmpty { Text(clip.title).font(.system(size: 12 * scale, weight: .semibold)) }
-                Text(highlightedCode(clip.text)).font(.system(size: (compact ? 12 : 13) * scale, design: .monospaced)).lineSpacing(4).lineLimit(compact ? 7 : 12).frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-            }.padding(13).background(Palette.accent.opacity(0.045)).clipShape(RoundedRectangle(cornerRadius: 9)).padding(.horizontal, 8)
+            ScrollView(large ? .vertical : []) {
+                Text(highlightedCode(clip.text)).font(.system(size: (large ? 13 : compact ? 11 : 12) * scale, design: .monospaced)).lineSpacing(3).lineLimit(large ? nil : compact ? 8 : 12)
+                    .textSelection(.enabled).frame(maxWidth: .infinity, alignment: .topLeading)
+            }.padding(10).frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                .background(scheme == .dark ? Color.black.opacity(0.3) : Color.primary.opacity(0.05), in: RoundedRectangle(cornerRadius: 8)).padding(8)
         case .text:
             if let rich = model.richText(for: clip) {
-                RichTextPreview(text: rich, scale: scale)
+                RichTextPreview(text: rich, scale: large ? 1.15 : scale)
             } else {
-                VStack(alignment: .leading, spacing: 7) {
-                if !clip.title.isEmpty { Text(clip.title).font(.system(size: 14 * scale, weight: .semibold)).lineLimit(1) }
-                Text(String(clip.text.prefix(3000))).font(.system(size: (compact ? 13 : 15) * scale)).lineSpacing(5).lineLimit(compact ? 7 : 14).frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-                }.padding(15).background(accent.opacity(scheme == .dark ? 0.055 : 0.035))
+                ScrollView(large ? .vertical : []) {
+                    VStack(alignment: .leading, spacing: 6) {
+                        if !clip.title.isEmpty { Text(clip.title).font(.system(size: 14 * scale, weight: .semibold)).lineLimit(large ? nil : 1) }
+                        Text(String(clip.text.prefix(large ? 20_000 : 3000))).font(.system(size: (large ? 15 : compact ? 13 : 14) * scale)).lineSpacing(3).lineLimit(large ? nil : compact ? 7 : 12)
+                            .textSelection(.enabled)
+                    }.frame(maxWidth: .infinity, alignment: .topLeading)
+                }.padding(.horizontal, 14).padding(.vertical, 12).frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             }
         }
     }
 
-    @ViewBuilder private var contextActions: some View {
+    static func imageInfo(_ image: NSImage, bytes: Int) -> String {
+        let rep = image.representations.first
+        let size = rep.map { "\($0.pixelsWide)×\($0.pixelsHigh)" } ?? "\(Int(image.size.width))×\(Int(image.size.height))"
+        return "\(size) · \(Localization.bytes(Int64(bytes)))"
+    }
+
+    private func highlightedCode(_ source: String) -> AttributedString {
+        var value = AttributedString(String(source.prefix(large ? 20_000 : 3000)))
+        value.foregroundColor = scheme == .dark ? Color(red: 0.83, green: 0.84, blue: 0.9) : Color(red: 0.23, green: 0.24, blue: 0.34)
+        let keyword = scheme == .dark ? Color(red: 1, green: 0.48, blue: 0.7) : Color(red: 0.68, green: 0.15, blue: 0.5)
+        let text = String(value.characters)
+        if let regex = try? NSRegularExpression(pattern: "\\b(struct|class|enum|func|let|var|import|return|const|def|true|false|nil|null|if|else|guard|public|private|for|in|while|async|await|function)\\b") {
+            for match in regex.matches(in: text, range: NSRange(text.startIndex..., in: text)) {
+                if let range = Range(match.range, in: text), let lower = AttributedString.Index(range.lowerBound, within: value), let upper = AttributedString.Index(range.upperBound, within: value) { value[lower..<upper].foregroundColor = keyword }
+            }
+        }
+        return value
+    }
+}
+
+/// Context menu and action list for one clip or the current selection.
+struct ClipActions: View {
+    @ObservedObject var model: AppModel
+    let clip: Clip
+    let ids: Set<UUID>
+
+    var body: some View {
         if let file = model.fileURLs(for: clip).first {
             Button { NSWorkspace.shared.open(file) } label: { Label(L("Ouvrir"), systemImage: "arrow.up.forward.app") }.keyboardShortcut("o")
             ShareLink(item: file) { Label(L("Partager"), systemImage: "square.and.arrow.up") }
@@ -415,7 +585,7 @@ struct ClipCard: View {
         } label: { Label(L("Collections"), systemImage: "folder") }
         Button { model.enqueue(model.filtered.filter { ids.contains($0.id) }.map(\.id)) } label: { Label(L("Ajouter à la file"), systemImage: "text.badge.plus") }
         Divider()
-        Button { model.inspector = clip } label: { Label(L("Aperçu et édition"), systemImage: "eye") }.keyboardShortcut(.space, modifiers: [])
+        Button { model.inspector = clip } label: { Label(L("Aperçu et édition"), systemImage: "eye") }.keyboardShortcut("e")
         if !clip.text.isEmpty {
             Menu { ForEach(TextAction.allCases) { action in Button(action.title) { model.transform(action, clip: clip) } } } label: { Label(L("Transformer une copie"), systemImage: "wand.and.stars") }
         }
@@ -425,31 +595,5 @@ struct ClipCard: View {
         }
         Divider()
         Button(role: .destructive) { model.remove(ids) } label: { Label(L("Supprimer"), systemImage: "trash") }
-    }
-
-    private func itemProvider() -> NSItemProvider {
-        let provider = NSItemProvider()
-        provider.registerDataRepresentation(forTypeIdentifier: "local.kama.encore.clip-id", visibility: .ownProcess) { completion in completion(Data(clip.id.uuidString.utf8), nil); return nil }
-        if let payload = model.storage?.payload(clip.id), let item = payload.items.first {
-            for (type, data) in item.representations {
-                provider.registerDataRepresentation(forTypeIdentifier: type, visibility: .all) { completion in completion(data, nil); return nil }
-            }
-        }
-        provider.suggestedName = clip.displayTitle
-        return provider
-    }
-
-    private func highlightedCode(_ source: String) -> AttributedString {
-        var value = AttributedString(String(source.prefix(3000)))
-        value.foregroundColor = scheme == .dark ? Color(red: 0.79, green: 0.81, blue: 0.9) : Color(red: 0.23, green: 0.24, blue: 0.34)
-        for word in ["struct", "class", "func", "let", "var", "import", "return", "const", "def", "true", "false", "nil", "if", "else", "public", "private"] {
-            let text = String(value.characters)
-            if let regex = try? NSRegularExpression(pattern: "\\b\(word)\\b") {
-                for match in regex.matches(in: text, range: NSRange(text.startIndex..., in: text)) {
-                    if let range = Range(match.range, in: text), let lower = AttributedString.Index(range.lowerBound, within: value), let upper = AttributedString.Index(range.upperBound, within: value) { value[lower..<upper].foregroundColor = Palette.accent }
-                }
-            }
-        }
-        return value
     }
 }
