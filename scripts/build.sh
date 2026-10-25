@@ -10,7 +10,7 @@ cp "$bin_path/Encore" "$bundle/Contents/MacOS/Encore"
 install_name_tool -add_rpath @executable_path/../Frameworks "$bundle/Contents/MacOS/Encore"
 ditto "$bin_path/Sparkle.framework" "$bundle/Contents/Frameworks/Sparkle.framework"
 cp Resources/Info.plist "$bundle/Contents/Info.plist"
-if [ ! -f dist/Encore.icns ]; then
+if [ ! -f dist/Encore.icns ] || [ scripts/icon.swift -nt dist/Encore.icns ]; then
     swift scripts/icon.swift dist
     iconutil -c icns dist/Encore.iconset -o dist/Encore.icns
 fi
@@ -20,7 +20,10 @@ for resources in "$bin_path"/Encore_*.bundle; do
         ditto "$resources" "$bundle/Contents/Resources/$(basename "$resources")"
     fi
 done
-for lproj in "$bundle"/Contents/Resources/Encore_EncoreCore.bundle/Contents/Resources/*.lproj; do
+# SwiftPM versions differ on the resource bundle layout and on the case of folder names.
+tables=$(find "$bundle/Contents/Resources/Encore_EncoreCore.bundle" -maxdepth 3 -type d -name '*.lproj')
+[ -n "$tables" ] || { echo "No localization tables in Encore_EncoreCore.bundle:" >&2; find "$bin_path" -maxdepth 3 -name '*.bundle' >&2; exit 1; }
+for lproj in $tables; do
     code="$(basename "$lproj" .lproj)"
     /usr/libexec/PlistBuddy -c "Print :CFBundleLocalizations" "$bundle/Contents/Info.plist" | grep -qix "    $code" || { echo "CFBundleLocalizations is missing $code" >&2; exit 1; }
 done
