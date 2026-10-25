@@ -279,6 +279,13 @@ struct BoardView: View {
         HStack(spacing: 14) {
             Circle().fill(model.preferences.captureEnabled ? Color.green : Color.orange).frame(width: 6, height: 6)
             Text(model.preferences.captureEnabled ? L("\(model.filtered.count) items") : L("Capture paused")).font(.system(size: 11, weight: .medium)).monospacedDigit()
+            if !model.accessibilityGranted {
+                // Without Accessibility, Return can only copy: say so where the user looks.
+                Button { model.requestAccessibility() } label: {
+                    Label(L("Enable direct paste"), systemImage: "exclamationmark.triangle.fill").font(.system(size: 11, weight: .semibold))
+                        .padding(.horizontal, 8).padding(.vertical, 3).background(.orange.opacity(0.18), in: Capsule())
+                }.buttonStyle(.plain).foregroundStyle(.orange).help(L("Without access, Encore copies items for you to paste with ⌘V."))
+            }
             if let kind = model.kind {
                 Button { model.kind = nil } label: { Label(kind.title, systemImage: "xmark.circle.fill").font(.system(size: 11)) }.buttonStyle(.plain).foregroundStyle(Palette.accent)
             }
@@ -303,6 +310,9 @@ struct BoardView: View {
             Text(L("100% local")).font(.system(size: 11, weight: .medium)).foregroundStyle(.tertiary).padding(.leading, 2)
         }.foregroundStyle(.secondary).padding(.horizontal, 16).frame(height: 34)
             .overlay(alignment: .top) { Rectangle().fill(.primary.opacity(0.07)).frame(height: 1) }
+            .onReceive(Timer.publish(every: 1.5, on: .main, in: .common).autoconnect()) { _ in
+                if !model.accessibilityGranted && AXIsProcessTrusted() { model.accessibilityGranted = true }
+            }
     }
 
     private func hint(_ keys: String, _ label: String) -> some View {
