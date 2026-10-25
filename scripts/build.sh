@@ -17,5 +17,9 @@ for resources in "$bin_path"/Encore_*.bundle; do
         ditto "$resources" "$bundle/Contents/Resources/$(basename "$resources")"
     fi
 done
+for lproj in "$bundle"/Contents/Resources/Encore_EncoreCore.bundle/Contents/Resources/*.lproj; do
+    code="$(basename "$lproj" .lproj)"
+    /usr/libexec/PlistBuddy -c "Print :CFBundleLocalizations" "$bundle/Contents/Info.plist" | grep -qx "    $code" || { echo "CFBundleLocalizations is missing $code" >&2; exit 1; }
+done
 codesign --force --sign "${ENCORE_SIGNING_IDENTITY:--}" --identifier local.kama.Encore "$bundle"
 printf 'Built: %s/%s\n' "$PWD" "$bundle"

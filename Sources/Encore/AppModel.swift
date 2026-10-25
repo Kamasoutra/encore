@@ -54,6 +54,7 @@ import EncoreCore
         self.demo = demo
         self.preferences = Preferences.load(demo: demo)
         Localization.language = preferences.language
+        preferences.language = Localization.language
         if demo { preferences.displayTarget = "primary" }
         do {
             let root = demo ? FileManager.default.temporaryDirectory.appendingPathComponent("Encore-Demo-\(ProcessInfo.processInfo.processIdentifier)") : FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].appendingPathComponent("Encore")
@@ -182,29 +183,14 @@ import EncoreCore
 
     func retentionDecision(for clip: Clip) -> RetentionDecision { preferences.retentionPolicy.decision(for: clip) }
 
-    func relativeAge(_ date: Date) -> String {
-        let age = max(0, displayTime.timeIntervalSince(date))
-        if age < 60 { return L("À l’instant") }
-        if age < 3600 { return L("il y a \(Int(age / 60)) min") }
-        if age < 86400 { return L("il y a \(Int(age / 3600)) h") }
-        if age < 604800 { return L("il y a \(Int(age / 86400)) j") }
-        return date.formatted(date: .numeric, time: .omitted)
-    }
+    func relativeAge(_ date: Date) -> String { Localization.relative(date, to: displayTime) }
 
     func remainingRetention(for clip: Clip) -> String {
         guard let deadline = retentionDecision(for: clip).expiresAt else { return L("Indéfiniment") }
         let seconds = deadline.timeIntervalSince(displayTime)
         guard seconds > 0 else { return L("Expiration imminente") }
         if seconds < 60 { return L("Expire dans moins d’1 min") }
-        let formatter = DateComponentsFormatter()
-        var calendar = Calendar.current
-        calendar.locale = Localization.locale
-        formatter.calendar = calendar
-        formatter.allowedUnits = [.day, .hour, .minute]
-        formatter.maximumUnitCount = 1
-        formatter.unitsStyle = .abbreviated
-        let duration = formatter.string(from: seconds) ?? ""
-        return L("Expire dans \(duration)")
+        return L("Expire dans \(Localization.duration(seconds))")
     }
 
     private func clearPreviewCaches(_ ids: Set<UUID>) {
@@ -224,8 +210,8 @@ import EncoreCore
 
     func retentionSummary(for clip: Clip) -> String {
         let decision = retentionDecision(for: clip)
-        let date = clip.copiedAt.formatted(date: .numeric, time: .standard)
-        let expiration = decision.expiresAt.map { L("Expiration : \($0.formatted(date: .numeric, time: .standard))") } ?? L("Conservé indéfiniment")
+        let date = Localization.date(clip.copiedAt)
+        let expiration = decision.expiresAt.map { L("Expiration : \(Localization.date($0))") } ?? L("Conservé indéfiniment")
         let reason = decision.protected ? L("Favori ou collection") : decision.ruleName ?? L("Durée par défaut")
         return L("Copié le \(date)\n\(expiration)\n\(reason)")
     }

@@ -127,7 +127,7 @@ private struct RetentionRuleEditor: View {
                 if rule.duration.unit != .forever {
                     TextField(L("Durée"), value: $rule.duration.value, format: .number).textFieldStyle(.roundedBorder).frame(width: 56)
                 }
-                Picker(L("Unité de durée"), selection: $rule.duration.unit) { ForEach(RetentionUnit.allCases) { unit in Text(unit.title).tag(unit) } }.labelsHidden().frame(width: 135)
+                Picker(L("Unité de durée"), selection: $rule.duration.unit) { ForEach(RetentionUnit.allCases) { unit in Text(unit.title(count: rule.duration.value)).tag(unit) } }.labelsHidden().frame(width: 135)
                 Spacer()
                 Text(L("Minimum inclus · maximum exclu")).font(.system(size: 11)).foregroundStyle(.secondary)
             }

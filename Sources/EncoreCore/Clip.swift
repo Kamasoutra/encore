@@ -11,7 +11,7 @@ public enum ClipKind: String, Codable, CaseIterable, Identifiable, Sendable {
         case .image: L("Images")
         case .file: L("Fichiers")
         case .color: L("Couleurs")
-        case .code: "Code"
+        case .code: L("Code")
         }
     }
     public var symbol: String {
@@ -25,14 +25,9 @@ public enum ClipKind: String, Codable, CaseIterable, Identifiable, Sendable {
         }
     }
     public var searchNames: [String] {
-        switch self {
-        case .text: ["text", "texte"]
-        case .link: ["links", "liens"]
-        case .image: ["images"]
-        case .file: ["files", "fichiers"]
-        case .color: ["colors", "couleurs"]
-        case .code: ["code"]
-        }
+        let english: String = switch self { case .text: "text"; case .link: "links"; case .image: "images"; case .file: "files"; case .color: "colors"; case .code: "code" }
+        let translated = title.folding(options: [.diacriticInsensitive, .caseInsensitive], locale: Localization.locale).filter { !$0.isWhitespace }
+        return translated == english ? [english] : [english, translated]
     }
     public static func detect(text: String, hasImage: Bool = false, hasFiles: Bool = false) -> ClipKind {
         if hasFiles { return .file }

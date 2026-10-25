@@ -3,6 +3,10 @@ import SwiftUI
 import EncoreCore
 import UniformTypeIdentifiers
 
+extension View {
+    func localized() -> some View { environment(\.locale, Localization.locale).environment(\.layoutDirection, Localization.isRightToLeft ? .rightToLeft : .leftToRight) }
+}
+
 enum Palette {
     static let accent = Color(red: 0.56, green: 0.37, blue: 0.96)
     static let collection: [Color] = [accent, .pink, .teal, .orange, .blue]
@@ -57,7 +61,7 @@ struct BoardView: View {
             if model.expanded { WorkspaceView(model: model) }
             else { shelf }
         }
-        .environment(\.locale, Localization.locale)
+        .localized()
         .tint(Palette.accent)
     }
 
@@ -207,7 +211,7 @@ struct BoardView: View {
     private var footer: some View {
         HStack(spacing: 12) {
             Circle().fill(model.preferences.captureEnabled ? Color.green : Color.orange).frame(width: 5, height: 5)
-            Text(model.preferences.captureEnabled ? L("\(model.filtered.count) élément\(model.filtered.count == 1 ? "" : "s")") : L("Capture en pause")).font(.system(size: 12, weight: .medium))
+            Text(model.preferences.captureEnabled ? L("\(model.filtered.count) élément(s)") : L("Capture en pause")).font(.system(size: 12, weight: .medium))
             if let kind = model.kind {
                 Button { model.kind = nil } label: { Label(kind.title, systemImage: "xmark.circle.fill").font(.system(size: 12)) }.buttonStyle(.plain).foregroundStyle(Palette.accent)
             }
@@ -231,7 +235,7 @@ struct BoardView: View {
 
     private func hint(_ keys: String, _ label: String) -> some View {
         HStack(spacing: 4) {
-            Text(keys).font(.system(size: 12, weight: .semibold)).foregroundStyle(.primary).padding(.horizontal, 6).padding(.vertical, 4).background(.primary.opacity(0.09), in: RoundedRectangle(cornerRadius: 5))
+            Text(Localization.keys(keys)).font(.system(size: 12, weight: .semibold)).foregroundStyle(.primary).padding(.horizontal, 6).padding(.vertical, 4).background(.primary.opacity(0.09), in: RoundedRectangle(cornerRadius: 5))
             Text(label).font(.system(size: 12)).foregroundStyle(.primary.opacity(0.8))
         }
     }
@@ -324,7 +328,7 @@ struct ClipCard: View {
         .contextMenu { contextActions }
         .onDrag { itemProvider() }
         .accessibilityElement(children: .combine)
-        .accessibilityLabel("\(clip.kind.title), \(clip.displayTitle), \(clip.sourceName)")
+        .accessibilityLabel(L("\(clip.kind.title), \(clip.displayTitle), \(clip.sourceName)"))
         .accessibilityValue(selected ? L("Sélectionné") : "")
         .accessibilityAddTraits(.isButton)
         .accessibilityAction { model.select(clip.id) }
@@ -408,7 +412,7 @@ struct ClipCard: View {
             }
             Divider()
             Button { model.createCollection() } label: { Label(L("Nouvelle collection…"), systemImage: "folder.badge.plus") }
-        } label: { Label("Collections", systemImage: "folder") }
+        } label: { Label(L("Collections"), systemImage: "folder") }
         Button { model.enqueue(model.filtered.filter { ids.contains($0.id) }.map(\.id)) } label: { Label(L("Ajouter à la file"), systemImage: "text.badge.plus") }
         Divider()
         Button { model.inspector = clip } label: { Label(L("Aperçu et édition"), systemImage: "eye") }.keyboardShortcut(.space, modifiers: [])

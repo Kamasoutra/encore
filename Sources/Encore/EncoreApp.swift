@@ -232,7 +232,7 @@ final class EncorePanel: NSPanel {
             if event.keyCode == 123 || event.keyCode == 124 {
                 let boards = ["history", "favorites"] + model.library.collections.map { $0.id.uuidString }
                 let current = boards.firstIndex(of: model.board) ?? 0
-                model.board = boards[(current + (event.keyCode == 124 ? 1 : boards.count - 1)) % boards.count]
+                model.board = boards[(current + Localization.step(rightArrow: event.keyCode == 124) + boards.count) % boards.count]
                 return nil
             }
         }
@@ -247,7 +247,7 @@ final class EncorePanel: NSPanel {
             else { model.paste(plain: shift) }
             return nil
         case 123 where !editing, 124 where !editing:
-            model.move(event.keyCode == 124 ? 1 : -1, extend: shift); return nil
+            model.move(Localization.step(rightArrow: event.keyCode == 124), extend: shift); return nil
         case 125 where editing:
             model.searchFocused = false; panel.makeFirstResponder(nil); return nil
         case 126 where !editing:

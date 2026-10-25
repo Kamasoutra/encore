@@ -52,7 +52,7 @@ struct SettingsView: View {
                 }
             }
         }.frame(width: 780, height: 680).font(.system(size: 13)).tint(Palette.accent)
-            .environment(\.locale, Localization.locale)
+            .localized()
             .background(Color(nsColor: .windowBackgroundColor))
             .onChange(of: model.preferences) { _, _ in model.preferencesChanged() }
             .onAppear { model.refreshInstalledExclusions() }
@@ -101,8 +101,7 @@ struct SettingsView: View {
             Section(L("Apparence")) {
                 Picker(L("Langue"), selection: $model.preferences.language) {
                     Text(L("Suivre macOS")).tag("system")
-                    Text("Français").tag("fr")
-                    Text("English").tag("en")
+                    ForEach(languages, id: \.self) { code in Text(languageLabel(code)).tag(code) }
                 }
                 Picker(L("Thème"), selection: $model.preferences.appearance) {
                     Text(L("Système")).tag("system"); Text(L("Clair")).tag("light"); Text(L("Sombre")).tag("dark")
@@ -192,7 +191,7 @@ struct SettingsView: View {
     private var data: some View {
         Form {
             Section(L("Conservation")) {
-                LabeledContent(L("Durée sans règle"), value: model.preferences.retentionDays == 0 ? L("Indéfiniment") : L("\(model.preferences.retentionDays) jours"))
+                LabeledContent(L("Durée sans règle"), value: model.preferences.retentionDays == 0 ? L("Indéfiniment") : L("\(model.preferences.retentionDays) jour(s)"))
                 Button { section = .retention } label: { Label(L("Configurer les règles de rétention"), systemImage: "clock.arrow.circlepath") }
                 Picker(L("Éléments sans règle"), selection: $model.preferences.historyLimit) {
                     Text(L("500 maximum")).tag(500); Text(L("2 000 maximum")).tag(2000); Text(L("10 000 maximum")).tag(10000); Text(L("Sans limite de nombre")).tag(0)
@@ -207,8 +206,8 @@ struct SettingsView: View {
                     Label(error, systemImage: "exclamationmark.triangle").foregroundStyle(.red)
                     Button(L("Recharger la bibliothèque…")) { model.reloadStorage() }
                 }
-                LabeledContent(L("Éléments"), value: "\(model.library.clips.count)")
-                LabeledContent(L("Contenu conservé"), value: ByteCountFormatter.string(fromByteCount: Int64(model.totalBytes), countStyle: .file))
+                LabeledContent(L("Éléments"), value: Localization.number(model.library.clips.count))
+                LabeledContent(L("Contenu conservé"), value: Localization.bytes(Int64(model.totalBytes)))
                 caption(L("Les fichiers sont référencés et ne sont pas dupliqués. Leur taille sert aux règles, mais ne consomme pas le budget d’Encore. Le stockage et les sauvegardes restent en clair."))
                 HStack {
                     Button { model.exportLibrary() } label: { Label(L("Exporter…"), systemImage: "square.and.arrow.up") }
@@ -244,7 +243,7 @@ struct SettingsView: View {
                     HStack {
                         Text(item.0).font(.system(size: 13))
                         Spacer()
-                        Text(item.1).font(.system(size: 13, weight: .medium)).monospacedDigit().foregroundStyle(.primary).padding(.horizontal, 8).padding(.vertical, 5).background(.primary.opacity(0.065), in: RoundedRectangle(cornerRadius: 6))
+                        Text(Localization.keys(item.1)).font(.system(size: 13, weight: .medium)).monospacedDigit().foregroundStyle(.primary).padding(.horizontal, 8).padding(.vertical, 5).background(.primary.opacity(0.065), in: RoundedRectangle(cornerRadius: 6))
                     }.padding(.horizontal, 14).padding(.vertical, 8)
                     if item.0 != items.last?.0 { Divider().padding(.horizontal, 14) }
                 }
@@ -252,6 +251,11 @@ struct SettingsView: View {
         }
     }
 
+    private var languages: [String] { Localization.supported.sorted { Localization.nativeName($0).compare(Localization.nativeName($1), options: [.caseInsensitive, .diacriticInsensitive], locale: Localization.locale) == .orderedAscending } }
+    private func languageLabel(_ code: String) -> String {
+        let native = Localization.nativeName(code), local = Localization.displayName(code)
+        return native.caseInsensitiveCompare(local) == .orderedSame ? native : "\(native) (\(local))"
+    }
     private func caption(_ text: String) -> some View { Text(text).font(.system(size: 12)).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true) }
     private func percentageControl(_ title: String, symbol: String, value: Binding<Double>, range: ClosedRange<Double>) -> some View {
         VStack(spacing: 10) {

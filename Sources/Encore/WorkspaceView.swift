@@ -30,7 +30,7 @@ struct WorkspaceView: View {
             }
             Divider()
             HStack(spacing: 16) {
-                Text(model.filtered.count == 1 ? L("1 résultat") : L("\(model.filtered.count) résultats")).monospacedDigit()
+                Text(L("\(model.filtered.count) résultat(s)")).monospacedDigit()
                 Spacer()
                 Text(L("← → sélectionner · ↩ coller · espace éditer · ↓ réduire"))
             }.font(.system(size: 12)).foregroundStyle(.secondary).padding(.horizontal, 20).padding(.vertical, 12)

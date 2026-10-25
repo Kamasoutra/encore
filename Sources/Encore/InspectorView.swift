@@ -33,10 +33,10 @@ struct InspectorView: View {
                 Button { model.toggleFavorite([clip.id]) } label: { Image(systemName: current.favorite ? "star.fill" : "star").foregroundStyle(.orange) }.buttonStyle(.plain).help(L("Favori"))
             }
             VStack(spacing: 5) {
-                LabeledContent(L("Première copie"), value: current.firstCopyDate.formatted(date: .numeric, time: .standard))
-                LabeledContent(L("Dernière copie"), value: current.copiedAt.formatted(date: .numeric, time: .standard))
-                LabeledContent(L("Expiration"), value: model.retentionDecision(for: current).expiresAt.map { $0.formatted(date: .numeric, time: .standard) } ?? L("Indéfiniment"))
-                if let bytes = current.retentionByteCount { LabeledContent(current.kind == .file ? L("Taille des fichiers") : L("Contenu conservé"), value: ByteCountFormatter.string(fromByteCount: bytes, countStyle: .file)) }
+                LabeledContent(L("Première copie"), value: Localization.date(current.firstCopyDate))
+                LabeledContent(L("Dernière copie"), value: Localization.date(current.copiedAt))
+                LabeledContent(L("Expiration"), value: model.retentionDecision(for: current).expiresAt.map { Localization.date($0) } ?? L("Indéfiniment"))
+                if let bytes = current.retentionByteCount { LabeledContent(current.kind == .file ? L("Taille des fichiers") : L("Contenu conservé"), value: Localization.bytes(bytes)) }
                 if let rule = model.retentionDecision(for: current).ruleName { LabeledContent(L("Règle"), value: rule) }
             }.font(.system(size: 12)).padding(12).background(.primary.opacity(0.035), in: RoundedRectangle(cornerRadius: 10))
             if editable {
@@ -45,7 +45,7 @@ struct InspectorView: View {
                     .onChange(of: text) { _, _ in edited = true; onDirtyChange?(true) }
                     .onChange(of: title) { _, _ in edited = true; onDirtyChange?(true) }
                 HStack {
-                    Text(L("\(text.count) caractères")).font(.system(size: 11)).foregroundStyle(.secondary)
+                    Text(L("\(text.count) caractère(s)")).font(.system(size: 11)).foregroundStyle(.secondary)
                     Spacer()
                     Menu(L("Transformer")) {
                         ForEach(TextAction.allCases) { action in
@@ -83,7 +83,7 @@ struct InspectorView: View {
                     }.buttonStyle(.borderedProminent).disabled(!edited || text.isEmpty).keyboardShortcut("s", modifiers: .command)
                 }
             }
-        }.padding(25).frame(minWidth: 560, maxWidth: .infinity, minHeight: 520, maxHeight: .infinity).font(.system(size: 13)).tint(Palette.accent)
+        }.padding(25).frame(minWidth: 560, maxWidth: .infinity, minHeight: 520, maxHeight: .infinity).font(.system(size: 13)).tint(Palette.accent).localized()
     }
     private func finish() { if let onClose { onClose() } else { dismiss() } }
 }

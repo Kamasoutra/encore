@@ -3,13 +3,13 @@ import Foundation
 public enum RetentionUnit: String, Codable, CaseIterable, Identifiable, Sendable {
     case minutes, hours, days, weeks, months, forever
     public var id: String { rawValue }
-    public var title: String {
+    public func title(count: Int) -> String {
         switch self {
-        case .minutes: L("minute(s)")
-        case .hours: L("heure(s)")
-        case .days: L("jour(s)")
-        case .weeks: L("semaine(s)")
-        case .months: L("mois")
+        case .minutes: L("\(count) minute(s) (unité)")
+        case .hours: L("\(count) heure(s) (unité)")
+        case .days: L("\(count) jour(s) (unité)")
+        case .weeks: L("\(count) semaine(s) (unité)")
+        case .months: L("\(count) mois (unité)")
         case .forever: L("Indéfiniment")
         }
     }
@@ -35,7 +35,6 @@ public struct RetentionDuration: Codable, Equatable, Sendable {
     public init(_ value: Int = 1, _ unit: RetentionUnit = .days) { self.value = value; self.unit = unit }
     public static let forever = RetentionDuration(1, .forever)
     public var isValid: Bool { unit == .forever || (1...10_000).contains(value) }
-    public var title: String { unit == .forever ? L("Indéfiniment") : "\(value) \(unit.title)" }
     public func expiration(from date: Date, calendar: Calendar = .current) -> Date? {
         guard isValid else { return nil }
         return unit.expiration(from: date, value: value, calendar: calendar)
