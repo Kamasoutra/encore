@@ -28,6 +28,7 @@ struct Preferences: Codable, Equatable {
     var pasteSoundPath: String?
     var displayTarget = "active"
     var language = "system"
+    var shareWithPeers = false
 
     var retentionPolicy: RetentionPolicy {
         RetentionPolicy(rules: retentionRules, fallback: retentionDays > 0 ? .init(retentionDays, .days) : .forever)
@@ -38,7 +39,7 @@ struct Preferences: Codable, Equatable {
     private enum CodingKeys: String, CodingKey {
         case retentionDays, historyLimit, storageLimitMB, captureEnabled, ignoreSensitive, recognizeImages
         case excludedBundleIDs, panelHeight, compact, appearance, shortcut, retentionRules, cardScale, importScreenshots, screenshotFolder
-        case soundsEnabled, soundTheme, soundVolume, captureSoundPath, pasteSoundPath, displayTarget, stackShortcutEnabled, disabledDefaultExclusions, language
+        case soundsEnabled, soundTheme, soundVolume, captureSoundPath, pasteSoundPath, displayTarget, stackShortcutEnabled, disabledDefaultExclusions, language, shareWithPeers
     }
 
     init(from decoder: Decoder) throws {
@@ -69,6 +70,7 @@ struct Preferences: Codable, Equatable {
         pasteSoundPath = try values.decodeIfPresent(String.self, forKey: .pasteSoundPath)
         displayTarget = try values.decodeIfPresent(String.self, forKey: .displayTarget) ?? "active"
         language = try values.decodeIfPresent(String.self, forKey: .language) ?? "fr"
+        shareWithPeers = try values.decodeIfPresent(Bool.self, forKey: .shareWithPeers) ?? false
     }
 
     static func load(demo: Bool) -> Preferences {

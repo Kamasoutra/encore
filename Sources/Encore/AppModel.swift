@@ -2,7 +2,14 @@ import AppKit
 import SwiftUI
 import Vision
 import ImageIO
+import SystemConfiguration
 import EncoreCore
+
+struct PeerStatus: Identifiable, Equatable {
+    var device: PeerDevice
+    var online: Bool
+    var id: String { device.id }
+}
 
 @MainActor final class AppModel: ObservableObject {
     @Published var library = Library()
@@ -25,6 +32,11 @@ import EncoreCore
     @Published var accessibilityGranted = AXIsProcessTrusted()
     @Published var storageError: String?
     @Published private(set) var installedExcludedBundleIDs: [String] = []
+    @Published private(set) var peers: [PeerStatus] = []
+    @Published private(set) var nearbyMacs: [PeerDevice] = []
+    @Published private(set) var pairing: PairingSession?
+    @Published private(set) var pairingState: PairingSession.State?
+    @Published var pairingSheet = false { didSet { if pairingSheet != oldValue { refreshPeerActivity() } } }
     var togglePanel: (() -> Void)?
     var dismissPanel: (() -> Void)?
     var showSettings: (() -> Void)?
@@ -40,6 +52,8 @@ import EncoreCore
     let demo: Bool
     var storage: Storage?
     let filePreviews = FilePreviews()
+    private(set) var peerService: PeerService?
+    let deviceName = SCDynamicStoreCopyComputerName(nil, nil) as String? ?? Host.current().localizedName ?? "Mac"
     private var richTextCache: [UUID: NSAttributedString] = [:]
     private var checkedRichText = Set<UUID>()
     private var fileURLCache: [UUID: [URL]] = [:]
@@ -75,6 +89,7 @@ import EncoreCore
         if demo { seedDemo() } else { refreshFileSizes(); prune() }
         resetSelection()
         if let notice = storage?.recoveryNotice { notify(notice) }
+        startPeers()
     }
 
     var filtered: [Clip] {
@@ -264,6 +279,117 @@ import EncoreCore
         prune()
         updateAppearance?()
         updateScreenshotCapture?()
+        refreshPeerActivity()
+    }
+
+    private func startPeers() {
+        guard !demo, let storage else { return }
+        let defaults = UserDefaults.standard
+        let id = defaults.string(forKey: "peerDeviceID") ?? UUID().uuidString
+        defaults.set(id, forKey: "peerDeviceID")
+        let provider = LibraryShare(storage: storage) { [weak self] in await self?.shareSnapshot() ?? (Library(), []) }
+        do {
+            let service = try PeerService(identity: .init(id: id, name: deviceName), store: KeychainPeerSecretStore(), provider: provider)
+            service.onChange = { [weak self] in Task { @MainActor in self?.refreshPeers() } }
+            service.onIncomingPairing = { [weak self] session in Task { @MainActor in self?.presentIncoming(session) } }
+            peerService = service
+            refreshPeers()
+            refreshPeerActivity()
+        } catch { notify(L("Trousseau indisponible : \(error.localizedDescription)")) }
+    }
+
+    private func shareSnapshot() -> (library: Library, excluded: Set<String>) { (library, Set(preferences.excludedBundleIDs)) }
+
+    func refreshPeers() {
+        guard let service = peerService else { return }
+        let next = service.paired.map { PeerStatus(device: $0, online: service.isOnline($0.id)) }
+        if next != peers { peers = next }
+        let known = Set(next.map(\.id))
+        let nearby = service.nearby.filter { !known.contains($0.id) }
+        if nearby != nearbyMacs { nearbyMacs = nearby }
+    }
+
+    func refreshPeerActivity() {
+        guard let service = peerService else { return }
+        if preferences.shareWithPeers {
+            Task { [weak self] in
+                do { try await service.startSharing() } catch { self?.notify(L("Partage indisponible : \(error.localizedDescription)")) }
+            }
+        } else { service.stopSharing() }
+        if preferences.shareWithPeers || !peers.isEmpty || pairingSheet { service.startBrowsing() } else { service.stopBrowsing() }
+    }
+
+    func beginPairing(with device: PeerDevice) {
+        guard let service = peerService else { return }
+        attach(service.pair(with: device))
+    }
+
+    func confirmPairing() { pairing?.confirm() }
+
+    func resetPairing() {
+        if let pairing, !pairing.state.isFinal { pairing.cancel() }
+        pairing = nil
+        pairingState = nil
+    }
+
+    func closePairing() {
+        resetPairing()
+        pairingSheet = false
+    }
+
+    func revokePeer(_ id: String) {
+        do { try peerService?.revoke(id) } catch { notify(L("Retrait impossible : \(error.localizedDescription)")) }
+        refreshPeers()
+        refreshPeerActivity()
+    }
+
+    func remoteClips(from peer: PeerStatus, query: String = "", before: Date? = nil) async throws -> [RemoteClip] {
+        guard let service = peerService else { throw PeerFailure.unavailable }
+        return try await service.list(peer.id, request: .init(query: query.isEmpty ? nil : query, limit: 100, before: before))
+    }
+
+    @discardableResult func importRemote(_ remote: RemoteClip, from peer: PeerStatus) async throws -> Clip {
+        guard let service = peerService else { throw PeerFailure.unavailable }
+        let payload = try await service.payload(peer.id, id: remote.id)
+        guard var clip = Self.clip(for: payload, sourceName: L("\(remote.sourceName) · depuis \(peer.device.name)"), sourceBundle: remote.sourceBundle) else { throw PeerFailure.malformed }
+        clip.title = remote.title
+        clip.firstCopiedAt = remote.firstCopiedAt ?? remote.copiedAt
+        guard accept(clip, payload: payload), let stored = library.clips.first(where: { $0.fingerprint == clip.fingerprint }) else { throw PeerFailure.unavailable }
+        return stored
+    }
+
+    static func clip(for payload: ClipPayload, sourceName: String, sourceBundle: String) -> Clip? {
+        let pasteboard = NSPasteboard(name: .init("Encore-Remote-\(UUID())"))
+        defer { pasteboard.releaseGlobally() }
+        pasteboard.clearContents()
+        pasteboard.writeObjects(payload.items.map { item in
+            let value = NSPasteboardItem()
+            for (type, data) in item.representations { value.setData(data, forType: .init(type)) }
+            return value
+        })
+        guard var clip = (try? PasteboardCapture.read(pasteboard, sourceName: sourceName, sourceBundle: sourceBundle))??.clip else { return nil }
+        clip.fingerprint = payload.fingerprint
+        clip.byteCount = payload.byteCount
+        return clip
+    }
+
+    private func presentIncoming(_ session: PairingSession) {
+        guard pairing.map({ $0.state.isFinal }) ?? true else { session.cancel(); return }
+        attach(session)
+        pairingSheet = true
+        showSettings?()
+    }
+
+    private func attach(_ session: PairingSession) {
+        pairing = session
+        session.onUpdate = { [weak self, weak session] _ in
+            Task { @MainActor in
+                guard let self, let session, self.pairing === session else { return }
+                self.pairingState = session.state
+                if session.state == .paired { self.notify(L("\(session.remote?.name ?? "Mac") est appairé.")) }
+            }
+        }
+        pairingState = session.state
     }
 
     func refreshInstalledExclusions() {

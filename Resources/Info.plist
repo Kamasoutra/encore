@@ -12,5 +12,7 @@
     <key>LSMinimumSystemVersion</key><string>14.0</string>
     <key>LSUIElement</key><true/>
     <key>NSHighResolutionCapable</key><true/>
+    <key>NSLocalNetworkUsageDescription</key><string>Encore se connecte directement à vos autres Mac appairés sur le réseau local pour partager l’historique du presse-papiers, sans serveur.</string>
+    <key>NSBonjourServices</key><array><string>_encore._tcp</string></array>
     <key>NSHumanReadableCopyright</key><string>© 2026 Encore contributors. MIT License.</string>
 </dict></plist>
