@@ -71,3 +71,20 @@ jobs:
           else
             gh release create "$RELEASE_TAG" "${assets[@]}" --verify-tag --latest --title "Encore ${RELEASE_TAG#v}" --notes-file .github/RELEASE_NOTES.md
           fi
+      - name: Update the Homebrew tap
+        env:
+          TAP_DEPLOY_KEY: ${{ secrets.HOMEBREW_TAP_DEPLOY_KEY }}
+        run: |
+          version=$(/usr/libexec/PlistBuddy -c 'Print CFBundleShortVersionString' Resources/Info.plist)
+          key="$RUNNER_TEMP/tap-key"
+          printf '%s\n' "$TAP_DEPLOY_KEY" > "$key" && chmod 600 "$key"
+          export GIT_SSH_COMMAND="ssh -i $key -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new"
+          git clone git@github.com:Kamasoutra/homebrew-tap.git "$RUNNER_TEMP/tap"
+          mkdir -p "$RUNNER_TEMP/tap/Casks"
+          bash scripts/cask.sh dist/Encore-macOS-arm64.zip > "$RUNNER_TEMP/tap/Casks/encore.rb"
+          cd "$RUNNER_TEMP/tap"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Casks/encore.rb
+          git diff --cached --quiet || { git commit -m "Update encore to $version"; git push origin HEAD; }
+          rm -f "$key"
