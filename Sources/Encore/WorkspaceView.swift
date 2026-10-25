@@ -102,7 +102,9 @@ struct LibraryBody: View {
     private var grid: some View {
         ScrollViewReader { proxy in
             ScrollView {
-                if model.filtered.isEmpty {
+                if model.remoteLoading {
+                    ProgressView().controlSize(.small).frame(maxWidth: .infinity).padding(.top, 80)
+                } else if model.filtered.isEmpty {
                     ContentUnavailableView(L("No items found"), systemImage: "magnifyingglass", description: Text(L("Try another word or remove the filters."))).padding(.top, 80)
                 }
                 LazyVStack(alignment: .leading, spacing: 14, pinnedViews: [.sectionHeaders]) {
@@ -172,11 +174,11 @@ struct LibraryPreview: View {
                 Grid(horizontalSpacing: 8, verticalSpacing: 8) {
                     GridRow {
                         Button { model.paste([clip]) } label: { (Text(L("Paste")) + Text("  ↩").foregroundStyle(.white.opacity(0.7))).frame(maxWidth: .infinity) }.buttonStyle(.borderedProminent)
-                        Button { model.inspector = clip } label: { Text(L("Edit")).frame(maxWidth: .infinity) }
+                        Button { model.inspector = clip } label: { Text(L("Edit")).frame(maxWidth: .infinity) }.disabled(model.remotePeer != nil)
                     }
                     GridRow {
                         Button { model.paste([clip], plain: true) } label: { Text(L("Paste as plain text")).lineLimit(1).frame(maxWidth: .infinity) }.disabled(clip.text.isEmpty)
-                        Menu(L("Transform")) { ForEach(TextAction.allCases) { action in Button(action.title) { model.transform(action, clip: clip) } } }.disabled(clip.text.isEmpty)
+                        Menu(L("Transform")) { ForEach(TextAction.allCases) { action in Button(action.title) { model.transform(action, clip: clip) } } }.disabled(clip.text.isEmpty || model.remotePeer != nil)
                     }
                 }.controlSize(floating ? .small : .regular)
             } else {

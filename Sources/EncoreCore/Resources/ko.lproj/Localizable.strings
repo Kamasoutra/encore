@@ -376,3 +376,4 @@
 "⌘F or start typing" = "⌘F 또는 입력 시작";
 "⌘⇧C is already used by another app. The queue is available from the shelf." = "⌘⇧C는 이미 다른 앱에서 사용 중입니다. 대기열은 패널에서 사용할 수 있습니다.";
 "hold ↓" = "↓ 길게 누르기";
+"%@ is unavailable." = "%@에 연결할 수 없습니다.";

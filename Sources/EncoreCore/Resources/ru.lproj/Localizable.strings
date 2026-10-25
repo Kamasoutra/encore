@@ -376,3 +376,4 @@
 "⌘F or start typing" = "⌘F или начните вводить";
 "⌘⇧C is already used by another app. The queue is available from the shelf." = "Сочетание ⌘⇧C уже используется другим приложением. Очередь доступна на панели.";
 "hold ↓" = "удерживайте ↓";
+"%@ is unavailable." = "%@ недоступен.";

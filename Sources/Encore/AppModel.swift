@@ -17,7 +17,7 @@ struct PeerStatus: Identifiable, Equatable {
     @Published var query = "" { didSet { resetSelection() } }
     @Published var kind: ClipKind? { didSet { resetSelection() } }
     @Published var source: String? { didSet { resetSelection() } }
-    @Published var board = "history" { didSet { resetSelection() } }
+    @Published var board = "history" { didSet { loadRemote(); resetSelection() } }
     @Published var selection: Set<UUID> = []
     @Published var cursor: UUID?
     @Published var searchFocused = false
@@ -66,6 +66,10 @@ struct PeerStatus: Identifiable, Equatable {
     private var selectionAnchor: UUID?
     private var statusTask: Task<Void, Never>?
     private var thumbnails: [UUID: NSImage] = [:]
+    @Published private(set) var remoteItems: [Clip] = []
+    @Published private(set) var remoteLoading = false
+    private var remoteRecords: [UUID: RemoteClip] = [:]
+    private var remoteTask: Task<Void, Never>?
     private var ocrJobs = Set<UUID>()
     private let ocrQueue = DispatchQueue(label: "local.kama.Encore.ocr", qos: .utility)
 
@@ -100,13 +104,16 @@ struct PeerStatus: Identifiable, Equatable {
 
     var filtered: [Clip] {
         let search = ClipQuery(query: query, kind: kind, source: source, favorites: board == "favorites", collectionID: UUID(uuidString: board))
-        return library.clips.filter { search.matches($0) }
+        return boardClips.filter { search.matches($0) }
     }
+    /// Local history, or the recent history of the paired Mac picked as board ("peer:<device id>").
+    var boardClips: [Clip] { remotePeer == nil ? library.clips : remoteItems }
+    var remotePeer: PeerStatus? { board.hasPrefix("peer:") ? peers.first { "peer:\($0.id)" == board } : nil }
     var selectedClips: [Clip] { filtered.filter { selection.contains($0.id) } }
-    var selected: Clip? { library.clips.first { $0.id == cursor } }
+    var selected: Clip? { boardClips.first { $0.id == cursor } }
     var sources: [(String, String)] {
         var seen = Set<String>()
-        return library.clips.compactMap { seen.insert($0.sourceBundle).inserted && !$0.sourceBundle.isEmpty ? ($0.sourceBundle, $0.sourceName) : nil }.sorted { $0.1.localizedStandardCompare($1.1) == .orderedAscending }
+        return boardClips.compactMap { seen.insert($0.sourceBundle).inserted && !$0.sourceBundle.isEmpty ? ($0.sourceBundle, $0.sourceName) : nil }.sorted { $0.1.localizedStandardCompare($1.1) == .orderedAscending }
     }
     var totalBytes: Int { library.clips.reduce(0) { $0 + $1.byteCount } }
 
@@ -352,6 +359,30 @@ struct PeerStatus: Identifiable, Equatable {
         refreshPeerActivity()
     }
 
+    func loadRemote() {
+        remoteTask?.cancel()
+        remoteItems = []; remoteRecords = [:]
+        guard let peer = remotePeer else { remoteLoading = false; return }
+        remoteLoading = true
+        remoteTask = Task {
+            do {
+                let records = try await remoteClips(from: peer)
+                guard !Task.isCancelled else { return }
+                remoteRecords = Dictionary(records.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
+                remoteItems = records.map { record in
+                    var clip = Clip(id: record.id, kind: record.kind, text: record.preview, title: record.title, sourceName: L("\(record.sourceName) · from \(peer.device.name)"), sourceBundle: record.sourceBundle, copiedAt: record.copiedAt, byteCount: record.byteCount)
+                    clip.firstCopiedAt = record.firstCopiedAt ?? record.copiedAt
+                    return clip
+                }
+                remoteLoading = false
+                resetSelection()
+            } catch {
+                guard !Task.isCancelled else { return }
+                remoteLoading = false
+                notify(L("\(peer.device.name) is unavailable."))
+            }
+        }
+    }
     func remoteClips(from peer: PeerStatus, query: String = "", before: Date? = nil) async throws -> [RemoteClip] {
         guard let service = peerService else { throw PeerFailure.unavailable }
         return try await service.list(peer.id, request: .init(query: query.isEmpty ? nil : query, limit: 100, before: before))
@@ -478,6 +509,17 @@ struct PeerStatus: Identifiable, Equatable {
     func paste(_ clips: [Clip]? = nil, plain: Bool = false, copyOnly: Bool = false) {
         let values = clips ?? selectedClips
         guard !values.isEmpty else { return }
+        if let peer = remotePeer, case let records = values.compactMap({ remoteRecords[$0.id] }), !records.isEmpty {
+            // Remote items are fetched in full and kept in the local history before pasting.
+            Task {
+                do {
+                    var imported: [Clip] = []
+                    for record in records { imported.append(try await importRemote(record, from: peer)) }
+                    paste(imported, plain: plain, copyOnly: copyOnly)
+                } catch { notify(L("\(peer.device.name) is unavailable.")) }
+            }
+            return
+        }
         let payloads = values.compactMap { storage?.payload($0.id) }
         guard payloads.count == values.count else { notify(L("Content is unavailable on disk.")); return }
         let origin = values.count == 1 ? values[0].sourceBundle : ""
@@ -601,6 +643,7 @@ struct PeerStatus: Identifiable, Equatable {
 
     func image(for clip: Clip) -> NSImage? {
         if let image = thumbnails[clip.id] { return image }
+        if let data = remoteRecords[clip.id]?.thumbnail, let image = NSImage(data: data) { thumbnails[clip.id] = image; return image }
         guard let payload = storage?.payload(clip.id), let data = Self.imageData(payload), let cg = Self.downsample(data, maxDimension: 640) else { return nil }
         let image = NSImage(cgImage: cg, size: .zero)
         if thumbnails.count >= 40 { thumbnails.removeAll() }

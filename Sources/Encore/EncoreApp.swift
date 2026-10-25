@@ -40,7 +40,7 @@ final class EncorePanel: NSPanel {
     private var applicationsObserver: NSObjectProtocol?
     private var quickLookPanel: NSPanel?
     private var shownExpanded = false
-    private var downPress: Date?
+    private var downPress: (time: Date, cursor: UUID?, selection: Set<UUID>)?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         let demo = CommandLine.arguments.contains("--demo")
@@ -223,6 +223,7 @@ final class EncorePanel: NSPanel {
         if let front = NSWorkspace.shared.frontmostApplication, front.bundleIdentifier != Bundle.main.bundleIdentifier { previousApplication = front }
         model.accessibilityGranted = AXIsProcessTrusted()
         model.displayTime = Date()
+        if model.remotePeer != nil { model.loadRemote() }
         model.query = ""
         model.expanded = false
         model.searchFocused = false
@@ -270,7 +271,7 @@ final class EncorePanel: NSPanel {
                 }
             }
             if event.keyCode == 123 || event.keyCode == 124 {
-                let boards = ["history", "favorites"] + model.library.collections.map { $0.id.uuidString }
+                let boards = ["history", "favorites"] + model.library.collections.map { $0.id.uuidString } + model.peers.map { "peer:\($0.id)" }
                 let current = boards.firstIndex(of: model.board) ?? 0
                 model.board = boards[(current + Localization.step(rightArrow: event.keyCode == 124) + boards.count) % boards.count]
                 return nil
@@ -300,8 +301,13 @@ final class EncorePanel: NSPanel {
             // In the library a tap moves down a row and holding ↓ goes back to the shelf.
             if command, let last = model.filtered.last { model.select(last.id) }
             else if event.isARepeat {
-                if model.expanded, let start = downPress, Date().timeIntervalSince(start) > 0.4 { downPress = nil; setExpanded(false) }
-            } else if model.expanded { downPress = Date(); model.moveRow(1, extend: shift) }
+                if model.expanded, let press = downPress, Date().timeIntervalSince(press.time) > 0.4 {
+                    // The first press already moved a row: go back to the card the user was on.
+                    downPress = nil
+                    model.cursor = press.cursor; model.selection = press.selection
+                    setExpanded(false)
+                }
+            } else if model.expanded { downPress = (Date(), model.cursor, model.selection); model.moveRow(1, extend: shift) }
             else { hide() }
             return nil
         case 48:

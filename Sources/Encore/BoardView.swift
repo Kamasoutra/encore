@@ -187,6 +187,10 @@ struct BoardView: View {
                             return true
                         }
                 }
+                ForEach(model.peers) { peer in
+                    boardButton(peer.device.name, symbol: "laptopcomputer", id: "peer:\(peer.id)", color: .teal)
+                        .opacity(peer.online ? 1 : 0.45).help(peer.online ? L("Online") : L("Offline"))
+                }
                 Button { model.createCollection() } label: { Image(systemName: "plus").font(.system(size: 12, weight: .semibold)).frame(width: 26, height: 26) }
                     .buttonStyle(.plain).foregroundStyle(.secondary).help(L("Create collection · ⌘⇧N")).accessibilityLabel(L("New collection"))
             }.padding(2).background(.primary.opacity(0.06), in: RoundedRectangle(cornerRadius: 8))
@@ -253,7 +257,11 @@ struct BoardView: View {
         }
     }
 
-    private var emptyState: some View {
+    @ViewBuilder private var emptyState: some View {
+        if model.remoteLoading { ProgressView().controlSize(.small) } else { emptyMessage }
+    }
+
+    private var emptyMessage: some View {
         VStack(spacing: 10) {
             Image(systemName: model.library.clips.isEmpty ? "doc.on.clipboard" : "magnifyingglass").font(.system(size: 30, weight: .light)).foregroundStyle(Palette.accent).padding(.bottom, 3)
             Text(model.library.clips.isEmpty ? L("Your ideas, a keystroke away.") : L("No items found")).font(.system(size: 19, weight: .semibold, design: .rounded))
@@ -412,7 +420,9 @@ struct ClipCard: View {
 
     /// Time left before the clip expires, in orange during its last day.
     @ViewBuilder private var retention: some View {
-        if let deadline = model.retentionDecision(for: clip).expiresAt {
+        if model.remotePeer != nil {
+            Image(systemName: "laptopcomputer").font(.system(size: 11 * scale, weight: .medium)).foregroundStyle(.teal)
+        } else if let deadline = model.retentionDecision(for: clip).expiresAt {
             let soon = deadline.timeIntervalSince(model.displayTime) < 86_400
             Label(model.remainingRetention(for: clip), systemImage: "clock").labelStyle(.titleAndIcon).font(.system(size: 11 * scale, weight: .medium)).foregroundStyle(soon ? AnyShapeStyle(.orange) : AnyShapeStyle(.tertiary)).lineLimit(1)
         } else {
@@ -569,9 +579,14 @@ struct ClipActions: View {
             ShareLink(item: url) { Label(L("Share"), systemImage: "square.and.arrow.up") }
             Divider()
         }
-        Button { model.paste(model.library.clips.filter { ids.contains($0.id) }) } label: { Label(L("Paste"), systemImage: "doc.on.clipboard") }.keyboardShortcut(.return, modifiers: [])
-        Button { model.paste(model.library.clips.filter { ids.contains($0.id) }, plain: true) } label: { Label(L("Paste as plain text"), systemImage: "text.alignleft") }.keyboardShortcut(.return, modifiers: .shift)
-        Button { model.paste(model.library.clips.filter { ids.contains($0.id) }, copyOnly: true) } label: { Label(L("Copy"), systemImage: "doc.on.doc") }.keyboardShortcut("c")
+        Button { model.paste(model.boardClips.filter { ids.contains($0.id) }) } label: { Label(L("Paste"), systemImage: "doc.on.clipboard") }.keyboardShortcut(.return, modifiers: [])
+        Button { model.paste(model.boardClips.filter { ids.contains($0.id) }, plain: true) } label: { Label(L("Paste as plain text"), systemImage: "text.alignleft") }.keyboardShortcut(.return, modifiers: .shift)
+        Button { model.paste(model.boardClips.filter { ids.contains($0.id) }, copyOnly: true) } label: { Label(L("Copy"), systemImage: "doc.on.doc") }.keyboardShortcut("c")
+        // Items from another Mac only become editable once pasted into the local history.
+        if model.remotePeer == nil { localActions }
+    }
+
+    @ViewBuilder private var localActions: some View {
         Divider()
         Button { model.toggleFavorite(ids) } label: { Label(clip.favorite ? L("Remove from favorites") : L("Add to favorites"), systemImage: clip.favorite ? "star.slash" : "star") }
         Menu {
