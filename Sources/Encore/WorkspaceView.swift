@@ -11,14 +11,23 @@ struct LibraryBody: View {
     private var scale: Double { model.preferences.cardScale }
 
     var body: some View {
-        HStack(spacing: 0) {
-            filters.frame(width: 208)
-                .opacity(appeared ? 1 : 0).offset(x: appeared || reduceMotion ? 0 : -16)
-            Divider().opacity(0.6)
-            grid.frame(maxWidth: .infinity)
-            Divider().opacity(0.6)
-            LibraryPreview(model: model).frame(width: 372)
-                .opacity(appeared ? 1 : 0).offset(x: appeared || reduceMotion ? 0 : 16)
+        GeometryReader { geometry in
+            // The grid keeps whole columns; the preview takes the width left over.
+            let card: Double = (compact ? 196 : 236) * scale
+            let room: Double = geometry.size.width - 208 - 372 - 22
+            let columns = max(1, Int(room / (card + 12)))
+            let gridWidth: Double = Double(columns) * (card + 12) + 20
+            HStack(spacing: 0) {
+                filters.frame(width: 208)
+                    .opacity(appeared ? 1 : 0).offset(x: appeared || reduceMotion ? 0 : -16)
+                Divider().opacity(0.6)
+                grid.frame(width: gridWidth)
+                Divider().opacity(0.6)
+                LibraryPreview(model: model).frame(maxWidth: .infinity)
+                    .opacity(appeared ? 1 : 0).offset(x: appeared || reduceMotion ? 0 : 16)
+            }
+            .onAppear { model.libraryColumns = columns }
+            .onChange(of: columns) { _, value in model.libraryColumns = value }
         }
         .overlay(alignment: .top) { Rectangle().fill(.primary.opacity(0.07)).frame(height: 1) }
         .onAppear { withAnimation(reduceMotion ? .easeOut(duration: 0.15) : .spring(duration: 0.34, bounce: 0.1).delay(0.12)) { appeared = true } }
@@ -110,7 +119,7 @@ struct LibraryBody: View {
                 LazyVStack(alignment: .leading, spacing: 14, pinnedViews: [.sectionHeaders]) {
                     ForEach(ClipSection.group(model.filtered, now: model.displayTime)) { section in
                         Section {
-                            LazyVGrid(columns: [GridItem(.adaptive(minimum: (compact ? 196 : 236) * scale, maximum: (compact ? 196 : 236) * scale), spacing: 12)], alignment: .leading, spacing: 12) {
+                            LazyVGrid(columns: Array(repeating: GridItem(.fixed((compact ? 196 : 236) * scale), spacing: 12), count: model.libraryColumns), alignment: .leading, spacing: 12) {
                                 ForEach(section.items) { item in
                                     ClipCard(model: model, clip: item.clip, index: item.index, compact: compact, height: 232 * scale, namespace: namespace).id(item.clip.id)
                                 }
@@ -123,11 +132,6 @@ struct LibraryBody: View {
                         }
                     }
                 }.padding(16)
-                .background(GeometryReader { geometry in
-                    let card = (compact ? 196 : 236) * scale
-                    Color.clear.onAppear { model.libraryColumns = max(1, Int((geometry.size.width - 32 + 12) / (card + 12))) }
-                        .onChange(of: geometry.size.width) { _, width in model.libraryColumns = max(1, Int((width - 32 + 12) / (card + 12))) }
-                })
             }
             .onChange(of: model.cursor) { _, id in
                 guard let id else { return }
