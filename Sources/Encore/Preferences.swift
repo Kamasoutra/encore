@@ -22,7 +22,7 @@ struct Preferences: Codable, Equatable {
     var importScreenshots = false
     var screenshotFolder: String?
     var soundsEnabled = true
-    var soundTheme: SoundTheme = .soft
+    var soundTheme: SoundTheme = .default
     var soundVolume = 0.2
     var captureSoundPath: String?
     var pasteSoundPath: String?
@@ -63,7 +63,7 @@ struct Preferences: Codable, Equatable {
         importScreenshots = try values.decodeIfPresent(Bool.self, forKey: .importScreenshots) ?? false
         screenshotFolder = try values.decodeIfPresent(String.self, forKey: .screenshotFolder)
         soundsEnabled = try values.decodeIfPresent(Bool.self, forKey: .soundsEnabled) ?? true
-        soundTheme = try values.decodeIfPresent(SoundTheme.self, forKey: .soundTheme) ?? .soft
+        soundTheme = try values.decodeIfPresent(SoundTheme.self, forKey: .soundTheme) ?? .default
         soundVolume = min(1, max(0, try values.decodeIfPresent(Double.self, forKey: .soundVolume) ?? 0.2))
         captureSoundPath = try values.decodeIfPresent(String.self, forKey: .captureSoundPath)
         pasteSoundPath = try values.decodeIfPresent(String.self, forKey: .pasteSoundPath)

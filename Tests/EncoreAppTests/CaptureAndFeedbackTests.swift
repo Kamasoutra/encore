@@ -71,7 +71,7 @@ final class CaptureAndFeedbackTests: XCTestCase {
                 let url = try XCTUnwrap(FeedbackSounds.bundledURL(action, theme: theme))
                 let sound = try XCTUnwrap(NSSound(contentsOf: url, byReference: false))
                 XCTAssertGreaterThan(sound.duration, 0.005)
-                XCTAssertLessThan(sound.duration, 0.2)
+                XCTAssertLessThan(sound.duration, 0.4)
             }
         }
     }

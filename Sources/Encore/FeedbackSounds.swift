@@ -2,13 +2,18 @@ import EncoreCore
 import AppKit
 
 enum SoundTheme: String, Codable, CaseIterable, Identifiable {
-    case soft, crystal, retro, custom
+    case paper, piano, marimba, glass, drop, bubble, soft, crystal, retro, custom
+    static let `default`: SoundTheme = .paper
     var id: String { rawValue }
     var title: String {
-        switch self { case .soft: L("Feutré"); case .crystal: L("Net"); case .retro: L("Boisé"); case .custom: L("Personnalisé") }
+        switch self {
+        case .paper: L("Papier"); case .piano: L("Piano"); case .marimba: L("Marimba"); case .glass: L("Verre")
+        case .drop: L("Goutte"); case .bubble: L("Bulle")
+        case .soft: L("Feutré"); case .crystal: L("Net"); case .retro: L("Boisé"); case .custom: L("Personnalisé")
+        }
     }
     func name(for action: FeedbackSounds.Action) -> String {
-        "\(self == .custom ? "soft" : rawValue)-\(action == .capture ? "capture" : "paste")"
+        "\(self == .custom ? SoundTheme.default.rawValue : rawValue)-\(action == .capture ? "capture" : "paste")"
     }
 }
 
@@ -35,5 +40,14 @@ enum SoundTheme: String, Codable, CaseIterable, Identifiable {
         sound.volume = Float(min(1, max(0, preferences.soundVolume)))
         if sound.isPlaying { sound.stop() }
         return sound.play()
+    }
+    /// Plays a theme without selecting it; `sequence` replays real use: two copies, then a paste.
+    static func preview(_ theme: SoundTheme, action: Action? = nil, preferences: Preferences) {
+        var preferences = preferences
+        preferences.soundTheme = theme
+        if let action { play(action, preferences: preferences); return }
+        play(.capture, preferences: preferences)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) { play(.capture, preferences: preferences) }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { play(.paste, preferences: preferences) }
     }
 }

@@ -87,6 +87,6 @@ open dist/Encore.app
 
 Use `open -n dist/Encore.app --args --demo` for a separate, synthetic library. Quit the normal instance first. For development builds, `ENCORE_SIGNING_IDENTITY` lets the build script reuse an existing code-signing identity; the default is ad hoc.
 
-Encore is independently implemented and includes no Paste code or assets. UI sound samples are adapted from [Kenney's Interface Sounds](https://kenney.nl/assets/interface-sounds), released under CC0; attribution and source files are bundled with the sounds.
+Encore is independently implemented and includes no Paste code or assets. The default sound sets are synthesized by `scripts/sounds.py`; the Soft, Crisp and Wood sets are adapted from [Kenney's Interface Sounds](https://kenney.nl/assets/interface-sounds), released under CC0. Attribution and source notes are bundled with the sounds.
 
 [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md) · [MIT license](LICENSE)

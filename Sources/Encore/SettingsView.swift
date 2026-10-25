@@ -126,12 +126,8 @@ struct SettingsView: View {
             }
             Section(L("Retour sonore")) {
                 Toggle(L("Jouer un son à la copie et au collage"), isOn: $model.preferences.soundsEnabled)
-                Picker(L("Ambiance"), selection: $model.preferences.soundTheme) { ForEach(SoundTheme.allCases) { theme in Text(theme.title).tag(theme) } }
                 percentageControl(L("Volume"), symbol: "speaker.wave.2", value: $model.preferences.soundVolume, range: 0...1)
-                HStack {
-                    Button { FeedbackSounds.play(.capture, preferences: model.preferences) } label: { Label(L("Copie"), systemImage: "play.circle") }
-                    Button { FeedbackSounds.play(.paste, preferences: model.preferences) } label: { Label(L("Collage"), systemImage: "play.circle") }
-                }
+                ForEach(SoundTheme.allCases) { theme in soundThemeRow(theme) }
                 if model.preferences.soundTheme == .custom {
                     soundFileRow(L("Copie"), path: model.preferences.captureSoundPath, action: .capture)
                     soundFileRow(L("Collage"), path: model.preferences.pasteSoundPath, action: .paste)
@@ -286,6 +282,22 @@ struct SettingsView: View {
         guard panel.runModal() == .OK, let url = panel.url else { return }
         model.preferences.screenshotFolder = url.path
         model.preferences.importScreenshots = true
+    }
+    private func soundThemeRow(_ theme: SoundTheme) -> some View {
+        let selected = model.preferences.soundTheme == theme
+        return HStack(spacing: 6) {
+            Button { model.preferences.soundTheme = theme } label: {
+                HStack(spacing: 8) {
+                    Image(systemName: selected ? "checkmark.circle.fill" : "circle").foregroundStyle(selected ? Palette.accent : Color.secondary)
+                    Text(theme.title).fontWeight(selected ? .semibold : .regular)
+                    Spacer(minLength: 0)
+                }.contentShape(Rectangle())
+            }.buttonStyle(.plain).accessibilityAddTraits(selected ? .isSelected : [])
+            Button(L("Copie")) { FeedbackSounds.preview(theme, action: .capture, preferences: model.preferences) }
+            Button(L("Collage")) { FeedbackSounds.preview(theme, action: .paste, preferences: model.preferences) }
+            Button { FeedbackSounds.preview(theme, preferences: model.preferences) } label: { Label(L("Enchaînement"), systemImage: "play.fill") }
+                .help(L("Deux copies, puis un collage"))
+        }.controlSize(.small)
     }
     private func soundFileRow(_ title: String, path: String?, action: FeedbackSounds.Action) -> some View {
         HStack {
