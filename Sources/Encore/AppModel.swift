@@ -14,7 +14,10 @@ import EncoreCore
     @Published var selection: Set<UUID> = []
     @Published var cursor: UUID?
     @Published var searchFocused = false
-    @Published var expanded = false { didSet { if expanded != oldValue { resizePanel?() } } }
+    @Published var expanded = false { didSet { if expanded != oldValue { quickLook = false; resizePanel?() } } }
+    @Published var quickLook = false { didSet { if quickLook != oldValue { updateQuickLook?() } } }
+    /// Frame of the cursor card in panel coordinates, used to anchor the floating preview.
+    var cursorFrame: CGRect = .zero
     @Published var inspector: Clip? { didSet { if let inspector { presentInspector?(inspector) } } }
     @Published var queue: [UUID] = []
     @Published var collecting = false { didSet { if !collecting && oldValue { stackTap?.stop() } } }
@@ -34,6 +37,7 @@ import EncoreCore
     var resizePanel: (() -> Void)?
     var updateScreenshotCapture: (() -> Void)?
     var presentInspector: ((Clip) -> Void)?
+    var updateQuickLook: (() -> Void)?
     var updateLanguage: (() -> Void)?
     var clipboard: ClipboardService!
     var stackTap: StackTap!

@@ -38,6 +38,8 @@ final class EncorePanel: NSPanel {
     private var inspectorDirty = false
     private var applicationsTimer: Timer?
     private var applicationsObserver: NSObjectProtocol?
+    private var quickLookPanel: NSPanel?
+    private var shownExpanded = false
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         let demo = CommandLine.arguments.contains("--demo")
@@ -57,6 +59,7 @@ final class EncorePanel: NSPanel {
         model.updateShortcuts = { [weak self] in self?.registerShortcuts() }
         model.updateAppearance = { [weak self] in self?.applyAppearance() }
         model.resizePanel = { [weak self] in self?.positionPanel() }
+        model.updateQuickLook = { [weak self] in self?.updateQuickLook() }
         panel = EncorePanel(contentRect: .zero, styleMask: [.borderless, .nonactivatingPanel], backing: .buffered, defer: false)
         panel.title = "Encore"
         panel.identifier = NSUserInterfaceItemIdentifier("EncoreBoard")
@@ -169,15 +172,50 @@ final class EncorePanel: NSPanel {
         let mouse = NSEvent.mouseLocation
         let screen = ScreenPlacement.screen(target: model.preferences.displayTarget, screens: NSScreen.screens, pointer: mouse, current: panel.isVisible ? panel.screen : nil)
         let frame = (screen ?? NSScreen.main ?? NSScreen.screens[0]).visibleFrame
-        if model.expanded {
-            let width = min(1440, frame.width - 32)
-            let height = min(900, frame.height - 48)
-            panel.setFrame(NSRect(x: frame.midX - width / 2, y: frame.midY - height / 2, width: width, height: height), display: true)
+        // The library is the shelf grown upwards: same width, same bottom edge.
+        let shelf = min(frame.height - 30, model.preferences.panelHeight)
+        let height = model.expanded ? max(shelf, min(frame.height - 30, max(640, frame.height * 0.8))) : shelf
+        let target = NSRect(x: frame.minX + 12, y: frame.minY + 10, width: max(600, frame.width - 24), height: height)
+        let animate = panel.isVisible && shownExpanded != model.expanded && !NSWorkspace.shared.accessibilityDisplayShouldReduceMotion
+        shownExpanded = model.expanded
+        guard animate else { panel.setFrame(target, display: true); return }
+        NSAnimationContext.runAnimationGroup { context in
+            context.duration = 0.34
+            context.timingFunction = CAMediaTimingFunction(controlPoints: 0.2, 0.9, 0.25, 1)
+            panel.animator().setFrame(target, display: true)
+        }
+    }
+
+    private func setExpanded(_ value: Bool) {
+        guard model.expanded != value else { return }
+        let reduce = NSWorkspace.shared.accessibilityDisplayShouldReduceMotion
+        withAnimation(reduce ? .easeOut(duration: 0.15) : .spring(duration: 0.34, bounce: 0.12)) { model.expanded = value }
+    }
+
+    /// Space on the shelf: a floating preview anchored above the cursor card, following the selection.
+    private func updateQuickLook() {
+        guard model.quickLook, panel.isVisible, !model.expanded, model.selected != nil, let screen = panel.screen else {
+            if let quickLookPanel { panel.removeChildWindow(quickLookPanel); quickLookPanel.orderOut(nil) }
+            if model.quickLook && (model.selected == nil || !panel.isVisible || model.expanded) { model.quickLook = false }
             return
         }
-        let width = max(600, frame.width - 24)
-        let height = min(frame.height - 30, model.preferences.panelHeight)
-        panel.setFrame(NSRect(x: frame.minX + 12, y: frame.minY + 10, width: width, height: height), display: true)
+        if quickLookPanel == nil {
+            let preview = NSPanel(contentRect: .zero, styleMask: [.borderless, .nonactivatingPanel], backing: .buffered, defer: false)
+            preview.isOpaque = false; preview.backgroundColor = .clear; preview.hasShadow = true
+            preview.level = .floating; preview.hidesOnDeactivate = false; preview.isReleasedWhenClosed = false
+            preview.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
+            preview.contentView = NSHostingView(rootView: QuickLookView(model: model))
+            quickLookPanel = preview
+        }
+        guard let preview = quickLookPanel else { return }
+        let size = NSSize(width: 540, height: 360)
+        let card = model.cursorFrame == .zero ? NSRect(x: panel.frame.width / 2, y: 0, width: 0, height: 0) : model.cursorFrame
+        let bounds = screen.visibleFrame
+        let x = min(max(panel.frame.minX + card.midX - size.width / 2, bounds.minX + 8), bounds.maxX - size.width - 8)
+        let y = min(panel.frame.maxY + 10, bounds.maxY - size.height - 8)
+        preview.setFrame(NSRect(x: x, y: y, width: size.width, height: size.height), display: true)
+        if preview.parent == nil { panel.addChildWindow(preview, ordered: .above) }
+        preview.orderFront(nil)
     }
 
     private func show() {
@@ -196,6 +234,7 @@ final class EncorePanel: NSPanel {
     private func hide() {
         guard panel.attachedSheet == nil, NSApp.modalWindow == nil else { return }
         model.searchFocused = false
+        model.quickLook = false
         panel.orderOut(nil)
     }
 
@@ -238,7 +277,8 @@ final class EncorePanel: NSPanel {
         }
         switch event.keyCode {
         case 53:
-            if !model.query.isEmpty { model.query = ""; model.searchFocused = false; panel.makeFirstResponder(nil) }
+            if model.quickLook { model.quickLook = false }
+            else if !model.query.isEmpty { model.query = ""; model.searchFocused = false; panel.makeFirstResponder(nil) }
             else { hide() }
             return nil
         case 36, 76:
@@ -252,11 +292,11 @@ final class EncorePanel: NSPanel {
             model.searchFocused = false; panel.makeFirstResponder(nil); return nil
         case 126 where !editing:
             if command, let first = model.filtered.first { model.select(first.id) }
-            else { model.expanded = true }
+            else { setExpanded(true) }
             return nil
         case 125 where !editing:
             if command, let last = model.filtered.last { model.select(last.id) }
-            else if model.expanded { model.expanded = false }
+            else if model.expanded { setExpanded(false) }
             else { hide() }
             return nil
         case 48:
@@ -264,7 +304,8 @@ final class EncorePanel: NSPanel {
             if !model.searchFocused { panel.makeFirstResponder(nil) }
             return nil
         case 49 where !editing:
-            model.inspector = model.selected; return nil
+            if model.expanded { model.inspector = model.selected } else { model.quickLook.toggle() }
+            return nil
         case 51 where !editing, 117 where !editing:
             model.remove(); return nil
         default: break

@@ -14,6 +14,17 @@ public enum ClipKind: String, Codable, CaseIterable, Identifiable, Sendable {
         case .code: L("Code")
         }
     }
+    /// Singular name for a single item, as on cards.
+    public var itemTitle: String {
+        switch self {
+        case .text: L("Texte")
+        case .link: L("Lien")
+        case .image: L("Image")
+        case .file: L("Fichier")
+        case .color: L("Couleur")
+        case .code: L("Code")
+        }
+    }
     public var symbol: String {
         switch self {
         case .text: "text.alignleft"
