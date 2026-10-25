@@ -26,28 +26,28 @@ struct InspectorView: View {
             HStack(spacing: 12) {
                 Image(systemName: clip.kind.symbol).font(.system(size: 22)).foregroundStyle(Palette.accent)
                 VStack(alignment: .leading, spacing: 3) {
-                    Text(L("Aperçu & édition")).font(.system(size: 20, weight: .semibold))
+                    Text(L("Preview & edit")).font(.system(size: 20, weight: .semibold))
                     Text(clip.sourceName).font(.system(size: 13)).foregroundStyle(.secondary)
                 }
                 Spacer()
-                Button { model.toggleFavorite([clip.id]) } label: { Image(systemName: current.favorite ? "star.fill" : "star").foregroundStyle(.orange) }.buttonStyle(.plain).help(L("Favori"))
+                Button { model.toggleFavorite([clip.id]) } label: { Image(systemName: current.favorite ? "star.fill" : "star").foregroundStyle(.orange) }.buttonStyle(.plain).help(L("Favorite"))
             }
             VStack(spacing: 5) {
-                LabeledContent(L("Première copie"), value: Localization.date(current.firstCopyDate))
-                LabeledContent(L("Dernière copie"), value: Localization.date(current.copiedAt))
-                LabeledContent(L("Expiration"), value: model.retentionDecision(for: current).expiresAt.map { Localization.date($0) } ?? L("Indéfiniment"))
-                if let bytes = current.retentionByteCount { LabeledContent(current.kind == .file ? L("Taille des fichiers") : L("Contenu conservé"), value: Localization.bytes(bytes)) }
-                if let rule = model.retentionDecision(for: current).ruleName { LabeledContent(L("Règle"), value: rule) }
+                LabeledContent(L("First copied"), value: Localization.date(current.firstCopyDate))
+                LabeledContent(L("Last copied"), value: Localization.date(current.copiedAt))
+                LabeledContent(L("Expires"), value: model.retentionDecision(for: current).expiresAt.map { Localization.date($0) } ?? L("Forever"))
+                if let bytes = current.retentionByteCount { LabeledContent(current.kind == .file ? L("File size") : L("Stored content"), value: Localization.bytes(bytes)) }
+                if let rule = model.retentionDecision(for: current).ruleName { LabeledContent(L("Rule"), value: rule) }
             }.font(.system(size: 12)).padding(12).background(.primary.opacity(0.035), in: RoundedRectangle(cornerRadius: 10))
             if editable {
-                TextField(L("Titre facultatif"), text: $title).textFieldStyle(.roundedBorder)
+                TextField(L("Optional title"), text: $title).textFieldStyle(.roundedBorder)
                 TextEditor(text: $text).font(.system(size: 13, design: clip.kind == .code ? .monospaced : .default)).scrollContentBackground(.hidden).padding(10).background(.primary.opacity(0.035), in: RoundedRectangle(cornerRadius: 12))
                     .onChange(of: text) { _, _ in edited = true; onDirtyChange?(true) }
                     .onChange(of: title) { _, _ in edited = true; onDirtyChange?(true) }
                 HStack {
-                    Text(L("\(text.count) caractère(s)")).font(.system(size: 11)).foregroundStyle(.secondary)
+                    Text(L("\(text.count) characters")).font(.system(size: 11)).foregroundStyle(.secondary)
                     Spacer()
-                    Menu(L("Transformer")) {
+                    Menu(L("Transform")) {
                         ForEach(TextAction.allCases) { action in
                             Button(action.title) {
                                 do { text = try action.apply(text) }
@@ -60,24 +60,24 @@ struct InspectorView: View {
                 Image(nsImage: image).resizable().scaledToFit().frame(maxWidth: .infinity, maxHeight: 300).background(.primary.opacity(0.025), in: RoundedRectangle(cornerRadius: 12))
                 if !current.recognizedText.isEmpty {
                     ScrollView { Text(current.recognizedText).font(.system(size: 12)).textSelection(.enabled).frame(maxWidth: .infinity, alignment: .leading).padding(12) }.frame(height: 100).background(.primary.opacity(0.035), in: RoundedRectangle(cornerRadius: 10))
-                    Button(L("Créer un extrait texte")) { model.addText(current.recognizedText); finish() }
-                } else { Button(L("Reconnaître le texte de l’image")) { model.recognize(clip.id) } }
+                    Button(L("Create text snippet")) { model.addText(current.recognizedText); finish() }
+                } else { Button(L("Recognize image text")) { model.recognize(clip.id) } }
             } else if clip.kind == .file {
                 FilePreview(previews: model.filePreviews, clip: clip, urls: model.fileURLs(for: clip), fitContent: true).frame(maxWidth: .infinity, maxHeight: .infinity).clipShape(RoundedRectangle(cornerRadius: 10))
                 Text(clip.fileNames.joined(separator: ", ")).font(.system(size: 13)).lineLimit(2)
-                Text(L("Les fichiers restent à leur emplacement d’origine.")).font(.system(size: 12)).foregroundStyle(.secondary)
+                Text(L("Files remain at their original location.")).font(.system(size: 12)).foregroundStyle(.secondary)
             } else {
                 VStack(alignment: .leading, spacing: 8) {
                     ForEach(clip.fileNames, id: \.self) { name in Label(name, systemImage: "doc") }
-                    Text(L("Les fichiers restent à leur emplacement d’origine.")).font(.system(size: 11)).foregroundStyle(.secondary)
+                    Text(L("Files remain at their original location.")).font(.system(size: 11)).foregroundStyle(.secondary)
                 }.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading).padding(12)
             }
             HStack {
-                if editable && edited { Text(L("Enregistrer remplace les formats de cet élément par du texte.")).font(.system(size: 12)).foregroundStyle(.secondary).frame(maxWidth: 285, alignment: .leading) }
+                if editable && edited { Text(L("Saving replaces this item's formats with plain text.")).font(.system(size: 12)).foregroundStyle(.secondary).frame(maxWidth: 285, alignment: .leading) }
                 Spacer()
-                Button(L("Fermer")) { finish() }.keyboardShortcut(.cancelAction)
+                Button(L("Close")) { finish() }.keyboardShortcut(.cancelAction)
                 if editable {
-                    Button(L("Enregistrer")) {
+                    Button(L("Save")) {
                         let saved = model.library.clips.contains(where: { $0.id == clip.id }) ? model.updateText(clip.id, text: text, title: title) : model.addText(text, title: title)
                         if saved { onDirtyChange?(false); finish() }
                     }.buttonStyle(.borderedProminent).disabled(!edited || text.isEmpty).keyboardShortcut("s", modifiers: .command)

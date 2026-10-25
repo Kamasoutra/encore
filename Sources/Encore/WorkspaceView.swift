@@ -29,14 +29,14 @@ struct LibraryBody: View {
             VStack(alignment: .leading, spacing: 20) {
                 section(L("Type")) {
                     ChipFlow(spacing: 6) {
-                        chip(L("Tous les types"), color: .secondary, selected: model.kind == nil) { model.kind = nil }
+                        chip(L("All types"), color: .secondary, selected: model.kind == nil) { model.kind = nil }
                         ForEach(ClipKind.allCases) { kind in
                             chip(kind.title, color: Palette.accent(kind), selected: model.kind == kind) { model.kind = model.kind == kind ? nil : kind }
                         }
                     }
                 }
                 if !model.sources.isEmpty {
-                    section(L("Application")) {
+                    section(L("App")) {
                         LazyVGrid(columns: [GridItem(.adaptive(minimum: 34, maximum: 34), spacing: 6)], alignment: .leading, spacing: 6) {
                             ForEach(model.sources, id: \.0) { source in
                                 let selected = model.source == source.0
@@ -52,14 +52,14 @@ struct LibraryBody: View {
                 }
                 section(L("Dates")) {
                     Picker(L("Dates"), selection: Binding(get: { dateToken }, set: { setDate($0) })) {
-                        Text(L("Aujourd’hui")).tag("today")
-                        Text(L("7 jours")).tag("7d")
-                        Text(L("30 jours")).tag("30d")
-                        Text(L("Toutes les dates")).tag("")
+                        Text(L("Today")).tag("today")
+                        Text(L("7 days")).tag("7d")
+                        Text(L("30 days")).tag("30d")
+                        Text(L("All dates")).tag("")
                     }.pickerStyle(.radioGroup).labelsHidden()
                 }
                 if model.kind != nil || model.source != nil || !model.query.isEmpty {
-                    Button(L("Effacer les filtres")) { model.kind = nil; model.source = nil; model.query = "" }.controlSize(.small)
+                    Button(L("Clear filters")) { model.kind = nil; model.source = nil; model.query = "" }.controlSize(.small)
                 }
                 VStack(alignment: .leading, spacing: 6) {
                     ProgressView(value: min(1, Double(model.totalBytes) / Double(max(1, model.preferences.storageLimitMB * 1_048_576)))).progressViewStyle(.linear).tint(Palette.accent)
@@ -101,7 +101,7 @@ struct LibraryBody: View {
         ScrollViewReader { proxy in
             ScrollView {
                 if model.filtered.isEmpty {
-                    ContentUnavailableView(L("Aucun élément trouvé"), systemImage: "magnifyingglass", description: Text(L("Essayez un autre mot ou retirez les filtres."))).padding(.top, 80)
+                    ContentUnavailableView(L("No items found"), systemImage: "magnifyingglass", description: Text(L("Try another word or remove the filters."))).padding(.top, 80)
                 }
                 LazyVStack(alignment: .leading, spacing: 14, pinnedViews: [.sectionHeaders]) {
                     ForEach(ClipSection.group(model.filtered, now: model.displayTime)) { section in
@@ -146,7 +146,7 @@ struct LibraryPreview: View {
                     }
                     Spacer()
                     Button { model.toggleFavorite([clip.id]) } label: { Image(systemName: clip.favorite ? "star.fill" : "star").foregroundStyle(clip.favorite ? .yellow : .secondary).frame(width: 28, height: 28) }
-                        .buttonStyle(.plain).help(clip.favorite ? L("Retirer des favoris") : L("Ajouter aux favoris")).accessibilityLabel(clip.favorite ? L("Retirer des favoris") : L("Ajouter aux favoris"))
+                        .buttonStyle(.plain).help(clip.favorite ? L("Remove from favorites") : L("Add to favorites")).accessibilityLabel(clip.favorite ? L("Remove from favorites") : L("Add to favorites"))
                 }
                 ClipContent(model: model, clip: clip, large: true)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -155,24 +155,24 @@ struct LibraryPreview: View {
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                 if !floating {
                     Grid(alignment: .leading, horizontalSpacing: 14, verticalSpacing: 5) {
-                        row(L("Première copie"), Localization.date(clip.firstCopyDate))
-                        if clip.firstCopiedAt != nil { row(L("Dernière copie"), Localization.date(clip.copiedAt)) }
-                        row(L("Expiration"), model.remainingRetention(for: clip))
-                        row(L("Taille"), size(of: clip))
+                        row(L("First copied"), Localization.date(clip.firstCopyDate))
+                        if clip.firstCopiedAt != nil { row(L("Last copied"), Localization.date(clip.copiedAt)) }
+                        row(L("Expires"), model.remainingRetention(for: clip))
+                        row(L("Size"), size(of: clip))
                     }.font(.system(size: 12)).monospacedDigit()
                 }
                 Grid(horizontalSpacing: 8, verticalSpacing: 8) {
                     GridRow {
-                        Button { model.paste([clip]) } label: { (Text(L("Coller")) + Text("  ↩").foregroundStyle(.white.opacity(0.7))).frame(maxWidth: .infinity) }.buttonStyle(.borderedProminent)
-                        Button { model.inspector = clip } label: { Text(L("Éditer")).frame(maxWidth: .infinity) }
+                        Button { model.paste([clip]) } label: { (Text(L("Paste")) + Text("  ↩").foregroundStyle(.white.opacity(0.7))).frame(maxWidth: .infinity) }.buttonStyle(.borderedProminent)
+                        Button { model.inspector = clip } label: { Text(L("Edit")).frame(maxWidth: .infinity) }
                     }
                     GridRow {
-                        Button { model.paste([clip], plain: true) } label: { Text(L("Coller en texte brut")).lineLimit(1).frame(maxWidth: .infinity) }.disabled(clip.text.isEmpty)
-                        Menu(L("Transformer")) { ForEach(TextAction.allCases) { action in Button(action.title) { model.transform(action, clip: clip) } } }.disabled(clip.text.isEmpty)
+                        Button { model.paste([clip], plain: true) } label: { Text(L("Paste as plain text")).lineLimit(1).frame(maxWidth: .infinity) }.disabled(clip.text.isEmpty)
+                        Menu(L("Transform")) { ForEach(TextAction.allCases) { action in Button(action.title) { model.transform(action, clip: clip) } } }.disabled(clip.text.isEmpty)
                     }
                 }.controlSize(floating ? .small : .regular)
             } else {
-                ContentUnavailableView(L("Sélectionnez un élément"), systemImage: "rectangle.on.rectangle")
+                ContentUnavailableView(L("Select an item"), systemImage: "rectangle.on.rectangle")
             }
         }.padding(16).frame(maxHeight: .infinity, alignment: .top)
     }
@@ -186,7 +186,7 @@ struct LibraryPreview: View {
 
     private func size(of clip: Clip) -> String {
         if let bytes = clip.referencedFileBytes { return Localization.bytes(bytes) }
-        if [.text, .code, .link].contains(clip.kind) { return L("\(clip.text.count) caractère(s)") }
+        if [.text, .code, .link].contains(clip.kind) { return L("\(clip.text.count) characters") }
         return Localization.bytes(Int64(clip.byteCount))
     }
 }

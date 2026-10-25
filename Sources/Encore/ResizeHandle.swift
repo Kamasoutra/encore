@@ -17,7 +17,7 @@ struct ResizeHandle: NSViewRepresentable {
             super.init(frame: .zero)
             setAccessibilityElement(true)
             setAccessibilityRole(.splitter)
-            setAccessibilityLabel(L("Redimensionner le panneau"))
+            setAccessibilityLabel(L("Resize shelf"))
         }
         required init?(coder: NSCoder) { nil }
         override func resetCursorRects() { addCursorRect(bounds, cursor: .resizeUpDown) }

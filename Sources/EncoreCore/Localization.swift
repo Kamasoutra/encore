@@ -45,7 +45,7 @@ public enum Localization {
     public static func number(_ value: Int) -> String { value.formatted(.number.locale(locale)) }
     public static func relative(_ date: Date, to now: Date) -> String {
         let age = max(0, now.timeIntervalSince(date))
-        if age < 60 { return L("À l’instant") }
+        if age < 60 { return L("Just now") }
         guard age < 604800 else { return Localization.date(date, time: false) }
         let formatter = RelativeDateTimeFormatter()
         formatter.locale = locale

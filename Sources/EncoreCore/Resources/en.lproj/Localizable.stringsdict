@@ -2,7 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>%lld caractère(s)</key>
+	<key>%lld characters</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
 		<string>%#@count@</string>
@@ -18,23 +18,7 @@
 			<string>%lld characters</string>
 		</dict>
 	</dict>
-	<key>%lld heure(s) (unité)</key>
-	<dict>
-		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@count@</string>
-		<key>count</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
-			<key>NSStringFormatValueTypeKey</key>
-			<string>lld</string>
-			<key>one</key>
-			<string>hour</string>
-			<key>other</key>
-			<string>hours</string>
-		</dict>
-	</dict>
-	<key>%lld jour(s)</key>
+	<key>%lld days</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
 		<string>%#@count@</string>
@@ -50,7 +34,7 @@
 			<string>%lld days</string>
 		</dict>
 	</dict>
-	<key>%lld jour(s) (unité)</key>
+	<key>%lld days (unit)</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
 		<string>%#@count@</string>
@@ -66,7 +50,7 @@
 			<string>days</string>
 		</dict>
 	</dict>
-	<key>%lld minute(s) (unité)</key>
+	<key>%lld hours (unit)</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
 		<string>%#@count@</string>
@@ -77,60 +61,12 @@
 			<key>NSStringFormatValueTypeKey</key>
 			<string>lld</string>
 			<key>one</key>
-			<string>minute</string>
+			<string>hour</string>
 			<key>other</key>
-			<string>minutes</string>
+			<string>hours</string>
 		</dict>
 	</dict>
-	<key>%lld mois (unité)</key>
-	<dict>
-		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@count@</string>
-		<key>count</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
-			<key>NSStringFormatValueTypeKey</key>
-			<string>lld</string>
-			<key>one</key>
-			<string>month</string>
-			<key>other</key>
-			<string>months</string>
-		</dict>
-	</dict>
-	<key>%lld nouvel élément(s) importé(s)</key>
-	<dict>
-		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@count@</string>
-		<key>count</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
-			<key>NSStringFormatValueTypeKey</key>
-			<string>lld</string>
-			<key>one</key>
-			<string>%lld new item imported</string>
-			<key>other</key>
-			<string>%lld new items imported</string>
-		</dict>
-	</dict>
-	<key>%lld semaine(s) (unité)</key>
-	<dict>
-		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@count@</string>
-		<key>count</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
-			<key>NSStringFormatValueTypeKey</key>
-			<string>lld</string>
-			<key>one</key>
-			<string>week</string>
-			<key>other</key>
-			<string>weeks</string>
-		</dict>
-	</dict>
-	<key>%lld élément(s)</key>
+	<key>%lld items</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
 		<string>%#@count@</string>
@@ -146,23 +82,7 @@
 			<string>%lld items</string>
 		</dict>
 	</dict>
-	<key>%lld élément(s) expireraient immédiatement.</key>
-	<dict>
-		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@count@</string>
-		<key>count</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
-			<key>NSStringFormatValueTypeKey</key>
-			<string>lld</string>
-			<key>one</key>
-			<string>%lld item would expire immediately.</string>
-			<key>other</key>
-			<string>%lld items would expire immediately.</string>
-		</dict>
-	</dict>
-	<key>%lld élément(s) supprimé(s) · ⌘Z pour annuler</key>
+	<key>%lld items deleted · ⌘Z to undo</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
 		<string>%#@count@</string>
@@ -178,7 +98,87 @@
 			<string>%lld items deleted · ⌘Z to undo</string>
 		</dict>
 	</dict>
-	<key>Appliquer et supprimer %lld élément(s)</key>
+	<key>%lld items would expire immediately.</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>one</key>
+			<string>%lld item would expire immediately.</string>
+			<key>other</key>
+			<string>%lld items would expire immediately.</string>
+		</dict>
+	</dict>
+	<key>%lld minutes (unit)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>one</key>
+			<string>minute</string>
+			<key>other</key>
+			<string>minutes</string>
+		</dict>
+	</dict>
+	<key>%lld months (unit)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>one</key>
+			<string>month</string>
+			<key>other</key>
+			<string>months</string>
+		</dict>
+	</dict>
+	<key>%lld new items imported</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>one</key>
+			<string>%lld new item imported</string>
+			<key>other</key>
+			<string>%lld new items imported</string>
+		</dict>
+	</dict>
+	<key>%lld weeks (unit)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>one</key>
+			<string>week</string>
+			<key>other</key>
+			<string>weeks</string>
+		</dict>
+	</dict>
+	<key>Apply and delete %lld items</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
 		<string>%#@count@</string>

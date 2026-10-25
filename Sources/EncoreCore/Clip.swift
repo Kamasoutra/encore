@@ -6,22 +6,22 @@ public enum ClipKind: String, Codable, CaseIterable, Identifiable, Sendable {
     public var id: String { rawValue }
     public var title: String {
         switch self {
-        case .text: L("Texte")
-        case .link: L("Liens")
+        case .text: L("Text")
+        case .link: L("Links")
         case .image: L("Images")
-        case .file: L("Fichiers")
-        case .color: L("Couleurs")
+        case .file: L("Files")
+        case .color: L("Colors")
         case .code: L("Code")
         }
     }
     /// Singular name for a single item, as on cards.
     public var itemTitle: String {
         switch self {
-        case .text: L("Texte")
-        case .link: L("Lien")
+        case .text: L("Text")
+        case .link: L("Link")
         case .image: L("Image")
-        case .file: L("Fichier")
-        case .color: L("Couleur")
+        case .file: L("File")
+        case .color: L("Color")
         case .code: L("Code")
         }
     }
@@ -90,10 +90,10 @@ public struct Clip: Codable, Identifiable, Equatable, Sendable {
 
     public var displayTitle: String {
         if !title.isEmpty { return title }
-        if kind == .file { return fileNames.first ?? L("Fichier") }
-        if kind == .image { return L("Image copiée") }
+        if kind == .file { return fileNames.first ?? L("File") }
+        if kind == .image { return L("Copied image") }
         if kind == .link, let url = URL(string: text) { return url.host?.replacingOccurrences(of: "www.", with: "") ?? text }
-        return String(text.split(separator: "\n").first.map(String.init)?.prefix(100) ?? L("Sans titre").prefix(100))
+        return String(text.split(separator: "\n").first.map(String.init)?.prefix(100) ?? L("Untitled").prefix(100))
     }
 
     public var isProtected: Bool { favorite || !collectionIDs.isEmpty }
@@ -193,15 +193,15 @@ public enum TextAction: String, CaseIterable, Identifiable {
     public var id: String { rawValue }
     public var title: String {
         switch self {
-        case .trim: L("Nettoyer les espaces")
+        case .trim: L("Trim whitespace")
         case .uppercase: "MAJUSCULES"
         case .lowercase: "minuscules"
-        case .prettyJSON: L("Formater le JSON")
-        case .compactJSON: L("Compacter le JSON")
-        case .decodeURL: L("Décoder l’URL")
-        case .cleanURL: L("Retirer les paramètres de suivi")
-        case .base64Encode: L("Encoder en Base64")
-        case .base64Decode: L("Décoder le Base64")
+        case .prettyJSON: L("Format JSON")
+        case .compactJSON: L("Minify JSON")
+        case .decodeURL: L("Decode URL")
+        case .cleanURL: L("Remove tracking parameters")
+        case .base64Encode: L("Encode as Base64")
+        case .base64Decode: L("Decode Base64")
         }
     }
     public func apply(_ text: String) throws -> String {
@@ -229,6 +229,6 @@ public enum TextAction: String, CaseIterable, Identifiable {
     }
     public enum TransformError: LocalizedError {
         case invalidInput
-        public var errorDescription: String? { L("Le contenu ne correspond pas à cette transformation.") }
+        public var errorDescription: String? { L("This content cannot be transformed that way.") }
     }
 }

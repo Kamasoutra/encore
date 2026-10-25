@@ -82,7 +82,7 @@ struct PeerStatus: Identifiable, Equatable {
             store.onError = { [weak self] message in
                 self?.storageError = message
                 self?.preferences.captureEnabled = false
-                self?.notify(L("Échec de sauvegarde : \(message)"))
+                self?.notify(L("Save failed: \(message)"))
             }
         } catch {
             storageError = error.localizedDescription
@@ -149,7 +149,7 @@ struct PeerStatus: Identifiable, Equatable {
         prune()
         let existed = library.clips.contains { $0.fingerprint == clip.fingerprint }
         if !existed && totalBytes + payload.byteCount > preferences.storageLimitMB * 1_048_576 {
-            notify(L("Stockage plein : augmentez la limite ou supprimez des éléments."))
+            notify(L("Storage full: increase the limit or delete some items."))
             return false
         }
         let id = library.upsert(clip)
@@ -169,9 +169,9 @@ struct PeerStatus: Identifiable, Equatable {
     func reloadStorage() {
         guard let root = storage?.root else { return }
         let alert = NSAlert()
-        alert.messageText = L("Recharger la bibliothèque depuis le disque ?")
-        alert.informativeText = L("Les changements non sauvegardés seront abandonnés. La capture restera en pause pour vous laisser vérifier le résultat.")
-        alert.addButton(withTitle: L("Annuler")); alert.addButton(withTitle: L("Recharger"))
+        alert.messageText = L("Reload the library from disk?")
+        alert.informativeText = L("Unsaved changes will be discarded. Capture will remain paused so you can check the result.")
+        alert.addButton(withTitle: L("Cancel")); alert.addButton(withTitle: L("Reload"))
         guard alert.runModal() == .alertSecondButtonReturn else { return }
         do {
             storage?.flush()
@@ -182,8 +182,8 @@ struct PeerStatus: Identifiable, Equatable {
             collecting = false; queue = []; deleted = []
             thumbnails.removeAll(); richTextCache.removeAll(); checkedRichText.removeAll(); fileURLCache.removeAll()
             resetSelection()
-            notify(next.recoveryNotice ?? L("Bibliothèque rechargée. La capture est en pause."))
-        } catch { notify(L("Rechargement impossible : \(error.localizedDescription)")) }
+            notify(next.recoveryNotice ?? L("Library reloaded. Capture is paused."))
+        } catch { notify(L("Could not reload: \(error.localizedDescription)")) }
     }
 
     func prune(now: Date = Date()) {
@@ -205,11 +205,11 @@ struct PeerStatus: Identifiable, Equatable {
     func relativeAge(_ date: Date) -> String { Localization.relative(date, to: displayTime) }
 
     func remainingRetention(for clip: Clip) -> String {
-        guard let deadline = retentionDecision(for: clip).expiresAt else { return L("Indéfiniment") }
+        guard let deadline = retentionDecision(for: clip).expiresAt else { return L("Forever") }
         let seconds = deadline.timeIntervalSince(displayTime)
-        guard seconds > 0 else { return L("Expiration imminente") }
-        if seconds < 60 { return L("Expire dans moins d’1 min") }
-        return L("Expire dans \(Localization.duration(seconds))")
+        guard seconds > 0 else { return L("Expiring now") }
+        if seconds < 60 { return L("Expires in under 1 min") }
+        return L("Expires in \(Localization.duration(seconds))")
     }
 
     private func clearPreviewCaches(_ ids: Set<UUID>) {
@@ -230,9 +230,9 @@ struct PeerStatus: Identifiable, Equatable {
     func retentionSummary(for clip: Clip) -> String {
         let decision = retentionDecision(for: clip)
         let date = Localization.date(clip.copiedAt)
-        let expiration = decision.expiresAt.map { L("Expiration : \(Localization.date($0))") } ?? L("Conservé indéfiniment")
-        let reason = decision.protected ? L("Favori ou collection") : decision.ruleName ?? L("Durée par défaut")
-        return L("Copié le \(date)\n\(expiration)\n\(reason)")
+        let expiration = decision.expiresAt.map { L("Expires: \(Localization.date($0))") } ?? L("Kept forever")
+        let reason = decision.protected ? L("Favorite or collection") : decision.ruleName ?? L("Default retention")
+        return L("Copied \(date)\n\(expiration)\n\(reason)")
     }
 
     func retentionRemovalCount(rules: [RetentionRule], fallbackDays: Int) -> Int {
@@ -242,11 +242,11 @@ struct PeerStatus: Identifiable, Equatable {
     }
 
     func applyRetention(rules: [RetentionRule], fallbackDays: Int) {
-        guard rules.allSatisfy(\.isValid), fallbackDays >= 0 else { notify(L("Une règle de rétention est invalide.")); return }
+        guard rules.allSatisfy(\.isValid), fallbackDays >= 0 else { notify(L("A retention rule is invalid.")); return }
         preferences.retentionRules = rules
         preferences.retentionDays = fallbackDays
         preferencesChanged()
-        notify(L("Règles de rétention enregistrées"))
+        notify(L("Retention rules saved"))
     }
 
     func zoomCards(_ amount: Double) {
@@ -285,7 +285,7 @@ struct PeerStatus: Identifiable, Equatable {
             peerService = service
             refreshPeers()
             refreshPeerActivity()
-        } catch { notify(L("Trousseau indisponible : \(error.localizedDescription)")) }
+        } catch { notify(L("Keychain unavailable: \(error.localizedDescription)")) }
     }
 
     private func shareSnapshot() -> (library: Library, excluded: Set<String>) { (library, Set(preferences.excludedBundleIDs)) }
@@ -303,7 +303,7 @@ struct PeerStatus: Identifiable, Equatable {
         guard let service = peerService else { return }
         if preferences.shareWithPeers {
             Task { [weak self] in
-                do { try await service.startSharing() } catch { self?.notify(L("Partage indisponible : \(error.localizedDescription)")) }
+                do { try await service.startSharing() } catch { self?.notify(L("Sharing unavailable: \(error.localizedDescription)")) }
             }
         } else { service.stopSharing() }
         if preferences.shareWithPeers || !peers.isEmpty || pairingSheet { service.startBrowsing() } else { service.stopBrowsing() }
@@ -328,7 +328,7 @@ struct PeerStatus: Identifiable, Equatable {
     }
 
     func revokePeer(_ id: String) {
-        do { try peerService?.revoke(id) } catch { notify(L("Retrait impossible : \(error.localizedDescription)")) }
+        do { try peerService?.revoke(id) } catch { notify(L("Could not remove: \(error.localizedDescription)")) }
         refreshPeers()
         refreshPeerActivity()
     }
@@ -341,7 +341,7 @@ struct PeerStatus: Identifiable, Equatable {
     @discardableResult func importRemote(_ remote: RemoteClip, from peer: PeerStatus) async throws -> Clip {
         guard let service = peerService else { throw PeerFailure.unavailable }
         let payload = try await service.payload(peer.id, id: remote.id)
-        guard var clip = Self.clip(for: payload, sourceName: L("\(remote.sourceName) · depuis \(peer.device.name)"), sourceBundle: remote.sourceBundle) else { throw PeerFailure.malformed }
+        guard var clip = Self.clip(for: payload, sourceName: L("\(remote.sourceName) · from \(peer.device.name)"), sourceBundle: remote.sourceBundle) else { throw PeerFailure.malformed }
         clip.title = remote.title
         clip.firstCopiedAt = remote.firstCopiedAt ?? remote.copiedAt
         guard accept(clip, payload: payload), let stored = library.clips.first(where: { $0.fingerprint == clip.fingerprint }) else { throw PeerFailure.unavailable }
@@ -376,7 +376,7 @@ struct PeerStatus: Identifiable, Equatable {
             Task { @MainActor in
                 guard let self, let session, self.pairing === session else { return }
                 self.pairingState = session.state
-                if session.state == .paired { self.notify(L("\(session.remote?.name ?? "Mac") est appairé.")) }
+                if session.state == .paired { self.notify(L("\(session.remote?.name ?? "Mac") is paired.")) }
             }
         }
         pairingState = session.state
@@ -440,7 +440,7 @@ struct PeerStatus: Identifiable, Equatable {
         cursor = remaining.isEmpty ? nil : remaining[min(position, remaining.count - 1)].id
         selection = Set(cursor.map { [$0] } ?? [])
         storage?.save(library, deleting: Array(chosen))
-        notify(L("\(chosen.count) élément(s) supprimé(s) · ⌘Z pour annuler"))
+        notify(L("\(chosen.count) items deleted · ⌘Z to undo"))
     }
 
     func undoDelete() {
@@ -453,18 +453,18 @@ struct PeerStatus: Identifiable, Equatable {
         deleted = []
         save()
         resetSelection()
-        notify(L("Suppression annulée"))
+        notify(L("Deletion undone"))
     }
 
     func paste(_ clips: [Clip]? = nil, plain: Bool = false, copyOnly: Bool = false) {
         let values = clips ?? selectedClips
         guard !values.isEmpty else { return }
         let payloads = values.compactMap { storage?.payload($0.id) }
-        guard payloads.count == values.count else { notify(L("Le contenu est indisponible sur le disque.")); return }
+        guard payloads.count == values.count else { notify(L("Content is unavailable on disk.")); return }
         let origin = values.count == 1 ? values[0].sourceBundle : ""
         if plain {
             let text = values.map { $0.text.isEmpty ? $0.recognizedText : $0.text }.joined(separator: "\n")
-            guard !text.isEmpty else { notify(L("Cet élément ne contient pas de texte.")); return }
+            guard !text.isEmpty else { notify(L("This item does not contain text.")); return }
             clipboard.write(.text(text), sourceBundle: origin)
         } else if values.count > 1 && values.allSatisfy({ [.text, .code, .link, .color].contains($0.kind) }) {
             clipboard.write(.text(values.map(\.text).joined(separator: "\n")), sourceBundle: origin)
@@ -474,7 +474,7 @@ struct PeerStatus: Identifiable, Equatable {
         for index in library.clips.indices where values.contains(where: { $0.id == library.clips[index].id }) { library.clips[index].lastUsedAt = Date() }
         save()
         playSound(.paste)
-        guard !copyOnly else { notify(L("Copié dans le presse-papiers")); return }
+        guard !copyOnly else { notify(L("Copied to clipboard")); return }
         accessibilityGranted = AXIsProcessTrusted()
         let target = activateTarget?()
         dismissPanel?()
@@ -482,7 +482,7 @@ struct PeerStatus: Identifiable, Equatable {
             target.activate(options: [])
             deliverPaste(to: target, attempts: 12)
         } else {
-            notify(L("Copié · utilisez ⌘V, ou activez le collage direct dans les réglages."))
+            notify(L("Copied · press ⌘V, or enable direct paste in Settings."))
         }
     }
 
@@ -491,7 +491,7 @@ struct PeerStatus: Identifiable, Equatable {
             guard let self else { return }
             guard target.isActive else {
                 if attempts > 0 { self.deliverPaste(to: target, attempts: attempts - 1) }
-                else { self.notify(L("Copié · cliquez dans l’application et faites ⌘V.")) }
+                else { self.notify(L("Copied · click the destination app and press ⌘V.")) }
                 return
             }
             let source = CGEventSource(stateID: .combinedSessionState)
@@ -507,28 +507,28 @@ struct PeerStatus: Identifiable, Equatable {
     func enqueue(_ ids: [UUID]? = nil) {
         for id in ids ?? selectedClips.map(\.id) where !queue.contains(id) { queue.append(id) }
         queueVisible = true
-        notify(L("Ajouté à la file · activez le collage en série dans le panneau"))
+        notify(L("Added to queue · enable sequential paste in the shelf"))
     }
 
     func toggleCollecting() {
-        if collecting { collecting = false; notify(L("Collage en série désactivé")); return }
-        guard stackTap.enable() else { requestAccessibility(); notify(L("Autorisez Encore dans Accessibilité, puis réessayez.")); return }
+        if collecting { collecting = false; notify(L("Sequential paste disabled")); return }
+        guard stackTap.enable() else { requestAccessibility(); notify(L("Allow Encore in Accessibility, then try again.")); return }
         collecting = true
         queueVisible = true
-        notify(L("File active · copiez, puis collez dans l’ordre avec ⌘V"))
+        notify(L("Queue active · copy, then paste in order with ⌘V"))
     }
 
     func advanceQueue() -> Bool {
         guard collecting, let id = queue.first else { return false }
         guard let payload = storage?.payload(id) else {
             collecting = false
-            notify(L("File arrêtée : le contenu de l’élément est indisponible."))
+            notify(L("Queue stopped: this item's content is unavailable."))
             return false
         }
         clipboard.write(payload, sourceBundle: library.clips.first(where: { $0.id == id })?.sourceBundle ?? "")
         playSound(.paste)
         queue.removeFirst()
-        if queue.isEmpty { collecting = false; notify(L("File terminée")) }
+        if queue.isEmpty { collecting = false; notify(L("Queue finished")) }
         return true
     }
 
@@ -541,7 +541,7 @@ struct PeerStatus: Identifiable, Equatable {
     @discardableResult func addText(_ text: String, title: String = "") -> Bool {
         guard !text.isEmpty else { return false }
         let payload = ClipPayload.text(text)
-        guard payload.byteCount <= PasteboardCapture.maxBytes else { notify(L("Limite de 25 Mo par élément.")); return false }
+        guard payload.byteCount <= PasteboardCapture.maxBytes else { notify(L("Maximum 25 MiB per item.")); return false }
         let accepted = accept(Clip(fingerprint: payload.fingerprint, kind: .detect(text: text), text: text, title: title, byteCount: payload.byteCount), payload: payload)
         resetSelection()
         return accepted
@@ -551,7 +551,7 @@ struct PeerStatus: Identifiable, Equatable {
         guard storageError == nil, let index = library.clips.firstIndex(where: { $0.id == id }) else { return false }
         let payload = ClipPayload.text(text)
         let duplicates = library.clips.filter { $0.id != id && $0.fingerprint == payload.fingerprint }
-        guard payload.byteCount <= PasteboardCapture.maxBytes, totalBytes - library.clips[index].byteCount - duplicates.reduce(0, { $0 + $1.byteCount }) + payload.byteCount <= preferences.storageLimitMB * 1_048_576 else { notify(L("Limite de stockage atteinte.")); return false }
+        guard payload.byteCount <= PasteboardCapture.maxBytes, totalBytes - library.clips[index].byteCount - duplicates.reduce(0, { $0 + $1.byteCount }) + payload.byteCount <= preferences.storageLimitMB * 1_048_576 else { notify(L("Storage limit reached.")); return false }
         library.clips[index].text = text
         library.clips[index].title = title
         library.clips[index].kind = .detect(text: text)
@@ -640,20 +640,20 @@ struct PeerStatus: Identifiable, Equatable {
                     guard let index = self.library.clips.firstIndex(where: { $0.id == id }) else { return }
                     self.library.clips[index].recognizedText = text
                     self.save()
-                    if !text.isEmpty { self.notify(L("Texte de l’image reconnu · recherche disponible")) }
+                    if !text.isEmpty { self.notify(L("Image text recognized · ready to search")) }
                 }
-            } catch { DispatchQueue.main.async { self?.ocrJobs.remove(id); self?.notify(L("Reconnaissance impossible : \(error.localizedDescription)")) } }
+            } catch { DispatchQueue.main.async { self?.ocrJobs.remove(id); self?.notify(L("Recognition failed: \(error.localizedDescription)")) } }
         }
     }
 
     func createCollection() {
         let alert = NSAlert()
-        alert.messageText = L("Nouvelle collection")
-        alert.informativeText = L("Gardez vos éléments ensemble. Ils seront conservés sans expiration.")
+        alert.messageText = L("New collection")
+        alert.informativeText = L("Group items together. They will be kept without expiration.")
         let field = NSTextField(frame: NSRect(x: 0, y: 0, width: 280, height: 26))
-        field.placeholderString = L("Nom de la collection")
+        field.placeholderString = L("Collection name")
         alert.accessoryView = field
-        alert.addButton(withTitle: L("Créer")); alert.addButton(withTitle: L("Annuler"))
+        alert.addButton(withTitle: L("Create")); alert.addButton(withTitle: L("Cancel"))
         alert.window.initialFirstResponder = field
         guard alert.runModal() == .alertFirstButtonReturn else { return }
         let name = field.stringValue.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -669,14 +669,14 @@ struct PeerStatus: Identifiable, Equatable {
         for index in library.clips.indices { library.clips[index].collectionIDs.remove(collection.id) }
         if board == collection.id.uuidString { board = "history" }
         save()
-        notify(L("Collection supprimée · ses éléments restent dans l’historique"))
+        notify(L("Collection deleted · its items remain in history"))
     }
 
     func exportLibrary() {
         let panel = NSSavePanel()
         panel.allowedContentTypes = [.json]
         panel.nameFieldStringValue = "Encore-backup.json"
-        panel.message = L("Cette sauvegarde contient votre historique et ses contenus en clair. Conservez-la dans un endroit sûr.")
+        panel.message = L("This backup contains your unencrypted history and content. Keep it somewhere safe.")
         guard panel.runModal() == .OK, let url = panel.url else { return }
         do {
             storage?.flush()
@@ -684,7 +684,7 @@ struct PeerStatus: Identifiable, Equatable {
             guard entries.count == library.clips.count else { throw CocoaError(.fileReadCorruptFile) }
             try JSONEncoder().encode(Backup(version: 1, collections: library.collections, entries: entries)).write(to: url, options: .atomic)
             try FileManager.default.setAttributes([.posixPermissions: 0o600], ofItemAtPath: url.path)
-            notify(L("Sauvegarde exportée"))
+            notify(L("Backup exported"))
         } catch { notify(error.localizedDescription) }
     }
 
@@ -700,15 +700,15 @@ struct PeerStatus: Identifiable, Equatable {
             library = result.library
             storage?.save(library, payloads: result.payloads)
             refreshFileSizes(); prune(); resetSelection()
-            notify(L("\(result.payloads.count) nouvel élément(s) importé(s)"))
-        } catch { notify(L("Import impossible : \(error.localizedDescription)")) }
+            notify(L("\(result.payloads.count) new items imported"))
+        } catch { notify(L("Import failed: \(error.localizedDescription)")) }
     }
 
     func clearHistory() {
         let alert = NSAlert()
-        alert.messageText = L("Effacer l’historique ?")
-        alert.informativeText = L("Les favoris et les éléments des collections seront conservés. Cette action est définitive.")
-        alert.addButton(withTitle: L("Annuler")); alert.addButton(withTitle: L("Effacer"))
+        alert.messageText = L("Clear history?")
+        alert.informativeText = L("Favorites and collection items will be kept. This action cannot be undone.")
+        alert.addButton(withTitle: L("Cancel")); alert.addButton(withTitle: L("Clear"))
         guard alert.runModal() == .alertSecondButtonReturn else { return }
         let ids = library.clips.filter { !$0.isProtected }.map(\.id)
         library.clips.removeAll { !$0.isProtected }

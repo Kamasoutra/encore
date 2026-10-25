@@ -116,12 +116,12 @@ struct AppPresentation {
     static func invalidate() { cache.removeAll() }
     static func app(_ bundleID: String) -> AppPresentation {
         if let existing = cache[bundleID] { return existing }
-        let names = ["com.1password.1password": "1Password", "com.agilebits.onepassword7": "1Password 7", "com.bitwarden.desktop": "Bitwarden", "com.apple.keychainaccess": L("Trousseaux d’accès"), "org.keepassxc.keepassxc": "KeePassXC", "com.dashlane.Dashlane": "Dashlane"]
+        let names = ["com.1password.1password": "1Password", "com.agilebits.onepassword7": "1Password 7", "com.bitwarden.desktop": "Bitwarden", "com.apple.keychainaccess": L("Keychain Access"), "org.keepassxc.keepassxc": "KeePassXC", "com.dashlane.Dashlane": "Dashlane"]
         let value: AppPresentation
         if let url = installedURL(bundleID) {
             value = .init(name: FileManager.default.displayName(atPath: url.path).replacingOccurrences(of: ".app", with: ""), icon: NSWorkspace.shared.icon(forFile: url.path))
         } else {
-            value = .init(name: names[bundleID] ?? bundleID.split(separator: ".").last.map(String.init) ?? L("Application"), icon: NSImage(systemSymbolName: "app.dashed", accessibilityDescription: nil)!)
+            value = .init(name: names[bundleID] ?? bundleID.split(separator: ".").last.map(String.init) ?? L("App"), icon: NSImage(systemSymbolName: "app.dashed", accessibilityDescription: nil)!)
         }
         cache[bundleID] = value
         return value

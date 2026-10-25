@@ -53,7 +53,7 @@ final class EncorePanel: NSPanel {
         model.updateLanguage = { [weak self] in
             guard let self else { return }
             self.installMenu()
-            self.settingsWindow?.title = L("Réglages d’Encore")
+            self.settingsWindow?.title = L("Encore Settings")
         }
         model.activateTarget = { [weak self] in self?.previousApplication }
         model.updateShortcuts = { [weak self] in self?.registerShortcuts() }
@@ -159,8 +159,8 @@ final class EncorePanel: NSPanel {
     private func registerShortcuts() {
         hotkeys.register(alternate: model.preferences.shortcut == "commandOptionV", stackEnabled: model.preferences.stackShortcutEnabled)
         model.shortcutStatus = hotkeys.primaryAvailable ? (model.preferences.shortcut == "commandOptionV" ? "⌘⌥V" : "⌘⇧V") : "⌃⌥⌘V"
-        if !hotkeys.primaryAvailable { model.notify(L("Raccourci occupé par une autre app · secours : ⌃⌥⌘V")) }
-        if model.preferences.stackShortcutEnabled && !hotkeys.stackAvailable { model.notify(L("⌘⇧C est déjà utilisé par une autre app. La pile reste accessible dans le panneau.")) }
+        if !hotkeys.primaryAvailable { model.notify(L("Shortcut used by another app · fallback: ⌃⌥⌘V")) }
+        if model.preferences.stackShortcutEnabled && !hotkeys.stackAvailable { model.notify(L("⌘⇧C is already used by another app. The queue is available from the shelf.")) }
     }
 
     private func applyAppearance() {
@@ -331,7 +331,7 @@ final class EncorePanel: NSPanel {
     private func openSettings() {
         if settingsWindow == nil {
             let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 780, height: 680), styleMask: [.titled, .closable, .miniaturizable], backing: .buffered, defer: false)
-            window.title = L("Réglages d’Encore")
+            window.title = L("Encore Settings")
             window.isReleasedWhenClosed = false
             window.contentView = NSHostingView(rootView: SettingsView(model: model))
             window.center()
@@ -353,7 +353,7 @@ final class EncorePanel: NSPanel {
             window.center()
             inspectorWindow = window
         }
-        inspectorWindow?.title = L("Aperçu — \(clip.displayTitle)")
+        inspectorWindow?.title = L("Preview — \(clip.displayTitle)")
         inspectorWindow?.contentView = NSHostingView(rootView: InspectorView(model: model, clip: clip, onClose: { [weak self] in self?.inspectorWindow?.performClose(nil) }, onDirtyChange: { [weak self] dirty in self?.inspectorDirty = dirty }))
         panel.orderOut(nil)
         NSApp.activate(ignoringOtherApps: true)
@@ -363,9 +363,9 @@ final class EncorePanel: NSPanel {
     private func allowDiscardInspector() -> Bool {
         guard inspectorDirty else { return true }
         let alert = NSAlert()
-        alert.messageText = L("Abandonner les modifications ?")
-        alert.informativeText = L("Le contenu original est conservé. Vos modifications non enregistrées seront perdues.")
-        alert.addButton(withTitle: L("Continuer l’édition")); alert.addButton(withTitle: L("Abandonner"))
+        alert.messageText = L("Discard changes?")
+        alert.informativeText = L("The original content is kept. Your unsaved changes will be lost.")
+        alert.addButton(withTitle: L("Keep editing")); alert.addButton(withTitle: L("Discard"))
         guard alert.runModal() == .alertSecondButtonReturn else { return false }
         inspectorDirty = false
         return true
@@ -385,7 +385,7 @@ final class EncorePanel: NSPanel {
     private func installStatusItem() {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
         statusItem.button?.image = NSImage(systemSymbolName: "square.on.square", accessibilityDescription: "Encore")
-        statusItem.button?.toolTip = L("Encore — votre historique du presse-papiers")
+        statusItem.button?.toolTip = L("Encore — your clipboard history")
         statusItem.button?.target = self
         statusItem.button?.action = #selector(statusClick)
         statusItem.button?.sendAction(on: [.leftMouseUp, .rightMouseUp])
@@ -394,14 +394,14 @@ final class EncorePanel: NSPanel {
     @objc private func statusClick() {
         if NSApp.currentEvent?.type == .rightMouseUp {
             let menu = NSMenu()
-            menu.addItem(withTitle: L("Ouvrir Encore"), action: #selector(openBoard), keyEquivalent: "")
-            menu.addItem(withTitle: model.preferences.captureEnabled ? L("Mettre la capture en pause") : L("Reprendre la capture"), action: #selector(toggleCapture), keyEquivalent: "")
+            menu.addItem(withTitle: L("Open Encore"), action: #selector(openBoard), keyEquivalent: "")
+            menu.addItem(withTitle: model.preferences.captureEnabled ? L("Pause capture") : L("Resume capture"), action: #selector(toggleCapture), keyEquivalent: "")
             menu.addItem(.separator())
-            menu.addItem(withTitle: L("Réglages…"), action: #selector(settingsAction), keyEquivalent: "")
-            if Updates.shared.available { menu.addItem(withTitle: L("Rechercher les mises à jour…"), action: #selector(checkForUpdates), keyEquivalent: "") }
-            menu.addItem(withTitle: L("À propos d’Encore"), action: #selector(about), keyEquivalent: "")
+            menu.addItem(withTitle: L("Settings…"), action: #selector(settingsAction), keyEquivalent: "")
+            if Updates.shared.available { menu.addItem(withTitle: L("Check for Updates…"), action: #selector(checkForUpdates), keyEquivalent: "") }
+            menu.addItem(withTitle: L("About Encore"), action: #selector(about), keyEquivalent: "")
             menu.addItem(.separator())
-            menu.addItem(withTitle: L("Quitter Encore"), action: #selector(quit), keyEquivalent: "")
+            menu.addItem(withTitle: L("Quit Encore"), action: #selector(quit), keyEquivalent: "")
             for item in menu.items { item.target = self }
             statusItem.menu = menu
             menu.delegate = self
@@ -417,26 +417,26 @@ final class EncorePanel: NSPanel {
     @objc private func quit() { NSApp.terminate(nil) }
     @objc private func about() {
         NSApp.activate(ignoringOtherApps: true)
-        NSApp.orderFrontStandardAboutPanel(options: [.applicationName: "Encore", .applicationVersion: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "", .credits: NSAttributedString(string: L("Votre presse-papiers. Pour de bon.\nApplication native, locale et open source.\nLicence MIT · github.com/Kamasoutra/encore"))])
+        NSApp.orderFrontStandardAboutPanel(options: [.applicationName: "Encore", .applicationVersion: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "", .credits: NSAttributedString(string: L("Your clipboard. Yours to keep.\nNative, local, and open source.\nMIT license · github.com/Kamasoutra/encore"))])
     }
 
     private func installMenu() {
         let main = NSMenu()
         let appItem = NSMenuItem()
         let app = NSMenu()
-        let aboutItem = app.addItem(withTitle: L("À propos d’Encore"), action: #selector(about), keyEquivalent: "")
+        let aboutItem = app.addItem(withTitle: L("About Encore"), action: #selector(about), keyEquivalent: "")
         aboutItem.target = self
-        if Updates.shared.available { app.addItem(withTitle: L("Rechercher les mises à jour…"), action: #selector(checkForUpdates), keyEquivalent: "").target = self }
+        if Updates.shared.available { app.addItem(withTitle: L("Check for Updates…"), action: #selector(checkForUpdates), keyEquivalent: "").target = self }
         app.addItem(.separator())
-        let settings = app.addItem(withTitle: L("Réglages…"), action: #selector(settingsAction), keyEquivalent: ",")
+        let settings = app.addItem(withTitle: L("Settings…"), action: #selector(settingsAction), keyEquivalent: ",")
         settings.target = self
         app.addItem(.separator())
-        app.addItem(withTitle: L("Quitter Encore"), action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
+        app.addItem(withTitle: L("Quit Encore"), action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
         appItem.submenu = app
         main.addItem(appItem)
         let editItem = NSMenuItem()
-        let edit = NSMenu(title: L("Édition"))
-        for (title, action, key) in [(L("Annuler l’action"), "undo:", "z"), (L("Couper"), "cut:", "x"), (L("Copier"), "copy:", "c"), (L("Coller"), "paste:", "v"), (L("Tout sélectionner"), "selectAll:", "a")] { edit.addItem(withTitle: title, action: Selector(action), keyEquivalent: key) }
+        let edit = NSMenu(title: L("Edit menu"))
+        for (title, action, key) in [(L("Undo"), "undo:", "z"), (L("Cut"), "cut:", "x"), (L("Copy"), "copy:", "c"), (L("Paste"), "paste:", "v"), (L("Select all"), "selectAll:", "a")] { edit.addItem(withTitle: title, action: Selector(action), keyEquivalent: key) }
         editItem.submenu = edit
         main.addItem(editItem)
         NSApp.mainMenu = main

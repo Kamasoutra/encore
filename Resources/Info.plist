@@ -1,23 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0"><dict>
-    <key>CFBundleName</key><string>Encore</string>
-    <key>CFBundleDisplayName</key><string>Encore</string>
-    <key>CFBundleExecutable</key><string>Encore</string>
-    <key>CFBundleIdentifier</key><string>local.kama.Encore</string>
-    <key>CFBundlePackageType</key><string>APPL</string>
-    <key>CFBundleShortVersionString</key><string>0.3.0</string>
-    <key>CFBundleVersion</key><string>4</string>
-    <key>CFBundleDevelopmentRegion</key><string>en</string>
-    <key>CFBundleLocalizations</key><array><string>en</string><string>fr</string></array>
-    <key>CFBundleIconFile</key><string>Encore</string>
-    <key>LSMinimumSystemVersion</key><string>14.0</string>
-    <key>LSUIElement</key><true/>
-    <key>NSHighResolutionCapable</key><true/>
-    <key>SUFeedURL</key><string>https://github.com/Kamasoutra/encore/releases/latest/download/appcast.xml</string>
-    <key>SUPublicEDKey</key><string>nxhSwI/lMMNihff3cnCFlUXepDWCY4YDm2sq0oqZ6XU=</string>
-    <key>SUEnableAutomaticChecks</key><true/>
-    <key>NSLocalNetworkUsageDescription</key><string>Encore se connecte directement à vos autres Mac appairés sur le réseau local pour partager l’historique du presse-papiers, sans serveur.</string>
-    <key>NSBonjourServices</key><array><string>_encore._tcp</string></array>
-    <key>NSHumanReadableCopyright</key><string>© 2026 Encore contributors. MIT License.</string>
-</dict></plist>
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>en</string>
+	<key>CFBundleDisplayName</key>
+	<string>Encore</string>
+	<key>CFBundleExecutable</key>
+	<string>Encore</string>
+	<key>CFBundleIconFile</key>
+	<string>Encore</string>
+	<key>CFBundleIdentifier</key>
+	<string>local.kama.Encore</string>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>en</string>
+		<string>fr</string>
+	</array>
+	<key>CFBundleName</key>
+	<string>Encore</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>0.3.0</string>
+	<key>CFBundleVersion</key>
+	<string>4</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>14.0</string>
+	<key>LSUIElement</key>
+	<true/>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_encore._tcp</string>
+	</array>
+	<key>NSHighResolutionCapable</key>
+	<true/>
+	<key>NSHumanReadableCopyright</key>
+	<string>© 2026 Encore contributors. MIT License.</string>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Encore connects directly to your paired Macs on the local network to share clipboard history, without any server.</string>
+	<key>SUEnableAutomaticChecks</key>
+	<true/>
+	<key>SUFeedURL</key>
+	<string>https://github.com/Kamasoutra/encore/releases/latest/download/appcast.xml</string>
+	<key>SUPublicEDKey</key>
+	<string>nxhSwI/lMMNihff3cnCFlUXepDWCY4YDm2sq0oqZ6XU=</string>
+</dict>
+</plist>

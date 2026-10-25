@@ -3,7 +3,7 @@ import PackageDescription
 
 let package = Package(
     name: "Encore",
-    defaultLocalization: "fr",
+    defaultLocalization: "en",
     platforms: [.macOS(.v14)],
     products: [.executable(name: "Encore", targets: ["Encore"])],
     dependencies: [.package(url: "https://github.com/sparkle-project/Sparkle", exact: "2.10.0")],

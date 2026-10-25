@@ -35,7 +35,7 @@ import ImageIO
             })
         }
         self.query = query
-        if !query.start() { model.notify(L("La surveillance des captures est indisponible pour ce dossier.")) }
+        if !query.start() { model.notify(L("Screenshot monitoring is unavailable for this folder.")) }
     }
 
     func stop() {
@@ -68,7 +68,7 @@ import ImageIO
                     guard let self, self.generation == currentGeneration else { return }
                     self.importImage(data, url: url, capturedAt: values.creationDate ?? Date(), clipboardRevision: clipboardRevision)
                 }
-            } catch { DispatchQueue.main.async { self?.model.notify(L("Capture ignorée : \(error.localizedDescription)")) } }
+            } catch { DispatchQueue.main.async { self?.model.notify(L("Screenshot skipped: \(error.localizedDescription)")) } }
         }
     }
 
@@ -86,7 +86,7 @@ import ImageIO
         default: return
         }
         let payload = ClipPayload(items: [.init([type: data])])
-        let clip = Clip(fingerprint: payload.fingerprint, kind: .image, text: "", title: url.deletingPathExtension().lastPathComponent, sourceName: L("Capture d’écran"), sourceBundle: "com.apple.screencaptureui", copiedAt: capturedAt, byteCount: payload.byteCount)
+        let clip = Clip(fingerprint: payload.fingerprint, kind: .image, text: "", title: url.deletingPathExtension().lastPathComponent, sourceName: L("Screenshot"), sourceBundle: "com.apple.screencaptureui", copiedAt: capturedAt, byteCount: payload.byteCount)
         model.accept(clip, payload: payload)
         guard model.preferences.copyScreenshotsToClipboard else { return }
         let expectedRevision = clipboardRevision ?? model.clipboard.revision

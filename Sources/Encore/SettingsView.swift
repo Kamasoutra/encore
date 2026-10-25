@@ -7,19 +7,19 @@ private enum SettingsSection: String, CaseIterable, Identifiable {
     case general, privacy, retention, data, peers, shortcuts
     var id: String { rawValue }
     var title: String {
-        switch self { case .general: L("Général"); case .privacy: L("Confidentialité"); case .retention: L("Rétention"); case .data: L("Données"); case .peers: L("Autres Mac"); case .shortcuts: L("Raccourcis") }
+        switch self { case .general: L("General"); case .privacy: L("Privacy"); case .retention: L("Retention Rules"); case .data: L("Data"); case .peers: L("Other Macs"); case .shortcuts: L("Shortcuts") }
     }
     var symbol: String {
         switch self { case .general: "slider.horizontal.3"; case .privacy: "hand.raised"; case .retention: "clock.arrow.circlepath"; case .data: "externaldrive"; case .peers: "laptopcomputer"; case .shortcuts: "keyboard" }
     }
     var subtitle: String {
         switch self {
-        case .general: L("Un presse-papiers qui s’adapte à votre façon de travailler.")
-        case .privacy: L("Choisissez ce qu’Encore peut garder. Tout reste sur ce Mac.")
-        case .retention: L("Une durée par taille et type. La première règle correspondante l’emporte.")
-        case .data: L("Conservation, sauvegardes et espace utilisé.")
-        case .peers: L("Retrouvez ici ce que vous copiez sur vos autres Mac. En direct sur le réseau local, chiffré, sans compte.")
-        case .shortcuts: L("Retrouver, sélectionner, coller. Sans quitter le clavier.")
+        case .general: L("A clipboard that fits the way you work.")
+        case .privacy: L("Choose what Encore keeps. Everything stays on this Mac.")
+        case .retention: L("Set retention by size and type. The first matching rule wins.")
+        case .data: L("Retention, backups, and storage usage.")
+        case .peers: L("Find what you copy on your other Macs. Direct over the local network, encrypted, no account.")
+        case .shortcuts: L("Find, select, and paste. All from the keyboard.")
         }
     }
 }
@@ -75,7 +75,7 @@ struct SettingsView: View {
             }.listStyle(.sidebar).scrollContentBackground(.hidden)
             Spacer()
             VStack(alignment: .leading, spacing: 7) {
-                Label(L("100 % local"), systemImage: "lock.shield").font(.system(size: 12)).foregroundStyle(.secondary)
+                Label(L("100% local"), systemImage: "lock.shield").font(.system(size: 12)).foregroundStyle(.secondary)
                 HStack {
                     Text("v\(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "dev")").font(.system(size: 12)).foregroundStyle(.secondary)
                     Spacer()
@@ -87,65 +87,65 @@ struct SettingsView: View {
 
     private var general: some View {
         Form {
-            Section(L("Au quotidien")) {
-                Toggle(L("Enregistrer les nouvelles copies"), isOn: $model.preferences.captureEnabled).disabled(model.storage == nil || model.storageError != nil)
-                Toggle(L("Ouvrir à la connexion"), isOn: $launchAtLogin).disabled(model.demo).onChange(of: launchAtLogin) { _, value in
+            Section(L("Everyday use")) {
+                Toggle(L("Save new clipboard items"), isOn: $model.preferences.captureEnabled).disabled(model.storage == nil || model.storageError != nil)
+                Toggle(L("Launch at login"), isOn: $launchAtLogin).disabled(model.demo).onChange(of: launchAtLogin) { _, value in
                     do {
                         if value { try SMAppService.mainApp.register() } else { try SMAppService.mainApp.unregister() }
-                    } catch { model.notify(L("Démarrage automatique : \(error.localizedDescription)")); launchAtLogin = SMAppService.mainApp.status == .enabled }
+                    } catch { model.notify(L("Launch at login: \(error.localizedDescription)")); launchAtLogin = SMAppService.mainApp.status == .enabled }
                 }
-                Picker(L("Ouvrir Encore"), selection: $model.preferences.shortcut) {
+                Picker(L("Open Encore"), selection: $model.preferences.shortcut) {
                     Text("⌘⇧V").tag("commandShiftV"); Text("⌘⌥V").tag("commandOptionV")
                 }.onChange(of: model.preferences.shortcut) { _, _ in model.updateShortcuts?() }
-                caption(L("Raccourci actif : \(model.shortcutStatus). Secours : ⌃⌥⌘V."))
-                Toggle(L("Réserver ⌘⇧C pour la pile de collage"), isOn: $model.preferences.stackShortcutEnabled)
+                caption(L("Active shortcut: \(model.shortcutStatus). Fallback: ⌃⌥⌘V."))
+                Toggle(L("Use ⌘⇧C for the paste queue"), isOn: $model.preferences.stackShortcutEnabled)
                     .onChange(of: model.preferences.stackShortcutEnabled) { _, _ in model.updateShortcuts?() }
-                caption(L("Désactivé par défaut pour conserver ce raccourci dans vos autres applications. La pile reste accessible depuis le panneau."))
+                caption(L("Off by default to keep this shortcut available in other apps. The queue is also available from the shelf."))
             }
-            Section(L("Apparence")) {
-                Picker(L("Langue"), selection: $model.preferences.language) {
-                    Text(L("Suivre macOS")).tag("system")
+            Section(L("Appearance")) {
+                Picker(L("Language"), selection: $model.preferences.language) {
+                    Text(L("Follow macOS")).tag("system")
                     ForEach(languages, id: \.self) { code in Text(languageLabel(code)).tag(code) }
                 }
-                Picker(L("Thème"), selection: $model.preferences.appearance) {
-                    Text(L("Système")).tag("system"); Text(L("Clair")).tag("light"); Text(L("Sombre")).tag("dark")
+                Picker(L("Theme"), selection: $model.preferences.appearance) {
+                    Text(L("System")).tag("system"); Text(L("Light")).tag("light"); Text(L("Dark")).tag("dark")
                 }
-                Toggle(L("Cartes compactes"), isOn: $model.preferences.compact)
-                percentageControl(L("Taille des cartes"), symbol: "rectangle.grid.1x2", value: $model.preferences.cardScale, range: 0.75...1.5)
-                caption(L("Glissez la poignée au-dessus du panneau pour régler sa hauteur. ⌘+ et ⌘− ajustent les cartes."))
+                Toggle(L("Compact cards"), isOn: $model.preferences.compact)
+                percentageControl(L("Card size"), symbol: "rectangle.grid.1x2", value: $model.preferences.cardScale, range: 0.75...1.5)
+                caption(L("Drag the top handle to resize the shelf. Use ⌘+ and ⌘− to resize cards."))
             }
-            Section(L("Écran d’affichage")) {
-                Picker(L("Afficher le panneau sur"), selection: $model.preferences.displayTarget) {
-                    Text(L("Écran actuel · au pointeur")).tag("active")
-                    Text(L("Écran principal de macOS")).tag("primary")
+            Section(L("Display")) {
+                Picker(L("Show shelf on"), selection: $model.preferences.displayTarget) {
+                    Text(L("Current display · at pointer")).tag("active")
+                    Text(L("macOS primary display")).tag("primary")
                     ForEach(NSScreen.screens, id: \.self) { screen in
                         if let id = ScreenPlacement.identifier(screen) { Text(screen.localizedName).tag(id) }
                     }
                     if !["active", "primary"].contains(model.preferences.displayTarget), !NSScreen.screens.contains(where: { ScreenPlacement.identifier($0) == model.preferences.displayTarget }) {
-                        Text(L("Écran déconnecté · principal en secours")).tag(model.preferences.displayTarget)
+                        Text(L("Display disconnected · using primary")).tag(model.preferences.displayTarget)
                     }
                 }.onChange(of: model.preferences.displayTarget) { _, _ in model.resizePanel?() }
-                caption(L("Le moniteur choisi est mémorisé. S’il est débranché, Encore utilise l’écran principal jusqu’à son retour."))
+                caption(L("Encore remembers this display. If disconnected, it uses the primary display until it returns."))
             }
-            Section(L("Retour sonore")) {
-                Toggle(L("Jouer un son à la copie et au collage"), isOn: $model.preferences.soundsEnabled)
+            Section(L("Sound feedback")) {
+                Toggle(L("Play sounds on capture and paste"), isOn: $model.preferences.soundsEnabled)
                 percentageControl(L("Volume"), symbol: "speaker.wave.2", value: $model.preferences.soundVolume, range: 0...1)
                 ForEach(SoundTheme.allCases) { theme in soundThemeRow(theme) }
                 if model.preferences.soundTheme == .custom {
-                    soundFileRow(L("Copie"), path: model.preferences.captureSoundPath, action: .capture)
-                    soundFileRow(L("Collage"), path: model.preferences.pasteSoundPath, action: .paste)
+                    soundFileRow(L("On copy"), path: model.preferences.captureSoundPath, action: .capture)
+                    soundFileRow(L("On paste"), path: model.preferences.pasteSoundPath, action: .paste)
                 }
             }
-            Section(L("Collage direct")) {
+            Section(L("Direct paste")) {
                 HStack {
-                    Label(model.accessibilityGranted ? L("Collage direct autorisé") : L("Collage manuel actif"), systemImage: model.accessibilityGranted ? "checkmark.shield" : "lock")
+                    Label(model.accessibilityGranted ? L("Direct paste allowed") : L("Manual paste active"), systemImage: model.accessibilityGranted ? "checkmark.shield" : "lock")
                     Spacer()
-                    Button(L("Vérifier")) { model.accessibilityGranted = AXIsProcessTrusted() }
-                    Button(L("Réglages macOS…")) { model.requestAccessibility() }
+                    Button(L("Check again")) { model.accessibilityGranted = AXIsProcessTrusted() }
+                    Button(L("macOS Settings…")) { model.requestAccessibility() }
                 }
-                caption(L("L’autorisation Accessibilité permet le collage au curseur et en série. Sans elle, Encore recopie l’élément pour un ⌘V manuel."))
+                caption(L("Accessibility access enables direct and sequential paste. Without it, Encore copies the item for you to paste with ⌘V."))
                 if !model.accessibilityGranted {
-                    caption(L("macOS n’autorise pas cette version d’Encore. Si vous aviez déjà accordé l’accès, désactivez puis réactivez Encore dans Accessibilité. Si nécessaire, retirez l’ancienne entrée et ajoutez l’application installée. Une signature ad hoc peut invalider l’accès après une mise à jour."))
+                    caption(L("macOS has not authorized this version of Encore. If access was already granted, turn Encore off and on in Accessibility. If needed, remove the old entry and add the installed app. Ad-hoc signatures can invalidate access after an update."))
                 }
             }
         }.formStyle(.grouped)
@@ -154,88 +154,88 @@ struct SettingsView: View {
     private var privacy: some View {
         Form {
             Section(L("Capture")) {
-                Toggle(L("Ignorer les contenus confidentiels et temporaires"), isOn: $model.preferences.ignoreSensitive)
-                Toggle(L("Reconnaître le texte des images"), isOn: $model.preferences.recognizeImages)
-                caption(L("L’OCR fonctionne sur ce Mac. Aucun compte ni télémétrie. Les liens ne sont pas chargés en arrière-plan."))
+                Toggle(L("Ignore confidential and transient content"), isOn: $model.preferences.ignoreSensitive)
+                Toggle(L("Recognize text in images"), isOn: $model.preferences.recognizeImages)
+                caption(L("OCR runs on this Mac. No account or telemetry. Links are not loaded in the background."))
             }
-            Section(L("Applications exclues")) {
+            Section(L("Excluded apps")) {
                 VStack(spacing: 0) {
-                    if model.installedExcludedBundleIDs.isEmpty { Text(L("Aucune application exclue installée")).foregroundStyle(.secondary).padding(.vertical, 8) }
+                    if model.installedExcludedBundleIDs.isEmpty { Text(L("No installed apps are excluded")).foregroundStyle(.secondary).padding(.vertical, 8) }
                     ForEach(model.installedExcludedBundleIDs, id: \.self) { bundle in
                         let app = ApplicationCatalog.app(bundle)
                         HStack(spacing: 10) {
                             Image(nsImage: app.icon).resizable().interpolation(.high).frame(width: 27, height: 27)
                             Text(app.name).font(.system(size: 13))
                             Spacer()
-                            Button(role: .destructive) { model.removeExcludedApp(bundle) } label: { Image(systemName: "minus.circle").foregroundStyle(.secondary) }.buttonStyle(.plain).help(L("Retirer \(app.name) des exclusions"))
+                            Button(role: .destructive) { model.removeExcludedApp(bundle) } label: { Image(systemName: "minus.circle").foregroundStyle(.secondary) }.buttonStyle(.plain).help(L("Stop excluding \(app.name)"))
                         }.padding(.vertical, 8).help(bundle)
                         if bundle != model.installedExcludedBundleIDs.last { Divider() }
                     }
                 }
-                Button { addExcludedApp() } label: { Label(L("Ajouter une application…"), systemImage: "plus") }
-                caption(L("Les gestionnaires de mots de passe installés sont exclus automatiquement. Les nouvelles installations sont détectées. Une application que vous retirez ne sera pas réactivée automatiquement."))
+                Button { addExcludedApp() } label: { Label(L("Add an app…"), systemImage: "plus") }
+                caption(L("Installed password managers are excluded automatically. New installations are detected. Apps you remove will not be excluded again automatically."))
             }
-            Section(L("Captures d’écran natives")) {
-                Toggle(L("Importer les nouvelles captures enregistrées"), isOn: Binding(get: { model.preferences.importScreenshots }, set: { value in
+            Section(L("Native screenshots")) {
+                Toggle(L("Import newly saved screenshots"), isOn: Binding(get: { model.preferences.importScreenshots }, set: { value in
                     if value { chooseScreenshotFolder() } else { model.preferences.importScreenshots = false }
                 }))
                 if model.preferences.importScreenshots {
                     HStack {
-                        Label((model.preferences.screenshotFolder as NSString?)?.lastPathComponent ?? L("Bureau"), systemImage: "folder")
+                        Label((model.preferences.screenshotFolder as NSString?)?.lastPathComponent ?? L("Desktop"), systemImage: "folder")
                         Spacer()
-                        Button(L("Changer…")) { chooseScreenshotFolder() }
+                        Button(L("Change…")) { chooseScreenshotFolder() }
                     }
-                    Toggle(L("Copier aussi dans le presse-papiers"), isOn: $model.preferences.copyScreenshotsToClipboard)
-                    caption(L("Permet de coller la capture avec ⌘V. Une copie effectuée après la capture reste prioritaire."))
+                    Toggle(L("Also copy to the clipboard"), isOn: $model.preferences.copyScreenshotsToClipboard)
+                    caption(L("Paste the screenshot with ⌘V. Anything copied after the screenshot takes priority."))
                 }
                 if model.preferences.importScreenshots && model.preferences.copyScreenshotsToClipboard {
-                    caption(L("Les nouvelles captures de ce dossier rejoignent l’historique. Le dossier est surveillé uniquement quand Encore et la capture sont actifs. Les captures existantes ne sont pas importées."))
+                    caption(L("New screenshots in this folder join your history. The folder is watched while Encore and capture are active. Existing screenshots are not imported."))
                 } else {
-                    caption(L("Les nouvelles captures de ce dossier rejoignent l’historique sans modifier votre presse-papiers. Le dossier est surveillé uniquement quand Encore et la capture sont actifs. Les captures existantes ne sont pas importées."))
+                    caption(L("New screenshots in this folder join your history without changing the clipboard. The folder is watched while Encore and capture are active. Existing screenshots are not imported."))
                 }
             }
-            caption(L("Certaines extensions de navigateur n’identifient pas les secrets. Vous pouvez exclure leur navigateur si nécessaire."))
+            caption(L("Some browser extensions do not mark secrets. Exclude their browser if needed."))
         }.formStyle(.grouped)
     }
 
     private var data: some View {
         Form {
-            Section(L("Conservation")) {
-                LabeledContent(L("Durée sans règle"), value: model.preferences.retentionDays == 0 ? L("Indéfiniment") : L("\(model.preferences.retentionDays) jour(s)"))
-                Button { section = .retention } label: { Label(L("Configurer les règles de rétention"), systemImage: "clock.arrow.circlepath") }
-                Picker(L("Éléments sans règle"), selection: $model.preferences.historyLimit) {
-                    Text(L("500 maximum")).tag(500); Text(L("2 000 maximum")).tag(2000); Text(L("10 000 maximum")).tag(10000); Text(L("Sans limite de nombre")).tag(0)
+            Section(L("Retention")) {
+                LabeledContent(L("Retention without a rule"), value: model.preferences.retentionDays == 0 ? L("Forever") : L("\(model.preferences.retentionDays) days"))
+                Button { section = .retention } label: { Label(L("Configure retention rules"), systemImage: "clock.arrow.circlepath") }
+                Picker(L("Items without a matching rule"), selection: $model.preferences.historyLimit) {
+                    Text(L("Up to 500")).tag(500); Text(L("Up to 2,000")).tag(2000); Text(L("Up to 10,000")).tag(10000); Text(L("Unlimited items")).tag(0)
                 }
-                Picker(L("Budget de contenu intégré"), selection: $model.preferences.storageLimitMB) {
-                    Text(L("100 Mio")).tag(100); Text(L("500 Mio")).tag(500); Text(L("2 000 Mio")).tag(2000)
+                Picker(L("Embedded content budget"), selection: $model.preferences.storageLimitMB) {
+                    Text(L("100 MiB")).tag(100); Text(L("500 MiB")).tag(500); Text(L("2,000 MiB")).tag(2000)
                 }
-                caption(L("Favoris, collections et éléments sous règle échappent à la limite de nombre. Le budget plein bloque les nouvelles copies. Limite technique : 25 Mio de contenu intégré par copie."))
+                caption(L("Favorites, collections, and rule-managed items bypass the item-count limit. A full budget blocks new copies. Maximum embedded content per copy: 25 MiB."))
             }
-            Section(L("Bibliothèque locale")) {
+            Section(L("Local library")) {
                 if let error = model.storageError {
                     Label(error, systemImage: "exclamationmark.triangle").foregroundStyle(.red)
-                    Button(L("Recharger la bibliothèque…")) { model.reloadStorage() }
+                    Button(L("Reload library…")) { model.reloadStorage() }
                 }
-                LabeledContent(L("Éléments"), value: Localization.number(model.library.clips.count))
-                LabeledContent(L("Contenu conservé"), value: Localization.bytes(Int64(model.totalBytes)))
-                caption(L("Les fichiers sont référencés et ne sont pas dupliqués. Leur taille sert aux règles, mais ne consomme pas le budget d’Encore. Le stockage et les sauvegardes restent en clair."))
+                LabeledContent(L("Items"), value: Localization.number(model.library.clips.count))
+                LabeledContent(L("Stored content"), value: Localization.bytes(Int64(model.totalBytes)))
+                caption(L("Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. Storage and backups are unencrypted."))
                 HStack {
-                    Button { model.exportLibrary() } label: { Label(L("Exporter…"), systemImage: "square.and.arrow.up") }
-                    Button { model.importLibrary() } label: { Label(L("Importer…"), systemImage: "square.and.arrow.down") }
+                    Button { model.exportLibrary() } label: { Label(L("Export…"), systemImage: "square.and.arrow.up") }
+                    Button { model.importLibrary() } label: { Label(L("Import…"), systemImage: "square.and.arrow.down") }
                     Spacer()
-                    Button(L("Ouvrir le dossier")) { if let root = model.storage?.root { NSWorkspace.shared.open(root) } }
+                    Button(L("Open folder")) { if let root = model.storage?.root { NSWorkspace.shared.open(root) } }
                 }
-                Button(L("Effacer l’historique…"), role: .destructive) { model.clearHistory() }
+                Button(L("Clear history…"), role: .destructive) { model.clearHistory() }
             }
             if updates.available {
-                Section(L("Mises à jour")) {
-                    Toggle(L("Rechercher automatiquement les mises à jour"), isOn: Binding(get: { updates.automaticallyChecks }, set: { updates.automaticallyChecks = $0 }))
+                Section(L("Updates")) {
+                    Toggle(L("Check for updates automatically"), isOn: Binding(get: { updates.automaticallyChecks }, set: { updates.automaticallyChecks = $0 }))
                     HStack {
                         Text(L("Version \(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "")")).foregroundStyle(.secondary)
                         Spacer()
-                        Button(L("Rechercher maintenant")) { updates.check() }
+                        Button(L("Check Now")) { updates.check() }
                     }
-                    caption(L("Les mises à jour viennent des versions publiées sur GitHub et sont vérifiées par signature avant installation."))
+                    caption(L("Updates come from releases published on GitHub and are verified by signature before installing."))
                 }
             }
         }.formStyle(.grouped)
@@ -243,26 +243,26 @@ struct SettingsView: View {
 
     private var peers: some View {
         Form {
-            Section(L("Partage")) {
-                Toggle(L("Partager l’historique avec mes Mac appairés"), isOn: $model.preferences.shareWithPeers).disabled(model.peerService == nil)
-                LabeledContent(L("Nom de ce Mac"), value: model.deviceName)
-                caption(L("Désactivé par défaut. Vos Mac appairés peuvent alors parcourir cet historique et récupérer un élément à la demande, sur le réseau local uniquement. Rien n’est copié automatiquement. Les applications exclues, les fichiers et les contenus confidentiels ne sont jamais partagés."))
+            Section(L("Sharing")) {
+                Toggle(L("Share history with my paired Macs"), isOn: $model.preferences.shareWithPeers).disabled(model.peerService == nil)
+                LabeledContent(L("This Mac’s name"), value: model.deviceName)
+                caption(L("Off by default. When on, your paired Macs can browse this history and fetch an item on demand, over the local network only. Nothing is copied automatically. Excluded apps, files and confidential content are never shared."))
             }
-            Section(L("Mac appairés")) {
-                if model.peers.isEmpty { Text(L("Aucun Mac appairé")).foregroundStyle(.secondary).padding(.vertical, 8) }
+            Section(L("Paired Macs")) {
+                if model.peers.isEmpty { Text(L("No paired Mac")).foregroundStyle(.secondary).padding(.vertical, 8) }
                 ForEach(model.peers) { peer in
                     HStack(spacing: 10) {
                         Image(systemName: "laptopcomputer").font(.system(size: 18)).foregroundStyle(.secondary).frame(width: 27)
                         VStack(alignment: .leading, spacing: 2) {
                             Text(peer.device.name).font(.system(size: 13))
-                            Text(peer.online ? L("En ligne") : L("Hors ligne")).font(.system(size: 12)).foregroundStyle(peer.online ? Palette.accent : .secondary)
+                            Text(peer.online ? L("Online") : L("Offline")).font(.system(size: 12)).foregroundStyle(peer.online ? Palette.accent : .secondary)
                         }
                         Spacer()
-                        Button(L("Retirer"), role: .destructive) { model.revokePeer(peer.id) }.help(L("Effacer le secret partagé avec \(peer.device.name)"))
+                        Button(L("Remove"), role: .destructive) { model.revokePeer(peer.id) }.help(L("Erase the secret shared with \(peer.device.name)"))
                     }.padding(.vertical, 4)
                 }
-                Button { model.pairingSheet = true } label: { Label(L("Appairer un Mac…"), systemImage: "plus") }.disabled(model.peerService == nil)
-                caption(L("L’appairage se fait une seule fois : vérifiez que les deux Mac affichent le même code à 6 chiffres. Le secret partagé reste dans le Trousseau de chaque Mac. Retirer un Mac l’efface."))
+                Button { model.pairingSheet = true } label: { Label(L("Pair a Mac…"), systemImage: "plus") }.disabled(model.peerService == nil)
+                caption(L("Pairing happens once: check that both Macs show the same 6-digit code. The shared secret stays in each Mac’s Keychain. Removing a Mac erases it."))
             }
         }.formStyle(.grouped)
     }
@@ -270,13 +270,13 @@ struct SettingsView: View {
     private var shortcuts: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 21) {
-                shortcutGroup(L("Essentiels"), items: [(L("Ouvrir / fermer"), model.shortcutStatus), (L("Coller"), "↩"), (L("Coller en texte brut"), "⇧↩"), (L("Collage rapide"), "⌘1 … ⌘9"), (L("File de collage"), model.preferences.stackShortcutEnabled ? "⌘⇧C" : L("Via le panneau"))])
-                shortcutGroup(L("Navigation"), items: [(L("Vue complète"), "↑"), (L("Réduire"), "↓"), (L("Sélectionner"), "← →"), (L("Étendre la sélection"), "⇧←  ⇧→"), (L("Aperçu"), L("espace")), (L("Rechercher"), L("⌘F ou saisir")), (L("Taille des cartes"), "⌘+  ⌘−"), (L("Tout sélectionner"), "⌘A")])
-                shortcutGroup(L("Organiser & éditer"), items: [(L("Éditer"), "⌘E"), (L("Favori"), "⌘D"), (L("Ajouter à la file"), "⌘⇧↩"), (L("Nouvel extrait"), "⌘N"), (L("Nouvelle collection"), "⌘⇧N"), (L("Supprimer / annuler"), "⌫ / ⌘Z"), (L("Pause de capture"), "⌘T"), (L("Réglages"), "⌘,")])
+                shortcutGroup(L("Essentials"), items: [(L("Show / hide"), model.shortcutStatus), (L("Paste"), "↩"), (L("Paste as plain text"), "⇧↩"), (L("Quick paste"), "⌘1 … ⌘9"), (L("Paste queue"), model.preferences.stackShortcutEnabled ? "⌘⇧C" : L("From the shelf"))])
+                shortcutGroup(L("Navigation"), items: [(L("Full library"), "↑"), (L("Reduce"), "↓"), (L("Select"), "← →"), (L("Extend selection"), "⇧←  ⇧→"), (L("Preview"), L("space")), (L("Search"), L("⌘F or start typing")), (L("Card size"), "⌘+  ⌘−"), (L("Select all"), "⌘A")])
+                shortcutGroup(L("Organize & edit"), items: [(L("Edit"), "⌘E"), (L("Favorite"), "⌘D"), (L("Add to queue"), "⌘⇧↩"), (L("New snippet"), "⌘N"), (L("New collection"), "⌘⇧N"), (L("Delete / undo"), "⌫ / ⌘Z"), (L("Toggle capture"), "⌘T"), (L("Settings"), "⌘,")])
                 VStack(alignment: .leading, spacing: 10) {
-                    Text(L("Recherche avancée")).font(.system(size: 13, weight: .semibold))
+                    Text(L("Advanced search")).font(.system(size: 13, weight: .semibold))
                     Text("app:safari   type:image   date:today\nafter:2026-10-01   before:2026-11-01").font(.system(size: 12, design: .monospaced)).textSelection(.enabled)
-                    caption(L("Combinez les mots et filtres. La recherche ignore les accents et inclut le texte reconnu dans les images."))
+                    caption(L("Combine words and filters. Search ignores accents and includes text recognized in images."))
                 }
             }.padding(24)
         }
@@ -329,7 +329,7 @@ struct SettingsView: View {
         let panel = NSOpenPanel()
         panel.canChooseDirectories = true; panel.canChooseFiles = false
         panel.directoryURL = model.preferences.screenshotFolder.map { URL(fileURLWithPath: $0) } ?? ScreenshotImporter.defaultFolder
-        panel.message = L("Choisissez le dossier où macOS enregistre vos captures d’écran.")
+        panel.message = L("Choose the folder where macOS saves your screenshots.")
         guard panel.runModal() == .OK, let url = panel.url else { return }
         model.preferences.screenshotFolder = url.path
         model.preferences.importScreenshots = true
@@ -344,21 +344,21 @@ struct SettingsView: View {
                     Spacer(minLength: 0)
                 }.contentShape(Rectangle())
             }.buttonStyle(.plain).accessibilityAddTraits(selected ? .isSelected : [])
-            Button(L("Copie")) { FeedbackSounds.preview(theme, action: .capture, preferences: model.preferences) }
-            Button(L("Collage")) { FeedbackSounds.preview(theme, action: .paste, preferences: model.preferences) }
-            Button { FeedbackSounds.preview(theme, preferences: model.preferences) } label: { Label(L("Enchaînement"), systemImage: "play.fill") }
-                .help(L("Deux copies, puis un collage"))
+            Button(L("On copy")) { FeedbackSounds.preview(theme, action: .capture, preferences: model.preferences) }
+            Button(L("On paste")) { FeedbackSounds.preview(theme, action: .paste, preferences: model.preferences) }
+            Button { FeedbackSounds.preview(theme, preferences: model.preferences) } label: { Label(L("Sequence"), systemImage: "play.fill") }
+                .help(L("Two copies, then a paste"))
         }.controlSize(.small)
     }
     private func soundFileRow(_ title: String, path: String?, action: FeedbackSounds.Action) -> some View {
         HStack {
             Text(title)
             Spacer()
-            Text(path.map { ($0 as NSString).lastPathComponent } ?? L("Son doux par défaut")).foregroundStyle(.secondary).lineLimit(1)
-            Button(L("Choisir…")) {
+            Text(path.map { ($0 as NSString).lastPathComponent } ?? L("Default soft sound")).foregroundStyle(.secondary).lineLimit(1)
+            Button(L("Choose…")) {
                 let panel = NSOpenPanel(); panel.allowedContentTypes = [.audio]
                 guard panel.runModal() == .OK, let url = panel.url else { return }
-                guard NSSound(contentsOf: url, byReference: true) != nil else { model.notify(L("Ce format audio n’est pas pris en charge.")); return }
+                guard NSSound(contentsOf: url, byReference: true) != nil else { model.notify(L("This audio format is not supported.")); return }
                 if action == .capture { model.preferences.captureSoundPath = url.path } else { model.preferences.pasteSoundPath = url.path }
             }
         }
@@ -370,7 +370,7 @@ private struct PairingSheet: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text(L("Appairer un Mac")).font(.system(size: 17, weight: .semibold))
+            Text(L("Pair a Mac")).font(.system(size: 17, weight: .semibold))
             if let session = model.pairing, let state = model.pairingState { progress(session, state) } else { discovery }
         }.padding(24).frame(width: 440).frame(minHeight: 250, alignment: .top)
             .environment(\.locale, Localization.locale)
@@ -378,23 +378,23 @@ private struct PairingSheet: View {
 
     private var discovery: some View {
         VStack(alignment: .leading, spacing: 12) {
-            note(L("Activez « Partager l’historique avec mes Mac appairés » sur l’autre Mac, puis choisissez-le ci-dessous. Les deux Mac doivent être sur le même réseau."))
+            note(L("Turn on “Share history with my paired Macs” on the other Mac, then choose it below. Both Macs must be on the same network."))
             VStack(spacing: 0) {
                 if model.nearbyMacs.isEmpty {
-                    HStack(spacing: 8) { ProgressView().controlSize(.small); Text(L("Recherche des Mac à proximité…")).foregroundStyle(.secondary) }.frame(maxWidth: .infinity, alignment: .leading).padding(12)
+                    HStack(spacing: 8) { ProgressView().controlSize(.small); Text(L("Looking for nearby Macs…")).foregroundStyle(.secondary) }.frame(maxWidth: .infinity, alignment: .leading).padding(12)
                 }
                 ForEach(model.nearbyMacs) { device in
                     HStack(spacing: 10) {
                         Image(systemName: "laptopcomputer").foregroundStyle(.secondary).frame(width: 22)
                         Text(device.name)
                         Spacer()
-                        Button(L("Appairer")) { model.beginPairing(with: device) }
+                        Button(L("Pair")) { model.beginPairing(with: device) }
                     }.padding(.horizontal, 12).padding(.vertical, 8)
                     if device.id != model.nearbyMacs.last?.id { Divider().padding(.horizontal, 12) }
                 }
             }.background(Color(nsColor: .controlBackgroundColor), in: RoundedRectangle(cornerRadius: 10))
             Spacer(minLength: 0)
-            HStack { Spacer(); Button(L("Annuler")) { model.closePairing() }.keyboardShortcut(.cancelAction) }
+            HStack { Spacer(); Button(L("Cancel")) { model.closePairing() }.keyboardShortcut(.cancelAction) }
         }
     }
 
@@ -402,30 +402,30 @@ private struct PairingSheet: View {
         let name = session.remote?.name ?? "Mac"
         switch state {
         case .connecting:
-            HStack(spacing: 8) { ProgressView().controlSize(.small); Text(L("Connexion…")).foregroundStyle(.secondary) }
+            HStack(spacing: 8) { ProgressView().controlSize(.small); Text(L("Connecting…")).foregroundStyle(.secondary) }
             Spacer(minLength: 0)
-            HStack { Spacer(); Button(L("Annuler")) { model.closePairing() }.keyboardShortcut(.cancelAction) }
+            HStack { Spacer(); Button(L("Cancel")) { model.closePairing() }.keyboardShortcut(.cancelAction) }
         case .comparing, .confirmed:
-            note(session.incoming ? L("\(name) demande à être appairé. Vérifiez que les deux Mac affichent le même code.") : L("Vérifiez que \(name) affiche le même code."))
+            note(session.incoming ? L("\(name) wants to pair. Check that both Macs show the same code.") : L("Check that \(name) shows the same code."))
             Text(formatted(session.code ?? "")).font(.system(size: 40, weight: .semibold, design: .monospaced)).frame(maxWidth: .infinity).padding(.vertical, 6).textSelection(.enabled)
-            if state == .confirmed { note(L("En attente de confirmation sur l’autre Mac…")) }
+            if state == .confirmed { note(L("Waiting for confirmation on the other Mac…")) }
             Spacer(minLength: 0)
             HStack {
                 Spacer()
-                Button(L("Annuler")) { model.closePairing() }.keyboardShortcut(.cancelAction)
-                Button(L("Confirmer")) { model.confirmPairing() }.keyboardShortcut(.defaultAction).disabled(state == .confirmed)
+                Button(L("Cancel")) { model.closePairing() }.keyboardShortcut(.cancelAction)
+                Button(L("Confirm")) { model.confirmPairing() }.keyboardShortcut(.defaultAction).disabled(state == .confirmed)
             }
         case .paired:
-            Label(L("\(name) est appairé."), systemImage: "checkmark.circle.fill").foregroundStyle(Palette.accent)
+            Label(L("\(name) is paired."), systemImage: "checkmark.circle.fill").foregroundStyle(Palette.accent)
             Spacer(minLength: 0)
-            HStack { Spacer(); Button(L("Terminé")) { model.closePairing() }.keyboardShortcut(.defaultAction) }
+            HStack { Spacer(); Button(L("Done")) { model.closePairing() }.keyboardShortcut(.defaultAction) }
         case .failed:
-            Label(L("Appairage annulé ou impossible. Aucun secret n’a été enregistré."), systemImage: "xmark.octagon").foregroundStyle(.secondary)
+            Label(L("Pairing cancelled or failed. No secret was saved."), systemImage: "xmark.octagon").foregroundStyle(.secondary)
             Spacer(minLength: 0)
             HStack {
                 Spacer()
-                Button(L("Fermer")) { model.closePairing() }.keyboardShortcut(.cancelAction)
-                Button(L("Réessayer")) { model.resetPairing() }.keyboardShortcut(.defaultAction)
+                Button(L("Close")) { model.closePairing() }.keyboardShortcut(.cancelAction)
+                Button(L("Try Again")) { model.resetPairing() }.keyboardShortcut(.defaultAction)
             }
         }
     }

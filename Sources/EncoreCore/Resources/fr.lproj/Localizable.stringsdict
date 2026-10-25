@@ -2,7 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>%lld caractère(s)</key>
+	<key>%lld characters</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
 		<string>%#@count@</string>
@@ -20,25 +20,7 @@
 			<string>%lld caractères</string>
 		</dict>
 	</dict>
-	<key>%lld heure(s) (unité)</key>
-	<dict>
-		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@count@</string>
-		<key>count</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
-			<key>NSStringFormatValueTypeKey</key>
-			<string>lld</string>
-			<key>many</key>
-			<string>heures</string>
-			<key>one</key>
-			<string>heure</string>
-			<key>other</key>
-			<string>heures</string>
-		</dict>
-	</dict>
-	<key>%lld jour(s)</key>
+	<key>%lld days</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
 		<string>%#@count@</string>
@@ -56,7 +38,7 @@
 			<string>%lld jours</string>
 		</dict>
 	</dict>
-	<key>%lld jour(s) (unité)</key>
+	<key>%lld days (unit)</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
 		<string>%#@count@</string>
@@ -74,7 +56,7 @@
 			<string>jours</string>
 		</dict>
 	</dict>
-	<key>%lld minute(s) (unité)</key>
+	<key>%lld hours (unit)</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
 		<string>%#@count@</string>
@@ -85,68 +67,14 @@
 			<key>NSStringFormatValueTypeKey</key>
 			<string>lld</string>
 			<key>many</key>
-			<string>minutes</string>
+			<string>heures</string>
 			<key>one</key>
-			<string>minute</string>
+			<string>heure</string>
 			<key>other</key>
-			<string>minutes</string>
+			<string>heures</string>
 		</dict>
 	</dict>
-	<key>%lld mois (unité)</key>
-	<dict>
-		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@count@</string>
-		<key>count</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
-			<key>NSStringFormatValueTypeKey</key>
-			<string>lld</string>
-			<key>many</key>
-			<string>mois</string>
-			<key>one</key>
-			<string>mois</string>
-			<key>other</key>
-			<string>mois</string>
-		</dict>
-	</dict>
-	<key>%lld nouvel élément(s) importé(s)</key>
-	<dict>
-		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@count@</string>
-		<key>count</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
-			<key>NSStringFormatValueTypeKey</key>
-			<string>lld</string>
-			<key>many</key>
-			<string>%lld de nouveaux éléments importés</string>
-			<key>one</key>
-			<string>%lld nouvel élément importé</string>
-			<key>other</key>
-			<string>%lld nouveaux éléments importés</string>
-		</dict>
-	</dict>
-	<key>%lld semaine(s) (unité)</key>
-	<dict>
-		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@count@</string>
-		<key>count</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
-			<key>NSStringFormatValueTypeKey</key>
-			<string>lld</string>
-			<key>many</key>
-			<string>semaines</string>
-			<key>one</key>
-			<string>semaine</string>
-			<key>other</key>
-			<string>semaines</string>
-		</dict>
-	</dict>
-	<key>%lld élément(s)</key>
+	<key>%lld items</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
 		<string>%#@count@</string>
@@ -164,25 +92,7 @@
 			<string>%lld éléments</string>
 		</dict>
 	</dict>
-	<key>%lld élément(s) expireraient immédiatement.</key>
-	<dict>
-		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@count@</string>
-		<key>count</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
-			<key>NSStringFormatValueTypeKey</key>
-			<string>lld</string>
-			<key>many</key>
-			<string>%lld d’éléments expireraient immédiatement.</string>
-			<key>one</key>
-			<string>%lld élément expirerait immédiatement.</string>
-			<key>other</key>
-			<string>%lld éléments expireraient immédiatement.</string>
-		</dict>
-	</dict>
-	<key>%lld élément(s) supprimé(s) · ⌘Z pour annuler</key>
+	<key>%lld items deleted · ⌘Z to undo</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
 		<string>%#@count@</string>
@@ -200,7 +110,97 @@
 			<string>%lld éléments supprimés · ⌘Z pour annuler</string>
 		</dict>
 	</dict>
-	<key>Appliquer et supprimer %lld élément(s)</key>
+	<key>%lld items would expire immediately.</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>many</key>
+			<string>%lld d’éléments expireraient immédiatement.</string>
+			<key>one</key>
+			<string>%lld élément expirerait immédiatement.</string>
+			<key>other</key>
+			<string>%lld éléments expireraient immédiatement.</string>
+		</dict>
+	</dict>
+	<key>%lld minutes (unit)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>many</key>
+			<string>minutes</string>
+			<key>one</key>
+			<string>minute</string>
+			<key>other</key>
+			<string>minutes</string>
+		</dict>
+	</dict>
+	<key>%lld months (unit)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>many</key>
+			<string>mois</string>
+			<key>one</key>
+			<string>mois</string>
+			<key>other</key>
+			<string>mois</string>
+		</dict>
+	</dict>
+	<key>%lld new items imported</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>many</key>
+			<string>%lld de nouveaux éléments importés</string>
+			<key>one</key>
+			<string>%lld nouvel élément importé</string>
+			<key>other</key>
+			<string>%lld nouveaux éléments importés</string>
+		</dict>
+	</dict>
+	<key>%lld weeks (unit)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>many</key>
+			<string>semaines</string>
+			<key>one</key>
+			<string>semaine</string>
+			<key>other</key>
+			<string>semaines</string>
+		</dict>
+	</dict>
+	<key>Apply and delete %lld items</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
 		<string>%#@count@</string>

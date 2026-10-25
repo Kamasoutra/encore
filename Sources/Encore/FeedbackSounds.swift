@@ -7,9 +7,9 @@ enum SoundTheme: String, Codable, CaseIterable, Identifiable {
     var id: String { rawValue }
     var title: String {
         switch self {
-        case .paper: L("Papier"); case .piano: L("Piano"); case .marimba: L("Marimba"); case .glass: L("Verre")
-        case .drop: L("Goutte"); case .bubble: L("Bulle")
-        case .soft: L("Feutré"); case .crystal: L("Net"); case .retro: L("Boisé"); case .custom: L("Personnalisé")
+        case .paper: L("Paper"); case .piano: L("Piano"); case .marimba: L("Marimba"); case .glass: L("Glass")
+        case .drop: L("Drop"); case .bubble: L("Bubble")
+        case .soft: L("Soft"); case .crystal: L("Crisp"); case .retro: L("Wood"); case .custom: L("Custom")
         }
     }
     func name(for action: FeedbackSounds.Action) -> String {

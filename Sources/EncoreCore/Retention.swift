@@ -5,12 +5,12 @@ public enum RetentionUnit: String, Codable, CaseIterable, Identifiable, Sendable
     public var id: String { rawValue }
     public func title(count: Int) -> String {
         switch self {
-        case .minutes: L("\(count) minute(s) (unité)")
-        case .hours: L("\(count) heure(s) (unité)")
-        case .days: L("\(count) jour(s) (unité)")
-        case .weeks: L("\(count) semaine(s) (unité)")
-        case .months: L("\(count) mois (unité)")
-        case .forever: L("Indéfiniment")
+        case .minutes: L("\(count) minutes (unit)")
+        case .hours: L("\(count) hours (unit)")
+        case .days: L("\(count) days (unit)")
+        case .weeks: L("\(count) weeks (unit)")
+        case .months: L("\(count) months (unit)")
+        case .forever: L("Forever")
         }
     }
     private var component: Calendar.Component {
@@ -50,7 +50,7 @@ public struct RetentionRule: Codable, Equatable, Identifiable, Sendable {
     public var maximumBytes: Int64?
     public var duration: RetentionDuration
 
-    public init(id: UUID = UUID(), name: String = L("Nouvelle règle"), enabled: Bool = true, kind: ClipKind? = nil, minimumBytes: Int64 = 0, maximumBytes: Int64? = nil, duration: RetentionDuration = .init(7, .days)) {
+    public init(id: UUID = UUID(), name: String = L("New rule"), enabled: Bool = true, kind: ClipKind? = nil, minimumBytes: Int64 = 0, maximumBytes: Int64? = nil, duration: RetentionDuration = .init(7, .days)) {
         self.id = id; self.name = name; self.enabled = enabled; self.kind = kind
         self.minimumBytes = minimumBytes; self.maximumBytes = maximumBytes; self.duration = duration
     }
@@ -67,10 +67,10 @@ public struct RetentionRule: Codable, Equatable, Identifiable, Sendable {
 
     public static var examples: [RetentionRule] {
         [
-            .init(name: L("3 Go et plus"), minimumBytes: 3_000_000_000, duration: .init(1, .hours)),
-            .init(name: L("De 500 Mo à 3 Go"), minimumBytes: 500_000_000, maximumBytes: 3_000_000_000, duration: .init(2, .days)),
-            .init(name: L("De 300 à 500 Mo"), minimumBytes: 300_000_000, maximumBytes: 500_000_000, duration: .init(1, .weeks)),
-            .init(name: L("Petits textes"), kind: .text, maximumBytes: 1_000_000, duration: .forever)
+            .init(name: L("3 GB and above"), minimumBytes: 3_000_000_000, duration: .init(1, .hours)),
+            .init(name: L("500 MB to 3 GB"), minimumBytes: 500_000_000, maximumBytes: 3_000_000_000, duration: .init(2, .days)),
+            .init(name: L("300 to 500 MB"), minimumBytes: 300_000_000, maximumBytes: 500_000_000, duration: .init(1, .weeks)),
+            .init(name: L("Small text"), kind: .text, maximumBytes: 1_000_000, duration: .forever)
         ]
     }
 }

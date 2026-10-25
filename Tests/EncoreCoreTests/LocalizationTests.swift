@@ -25,19 +25,19 @@ final class LocalizationTests: XCTestCase {
 
     func testFrenchAndEnglishTranslateControlsPluralsAndInterpolatedMessages() {
         withLanguage("en") {
-            XCTAssertEqual(L("Réglages"), "Settings")
+            XCTAssertEqual(L("Settings"), "Settings")
             XCTAssertEqual(ClipKind.file.title, "Files")
-            XCTAssertEqual(L("Expire dans \("2 h")"), "Expires in 2 h")
-            XCTAssertEqual(L("100 % local"), "100% local")
-            XCTAssertEqual([0, 1, 2].map { L("\($0) élément(s)") }, ["0 items", "1 item", "2 items"])
+            XCTAssertEqual(L("Expires in \("2 h")"), "Expires in 2 h")
+            XCTAssertEqual(L("100% local"), "100% local")
+            XCTAssertEqual([0, 1, 2].map { L("\($0) items") }, ["0 items", "1 item", "2 items"])
             XCTAssertEqual(RetentionUnit.weeks.title(count: 1), "week")
             XCTAssertEqual(RetentionUnit.weeks.title(count: 3), "weeks")
         }
         withLanguage("fr") {
-            XCTAssertEqual(L("Réglages"), "Réglages")
+            XCTAssertEqual(L("Settings"), "Réglages")
             XCTAssertEqual(ClipKind.file.title, "Fichiers")
-            XCTAssertEqual([0, 1, 2].map { L("\($0) élément(s)") }, ["0 élément", "1 élément", "2 éléments"])
-            XCTAssertEqual(L("\(1) élément(s) supprimé(s) · ⌘Z pour annuler"), "1 élément supprimé · ⌘Z pour annuler")
+            XCTAssertEqual([0, 1, 2].map { L("\($0) items") }, ["0 élément", "1 élément", "2 éléments"])
+            XCTAssertEqual(L("\(1) items deleted · ⌘Z to undo"), "1 élément supprimé · ⌘Z pour annuler")
             XCTAssertEqual(RetentionUnit.months.title(count: 2), "mois")
         }
     }

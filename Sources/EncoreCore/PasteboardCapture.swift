@@ -48,6 +48,6 @@ public enum PasteboardCapture {
 
     public enum CaptureError: LocalizedError {
         case tooLarge
-        public var errorDescription: String? { L("Élément ignoré : limite de 25 Mio de contenu intégré par copie.") }
+        public var errorDescription: String? { L("Item skipped: maximum 25 MiB of embedded content per copy.") }
     }
 }
