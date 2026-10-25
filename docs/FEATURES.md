@@ -1,6 +1,6 @@
 # Feature status
 
-Updated 25 October 2026 for the 0.2.0 pre-release. “Implemented” describes the code; it does not mean every macOS interaction has been validated. See [validation evidence and limits](VALIDATION.md).
+Updated 25 October 2026 for the 0.2.1 pre-release. “Implemented” describes the code; it does not mean every macOS interaction has been validated. See [validation evidence and limits](VALIDATION.md).
 
 | Area | Implemented | Remaining work |
 | --- | --- | --- |

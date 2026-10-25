@@ -124,7 +124,7 @@ public struct ClipPayload: Codable, Equatable, Sendable {
     public var fileURLs: [URL] {
         items.compactMap { item in
             guard let data = item.representations["public.file-url"], let string = String(data: data, encoding: .utf8), let url = URL(string: string), url.isFileURL else { return nil }
-            return url
+            return (url as NSURL).filePathURL ?? url
         }
     }
 }

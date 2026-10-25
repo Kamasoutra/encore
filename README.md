@@ -5,8 +5,8 @@
 <p align="center"><strong>Your clipboard. Yours to keep.</strong></p>
 <p align="center">A native clipboard shelf for macOS. Local, open source, and subscription-free.</p>
 <p align="center">
-  <a href="https://github.com/Kamasoutra/encore/releases/download/v0.2.0/Encore-0.2.0-macOS-arm64.zip"><strong>Download for Apple Silicon ↓</strong></a>
-  · <a href="https://github.com/Kamasoutra/encore/releases/tag/v0.2.0">Release notes</a>
+  <a href="https://github.com/Kamasoutra/encore/releases/download/v0.2.1/Encore-0.2.1-macOS-arm64.zip"><strong>Download for Apple Silicon ↓</strong></a>
+  · <a href="https://github.com/Kamasoutra/encore/releases/tag/v0.2.1">Release notes</a>
   · <a href="docs/FEATURES.md">Feature status</a>
 </p>
 <p align="center">macOS 14+ · SwiftUI + AppKit · MIT · French interface</p>
@@ -29,12 +29,12 @@ Press **⇧⌘V**, find a card, and press **Return**. Keep what matters, let the
 
 ## Install
 
-1. [Download the ZIP](https://github.com/Kamasoutra/encore/releases/download/v0.2.0/Encore-0.2.0-macOS-arm64.zip), unzip it, and move **Encore.app** to Applications.
+1. [Download the ZIP](https://github.com/Kamasoutra/encore/releases/download/v0.2.1/Encore-0.2.1-macOS-arm64.zip), unzip it, and move **Encore.app** to Applications.
 2. Launch Encore. This early build is **ad-hoc signed, not Apple-notarized**. If macOS blocks it, follow [Apple's per-app Open Anyway instructions](https://support.apple.com/en-us/102445) in System Settings → Privacy & Security, after checking the release and its checksum.
 3. Quit any app already using ⇧⌘V, then copy something. The menu-bar icon also opens Encore; **⌃⌥⌘V** is the fallback shortcut.
 4. Enable Encore in **System Settings → Privacy & Security → Accessibility** for direct paste at the cursor and sequential paste. Without permission, Encore copies the selection for you to paste with ⌘V.
 
-**Pre-release 0.2.0:** Apple Silicon binary; Intel downloads and Homebrew installation are planned. Updates are manual. Replacing an ad-hoc build may require granting Accessibility again. See [what has actually been validated](docs/VALIDATION.md).
+**Pre-release 0.2.1:** Apple Silicon binary; Intel downloads and Homebrew installation are planned. Updates are manual. Replacing an ad-hoc build may require granting Accessibility again. See [what has actually been validated](docs/VALIDATION.md).
 
 ## A visual memory for your clipboard
 

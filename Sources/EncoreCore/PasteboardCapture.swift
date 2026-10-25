@@ -27,7 +27,7 @@ public enum PasteboardCapture {
         let payload = ClipPayload(items: items)
         var text = pasteboard.string(forType: .string) ?? pasteboard.string(forType: .URL) ?? ""
         if text.isEmpty, let rtf = pasteboard.data(forType: .rtf), let attributed = NSAttributedString(rtf: rtf, documentAttributes: nil) { text = attributed.string }
-        let files = sourceItems.compactMap { $0.string(forType: .fileURL).flatMap(URL.init(string:)) }
+        let files = payload.fileURLs
         let hasImage = types.contains { [NSPasteboard.PasteboardType.png.rawValue, NSPasteboard.PasteboardType.tiff.rawValue, "public.jpeg", "public.heic"].contains($0) }
         guard pasteboard.changeCount == count, !text.isEmpty || !files.isEmpty || hasImage else { return nil }
         let kind = ClipKind.detect(text: text, hasImage: hasImage, hasFiles: !files.isEmpty)

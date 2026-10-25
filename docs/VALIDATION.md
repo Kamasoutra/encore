@@ -4,10 +4,11 @@
 
 ## Automated
 
-`swift test`: **63 tests** across the core and app targets, with no failures. Tests cover:
+`swift test`: **65 tests** across the core and app targets, with no failures. Tests cover:
 
 - Classification, deduplication, rich/custom representations, multiple files, size limits, sensitive markers and source attribution across app switches.
 - Ordered size/type retention, boundaries, fallback, calendar duration, recopy timestamps, pin/count exemptions and rule application preview.
+- Finder file-reference URLs resolve to paths and follow a rename, preserving the original pasteboard representation, filename and logical size.
 - A sparse 3 GB file reference: metadata used for expiry without reading/copying the file or deleting its original.
 - Preference migration, retention/screenshot/sound/display options, and opt-in queue shortcut persistence.
 - AZERTY/QWERTY physical number-row shortcuts and contrasting labels on white/black/transparent swatches.
@@ -39,6 +40,8 @@ The computer-use connector's panel snapshots repeatedly failed its stale-window 
 
 Public screenshots contain only synthetic demo data.
 
+The installed 0.2.0 build exposed a Finder-specific file-reference URL case in the real library. Version 0.2.1 resolves these URLs before thumbnail/metadata operations, with two regression tests (including a rename). A diagnostic run against real image/PDF entries returned readable files and successful Quick Look representations. The macOS session then locked, so the corrected real-library thumbnails have not received a final visual check. Existing library entries were preserved during installation checks.
+
 ## Not yet established end to end
 
 - Direct paste/focus restoration into another app and interception of repeated physical ⌘V: the newly ad-hoc-signed app lacks Accessibility authorization. Tests of payload/queue logic do not establish these outcomes.
@@ -47,4 +50,4 @@ Public screenshots contain only synthetic demo data.
 - Current/fixed display placement through a full user journey, mixed-DPI displays, and full-screen Spaces. Screen inventory/fallback logic is tested.
 - Launch at login, VoiceOver/high contrast, macOS 14 compatibility, Intel hardware, quarantined first launch, and a complete large-library performance/security audit.
 
-The JSON index's synchronous initial load and snapshot write cost remain known limitations. Treat 0.2.0 as a pre-release, not as fully validated parity with Paste.
+The JSON index's synchronous initial load and snapshot write cost remain known limitations. Treat 0.2.1 as a pre-release, not as fully validated parity with Paste.

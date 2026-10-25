@@ -350,7 +350,7 @@ import EncoreCore
     func enqueue(_ ids: [UUID]? = nil) {
         for id in ids ?? selectedClips.map(\.id) where !queue.contains(id) { queue.append(id) }
         queueVisible = true
-        notify("Ajouté à la file · ⌘⇧C pour activer le collage en série")
+        notify("Ajouté à la file · activez le collage en série dans le panneau")
     }
 
     func toggleCollecting() {

@@ -1,7 +1,8 @@
 A native, local clipboard shelf for macOS 14+. Early Apple Silicon pre-release.
 
-Download **Encore-0.2.0-macOS-arm64.zip**, unzip, and move Encore.app to Applications. No build tools are required. SHA256SUMS contains the archive checksum.
+Download **Encore-0.2.1-macOS-arm64.zip**, unzip, and move Encore.app to Applications. No build tools are required. SHA256SUMS contains the archive checksum.
 
+- Fix Finder file-reference URLs so existing image/PDF history gets real thumbnails, resolved filenames and logical sizes.
 - Native image and PDF thumbnails, rich text cards, clearer keyboard hints and settings.
 - Ordered size/type retention rules, explicit first/last-copy timestamps, expiry preview before applying rules.
 - Configurable capture/paste sounds, custom files and volume.
