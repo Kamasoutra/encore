@@ -22,7 +22,7 @@ for resources in "$bin_path"/Encore_*.bundle; do
 done
 for lproj in "$bundle"/Contents/Resources/Encore_EncoreCore.bundle/Contents/Resources/*.lproj; do
     code="$(basename "$lproj" .lproj)"
-    /usr/libexec/PlistBuddy -c "Print :CFBundleLocalizations" "$bundle/Contents/Info.plist" | grep -qx "    $code" || { echo "CFBundleLocalizations is missing $code" >&2; exit 1; }
+    /usr/libexec/PlistBuddy -c "Print :CFBundleLocalizations" "$bundle/Contents/Info.plist" | grep -qix "    $code" || { echo "CFBundleLocalizations is missing $code" >&2; exit 1; }
 done
 # A stable identity keeps macOS privacy permissions across updates; ad-hoc signing is the fallback.
 identity="${ENCORE_SIGNING_IDENTITY:-}"

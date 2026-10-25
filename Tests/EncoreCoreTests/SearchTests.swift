@@ -4,7 +4,7 @@ import XCTest
 final class SearchTests: XCTestCase {
     func testSearchCombinesWordsAppAndTypeAndIgnoresAccents() {
         let clip = Clip(kind: .text, text: "Résumé de réunion", sourceName: "Safari", sourceBundle: "com.apple.Safari")
-        XCTAssertTrue(ClipQuery(query: "resume reunion app:safari type:texte").matches(clip))
+        XCTAssertTrue(ClipQuery(query: "resume reunion app:safari type:text").matches(clip))
         XCTAssertFalse(ClipQuery(query: "resume app:xcode").matches(clip))
         XCTAssertFalse(ClipQuery(query: "type:image").matches(clip))
     }

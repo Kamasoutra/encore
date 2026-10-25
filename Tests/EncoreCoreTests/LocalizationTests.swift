@@ -6,7 +6,11 @@ final class LocalizationTests: XCTestCase {
     private var resources: URL { Localization.resources.resourceURL ?? Localization.resources.bundleURL }
     private var bundled: [String] {
         let names = (try? FileManager.default.contentsOfDirectory(atPath: resources.path)) ?? []
-        return names.filter { $0.hasSuffix(".lproj") }.map { String($0.dropLast(6)) }.sorted()
+        // Folder case depends on the SwiftPM version; report codes as the catalog spells them.
+        return names.filter { $0.hasSuffix(".lproj") }.map { name in
+            let code = String(name.dropLast(6))
+            return Localization.catalog.first { $0.lowercased() == code.lowercased() } ?? code
+        }.sorted()
     }
     private func strings(_ code: String) throws -> [String: String] {
         let url = resources.appendingPathComponent("\(code).lproj/Localizable.strings")

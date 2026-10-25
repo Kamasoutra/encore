@@ -2,7 +2,14 @@ import Foundation
 
 public enum Localization {
     public static let catalog = ["en", "fr", "de", "es", "it", "pt-BR", "nl", "sv", "da", "nb", "fi", "pl", "cs", "sk", "ro", "hu", "el", "ru", "uk", "tr", "ja", "ko", "zh-Hans", "zh-Hant", "ar", "he", "hi", "id", "vi", "th"]
-    public static let supported: [String] = catalog.filter { resources.url(forResource: "Localizable", withExtension: "strings", subdirectory: "\($0).lproj") != nil }
+    public static let supported: [String] = catalog.filter { folders[$0.lowercased()] != nil }
+    /// Table folders by lowercased code: some SwiftPM versions bundle "zh-Hans.lproj" as "zh-hans.lproj".
+    private static let folders: [String: URL] = {
+        let root = resources.resourceURL ?? resources.bundleURL
+        let names = (try? FileManager.default.contentsOfDirectory(atPath: root.path)) ?? []
+        let tables = names.filter { $0.hasSuffix(".lproj") && FileManager.default.fileExists(atPath: root.appendingPathComponent("\($0)/Localizable.strings").path) }
+        return Dictionary(tables.map { (String($0.dropLast(6)).lowercased(), root.appendingPathComponent($0)) }, uniquingKeysWith: { first, _ in first })
+    }()
     private static let lock = NSLock()
     private static var selection = "system"
     private static var tables: [String: Bundle] = [:]
@@ -29,7 +36,7 @@ public enum Localization {
     public static func table(_ code: String) -> Bundle {
         lock.lock(); defer { lock.unlock() }
         if let bundle = tables[code] { return bundle }
-        let bundle = resources.path(forResource: code, ofType: "lproj").flatMap(Bundle.init(path:)) ?? resources
+        let bundle = folders[code.lowercased()].flatMap(Bundle.init(url:)) ?? resources
         tables[code] = bundle
         return bundle
     }
