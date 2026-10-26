@@ -247,7 +247,7 @@ struct BoardView: View {
                             ClipCard(model: model, clip: item.clip, index: item.index, compact: compact, namespace: cardSpace).id(item.clip.id)
                         }
                     }
-                }.padding(.horizontal, 16).padding(.top, 4).padding(.bottom, 12)
+                }.padding(.horizontal, 16).padding(.top, 8).padding(.bottom, 12)
             }
             .onChange(of: model.cursor) { _, id in
                 guard let id else { return }
@@ -424,7 +424,8 @@ struct ClipCard: View {
         .background(Palette.card(dark))
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .overlay(RoundedRectangle(cornerRadius: 12).strokeBorder(selected ? Palette.accent : .primary.opacity(hovered ? 0.2 : 0.08), lineWidth: selected ? 2 : 1))
-        .background(RoundedRectangle(cornerRadius: 16).fill(selected ? Palette.accent.opacity(0.28) : .clear).padding(-4))
+        // A blurred halo fades smoothly instead of showing a hard-edged ring.
+        .background { if selected { RoundedRectangle(cornerRadius: 14).fill(Palette.accent.opacity(dark ? 0.75 : 0.55)).padding(-3).blur(radius: 4) } }
         .shadow(color: .black.opacity(dark ? 0.22 : 0.06), radius: hovered ? 10 : 5, y: hovered ? 4 : 2)
         .modifier(MatchedCard(id: clip.id, namespace: namespace))
         .background { if model.cursor == clip.id { GeometryReader { proxy in Color.clear.preference(key: CursorFrameKey.self, value: proxy.frame(in: .global)) } } }
