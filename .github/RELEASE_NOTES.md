@@ -1,7 +1,9 @@
-Native clipboard history for macOS 14+, Apple Silicon.
+Native clipboard history for macOS 14+, now on Apple Silicon and Intel.
 
-- Library day titles no longer show as a grey band on light backgrounds: cards now fade out beneath the current day.
-- The storage usage is centered under its bar.
+- Intel Macs are supported: Encore ships as a single universal app.
+- Fixed a freeze when a rich-text email with tables was shown on a card.
+- The Space preview is larger and scrolls through long content.
+- Preview & edit shows rich text as laid out; Edit switches to plain text.
 
 Download the ZIP, unzip, and move Encore.app to Applications. SHA256SUMS contains its checksum. Installed copies update themselves.
 
