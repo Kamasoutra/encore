@@ -93,13 +93,9 @@ final class PeerLoopbackTests: XCTestCase {
     }
 
     private func makeStore(_ label: String) -> PeerSecretStore {
-        let keychain = KeychainPeerSecretStore(service: "local.kama.Encore.peers.tests.\(label).\(UUID().uuidString)")
-        do {
-            try keychain.save(PeerSecret(device: .init(id: "probe", name: "probe"), key: Data(count: 32)))
-            try keychain.remove("probe")
-            cleanup.append { for secret in (try? keychain.load()) ?? [] { try? keychain.remove(secret.device.id) } }
-            return keychain
-        } catch { return MemoryPeerSecretStore() }
+        let folder = FileManager.default.temporaryDirectory.appendingPathComponent("encore-peers-\(label)-\(UUID().uuidString)")
+        cleanup.append { try? FileManager.default.removeItem(at: folder) }
+        return FilePeerSecretStore(url: folder.appendingPathComponent("Peers.json"))
     }
 
     private func makeService(_ name: String, store: PeerSecretStore, library: Library = Library(), excluded: Set<String> = []) throws -> (PeerService, Storage) {
@@ -232,5 +228,47 @@ private final class Box<T>: @unchecked Sendable {
     var value: T? {
         get { lock.withLock { stored } }
         set { lock.withLock { stored = newValue } }
+    }
+}
+
+final class PeerSecretFileTests: XCTestCase {
+    private var folder: URL!
+    override func setUp() { super.setUp(); folder = FileManager.default.temporaryDirectory.appendingPathComponent("encore-secrets-\(UUID().uuidString)") }
+    override func tearDown() { try? FileManager.default.removeItem(at: folder); super.tearDown() }
+
+    private final class FailingStore: PeerSecretStore, @unchecked Sendable {
+        func load() throws -> [PeerSecret] { throw CocoaError(.userCancelled) }
+        func save(_ secret: PeerSecret) throws {}
+        func remove(_ id: String) throws {}
+    }
+
+    func testSecretsPersistPrivatelyAndCanBeRemoved() throws {
+        let url = folder.appendingPathComponent("Peers.json")
+        let store = FilePeerSecretStore(url: url)
+        let mini = PeerSecret(device: .init(id: "a", name: "Mac mini"), key: Data(repeating: 1, count: 32))
+        try store.save(mini)
+        try store.save(PeerSecret(device: .init(id: "b", name: "iMac"), key: Data(repeating: 2, count: 32)))
+        try store.save(PeerSecret(device: .init(id: "a", name: "Mac mini"), key: Data(repeating: 3, count: 32)))
+        try store.remove("b")
+        XCTAssertEqual(try FilePeerSecretStore(url: url).load(), [PeerSecret(device: mini.device, key: Data(repeating: 3, count: 32))])
+        let permissions = try FileManager.default.attributesOfItem(atPath: url.path)[.posixPermissions] as? NSNumber
+        XCTAssertEqual(permissions?.intValue, 0o600)
+    }
+
+    func testExistingPairingsMoveOverOnceFromTheKeychain() throws {
+        let url = folder.appendingPathComponent("Peers.json")
+        let legacy = MemoryPeerSecretStore()
+        let secret = PeerSecret(device: .init(id: "a", name: "Mac Studio"), key: Data(repeating: 7, count: 32))
+        try legacy.save(secret)
+        XCTAssertEqual(try FilePeerSecretStore(url: url, legacy: legacy).load(), [secret])
+        try legacy.remove("a")
+        XCTAssertEqual(try FilePeerSecretStore(url: url, legacy: legacy).load(), [secret], "Once migrated, the file is the only source.")
+    }
+
+    func testRefusedKeychainReadIsRetriedLater() throws {
+        let url = folder.appendingPathComponent("Peers.json")
+        XCTAssertThrowsError(try FilePeerSecretStore(url: url, legacy: FailingStore()).load())
+        XCTAssertFalse(FileManager.default.fileExists(atPath: url.path))
+        XCTAssertEqual(try FilePeerSecretStore(url: url, legacy: MemoryPeerSecretStore()).load(), [])
     }
 }
