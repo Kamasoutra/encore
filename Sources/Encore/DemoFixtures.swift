@@ -32,7 +32,8 @@ import EncoreCore
         NSColor(red: 0.55, green: 0.36, blue: 0.93, alpha: 1).setFill(); NSRect(x: 42, y: 698, width: 44, height: 5).fill()
         (text("Project notes", "Notes de projet") as NSString).draw(at: NSPoint(x: 42, y: 638), withAttributes: [.font: NSFont.systemFont(ofSize: 34, weight: .bold), .foregroundColor: NSColor.black])
         (text("GOOD IDEAS DESERVE TO STAY.", "LES BONNES IDÉES MÉRITENT DE RESTER.") as NSString).draw(at: NSPoint(x: 43, y: 607), withAttributes: [.font: NSFont.systemFont(ofSize: 11, weight: .medium), .foregroundColor: NSColor.gray])
-        for (index, title) in (french ? ["01  Capturer sans interruption", "02  Retrouver en un instant", "03  Garder l’essentiel", "04  Reprendre le fil"] : ["01  Capture without interruption", "02  Find it in an instant", "03  Keep what matters", "04  Pick up the thread"]).enumerated() {
+        let titles: [String] = french ? ["01  Capturer sans interruption", "02  Retrouver en un instant", "03  Garder l’essentiel", "04  Reprendre le fil"] : ["01  Capture without interruption", "02  Find it in an instant", "03  Keep what matters", "04  Pick up the thread"]
+        for (index, title) in titles.enumerated() {
             let y = CGFloat(505 - index * 110)
             (title as NSString).draw(at: NSPoint(x: 43, y: y), withAttributes: [.font: NSFont.systemFont(ofSize: 18, weight: .semibold), .foregroundColor: NSColor.darkGray])
             for line in 0..<3 {
@@ -47,10 +48,10 @@ import EncoreCore
 
     static func richText() throws -> (String, ClipPayload) {
         let title = text("Good ideas\ndeserve an encore.", "Les bonnes idées\nreviennent encore.")
-        let text = title + text("\n\nA thought at the right time.\nA quote worth keeping.\nThe detail that changes everything.", "\n\nUne pensée au bon moment.\nUne citation à garder.\nLe détail qui change tout.")
-        let value = NSMutableAttributedString(string: text, attributes: [.font: NSFont.systemFont(ofSize: 15), .foregroundColor: NSColor.labelColor])
-        value.addAttributes([.font: NSFont(name: "Georgia-Bold", size: 23) ?? NSFont.systemFont(ofSize: 23, weight: .bold)], range: (text as NSString).range(of: title))
+        let body = title + text("\n\nA thought at the right time.\nA quote worth keeping.\nThe detail that changes everything.", "\n\nUne pensée au bon moment.\nUne citation à garder.\nLe détail qui change tout.")
+        let value = NSMutableAttributedString(string: body, attributes: [.font: NSFont.systemFont(ofSize: 15), .foregroundColor: NSColor.labelColor])
+        value.addAttributes([.font: NSFont(name: "Georgia-Bold", size: 23) ?? NSFont.systemFont(ofSize: 23, weight: .bold)], range: (body as NSString).range(of: title))
         let rtf = try value.data(from: NSRange(location: 0, length: value.length), documentAttributes: [.documentType: NSAttributedString.DocumentType.rtf])
-        return (text, ClipPayload(items: [.init([NSPasteboard.PasteboardType.string.rawValue: Data(text.utf8), NSPasteboard.PasteboardType.rtf.rawValue: rtf])]))
+        return (body, ClipPayload(items: [.init([NSPasteboard.PasteboardType.string.rawValue: Data(body.utf8), NSPasteboard.PasteboardType.rtf.rawValue: rtf])]))
     }
 }
