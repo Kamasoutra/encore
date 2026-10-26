@@ -377,3 +377,6 @@
 "⌘⇧C is already used by another app. The queue is available from the shelf." = "⌘⇧C is already used by another app. The queue is available from the shelf.";
 "hold ↓" = "hold ↓";
 "%@ is unavailable." = "%@ is unavailable.";
+"search" = "search";
+"favorite" = "favorite";
+"delete" = "delete";

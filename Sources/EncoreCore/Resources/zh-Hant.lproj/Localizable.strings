@@ -377,3 +377,6 @@
 "⌘⇧C is already used by another app. The queue is available from the shelf." = "⌘⇧C 已被其他 App 使用。可以從面板使用佇列。";
 "hold ↓" = "按住 ↓";
 "%@ is unavailable." = "無法連線至 %@。";
+"search" = "搜尋";
+"favorite" = "收藏";
+"delete" = "刪除";

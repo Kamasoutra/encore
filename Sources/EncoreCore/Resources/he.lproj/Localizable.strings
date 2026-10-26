@@ -377,3 +377,6 @@
 "⌘⇧C is already used by another app. The queue is available from the shelf." = "⌘⇧C כבר בשימוש על ידי יישום אחר. התור זמין מהחלונית.";
 "hold ↓" = "החזק ↓";
 "%@ is unavailable." = "%@ אינו זמין.";
+"search" = "חיפוש";
+"favorite" = "מועדף";
+"delete" = "מחיקה";

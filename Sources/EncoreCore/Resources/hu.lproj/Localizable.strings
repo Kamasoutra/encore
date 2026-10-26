@@ -377,3 +377,6 @@
 "⌘⇧C is already used by another app. The queue is available from the shelf." = "A ⌘⇧C billentyűparancsot már egy másik app használja. A sor a panelen érhető el.";
 "hold ↓" = "tartsd ↓";
 "%@ is unavailable." = "%@ nem érhető el.";
+"search" = "keresés";
+"favorite" = "kedvenc";
+"delete" = "törlés";

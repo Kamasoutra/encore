@@ -377,3 +377,6 @@
 "⌘⇧C is already used by another app. The queue is available from the shelf." = "Το ⌘⇧C χρησιμοποιείται ήδη από άλλη εφαρμογή. Η ουρά είναι διαθέσιμη από το πλαίσιο.";
 "hold ↓" = "κράτα ↓";
 "%@ is unavailable." = "Το %@ δεν είναι διαθέσιμο.";
+"search" = "αναζήτηση";
+"favorite" = "αγαπημένο";
+"delete" = "διαγραφή";

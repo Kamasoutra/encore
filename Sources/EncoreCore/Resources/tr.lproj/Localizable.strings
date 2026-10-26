@@ -377,3 +377,6 @@
 "⌘⇧C is already used by another app. The queue is available from the shelf." = "⌘⇧C başka bir uygulama tarafından kullanılıyor. Sıraya panelden erişebilirsiniz.";
 "hold ↓" = "↓ basılı tut";
 "%@ is unavailable." = "%@ kullanılamıyor.";
+"search" = "ara";
+"favorite" = "favori";
+"delete" = "sil";

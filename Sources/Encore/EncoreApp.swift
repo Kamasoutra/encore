@@ -319,6 +319,8 @@ final class EncorePanel: NSPanel {
         case 51 where !editing && command, 117 where !editing && command:
             // ⌘ is required: a lone ⌫ deleted cards by accident.
             model.remove(); return nil
+        case 51 where !editing, 117 where !editing:
+            return nil
         default: break
         }
         if !editing && !command && !flags.contains(.control) && !flags.contains(.option) && event.specialKey == nil, let text = event.characters, text.unicodeScalars.allSatisfy({ !CharacterSet.controlCharacters.contains($0) }), !text.isEmpty {

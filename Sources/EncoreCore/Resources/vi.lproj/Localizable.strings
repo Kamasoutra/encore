@@ -377,3 +377,6 @@
 "⌘⇧C is already used by another app. The queue is available from the shelf." = "⌘⇧C đã được ứng dụng khác sử dụng. Hàng đợi có sẵn từ bảng.";
 "hold ↓" = "giữ ↓";
 "%@ is unavailable." = "Không thể kết nối với %@.";
+"search" = "tìm kiếm";
+"favorite" = "yêu thích";
+"delete" = "xóa";

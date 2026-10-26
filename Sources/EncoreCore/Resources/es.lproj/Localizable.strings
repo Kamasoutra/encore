@@ -377,3 +377,6 @@
 "⌘⇧C is already used by another app. The queue is available from the shelf." = "Otra app ya usa ⌘⇧C. La cola está disponible desde el panel.";
 "hold ↓" = "mantén ↓";
 "%@ is unavailable." = "%@ no está disponible.";
+"search" = "buscar";
+"favorite" = "favorito";
+"delete" = "eliminar";

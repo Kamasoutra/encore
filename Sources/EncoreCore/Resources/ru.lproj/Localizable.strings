@@ -377,3 +377,6 @@
 "⌘⇧C is already used by another app. The queue is available from the shelf." = "Сочетание ⌘⇧C уже используется другим приложением. Очередь доступна на панели.";
 "hold ↓" = "удерживайте ↓";
 "%@ is unavailable." = "%@ недоступен.";
+"search" = "поиск";
+"favorite" = "в избранное";
+"delete" = "удалить";

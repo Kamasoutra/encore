@@ -377,3 +377,6 @@
 "⌘⇧C is already used by another app. The queue is available from the shelf." = "Zkratku ⌘⇧C už používá jiná aplikace. Fronta je dostupná v panelu.";
 "hold ↓" = "podržet ↓";
 "%@ is unavailable." = "%@ není dostupný.";
+"search" = "hledat";
+"favorite" = "oblíbit";
+"delete" = "smazat";

@@ -377,3 +377,6 @@
 "⌘⇧C is already used by another app. The queue is available from the shelf." = "Скорочення ⌘⇧C уже використовується іншою програмою. Черга доступна на панелі.";
 "hold ↓" = "утримуйте ↓";
 "%@ is unavailable." = "%@ недоступний.";
+"search" = "пошук";
+"favorite" = "в обране";
+"delete" = "видалити";

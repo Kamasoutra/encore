@@ -377,3 +377,6 @@
 "⌘⇧C is already used by another app. The queue is available from the shelf." = "⌘⇧C este deja folosit de altă aplicație. Coada este disponibilă din panou.";
 "hold ↓" = "ține apăsat ↓";
 "%@ is unavailable." = "%@ nu este disponibil.";
+"search" = "caută";
+"favorite" = "favorit";
+"delete" = "șterge";

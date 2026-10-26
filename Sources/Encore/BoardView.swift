@@ -299,12 +299,18 @@ struct BoardView: View {
                     hint("← ↑ ↓ →", L("navigate"))
                     hint("↩", L("paste"))
                     hint("⌘E", L("Edit"))
+                    hint("⌘F", L("search"))
+                    hint("⌘D", L("favorite"))
+                    hint("⌘⌫", L("delete"))
                     Button { withAnimation(reduceMotion ? .easeOut(duration: 0.15) : .spring(duration: 0.34, bounce: 0.12)) { model.expanded = false } } label: { hint(L("hold ↓"), L("reduce")) }.buttonStyle(.plain)
                 } else {
                     Button { withAnimation(reduceMotion ? .easeOut(duration: 0.15) : .spring(duration: 0.34, bounce: 0.12)) { model.expanded = true } } label: { hint("↑", L("explore")) }.buttonStyle(.plain)
                     hint("↩", L("paste"))
                     hint("⇧↩", L("plain text"))
                     hint(L("space"), L("preview"))
+                    hint("⌘F", L("search"))
+                    hint("⌘D", L("favorite"))
+                    hint("⌘⌫", L("delete"))
                 }
             }
             Text(L("100% local")).font(.system(size: 11, weight: .medium)).foregroundStyle(.tertiary).padding(.leading, 2)
