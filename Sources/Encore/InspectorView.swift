@@ -34,11 +34,11 @@ struct InspectorView: View {
                 Button { model.toggleFavorite([clip.id]) } label: { Image(systemName: current.favorite ? "star.fill" : "star").foregroundStyle(.orange) }.buttonStyle(.plain).help(L("Favorite"))
             }
             VStack(spacing: 5) {
-                LabeledContent(L("First copied"), value: Localization.date(current.firstCopyDate))
-                LabeledContent(L("Last copied"), value: Localization.date(current.copiedAt))
-                LabeledContent(L("Expires"), value: model.retentionDecision(for: current).expiresAt.map { Localization.date($0) } ?? L("Forever"))
-                if let bytes = current.retentionByteCount { LabeledContent(current.kind == .file ? L("File size") : L("Stored content"), value: Localization.bytes(bytes)) }
-                if let rule = model.retentionDecision(for: current).ruleName { LabeledContent(L("Rule"), value: rule) }
+                InfoRow(L("First copied"), value: Localization.date(current.firstCopyDate))
+                InfoRow(L("Last copied"), value: Localization.date(current.copiedAt))
+                InfoRow(L("Expires"), value: model.retentionDecision(for: current).expiresAt.map { Localization.date($0) } ?? L("Forever"))
+                if let bytes = current.retentionByteCount { InfoRow(current.kind == .file ? L("File size") : L("Stored content"), value: Localization.bytes(bytes)) }
+                if let rule = model.retentionDecision(for: current).ruleName { InfoRow(L("Rule"), value: rule) }
             }.font(.system(size: 12)).padding(12).background(.primary.opacity(0.035), in: RoundedRectangle(cornerRadius: 10))
             if editable {
                 TextField(L("Optional title"), text: $title).textFieldStyle(.roundedBorder)
@@ -47,11 +47,11 @@ struct InspectorView: View {
                     if !editingPlain, clip.kind == .text, let rich = model.richText(for: clip) {
                         ScrollingRichText(text: rich).background(.primary.opacity(0.035), in: RoundedRectangle(cornerRadius: 12)).clipShape(RoundedRectangle(cornerRadius: 12))
                     } else {
-                        TextEditor(text: $text).font(.system(size: 13, design: clip.kind == .code ? .monospaced : .default)).scrollContentBackground(.hidden).padding(10).background(.primary.opacity(0.035), in: RoundedRectangle(cornerRadius: 12))
+                        TextEditor(text: $text).font(.system(size: 13, design: clip.kind == .code ? .monospaced : .default)).hiddenScrollBackground().padding(10).background(.primary.opacity(0.035), in: RoundedRectangle(cornerRadius: 12))
                     }
                 }
-                    .onChange(of: text) { _, _ in edited = true; onDirtyChange?(true) }
-                    .onChange(of: title) { _, _ in edited = true; onDirtyChange?(true) }
+                    .onChanged(text) { _ in edited = true; onDirtyChange?(true) }
+                    .onChanged(title) { _ in edited = true; onDirtyChange?(true) }
                 HStack {
                     Text(L("\(text.count) characters")).font(.system(size: 11)).foregroundStyle(.secondary)
                     Spacer()

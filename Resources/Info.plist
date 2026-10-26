@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Encore</string>
+	<string>encore</string>
 	<key>CFBundleExecutable</key>
 	<string>Encore</string>
 	<key>CFBundleIconFile</key>
@@ -46,7 +46,7 @@
 		<string>th</string>
 	</array>
 	<key>CFBundleName</key>
-	<string>Encore</string>
+	<string>encore</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -54,7 +54,7 @@
 	<key>CFBundleVersion</key>
 	<string>8</string>
 	<key>LSMinimumSystemVersion</key>
-	<string>14.0</string>
+	<string>12.0</string>
 	<key>LSUIElement</key>
 	<true/>
 	<key>NSBonjourServices</key>
@@ -64,9 +64,9 @@
 	<key>NSHighResolutionCapable</key>
 	<true/>
 	<key>NSHumanReadableCopyright</key>
-	<string>© 2026 Encore contributors. MIT License.</string>
+	<string>© 2026 encore contributors. MIT License.</string>
 	<key>NSLocalNetworkUsageDescription</key>
-	<string>Encore connects directly to your paired Macs on the local network to share clipboard history, without any server.</string>
+	<string>encore connects directly to your paired Macs on the local network to share clipboard history, without any server.</string>
 	<key>SUEnableAutomaticChecks</key>
 	<true/>
 	<key>SUFeedURL</key>

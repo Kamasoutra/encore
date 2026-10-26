@@ -25,7 +25,7 @@ public enum Localization {
         Bundle.preferredLocalizations(from: supported, forPreferences: preferences).first.flatMap { supported.contains($0) ? $0 : nil } ?? supported.first ?? "en"
     }
     public static var locale: Locale { Locale(identifier: identifier) }
-    public static var isRightToLeft: Bool { Locale.Language(identifier: identifier).characterDirection == .rightToLeft }
+    public static var isRightToLeft: Bool { Locale.characterDirection(forLanguage: identifier) == .rightToLeft }
     public static func nativeName(_ code: String) -> String { capitalized(Locale(identifier: code).localizedString(forIdentifier: code) ?? code, code) }
     public static func displayName(_ code: String) -> String { capitalized(locale.localizedString(forIdentifier: code) ?? code, identifier) }
     private static func capitalized(_ name: String, _ code: String) -> String { name.prefix(1).uppercased(with: Locale(identifier: code)) + name.dropFirst() }

@@ -31,7 +31,7 @@ struct LibraryBody: View {
                     .opacity(appeared ? 1 : 0).offset(x: appeared || reduceMotion ? 0 : 16)
             }
             .onAppear { model.libraryColumns = columns }
-            .onChange(of: columns) { _, value in model.libraryColumns = value }
+            .onChanged(columns) { value in model.libraryColumns = value }
         }
         .overlay(alignment: .top) { Rectangle().fill(.primary.opacity(0.07)).frame(height: 1) }
         .onAppear { withAnimation(reduceMotion ? .easeOut(duration: 0.15) : .spring(duration: 0.34, bounce: 0.1).delay(0.12)) { appeared = true } }
@@ -41,7 +41,7 @@ struct LibraryBody: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
                 section(L("Type")) {
-                    ChipFlow(spacing: 6) {
+                    ChipRow {
                         chip(L("All types"), color: .secondary, selected: model.kind == nil) { model.kind = nil }
                         ForEach(ClipKind.allCases) { kind in
                             chip(kind.title, color: Palette.accent(kind), selected: model.kind == kind) { model.kind = model.kind == kind ? nil : kind }
@@ -119,7 +119,7 @@ struct LibraryBody: View {
                 if model.remoteLoading {
                     ProgressView().controlSize(.small).frame(maxWidth: .infinity).padding(.top, 80)
                 } else if model.filtered.isEmpty {
-                    ContentUnavailableView(L("No items found"), systemImage: "magnifyingglass", description: Text(L("Try another word or remove the filters."))).padding(.top, 80)
+                    EmptyState(L("No items found"), systemImage: "magnifyingglass", description: L("Try another word or remove the filters.")).padding(.top, 80)
                 }
                 // One grid for every day: nested lazy grids lose track of positions and break scrolling to the cursor.
                 LazyVGrid(columns: Array(repeating: GridItem(.fixed((compact ? 196 : 236) * scale), spacing: 12), count: model.libraryColumns), alignment: .leading, spacing: 12) {
@@ -153,7 +153,7 @@ struct LibraryBody: View {
                 if let current = offsets.filter({ $0.value <= Self.header }).keys.max() { day = current }
                 else if let first = offsets.keys.min() { day = max(0, first - 1) }
             }
-            .background { GeometryReader { geometry in Color.clear.onAppear { viewport = geometry.frame(in: .global) }.onChange(of: geometry.frame(in: .global)) { _, frame in viewport = frame } } }
+            .background { GeometryReader { geometry in Color.clear.onAppear { viewport = geometry.frame(in: .global) }.onChanged(geometry.frame(in: .global)) { frame in viewport = frame } } }
             .onPreferenceChange(CursorFrameKey.self) { card in
                 // Lazy grids misjudge scrolls without an anchor: compare a new cursor card with the visible area, below the current day, and scroll only when it leaves it.
                 guard let id = model.cursor, id != revealed else { return }
@@ -166,7 +166,21 @@ struct LibraryBody: View {
                 guard let anchor else { return }
                 withAnimation(reduceMotion ? nil : .easeOut(duration: 0.15)) { proxy.scrollTo(id, anchor: anchor) }
             }
-            .onAppear { if let id = model.cursor { revealed = id; proxy.scrollTo(id, anchor: .center) } }
+            .onChanged(model.cursor) { id in
+                // A card outside the lazy grid's built area reports no frame, so moving between two of them (a held arrow key) never reached the preference above.
+                // After the layout pass, a cursor the preference did not handle is scrolled to directly.
+                DispatchQueue.main.async {
+                    guard let id, model.cursor == id, revealed != id else { return }
+                    revealed = id
+                    withAnimation(reduceMotion ? nil : .easeOut(duration: 0.15)) { proxy.scrollTo(id, anchor: .center) }
+                }
+            }
+            .onAppear {
+                guard let id = model.cursor else { return }
+                revealed = id
+                // A cursor on the first row is already in view: scrolling to it made the lazy grid slide the row under the day title.
+                if sections.first?.items.prefix(model.libraryColumns).contains(where: { $0.clip.id == id }) != true { proxy.scrollTo(id, anchor: .center) }
+            }
         }
     }
 
@@ -208,32 +222,36 @@ struct LibraryPreview: View {
                     .overlay(RoundedRectangle(cornerRadius: 10).strokeBorder(.primary.opacity(0.07)))
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                 if !floating {
-                    Grid(alignment: .leading, horizontalSpacing: 14, verticalSpacing: 5) {
+                    VStack(alignment: .leading, spacing: 5) {
                         row(L("First copied"), Localization.date(clip.firstCopyDate))
                         if clip.firstCopiedAt != nil { row(L("Last copied"), Localization.date(clip.copiedAt)) }
                         row(L("Expires"), model.remainingRetention(for: clip))
                         row(L("Size"), size(of: clip))
                     }.font(.system(size: 12)).monospacedDigit()
                 }
-                Grid(horizontalSpacing: 8, verticalSpacing: 8) {
-                    GridRow {
-                        Button { model.paste([clip]) } label: { (Text(L("Paste")) + Text("  ↩").foregroundStyle(.white.opacity(0.7))).frame(maxWidth: .infinity) }.buttonStyle(.borderedProminent)
+                VStack(spacing: 8) {
+                    HStack(spacing: 8) {
+                        Button { model.paste([clip]) } label: { HStack(spacing: 0) { Text(L("Paste")); Text("  ↩").foregroundStyle(.white.opacity(0.7)) }.frame(maxWidth: .infinity) }.buttonStyle(.borderedProminent)
                         Button { model.inspector = clip } label: { Text(L("Edit")).frame(maxWidth: .infinity) }.disabled(model.remotePeer != nil)
                     }
-                    GridRow {
+                    HStack(spacing: 8) {
                         Button { model.paste([clip], plain: true) } label: { Text(L("Paste as plain text")).lineLimit(1).frame(maxWidth: .infinity) }.disabled(clip.text.isEmpty)
                         Menu(L("Transform")) { ForEach(TextAction.allCases) { action in Button(action.title) { model.transform(action, clip: clip) } } }.disabled(clip.text.isEmpty || model.remotePeer != nil)
                     }
                 }.controlSize(floating ? .small : .regular)
             } else {
-                ContentUnavailableView(L("Select an item"), systemImage: "rectangle.on.rectangle")
+                EmptyState(L("Select an item"), systemImage: "rectangle.on.rectangle")
             }
         }.padding(16).frame(maxHeight: .infinity, alignment: .top)
     }
 
     private func row(_ label: String, _ value: String) -> some View {
-        GridRow {
-            Text(label).foregroundStyle(.secondary)
+        HStack(spacing: 14) {
+            // The hidden labels give every row the width of the longest one, like a grid column.
+            ZStack(alignment: .leading) {
+                ForEach([L("First copied"), L("Last copied"), L("Expires"), L("Size")], id: \.self) { Text($0).hidden() }
+                Text(label).foregroundStyle(.secondary)
+            }
             Text(value).lineLimit(1).textSelection(.enabled)
         }
     }
@@ -245,7 +263,17 @@ struct LibraryPreview: View {
     }
 }
 
+/// Wrapping chips; macOS 12 has no Layout protocol and falls back to an adaptive grid.
+struct ChipRow<Content: View>: View {
+    @ViewBuilder let content: Content
+    var body: some View {
+        if #available(macOS 13, *) { ChipFlow(spacing: 6) { content } }
+        else { LazyVGrid(columns: [GridItem(.adaptive(minimum: 80), spacing: 6, alignment: .leading)], alignment: .leading, spacing: 6) { content } }
+    }
+}
+
 /// Wrapping row of chips that reflows with the sidebar width and text length.
+@available(macOS 13, *)
 struct ChipFlow: Layout {
     var spacing: CGFloat = 6
     func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {

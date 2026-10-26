@@ -62,7 +62,7 @@ final class EncorePanel: NSPanel {
         model.resizePanel = { [weak self] in self?.positionPanel() }
         model.updateQuickLook = { [weak self] in self?.updateQuickLook() }
         panel = EncorePanel(contentRect: .zero, styleMask: [.borderless, .nonactivatingPanel], backing: .buffered, defer: false)
-        panel.title = "Encore"
+        panel.title = "encore"
         panel.identifier = NSUserInterfaceItemIdentifier("EncoreBoard")
         panel.isOpaque = false
         panel.backgroundColor = .clear
@@ -137,6 +137,7 @@ final class EncorePanel: NSPanel {
             if !demo { UserDefaults.standard.set(true, forKey: "hasLaunched") }
             show()
         }
+        if CommandLine.arguments.contains("--settings") { openSettings() }
     }
 
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool { show(); return true }
@@ -223,7 +224,8 @@ final class EncorePanel: NSPanel {
         if let front = NSWorkspace.shared.frontmostApplication, front.bundleIdentifier != Bundle.main.bundleIdentifier { previousApplication = front }
         model.accessibilityGranted = AXIsProcessTrusted()
         model.displayTime = Date()
-        if model.remotePeer != nil { model.loadRemote() }
+        // Each opening starts on the history: that is where the latest copy is.
+        if model.board != "history" { model.board = "history" }
         model.query = ""
         model.expanded = false
         model.searchFocused = false
@@ -444,7 +446,7 @@ final class EncorePanel: NSPanel {
             return true
         }
         image.isTemplate = true
-        image.accessibilityDescription = "Encore"
+        image.accessibilityDescription = "encore"
         return image
     }()
 
@@ -474,7 +476,7 @@ final class EncorePanel: NSPanel {
     @objc private func quit() { NSApp.terminate(nil) }
     @objc private func about() {
         NSApp.activate(ignoringOtherApps: true)
-        NSApp.orderFrontStandardAboutPanel(options: [.applicationName: "Encore", .applicationVersion: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "", .credits: NSAttributedString(string: L("Your clipboard. Yours to keep.\nNative, local, and open source.\nMIT license · github.com/Kamasoutra/encore"))])
+        NSApp.orderFrontStandardAboutPanel(options: [.applicationName: "encore", .applicationVersion: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "", .credits: NSAttributedString(string: L("Your clipboard. Yours to keep.\nNative, local, and open source.\nMIT license · github.com/Kamasoutra/encore"))])
     }
 
     private func installMenu() {

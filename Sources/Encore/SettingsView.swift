@@ -24,11 +24,24 @@ private enum SettingsSection: String, CaseIterable, Identifiable {
     }
 }
 
+/// Launch at login relies on SMAppService, so macOS 12 does not offer it.
+enum LoginItem {
+    static var available: Bool { if #available(macOS 13, *) { return true } else { return false } }
+    static var enabled: Bool {
+        if #available(macOS 13, *) { return SMAppService.mainApp.status == .enabled }
+        return false
+    }
+    static func set(_ enabled: Bool) throws {
+        guard #available(macOS 13, *) else { return }
+        if enabled { try SMAppService.mainApp.register() } else { try SMAppService.mainApp.unregister() }
+    }
+}
+
 struct SettingsView: View {
     @ObservedObject var model: AppModel
     @ObservedObject private var updates = Updates.shared
     @State private var section: SettingsSection = .general
-    @State private var launchAtLogin = SMAppService.mainApp.status == .enabled
+    @State private var launchAtLogin = LoginItem.enabled
 
     var body: some View {
         HStack(spacing: 0) {
@@ -57,14 +70,14 @@ struct SettingsView: View {
         }.frame(width: 780, height: 680).font(.system(size: 13)).tint(Palette.accent)
             .localized()
             .background(Color(nsColor: .windowBackgroundColor))
-            .onChange(of: model.preferences) { _, _ in model.preferencesChanged() }
+            .onChanged(model.preferences) { _ in model.preferencesChanged() }
             .onAppear { model.refreshInstalledExclusions() }
             .sheet(isPresented: $model.pairingSheet, onDismiss: { model.closePairing() }) { PairingSheet(model: model) }
     }
 
     private var sidebar: some View {
         VStack(alignment: .leading, spacing: 22) {
-            HStack(spacing: 10) { EncoreMark(size: 35); Text("Encore").font(.system(size: 22, weight: .semibold)) }.padding(.horizontal, 7).padding(.top, 13)
+            HStack(spacing: 10) { EncoreMark(size: 35); Text("encore").font(.system(size: 22, weight: .semibold)) }.padding(.horizontal, 7).padding(.top, 13)
             List(selection: Binding<SettingsSection?>(get: { section }, set: { if let value = $0 { section = value } })) {
                 ForEach(SettingsSection.allCases) { item in
                     Label(item.title, systemImage: item.symbol)
@@ -72,7 +85,7 @@ struct SettingsView: View {
                         .padding(.vertical, 4)
                         .tag(item)
                 }
-            }.listStyle(.sidebar).scrollContentBackground(.hidden)
+            }.listStyle(.sidebar).hiddenScrollBackground()
             Spacer()
             VStack(alignment: .leading, spacing: 7) {
                 Label(L("100% local"), systemImage: "lock.shield").font(.system(size: 12)).foregroundStyle(.secondary)
@@ -86,8 +99,8 @@ struct SettingsView: View {
     }
 
     private var general: some View {
-        Form {
-            Section(L("Direct paste")) {
+        SettingsForm {
+            SettingsGroup(L("Direct paste")) {
                 HStack {
                     Label(model.accessibilityGranted ? L("Direct paste allowed") : L("Manual paste active"), systemImage: model.accessibilityGranted ? "checkmark.shield.fill" : "exclamationmark.triangle.fill")
                         .foregroundStyle(model.accessibilityGranted ? Color.green : Color.orange)
@@ -102,22 +115,23 @@ struct SettingsView: View {
                     caption(L("macOS has not authorized this version of Encore. If access was already granted, turn Encore off and on in Accessibility. If needed, remove the old entry and add the installed app. Ad-hoc signatures can invalidate access after an update."))
                 }
             }
-            Section(L("Everyday use")) {
+            SettingsGroup(L("Everyday use")) {
                 Toggle(L("Save new clipboard items"), isOn: $model.preferences.captureEnabled).disabled(model.storage == nil || model.storageError != nil)
-                Toggle(L("Launch at login"), isOn: $launchAtLogin).disabled(model.demo).onChange(of: launchAtLogin) { _, value in
-                    do {
-                        if value { try SMAppService.mainApp.register() } else { try SMAppService.mainApp.unregister() }
-                    } catch { model.notify(L("Launch at login: \(error.localizedDescription)")); launchAtLogin = SMAppService.mainApp.status == .enabled }
+                if LoginItem.available {
+                    Toggle(L("Launch at login"), isOn: $launchAtLogin).disabled(model.demo).onChanged(launchAtLogin) { value in
+                        do { try LoginItem.set(value) }
+                        catch { model.notify(L("Launch at login: \(error.localizedDescription)")); launchAtLogin = LoginItem.enabled }
+                    }
                 }
                 Picker(L("Open Encore"), selection: $model.preferences.shortcut) {
                     Text("⌘⇧V").tag("commandShiftV"); Text("⌘⌥V").tag("commandOptionV")
-                }.onChange(of: model.preferences.shortcut) { _, _ in model.updateShortcuts?() }
+                }.onChanged(model.preferences.shortcut) { _ in model.updateShortcuts?() }
                 caption(L("Active shortcut: \(model.shortcutStatus). Fallback: ⌃⌥⌘V."))
                 Toggle(L("Use ⌘⇧C for the paste queue"), isOn: $model.preferences.stackShortcutEnabled)
-                    .onChange(of: model.preferences.stackShortcutEnabled) { _, _ in model.updateShortcuts?() }
+                    .onChanged(model.preferences.stackShortcutEnabled) { _ in model.updateShortcuts?() }
                 caption(L("Off by default to keep this shortcut available in other apps. The queue is also available from the shelf."))
             }
-            Section(L("Appearance")) {
+            SettingsGroup(L("Appearance")) {
                 Picker(L("Language"), selection: $model.preferences.language) {
                     Text(L("Follow macOS")).tag("system")
                     ForEach(languages, id: \.self) { code in Text(languageLabel(code)).tag(code) }
@@ -129,7 +143,7 @@ struct SettingsView: View {
                 percentageControl(L("Card size"), symbol: "rectangle.grid.1x2", value: $model.preferences.cardScale, range: 0.75...1.5)
                 caption(L("Drag the top handle to resize the shelf. Use ⌘+ and ⌘− to resize cards."))
             }
-            Section(L("Display")) {
+            SettingsGroup(L("Display")) {
                 Picker(L("Show shelf on"), selection: $model.preferences.displayTarget) {
                     Text(L("Current display · at pointer")).tag("active")
                     Text(L("macOS primary display")).tag("primary")
@@ -139,10 +153,10 @@ struct SettingsView: View {
                     if !["active", "primary"].contains(model.preferences.displayTarget), !NSScreen.screens.contains(where: { ScreenPlacement.identifier($0) == model.preferences.displayTarget }) {
                         Text(L("Display disconnected · using primary")).tag(model.preferences.displayTarget)
                     }
-                }.onChange(of: model.preferences.displayTarget) { _, _ in model.resizePanel?() }
+                }.onChanged(model.preferences.displayTarget) { _ in model.resizePanel?() }
                 caption(L("Encore remembers this display. If disconnected, it uses the primary display until it returns."))
             }
-            Section(L("Sound feedback")) {
+            SettingsGroup(L("Sound feedback")) {
                 Toggle(L("Play sounds on capture and paste"), isOn: $model.preferences.soundsEnabled)
                 percentageControl(L("Volume"), symbol: "speaker.wave.2", value: $model.preferences.soundVolume, range: 0...1)
                 ForEach(SoundTheme.allCases) { theme in soundThemeRow(theme) }
@@ -151,17 +165,17 @@ struct SettingsView: View {
                     soundFileRow(L("On paste"), path: model.preferences.pasteSoundPath, action: .paste)
                 }
             }
-        }.formStyle(.grouped)
+        }
     }
 
     private var privacy: some View {
-        Form {
-            Section(L("Capture")) {
+        SettingsForm {
+            SettingsGroup(L("Capture")) {
                 Toggle(L("Ignore confidential and transient content"), isOn: $model.preferences.ignoreSensitive)
                 Toggle(L("Recognize text in images"), isOn: $model.preferences.recognizeImages)
                 caption(L("OCR runs on this Mac. No account or telemetry. Links are not loaded in the background."))
             }
-            Section(L("Excluded apps")) {
+            SettingsGroup(L("Excluded apps")) {
                 VStack(spacing: 0) {
                     if model.installedExcludedBundleIDs.isEmpty { Text(L("No installed apps are excluded")).foregroundStyle(.secondary).padding(.vertical, 8) }
                     ForEach(model.installedExcludedBundleIDs, id: \.self) { bundle in
@@ -178,7 +192,7 @@ struct SettingsView: View {
                 Button { addExcludedApp() } label: { Label(L("Add an app…"), systemImage: "plus") }
                 caption(L("Installed password managers are excluded automatically. New installations are detected. Apps you remove will not be excluded again automatically."))
             }
-            Section(L("Native screenshots")) {
+            SettingsGroup(L("Native screenshots")) {
                 Toggle(L("Import newly saved screenshots"), isOn: Binding(get: { model.preferences.importScreenshots }, set: { value in
                     if value { chooseScreenshotFolder() } else { model.preferences.importScreenshots = false }
                 }))
@@ -198,13 +212,13 @@ struct SettingsView: View {
                 }
             }
             caption(L("Some browser extensions do not mark secrets. Exclude their browser if needed."))
-        }.formStyle(.grouped)
+        }
     }
 
     private var data: some View {
-        Form {
-            Section(L("Retention")) {
-                LabeledContent(L("Retention without a rule"), value: model.preferences.retentionDays == 0 ? L("Forever") : L("\(model.preferences.retentionDays) days"))
+        SettingsForm {
+            SettingsGroup(L("Retention")) {
+                InfoRow(L("Retention without a rule"), value: model.preferences.retentionDays == 0 ? L("Forever") : L("\(model.preferences.retentionDays) days"))
                 Button { section = .retention } label: { Label(L("Configure retention rules"), systemImage: "clock.arrow.circlepath") }
                 Picker(L("Items without a matching rule"), selection: $model.preferences.historyLimit) {
                     Text(L("Up to 500")).tag(500); Text(L("Up to 2,000")).tag(2000); Text(L("Up to 10,000")).tag(10000); Text(L("Unlimited items")).tag(0)
@@ -214,13 +228,13 @@ struct SettingsView: View {
                 }
                 caption(L("Favorites, collections, and rule-managed items bypass the item-count limit. A full budget blocks new copies. Maximum embedded content per copy: 25 MiB."))
             }
-            Section(L("Local library")) {
+            SettingsGroup(L("Local library")) {
                 if let error = model.storageError {
                     Label(error, systemImage: "exclamationmark.triangle").foregroundStyle(.red)
                     Button(L("Reload library…")) { model.reloadStorage() }
                 }
-                LabeledContent(L("Items"), value: Localization.number(model.library.clips.count))
-                LabeledContent(L("Stored content"), value: Localization.bytes(Int64(model.totalBytes)))
+                InfoRow(L("Items"), value: Localization.number(model.library.clips.count))
+                InfoRow(L("Stored content"), value: Localization.bytes(Int64(model.totalBytes)))
                 caption(L("Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. Storage and backups are unencrypted."))
                 HStack {
                     Button { model.exportLibrary() } label: { Label(L("Export…"), systemImage: "square.and.arrow.up") }
@@ -231,7 +245,7 @@ struct SettingsView: View {
                 Button(L("Clear history…"), role: .destructive) { model.clearHistory() }
             }
             if updates.available {
-                Section(L("Updates")) {
+                SettingsGroup(L("Updates")) {
                     Toggle(L("Check for updates automatically"), isOn: Binding(get: { updates.automaticallyChecks }, set: { updates.automaticallyChecks = $0 }))
                     HStack {
                         Text(L("Version \(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "")")).foregroundStyle(.secondary)
@@ -241,17 +255,17 @@ struct SettingsView: View {
                     caption(L("Updates come from releases published on GitHub and are verified by signature before installing."))
                 }
             }
-        }.formStyle(.grouped)
+        }
     }
 
     private var peers: some View {
-        Form {
-            Section(L("Sharing")) {
+        SettingsForm {
+            SettingsGroup(L("Sharing")) {
                 Toggle(L("Share history with my paired Macs"), isOn: $model.preferences.shareWithPeers).disabled(model.peerService == nil)
-                LabeledContent(L("This Mac’s name"), value: model.deviceName)
+                InfoRow(L("This Mac’s name"), value: model.deviceName)
                 caption(L("Off by default. When on, your paired Macs can browse this history and fetch an item on demand, over the local network only. Nothing is copied automatically. Excluded apps, files and confidential content are never shared."))
             }
-            Section(L("Paired Macs")) {
+            SettingsGroup(L("Paired Macs")) {
                 if model.peers.isEmpty { Text(L("No paired Mac")).foregroundStyle(.secondary).padding(.vertical, 8) }
                 ForEach(model.peers) { peer in
                     HStack(spacing: 10) {
@@ -265,9 +279,9 @@ struct SettingsView: View {
                     }.padding(.vertical, 4)
                 }
                 Button { model.pairingSheet = true } label: { Label(L("Pair a Mac…"), systemImage: "plus") }.disabled(model.peerService == nil)
-                caption(L("Pairing happens once: check that both Macs show the same 6-digit code. The shared secret stays in each Mac’s Keychain. Removing a Mac erases it."))
+                caption(L("Pairing happens once: check that both Macs show the same 6-digit code. The shared secret stays on each Mac, readable only by your account. Removing a Mac erases it."))
             }
-        }.formStyle(.grouped)
+        }
     }
 
     private var shortcuts: some View {
@@ -351,7 +365,7 @@ struct SettingsView: View {
             Button(L("On paste")) { FeedbackSounds.preview(theme, action: .paste, preferences: model.preferences) }
             Button { FeedbackSounds.preview(theme, preferences: model.preferences) } label: { Label(L("Sequence"), systemImage: "play.fill") }
                 .help(L("Two copies, then a paste"))
-        }.controlSize(.small)
+        }.controlSize(.small).modifier(LightButtons())
     }
     private func soundFileRow(_ title: String, path: String?, action: FeedbackSounds.Action) -> some View {
         HStack {

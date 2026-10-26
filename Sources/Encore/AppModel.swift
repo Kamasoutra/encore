@@ -305,13 +305,13 @@ struct PeerStatus: Identifiable, Equatable {
         defaults.set(id, forKey: "peerDeviceID")
         let provider = LibraryShare(storage: storage) { [weak self] in await self?.shareSnapshot() ?? (Library(), []) }
         do {
-            let service = try PeerService(identity: .init(id: id, name: deviceName), store: KeychainPeerSecretStore(), provider: provider)
+            let service = try PeerService(identity: .init(id: id, name: deviceName), store: FilePeerSecretStore(url: storage.root.appendingPathComponent("Peers.json"), legacy: KeychainPeerSecretStore()), provider: provider)
             service.onChange = { [weak self] in Task { @MainActor in self?.refreshPeers() } }
             service.onIncomingPairing = { [weak self] session in Task { @MainActor in self?.presentIncoming(session) } }
             peerService = service
             refreshPeers()
             refreshPeerActivity()
-        } catch { notify(L("Keychain unavailable: \(error.localizedDescription)")) }
+        } catch { notify(L("Pairing unavailable: \(error.localizedDescription)")) }
     }
 
     private func shareSnapshot() -> (library: Library, excluded: Set<String>) { (library, Set(preferences.excludedBundleIDs)) }
@@ -451,7 +451,7 @@ struct PeerStatus: Identifiable, Equatable {
         statusTask?.cancel()
         status = message
         statusTask = Task { [weak self] in
-            try? await Task.sleep(for: .seconds(5))
+            try? await Task.sleep(nanoseconds: 5_000_000_000)
             guard !Task.isCancelled else { return }
             self?.status = ""
         }
@@ -691,7 +691,7 @@ struct PeerStatus: Identifiable, Equatable {
             let request = VNRecognizeTextRequest()
             request.recognitionLevel = .accurate
             request.usesLanguageCorrection = true
-            request.automaticallyDetectsLanguage = true
+            if #available(macOS 13, *) { request.automaticallyDetectsLanguage = true }
             do {
                 guard let payload = storage.payload(id), let data = Self.imageData(payload), let cg = Self.downsample(data, maxDimension: 4096) else { throw CocoaError(.fileReadCorruptFile) }
                 try VNImageRequestHandler(cgImage: cg).perform([request])
@@ -737,7 +737,7 @@ struct PeerStatus: Identifiable, Equatable {
     func exportLibrary() {
         let panel = NSSavePanel()
         panel.allowedContentTypes = [.json]
-        panel.nameFieldStringValue = "Encore-backup.json"
+        panel.nameFieldStringValue = "encore-backup.json"
         panel.message = L("This backup contains your unencrypted history and content. Keep it somewhere safe.")
         guard panel.runModal() == .OK, let url = panel.url else { return }
         do {

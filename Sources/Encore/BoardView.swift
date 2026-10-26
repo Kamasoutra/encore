@@ -141,8 +141,8 @@ struct BoardView: View {
         .overlay(RoundedRectangle(cornerRadius: 20).strokeBorder(.white.opacity(scheme == .dark ? 0.12 : 0.6), lineWidth: 1))
         .localized()
         .tint(Palette.accent)
-        .onChange(of: model.searchFocused) { _, value in searchFocus = value }
-        .onChange(of: searchFocus) { _, value in model.searchFocused = value }
+        .onChanged(model.searchFocused) { value in searchFocus = value }
+        .onChanged(searchFocus) { value in model.searchFocused = value }
         .onAppear { searchFocus = model.searchFocused }
         .onPreferenceChange(CursorFrameKey.self) { frame in
             model.cursorFrame = frame
@@ -249,7 +249,7 @@ struct BoardView: View {
                     }
                 }.padding(.horizontal, 16).padding(.top, 8).padding(.bottom, 12)
             }
-            .onChange(of: model.cursor) { _, id in
+            .onChanged(model.cursor) { id in
                 guard let id else { return }
                 withAnimation(reduceMotion ? nil : .easeOut(duration: 0.15)) { proxy.scrollTo(id, anchor: .center) }
             }
@@ -367,18 +367,27 @@ struct BoardView: View {
 struct DaySeparator: View {
     let title: String
     var body: some View {
-        VerticalLabel {
-            Text(title.uppercased(with: Localization.locale)).font(.system(size: 10, weight: .semibold)).tracking(0.8).foregroundStyle(.secondary).lineLimit(1).fixedSize()
-                .rotationEffect(.degrees(-90))
-        }
+        label
             .frame(width: 18)
             .frame(maxHeight: .infinity, alignment: .bottom)
             .overlay(alignment: .leading) { Rectangle().fill(.primary.opacity(0.12)).frame(width: 1) }
             .accessibilityAddTraits(.isHeader)
     }
+
+    @ViewBuilder private var label: some View {
+        let text = Text(title.uppercased(with: Localization.locale)).font(.system(size: 10, weight: .semibold)).tracking(0.8).foregroundStyle(.secondary).lineLimit(1).fixedSize()
+        if #available(macOS 13, *) {
+            VerticalLabel { text.rotationEffect(.degrees(-90)) }
+        } else {
+            // macOS 12 has no Layout protocol: reserve the turned size from the measured text width.
+            let width = ceil(NSAttributedString(string: title.uppercased(with: Localization.locale), attributes: [.font: NSFont.systemFont(ofSize: 10, weight: .semibold), .kern: 0.8]).size().width) + 2
+            text.frame(width: width, height: 14).rotationEffect(.degrees(-90)).frame(width: 14, height: width)
+        }
+    }
 }
 
 /// Lays out a rotated label with its turned size, so it can be aligned like any other view.
+@available(macOS 13, *)
 struct VerticalLabel: Layout {
     func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
         let size = subviews.first?.sizeThatFits(.unspecified) ?? .zero
@@ -398,18 +407,32 @@ struct Selectable: ViewModifier {
 }
 
 struct ClipCard: View {
-    @ObservedObject var model: AppModel
+    // Not observed: a card only redraws when the values it shows change, not on every cursor move.
+    // Observing the model made each arrow key rebuild and lay out every visible card, too slow on older Macs.
+    let model: AppModel
     let clip: Clip
     let index: Int
     let compact: Bool
     var height: CGFloat? = nil
     var namespace: Namespace.ID? = nil
+    private let selected: Bool
+    private let cursor: Bool
+    private let preferences: Preferences
+    private let now: Date
+    private let remote: Bool
     @Environment(\.colorScheme) private var scheme
     @State private var hovered = false
-    private var selected: Bool { model.selection.contains(clip.id) }
     private var dark: Bool { scheme == .dark }
-    private var ids: Set<UUID> { selected ? model.selection : [clip.id] }
-    private var scale: Double { model.preferences.cardScale }
+    private var scale: Double { preferences.cardScale }
+
+    init(model: AppModel, clip: Clip, index: Int, compact: Bool, height: CGFloat? = nil, namespace: Namespace.ID? = nil) {
+        self.model = model; self.clip = clip; self.index = index; self.compact = compact; self.height = height; self.namespace = namespace
+        selected = model.selection.contains(clip.id)
+        cursor = model.cursor == clip.id
+        preferences = model.preferences
+        now = model.displayTime
+        remote = model.remotePeer != nil
+    }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -442,12 +465,12 @@ struct ClipCard: View {
         .background { if selected { RoundedRectangle(cornerRadius: 14).fill(Palette.accent.opacity(dark ? 0.75 : 0.55)).padding(-3).blur(radius: 4) } }
         .shadow(color: .black.opacity(dark ? 0.22 : 0.06), radius: hovered ? 10 : 5, y: hovered ? 4 : 2)
         .modifier(MatchedCard(id: clip.id, namespace: namespace))
-        .background { if model.cursor == clip.id { GeometryReader { proxy in Color.clear.preference(key: CursorFrameKey.self, value: proxy.frame(in: .global)) } } }
+        .background { if cursor { GeometryReader { proxy in Color.clear.preference(key: CursorFrameKey.self, value: proxy.frame(in: .global)) } } }
         .contentShape(RoundedRectangle(cornerRadius: 12))
         .onHover { hovered = $0 }
         .onTapGesture(count: 2) { model.select(clip.id); model.paste([clip], plain: NSEvent.modifierFlags.contains(.shift)) }
         .onTapGesture { model.select(clip.id, modifiers: NSEvent.modifierFlags) }
-        .contextMenu { ClipActions(model: model, clip: clip, ids: ids) }
+        .contextMenu { ClipActions(model: model, clip: clip) }
         .onDrag { itemProvider() }
         .accessibilityElement(children: .combine)
         .accessibilityLabel(L("\(clip.kind.title), \(clip.displayTitle), \(clip.sourceName)"))
@@ -458,10 +481,10 @@ struct ClipCard: View {
 
     /// Time left before the clip expires, in orange during its last day.
     @ViewBuilder private var retention: some View {
-        if model.remotePeer != nil {
+        if remote {
             Image(systemName: "laptopcomputer").font(.system(size: 11 * scale, weight: .medium)).foregroundStyle(.teal)
         } else if let deadline = model.retentionDecision(for: clip).expiresAt {
-            let soon = deadline.timeIntervalSince(model.displayTime) < 86_400
+            let soon = deadline.timeIntervalSince(now) < 86_400
             Label(model.remainingRetention(for: clip), systemImage: "clock").labelStyle(.titleAndIcon).font(.system(size: 11 * scale, weight: .medium)).foregroundStyle(soon ? AnyShapeStyle(.orange) : AnyShapeStyle(.tertiary)).lineLimit(1)
         } else {
             Image(systemName: "infinity").font(.system(size: 11 * scale, weight: .medium)).foregroundStyle(.tertiary).accessibilityLabel(L("Kept forever"))
@@ -506,7 +529,7 @@ extension Clip {
 
 /// The body of a clip, shared by cards and the large preview.
 struct ClipContent: View {
-    @ObservedObject var model: AppModel
+    let model: AppModel
     let clip: Clip
     var scale: Double = 1
     var compact = false
@@ -605,16 +628,16 @@ struct ClipContent: View {
 struct ClipActions: View {
     @ObservedObject var model: AppModel
     let clip: Clip
-    let ids: Set<UUID>
+    private var ids: Set<UUID> { model.selection.contains(clip.id) ? model.selection : [clip.id] }
 
     var body: some View {
         if let file = model.fileURLs(for: clip).first {
             Button { NSWorkspace.shared.open(file) } label: { Label(L("Open"), systemImage: "arrow.up.forward.app") }.keyboardShortcut("o")
-            ShareLink(item: file) { Label(L("Share"), systemImage: "square.and.arrow.up") }
+            if #available(macOS 13, *) { ShareLink(item: file) { Label(L("Share"), systemImage: "square.and.arrow.up") } }
             Divider()
         } else if clip.kind == .link, let url = URL(string: clip.text) {
             Button { NSWorkspace.shared.open(url) } label: { Label(L("Open link"), systemImage: "arrow.up.forward.app") }.keyboardShortcut("o")
-            ShareLink(item: url) { Label(L("Share"), systemImage: "square.and.arrow.up") }
+            if #available(macOS 13, *) { ShareLink(item: url) { Label(L("Share"), systemImage: "square.and.arrow.up") } }
             Divider()
         }
         Button { model.paste(model.boardClips.filter { ids.contains($0.id) }) } label: { Label(L("Paste"), systemImage: "doc.on.clipboard") }.keyboardShortcut(.return, modifiers: [])
