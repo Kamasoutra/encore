@@ -6,8 +6,8 @@ struct LibraryBody: View {
     @ObservedObject var model: AppModel
     let namespace: Namespace.ID
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
-    @Environment(\.colorScheme) private var scheme
     @State private var appeared = false
+    @State private var day = 0
     @State private var viewport = CGRect.zero
     @State private var revealed: UUID?
     private static let header: CGFloat = 36
@@ -113,7 +113,8 @@ struct LibraryBody: View {
     }
 
     private var grid: some View {
-        ScrollViewReader { proxy in
+        let sections = ClipSection.group(model.filtered, now: model.displayTime)
+        return ScrollViewReader { proxy in
             ScrollView {
                 if model.remoteLoading {
                     ProgressView().controlSize(.small).frame(maxWidth: .infinity).padding(.top, 80)
@@ -121,32 +122,45 @@ struct LibraryBody: View {
                     ContentUnavailableView(L("No items found"), systemImage: "magnifyingglass", description: Text(L("Try another word or remove the filters."))).padding(.top, 80)
                 }
                 // One grid for every day: nested lazy grids lose track of positions and break scrolling to the cursor.
-                LazyVGrid(columns: Array(repeating: GridItem(.fixed((compact ? 196 : 236) * scale), spacing: 12), count: model.libraryColumns), alignment: .leading, spacing: 12, pinnedViews: [.sectionHeaders]) {
-                    ForEach(ClipSection.group(model.filtered, now: model.displayTime)) { section in
+                LazyVGrid(columns: Array(repeating: GridItem(.fixed((compact ? 196 : 236) * scale), spacing: 12), count: model.libraryColumns), alignment: .leading, spacing: 12) {
+                    ForEach(Array(sections.enumerated()), id: \.element.id) { index, section in
                         Section {
                             ForEach(section.items) { item in
                                 ClipCard(model: model, clip: item.clip, index: item.index, compact: compact, height: 232 * scale, namespace: namespace)
                                     .id(item.clip.id)
                             }
                         } header: {
-                            HStack(spacing: 8) {
-                                Text(section.title).font(.system(size: 13, weight: .semibold))
-                                Text(Localization.number(section.items.count)).font(.system(size: 12)).foregroundStyle(.secondary)
-                            }.frame(height: Self.header).frame(maxWidth: .infinity, alignment: .leading)
-                                // Same layers as the panel, so the pinned day hides the cards beneath without looking like a separate bar.
-                                .background(scheme == .dark ? Color.black.opacity(0.18) : Color.white.opacity(0.25)).background(SurfaceBackground(radius: 0))
+                            dayTitle(section)
+                                .background { GeometryReader { geometry in Color.clear.preference(key: DayOffsetKey.self, value: [index: geometry.frame(in: .named("library")).minY]) } }
                         }
                     }
                 }.padding(.horizontal, 16).padding(.bottom, 16)
             }
+            .coordinateSpace(name: "library")
+            // No pinned headers: a background never matches the translucent panel. Cards fade out at the top and the current day floats there.
+            .mask {
+                VStack(spacing: 0) {
+                    Color.clear.frame(height: Self.header)
+                    LinearGradient(colors: [.clear, .black], startPoint: .top, endPoint: .bottom).frame(height: 8)
+                    Color.black
+                }
+            }
+            .overlay(alignment: .topLeading) {
+                if sections.indices.contains(day) { dayTitle(sections[day]).padding(.horizontal, 16).allowsHitTesting(false) }
+            }
+            .onPreferenceChange(DayOffsetKey.self) { offsets in
+                // The current day is the last one whose title went under the top band; lazy titles far above are not measured.
+                if let current = offsets.filter({ $0.value <= Self.header }).keys.max() { day = current }
+                else if let first = offsets.keys.min() { day = max(0, first - 1) }
+            }
             .background { GeometryReader { geometry in Color.clear.onAppear { viewport = geometry.frame(in: .global) }.onChange(of: geometry.frame(in: .global)) { _, frame in viewport = frame } } }
             .onPreferenceChange(CursorFrameKey.self) { card in
-                // Lazy grids misjudge scrolls without an anchor: compare a new cursor card with the visible area, below the pinned day, and scroll only when it leaves it.
+                // Lazy grids misjudge scrolls without an anchor: compare a new cursor card with the visible area, below the current day, and scroll only when it leaves it.
                 guard let id = model.cursor, id != revealed else { return }
                 revealed = id
                 let room = viewport.height - card.height
                 let anchor: UnitPoint? = if card == .zero || room <= Self.header { .center }
-                    else if card.minY < viewport.minY + Self.header { UnitPoint(x: 0.5, y: (Self.header + 8) / room) }
+                    else if card.minY < viewport.minY + Self.header { UnitPoint(x: 0.5, y: (Self.header + 12) / room) }
                     else if card.maxY > viewport.maxY { UnitPoint(x: 0.5, y: 1 - 8 / room) }
                     else { nil }
                 guard let anchor else { return }
@@ -155,6 +169,18 @@ struct LibraryBody: View {
             .onAppear { if let id = model.cursor { revealed = id; proxy.scrollTo(id, anchor: .center) } }
         }
     }
+
+    private func dayTitle(_ section: ClipSection) -> some View {
+        HStack(spacing: 8) {
+            Text(section.title).font(.system(size: 13, weight: .semibold))
+            Text(Localization.number(section.items.count)).font(.system(size: 12)).foregroundStyle(.secondary)
+        }.frame(height: Self.header).frame(maxWidth: .infinity, alignment: .leading)
+    }
+}
+
+private struct DayOffsetKey: PreferenceKey {
+    static let defaultValue: [Int: CGFloat] = [:]
+    static func reduce(value: inout [Int: CGFloat], nextValue: () -> [Int: CGFloat]) { value.merge(nextValue()) { $1 } }
 }
 
 /// Large preview with metadata and actions; the same view floats above the shelf when Space is pressed.
