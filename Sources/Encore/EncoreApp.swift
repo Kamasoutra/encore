@@ -316,7 +316,8 @@ final class EncorePanel: NSPanel {
         case 49 where !editing:
             if model.expanded { model.inspector = model.selected } else { model.quickLook.toggle() }
             return nil
-        case 51 where !editing, 117 where !editing:
+        case 51 where !editing && command, 117 where !editing && command:
+            // ⌘ is required: a lone ⌫ deleted cards by accident.
             model.remove(); return nil
         default: break
         }

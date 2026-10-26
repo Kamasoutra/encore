@@ -275,7 +275,7 @@ struct SettingsView: View {
             VStack(alignment: .leading, spacing: 21) {
                 shortcutGroup(L("Essentials"), items: [(L("Show / hide"), model.shortcutStatus), (L("Paste"), "↩"), (L("Paste as plain text"), "⇧↩"), (L("Quick paste"), "⌘1 … ⌘9"), (L("Paste queue"), model.preferences.stackShortcutEnabled ? "⌘⇧C" : L("From the shelf"))])
                 shortcutGroup(L("Navigation"), items: [(L("Full library"), "↑"), (L("Reduce"), "↓"), (L("Select"), "← →"), (L("Extend selection"), "⇧←  ⇧→"), (L("Preview"), L("space")), (L("Search"), L("⌘F or start typing")), (L("Card size"), "⌘+  ⌘−"), (L("Select all"), "⌘A")])
-                shortcutGroup(L("Organize & edit"), items: [(L("Edit"), "⌘E"), (L("Favorite"), "⌘D"), (L("Add to queue"), "⌘⇧↩"), (L("New snippet"), "⌘N"), (L("New collection"), "⌘⇧N"), (L("Delete / undo"), "⌫ / ⌘Z"), (L("Toggle capture"), "⌘T"), (L("Settings"), "⌘,")])
+                shortcutGroup(L("Organize & edit"), items: [(L("Edit"), "⌘E"), (L("Favorite"), "⌘D"), (L("Add to queue"), "⌘⇧↩"), (L("New snippet"), "⌘N"), (L("New collection"), "⌘⇧N"), (L("Delete / undo"), "⌘⌫ / ⌘Z"), (L("Toggle capture"), "⌘T"), (L("Settings"), "⌘,")])
                 VStack(alignment: .leading, spacing: 10) {
                     Text(L("Advanced search")).font(.system(size: 13, weight: .semibold))
                     Text("app:safari   type:image   date:today\nafter:2026-10-01   before:2026-11-01").font(.system(size: 12, design: .monospaced)).textSelection(.enabled)
