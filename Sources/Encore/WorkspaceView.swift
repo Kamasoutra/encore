@@ -77,7 +77,7 @@ struct LibraryBody: View {
             }.padding(16)
         }
         .safeAreaInset(edge: .bottom, spacing: 0) {
-            VStack(alignment: .leading, spacing: 6) {
+            VStack(spacing: 6) {
                 ProgressView(value: min(1, Double(model.totalBytes) / Double(max(1, model.preferences.storageLimitMB * 1_048_576)))).progressViewStyle(.linear).tint(Palette.accent)
                 Text("\(Int64(model.totalBytes).formatted(.byteCount(style: .binary).locale(Localization.locale))) / \((Int64(model.preferences.storageLimitMB) * 1_048_576).formatted(.byteCount(style: .binary).locale(Localization.locale)))").font(.system(size: 11)).foregroundStyle(.secondary).monospacedDigit()
             }.padding(16)
