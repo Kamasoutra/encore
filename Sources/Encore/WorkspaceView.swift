@@ -7,6 +7,9 @@ struct LibraryBody: View {
     let namespace: Namespace.ID
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var appeared = false
+    @State private var viewport = CGRect.zero
+    @State private var revealed: UUID?
+    private static let header: CGFloat = 36
     private var compact: Bool { model.preferences.compact }
     private var scale: Double { model.preferences.cardScale }
 
@@ -116,29 +119,37 @@ struct LibraryBody: View {
                 } else if model.filtered.isEmpty {
                     ContentUnavailableView(L("No items found"), systemImage: "magnifyingglass", description: Text(L("Try another word or remove the filters."))).padding(.top, 80)
                 }
-                LazyVStack(alignment: .leading, spacing: 14, pinnedViews: [.sectionHeaders]) {
+                // One grid for every day: nested lazy grids lose track of positions and break scrolling to the cursor.
+                LazyVGrid(columns: Array(repeating: GridItem(.fixed((compact ? 196 : 236) * scale), spacing: 12), count: model.libraryColumns), alignment: .leading, spacing: 12, pinnedViews: [.sectionHeaders]) {
                     ForEach(ClipSection.group(model.filtered, now: model.displayTime)) { section in
                         Section {
-                            LazyVGrid(columns: Array(repeating: GridItem(.fixed((compact ? 196 : 236) * scale), spacing: 12), count: model.libraryColumns), alignment: .leading, spacing: 12) {
-                                ForEach(section.items) { item in
-                                    ClipCard(model: model, clip: item.clip, index: item.index, compact: compact, height: 232 * scale, namespace: namespace).id(item.clip.id)
-                                }
+                            ForEach(section.items) { item in
+                                ClipCard(model: model, clip: item.clip, index: item.index, compact: compact, height: 232 * scale, namespace: namespace)
+                                    .id(item.clip.id)
                             }
                         } header: {
                             HStack(spacing: 8) {
                                 Text(section.title).font(.system(size: 13, weight: .semibold))
                                 Text(Localization.number(section.items.count)).font(.system(size: 12)).foregroundStyle(.secondary)
-                            }.padding(.vertical, 6).frame(maxWidth: .infinity, alignment: .leading).background(.bar.opacity(0.0001))
+                            }.frame(height: Self.header).frame(maxWidth: .infinity, alignment: .leading).background(.bar)
                         }
                     }
-                }.padding(16)
+                }.padding(.horizontal, 16).padding(.bottom, 16)
             }
-            .onChange(of: model.cursor) { _, id in
-                guard let id else { return }
-                // No anchor: scroll only when the card leaves the view, so the day headers stay put.
-                withAnimation(reduceMotion ? nil : .easeOut(duration: 0.15)) { proxy.scrollTo(id) }
+            .background { GeometryReader { geometry in Color.clear.onAppear { viewport = geometry.frame(in: .global) }.onChange(of: geometry.frame(in: .global)) { _, frame in viewport = frame } } }
+            .onPreferenceChange(CursorFrameKey.self) { card in
+                // Lazy grids misjudge scrolls without an anchor: compare a new cursor card with the visible area, below the pinned day, and scroll only when it leaves it.
+                guard let id = model.cursor, id != revealed else { return }
+                revealed = id
+                let room = viewport.height - card.height
+                let anchor: UnitPoint? = if card == .zero || room <= Self.header { .center }
+                    else if card.minY < viewport.minY + Self.header { UnitPoint(x: 0.5, y: (Self.header + 8) / room) }
+                    else if card.maxY > viewport.maxY { UnitPoint(x: 0.5, y: 1 - 8 / room) }
+                    else { nil }
+                guard let anchor else { return }
+                withAnimation(reduceMotion ? nil : .easeOut(duration: 0.15)) { proxy.scrollTo(id, anchor: anchor) }
             }
-            .onAppear { if let id = model.cursor { proxy.scrollTo(id, anchor: .center) } }
+            .onAppear { if let id = model.cursor { revealed = id; proxy.scrollTo(id, anchor: .center) } }
         }
     }
 }
