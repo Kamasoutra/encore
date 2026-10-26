@@ -54,8 +54,7 @@ jobs:
         run: |
           version=$(/usr/libexec/PlistBuddy -c 'Print CFBundleShortVersionString' Resources/Info.plist)
           archive="Encore-macOS.zip"
-          # The universal build also keeps the former Apple Silicon name so older download links still work.
-          (cd dist && ditto -c -k --sequesterRsrc --keepParent Encore.app "$archive" && cp "$archive" Encore-macOS-arm64.zip && shasum -a 256 "$archive" Encore-macOS-arm64.zip > SHA256SUMS)
+          (cd dist && ditto -c -k --sequesterRsrc --keepParent Encore.app "$archive" && shasum -a 256 "$archive" > SHA256SUMS)
           curl -fsSL "https://github.com/sparkle-project/Sparkle/releases/download/$SPARKLE_VERSION/Sparkle-$SPARKLE_VERSION.tar.xz" | tar -xJ -C "$RUNNER_TEMP" ./bin/sign_update
           signature=$(echo "$SPARKLE_PRIVATE_KEY" | "$RUNNER_TEMP/bin/sign_update" --ed-key-file - "dist/$archive")
           bash scripts/appcast.sh "dist/$archive" "$signature" > dist/appcast.xml
@@ -66,7 +65,7 @@ jobs:
           GH_REPO: ${{ github.repository }}
           RELEASE_TAG: ${{ github.ref_name }}
         run: |
-          assets=(dist/Encore-macOS.zip dist/Encore-macOS-arm64.zip dist/SHA256SUMS dist/appcast.xml)
+          assets=(dist/Encore-macOS.zip dist/SHA256SUMS dist/appcast.xml)
           if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
             gh release upload "$RELEASE_TAG" "${assets[@]}" --clobber
           else
