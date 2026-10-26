@@ -15,8 +15,8 @@
 "90 days" = "90 gün";
 "A clipboard that fits the way you work." = "Çalışma şeklinize uyum sağlayan bir pano.";
 "A retention rule is invalid." = "Bir saklama kuralı geçersiz.";
-"About Encore" = "Encore Hakkında";
-"Accessibility access enables direct and sequential paste. Without it, Encore copies the item for you to paste with ⌘V." = "Erişilebilirlik izni, imlece ve sıralı yapıştırmayı sağlar. İzin yoksa Encore öğeyi ⌘V ile yapıştırmanız için kopyalar.";
+"About Encore" = "encore Hakkında";
+"Accessibility access enables direct and sequential paste. Without it, Encore copies the item for you to paste with ⌘V." = "Erişilebilirlik izni, imlece ve sıralı yapıştırmayı sağlar. İzin yoksa encore öğeyi ⌘V ile yapıştırmanız için kopyalar.";
 "Active shortcut: %@. Fallback: ⌃⌥⌘V." = "Etkin kısayol: %@. Yedek: ⌃⌥⌘V.";
 "Add an app…" = "Uygulama ekle…";
 "Add cards, then enable the queue." = "Kart ekleyin, sonra sırayı etkinleştirin.";
@@ -28,7 +28,7 @@
 "All apps" = "Tüm uygulamalar";
 "All dates" = "Tüm tarihler";
 "All types" = "Tüm türler";
-"Allow Encore in Accessibility, then try again." = "Erişilebilirlik’te Encore’a izin verin, sonra yeniden deneyin.";
+"Allow Encore in Accessibility, then try again." = "Erişilebilirlik’te encore’a izin verin, sonra yeniden deneyin.";
 "Also copy to the clipboard" = "Panoya da kopyala";
 "App" = "Uygulama";
 "Appearance" = "Görünüş";
@@ -48,7 +48,7 @@
 "Check for updates automatically" = "Güncellemeleri otomatik olarak denetle";
 "Check that %@ shows the same code." = "%@ aygıtının aynı kodu gösterdiğini kontrol edin.";
 "Choose the folder where macOS saves your screenshots." = "macOS’in ekran resimlerinizi kaydettiği klasörü seçin.";
-"Choose what Encore keeps. Everything stays on this Mac." = "Encore’un neleri saklayacağını seçin. Her şey bu Mac’te kalır.";
+"Choose what Encore keeps. Everything stays on this Mac." = "encore’un neleri saklayacağını seçin. Her şey bu Mac’te kalır.";
 "Choose…" = "Seç…";
 "Clear" = "Temizle";
 "Clear filters" = "Filtreleri temizle";
@@ -119,9 +119,9 @@
 "Enable" = "Etkinleştir";
 "Enable direct paste" = "Doğrudan yapıştırmayı etkinleştir";
 "Encode as Base64" = "Base64 olarak kodla";
-"Encore Settings" = "Encore Ayarları";
-"Encore remembers this display. If disconnected, it uses the primary display until it returns." = "Encore bu ekranı hatırlar. Ekranın bağlantısı kesilirse, yeniden bağlanana kadar ana ekran kullanılır.";
-"Encore — your clipboard history" = "Encore — pano geçmişiniz";
+"Encore Settings" = "encore Ayarları";
+"Encore remembers this display. If disconnected, it uses the primary display until it returns." = "encore bu ekranı hatırlar. Ekranın bağlantısı kesilirse, yeniden bağlanana kadar ana ekran kullanılır.";
+"Encore — your clipboard history" = "encore — pano geçmişiniz";
 "Erase the secret shared with %@" = "%@ ile paylaşılan gizli anahtarı sil";
 "Essentials" = "Temel";
 "Everyday use" = "Günlük kullanım";
@@ -144,7 +144,7 @@
 "File" = "Dosya";
 "File size" = "Dosya boyutu";
 "Files" = "Dosyalar";
-"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. Storage and backups are unencrypted." = "Dosyalara başvurulur, kopyaları oluşturulmaz. Boyutları kurallarda kullanılır ancak Encore’un bütçesinden düşülmez. Depolama ve yedekler şifrelenmez.";
+"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. Storage and backups are unencrypted." = "Dosyalara başvurulur, kopyaları oluşturulmaz. Boyutları kurallarda kullanılır ancak encore’un bütçesinden düşülmez. Depolama ve yedekler şifrelenmez.";
 "Files remain at their original location." = "Dosyalar özgün konumlarında kalır.";
 "Filter by type or app" = "Türe veya uygulamaya göre filtrele";
 "Filters" = "Filtreler";
@@ -179,7 +179,7 @@
 "Keep editing" = "Düzenlemeye devam et";
 "Kept forever" = "Süresiz saklanır";
 "Keychain Access" = "Anahtar Zinciri Erişimi";
-"Keychain unavailable: %@" = "Anahtar Zinciri kullanılamıyor: %@";
+"Pairing unavailable: %@" = "Eşleme kullanılamıyor: %@";
 "Language" = "Dil";
 "Last copied" = "Son kopyalama";
 "Launch at login" = "Girişte aç";
@@ -206,8 +206,8 @@
 "New collection" = "Yeni koleksiyon";
 "New collection…" = "Yeni koleksiyon…";
 "New rule" = "Yeni kural";
-"New screenshots in this folder join your history without changing the clipboard. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Bu klasöre gelen yeni ekran resimleri, panonuzu değiştirmeden geçmişe eklenir. Klasör yalnızca Encore ve kayıt etkinken izlenir. Mevcut ekran resimleri içe aktarılmaz.";
-"New screenshots in this folder join your history. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Bu klasördeki yeni ekran resimleri geçmişinize eklenir. Klasör yalnızca Encore ve kayıt etkinken izlenir. Mevcut ekran resimleri içe aktarılmaz.";
+"New screenshots in this folder join your history without changing the clipboard. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Bu klasöre gelen yeni ekran resimleri, panonuzu değiştirmeden geçmişe eklenir. Klasör yalnızca encore ve kayıt etkinken izlenir. Mevcut ekran resimleri içe aktarılmaz.";
+"New screenshots in this folder join your history. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Bu klasördeki yeni ekran resimleri geçmişinize eklenir. Klasör yalnızca encore ve kayıt etkinken izlenir. Mevcut ekran resimleri içe aktarılmaz.";
 "New snippet" = "Yeni metin parçası";
 "No immediate deletions." = "Hemen silinecek öğe yok.";
 "No installed apps are excluded" = "Hariç tutulan yüklü uygulama yok";
@@ -221,7 +221,7 @@
 "On paste" = "Yapıştırma";
 "Online" = "Çevrimiçi";
 "Open" = "Aç";
-"Open Encore" = "Encore’u aç";
+"Open Encore" = "encore’u aç";
 "Open folder" = "Klasörü aç";
 "Open link" = "Bağlantıyı aç";
 "Optional title" = "İsteğe bağlı başlık";
@@ -232,7 +232,7 @@
 "Pair a Mac…" = "Mac eşle…";
 "Paired Macs" = "Eşlenmiş Mac’ler";
 "Pairing cancelled or failed. No secret was saved." = "Eşleme iptal edildi veya başarısız oldu. Hiçbir gizli anahtar kaydedilmedi.";
-"Pairing happens once: check that both Macs show the same 6-digit code. The shared secret stays in each Mac’s Keychain. Removing a Mac erases it." = "Eşleme bir kez yapılır: iki Mac’in de aynı 6 haneli kodu gösterdiğini kontrol edin. Paylaşılan gizli anahtar her Mac’in Anahtar Zinciri’nde kalır. Bir Mac’i kaldırmak onu siler.";
+"Pairing happens once: check that both Macs show the same 6-digit code. The shared secret stays on each Mac, readable only by your account. Removing a Mac erases it." = "Eşleme bir kez yapılır: iki Mac’in de aynı 6 haneli kodu gösterdiğini kontrol edin. Paylaşılan gizli anahtar her Mac’te kalır ve yalnızca hesabınız tarafından okunabilir. Bir Mac’i kaldırmak onu siler.";
 "Paper" = "Kâğıt";
 "Paste" = "Yapıştır";
 "Paste as plain text" = "Düz metin olarak yapıştır";
@@ -250,7 +250,7 @@
 "Queue finished" = "Sıra tamamlandı";
 "Queue stopped: this item's content is unavailable." = "Sıra durdu: bu öğenin içeriği kullanılamıyor.";
 "Quick paste" = "Hızlı yapıştırma";
-"Quit Encore" = "Encore’dan çık";
+"Quit Encore" = "encore’dan çık";
 "Recognition failed: %@" = "Tanıma başarısız: %@";
 "Recognize image text" = "Görüntüdeki metni tanı";
 "Recognize text" = "Metni tanı";
@@ -353,7 +353,7 @@
 "Volume" = "Ses düzeyi";
 "Waiting for confirmation on the other Mac…" = "Diğer Mac’te onay bekleniyor…";
 "When no rule matches" = "Hiçbir kural uymadığında";
-"Without access, Encore copies items for you to paste with ⌘V." = "İzin yoksa Encore öğeleri ⌘V ile yapıştırmanız için kopyalar.";
+"Without access, Encore copies items for you to paste with ⌘V." = "İzin yoksa encore öğeleri ⌘V ile yapıştırmanız için kopyalar.";
 "Wood" = "Ahşap";
 "Yesterday" = "Dün";
 "Your clipboard. Yours to keep.\nNative, local, and open source.\nMIT license · github.com/Kamasoutra/encore" = "Panonuz. Kalıcı olarak.\nYerel, cihazda çalışan ve açık kaynak.\nMIT lisansı · github.com/Kamasoutra/encore";
@@ -363,7 +363,7 @@
 "from" = "En az";
 "kB" = "kB";
 "macOS Settings…" = "macOS Ayarları…";
-"macOS has not authorized this version of Encore. If access was already granted, turn Encore off and on in Accessibility. If needed, remove the old entry and add the installed app. Ad-hoc signatures can invalidate access after an update." = "macOS, Encore’un bu sürümüne izin vermedi. Daha önce erişim verdiyseniz Erişilebilirlik’te Encore’u kapatıp yeniden açın. Gerekirse eski girişi kaldırıp yüklü uygulamayı ekleyin. Ad hoc imza, güncellemeden sonra erişimi geçersiz kılabilir.";
+"macOS has not authorized this version of Encore. If access was already granted, turn Encore off and on in Accessibility. If needed, remove the old entry and add the installed app. Ad-hoc signatures can invalidate access after an update." = "macOS, encore’un bu sürümüne izin vermedi. Daha önce erişim verdiyseniz Erişilebilirlik’te encore’u kapatıp yeniden açın. Gerekirse eski girişi kaldırıp yüklü uygulamayı ekleyin. Ad hoc imza, güncellemeden sonra erişimi geçersiz kılabilir.";
 "macOS primary display" = "macOS ana ekranı";
 "navigate" = "gezin";
 "no upper limit" = "üst sınır yok";

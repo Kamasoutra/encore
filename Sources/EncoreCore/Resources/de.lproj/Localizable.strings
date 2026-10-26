@@ -15,8 +15,8 @@
 "90 days" = "90 Tage";
 "A clipboard that fits the way you work." = "Eine Zwischenablage, die sich Ihrer Arbeitsweise anpasst.";
 "A retention rule is invalid." = "Eine Aufbewahrungsregel ist ungültig.";
-"About Encore" = "Über Encore";
-"Accessibility access enables direct and sequential paste. Without it, Encore copies the item for you to paste with ⌘V." = "Mit Zugriff auf die Bedienungshilfen ist direktes Einsetzen und Einsetzen in Folge möglich. Ohne ihn kopiert Encore das Objekt, damit Sie es mit ⌘V einsetzen.";
+"About Encore" = "Über encore";
+"Accessibility access enables direct and sequential paste. Without it, Encore copies the item for you to paste with ⌘V." = "Mit Zugriff auf die Bedienungshilfen ist direktes Einsetzen und Einsetzen in Folge möglich. Ohne ihn kopiert encore das Objekt, damit Sie es mit ⌘V einsetzen.";
 "Active shortcut: %@. Fallback: ⌃⌥⌘V." = "Aktiver Kurzbefehl: %@. Alternative: ⌃⌥⌘V.";
 "Add an app…" = "App hinzufügen …";
 "Add cards, then enable the queue." = "Fügen Sie Karten hinzu und aktivieren Sie dann die Warteschlange.";
@@ -28,7 +28,7 @@
 "All apps" = "Alle Apps";
 "All dates" = "Alle Daten";
 "All types" = "Alle Typen";
-"Allow Encore in Accessibility, then try again." = "Erlauben Sie Encore unter „Bedienungshilfen“ und versuchen Sie es erneut.";
+"Allow Encore in Accessibility, then try again." = "Erlauben Sie encore unter „Bedienungshilfen“ und versuchen Sie es erneut.";
 "Also copy to the clipboard" = "Auch in die Zwischenablage kopieren";
 "App" = "App";
 "Appearance" = "Erscheinungsbild";
@@ -48,7 +48,7 @@
 "Check Now" = "Jetzt suchen";
 "Check that %@ shows the same code." = "Prüfen Sie, ob %@ denselben Code anzeigt.";
 "Choose the folder where macOS saves your screenshots." = "Wählen Sie den Ordner, in dem macOS Ihre Bildschirmfotos sichert.";
-"Choose what Encore keeps. Everything stays on this Mac." = "Legen Sie fest, was Encore behalten darf. Alles bleibt auf diesem Mac.";
+"Choose what Encore keeps. Everything stays on this Mac." = "Legen Sie fest, was encore behalten darf. Alles bleibt auf diesem Mac.";
 "Choose…" = "Auswählen …";
 "Clear" = "Löschen";
 "Clear filters" = "Filter zurücksetzen";
@@ -119,9 +119,9 @@
 "Enable" = "Aktivieren";
 "Enable direct paste" = "Direktes Einsetzen aktivieren";
 "Encode as Base64" = "Als Base64 codieren";
-"Encore remembers this display. If disconnected, it uses the primary display until it returns." = "Encore merkt sich diesen Bildschirm. Ist er nicht angeschlossen, wird bis zu seiner Rückkehr der Hauptbildschirm verwendet.";
-"Encore Settings" = "Encore-Einstellungen";
-"Encore — your clipboard history" = "Encore – Ihr Verlauf der Zwischenablage";
+"Encore remembers this display. If disconnected, it uses the primary display until it returns." = "encore merkt sich diesen Bildschirm. Ist er nicht angeschlossen, wird bis zu seiner Rückkehr der Hauptbildschirm verwendet.";
+"Encore Settings" = "encore-Einstellungen";
+"Encore — your clipboard history" = "encore – Ihr Verlauf der Zwischenablage";
 "Erase the secret shared with %@" = "Mit %@ geteiltes Geheimnis löschen";
 "Essentials" = "Grundlagen";
 "Everyday use" = "Alltag";
@@ -145,7 +145,7 @@
 "File" = "Datei";
 "File size" = "Dateigröße";
 "Files" = "Dateien";
-"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. Storage and backups are unencrypted." = "Dateien werden referenziert, nicht dupliziert. Ihre Größe zählt für die Regeln, aber nicht für das Budget von Encore. Speicher und Backups sind unverschlüsselt.";
+"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. Storage and backups are unencrypted." = "Dateien werden referenziert, nicht dupliziert. Ihre Größe zählt für die Regeln, aber nicht für das Budget von encore. Speicher und Backups sind unverschlüsselt.";
 "Files remain at their original location." = "Dateien bleiben an ihrem ursprünglichen Ort.";
 "Filter by type or app" = "Nach Typ oder App filtern";
 "Filters" = "Filter";
@@ -182,7 +182,7 @@
 "Keep editing" = "Weiter bearbeiten";
 "Kept forever" = "Unbegrenzt aufbewahrt";
 "Keychain Access" = "Schlüsselbundverwaltung";
-"Keychain unavailable: %@" = "Schlüsselbund nicht verfügbar: %@";
+"Pairing unavailable: %@" = "Koppeln nicht verfügbar: %@";
 "Language" = "Sprache";
 "Last copied" = "Zuletzt kopiert";
 "Launch at login" = "Beim Anmelden öffnen";
@@ -196,7 +196,7 @@
 "Load size and duration presets" = "Größen- und Dauerstufen laden";
 "Local library" = "Lokale Bibliothek";
 "Looking for nearby Macs…" = "Suche nach Macs in der Nähe …";
-"macOS has not authorized this version of Encore. If access was already granted, turn Encore off and on in Accessibility. If needed, remove the old entry and add the installed app. Ad-hoc signatures can invalidate access after an update." = "macOS hat diese Version von Encore nicht autorisiert. Wenn Sie den Zugriff bereits erlaubt haben, deaktivieren und aktivieren Sie Encore unter „Bedienungshilfen“ erneut. Entfernen Sie bei Bedarf den alten Eintrag und fügen Sie die installierte App hinzu. Eine Ad-hoc-Signatur kann den Zugriff nach einem Update ungültig machen.";
+"macOS has not authorized this version of Encore. If access was already granted, turn Encore off and on in Accessibility. If needed, remove the old entry and add the installed app. Ad-hoc signatures can invalidate access after an update." = "macOS hat diese Version von encore nicht autorisiert. Wenn Sie den Zugriff bereits erlaubt haben, deaktivieren und aktivieren Sie encore unter „Bedienungshilfen“ erneut. Entfernen Sie bei Bedarf den alten Eintrag und fügen Sie die installierte App hinzu. Eine Ad-hoc-Signatur kann den Zugriff nach einem Update ungültig machen.";
 "macOS primary display" = "Hauptbildschirm von macOS";
 "macOS Settings…" = "Systemeinstellungen …";
 "Manual paste active" = "Manuelles Einsetzen aktiv";
@@ -213,8 +213,8 @@
 "New collection" = "Neue Sammlung";
 "New collection…" = "Neue Sammlung …";
 "New rule" = "Neue Regel";
-"New screenshots in this folder join your history without changing the clipboard. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Neue Bildschirmfotos in diesem Ordner kommen in den Verlauf, ohne die Zwischenablage zu ändern. Der Ordner wird nur überwacht, solange Encore und die Aufzeichnung aktiv sind. Vorhandene Bildschirmfotos werden nicht importiert.";
-"New screenshots in this folder join your history. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Neue Bildschirmfotos in diesem Ordner werden in den Verlauf aufgenommen. Der Ordner wird überwacht, solange Encore und die Aufzeichnung aktiv sind. Vorhandene Bildschirmfotos werden nicht importiert.";
+"New screenshots in this folder join your history without changing the clipboard. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Neue Bildschirmfotos in diesem Ordner kommen in den Verlauf, ohne die Zwischenablage zu ändern. Der Ordner wird nur überwacht, solange encore und die Aufzeichnung aktiv sind. Vorhandene Bildschirmfotos werden nicht importiert.";
+"New screenshots in this folder join your history. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Neue Bildschirmfotos in diesem Ordner werden in den Verlauf aufgenommen. Der Ordner wird überwacht, solange encore und die Aufzeichnung aktiv sind. Vorhandene Bildschirmfotos werden nicht importiert.";
 "New snippet" = "Neuer Textschnipsel";
 "No immediate deletions." = "Nichts wird sofort gelöscht.";
 "No installed apps are excluded" = "Keine ausgeschlossenen Apps installiert";
@@ -229,7 +229,7 @@
 "On paste" = "Einsetzen";
 "Online" = "Online";
 "Open" = "Öffnen";
-"Open Encore" = "Encore öffnen";
+"Open Encore" = "encore öffnen";
 "Open folder" = "Ordner öffnen";
 "Open link" = "Link öffnen";
 "Optional title" = "Optionaler Titel";
@@ -240,7 +240,7 @@
 "Pair a Mac…" = "Mac koppeln …";
 "Paired Macs" = "Gekoppelte Macs";
 "Pairing cancelled or failed. No secret was saved." = "Koppeln abgebrochen oder fehlgeschlagen. Es wurde kein Geheimnis gesichert.";
-"Pairing happens once: check that both Macs show the same 6-digit code. The shared secret stays in each Mac’s Keychain. Removing a Mac erases it." = "Das Koppeln erfolgt nur einmal: Prüfen Sie, ob beide Macs denselben 6-stelligen Code anzeigen. Das gemeinsame Geheimnis bleibt im Schlüsselbund jedes Macs. Beim Entfernen eines Macs wird es gelöscht.";
+"Pairing happens once: check that both Macs show the same 6-digit code. The shared secret stays on each Mac, readable only by your account. Removing a Mac erases it." = "Das Koppeln erfolgt nur einmal: Prüfen Sie, ob beide Macs denselben 6-stelligen Code anzeigen. Das gemeinsame Geheimnis bleibt auf jedem Mac und ist nur für Ihr Benutzerkonto lesbar. Beim Entfernen eines Macs wird es gelöscht.";
 "Paper" = "Papier";
 "Paste" = "Einsetzen";
 "paste" = "einsetzen";
@@ -261,7 +261,7 @@
 "Queue finished" = "Warteschlange abgeschlossen";
 "Queue stopped: this item's content is unavailable." = "Warteschlange gestoppt: Der Inhalt dieses Objekts ist nicht verfügbar.";
 "Quick paste" = "Schnell einsetzen";
-"Quit Encore" = "Encore beenden";
+"Quit Encore" = "encore beenden";
 "Recognition failed: %@" = "Texterkennung fehlgeschlagen: %@";
 "Recognize image text" = "Text im Bild erkennen";
 "Recognize text" = "Text erkennen";
@@ -367,7 +367,7 @@
 "Volume" = "Lautstärke";
 "Waiting for confirmation on the other Mac…" = "Warten auf Bestätigung auf dem anderen Mac …";
 "When no rule matches" = "Wenn keine Regel zutrifft";
-"Without access, Encore copies items for you to paste with ⌘V." = "Ohne Zugriff kopiert Encore die Objekte, damit Sie sie mit ⌘V einsetzen.";
+"Without access, Encore copies items for you to paste with ⌘V." = "Ohne Zugriff kopiert encore die Objekte, damit Sie sie mit ⌘V einsetzen.";
 "Wood" = "Holz";
 "Yesterday" = "Gestern";
 "Your clipboard. Yours to keep.\nNative, local, and open source.\nMIT license · github.com/Kamasoutra/encore" = "Ihre Zwischenablage. Für immer.\nNativ, lokal und Open Source.\nMIT-Lizenz · github.com/Kamasoutra/encore";

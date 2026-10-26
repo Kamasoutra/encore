@@ -15,8 +15,8 @@
 "90 days" = "90 päivää";
 "A clipboard that fits the way you work." = "Leikepöytä, joka mukautuu työtapaasi.";
 "A retention rule is invalid." = "Säilytyssääntö on virheellinen.";
-"About Encore" = "Tietoja Encoresta";
-"Accessibility access enables direct and sequential paste. Without it, Encore copies the item for you to paste with ⌘V." = "Käyttöapu-oikeudella voit käyttää suoraa ja peräkkäistä sijoitusta. Ilman sitä Encore kopioi kohteen, jotta voit sijoittaa sen ⌘V:llä.";
+"About Encore" = "Tietoja encoresta";
+"Accessibility access enables direct and sequential paste. Without it, Encore copies the item for you to paste with ⌘V." = "Käyttöapu-oikeudella voit käyttää suoraa ja peräkkäistä sijoitusta. Ilman sitä encore kopioi kohteen, jotta voit sijoittaa sen ⌘V:llä.";
 "Active shortcut: %@. Fallback: ⌃⌥⌘V." = "Aktiivinen oikotie: %@. Varaoikotie: ⌃⌥⌘V.";
 "Add an app…" = "Lisää appi…";
 "Add cards, then enable the queue." = "Lisää kortteja ja ota sitten jono käyttöön.";
@@ -28,7 +28,7 @@
 "All apps" = "Kaikki apit";
 "All dates" = "Kaikki päivämäärät";
 "All types" = "Kaikki tyypit";
-"Allow Encore in Accessibility, then try again." = "Salli Encore Käyttöapu-kohdassa ja yritä uudelleen.";
+"Allow Encore in Accessibility, then try again." = "Salli encore Käyttöapu-kohdassa ja yritä uudelleen.";
 "Also copy to the clipboard" = "Kopioi myös leikepöydälle";
 "App" = "Appi";
 "Appearance" = "Ulkoasu";
@@ -48,7 +48,7 @@
 "Check Now" = "Tarkista nyt";
 "Check that %@ shows the same code." = "Tarkista, että %@ näyttää saman koodin.";
 "Choose the folder where macOS saves your screenshots." = "Valitse kansio, johon macOS tallentaa kuvakaappauksesi.";
-"Choose what Encore keeps. Everything stays on this Mac." = "Valitse, mitä Encore saa säilyttää. Kaikki pysyy tällä Macilla.";
+"Choose what Encore keeps. Everything stays on this Mac." = "Valitse, mitä encore saa säilyttää. Kaikki pysyy tällä Macilla.";
 "Choose…" = "Valitse…";
 "Clear" = "Tyhjennä";
 "Clear filters" = "Tyhjennä suodattimet";
@@ -119,9 +119,9 @@
 "Enable" = "Ota käyttöön";
 "Enable direct paste" = "Ota suora sijoitus käyttöön";
 "Encode as Base64" = "Koodaa Base64-muotoon";
-"Encore remembers this display. If disconnected, it uses the primary display until it returns." = "Encore muistaa tämän näytön. Jos se irrotetaan, käytetään päänäyttöä, kunnes se palaa.";
-"Encore Settings" = "Encoren asetukset";
-"Encore — your clipboard history" = "Encore – leikepöytäsi historia";
+"Encore remembers this display. If disconnected, it uses the primary display until it returns." = "encore muistaa tämän näytön. Jos se irrotetaan, käytetään päänäyttöä, kunnes se palaa.";
+"Encore Settings" = "encoren asetukset";
+"Encore — your clipboard history" = "encore – leikepöytäsi historia";
 "Erase the secret shared with %@" = "Poista Macin %@ kanssa jaettu salaisuus";
 "Essentials" = "Perusteet";
 "Everyday use" = "Päivittäinen käyttö";
@@ -145,7 +145,7 @@
 "File" = "Tiedosto";
 "File size" = "Tiedostokoko";
 "Files" = "Tiedostot";
-"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. Storage and backups are unencrypted." = "Tiedostoihin viitataan, eikä niitä monisteta. Niiden koko lasketaan sääntöihin mutta ei Encoren kiintiöön. Tallennustila ja varmuuskopiot ovat salaamattomia.";
+"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. Storage and backups are unencrypted." = "Tiedostoihin viitataan, eikä niitä monisteta. Niiden koko lasketaan sääntöihin mutta ei encoren kiintiöön. Tallennustila ja varmuuskopiot ovat salaamattomia.";
 "Files remain at their original location." = "Tiedostot pysyvät alkuperäisessä sijainnissaan.";
 "Filter by type or app" = "Suodata tyypin tai apin mukaan";
 "Filters" = "Suodattimet";
@@ -182,7 +182,7 @@
 "Keep editing" = "Jatka muokkausta";
 "Kept forever" = "Säilytetään pysyvästi";
 "Keychain Access" = "Avainnippujen hallinta";
-"Keychain unavailable: %@" = "Avainnippu ei ole käytettävissä: %@";
+"Pairing unavailable: %@" = "Pariliitos ei ole käytettävissä: %@";
 "Language" = "Kieli";
 "Last copied" = "Viimeksi kopioitu";
 "Launch at login" = "Avaa sisäänkirjautuessa";
@@ -196,7 +196,7 @@
 "Load size and duration presets" = "Lataa koko- ja kestoportaat";
 "Local library" = "Paikallinen kirjasto";
 "Looking for nearby Macs…" = "Etsitään lähellä olevia Maceja…";
-"macOS has not authorized this version of Encore. If access was already granted, turn Encore off and on in Accessibility. If needed, remove the old entry and add the installed app. Ad-hoc signatures can invalidate access after an update." = "macOS ei ole hyväksynyt tätä Encoren versiota. Jos olet jo antanut oikeuden, poista Encore käytöstä ja ota se uudelleen käyttöön Käyttöapu-kohdassa. Poista tarvittaessa vanha merkintä ja lisää asennettu appi. Ad hoc -allekirjoitus voi mitätöidä oikeuden päivityksen jälkeen.";
+"macOS has not authorized this version of Encore. If access was already granted, turn Encore off and on in Accessibility. If needed, remove the old entry and add the installed app. Ad-hoc signatures can invalidate access after an update." = "macOS ei ole hyväksynyt tätä encoren versiota. Jos olet jo antanut oikeuden, poista encore käytöstä ja ota se uudelleen käyttöön Käyttöapu-kohdassa. Poista tarvittaessa vanha merkintä ja lisää asennettu appi. Ad hoc -allekirjoitus voi mitätöidä oikeuden päivityksen jälkeen.";
 "macOS primary display" = "macOS:n päänäyttö";
 "macOS Settings…" = "Järjestelmäasetukset…";
 "Manual paste active" = "Manuaalinen sijoitus käytössä";
@@ -213,8 +213,8 @@
 "New collection" = "Uusi kokoelma";
 "New collection…" = "Uusi kokoelma…";
 "New rule" = "Uusi sääntö";
-"New screenshots in this folder join your history without changing the clipboard. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Tämän kansion uudet kuvakaappaukset lisätään historiaan muuttamatta leikepöytää. Kansiota valvotaan vain, kun Encore ja tallennus ovat käytössä. Olemassa olevia kuvakaappauksia ei tuoda.";
-"New screenshots in this folder join your history. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Tämän kansion uudet kuvakaappaukset lisätään historiaan. Kansiota valvotaan vain, kun Encore ja tallennus ovat käytössä. Olemassa olevia kuvakaappauksia ei tuoda.";
+"New screenshots in this folder join your history without changing the clipboard. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Tämän kansion uudet kuvakaappaukset lisätään historiaan muuttamatta leikepöytää. Kansiota valvotaan vain, kun encore ja tallennus ovat käytössä. Olemassa olevia kuvakaappauksia ei tuoda.";
+"New screenshots in this folder join your history. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Tämän kansion uudet kuvakaappaukset lisätään historiaan. Kansiota valvotaan vain, kun encore ja tallennus ovat käytössä. Olemassa olevia kuvakaappauksia ei tuoda.";
 "New snippet" = "Uusi tekstikatkelma";
 "No immediate deletions." = "Mitään ei poisteta heti.";
 "No installed apps are excluded" = "Ohitettavia appeja ei ole asennettu";
@@ -229,7 +229,7 @@
 "On paste" = "Sijoitus";
 "Online" = "Verkossa";
 "Open" = "Avaa";
-"Open Encore" = "Avaa Encore";
+"Open Encore" = "Avaa encore";
 "Open folder" = "Avaa kansio";
 "Open link" = "Avaa linkki";
 "Optional title" = "Valinnainen otsikko";
@@ -240,7 +240,7 @@
 "Pair a Mac…" = "Pariliitä Mac…";
 "Paired Macs" = "Pariliitetyt Macit";
 "Pairing cancelled or failed. No secret was saved." = "Pariliitos kumottiin tai epäonnistui. Salaisuutta ei tallennettu.";
-"Pairing happens once: check that both Macs show the same 6-digit code. The shared secret stays in each Mac’s Keychain. Removing a Mac erases it." = "Pariliitos tehdään kerran: tarkista, että molemmat Macit näyttävät saman 6-numeroisen koodin. Jaettu salaisuus pysyy kunkin Macin avainnipussa. Macin poistaminen poistaa sen.";
+"Pairing happens once: check that both Macs show the same 6-digit code. The shared secret stays on each Mac, readable only by your account. Removing a Mac erases it." = "Pariliitos tehdään kerran: tarkista, että molemmat Macit näyttävät saman 6-numeroisen koodin. Jaettu salaisuus pysyy kussakin Macissa, ja vain oma käyttäjätilisi voi lukea sen. Macin poistaminen poistaa sen.";
 "Paper" = "Paperi";
 "Paste" = "Sijoita";
 "paste" = "sijoita";
@@ -261,7 +261,7 @@
 "Queue finished" = "Jono valmis";
 "Queue stopped: this item's content is unavailable." = "Jono pysäytettiin: kohteen sisältö ei ole saatavilla.";
 "Quick paste" = "Pikasijoitus";
-"Quit Encore" = "Lopeta Encore";
+"Quit Encore" = "Lopeta encore";
 "Recognition failed: %@" = "Tunnistus epäonnistui: %@";
 "Recognize image text" = "Tunnista kuvan teksti";
 "Recognize text" = "Tunnista teksti";
@@ -367,7 +367,7 @@
 "Volume" = "Äänenvoimakkuus";
 "Waiting for confirmation on the other Mac…" = "Odotetaan vahvistusta toiselta Macilta…";
 "When no rule matches" = "Kun mikään sääntö ei täsmää";
-"Without access, Encore copies items for you to paste with ⌘V." = "Ilman oikeutta Encore kopioi kohteet, jotta voit sijoittaa ne ⌘V:llä.";
+"Without access, Encore copies items for you to paste with ⌘V." = "Ilman oikeutta encore kopioi kohteet, jotta voit sijoittaa ne ⌘V:llä.";
 "Wood" = "Puu";
 "Yesterday" = "Eilen";
 "Your clipboard. Yours to keep.\nNative, local, and open source.\nMIT license · github.com/Kamasoutra/encore" = "Leikepöytäsi. Pysyvästi.\nNatiivi, paikallinen ja avoimen lähdekoodin.\nMIT-lisenssi · github.com/Kamasoutra/encore";

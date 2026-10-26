@@ -15,8 +15,8 @@
 "90 days" = "90 dní";
 "A clipboard that fits the way you work." = "Schránka, která se přizpůsobí vašemu způsobu práce.";
 "A retention rule is invalid." = "Jedno z pravidel uchovávání je neplatné.";
-"About Encore" = "O aplikaci Encore";
-"Accessibility access enables direct and sequential paste. Without it, Encore copies the item for you to paste with ⌘V." = "Oprávnění Zpřístupnění umožňuje přímé a postupné vkládání. Bez něj Encore položku jen zkopíruje a vy ji vložíte pomocí ⌘V.";
+"About Encore" = "O aplikaci encore";
+"Accessibility access enables direct and sequential paste. Without it, Encore copies the item for you to paste with ⌘V." = "Oprávnění Zpřístupnění umožňuje přímé a postupné vkládání. Bez něj encore položku jen zkopíruje a vy ji vložíte pomocí ⌘V.";
 "Active shortcut: %@. Fallback: ⌃⌥⌘V." = "Aktivní zkratka: %@. Záložní: ⌃⌥⌘V.";
 "Add an app…" = "Přidat aplikaci…";
 "Add cards, then enable the queue." = "Přidejte karty a potom zapněte frontu.";
@@ -28,7 +28,7 @@
 "All apps" = "Všechny aplikace";
 "All dates" = "Všechna data";
 "All types" = "Všechny typy";
-"Allow Encore in Accessibility, then try again." = "Povolte Encore v nastavení Zpřístupnění a zkuste to znovu.";
+"Allow Encore in Accessibility, then try again." = "Povolte encore v nastavení Zpřístupnění a zkuste to znovu.";
 "Also copy to the clipboard" = "Zkopírovat také do schránky";
 "App" = "Aplikace";
 "Appearance" = "Vzhled";
@@ -48,7 +48,7 @@
 "Check Now" = "Vyhledat nyní";
 "Check that %@ shows the same code." = "Ověřte, že %@ zobrazuje stejný kód.";
 "Choose the folder where macOS saves your screenshots." = "Vyberte složku, do které macOS ukládá vaše snímky obrazovky.";
-"Choose what Encore keeps. Everything stays on this Mac." = "Vyberte, co si Encore může uchovávat. Vše zůstává na tomto Macu.";
+"Choose what Encore keeps. Everything stays on this Mac." = "Vyberte, co si encore může uchovávat. Vše zůstává na tomto Macu.";
 "Choose…" = "Vybrat…";
 "Clear" = "Vymazat";
 "Clear filters" = "Vymazat filtry";
@@ -119,9 +119,9 @@
 "Enable" = "Zapnout";
 "Enable direct paste" = "Zapnout přímé vkládání";
 "Encode as Base64" = "Kódovat do Base64";
-"Encore remembers this display. If disconnected, it uses the primary display until it returns." = "Encore si vybraný monitor pamatuje. Když je odpojen, používá hlavní monitor, dokud se vybraný znovu nepřipojí.";
-"Encore Settings" = "Nastavení Encore";
-"Encore — your clipboard history" = "Encore – vaše historie schránky";
+"Encore remembers this display. If disconnected, it uses the primary display until it returns." = "encore si vybraný monitor pamatuje. Když je odpojen, používá hlavní monitor, dokud se vybraný znovu nepřipojí.";
+"Encore Settings" = "Nastavení encore";
+"Encore — your clipboard history" = "encore – vaše historie schránky";
 "Erase the secret shared with %@" = "Smazat tajný klíč sdílený se zařízením %@";
 "Essentials" = "Základy";
 "Everyday use" = "Každodenní použití";
@@ -145,7 +145,7 @@
 "File" = "Soubor";
 "File size" = "Velikost souborů";
 "Files" = "Soubory";
-"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. Storage and backups are unencrypted." = "Na soubory se jen odkazuje, neduplikují se. Jejich velikost se uplatňuje v pravidlech, ale nečerpá limit Encore. Úložiště ani zálohy nejsou šifrované.";
+"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. Storage and backups are unencrypted." = "Na soubory se jen odkazuje, neduplikují se. Jejich velikost se uplatňuje v pravidlech, ale nečerpá limit encore. Úložiště ani zálohy nejsou šifrované.";
 "Files remain at their original location." = "Soubory zůstávají v původním umístění.";
 "Filter by type or app" = "Filtrovat podle typu nebo aplikace";
 "Filters" = "Filtry";
@@ -182,7 +182,7 @@
 "Keep editing" = "Pokračovat v úpravách";
 "Kept forever" = "Uchováváno trvale";
 "Keychain Access" = "Klíčenka";
-"Keychain unavailable: %@" = "Klíčenka není dostupná: %@";
+"Pairing unavailable: %@" = "Párování není k dispozici: %@";
 "Language" = "Jazyk";
 "Last copied" = "Naposledy zkopírováno";
 "Launch at login" = "Otevírat při přihlášení";
@@ -196,7 +196,7 @@
 "Load size and duration presets" = "Načíst stupně velikosti a doby";
 "Local library" = "Lokální knihovna";
 "Looking for nearby Macs…" = "Hledání Maců v okolí…";
-"macOS has not authorized this version of Encore. If access was already granted, turn Encore off and on in Accessibility. If needed, remove the old entry and add the installed app. Ad-hoc signatures can invalidate access after an update." = "macOS tuto verzi Encore neautorizoval. Pokud jste přístup už udělili, vypněte a znovu zapněte Encore v nastavení Zpřístupnění. V případě potřeby odstraňte starou položku a přidejte nainstalovanou aplikaci. Podpis ad hoc může po aktualizaci přístup zneplatnit.";
+"macOS has not authorized this version of Encore. If access was already granted, turn Encore off and on in Accessibility. If needed, remove the old entry and add the installed app. Ad-hoc signatures can invalidate access after an update." = "macOS tuto verzi encore neautorizoval. Pokud jste přístup už udělili, vypněte a znovu zapněte encore v nastavení Zpřístupnění. V případě potřeby odstraňte starou položku a přidejte nainstalovanou aplikaci. Podpis ad hoc může po aktualizaci přístup zneplatnit.";
 "macOS primary display" = "Hlavní monitor macOS";
 "macOS Settings…" = "Nastavení macOS…";
 "Manual paste active" = "Aktivní ruční vkládání";
@@ -213,8 +213,8 @@
 "New collection" = "Nová sbírka";
 "New collection…" = "Nová sbírka…";
 "New rule" = "Nové pravidlo";
-"New screenshots in this folder join your history without changing the clipboard. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Nové snímky obrazovky z této složky se přidají do historie bez změny schránky. Složka se sleduje, jen když je Encore i zaznamenávání aktivní. Stávající snímky se neimportují.";
-"New screenshots in this folder join your history. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Nové snímky obrazovky z této složky se přidají do historie. Složka se sleduje, jen když je Encore i zaznamenávání aktivní. Stávající snímky se neimportují.";
+"New screenshots in this folder join your history without changing the clipboard. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Nové snímky obrazovky z této složky se přidají do historie bez změny schránky. Složka se sleduje, jen když je encore i zaznamenávání aktivní. Stávající snímky se neimportují.";
+"New screenshots in this folder join your history. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Nové snímky obrazovky z této složky se přidají do historie. Složka se sleduje, jen když je encore i zaznamenávání aktivní. Stávající snímky se neimportují.";
 "New snippet" = "Nový úryvek";
 "No immediate deletions." = "Nic nebude okamžitě smazáno.";
 "No installed apps are excluded" = "Není nainstalována žádná vyloučená aplikace";
@@ -229,7 +229,7 @@
 "On paste" = "Vkládání";
 "Online" = "Dostupný";
 "Open" = "Otevřít";
-"Open Encore" = "Otevřít Encore";
+"Open Encore" = "Otevřít encore";
 "Open folder" = "Otevřít složku";
 "Open link" = "Otevřít odkaz";
 "Optional title" = "Volitelný název";
@@ -240,7 +240,7 @@
 "Pair a Mac…" = "Spárovat Mac…";
 "Paired Macs" = "Spárované Macy";
 "Pairing cancelled or failed. No secret was saved." = "Párování bylo zrušeno nebo se nezdařilo. Žádný tajný klíč nebyl uložen.";
-"Pairing happens once: check that both Macs show the same 6-digit code. The shared secret stays in each Mac’s Keychain. Removing a Mac erases it." = "Párování proběhne jen jednou: ověřte, že oba Macy zobrazují stejný šestimístný kód. Sdílený tajný klíč zůstává v Klíčence každého Macu. Odebráním Macu se smaže.";
+"Pairing happens once: check that both Macs show the same 6-digit code. The shared secret stays on each Mac, readable only by your account. Removing a Mac erases it." = "Párování proběhne jen jednou: ověřte, že oba Macy zobrazují stejný šestimístný kód. Sdílený tajný klíč zůstává na každém Macu a může ho číst jen váš účet. Odebráním Macu se smaže.";
 "Paper" = "Papír";
 "Paste" = "Vložit";
 "paste" = "vložit";
@@ -261,7 +261,7 @@
 "Queue finished" = "Fronta dokončena";
 "Queue stopped: this item's content is unavailable." = "Fronta zastavena: obsah položky není dostupný.";
 "Quick paste" = "Rychlé vkládání";
-"Quit Encore" = "Ukončit Encore";
+"Quit Encore" = "Ukončit encore";
 "Recognition failed: %@" = "Rozpoznání se nezdařilo: %@";
 "Recognize image text" = "Rozpoznat text v obrázku";
 "Recognize text" = "Rozpoznat text";
@@ -367,7 +367,7 @@
 "Volume" = "Hlasitost";
 "Waiting for confirmation on the other Mac…" = "Čeká se na potvrzení na druhém Macu…";
 "When no rule matches" = "Když žádné pravidlo neodpovídá";
-"Without access, Encore copies items for you to paste with ⌘V." = "Bez oprávnění Encore položky jen zkopíruje a vy je vložíte pomocí ⌘V.";
+"Without access, Encore copies items for you to paste with ⌘V." = "Bez oprávnění encore položky jen zkopíruje a vy je vložíte pomocí ⌘V.";
 "Wood" = "Dřevo";
 "Yesterday" = "Včera";
 "Your clipboard. Yours to keep.\nNative, local, and open source.\nMIT license · github.com/Kamasoutra/encore" = "Vaše schránka. Napořád.\nNativní, lokální a open source aplikace.\nLicence MIT · github.com/Kamasoutra/encore";

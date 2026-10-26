@@ -15,8 +15,8 @@
 "90 days" = "90 ημέρες";
 "A clipboard that fits the way you work." = "Ένα πρόχειρο που προσαρμόζεται στον τρόπο που δουλεύετε.";
 "A retention rule is invalid." = "Ένας κανόνας διατήρησης δεν είναι έγκυρος.";
-"About Encore" = "Πληροφορίες για το Encore";
-"Accessibility access enables direct and sequential paste. Without it, Encore copies the item for you to paste with ⌘V." = "Η πρόσβαση στην Προσβασιμότητα επιτρέπει την άμεση και τη διαδοχική επικόλληση. Χωρίς αυτήν, το Encore αντιγράφει το στοιχείο για να το επικολλήσετε με ⌘V.";
+"About Encore" = "Πληροφορίες για το encore";
+"Accessibility access enables direct and sequential paste. Without it, Encore copies the item for you to paste with ⌘V." = "Η πρόσβαση στην Προσβασιμότητα επιτρέπει την άμεση και τη διαδοχική επικόλληση. Χωρίς αυτήν, το encore αντιγράφει το στοιχείο για να το επικολλήσετε με ⌘V.";
 "Active shortcut: %@. Fallback: ⌃⌥⌘V." = "Ενεργή συντόμευση: %@. Εναλλακτική: ⌃⌥⌘V.";
 "Add an app…" = "Προσθήκη εφαρμογής…";
 "Add cards, then enable the queue." = "Προσθέστε κάρτες και ενεργοποιήστε την ουρά.";
@@ -28,7 +28,7 @@
 "All apps" = "Όλες οι εφαρμογές";
 "All dates" = "Όλες οι ημερομηνίες";
 "All types" = "Όλοι οι τύποι";
-"Allow Encore in Accessibility, then try again." = "Επιτρέψτε το Encore στην Προσβασιμότητα και δοκιμάστε ξανά.";
+"Allow Encore in Accessibility, then try again." = "Επιτρέψτε το encore στην Προσβασιμότητα και δοκιμάστε ξανά.";
 "Also copy to the clipboard" = "Αντιγραφή και στο πρόχειρο";
 "App" = "Εφαρμογή";
 "Appearance" = "Εμφάνιση";
@@ -48,7 +48,7 @@
 "Check Now" = "Έλεγχος τώρα";
 "Check that %@ shows the same code." = "Ελέγξτε ότι το %@ εμφανίζει τον ίδιο κωδικό.";
 "Choose the folder where macOS saves your screenshots." = "Επιλέξτε τον φάκελο όπου το macOS αποθηκεύει τα στιγμιότυπα οθόνης.";
-"Choose what Encore keeps. Everything stays on this Mac." = "Επιλέξτε τι διατηρεί το Encore. Όλα μένουν σε αυτό το Mac.";
+"Choose what Encore keeps. Everything stays on this Mac." = "Επιλέξτε τι διατηρεί το encore. Όλα μένουν σε αυτό το Mac.";
 "Choose…" = "Επιλογή…";
 "Clear" = "Καθαρισμός";
 "Clear filters" = "Καθαρισμός φίλτρων";
@@ -119,9 +119,9 @@
 "Enable" = "Ενεργοποίηση";
 "Enable direct paste" = "Ενεργοποίηση άμεσης επικόλλησης";
 "Encode as Base64" = "Κωδικοποίηση σε Base64";
-"Encore remembers this display. If disconnected, it uses the primary display until it returns." = "Το Encore θυμάται αυτήν την οθόνη. Αν αποσυνδεθεί, χρησιμοποιεί την κύρια οθόνη μέχρι να επανέλθει.";
-"Encore Settings" = "Ρυθμίσεις Encore";
-"Encore — your clipboard history" = "Encore — το ιστορικό του προχείρου σας";
+"Encore remembers this display. If disconnected, it uses the primary display until it returns." = "Το encore θυμάται αυτήν την οθόνη. Αν αποσυνδεθεί, χρησιμοποιεί την κύρια οθόνη μέχρι να επανέλθει.";
+"Encore Settings" = "Ρυθμίσεις encore";
+"Encore — your clipboard history" = "encore — το ιστορικό του προχείρου σας";
 "Erase the secret shared with %@" = "Διαγραφή του μυστικού που μοιράζεστε με το %@";
 "Essentials" = "Βασικά";
 "Everyday use" = "Καθημερινή χρήση";
@@ -145,7 +145,7 @@
 "File" = "Αρχείο";
 "File size" = "Μέγεθος αρχείου";
 "Files" = "Αρχεία";
-"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. Storage and backups are unencrypted." = "Τα αρχεία δεν αντιγράφονται, μόνο αναφέρονται. Το μέγεθός τους μετρά για τους κανόνες διατήρησης αλλά δεν καταλαμβάνει χώρο του Encore. Ο χώρος αποθήκευσης και τα αντίγραφα ασφαλείας δεν είναι κρυπτογραφημένα.";
+"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. Storage and backups are unencrypted." = "Τα αρχεία δεν αντιγράφονται, μόνο αναφέρονται. Το μέγεθός τους μετρά για τους κανόνες διατήρησης αλλά δεν καταλαμβάνει χώρο του encore. Ο χώρος αποθήκευσης και τα αντίγραφα ασφαλείας δεν είναι κρυπτογραφημένα.";
 "Files remain at their original location." = "Τα αρχεία παραμένουν στην αρχική τους θέση.";
 "Filter by type or app" = "Φιλτράρισμα κατά τύπο ή εφαρμογή";
 "Filters" = "Φίλτρα";
@@ -182,7 +182,7 @@
 "Keep editing" = "Συνέχεια επεξεργασίας";
 "Kept forever" = "Διατηρείται για πάντα";
 "Keychain Access" = "Πρόσβαση στην κλειδοθήκη";
-"Keychain unavailable: %@" = "Η κλειδοθήκη δεν είναι διαθέσιμη: %@";
+"Pairing unavailable: %@" = "Η σύζευξη δεν είναι διαθέσιμη: %@";
 "Language" = "Γλώσσα";
 "Last copied" = "Τελευταία αντιγραφή";
 "Launch at login" = "Άνοιγμα κατά τη σύνδεση";
@@ -196,7 +196,7 @@
 "Load size and duration presets" = "Φόρτωση προκαθορισμένων μεγεθών και διαρκειών";
 "Local library" = "Τοπική βιβλιοθήκη";
 "Looking for nearby Macs…" = "Αναζήτηση κοντινών Mac…";
-"macOS has not authorized this version of Encore. If access was already granted, turn Encore off and on in Accessibility. If needed, remove the old entry and add the installed app. Ad-hoc signatures can invalidate access after an update." = "Το macOS δεν έχει εξουσιοδοτήσει αυτήν την έκδοση του Encore. Αν η πρόσβαση έχει ήδη παραχωρηθεί, απενεργοποιήστε και ενεργοποιήστε ξανά το Encore στην Προσβασιμότητα. Αν χρειάζεται, αφαιρέστε την παλιά καταχώριση και προσθέστε την εγκατεστημένη εφαρμογή. Οι υπογραφές ad hoc μπορεί να ακυρώσουν την πρόσβαση μετά από ενημέρωση.";
+"macOS has not authorized this version of Encore. If access was already granted, turn Encore off and on in Accessibility. If needed, remove the old entry and add the installed app. Ad-hoc signatures can invalidate access after an update." = "Το macOS δεν έχει εξουσιοδοτήσει αυτήν την έκδοση του encore. Αν η πρόσβαση έχει ήδη παραχωρηθεί, απενεργοποιήστε και ενεργοποιήστε ξανά το encore στην Προσβασιμότητα. Αν χρειάζεται, αφαιρέστε την παλιά καταχώριση και προσθέστε την εγκατεστημένη εφαρμογή. Οι υπογραφές ad hoc μπορεί να ακυρώσουν την πρόσβαση μετά από ενημέρωση.";
 "macOS primary display" = "Κύρια οθόνη του macOS";
 "macOS Settings…" = "Ρυθμίσεις macOS…";
 "Manual paste active" = "Ενεργή χειροκίνητη επικόλληση";
@@ -213,8 +213,8 @@
 "New collection" = "Νέα συλλογή";
 "New collection…" = "Νέα συλλογή…";
 "New rule" = "Νέος κανόνας";
-"New screenshots in this folder join your history without changing the clipboard. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Τα νέα στιγμιότυπα οθόνης σε αυτόν τον φάκελο προστίθενται στο ιστορικό χωρίς να αλλάζει το πρόχειρο. Ο φάκελος παρακολουθείται όσο το Encore και η καταγραφή είναι ενεργά. Τα υπάρχοντα στιγμιότυπα δεν εισάγονται.";
-"New screenshots in this folder join your history. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Τα νέα στιγμιότυπα οθόνης σε αυτόν τον φάκελο προστίθενται στο ιστορικό. Ο φάκελος παρακολουθείται όσο το Encore και η καταγραφή είναι ενεργά. Τα υπάρχοντα στιγμιότυπα δεν εισάγονται.";
+"New screenshots in this folder join your history without changing the clipboard. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Τα νέα στιγμιότυπα οθόνης σε αυτόν τον φάκελο προστίθενται στο ιστορικό χωρίς να αλλάζει το πρόχειρο. Ο φάκελος παρακολουθείται όσο το encore και η καταγραφή είναι ενεργά. Τα υπάρχοντα στιγμιότυπα δεν εισάγονται.";
+"New screenshots in this folder join your history. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Τα νέα στιγμιότυπα οθόνης σε αυτόν τον φάκελο προστίθενται στο ιστορικό. Ο φάκελος παρακολουθείται όσο το encore και η καταγραφή είναι ενεργά. Τα υπάρχοντα στιγμιότυπα δεν εισάγονται.";
 "New snippet" = "Νέο απόσπασμα";
 "No immediate deletions." = "Καμία άμεση διαγραφή.";
 "No installed apps are excluded" = "Δεν εξαιρούνται εγκατεστημένες εφαρμογές";
@@ -229,7 +229,7 @@
 "On paste" = "Κατά την επικόλληση";
 "Online" = "Συνδεδεμένο";
 "Open" = "Άνοιγμα";
-"Open Encore" = "Άνοιγμα του Encore";
+"Open Encore" = "Άνοιγμα του encore";
 "Open folder" = "Άνοιγμα φακέλου";
 "Open link" = "Άνοιγμα συνδέσμου";
 "Optional title" = "Προαιρετικός τίτλος";
@@ -240,7 +240,7 @@
 "Pair a Mac…" = "Σύζευξη Mac…";
 "Paired Macs" = "Mac σε σύζευξη";
 "Pairing cancelled or failed. No secret was saved." = "Η σύζευξη ακυρώθηκε ή απέτυχε. Δεν αποθηκεύτηκε κανένα μυστικό.";
-"Pairing happens once: check that both Macs show the same 6-digit code. The shared secret stays in each Mac’s Keychain. Removing a Mac erases it." = "Η σύζευξη γίνεται μία φορά: ελέγξτε ότι και τα δύο Mac εμφανίζουν τον ίδιο 6ψήφιο κωδικό. Το κοινό μυστικό μένει στην κλειδοθήκη κάθε Mac. Η αφαίρεση ενός Mac το διαγράφει.";
+"Pairing happens once: check that both Macs show the same 6-digit code. The shared secret stays on each Mac, readable only by your account. Removing a Mac erases it." = "Η σύζευξη γίνεται μία φορά: ελέγξτε ότι και τα δύο Mac εμφανίζουν τον ίδιο 6ψήφιο κωδικό. Το κοινό μυστικό μένει σε κάθε Mac και μπορεί να το διαβάσει μόνο ο λογαριασμός σας. Η αφαίρεση ενός Mac το διαγράφει.";
 "Paper" = "Χαρτί";
 "Paste" = "Επικόλληση";
 "paste" = "επικόλληση";
@@ -261,7 +261,7 @@
 "Queue finished" = "Η ουρά ολοκληρώθηκε";
 "Queue stopped: this item's content is unavailable." = "Η ουρά διακόπηκε: το περιεχόμενο αυτού του στοιχείου δεν είναι διαθέσιμο.";
 "Quick paste" = "Γρήγορη επικόλληση";
-"Quit Encore" = "Έξοδος από Encore";
+"Quit Encore" = "Έξοδος από encore";
 "Recognition failed: %@" = "Αποτυχία αναγνώρισης: %@";
 "Recognize image text" = "Αναγνώριση κειμένου εικόνας";
 "Recognize text" = "Αναγνώριση κειμένου";
@@ -367,7 +367,7 @@
 "Volume" = "Ένταση";
 "Waiting for confirmation on the other Mac…" = "Αναμονή για επιβεβαίωση στο άλλο Mac…";
 "When no rule matches" = "Όταν δεν ταιριάζει κανένας κανόνας";
-"Without access, Encore copies items for you to paste with ⌘V." = "Χωρίς πρόσβαση, το Encore αντιγράφει τα στοιχεία για να τα επικολλήσετε με ⌘V.";
+"Without access, Encore copies items for you to paste with ⌘V." = "Χωρίς πρόσβαση, το encore αντιγράφει τα στοιχεία για να τα επικολλήσετε με ⌘V.";
 "Wood" = "Ξύλο";
 "Yesterday" = "Χθες";
 "Your clipboard. Yours to keep.\nNative, local, and open source.\nMIT license · github.com/Kamasoutra/encore" = "Το πρόχειρό σας. Δικό σας.\nΕγγενές, τοπικό και ανοιχτού κώδικα.\nΆδεια MIT · github.com/Kamasoutra/encore";

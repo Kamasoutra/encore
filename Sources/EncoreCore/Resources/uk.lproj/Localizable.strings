@@ -15,8 +15,8 @@
 "90 days" = "90 днів";
 "A clipboard that fits the way you work." = "Буфер обміну, що підлаштовується під ваш спосіб роботи.";
 "A retention rule is invalid." = "Одне з правил зберігання недійсне.";
-"About Encore" = "Про Encore";
-"Accessibility access enables direct and sequential paste. Without it, Encore copies the item for you to paste with ⌘V." = "Дозвіл у розділі «Доступність» дає змогу використовувати пряме й послідовне вставлення. Без нього Encore лише копіює елемент, а вставити його можна вручну за допомогою ⌘V.";
+"About Encore" = "Про encore";
+"Accessibility access enables direct and sequential paste. Without it, Encore copies the item for you to paste with ⌘V." = "Дозвіл у розділі «Доступність» дає змогу використовувати пряме й послідовне вставлення. Без нього encore лише копіює елемент, а вставити його можна вручну за допомогою ⌘V.";
 "Active shortcut: %@. Fallback: ⌃⌥⌘V." = "Активне скорочення: %@. Запасне: ⌃⌥⌘V.";
 "Add an app…" = "Додати програму…";
 "Add cards, then enable the queue." = "Додайте картки, а потім увімкніть чергу.";
@@ -28,7 +28,7 @@
 "All apps" = "Усі програми";
 "All dates" = "Усі дати";
 "All types" = "Усі типи";
-"Allow Encore in Accessibility, then try again." = "Дозвольте доступ для Encore у розділі «Доступність» і спробуйте ще раз.";
+"Allow Encore in Accessibility, then try again." = "Дозвольте доступ для encore у розділі «Доступність» і спробуйте ще раз.";
 "Also copy to the clipboard" = "Також копіювати в буфер обміну";
 "App" = "Програма";
 "Appearance" = "Вигляд";
@@ -48,7 +48,7 @@
 "Check Now" = "Перевірити зараз";
 "Check that %@ shows the same code." = "Переконайтеся, що на %@ показано той самий код.";
 "Choose the folder where macOS saves your screenshots." = "Виберіть папку, у яку macOS зберігає знімки екрана.";
-"Choose what Encore keeps. Everything stays on this Mac." = "Виберіть, що може зберігати Encore. Усе залишається на цьому Mac.";
+"Choose what Encore keeps. Everything stays on this Mac." = "Виберіть, що може зберігати encore. Усе залишається на цьому Mac.";
 "Choose…" = "Вибрати…";
 "Clear" = "Очистити";
 "Clear filters" = "Скинути фільтри";
@@ -119,9 +119,9 @@
 "Enable" = "Увімкнути";
 "Enable direct paste" = "Увімкнути пряме вставлення";
 "Encode as Base64" = "Кодувати в Base64";
-"Encore remembers this display. If disconnected, it uses the primary display until it returns." = "Encore запам’ятовує вибраний дисплей. Якщо його від’єднано, використовується основний дисплей, доки вибраний не буде під’єднано знову.";
-"Encore Settings" = "Параметри Encore";
-"Encore — your clipboard history" = "Encore — історія буфера обміну";
+"Encore remembers this display. If disconnected, it uses the primary display until it returns." = "encore запам’ятовує вибраний дисплей. Якщо його від’єднано, використовується основний дисплей, доки вибраний не буде під’єднано знову.";
+"Encore Settings" = "Параметри encore";
+"Encore — your clipboard history" = "encore — історія буфера обміну";
 "Erase the secret shared with %@" = "Стерти секретний ключ, спільний із пристроєм %@";
 "Essentials" = "Основне";
 "Everyday use" = "На щодень";
@@ -145,7 +145,7 @@
 "File" = "Файл";
 "File size" = "Розмір файлів";
 "Files" = "Файли";
-"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. Storage and backups are unencrypted." = "Файли зберігаються як посилання, без копіювання. Їхній розмір враховується в правилах, але не витрачає ліміт Encore. Сховище й резервні копії не шифруються.";
+"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. Storage and backups are unencrypted." = "Файли зберігаються як посилання, без копіювання. Їхній розмір враховується в правилах, але не витрачає ліміт encore. Сховище й резервні копії не шифруються.";
 "Files remain at their original location." = "Файли залишаються в оригінальному розташуванні.";
 "Filter by type or app" = "Фільтр за типом або програмою";
 "Filters" = "Фільтри";
@@ -182,7 +182,7 @@
 "Keep editing" = "Продовжити редагування";
 "Kept forever" = "Зберігається безстроково";
 "Keychain Access" = "Доступ до в’язки ключів";
-"Keychain unavailable: %@" = "В’язка ключів недоступна: %@";
+"Pairing unavailable: %@" = "Створення пари недоступне: %@";
 "Language" = "Мова";
 "Last copied" = "Останнє копіювання";
 "Launch at login" = "Відкривати під час входу";
@@ -196,7 +196,7 @@
 "Load size and duration presets" = "Завантажити рівні розміру й терміну";
 "Local library" = "Локальна бібліотека";
 "Looking for nearby Macs…" = "Пошук Mac поблизу…";
-"macOS has not authorized this version of Encore. If access was already granted, turn Encore off and on in Accessibility. If needed, remove the old entry and add the installed app. Ad-hoc signatures can invalidate access after an update." = "macOS не надала доступ цій версії Encore. Якщо ви вже надали доступ, вимкніть і знову ввімкніть Encore у розділі «Доступність». За потреби видаліть старий запис і додайте інстальовану програму. Підпис ad hoc може анулювати доступ після оновлення.";
+"macOS has not authorized this version of Encore. If access was already granted, turn Encore off and on in Accessibility. If needed, remove the old entry and add the installed app. Ad-hoc signatures can invalidate access after an update." = "macOS не надала доступ цій версії encore. Якщо ви вже надали доступ, вимкніть і знову ввімкніть encore у розділі «Доступність». За потреби видаліть старий запис і додайте інстальовану програму. Підпис ad hoc може анулювати доступ після оновлення.";
 "macOS primary display" = "Основний дисплей macOS";
 "macOS Settings…" = "Параметри macOS…";
 "Manual paste active" = "Ручне вставлення";
@@ -213,8 +213,8 @@
 "New collection" = "Нова колекція";
 "New collection…" = "Нова колекція…";
 "New rule" = "Нове правило";
-"New screenshots in this folder join your history without changing the clipboard. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Нові знімки екрана з цієї папки потрапляють в історію без зміни буфера обміну. Папка відстежується, лише коли Encore і запис активні. Наявні знімки не імпортуються.";
-"New screenshots in this folder join your history. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Нові знімки екрана з цієї папки потрапляють в історію. Папка відстежується, лише коли Encore і запис активні. Наявні знімки не імпортуються.";
+"New screenshots in this folder join your history without changing the clipboard. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Нові знімки екрана з цієї папки потрапляють в історію без зміни буфера обміну. Папка відстежується, лише коли encore і запис активні. Наявні знімки не імпортуються.";
+"New screenshots in this folder join your history. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Нові знімки екрана з цієї папки потрапляють в історію. Папка відстежується, лише коли encore і запис активні. Наявні знімки не імпортуються.";
 "New snippet" = "Новий фрагмент";
 "No immediate deletions." = "Одразу нічого не буде видалено.";
 "No installed apps are excluded" = "Немає інстальованих виключених програм";
@@ -229,7 +229,7 @@
 "On paste" = "Вставлення";
 "Online" = "У мережі";
 "Open" = "Відкрити";
-"Open Encore" = "Відкрити Encore";
+"Open Encore" = "Відкрити encore";
 "Open folder" = "Відкрити папку";
 "Open link" = "Відкрити посилання";
 "Optional title" = "Назва (необов’язково)";
@@ -240,7 +240,7 @@
 "Pair a Mac…" = "Створити пару з Mac…";
 "Paired Macs" = "Mac у парі";
 "Pairing cancelled or failed. No secret was saved." = "Створення пари скасовано або не вдалося. Секретний ключ не збережено.";
-"Pairing happens once: check that both Macs show the same 6-digit code. The shared secret stays in each Mac’s Keychain. Removing a Mac erases it." = "Пара створюється один раз: переконайтеся, що на обох Mac показано однаковий 6-значний код. Спільний секретний ключ зберігається у в’язці ключів кожного Mac. Якщо видалити Mac, ключ буде стерто.";
+"Pairing happens once: check that both Macs show the same 6-digit code. The shared secret stays on each Mac, readable only by your account. Removing a Mac erases it." = "Пара створюється один раз: переконайтеся, що на обох Mac показано однаковий 6-значний код. Спільний секретний ключ зберігається на кожному Mac, і прочитати його може лише ваш обліковий запис. Якщо видалити Mac, ключ буде стерто.";
 "Paper" = "Папір";
 "Paste" = "Вставити";
 "paste" = "вставити";
@@ -261,7 +261,7 @@
 "Queue finished" = "Чергу завершено";
 "Queue stopped: this item's content is unavailable." = "Чергу зупинено: вміст елемента недоступний.";
 "Quick paste" = "Швидке вставлення";
-"Quit Encore" = "Вийти з Encore";
+"Quit Encore" = "Вийти з encore";
 "Recognition failed: %@" = "Не вдалося розпізнати: %@";
 "Recognize image text" = "Розпізнати текст на зображенні";
 "Recognize text" = "Розпізнати текст";
@@ -367,7 +367,7 @@
 "Volume" = "Гучність";
 "Waiting for confirmation on the other Mac…" = "Очікування підтвердження на іншому Mac…";
 "When no rule matches" = "Якщо жодне правило не підходить";
-"Without access, Encore copies items for you to paste with ⌘V." = "Без дозволу Encore лише копіює елементи, а вставляєте їх ви за допомогою ⌘V.";
+"Without access, Encore copies items for you to paste with ⌘V." = "Без дозволу encore лише копіює елементи, а вставляєте їх ви за допомогою ⌘V.";
 "Wood" = "Дерево";
 "Yesterday" = "Учора";
 "Your clipboard. Yours to keep.\nNative, local, and open source.\nMIT license · github.com/Kamasoutra/encore" = "Ваш буфер обміну. Назавжди.\nНативна, локальна програма з відкритим кодом.\nЛіцензія MIT · github.com/Kamasoutra/encore";

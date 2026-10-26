@@ -15,8 +15,8 @@
 "90 days" = "90 hari";
 "A clipboard that fits the way you work." = "Papan klip yang menyesuaikan dengan cara kerja Anda.";
 "A retention rule is invalid." = "Ada aturan retensi yang tidak valid.";
-"About Encore" = "Tentang Encore";
-"Accessibility access enables direct and sequential paste. Without it, Encore copies the item for you to paste with ⌘V." = "Izin Aksesibilitas memungkinkan tempel langsung di kursor dan tempel berurutan. Tanpa izin ini, Encore menyalin item agar Anda dapat menempelnya dengan ⌘V.";
+"About Encore" = "Tentang encore";
+"Accessibility access enables direct and sequential paste. Without it, Encore copies the item for you to paste with ⌘V." = "Izin Aksesibilitas memungkinkan tempel langsung di kursor dan tempel berurutan. Tanpa izin ini, encore menyalin item agar Anda dapat menempelnya dengan ⌘V.";
 "Active shortcut: %@. Fallback: ⌃⌥⌘V." = "Pintasan aktif: %@. Cadangan: ⌃⌥⌘V.";
 "Add an app…" = "Tambahkan app…";
 "Add cards, then enable the queue." = "Tambahkan kartu, lalu aktifkan antrean.";
@@ -28,7 +28,7 @@
 "All apps" = "Semua app";
 "All dates" = "Semua tanggal";
 "All types" = "Semua jenis";
-"Allow Encore in Accessibility, then try again." = "Izinkan Encore di Aksesibilitas, lalu coba lagi.";
+"Allow Encore in Accessibility, then try again." = "Izinkan encore di Aksesibilitas, lalu coba lagi.";
 "Also copy to the clipboard" = "Salin juga ke papan klip";
 "App" = "App";
 "Appearance" = "Tampilan";
@@ -48,7 +48,7 @@
 "Check for updates automatically" = "Periksa pembaruan secara otomatis";
 "Check that %@ shows the same code." = "Pastikan %@ menampilkan kode yang sama.";
 "Choose the folder where macOS saves your screenshots." = "Pilih folder tempat macOS menyimpan jepretan layar Anda.";
-"Choose what Encore keeps. Everything stays on this Mac." = "Pilih apa yang disimpan Encore. Semuanya tetap di Mac ini.";
+"Choose what Encore keeps. Everything stays on this Mac." = "Pilih apa yang disimpan encore. Semuanya tetap di Mac ini.";
 "Choose…" = "Pilih…";
 "Clear" = "Kosongkan";
 "Clear filters" = "Hapus filter";
@@ -119,9 +119,9 @@
 "Enable" = "Aktifkan";
 "Enable direct paste" = "Aktifkan tempel langsung";
 "Encode as Base64" = "Enkode ke Base64";
-"Encore Settings" = "Pengaturan Encore";
-"Encore remembers this display. If disconnected, it uses the primary display until it returns." = "Encore mengingat layar ini. Jika terputus, Encore menggunakan layar utama hingga layar ini tersambung kembali.";
-"Encore — your clipboard history" = "Encore — riwayat papan klip Anda";
+"Encore Settings" = "Pengaturan encore";
+"Encore remembers this display. If disconnected, it uses the primary display until it returns." = "encore mengingat layar ini. Jika terputus, encore menggunakan layar utama hingga layar ini tersambung kembali.";
+"Encore — your clipboard history" = "encore — riwayat papan klip Anda";
 "Erase the secret shared with %@" = "Hapus rahasia yang dibagikan dengan %@";
 "Essentials" = "Dasar";
 "Everyday use" = "Penggunaan sehari-hari";
@@ -144,7 +144,7 @@
 "File" = "File";
 "File size" = "Ukuran file";
 "Files" = "File";
-"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. Storage and backups are unencrypted." = "File dirujuk, bukan diduplikasi. Ukurannya digunakan untuk aturan, tetapi tidak memakai anggaran Encore. Penyimpanan dan cadangan tidak dienkripsi.";
+"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. Storage and backups are unencrypted." = "File dirujuk, bukan diduplikasi. Ukurannya digunakan untuk aturan, tetapi tidak memakai anggaran encore. Penyimpanan dan cadangan tidak dienkripsi.";
 "Files remain at their original location." = "File tetap berada di lokasi aslinya.";
 "Filter by type or app" = "Filter menurut jenis atau app";
 "Filters" = "Filter";
@@ -179,7 +179,7 @@
 "Keep editing" = "Lanjutkan mengedit";
 "Kept forever" = "Disimpan selamanya";
 "Keychain Access" = "Akses Rantai Kunci";
-"Keychain unavailable: %@" = "Rantai Kunci tidak tersedia: %@";
+"Pairing unavailable: %@" = "Pemasangan tidak tersedia: %@";
 "Language" = "Bahasa";
 "Last copied" = "Terakhir disalin";
 "Launch at login" = "Buka saat masuk";
@@ -206,8 +206,8 @@
 "New collection" = "Koleksi baru";
 "New collection…" = "Koleksi baru…";
 "New rule" = "Aturan baru";
-"New screenshots in this folder join your history without changing the clipboard. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Jepretan layar baru di folder ini masuk ke riwayat tanpa mengubah papan klip. Folder hanya dipantau saat Encore dan perekaman aktif. Jepretan layar yang sudah ada tidak diimpor.";
-"New screenshots in this folder join your history. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Jepretan layar baru di folder ini masuk ke riwayat Anda. Folder dipantau hanya saat Encore dan perekaman aktif. Jepretan layar yang sudah ada tidak diimpor.";
+"New screenshots in this folder join your history without changing the clipboard. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Jepretan layar baru di folder ini masuk ke riwayat tanpa mengubah papan klip. Folder hanya dipantau saat encore dan perekaman aktif. Jepretan layar yang sudah ada tidak diimpor.";
+"New screenshots in this folder join your history. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Jepretan layar baru di folder ini masuk ke riwayat Anda. Folder dipantau hanya saat encore dan perekaman aktif. Jepretan layar yang sudah ada tidak diimpor.";
 "New snippet" = "Cuplikan baru";
 "No immediate deletions." = "Tidak ada penghapusan langsung.";
 "No installed apps are excluded" = "Tidak ada app terinstal yang dikecualikan";
@@ -221,7 +221,7 @@
 "On paste" = "Tempel";
 "Online" = "Online";
 "Open" = "Buka";
-"Open Encore" = "Buka Encore";
+"Open Encore" = "Buka encore";
 "Open folder" = "Buka folder";
 "Open link" = "Buka tautan";
 "Optional title" = "Judul opsional";
@@ -232,7 +232,7 @@
 "Pair a Mac…" = "Pasangkan Mac…";
 "Paired Macs" = "Mac yang Dipasangkan";
 "Pairing cancelled or failed. No secret was saved." = "Pemasangan dibatalkan atau gagal. Tidak ada rahasia yang disimpan.";
-"Pairing happens once: check that both Macs show the same 6-digit code. The shared secret stays in each Mac’s Keychain. Removing a Mac erases it." = "Pemasangan cukup dilakukan sekali: pastikan kedua Mac menampilkan kode 6 digit yang sama. Rahasia bersama disimpan di Rantai Kunci setiap Mac. Menghapus Mac akan menghapusnya.";
+"Pairing happens once: check that both Macs show the same 6-digit code. The shared secret stays on each Mac, readable only by your account. Removing a Mac erases it." = "Pemasangan cukup dilakukan sekali: pastikan kedua Mac menampilkan kode 6 digit yang sama. Rahasia bersama tetap ada di setiap Mac dan hanya dapat dibaca oleh akun Anda. Menghapus Mac akan menghapusnya.";
 "Paper" = "Kertas";
 "Paste" = "Tempel";
 "Paste as plain text" = "Tempel sebagai teks biasa";
@@ -250,7 +250,7 @@
 "Queue finished" = "Antrean selesai";
 "Queue stopped: this item's content is unavailable." = "Antrean berhenti: konten item ini tidak tersedia.";
 "Quick paste" = "Tempel cepat";
-"Quit Encore" = "Keluar dari Encore";
+"Quit Encore" = "Keluar dari encore";
 "Recognition failed: %@" = "Gagal mengenali: %@";
 "Recognize image text" = "Kenali teks gambar";
 "Recognize text" = "Kenali teks";
@@ -353,7 +353,7 @@
 "Volume" = "Volume";
 "Waiting for confirmation on the other Mac…" = "Menunggu konfirmasi di Mac lain…";
 "When no rule matches" = "Saat tidak ada aturan yang cocok";
-"Without access, Encore copies items for you to paste with ⌘V." = "Tanpa izin, Encore menyalin item agar Anda dapat menempelnya dengan ⌘V.";
+"Without access, Encore copies items for you to paste with ⌘V." = "Tanpa izin, encore menyalin item agar Anda dapat menempelnya dengan ⌘V.";
 "Wood" = "Kayu";
 "Yesterday" = "Kemarin";
 "Your clipboard. Yours to keep.\nNative, local, and open source.\nMIT license · github.com/Kamasoutra/encore" = "Papan klip Anda. Untuk selamanya.\nNatif, lokal, dan sumber terbuka.\nLisensi MIT · github.com/Kamasoutra/encore";
@@ -363,7 +363,7 @@
 "from" = "dari";
 "kB" = "kB";
 "macOS Settings…" = "Pengaturan macOS…";
-"macOS has not authorized this version of Encore. If access was already granted, turn Encore off and on in Accessibility. If needed, remove the old entry and add the installed app. Ad-hoc signatures can invalidate access after an update." = "macOS belum mengizinkan versi Encore ini. Jika akses sudah pernah diberikan, nonaktifkan lalu aktifkan kembali Encore di Aksesibilitas. Jika perlu, hapus entri lama dan tambahkan app yang terinstal. Tanda tangan ad hoc dapat membatalkan akses setelah pembaruan.";
+"macOS has not authorized this version of Encore. If access was already granted, turn Encore off and on in Accessibility. If needed, remove the old entry and add the installed app. Ad-hoc signatures can invalidate access after an update." = "macOS belum mengizinkan versi encore ini. Jika akses sudah pernah diberikan, nonaktifkan lalu aktifkan kembali encore di Aksesibilitas. Jika perlu, hapus entri lama dan tambahkan app yang terinstal. Tanda tangan ad hoc dapat membatalkan akses setelah pembaruan.";
 "macOS primary display" = "Layar utama macOS";
 "navigate" = "navigasi";
 "no upper limit" = "tanpa batas atas";

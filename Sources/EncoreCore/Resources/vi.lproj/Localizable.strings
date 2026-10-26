@@ -15,8 +15,8 @@
 "90 days" = "90 ngày";
 "A clipboard that fits the way you work." = "Bộ nhớ tạm phù hợp với cách bạn làm việc.";
 "A retention rule is invalid." = "Có một quy tắc lưu giữ không hợp lệ.";
-"About Encore" = "Giới thiệu về Encore";
-"Accessibility access enables direct and sequential paste. Without it, Encore copies the item for you to paste with ⌘V." = "Quyền truy cập Trợ năng cho phép dán trực tiếp và dán tuần tự. Nếu không có quyền này, Encore sẽ sao chép mục để bạn dán bằng ⌘V.";
+"About Encore" = "Giới thiệu về encore";
+"Accessibility access enables direct and sequential paste. Without it, Encore copies the item for you to paste with ⌘V." = "Quyền truy cập Trợ năng cho phép dán trực tiếp và dán tuần tự. Nếu không có quyền này, encore sẽ sao chép mục để bạn dán bằng ⌘V.";
 "Active shortcut: %@. Fallback: ⌃⌥⌘V." = "Phím tắt đang dùng: %@. Dự phòng: ⌃⌥⌘V.";
 "Add an app…" = "Thêm ứng dụng…";
 "Add cards, then enable the queue." = "Thêm thẻ, sau đó bật hàng đợi.";
@@ -28,7 +28,7 @@
 "All apps" = "Tất cả ứng dụng";
 "All dates" = "Mọi ngày";
 "All types" = "Mọi loại";
-"Allow Encore in Accessibility, then try again." = "Cho phép Encore trong Trợ năng, sau đó thử lại.";
+"Allow Encore in Accessibility, then try again." = "Cho phép encore trong Trợ năng, sau đó thử lại.";
 "Also copy to the clipboard" = "Đồng thời sao chép vào bộ nhớ tạm";
 "App" = "Ứng dụng";
 "Appearance" = "Giao diện";
@@ -48,7 +48,7 @@
 "Check Now" = "Kiểm tra ngay";
 "Check that %@ shows the same code." = "Hãy kiểm tra để chắc chắn %@ hiển thị cùng một mã.";
 "Choose the folder where macOS saves your screenshots." = "Chọn thư mục nơi macOS lưu ảnh chụp màn hình của bạn.";
-"Choose what Encore keeps. Everything stays on this Mac." = "Chọn nội dung Encore giữ lại. Mọi thứ đều nằm trên máy Mac này.";
+"Choose what Encore keeps. Everything stays on this Mac." = "Chọn nội dung encore giữ lại. Mọi thứ đều nằm trên máy Mac này.";
 "Choose…" = "Chọn…";
 "Clear" = "Xóa";
 "Clear filters" = "Xóa bộ lọc";
@@ -119,9 +119,9 @@
 "Enable" = "Bật";
 "Enable direct paste" = "Bật dán trực tiếp";
 "Encode as Base64" = "Mã hóa Base64";
-"Encore remembers this display. If disconnected, it uses the primary display until it returns." = "Encore ghi nhớ màn hình này. Nếu màn hình bị ngắt kết nối, Encore sẽ dùng màn hình chính cho đến khi màn hình này được kết nối lại.";
-"Encore Settings" = "Cài đặt Encore";
-"Encore — your clipboard history" = "Encore — lịch sử bộ nhớ tạm của bạn";
+"Encore remembers this display. If disconnected, it uses the primary display until it returns." = "encore ghi nhớ màn hình này. Nếu màn hình bị ngắt kết nối, encore sẽ dùng màn hình chính cho đến khi màn hình này được kết nối lại.";
+"Encore Settings" = "Cài đặt encore";
+"Encore — your clipboard history" = "encore — lịch sử bộ nhớ tạm của bạn";
 "Erase the secret shared with %@" = "Xóa khóa bí mật đã chia sẻ với %@";
 "Essentials" = "Cơ bản";
 "Everyday use" = "Sử dụng hằng ngày";
@@ -145,7 +145,7 @@
 "File" = "Tệp";
 "File size" = "Kích thước tệp";
 "Files" = "Tệp";
-"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. Storage and backups are unencrypted." = "Tệp được tham chiếu, không bị sao chép thêm. Kích thước tệp được dùng cho quy tắc lưu giữ nhưng không chiếm dung lượng của Encore. Dữ liệu lưu trữ và bản sao lưu không được mã hóa.";
+"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. Storage and backups are unencrypted." = "Tệp được tham chiếu, không bị sao chép thêm. Kích thước tệp được dùng cho quy tắc lưu giữ nhưng không chiếm dung lượng của encore. Dữ liệu lưu trữ và bản sao lưu không được mã hóa.";
 "Files remain at their original location." = "Tệp vẫn ở vị trí gốc.";
 "Filter by type or app" = "Lọc theo loại hoặc ứng dụng";
 "Filters" = "Bộ lọc";
@@ -182,7 +182,7 @@
 "Keep editing" = "Tiếp tục sửa";
 "Kept forever" = "Giữ mãi mãi";
 "Keychain Access" = "Truy cập Chuỗi khóa";
-"Keychain unavailable: %@" = "Chuỗi khóa không khả dụng: %@";
+"Pairing unavailable: %@" = "Không thể ghép đôi: %@";
 "Language" = "Ngôn ngữ";
 "Last copied" = "Sao chép lần cuối";
 "Launch at login" = "Mở khi đăng nhập";
@@ -196,7 +196,7 @@
 "Load size and duration presets" = "Tải cài đặt sẵn kích thước và thời hạn";
 "Local library" = "Thư viện cục bộ";
 "Looking for nearby Macs…" = "Đang tìm máy Mac ở gần…";
-"macOS has not authorized this version of Encore. If access was already granted, turn Encore off and on in Accessibility. If needed, remove the old entry and add the installed app. Ad-hoc signatures can invalidate access after an update." = "macOS chưa cấp quyền cho phiên bản Encore này. Nếu bạn đã cấp quyền truy cập, hãy tắt rồi bật lại Encore trong Trợ năng. Nếu cần, hãy xóa mục cũ và thêm ứng dụng đã cài đặt. Chữ ký ad-hoc có thể làm mất hiệu lực quyền truy cập sau khi cập nhật.";
+"macOS has not authorized this version of Encore. If access was already granted, turn Encore off and on in Accessibility. If needed, remove the old entry and add the installed app. Ad-hoc signatures can invalidate access after an update." = "macOS chưa cấp quyền cho phiên bản encore này. Nếu bạn đã cấp quyền truy cập, hãy tắt rồi bật lại encore trong Trợ năng. Nếu cần, hãy xóa mục cũ và thêm ứng dụng đã cài đặt. Chữ ký ad-hoc có thể làm mất hiệu lực quyền truy cập sau khi cập nhật.";
 "macOS primary display" = "Màn hình chính của macOS";
 "macOS Settings…" = "Cài đặt macOS…";
 "Manual paste active" = "Đang dán thủ công";
@@ -213,8 +213,8 @@
 "New collection" = "Bộ sưu tập mới";
 "New collection…" = "Bộ sưu tập mới…";
 "New rule" = "Quy tắc mới";
-"New screenshots in this folder join your history without changing the clipboard. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Ảnh chụp màn hình mới trong thư mục này được thêm vào lịch sử mà không thay đổi bộ nhớ tạm. Thư mục được theo dõi khi Encore và tính năng ghi đang hoạt động. Ảnh chụp màn hình hiện có sẽ không được nhập.";
-"New screenshots in this folder join your history. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Ảnh chụp màn hình mới trong thư mục này được thêm vào lịch sử. Thư mục được theo dõi khi Encore và tính năng ghi đang hoạt động. Ảnh chụp màn hình hiện có sẽ không được nhập.";
+"New screenshots in this folder join your history without changing the clipboard. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Ảnh chụp màn hình mới trong thư mục này được thêm vào lịch sử mà không thay đổi bộ nhớ tạm. Thư mục được theo dõi khi encore và tính năng ghi đang hoạt động. Ảnh chụp màn hình hiện có sẽ không được nhập.";
+"New screenshots in this folder join your history. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Ảnh chụp màn hình mới trong thư mục này được thêm vào lịch sử. Thư mục được theo dõi khi encore và tính năng ghi đang hoạt động. Ảnh chụp màn hình hiện có sẽ không được nhập.";
 "New snippet" = "Đoạn văn bản mới";
 "No immediate deletions." = "Không có mục nào bị xóa ngay.";
 "No installed apps are excluded" = "Không có ứng dụng đã cài đặt nào bị loại trừ";
@@ -229,7 +229,7 @@
 "On paste" = "Khi dán";
 "Online" = "Trực tuyến";
 "Open" = "Mở";
-"Open Encore" = "Mở Encore";
+"Open Encore" = "Mở encore";
 "Open folder" = "Mở thư mục";
 "Open link" = "Mở liên kết";
 "Optional title" = "Tiêu đề (tùy chọn)";
@@ -240,7 +240,7 @@
 "Pair a Mac…" = "Ghép đôi máy Mac…";
 "Paired Macs" = "Máy Mac đã ghép đôi";
 "Pairing cancelled or failed. No secret was saved." = "Đã hủy hoặc không thể ghép đôi. Không có khóa bí mật nào được lưu.";
-"Pairing happens once: check that both Macs show the same 6-digit code. The shared secret stays in each Mac’s Keychain. Removing a Mac erases it." = "Chỉ cần ghép đôi một lần: hãy kiểm tra để chắc chắn cả hai máy Mac hiển thị cùng một mã 6 chữ số. Khóa bí mật dùng chung được lưu trong Chuỗi khóa của mỗi máy Mac. Xóa máy Mac sẽ xóa khóa này.";
+"Pairing happens once: check that both Macs show the same 6-digit code. The shared secret stays on each Mac, readable only by your account. Removing a Mac erases it." = "Chỉ cần ghép đôi một lần: hãy kiểm tra để chắc chắn cả hai máy Mac hiển thị cùng một mã 6 chữ số. Khóa bí mật dùng chung được lưu trên mỗi máy Mac và chỉ tài khoản của bạn đọc được. Xóa máy Mac sẽ xóa khóa này.";
 "Paper" = "Giấy";
 "Paste" = "Dán";
 "paste" = "dán";
@@ -261,7 +261,7 @@
 "Queue finished" = "Đã hoàn tất hàng đợi";
 "Queue stopped: this item's content is unavailable." = "Đã dừng hàng đợi: nội dung của mục này không khả dụng.";
 "Quick paste" = "Dán nhanh";
-"Quit Encore" = "Thoát Encore";
+"Quit Encore" = "Thoát encore";
 "Recognition failed: %@" = "Nhận dạng không thành công: %@";
 "Recognize image text" = "Nhận dạng văn bản trong hình ảnh";
 "Recognize text" = "Nhận dạng văn bản";
@@ -367,7 +367,7 @@
 "Volume" = "Âm lượng";
 "Waiting for confirmation on the other Mac…" = "Đang chờ xác nhận trên máy Mac kia…";
 "When no rule matches" = "Khi không có quy tắc nào khớp";
-"Without access, Encore copies items for you to paste with ⌘V." = "Nếu không có quyền truy cập, Encore sẽ sao chép mục để bạn dán bằng ⌘V.";
+"Without access, Encore copies items for you to paste with ⌘V." = "Nếu không có quyền truy cập, encore sẽ sao chép mục để bạn dán bằng ⌘V.";
 "Wood" = "Gỗ";
 "Yesterday" = "Hôm qua";
 "Your clipboard. Yours to keep.\nNative, local, and open source.\nMIT license · github.com/Kamasoutra/encore" = "Bộ nhớ tạm của bạn, do bạn nắm giữ.\nNguyên bản, cục bộ và mã nguồn mở.\nGiấy phép MIT · github.com/Kamasoutra/encore";

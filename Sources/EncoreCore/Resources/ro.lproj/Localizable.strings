@@ -15,8 +15,8 @@
 "90 days" = "90 de zile";
 "A clipboard that fits the way you work." = "Un clipboard care se adaptează felului în care lucrați.";
 "A retention rule is invalid." = "O regulă de păstrare nu este validă.";
-"About Encore" = "Despre Encore";
-"Accessibility access enables direct and sequential paste. Without it, Encore copies the item for you to paste with ⌘V." = "Accesul în Accesibilitate permite lipirea directă și secvențială. Fără el, Encore copiază elementul, iar dvs. îl lipiți cu ⌘V.";
+"About Encore" = "Despre encore";
+"Accessibility access enables direct and sequential paste. Without it, Encore copies the item for you to paste with ⌘V." = "Accesul în Accesibilitate permite lipirea directă și secvențială. Fără el, encore copiază elementul, iar dvs. îl lipiți cu ⌘V.";
 "Active shortcut: %@. Fallback: ⌃⌥⌘V." = "Scurtătură activă: %@. Alternativă: ⌃⌥⌘V.";
 "Add an app…" = "Adaugă o aplicație…";
 "Add cards, then enable the queue." = "Adăugați carduri, apoi activați coada.";
@@ -28,7 +28,7 @@
 "All apps" = "Toate aplicațiile";
 "All dates" = "Toate datele";
 "All types" = "Toate tipurile";
-"Allow Encore in Accessibility, then try again." = "Permiteți Encore în Accesibilitate, apoi încercați din nou.";
+"Allow Encore in Accessibility, then try again." = "Permiteți encore în Accesibilitate, apoi încercați din nou.";
 "Also copy to the clipboard" = "Copiază și în clipboard";
 "App" = "Aplicație";
 "Appearance" = "Aspect";
@@ -48,7 +48,7 @@
 "Check Now" = "Verifică acum";
 "Check that %@ shows the same code." = "Verificați dacă %@ afișează același cod.";
 "Choose the folder where macOS saves your screenshots." = "Alegeți dosarul în care macOS salvează capturile de ecran.";
-"Choose what Encore keeps. Everything stays on this Mac." = "Alegeți ce păstrează Encore. Totul rămâne pe acest Mac.";
+"Choose what Encore keeps. Everything stays on this Mac." = "Alegeți ce păstrează encore. Totul rămâne pe acest Mac.";
 "Choose…" = "Alege…";
 "Clear" = "Golește";
 "Clear filters" = "Resetează filtrele";
@@ -119,9 +119,9 @@
 "Enable" = "Activează";
 "Enable direct paste" = "Activează lipirea directă";
 "Encode as Base64" = "Codifică în Base64";
-"Encore remembers this display. If disconnected, it uses the primary display until it returns." = "Encore reține acest ecran. Dacă este deconectat, folosește ecranul principal până la revenirea lui.";
-"Encore Settings" = "Configurări Encore";
-"Encore — your clipboard history" = "Encore — istoricul clipboardului dvs.";
+"Encore remembers this display. If disconnected, it uses the primary display until it returns." = "encore reține acest ecran. Dacă este deconectat, folosește ecranul principal până la revenirea lui.";
+"Encore Settings" = "Configurări encore";
+"Encore — your clipboard history" = "encore — istoricul clipboardului dvs.";
 "Erase the secret shared with %@" = "Șterge secretul partajat cu %@";
 "Essentials" = "Esențiale";
 "Everyday use" = "Utilizare zilnică";
@@ -145,7 +145,7 @@
 "File" = "Fișier";
 "File size" = "Mărime fișier";
 "Files" = "Fișiere";
-"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. Storage and backups are unencrypted." = "Fișierele sunt referențiate, nu duplicate. Mărimea lor contează pentru regulile de păstrare, dar nu ocupă spațiul Encore. Stocarea și backupurile nu sunt criptate.";
+"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. Storage and backups are unencrypted." = "Fișierele sunt referențiate, nu duplicate. Mărimea lor contează pentru regulile de păstrare, dar nu ocupă spațiul encore. Stocarea și backupurile nu sunt criptate.";
 "Files remain at their original location." = "Fișierele rămân în locația lor originală.";
 "Filter by type or app" = "Filtrează după tip sau aplicație";
 "Filters" = "Filtre";
@@ -182,7 +182,7 @@
 "Keep editing" = "Continuă editarea";
 "Kept forever" = "Păstrat pentru totdeauna";
 "Keychain Access" = "Acces brelocuri";
-"Keychain unavailable: %@" = "Breloc indisponibil: %@";
+"Pairing unavailable: %@" = "Asocierea nu este disponibilă: %@";
 "Language" = "Limbă";
 "Last copied" = "Ultima copiere";
 "Launch at login" = "Deschide la autentificare";
@@ -196,7 +196,7 @@
 "Load size and duration presets" = "Încarcă presetări de mărime și durată";
 "Local library" = "Bibliotecă locală";
 "Looking for nearby Macs…" = "Se caută Mac-uri din apropiere…";
-"macOS has not authorized this version of Encore. If access was already granted, turn Encore off and on in Accessibility. If needed, remove the old entry and add the installed app. Ad-hoc signatures can invalidate access after an update." = "macOS nu a autorizat această versiune de Encore. Dacă accesul a fost deja acordat, dezactivați și reactivați Encore în Accesibilitate. Dacă este necesar, eliminați intrarea veche și adăugați aplicația instalată. Semnăturile ad-hoc pot invalida accesul după o actualizare.";
+"macOS has not authorized this version of Encore. If access was already granted, turn Encore off and on in Accessibility. If needed, remove the old entry and add the installed app. Ad-hoc signatures can invalidate access after an update." = "macOS nu a autorizat această versiune de encore. Dacă accesul a fost deja acordat, dezactivați și reactivați encore în Accesibilitate. Dacă este necesar, eliminați intrarea veche și adăugați aplicația instalată. Semnăturile ad-hoc pot invalida accesul după o actualizare.";
 "macOS primary display" = "Ecranul principal macOS";
 "macOS Settings…" = "Configurări macOS…";
 "Manual paste active" = "Lipire manuală activă";
@@ -213,8 +213,8 @@
 "New collection" = "Colecție nouă";
 "New collection…" = "Colecție nouă…";
 "New rule" = "Regulă nouă";
-"New screenshots in this folder join your history without changing the clipboard. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Capturile de ecran noi din acest dosar intră în istoric fără să modifice clipboardul. Dosarul este monitorizat cât timp Encore și capturarea sunt active. Capturile existente nu sunt importate.";
-"New screenshots in this folder join your history. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Capturile de ecran noi din acest dosar intră în istoric. Dosarul este monitorizat cât timp Encore și capturarea sunt active. Capturile existente nu sunt importate.";
+"New screenshots in this folder join your history without changing the clipboard. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Capturile de ecran noi din acest dosar intră în istoric fără să modifice clipboardul. Dosarul este monitorizat cât timp encore și capturarea sunt active. Capturile existente nu sunt importate.";
+"New screenshots in this folder join your history. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Capturile de ecran noi din acest dosar intră în istoric. Dosarul este monitorizat cât timp encore și capturarea sunt active. Capturile existente nu sunt importate.";
 "New snippet" = "Fragment nou";
 "No immediate deletions." = "Nicio ștergere imediată.";
 "No installed apps are excluded" = "Nicio aplicație instalată nu este exclusă";
@@ -229,7 +229,7 @@
 "On paste" = "La lipire";
 "Online" = "Online";
 "Open" = "Deschide";
-"Open Encore" = "Deschide Encore";
+"Open Encore" = "Deschide encore";
 "Open folder" = "Deschide dosarul";
 "Open link" = "Deschide linkul";
 "Optional title" = "Titlu opțional";
@@ -240,7 +240,7 @@
 "Pair a Mac…" = "Asociază un Mac…";
 "Paired Macs" = "Mac-uri asociate";
 "Pairing cancelled or failed. No secret was saved." = "Asocierea a fost anulată sau a eșuat. Niciun secret nu a fost salvat.";
-"Pairing happens once: check that both Macs show the same 6-digit code. The shared secret stays in each Mac’s Keychain. Removing a Mac erases it." = "Asocierea se face o singură dată: verificați dacă ambele Mac-uri afișează același cod de 6 cifre. Secretul partajat rămâne în brelocul fiecărui Mac. Eliminarea unui Mac îl șterge.";
+"Pairing happens once: check that both Macs show the same 6-digit code. The shared secret stays on each Mac, readable only by your account. Removing a Mac erases it." = "Asocierea se face o singură dată: verificați dacă ambele Mac-uri afișează același cod de 6 cifre. Secretul partajat rămâne pe fiecare Mac și poate fi citit doar de contul dvs. Eliminarea unui Mac îl șterge.";
 "Paper" = "Hârtie";
 "Paste" = "Lipește";
 "paste" = "lipiți";
@@ -261,7 +261,7 @@
 "Queue finished" = "Coadă terminată";
 "Queue stopped: this item's content is unavailable." = "Coadă oprită: conținutul acestui element nu este disponibil.";
 "Quick paste" = "Lipire rapidă";
-"Quit Encore" = "Ieși din Encore";
+"Quit Encore" = "Ieși din encore";
 "Recognition failed: %@" = "Recunoașterea a eșuat: %@";
 "Recognize image text" = "Recunoaște textul din imagine";
 "Recognize text" = "Recunoaște textul";
@@ -367,7 +367,7 @@
 "Volume" = "Volum";
 "Waiting for confirmation on the other Mac…" = "Se așteaptă confirmarea pe celălalt Mac…";
 "When no rule matches" = "Când nicio regulă nu se potrivește";
-"Without access, Encore copies items for you to paste with ⌘V." = "Fără acces, Encore copiază elementele, iar dvs. le lipiți cu ⌘V.";
+"Without access, Encore copies items for you to paste with ⌘V." = "Fără acces, encore copiază elementele, iar dvs. le lipiți cu ⌘V.";
 "Wood" = "Lemn";
 "Yesterday" = "Ieri";
 "Your clipboard. Yours to keep.\nNative, local, and open source.\nMIT license · github.com/Kamasoutra/encore" = "Clipboardul dvs. Rămâne al dvs.\nNativ, local și open source.\nLicență MIT · github.com/Kamasoutra/encore";

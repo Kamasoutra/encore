@@ -15,8 +15,8 @@
 "90 days" = "90 ימים";
 "A clipboard that fits the way you work." = "לוח גזירים שמתאים לדרך העבודה שלך.";
 "A retention rule is invalid." = "אחד מכללי השמירה אינו תקין.";
-"About Encore" = "אודות Encore";
-"Accessibility access enables direct and sequential paste. Without it, Encore copies the item for you to paste with ⌘V." = "הרשאת הנגישות מאפשרת הדבקה במיקום הסמן והדבקה רציפה. בלעדיה, Encore מעתיק את הפריט להדבקה ידנית עם ⌘V.";
+"About Encore" = "אודות encore";
+"Accessibility access enables direct and sequential paste. Without it, Encore copies the item for you to paste with ⌘V." = "הרשאת הנגישות מאפשרת הדבקה במיקום הסמן והדבקה רציפה. בלעדיה, encore מעתיק את הפריט להדבקה ידנית עם ⌘V.";
 "Active shortcut: %@. Fallback: ⌃⌥⌘V." = "קיצור פעיל: %@. חלופה: ⌃⌥⌘V.";
 "Add an app…" = "הוסף יישום…";
 "Add cards, then enable the queue." = "יש להוסיף כרטיסים ולאחר מכן להפעיל את התור.";
@@ -28,7 +28,7 @@
 "All apps" = "כל היישומים";
 "All dates" = "כל התאריכים";
 "All types" = "כל הסוגים";
-"Allow Encore in Accessibility, then try again." = "יש לאשר את Encore ב״נגישות״ ולנסות שוב.";
+"Allow Encore in Accessibility, then try again." = "יש לאשר את encore ב״נגישות״ ולנסות שוב.";
 "Also copy to the clipboard" = "העתק גם ללוח";
 "App" = "יישום";
 "Appearance" = "מראה";
@@ -48,7 +48,7 @@
 "Check for updates automatically" = "חפש עדכונים באופן אוטומטי";
 "Check that %@ shows the same code." = "יש לוודא ש־%@ מציג את אותו קוד.";
 "Choose the folder where macOS saves your screenshots." = "יש לבחור את התיקייה שבה macOS שומר את צילומי המסך.";
-"Choose what Encore keeps. Everything stays on this Mac." = "יש לבחור מה Encore ישמור. הכול נשאר במחשב Mac זה.";
+"Choose what Encore keeps. Everything stays on this Mac." = "יש לבחור מה encore ישמור. הכול נשאר במחשב Mac זה.";
 "Choose…" = "בחר…";
 "Clear" = "נקה";
 "Clear filters" = "נקה מסננים";
@@ -119,9 +119,9 @@
 "Enable" = "הפעל";
 "Enable direct paste" = "הפעל הדבקה ישירה";
 "Encode as Base64" = "קודד כ־Base64";
-"Encore Settings" = "הגדרות Encore";
-"Encore remembers this display. If disconnected, it uses the primary display until it returns." = "Encore זוכר את המסך הזה. אם הוא מנותק, נעשה שימוש במסך הראשי עד שיחובר שוב.";
-"Encore — your clipboard history" = "Encore — היסטוריית לוח הגזירים שלך";
+"Encore Settings" = "הגדרות encore";
+"Encore remembers this display. If disconnected, it uses the primary display until it returns." = "encore זוכר את המסך הזה. אם הוא מנותק, נעשה שימוש במסך הראשי עד שיחובר שוב.";
+"Encore — your clipboard history" = "encore — היסטוריית לוח הגזירים שלך";
 "Erase the secret shared with %@" = "מחק את הסוד המשותף עם %@";
 "Essentials" = "עיקרי";
 "Everyday use" = "שימוש יומיומי";
@@ -144,7 +144,7 @@
 "File" = "קובץ";
 "File size" = "גודל קובץ";
 "Files" = "קבצים";
-"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. Storage and backups are unencrypted." = "הקבצים מקושרים ואינם משוכפלים. הגודל שלהם משמש לכללים, אך אינו נספר במכסה של Encore. האחסון והגיבויים אינם מוצפנים.";
+"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. Storage and backups are unencrypted." = "הקבצים מקושרים ואינם משוכפלים. הגודל שלהם משמש לכללים, אך אינו נספר במכסה של encore. האחסון והגיבויים אינם מוצפנים.";
 "Files remain at their original location." = "הקבצים נשארים במיקום המקורי שלהם.";
 "Filter by type or app" = "סנן לפי סוג או יישום";
 "Filters" = "מסננים";
@@ -179,7 +179,7 @@
 "Keep editing" = "המשך לערוך";
 "Kept forever" = "נשמר ללא הגבלת זמן";
 "Keychain Access" = "גישה למחזיק המפתחות";
-"Keychain unavailable: %@" = "מחזיק המפתחות אינו זמין: %@";
+"Pairing unavailable: %@" = "הצימוד אינו זמין: %@";
 "Language" = "שפה";
 "Last copied" = "העתקה אחרונה";
 "Launch at login" = "פתח בעת התחברות";
@@ -206,8 +206,8 @@
 "New collection" = "אוסף חדש";
 "New collection…" = "אוסף חדש…";
 "New rule" = "כלל חדש";
-"New screenshots in this folder join your history without changing the clipboard. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "צילומי מסך חדשים בתיקייה זו מצטרפים להיסטוריה מבלי לשנות את לוח הגזירים. התיקייה מנוטרת רק כש־Encore והלכידה פעילים. צילומי מסך קיימים אינם מיובאים.";
-"New screenshots in this folder join your history. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "צילומי מסך חדשים בתיקייה זו מצטרפים להיסטוריה. התיקייה במעקב רק כאשר Encore והלכידה פעילים. צילומי מסך קיימים אינם מיובאים.";
+"New screenshots in this folder join your history without changing the clipboard. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "צילומי מסך חדשים בתיקייה זו מצטרפים להיסטוריה מבלי לשנות את לוח הגזירים. התיקייה מנוטרת רק כש־encore והלכידה פעילים. צילומי מסך קיימים אינם מיובאים.";
+"New screenshots in this folder join your history. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "צילומי מסך חדשים בתיקייה זו מצטרפים להיסטוריה. התיקייה במעקב רק כאשר encore והלכידה פעילים. צילומי מסך קיימים אינם מיובאים.";
 "New snippet" = "קטע חדש";
 "No immediate deletions." = "אין מחיקות מיידיות.";
 "No installed apps are excluded" = "אין יישומים מותקנים מוחרגים";
@@ -221,7 +221,7 @@
 "On paste" = "הדבקה";
 "Online" = "מקוון";
 "Open" = "פתח";
-"Open Encore" = "פתח את Encore";
+"Open Encore" = "פתח את encore";
 "Open folder" = "פתח תיקייה";
 "Open link" = "פתח קישור";
 "Optional title" = "כותרת אופציונלית";
@@ -232,7 +232,7 @@
 "Pair a Mac…" = "צימוד Mac…";
 "Paired Macs" = "מחשבי Mac מצומדים";
 "Pairing cancelled or failed. No secret was saved." = "הצימוד בוטל או נכשל. שום סוד לא נשמר.";
-"Pairing happens once: check that both Macs show the same 6-digit code. The shared secret stays in each Mac’s Keychain. Removing a Mac erases it." = "הצימוד מתבצע פעם אחת: יש לוודא ששני מחשבי ה־Mac מציגים את אותו קוד בן 6 ספרות. הסוד המשותף נשמר במחזיק המפתחות של כל Mac. הסרת Mac מוחקת אותו.";
+"Pairing happens once: check that both Macs show the same 6-digit code. The shared secret stays on each Mac, readable only by your account. Removing a Mac erases it." = "הצימוד מתבצע פעם אחת: יש לוודא ששני מחשבי ה־Mac מציגים את אותו קוד בן 6 ספרות. הסוד המשותף נשמר בכל Mac, ורק החשבון שלך יכול לקרוא אותו. הסרת Mac מוחקת אותו.";
 "Paper" = "נייר";
 "Paste" = "הדבק";
 "Paste as plain text" = "הדבק כטקסט פשוט";
@@ -250,7 +250,7 @@
 "Queue finished" = "התור הסתיים";
 "Queue stopped: this item's content is unavailable." = "התור נעצר: התוכן של פריט זה אינו זמין.";
 "Quick paste" = "הדבקה מהירה";
-"Quit Encore" = "צא מ־Encore";
+"Quit Encore" = "צא מ־encore";
 "Recognition failed: %@" = "הזיהוי נכשל: %@";
 "Recognize image text" = "זהה טקסט בתמונה";
 "Recognize text" = "זהה טקסט";
@@ -353,7 +353,7 @@
 "Volume" = "עוצמת שמע";
 "Waiting for confirmation on the other Mac…" = "ממתין לאישור ב־Mac השני…";
 "When no rule matches" = "כאשר אין כלל תואם";
-"Without access, Encore copies items for you to paste with ⌘V." = "ללא הרשאה, Encore מעתיק את הפריטים להדבקה ידנית עם ⌘V.";
+"Without access, Encore copies items for you to paste with ⌘V." = "ללא הרשאה, encore מעתיק את הפריטים להדבקה ידנית עם ⌘V.";
 "Wood" = "עץ";
 "Yesterday" = "אתמול";
 "Your clipboard. Yours to keep.\nNative, local, and open source.\nMIT license · github.com/Kamasoutra/encore" = "לוח הגזירים שלך. לתמיד.\nיישום מקורי, מקומי וקוד פתוח.\nרישיון MIT · github.com/Kamasoutra/encore";
@@ -363,7 +363,7 @@
 "from" = "מ־";
 "kB" = "kB";
 "macOS Settings…" = "הגדרות macOS…";
-"macOS has not authorized this version of Encore. If access was already granted, turn Encore off and on in Accessibility. If needed, remove the old entry and add the installed app. Ad-hoc signatures can invalidate access after an update." = "macOS לא אישר גרסה זו של Encore. אם הגישה כבר הוענקה, יש לכבות ולהפעיל מחדש את Encore ב״נגישות״. במקרה הצורך, יש להסיר את הרשומה הישנה ולהוסיף את היישום המותקן. חתימת ad hoc עלולה לבטל את הגישה לאחר עדכון.";
+"macOS has not authorized this version of Encore. If access was already granted, turn Encore off and on in Accessibility. If needed, remove the old entry and add the installed app. Ad-hoc signatures can invalidate access after an update." = "macOS לא אישר גרסה זו של encore. אם הגישה כבר הוענקה, יש לכבות ולהפעיל מחדש את encore ב״נגישות״. במקרה הצורך, יש להסיר את הרשומה הישנה ולהוסיף את היישום המותקן. חתימת ad hoc עלולה לבטל את הגישה לאחר עדכון.";
 "macOS primary display" = "המסך הראשי של macOS";
 "navigate" = "ניווט";
 "no upper limit" = "ללא תקרה";

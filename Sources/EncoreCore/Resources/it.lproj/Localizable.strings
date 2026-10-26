@@ -15,8 +15,8 @@
 "90 days" = "90 giorni";
 "A clipboard that fits the way you work." = "Appunti che si adattano al tuo modo di lavorare.";
 "A retention rule is invalid." = "Una regola di conservazione non è valida.";
-"About Encore" = "Informazioni su Encore";
-"Accessibility access enables direct and sequential paste. Without it, Encore copies the item for you to paste with ⌘V." = "L’accesso in Accessibilità abilita l’incollaggio diretto e sequenziale. Senza, Encore copia l’elemento e lo incolli tu con ⌘V.";
+"About Encore" = "Informazioni su encore";
+"Accessibility access enables direct and sequential paste. Without it, Encore copies the item for you to paste with ⌘V." = "L’accesso in Accessibilità abilita l’incollaggio diretto e sequenziale. Senza, encore copia l’elemento e lo incolli tu con ⌘V.";
 "Active shortcut: %@. Fallback: ⌃⌥⌘V." = "Abbreviazione attiva: %@. Alternativa: ⌃⌥⌘V.";
 "Add an app…" = "Aggiungi un’app…";
 "Add cards, then enable the queue." = "Aggiungi delle schede, poi attiva la coda.";
@@ -28,7 +28,7 @@
 "All apps" = "Tutte le app";
 "All dates" = "Tutte le date";
 "All types" = "Tutti i tipi";
-"Allow Encore in Accessibility, then try again." = "Consenti Encore in Accessibilità, poi riprova.";
+"Allow Encore in Accessibility, then try again." = "Consenti encore in Accessibilità, poi riprova.";
 "Also copy to the clipboard" = "Copia anche negli appunti";
 "App" = "App";
 "Appearance" = "Aspetto";
@@ -48,7 +48,7 @@
 "Check Now" = "Verifica ora";
 "Check that %@ shows the same code." = "Verifica che %@ mostri lo stesso codice.";
 "Choose the folder where macOS saves your screenshots." = "Scegli la cartella in cui macOS salva le istantanee dello schermo.";
-"Choose what Encore keeps. Everything stays on this Mac." = "Scegli cosa conserva Encore. Tutto resta su questo Mac.";
+"Choose what Encore keeps. Everything stays on this Mac." = "Scegli cosa conserva encore. Tutto resta su questo Mac.";
 "Choose…" = "Scegli…";
 "Clear" = "Cancella";
 "Clear filters" = "Cancella filtri";
@@ -119,9 +119,9 @@
 "Enable" = "Attiva";
 "Enable direct paste" = "Attiva l’incollaggio diretto";
 "Encode as Base64" = "Codifica in Base64";
-"Encore remembers this display. If disconnected, it uses the primary display until it returns." = "Encore ricorda questo schermo. Se viene disconnesso, usa lo schermo principale finché non torna disponibile.";
-"Encore Settings" = "Impostazioni di Encore";
-"Encore — your clipboard history" = "Encore — la cronologia dei tuoi appunti";
+"Encore remembers this display. If disconnected, it uses the primary display until it returns." = "encore ricorda questo schermo. Se viene disconnesso, usa lo schermo principale finché non torna disponibile.";
+"Encore Settings" = "Impostazioni di encore";
+"Encore — your clipboard history" = "encore — la cronologia dei tuoi appunti";
 "Erase the secret shared with %@" = "Cancella il segreto condiviso con %@";
 "Essentials" = "Essenziali";
 "Everyday use" = "Uso quotidiano";
@@ -145,7 +145,7 @@
 "File" = "File";
 "File size" = "Dimensione file";
 "Files" = "File";
-"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. Storage and backups are unencrypted." = "I file vengono referenziati, non duplicati. La loro dimensione conta per le regole di conservazione ma non occupa lo spazio di Encore. Archivio e backup non sono codificati.";
+"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. Storage and backups are unencrypted." = "I file vengono referenziati, non duplicati. La loro dimensione conta per le regole di conservazione ma non occupa lo spazio di encore. Archivio e backup non sono codificati.";
 "Files remain at their original location." = "I file restano nella loro posizione originale.";
 "Filter by type or app" = "Filtra per tipo o app";
 "Filters" = "Filtri";
@@ -182,7 +182,7 @@
 "Keep editing" = "Continua a modificare";
 "Kept forever" = "Conservato per sempre";
 "Keychain Access" = "Accesso Portachiavi";
-"Keychain unavailable: %@" = "Portachiavi non disponibile: %@";
+"Pairing unavailable: %@" = "Abbinamento non disponibile: %@";
 "Language" = "Lingua";
 "Last copied" = "Ultima copia";
 "Launch at login" = "Apri al login";
@@ -196,7 +196,7 @@
 "Load size and duration presets" = "Carica i livelli di dimensione e durata";
 "Local library" = "Libreria locale";
 "Looking for nearby Macs…" = "Ricerca di Mac nelle vicinanze…";
-"macOS has not authorized this version of Encore. If access was already granted, turn Encore off and on in Accessibility. If needed, remove the old entry and add the installed app. Ad-hoc signatures can invalidate access after an update." = "macOS non ha autorizzato questa versione di Encore. Se l’accesso era già stato concesso, disattiva e riattiva Encore in Accessibilità. Se necessario, rimuovi la voce precedente e aggiungi l’app installata. Le firme ad hoc possono invalidare l’accesso dopo un aggiornamento.";
+"macOS has not authorized this version of Encore. If access was already granted, turn Encore off and on in Accessibility. If needed, remove the old entry and add the installed app. Ad-hoc signatures can invalidate access after an update." = "macOS non ha autorizzato questa versione di encore. Se l’accesso era già stato concesso, disattiva e riattiva encore in Accessibilità. Se necessario, rimuovi la voce precedente e aggiungi l’app installata. Le firme ad hoc possono invalidare l’accesso dopo un aggiornamento.";
 "macOS primary display" = "Schermo principale di macOS";
 "macOS Settings…" = "Impostazioni di macOS…";
 "Manual paste active" = "Incollaggio manuale attivo";
@@ -213,8 +213,8 @@
 "New collection" = "Nuova raccolta";
 "New collection…" = "Nuova raccolta…";
 "New rule" = "Nuova regola";
-"New screenshots in this folder join your history without changing the clipboard. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Le nuove istantanee dello schermo in questa cartella entrano nella cronologia senza modificare gli appunti. La cartella viene monitorata mentre Encore e l’acquisizione sono attivi. Le istantanee esistenti non vengono importate.";
-"New screenshots in this folder join your history. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Le nuove istantanee dello schermo in questa cartella entrano nella cronologia. La cartella viene monitorata mentre Encore e l’acquisizione sono attivi. Le istantanee esistenti non vengono importate.";
+"New screenshots in this folder join your history without changing the clipboard. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Le nuove istantanee dello schermo in questa cartella entrano nella cronologia senza modificare gli appunti. La cartella viene monitorata mentre encore e l’acquisizione sono attivi. Le istantanee esistenti non vengono importate.";
+"New screenshots in this folder join your history. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Le nuove istantanee dello schermo in questa cartella entrano nella cronologia. La cartella viene monitorata mentre encore e l’acquisizione sono attivi. Le istantanee esistenti non vengono importate.";
 "New snippet" = "Nuovo frammento";
 "No immediate deletions." = "Nessuna eliminazione immediata.";
 "No installed apps are excluded" = "Nessuna app installata esclusa";
@@ -229,7 +229,7 @@
 "On paste" = "All’incollaggio";
 "Online" = "Online";
 "Open" = "Apri";
-"Open Encore" = "Apri Encore";
+"Open Encore" = "Apri encore";
 "Open folder" = "Apri cartella";
 "Open link" = "Apri link";
 "Optional title" = "Titolo facoltativo";
@@ -240,7 +240,7 @@
 "Pair a Mac…" = "Abbina un Mac…";
 "Paired Macs" = "Mac abbinati";
 "Pairing cancelled or failed. No secret was saved." = "Abbinamento annullato o non riuscito. Nessun segreto è stato salvato.";
-"Pairing happens once: check that both Macs show the same 6-digit code. The shared secret stays in each Mac’s Keychain. Removing a Mac erases it." = "L’abbinamento si fa una sola volta: verifica che entrambi i Mac mostrino lo stesso codice di 6 cifre. Il segreto condiviso resta nel portachiavi di ciascun Mac. Rimuovendo un Mac, viene cancellato.";
+"Pairing happens once: check that both Macs show the same 6-digit code. The shared secret stays on each Mac, readable only by your account. Removing a Mac erases it." = "L’abbinamento si fa una sola volta: verifica che entrambi i Mac mostrino lo stesso codice di 6 cifre. Il segreto condiviso resta su ciascun Mac ed è leggibile solo dal tuo account. Rimuovendo un Mac, viene cancellato.";
 "Paper" = "Carta";
 "Paste" = "Incolla";
 "paste" = "incolla";
@@ -261,7 +261,7 @@
 "Queue finished" = "Coda terminata";
 "Queue stopped: this item's content is unavailable." = "Coda interrotta: il contenuto di questo elemento non è disponibile.";
 "Quick paste" = "Incollaggio rapido";
-"Quit Encore" = "Esci da Encore";
+"Quit Encore" = "Esci da encore";
 "Recognition failed: %@" = "Riconoscimento non riuscito: %@";
 "Recognize image text" = "Riconosci il testo dell’immagine";
 "Recognize text" = "Riconosci testo";
@@ -367,7 +367,7 @@
 "Volume" = "Volume";
 "Waiting for confirmation on the other Mac…" = "In attesa di conferma sull’altro Mac…";
 "When no rule matches" = "Quando nessuna regola corrisponde";
-"Without access, Encore copies items for you to paste with ⌘V." = "Senza accesso, Encore copia gli elementi e li incolli tu con ⌘V.";
+"Without access, Encore copies items for you to paste with ⌘V." = "Senza accesso, encore copia gli elementi e li incolli tu con ⌘V.";
 "Wood" = "Legno";
 "Yesterday" = "Ieri";
 "Your clipboard. Yours to keep.\nNative, local, and open source.\nMIT license · github.com/Kamasoutra/encore" = "I tuoi appunti. Restano tuoi.\nNativo, locale e open source.\nLicenza MIT · github.com/Kamasoutra/encore";

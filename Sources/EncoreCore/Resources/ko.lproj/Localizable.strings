@@ -15,8 +15,8 @@
 "90 days" = "90일";
 "A clipboard that fits the way you work." = "작업 방식에 맞춘 클립보드.";
 "A retention rule is invalid." = "유효하지 않은 보존 규칙이 있습니다.";
-"About Encore" = "Encore에 관하여";
-"Accessibility access enables direct and sequential paste. Without it, Encore copies the item for you to paste with ⌘V." = "손쉬운 사용 접근을 허용하면 직접 붙여넣기와 순차 붙여넣기를 사용할 수 있습니다. 허용하지 않으면 Encore가 항목을 복사하므로 ⌘V로 붙여넣으십시오.";
+"About Encore" = "encore에 관하여";
+"Accessibility access enables direct and sequential paste. Without it, Encore copies the item for you to paste with ⌘V." = "손쉬운 사용 접근을 허용하면 직접 붙여넣기와 순차 붙여넣기를 사용할 수 있습니다. 허용하지 않으면 encore가 항목을 복사하므로 ⌘V로 붙여넣으십시오.";
 "Active shortcut: %@. Fallback: ⌃⌥⌘V." = "사용 중인 단축키: %@. 대체 단축키: ⌃⌥⌘V.";
 "Add an app…" = "앱 추가…";
 "Add cards, then enable the queue." = "카드를 추가한 다음 대기열을 활성화하십시오.";
@@ -28,7 +28,7 @@
 "All apps" = "모든 앱";
 "All dates" = "모든 날짜";
 "All types" = "모든 유형";
-"Allow Encore in Accessibility, then try again." = "손쉬운 사용에서 Encore를 허용한 다음 다시 시도하십시오.";
+"Allow Encore in Accessibility, then try again." = "손쉬운 사용에서 encore를 허용한 다음 다시 시도하십시오.";
 "Also copy to the clipboard" = "클립보드에도 복사";
 "App" = "앱";
 "Appearance" = "모양";
@@ -48,7 +48,7 @@
 "Check Now" = "지금 확인";
 "Check that %@ shows the same code." = "%@에 같은 코드가 표시되는지 확인하십시오.";
 "Choose the folder where macOS saves your screenshots." = "macOS가 스크린샷을 저장하는 폴더를 선택하십시오.";
-"Choose what Encore keeps. Everything stays on this Mac." = "Encore에 보관할 항목을 선택합니다. 모든 데이터는 이 Mac에 남습니다.";
+"Choose what Encore keeps. Everything stays on this Mac." = "encore에 보관할 항목을 선택합니다. 모든 데이터는 이 Mac에 남습니다.";
 "Choose…" = "선택…";
 "Clear" = "지우기";
 "Clear filters" = "필터 지우기";
@@ -119,9 +119,9 @@
 "Enable" = "활성화";
 "Enable direct paste" = "직접 붙여넣기 활성화";
 "Encode as Base64" = "Base64로 인코딩";
-"Encore remembers this display. If disconnected, it uses the primary display until it returns." = "Encore는 이 디스플레이를 기억합니다. 연결이 해제되면 다시 연결될 때까지 주 디스플레이를 사용합니다.";
-"Encore Settings" = "Encore 설정";
-"Encore — your clipboard history" = "Encore — 클립보드 기록";
+"Encore remembers this display. If disconnected, it uses the primary display until it returns." = "encore는 이 디스플레이를 기억합니다. 연결이 해제되면 다시 연결될 때까지 주 디스플레이를 사용합니다.";
+"Encore Settings" = "encore 설정";
+"Encore — your clipboard history" = "encore — 클립보드 기록";
 "Erase the secret shared with %@" = "%@와(과) 공유한 암호 키 지우기";
 "Essentials" = "기본";
 "Everyday use" = "일상 사용";
@@ -145,7 +145,7 @@
 "File" = "파일";
 "File size" = "파일 크기";
 "Files" = "파일";
-"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. Storage and backups are unencrypted." = "파일은 복제되지 않고 참조로 저장됩니다. 파일 크기는 보존 규칙에 사용되지만 Encore 용량을 차지하지 않습니다. 저장소와 백업은 암호화되지 않습니다.";
+"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. Storage and backups are unencrypted." = "파일은 복제되지 않고 참조로 저장됩니다. 파일 크기는 보존 규칙에 사용되지만 encore 용량을 차지하지 않습니다. 저장소와 백업은 암호화되지 않습니다.";
 "Files remain at their original location." = "파일은 원래 위치에 남아 있습니다.";
 "Filter by type or app" = "유형 또는 앱으로 필터링";
 "Filters" = "필터";
@@ -182,7 +182,7 @@
 "Keep editing" = "계속 편집";
 "Kept forever" = "영구 보존됨";
 "Keychain Access" = "키체인 접근";
-"Keychain unavailable: %@" = "키체인을 사용할 수 없음: %@";
+"Pairing unavailable: %@" = "페어링을 사용할 수 없음: %@";
 "Language" = "언어";
 "Last copied" = "마지막으로 복사함";
 "Launch at login" = "로그인 시 실행";
@@ -196,7 +196,7 @@
 "Load size and duration presets" = "크기 및 기간 사전 설정 불러오기";
 "Local library" = "로컬 보관함";
 "Looking for nearby Macs…" = "근처의 Mac 찾는 중…";
-"macOS has not authorized this version of Encore. If access was already granted, turn Encore off and on in Accessibility. If needed, remove the old entry and add the installed app. Ad-hoc signatures can invalidate access after an update." = "macOS에서 이 버전의 Encore를 허용하지 않았습니다. 이미 접근을 허용했다면 손쉬운 사용에서 Encore를 껐다가 다시 켜십시오. 필요한 경우 이전 항목을 제거하고 설치된 앱을 추가하십시오. 임시(ad-hoc) 서명은 업데이트 후 접근 권한을 무효화할 수 있습니다.";
+"macOS has not authorized this version of Encore. If access was already granted, turn Encore off and on in Accessibility. If needed, remove the old entry and add the installed app. Ad-hoc signatures can invalidate access after an update." = "macOS에서 이 버전의 encore를 허용하지 않았습니다. 이미 접근을 허용했다면 손쉬운 사용에서 encore를 껐다가 다시 켜십시오. 필요한 경우 이전 항목을 제거하고 설치된 앱을 추가하십시오. 임시(ad-hoc) 서명은 업데이트 후 접근 권한을 무효화할 수 있습니다.";
 "macOS primary display" = "macOS 주 디스플레이";
 "macOS Settings…" = "macOS 설정…";
 "Manual paste active" = "수동 붙여넣기 사용 중";
@@ -213,8 +213,8 @@
 "New collection" = "새로운 모음";
 "New collection…" = "새로운 모음…";
 "New rule" = "새로운 규칙";
-"New screenshots in this folder join your history without changing the clipboard. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "이 폴더의 새 스크린샷은 클립보드를 변경하지 않고 기록에 추가됩니다. Encore와 수집이 활성화되어 있는 동안 폴더를 감시합니다. 기존 스크린샷은 가져오지 않습니다.";
-"New screenshots in this folder join your history. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "이 폴더의 새 스크린샷은 기록에 추가됩니다. Encore와 수집이 활성화되어 있는 동안 폴더를 감시합니다. 기존 스크린샷은 가져오지 않습니다.";
+"New screenshots in this folder join your history without changing the clipboard. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "이 폴더의 새 스크린샷은 클립보드를 변경하지 않고 기록에 추가됩니다. encore와 수집이 활성화되어 있는 동안 폴더를 감시합니다. 기존 스크린샷은 가져오지 않습니다.";
+"New screenshots in this folder join your history. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "이 폴더의 새 스크린샷은 기록에 추가됩니다. encore와 수집이 활성화되어 있는 동안 폴더를 감시합니다. 기존 스크린샷은 가져오지 않습니다.";
 "New snippet" = "새로운 스니펫";
 "No immediate deletions." = "즉시 삭제되는 항목이 없습니다.";
 "No installed apps are excluded" = "제외된 설치 앱 없음";
@@ -229,7 +229,7 @@
 "On paste" = "붙여넣기 시";
 "Online" = "온라인";
 "Open" = "열기";
-"Open Encore" = "Encore 열기";
+"Open Encore" = "encore 열기";
 "Open folder" = "폴더 열기";
 "Open link" = "링크 열기";
 "Optional title" = "제목(선택 사항)";
@@ -240,7 +240,7 @@
 "Pair a Mac…" = "Mac 페어링…";
 "Paired Macs" = "페어링된 Mac";
 "Pairing cancelled or failed. No secret was saved." = "페어링이 취소되었거나 실패했습니다. 암호 키가 저장되지 않았습니다.";
-"Pairing happens once: check that both Macs show the same 6-digit code. The shared secret stays in each Mac’s Keychain. Removing a Mac erases it." = "페어링은 한 번만 하면 됩니다. 두 Mac에 같은 6자리 코드가 표시되는지 확인하십시오. 공유 암호 키는 각 Mac의 키체인에 보관됩니다. Mac을 제거하면 암호 키도 지워집니다.";
+"Pairing happens once: check that both Macs show the same 6-digit code. The shared secret stays on each Mac, readable only by your account. Removing a Mac erases it." = "페어링은 한 번만 하면 됩니다. 두 Mac에 같은 6자리 코드가 표시되는지 확인하십시오. 공유 암호 키는 각 Mac에 보관되며 사용자 계정만 읽을 수 있습니다. Mac을 제거하면 암호 키도 지워집니다.";
 "Paper" = "종이";
 "Paste" = "붙여넣기";
 "paste" = "붙여넣기";
@@ -261,7 +261,7 @@
 "Queue finished" = "대기열 완료";
 "Queue stopped: this item's content is unavailable." = "대기열 중단됨: 이 항목의 콘텐츠를 사용할 수 없습니다.";
 "Quick paste" = "빠른 붙여넣기";
-"Quit Encore" = "Encore 종료";
+"Quit Encore" = "encore 종료";
 "Recognition failed: %@" = "인식 실패: %@";
 "Recognize image text" = "이미지 텍스트 인식";
 "Recognize text" = "텍스트 인식";
@@ -367,7 +367,7 @@
 "Volume" = "음량";
 "Waiting for confirmation on the other Mac…" = "다른 Mac에서 확인을 기다리는 중…";
 "When no rule matches" = "일치하는 규칙이 없을 때";
-"Without access, Encore copies items for you to paste with ⌘V." = "접근을 허용하지 않으면 Encore가 항목을 복사하므로 ⌘V로 붙여넣으십시오.";
+"Without access, Encore copies items for you to paste with ⌘V." = "접근을 허용하지 않으면 encore가 항목을 복사하므로 ⌘V로 붙여넣으십시오.";
 "Wood" = "우드";
 "Yesterday" = "어제";
 "Your clipboard. Yours to keep.\nNative, local, and open source.\nMIT license · github.com/Kamasoutra/encore" = "나의 클립보드, 나의 데이터.\n네이티브, 로컬, 오픈 소스.\nMIT 라이선스 · github.com/Kamasoutra/encore";

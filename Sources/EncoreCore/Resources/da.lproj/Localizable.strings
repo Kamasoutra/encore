@@ -15,8 +15,8 @@
 "90 days" = "90 dage";
 "A clipboard that fits the way you work." = "En udklipsholder, der tilpasser sig din måde at arbejde på.";
 "A retention rule is invalid." = "En opbevaringsregel er ugyldig.";
-"About Encore" = "Om Encore";
-"Accessibility access enables direct and sequential paste. Without it, Encore copies the item for you to paste with ⌘V." = "Med adgang via Tilgængelighed kan du bruge direkte indsætning og indsætning i rækkefølge. Uden adgang kopierer Encore emnet, så du kan indsætte det med ⌘V.";
+"About Encore" = "Om encore";
+"Accessibility access enables direct and sequential paste. Without it, Encore copies the item for you to paste with ⌘V." = "Med adgang via Tilgængelighed kan du bruge direkte indsætning og indsætning i rækkefølge. Uden adgang kopierer encore emnet, så du kan indsætte det med ⌘V.";
 "Active shortcut: %@. Fallback: ⌃⌥⌘V." = "Aktiv genvej: %@. Reserve: ⌃⌥⌘V.";
 "Add an app…" = "Tilføj app…";
 "Add cards, then enable the queue." = "Tilføj kort, og slå derefter køen til.";
@@ -28,7 +28,7 @@
 "All apps" = "Alle apps";
 "All dates" = "Alle datoer";
 "All types" = "Alle typer";
-"Allow Encore in Accessibility, then try again." = "Giv Encore tilladelse under Tilgængelighed, og prøv igen.";
+"Allow Encore in Accessibility, then try again." = "Giv encore tilladelse under Tilgængelighed, og prøv igen.";
 "Also copy to the clipboard" = "Kopier også til udklipsholderen";
 "App" = "App";
 "Appearance" = "Udseende";
@@ -48,7 +48,7 @@
 "Check Now" = "Søg nu";
 "Check that %@ shows the same code." = "Kontroller, at %@ viser den samme kode.";
 "Choose the folder where macOS saves your screenshots." = "Vælg den mappe, hvor macOS gemmer dine skærmbilleder.";
-"Choose what Encore keeps. Everything stays on this Mac." = "Vælg, hvad Encore må gemme. Alt bliver på denne Mac.";
+"Choose what Encore keeps. Everything stays on this Mac." = "Vælg, hvad encore må gemme. Alt bliver på denne Mac.";
 "Choose…" = "Vælg…";
 "Clear" = "Ryd";
 "Clear filters" = "Ryd filtre";
@@ -119,9 +119,9 @@
 "Enable" = "Slå til";
 "Enable direct paste" = "Slå direkte indsætning til";
 "Encode as Base64" = "Kod som Base64";
-"Encore remembers this display. If disconnected, it uses the primary display until it returns." = "Encore husker denne skærm. Hvis den frakobles, bruges hovedskærmen, indtil den er tilbage.";
-"Encore Settings" = "Indstillinger til Encore";
-"Encore — your clipboard history" = "Encore – din udklipsholderhistorik";
+"Encore remembers this display. If disconnected, it uses the primary display until it returns." = "encore husker denne skærm. Hvis den frakobles, bruges hovedskærmen, indtil den er tilbage.";
+"Encore Settings" = "Indstillinger til encore";
+"Encore — your clipboard history" = "encore – din udklipsholderhistorik";
 "Erase the secret shared with %@" = "Slet hemmeligheden, der deles med %@";
 "Essentials" = "Det grundlæggende";
 "Everyday use" = "Daglig brug";
@@ -145,7 +145,7 @@
 "File" = "Fil";
 "File size" = "Filstørrelse";
 "Files" = "Filer";
-"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. Storage and backups are unencrypted." = "Der henvises til filer, og de dubleres ikke. Deres størrelse tæller med i reglerne, men ikke i Encores budget. Lagring og sikkerhedskopier er ukrypterede.";
+"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. Storage and backups are unencrypted." = "Der henvises til filer, og de dubleres ikke. Deres størrelse tæller med i reglerne, men ikke i encores budget. Lagring og sikkerhedskopier er ukrypterede.";
 "Files remain at their original location." = "Filer forbliver på deres oprindelige placering.";
 "Filter by type or app" = "Filtrer efter type eller app";
 "Filters" = "Filtre";
@@ -182,7 +182,7 @@
 "Keep editing" = "Fortsæt redigering";
 "Kept forever" = "Beholdes altid";
 "Keychain Access" = "Nøgleringsadgang";
-"Keychain unavailable: %@" = "Nøgleringen er ikke tilgængelig: %@";
+"Pairing unavailable: %@" = "Parring er ikke tilgængelig: %@";
 "Language" = "Sprog";
 "Last copied" = "Senest kopieret";
 "Launch at login" = "Åbn ved login";
@@ -196,7 +196,7 @@
 "Load size and duration presets" = "Indlæs trin for størrelse og varighed";
 "Local library" = "Lokalt bibliotek";
 "Looking for nearby Macs…" = "Søger efter Mac-computere i nærheden…";
-"macOS has not authorized this version of Encore. If access was already granted, turn Encore off and on in Accessibility. If needed, remove the old entry and add the installed app. Ad-hoc signatures can invalidate access after an update." = "macOS har ikke godkendt denne version af Encore. Hvis du allerede har givet adgang, skal du slå Encore fra og til igen under Tilgængelighed. Fjern om nødvendigt den gamle post, og tilføj den installerede app. En ad hoc-signatur kan gøre adgangen ugyldig efter en opdatering.";
+"macOS has not authorized this version of Encore. If access was already granted, turn Encore off and on in Accessibility. If needed, remove the old entry and add the installed app. Ad-hoc signatures can invalidate access after an update." = "macOS har ikke godkendt denne version af encore. Hvis du allerede har givet adgang, skal du slå encore fra og til igen under Tilgængelighed. Fjern om nødvendigt den gamle post, og tilføj den installerede app. En ad hoc-signatur kan gøre adgangen ugyldig efter en opdatering.";
 "macOS primary display" = "Hovedskærm i macOS";
 "macOS Settings…" = "Systemindstillinger…";
 "Manual paste active" = "Manuel indsætning aktiv";
@@ -213,8 +213,8 @@
 "New collection" = "Ny samling";
 "New collection…" = "Ny samling…";
 "New rule" = "Ny regel";
-"New screenshots in this folder join your history without changing the clipboard. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Nye skærmbilleder i denne mappe føjes til historikken uden at ændre udklipsholderen. Mappen overvåges kun, når Encore og registreringen er aktive. Eksisterende skærmbilleder importeres ikke.";
-"New screenshots in this folder join your history. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Nye skærmbilleder i denne mappe føjes til historikken. Mappen overvåges kun, når Encore og registrering er aktive. Eksisterende skærmbilleder importeres ikke.";
+"New screenshots in this folder join your history without changing the clipboard. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Nye skærmbilleder i denne mappe føjes til historikken uden at ændre udklipsholderen. Mappen overvåges kun, når encore og registreringen er aktive. Eksisterende skærmbilleder importeres ikke.";
+"New screenshots in this folder join your history. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Nye skærmbilleder i denne mappe føjes til historikken. Mappen overvåges kun, når encore og registrering er aktive. Eksisterende skærmbilleder importeres ikke.";
 "New snippet" = "Ny tekststump";
 "No immediate deletions." = "Intet slettes med det samme.";
 "No installed apps are excluded" = "Ingen udelukkede apps er installeret";
@@ -229,7 +229,7 @@
 "On paste" = "Indsætning";
 "Online" = "Online";
 "Open" = "Åbn";
-"Open Encore" = "Åbn Encore";
+"Open Encore" = "Åbn encore";
 "Open folder" = "Åbn mappe";
 "Open link" = "Åbn link";
 "Optional title" = "Valgfri titel";
@@ -240,7 +240,7 @@
 "Pair a Mac…" = "Par en Mac…";
 "Paired Macs" = "Parrede Mac-computere";
 "Pairing cancelled or failed. No secret was saved." = "Parringen blev annulleret eller mislykkedes. Ingen hemmelighed blev gemt.";
-"Pairing happens once: check that both Macs show the same 6-digit code. The shared secret stays in each Mac’s Keychain. Removing a Mac erases it." = "Parringen sker én gang: Kontroller, at begge Mac-computere viser den samme 6-cifrede kode. Den delte hemmelighed forbliver i nøgleringen på hver Mac. Når du fjerner en Mac, slettes den.";
+"Pairing happens once: check that both Macs show the same 6-digit code. The shared secret stays on each Mac, readable only by your account. Removing a Mac erases it." = "Parringen sker én gang: Kontroller, at begge Mac-computere viser den samme 6-cifrede kode. Den delte hemmelighed forbliver på hver Mac og kan kun læses af din konto. Når du fjerner en Mac, slettes den.";
 "Paper" = "Papir";
 "Paste" = "Indsæt";
 "paste" = "indsæt";
@@ -261,7 +261,7 @@
 "Queue finished" = "Køen er færdig";
 "Queue stopped: this item's content is unavailable." = "Køen er stoppet: Emnets indhold er ikke tilgængeligt.";
 "Quick paste" = "Hurtig indsætning";
-"Quit Encore" = "Slut Encore";
+"Quit Encore" = "Slut encore";
 "Recognition failed: %@" = "Genkendelsen mislykkedes: %@";
 "Recognize image text" = "Genkend tekst i billedet";
 "Recognize text" = "Genkend tekst";
@@ -367,7 +367,7 @@
 "Volume" = "Lydstyrke";
 "Waiting for confirmation on the other Mac…" = "Venter på bekræftelse på den anden Mac…";
 "When no rule matches" = "Når ingen regel passer";
-"Without access, Encore copies items for you to paste with ⌘V." = "Uden adgang kopierer Encore emnerne, så du kan indsætte dem med ⌘V.";
+"Without access, Encore copies items for you to paste with ⌘V." = "Uden adgang kopierer encore emnerne, så du kan indsætte dem med ⌘V.";
 "Wood" = "Træ";
 "Yesterday" = "I går";
 "Your clipboard. Yours to keep.\nNative, local, and open source.\nMIT license · github.com/Kamasoutra/encore" = "Din udklipsholder. For altid.\nIndbygget, lokal og open source.\nMIT-licens · github.com/Kamasoutra/encore";

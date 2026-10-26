@@ -15,8 +15,8 @@
 "90 days" = "90 วัน";
 "A clipboard that fits the way you work." = "คลิปบอร์ดที่เข้ากับวิธีทำงานของคุณ";
 "A retention rule is invalid." = "มีกฎการเก็บรักษาที่ไม่ถูกต้อง";
-"About Encore" = "เกี่ยวกับ Encore";
-"Accessibility access enables direct and sequential paste. Without it, Encore copies the item for you to paste with ⌘V." = "การอนุญาตการช่วยการเข้าถึงจะเปิดใช้การวางโดยตรงและการวางตามลำดับ หากไม่อนุญาต Encore จะคัดลอกรายการไว้ให้คุณวางด้วย ⌘V";
+"About Encore" = "เกี่ยวกับ encore";
+"Accessibility access enables direct and sequential paste. Without it, Encore copies the item for you to paste with ⌘V." = "การอนุญาตการช่วยการเข้าถึงจะเปิดใช้การวางโดยตรงและการวางตามลำดับ หากไม่อนุญาต encore จะคัดลอกรายการไว้ให้คุณวางด้วย ⌘V";
 "Active shortcut: %@. Fallback: ⌃⌥⌘V." = "ปุ่มลัดที่ใช้อยู่: %@ ปุ่มลัดสำรอง: ⌃⌥⌘V";
 "Add an app…" = "เพิ่มแอป…";
 "Add cards, then enable the queue." = "เพิ่มการ์ด แล้วเปิดใช้คิว";
@@ -28,7 +28,7 @@
 "All apps" = "แอปทั้งหมด";
 "All dates" = "ทุกวันที่";
 "All types" = "ทุกประเภท";
-"Allow Encore in Accessibility, then try again." = "อนุญาต Encore ในการช่วยการเข้าถึง แล้วลองอีกครั้ง";
+"Allow Encore in Accessibility, then try again." = "อนุญาต encore ในการช่วยการเข้าถึง แล้วลองอีกครั้ง";
 "Also copy to the clipboard" = "คัดลอกไปยังคลิปบอร์ดด้วย";
 "App" = "แอป";
 "Appearance" = "ลักษณะที่ปรากฏ";
@@ -48,7 +48,7 @@
 "Check Now" = "ตรวจสอบตอนนี้";
 "Check that %@ shows the same code." = "ตรวจสอบว่า %@ แสดงรหัสเดียวกัน";
 "Choose the folder where macOS saves your screenshots." = "เลือกโฟลเดอร์ที่ macOS บันทึกภาพหน้าจอของคุณ";
-"Choose what Encore keeps. Everything stays on this Mac." = "เลือกสิ่งที่ Encore จะเก็บไว้ ทุกอย่างจะอยู่บน Mac เครื่องนี้";
+"Choose what Encore keeps. Everything stays on this Mac." = "เลือกสิ่งที่ encore จะเก็บไว้ ทุกอย่างจะอยู่บน Mac เครื่องนี้";
 "Choose…" = "เลือก…";
 "Clear" = "ล้าง";
 "Clear filters" = "ล้างตัวกรอง";
@@ -119,9 +119,9 @@
 "Enable" = "เปิดใช้";
 "Enable direct paste" = "เปิดใช้การวางโดยตรง";
 "Encode as Base64" = "เข้ารหัสเป็น Base64";
-"Encore remembers this display. If disconnected, it uses the primary display until it returns." = "Encore จะจำจอภาพนี้ไว้ หากตัดการเชื่อมต่อ Encore จะใช้จอภาพหลักจนกว่าจอภาพนี้จะเชื่อมต่ออีกครั้ง";
-"Encore Settings" = "การตั้งค่า Encore";
-"Encore — your clipboard history" = "Encore — ประวัติคลิปบอร์ดของคุณ";
+"Encore remembers this display. If disconnected, it uses the primary display until it returns." = "encore จะจำจอภาพนี้ไว้ หากตัดการเชื่อมต่อ encore จะใช้จอภาพหลักจนกว่าจอภาพนี้จะเชื่อมต่ออีกครั้ง";
+"Encore Settings" = "การตั้งค่า encore";
+"Encore — your clipboard history" = "encore — ประวัติคลิปบอร์ดของคุณ";
 "Erase the secret shared with %@" = "ลบข้อมูลลับที่แชร์กับ %@";
 "Essentials" = "พื้นฐาน";
 "Everyday use" = "การใช้งานประจำวัน";
@@ -145,7 +145,7 @@
 "File" = "ไฟล์";
 "File size" = "ขนาดไฟล์";
 "Files" = "ไฟล์";
-"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. Storage and backups are unencrypted." = "ไฟล์จะถูกอ้างอิง ไม่ได้ทำสำเนา ขนาดไฟล์ใช้สำหรับกฎการเก็บรักษาแต่ไม่กินพื้นที่ของ Encore ข้อมูลที่จัดเก็บและข้อมูลสำรองไม่ได้เข้ารหัส";
+"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. Storage and backups are unencrypted." = "ไฟล์จะถูกอ้างอิง ไม่ได้ทำสำเนา ขนาดไฟล์ใช้สำหรับกฎการเก็บรักษาแต่ไม่กินพื้นที่ของ encore ข้อมูลที่จัดเก็บและข้อมูลสำรองไม่ได้เข้ารหัส";
 "Files remain at their original location." = "ไฟล์ยังคงอยู่ในตำแหน่งเดิม";
 "Filter by type or app" = "กรองตามประเภทหรือแอป";
 "Filters" = "ตัวกรอง";
@@ -182,7 +182,7 @@
 "Keep editing" = "แก้ไขต่อ";
 "Kept forever" = "เก็บไว้ตลอดไป";
 "Keychain Access" = "การเข้าถึงพวงกุญแจ";
-"Keychain unavailable: %@" = "ไม่สามารถใช้พวงกุญแจได้: %@";
+"Pairing unavailable: %@" = "ไม่สามารถจับคู่ได้: %@";
 "Language" = "ภาษา";
 "Last copied" = "คัดลอกล่าสุด";
 "Launch at login" = "เปิดเมื่อเข้าสู่ระบบ";
@@ -196,7 +196,7 @@
 "Load size and duration presets" = "โหลดค่าที่ตั้งไว้ของขนาดและระยะเวลา";
 "Local library" = "คลังในเครื่อง";
 "Looking for nearby Macs…" = "กำลังค้นหา Mac ที่อยู่ใกล้เคียง…";
-"macOS has not authorized this version of Encore. If access was already granted, turn Encore off and on in Accessibility. If needed, remove the old entry and add the installed app. Ad-hoc signatures can invalidate access after an update." = "macOS ยังไม่ได้อนุญาต Encore เวอร์ชันนี้ หากคุณอนุญาตการเข้าถึงไว้แล้ว ให้ปิดแล้วเปิด Encore ในการช่วยการเข้าถึง หากจำเป็น ให้เอารายการเก่าออกแล้วเพิ่มแอปที่ติดตั้งไว้ ลายเซ็นแบบ ad-hoc อาจทำให้การเข้าถึงใช้ไม่ได้หลังการอัปเดต";
+"macOS has not authorized this version of Encore. If access was already granted, turn Encore off and on in Accessibility. If needed, remove the old entry and add the installed app. Ad-hoc signatures can invalidate access after an update." = "macOS ยังไม่ได้อนุญาต encore เวอร์ชันนี้ หากคุณอนุญาตการเข้าถึงไว้แล้ว ให้ปิดแล้วเปิด encore ในการช่วยการเข้าถึง หากจำเป็น ให้เอารายการเก่าออกแล้วเพิ่มแอปที่ติดตั้งไว้ ลายเซ็นแบบ ad-hoc อาจทำให้การเข้าถึงใช้ไม่ได้หลังการอัปเดต";
 "macOS primary display" = "จอภาพหลักของ macOS";
 "macOS Settings…" = "การตั้งค่า macOS…";
 "Manual paste active" = "กำลังใช้การวางด้วยตนเอง";
@@ -213,8 +213,8 @@
 "New collection" = "คอลเลกชันใหม่";
 "New collection…" = "คอลเลกชันใหม่…";
 "New rule" = "กฎใหม่";
-"New screenshots in this folder join your history without changing the clipboard. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "ภาพหน้าจอใหม่ในโฟลเดอร์นี้จะถูกเพิ่มลงในประวัติโดยไม่เปลี่ยนคลิปบอร์ด โฟลเดอร์จะถูกเฝ้าดูขณะที่ Encore และการบันทึกทำงานอยู่ ภาพหน้าจอที่มีอยู่แล้วจะไม่ถูกนำเข้า";
-"New screenshots in this folder join your history. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "ภาพหน้าจอใหม่ในโฟลเดอร์นี้จะถูกเพิ่มลงในประวัติ โฟลเดอร์จะถูกเฝ้าดูขณะที่ Encore และการบันทึกทำงานอยู่ ภาพหน้าจอที่มีอยู่แล้วจะไม่ถูกนำเข้า";
+"New screenshots in this folder join your history without changing the clipboard. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "ภาพหน้าจอใหม่ในโฟลเดอร์นี้จะถูกเพิ่มลงในประวัติโดยไม่เปลี่ยนคลิปบอร์ด โฟลเดอร์จะถูกเฝ้าดูขณะที่ encore และการบันทึกทำงานอยู่ ภาพหน้าจอที่มีอยู่แล้วจะไม่ถูกนำเข้า";
+"New screenshots in this folder join your history. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "ภาพหน้าจอใหม่ในโฟลเดอร์นี้จะถูกเพิ่มลงในประวัติ โฟลเดอร์จะถูกเฝ้าดูขณะที่ encore และการบันทึกทำงานอยู่ ภาพหน้าจอที่มีอยู่แล้วจะไม่ถูกนำเข้า";
 "New snippet" = "ข้อความสั้นใหม่";
 "No immediate deletions." = "ไม่มีรายการที่จะถูกลบทันที";
 "No installed apps are excluded" = "ไม่มีแอปที่ติดตั้งไว้ถูกยกเว้น";
@@ -229,7 +229,7 @@
 "On paste" = "เมื่อวาง";
 "Online" = "ออนไลน์";
 "Open" = "เปิด";
-"Open Encore" = "เปิด Encore";
+"Open Encore" = "เปิด encore";
 "Open folder" = "เปิดโฟลเดอร์";
 "Open link" = "เปิดลิงก์";
 "Optional title" = "ชื่อ (ไม่บังคับ)";
@@ -240,7 +240,7 @@
 "Pair a Mac…" = "จับคู่ Mac…";
 "Paired Macs" = "Mac ที่จับคู่ไว้";
 "Pairing cancelled or failed. No secret was saved." = "การจับคู่ถูกยกเลิกหรือไม่สำเร็จ ไม่มีการบันทึกข้อมูลลับ";
-"Pairing happens once: check that both Macs show the same 6-digit code. The shared secret stays in each Mac’s Keychain. Removing a Mac erases it." = "จับคู่เพียงครั้งเดียว: ตรวจสอบว่า Mac ทั้งสองเครื่องแสดงรหัส 6 หลักเดียวกัน ข้อมูลลับที่แชร์จะอยู่ในพวงกุญแจของ Mac แต่ละเครื่อง การเอา Mac ออกจะลบข้อมูลลับนั้น";
+"Pairing happens once: check that both Macs show the same 6-digit code. The shared secret stays on each Mac, readable only by your account. Removing a Mac erases it." = "จับคู่เพียงครั้งเดียว: ตรวจสอบว่า Mac ทั้งสองเครื่องแสดงรหัส 6 หลักเดียวกัน ข้อมูลลับที่แชร์จะอยู่ใน Mac แต่ละเครื่อง และอ่านได้เฉพาะบัญชีของคุณ การเอา Mac ออกจะลบข้อมูลลับนั้น";
 "Paper" = "กระดาษ";
 "Paste" = "วาง";
 "paste" = "วาง";
@@ -261,7 +261,7 @@
 "Queue finished" = "คิวเสร็จสิ้นแล้ว";
 "Queue stopped: this item's content is unavailable." = "คิวหยุดแล้ว: ไม่มีเนื้อหาของรายการนี้";
 "Quick paste" = "วางด่วน";
-"Quit Encore" = "ออกจาก Encore";
+"Quit Encore" = "ออกจาก encore";
 "Recognition failed: %@" = "รู้จำไม่สำเร็จ: %@";
 "Recognize image text" = "รู้จำข้อความในภาพ";
 "Recognize text" = "รู้จำข้อความ";
@@ -367,7 +367,7 @@
 "Volume" = "ระดับเสียง";
 "Waiting for confirmation on the other Mac…" = "กำลังรอการยืนยันบน Mac อีกเครื่อง…";
 "When no rule matches" = "เมื่อไม่มีกฎที่ตรงกัน";
-"Without access, Encore copies items for you to paste with ⌘V." = "หากไม่อนุญาตการเข้าถึง Encore จะคัดลอกรายการไว้ให้คุณวางด้วย ⌘V";
+"Without access, Encore copies items for you to paste with ⌘V." = "หากไม่อนุญาตการเข้าถึง encore จะคัดลอกรายการไว้ให้คุณวางด้วย ⌘V";
 "Wood" = "ไม้";
 "Yesterday" = "เมื่อวานนี้";
 "Your clipboard. Yours to keep.\nNative, local, and open source.\nMIT license · github.com/Kamasoutra/encore" = "คลิปบอร์ดของคุณ เป็นของคุณ\nเนทีฟ ภายในเครื่อง และโอเพนซอร์ส\nสัญญาอนุญาต MIT · github.com/Kamasoutra/encore";

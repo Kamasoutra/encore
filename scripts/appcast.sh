@@ -13,10 +13,10 @@ cat <<EOF
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle">
 <channel>
-<title>Encore</title>
+<title>encore</title>
 <link>$repository</link>
 <item>
-<title>Encore $version</title>
+<title>encore $version</title>
 <pubDate>$(LC_ALL=C date -u '+%a, %d %b %Y %H:%M:%S +0000')</pubDate>
 <sparkle:version>$build</sparkle:version>
 <sparkle:shortVersionString>$version</sparkle:shortVersionString>

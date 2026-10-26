@@ -15,8 +15,8 @@
 "90 days" = "90 天";
 "A clipboard that fits the way you work." = "配合你工作方式的剪貼板。";
 "A retention rule is invalid." = "有一條保留規則無效。";
-"About Encore" = "關於 Encore";
-"Accessibility access enables direct and sequential paste. Without it, Encore copies the item for you to paste with ⌘V." = "允許「輔助使用」取用權限後，即可直接貼上和依序貼上。未允許時，Encore 會拷貝項目，讓你按 ⌘V 貼上。";
+"About Encore" = "關於 encore";
+"Accessibility access enables direct and sequential paste. Without it, Encore copies the item for you to paste with ⌘V." = "允許「輔助使用」取用權限後，即可直接貼上和依序貼上。未允許時，encore 會拷貝項目，讓你按 ⌘V 貼上。";
 "Active shortcut: %@. Fallback: ⌃⌥⌘V." = "目前的快速鍵：%@。備用：⌃⌥⌘V。";
 "Add an app…" = "加入 App…";
 "Add cards, then enable the queue." = "請先加入卡片，再啟用佇列。";
@@ -28,7 +28,7 @@
 "All apps" = "所有 App";
 "All dates" = "所有日期";
 "All types" = "所有類型";
-"Allow Encore in Accessibility, then try again." = "請在「輔助使用」中允許 Encore，然後再試一次。";
+"Allow Encore in Accessibility, then try again." = "請在「輔助使用」中允許 encore，然後再試一次。";
 "Also copy to the clipboard" = "同時拷貝到剪貼板";
 "App" = "App";
 "Appearance" = "外觀";
@@ -48,7 +48,7 @@
 "Check Now" = "立即檢查";
 "Check that %@ shows the same code." = "請確認「%@」顯示相同的代碼。";
 "Choose the folder where macOS saves your screenshots." = "選擇 macOS 儲存截圖的檔案夾。";
-"Choose what Encore keeps. Everything stays on this Mac." = "選擇 Encore 要保留的內容。所有內容都會留在這部 Mac 上。";
+"Choose what Encore keeps. Everything stays on this Mac." = "選擇 encore 要保留的內容。所有內容都會留在這部 Mac 上。";
 "Choose…" = "選擇…";
 "Clear" = "清除";
 "Clear filters" = "清除過濾條件";
@@ -119,9 +119,9 @@
 "Enable" = "啟用";
 "Enable direct paste" = "啟用直接貼上";
 "Encode as Base64" = "編碼為 Base64";
-"Encore remembers this display. If disconnected, it uses the primary display until it returns." = "Encore 會記住此顯示器。若中斷連線，會使用主顯示器，直到其重新連線。";
-"Encore Settings" = "Encore 設定";
-"Encore — your clipboard history" = "Encore — 你的剪貼板歷史記錄";
+"Encore remembers this display. If disconnected, it uses the primary display until it returns." = "encore 會記住此顯示器。若中斷連線，會使用主顯示器，直到其重新連線。";
+"Encore Settings" = "encore 設定";
+"Encore — your clipboard history" = "encore — 你的剪貼板歷史記錄";
 "Erase the secret shared with %@" = "清除與「%@」共享的密鑰";
 "Essentials" = "基本";
 "Everyday use" = "日常使用";
@@ -145,7 +145,7 @@
 "File" = "檔案";
 "File size" = "檔案大小";
 "Files" = "檔案";
-"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. Storage and backups are unencrypted." = "檔案以參照方式保存，不會複製。檔案大小會用於保留規則，但不佔用 Encore 的容量。儲存的資料和備份皆未加密。";
+"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. Storage and backups are unencrypted." = "檔案以參照方式保存，不會複製。檔案大小會用於保留規則，但不佔用 encore 的容量。儲存的資料和備份皆未加密。";
 "Files remain at their original location." = "檔案會留在原始位置。";
 "Filter by type or app" = "依類型或 App 過濾";
 "Filters" = "過濾條件";
@@ -182,7 +182,7 @@
 "Keep editing" = "繼續編輯";
 "Kept forever" = "永久保留";
 "Keychain Access" = "鑰匙圈存取";
-"Keychain unavailable: %@" = "無法使用鑰匙圈：%@";
+"Pairing unavailable: %@" = "無法配對：%@";
 "Language" = "語言";
 "Last copied" = "上次拷貝";
 "Launch at login" = "登入時啟動";
@@ -196,7 +196,7 @@
 "Load size and duration presets" = "載入大小和時間長度預設組";
 "Local library" = "本機資料庫";
 "Looking for nearby Macs…" = "正在尋找附近的 Mac…";
-"macOS has not authorized this version of Encore. If access was already granted, turn Encore off and on in Accessibility. If needed, remove the old entry and add the installed app. Ad-hoc signatures can invalidate access after an update." = "macOS 尚未授權此版本的 Encore。若先前已授予取用權限，請在「輔助使用」中將 Encore 關閉再開啟。如有需要，請移除舊的項目並加入已安裝的 App。使用臨時（ad-hoc）簽名時，更新後取用權限可能會失效。";
+"macOS has not authorized this version of Encore. If access was already granted, turn Encore off and on in Accessibility. If needed, remove the old entry and add the installed app. Ad-hoc signatures can invalidate access after an update." = "macOS 尚未授權此版本的 encore。若先前已授予取用權限，請在「輔助使用」中將 encore 關閉再開啟。如有需要，請移除舊的項目並加入已安裝的 App。使用臨時（ad-hoc）簽名時，更新後取用權限可能會失效。";
 "macOS primary display" = "macOS 主顯示器";
 "macOS Settings…" = "macOS 設定…";
 "Manual paste active" = "正在使用手動貼上";
@@ -213,8 +213,8 @@
 "New collection" = "新增合輯";
 "New collection…" = "新增合輯…";
 "New rule" = "新增規則";
-"New screenshots in this folder join your history without changing the clipboard. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "此檔案夾中的新截圖會加入歷史記錄，但不會變更剪貼板。Encore 和記錄啟用期間會監看此檔案夾。現有的截圖不會輸入。";
-"New screenshots in this folder join your history. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "此檔案夾中的新截圖會加入歷史記錄。Encore 和記錄啟用期間會監看此檔案夾。現有的截圖不會輸入。";
+"New screenshots in this folder join your history without changing the clipboard. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "此檔案夾中的新截圖會加入歷史記錄，但不會變更剪貼板。encore 和記錄啟用期間會監看此檔案夾。現有的截圖不會輸入。";
+"New screenshots in this folder join your history. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "此檔案夾中的新截圖會加入歷史記錄。encore 和記錄啟用期間會監看此檔案夾。現有的截圖不會輸入。";
 "New snippet" = "新增片段";
 "No immediate deletions." = "不會立即刪除任何項目。";
 "No installed apps are excluded" = "未排除任何已安裝的 App";
@@ -229,7 +229,7 @@
 "On paste" = "貼上時";
 "Online" = "上線";
 "Open" = "打開";
-"Open Encore" = "打開 Encore";
+"Open Encore" = "打開 encore";
 "Open folder" = "打開檔案夾";
 "Open link" = "打開連結";
 "Optional title" = "標題（選填）";
@@ -240,7 +240,7 @@
 "Pair a Mac…" = "配對 Mac…";
 "Paired Macs" = "已配對的 Mac";
 "Pairing cancelled or failed. No secret was saved." = "配對已取消或失敗。未儲存任何密鑰。";
-"Pairing happens once: check that both Macs show the same 6-digit code. The shared secret stays in each Mac’s Keychain. Removing a Mac erases it." = "只需配對一次：請確認兩部 Mac 顯示相同的 6 位數代碼。共享密鑰會保存在每部 Mac 的鑰匙圈中。移除 Mac 會將其清除。";
+"Pairing happens once: check that both Macs show the same 6-digit code. The shared secret stays on each Mac, readable only by your account. Removing a Mac erases it." = "只需配對一次：請確認兩部 Mac 顯示相同的 6 位數代碼。共享密鑰會保存在每部 Mac 上，只有你的帳號可以讀取。移除 Mac 會將其清除。";
 "Paper" = "紙張";
 "Paste" = "貼上";
 "paste" = "貼上";
@@ -261,7 +261,7 @@
 "Queue finished" = "佇列已完成";
 "Queue stopped: this item's content is unavailable." = "佇列已停止：無法使用此項目的內容。";
 "Quick paste" = "快速貼上";
-"Quit Encore" = "結束 Encore";
+"Quit Encore" = "結束 encore";
 "Recognition failed: %@" = "辨識失敗：%@";
 "Recognize image text" = "辨識影像文字";
 "Recognize text" = "辨識文字";
@@ -367,7 +367,7 @@
 "Volume" = "音量";
 "Waiting for confirmation on the other Mac…" = "正在等待另一部 Mac 確認…";
 "When no rule matches" = "沒有符合的規則時";
-"Without access, Encore copies items for you to paste with ⌘V." = "未允許取用權限時，Encore 會拷貝項目，讓你按 ⌘V 貼上。";
+"Without access, Encore copies items for you to paste with ⌘V." = "未允許取用權限時，encore 會拷貝項目，讓你按 ⌘V 貼上。";
 "Wood" = "木質";
 "Yesterday" = "昨天";
 "Your clipboard. Yours to keep.\nNative, local, and open source.\nMIT license · github.com/Kamasoutra/encore" = "你的剪貼板，由你掌握。\n原生、本機、開放原始碼。\nMIT 授權 · github.com/Kamasoutra/encore";

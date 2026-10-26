@@ -15,8 +15,8 @@
 "90 days" = "90 days";
 "A clipboard that fits the way you work." = "A clipboard that fits the way you work.";
 "A retention rule is invalid." = "A retention rule is invalid.";
-"About Encore" = "About Encore";
-"Accessibility access enables direct and sequential paste. Without it, Encore copies the item for you to paste with ⌘V." = "Accessibility access enables direct and sequential paste. Without it, Encore copies the item for you to paste with ⌘V.";
+"About Encore" = "About encore";
+"Accessibility access enables direct and sequential paste. Without it, Encore copies the item for you to paste with ⌘V." = "Accessibility access enables direct and sequential paste. Without it, encore copies the item for you to paste with ⌘V.";
 "Active shortcut: %@. Fallback: ⌃⌥⌘V." = "Active shortcut: %@. Fallback: ⌃⌥⌘V.";
 "Add an app…" = "Add an app…";
 "Add cards, then enable the queue." = "Add cards, then enable the queue.";
@@ -28,7 +28,7 @@
 "All apps" = "All apps";
 "All dates" = "All dates";
 "All types" = "All types";
-"Allow Encore in Accessibility, then try again." = "Allow Encore in Accessibility, then try again.";
+"Allow Encore in Accessibility, then try again." = "Allow encore in Accessibility, then try again.";
 "Also copy to the clipboard" = "Also copy to the clipboard";
 "App" = "App";
 "Appearance" = "Appearance";
@@ -48,7 +48,7 @@
 "Check Now" = "Check Now";
 "Check that %@ shows the same code." = "Check that %@ shows the same code.";
 "Choose the folder where macOS saves your screenshots." = "Choose the folder where macOS saves your screenshots.";
-"Choose what Encore keeps. Everything stays on this Mac." = "Choose what Encore keeps. Everything stays on this Mac.";
+"Choose what Encore keeps. Everything stays on this Mac." = "Choose what encore keeps. Everything stays on this Mac.";
 "Choose…" = "Choose…";
 "Clear" = "Clear";
 "Clear filters" = "Clear filters";
@@ -119,9 +119,9 @@
 "Enable" = "Enable";
 "Enable direct paste" = "Enable direct paste";
 "Encode as Base64" = "Encode as Base64";
-"Encore remembers this display. If disconnected, it uses the primary display until it returns." = "Encore remembers this display. If disconnected, it uses the primary display until it returns.";
-"Encore Settings" = "Encore Settings";
-"Encore — your clipboard history" = "Encore — your clipboard history";
+"Encore remembers this display. If disconnected, it uses the primary display until it returns." = "encore remembers this display. If disconnected, it uses the primary display until it returns.";
+"Encore Settings" = "encore Settings";
+"Encore — your clipboard history" = "encore — your clipboard history";
 "Erase the secret shared with %@" = "Erase the secret shared with %@";
 "Essentials" = "Essentials";
 "Everyday use" = "Everyday use";
@@ -145,7 +145,7 @@
 "File" = "File";
 "File size" = "File size";
 "Files" = "Files";
-"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. Storage and backups are unencrypted." = "Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. Storage and backups are unencrypted.";
+"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. Storage and backups are unencrypted." = "Files are referenced, not duplicated. Their size is used for retention rules but does not consume encore's budget. Storage and backups are unencrypted.";
 "Files remain at their original location." = "Files remain at their original location.";
 "Filter by type or app" = "Filter by type or app";
 "Filters" = "Filters";
@@ -182,7 +182,7 @@
 "Keep editing" = "Keep editing";
 "Kept forever" = "Kept forever";
 "Keychain Access" = "Keychain Access";
-"Keychain unavailable: %@" = "Keychain unavailable: %@";
+"Pairing unavailable: %@" = "Pairing unavailable: %@";
 "Language" = "Language";
 "Last copied" = "Last copied";
 "Launch at login" = "Launch at login";
@@ -196,7 +196,7 @@
 "Load size and duration presets" = "Load size and duration presets";
 "Local library" = "Local library";
 "Looking for nearby Macs…" = "Looking for nearby Macs…";
-"macOS has not authorized this version of Encore. If access was already granted, turn Encore off and on in Accessibility. If needed, remove the old entry and add the installed app. Ad-hoc signatures can invalidate access after an update." = "macOS has not authorized this version of Encore. If access was already granted, turn Encore off and on in Accessibility. If needed, remove the old entry and add the installed app. Ad-hoc signatures can invalidate access after an update.";
+"macOS has not authorized this version of Encore. If access was already granted, turn Encore off and on in Accessibility. If needed, remove the old entry and add the installed app. Ad-hoc signatures can invalidate access after an update." = "macOS has not authorized this version of encore. If access was already granted, turn encore off and on in Accessibility. If needed, remove the old entry and add the installed app. Ad-hoc signatures can invalidate access after an update.";
 "macOS primary display" = "macOS primary display";
 "macOS Settings…" = "macOS Settings…";
 "Manual paste active" = "Manual paste active";
@@ -213,8 +213,8 @@
 "New collection" = "New collection";
 "New collection…" = "New collection…";
 "New rule" = "New rule";
-"New screenshots in this folder join your history without changing the clipboard. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "New screenshots in this folder join your history without changing the clipboard. The folder is watched while Encore and capture are active. Existing screenshots are not imported.";
-"New screenshots in this folder join your history. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "New screenshots in this folder join your history. The folder is watched while Encore and capture are active. Existing screenshots are not imported.";
+"New screenshots in this folder join your history without changing the clipboard. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "New screenshots in this folder join your history without changing the clipboard. The folder is watched while encore and capture are active. Existing screenshots are not imported.";
+"New screenshots in this folder join your history. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "New screenshots in this folder join your history. The folder is watched while encore and capture are active. Existing screenshots are not imported.";
 "New snippet" = "New snippet";
 "No immediate deletions." = "No immediate deletions.";
 "No installed apps are excluded" = "No installed apps are excluded";
@@ -229,7 +229,7 @@
 "On paste" = "On paste";
 "Online" = "Online";
 "Open" = "Open";
-"Open Encore" = "Open Encore";
+"Open Encore" = "Open encore";
 "Open folder" = "Open folder";
 "Open link" = "Open link";
 "Optional title" = "Optional title";
@@ -240,7 +240,7 @@
 "Pair a Mac…" = "Pair a Mac…";
 "Paired Macs" = "Paired Macs";
 "Pairing cancelled or failed. No secret was saved." = "Pairing cancelled or failed. No secret was saved.";
-"Pairing happens once: check that both Macs show the same 6-digit code. The shared secret stays in each Mac’s Keychain. Removing a Mac erases it." = "Pairing happens once: check that both Macs show the same 6-digit code. The shared secret stays in each Mac’s Keychain. Removing a Mac erases it.";
+"Pairing happens once: check that both Macs show the same 6-digit code. The shared secret stays on each Mac, readable only by your account. Removing a Mac erases it." = "Pairing happens once: check that both Macs show the same 6-digit code. The shared secret stays on each Mac, readable only by your account. Removing a Mac erases it.";
 "Paper" = "Paper";
 "Paste" = "Paste";
 "paste" = "paste";
@@ -261,7 +261,7 @@
 "Queue finished" = "Queue finished";
 "Queue stopped: this item's content is unavailable." = "Queue stopped: this item's content is unavailable.";
 "Quick paste" = "Quick paste";
-"Quit Encore" = "Quit Encore";
+"Quit Encore" = "Quit encore";
 "Recognition failed: %@" = "Recognition failed: %@";
 "Recognize image text" = "Recognize image text";
 "Recognize text" = "Recognize text";
@@ -367,7 +367,7 @@
 "Volume" = "Volume";
 "Waiting for confirmation on the other Mac…" = "Waiting for confirmation on the other Mac…";
 "When no rule matches" = "When no rule matches";
-"Without access, Encore copies items for you to paste with ⌘V." = "Without access, Encore copies items for you to paste with ⌘V.";
+"Without access, Encore copies items for you to paste with ⌘V." = "Without access, encore copies items for you to paste with ⌘V.";
 "Wood" = "Wood";
 "Yesterday" = "Yesterday";
 "Your clipboard. Yours to keep.\nNative, local, and open source.\nMIT license · github.com/Kamasoutra/encore" = "Your clipboard. Yours to keep.\nNative, local, and open source.\nMIT license · github.com/Kamasoutra/encore";

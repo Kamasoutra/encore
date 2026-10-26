@@ -15,8 +15,8 @@
 "90 days" = "90 дней";
 "A clipboard that fits the way you work." = "Буфер обмена, который подстраивается под ваш стиль работы.";
 "A retention rule is invalid." = "Одно из правил хранения недействительно.";
-"About Encore" = "О программе Encore";
-"Accessibility access enables direct and sequential paste. Without it, Encore copies the item for you to paste with ⌘V." = "Разрешение «Универсальный доступ» позволяет использовать прямую и последовательную вставку. Без него Encore только копирует элемент, а вставить его можно вручную с помощью ⌘V.";
+"About Encore" = "О программе encore";
+"Accessibility access enables direct and sequential paste. Without it, Encore copies the item for you to paste with ⌘V." = "Разрешение «Универсальный доступ» позволяет использовать прямую и последовательную вставку. Без него encore только копирует элемент, а вставить его можно вручную с помощью ⌘V.";
 "Active shortcut: %@. Fallback: ⌃⌥⌘V." = "Активное сочетание: %@. Запасное: ⌃⌥⌘V.";
 "Add an app…" = "Добавить приложение…";
 "Add cards, then enable the queue." = "Добавьте карточки, затем включите очередь.";
@@ -28,7 +28,7 @@
 "All apps" = "Все приложения";
 "All dates" = "Все даты";
 "All types" = "Все типы";
-"Allow Encore in Accessibility, then try again." = "Разрешите доступ для Encore в разделе «Универсальный доступ» и повторите попытку.";
+"Allow Encore in Accessibility, then try again." = "Разрешите доступ для encore в разделе «Универсальный доступ» и повторите попытку.";
 "Also copy to the clipboard" = "Также копировать в буфер обмена";
 "App" = "Приложение";
 "Appearance" = "Оформление";
@@ -48,7 +48,7 @@
 "Check Now" = "Проверить сейчас";
 "Check that %@ shows the same code." = "Убедитесь, что на %@ отображается тот же код.";
 "Choose the folder where macOS saves your screenshots." = "Выберите папку, в которую macOS сохраняет снимки экрана.";
-"Choose what Encore keeps. Everything stays on this Mac." = "Выберите, что может хранить Encore. Все остается на этом Mac.";
+"Choose what Encore keeps. Everything stays on this Mac." = "Выберите, что может хранить encore. Все остается на этом Mac.";
 "Choose…" = "Выбрать…";
 "Clear" = "Очистить";
 "Clear filters" = "Сбросить фильтры";
@@ -119,9 +119,9 @@
 "Enable" = "Включить";
 "Enable direct paste" = "Включить прямую вставку";
 "Encode as Base64" = "Кодировать в Base64";
-"Encore remembers this display. If disconnected, it uses the primary display until it returns." = "Encore запоминает выбранный монитор. Если он отключен, используется основной монитор, пока выбранный не будет подключен снова.";
-"Encore Settings" = "Настройки Encore";
-"Encore — your clipboard history" = "Encore — история буфера обмена";
+"Encore remembers this display. If disconnected, it uses the primary display until it returns." = "encore запоминает выбранный монитор. Если он отключен, используется основной монитор, пока выбранный не будет подключен снова.";
+"Encore Settings" = "Настройки encore";
+"Encore — your clipboard history" = "encore — история буфера обмена";
 "Erase the secret shared with %@" = "Удалить секретный ключ, общий с устройством %@";
 "Essentials" = "Основное";
 "Everyday use" = "На каждый день";
@@ -145,7 +145,7 @@
 "File" = "Файл";
 "File size" = "Размер файлов";
 "Files" = "Файлы";
-"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. Storage and backups are unencrypted." = "Файлы хранятся как ссылки, без копирования. Их размер учитывается в правилах, но не расходует лимит Encore. Хранилище и резервные копии не шифруются.";
+"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. Storage and backups are unencrypted." = "Файлы хранятся как ссылки, без копирования. Их размер учитывается в правилах, но не расходует лимит encore. Хранилище и резервные копии не шифруются.";
 "Files remain at their original location." = "Файлы остаются в исходном расположении.";
 "Filter by type or app" = "Фильтр по типу или приложению";
 "Filters" = "Фильтры";
@@ -182,7 +182,7 @@
 "Keep editing" = "Продолжить правку";
 "Kept forever" = "Хранится бессрочно";
 "Keychain Access" = "Связка ключей";
-"Keychain unavailable: %@" = "Связка ключей недоступна: %@";
+"Pairing unavailable: %@" = "Создание пары недоступно: %@";
 "Language" = "Язык";
 "Last copied" = "Последнее копирование";
 "Launch at login" = "Открывать при входе";
@@ -196,7 +196,7 @@
 "Load size and duration presets" = "Загрузить уровни размера и срока";
 "Local library" = "Локальная библиотека";
 "Looking for nearby Macs…" = "Поиск Mac поблизости…";
-"macOS has not authorized this version of Encore. If access was already granted, turn Encore off and on in Accessibility. If needed, remove the old entry and add the installed app. Ad-hoc signatures can invalidate access after an update." = "macOS не разрешает доступ этой версии Encore. Если вы уже предоставили доступ, выключите и снова включите Encore в разделе «Универсальный доступ». При необходимости удалите старую запись и добавьте установленное приложение. Подпись ad hoc может аннулировать доступ после обновления.";
+"macOS has not authorized this version of Encore. If access was already granted, turn Encore off and on in Accessibility. If needed, remove the old entry and add the installed app. Ad-hoc signatures can invalidate access after an update." = "macOS не разрешает доступ этой версии encore. Если вы уже предоставили доступ, выключите и снова включите encore в разделе «Универсальный доступ». При необходимости удалите старую запись и добавьте установленное приложение. Подпись ad hoc может аннулировать доступ после обновления.";
 "macOS primary display" = "Основной монитор macOS";
 "macOS Settings…" = "Настройки macOS…";
 "Manual paste active" = "Ручная вставка";
@@ -213,8 +213,8 @@
 "New collection" = "Новая коллекция";
 "New collection…" = "Новая коллекция…";
 "New rule" = "Новое правило";
-"New screenshots in this folder join your history without changing the clipboard. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Новые снимки экрана из этой папки попадают в историю без изменения буфера обмена. Папка отслеживается, только когда Encore и запись активны. Существующие снимки не импортируются.";
-"New screenshots in this folder join your history. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Новые снимки экрана из этой папки попадают в историю. Папка отслеживается, только когда Encore и запись активны. Существующие снимки не импортируются.";
+"New screenshots in this folder join your history without changing the clipboard. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Новые снимки экрана из этой папки попадают в историю без изменения буфера обмена. Папка отслеживается, только когда encore и запись активны. Существующие снимки не импортируются.";
+"New screenshots in this folder join your history. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Новые снимки экрана из этой папки попадают в историю. Папка отслеживается, только когда encore и запись активны. Существующие снимки не импортируются.";
 "New snippet" = "Новый фрагмент";
 "No immediate deletions." = "Сразу ничего не удалится.";
 "No installed apps are excluded" = "Нет установленных исключенных приложений";
@@ -229,7 +229,7 @@
 "On paste" = "Вставка";
 "Online" = "В сети";
 "Open" = "Открыть";
-"Open Encore" = "Открыть Encore";
+"Open Encore" = "Открыть encore";
 "Open folder" = "Открыть папку";
 "Open link" = "Открыть ссылку";
 "Optional title" = "Название (необязательно)";
@@ -240,7 +240,7 @@
 "Pair a Mac…" = "Создать пару с Mac…";
 "Paired Macs" = "Сопряженные Mac";
 "Pairing cancelled or failed. No secret was saved." = "Создание пары отменено или не удалось. Секретный ключ не сохранен.";
-"Pairing happens once: check that both Macs show the same 6-digit code. The shared secret stays in each Mac’s Keychain. Removing a Mac erases it." = "Пара создается один раз: убедитесь, что на обоих Mac отображается один и тот же 6-значный код. Общий секретный ключ хранится в связке ключей каждого Mac. При удалении Mac ключ стирается.";
+"Pairing happens once: check that both Macs show the same 6-digit code. The shared secret stays on each Mac, readable only by your account. Removing a Mac erases it." = "Пара создается один раз: убедитесь, что на обоих Mac отображается один и тот же 6-значный код. Общий секретный ключ хранится на каждом Mac, и прочитать его может только ваша учетная запись. При удалении Mac ключ стирается.";
 "Paper" = "Бумага";
 "Paste" = "Вставить";
 "paste" = "вставить";
@@ -261,7 +261,7 @@
 "Queue finished" = "Очередь завершена";
 "Queue stopped: this item's content is unavailable." = "Очередь остановлена: содержимое элемента недоступно.";
 "Quick paste" = "Быстрая вставка";
-"Quit Encore" = "Завершить Encore";
+"Quit Encore" = "Завершить encore";
 "Recognition failed: %@" = "Не удалось распознать: %@";
 "Recognize image text" = "Распознать текст на изображении";
 "Recognize text" = "Распознать текст";
@@ -367,7 +367,7 @@
 "Volume" = "Громкость";
 "Waiting for confirmation on the other Mac…" = "Ожидание подтверждения на другом Mac…";
 "When no rule matches" = "Если ни одно правило не подходит";
-"Without access, Encore copies items for you to paste with ⌘V." = "Без разрешения Encore только копирует элементы, а вставляете их вы с помощью ⌘V.";
+"Without access, Encore copies items for you to paste with ⌘V." = "Без разрешения encore только копирует элементы, а вставляете их вы с помощью ⌘V.";
 "Wood" = "Дерево";
 "Yesterday" = "Вчера";
 "Your clipboard. Yours to keep.\nNative, local, and open source.\nMIT license · github.com/Kamasoutra/encore" = "Ваш буфер обмена. Навсегда.\nНативное, локальное приложение с открытым исходным кодом.\nЛицензия MIT · github.com/Kamasoutra/encore";

@@ -15,8 +15,8 @@
 "90 days" = "90 nap";
 "A clipboard that fits the way you work." = "Vágólap, amely alkalmazkodik az Ön munkastílusához.";
 "A retention rule is invalid." = "Az egyik megőrzési szabály érvénytelen.";
-"About Encore" = "Az Encore névjegye";
-"Accessibility access enables direct and sequential paste. Without it, Encore copies the item for you to paste with ⌘V." = "A Kisegítő lehetőségek engedélyével közvetlen és sorozatos beillesztés is lehetséges. Enélkül az Encore csak a vágólapra másolja az elemet, és Ön a ⌘V billentyűkkel illesztheti be.";
+"About Encore" = "Az encore névjegye";
+"Accessibility access enables direct and sequential paste. Without it, Encore copies the item for you to paste with ⌘V." = "A Kisegítő lehetőségek engedélyével közvetlen és sorozatos beillesztés is lehetséges. Enélkül az encore csak a vágólapra másolja az elemet, és Ön a ⌘V billentyűkkel illesztheti be.";
 "Active shortcut: %@. Fallback: ⌃⌥⌘V." = "Aktív billentyűparancs: %@. Tartalék: ⌃⌥⌘V.";
 "Add an app…" = "App hozzáadása…";
 "Add cards, then enable the queue." = "Adjon hozzá kártyákat, majd kapcsolja be a sort.";
@@ -28,7 +28,7 @@
 "All apps" = "Minden app";
 "All dates" = "Minden dátum";
 "All types" = "Minden típus";
-"Allow Encore in Accessibility, then try again." = "Engedélyezze az Encore-t a Kisegítő lehetőségek között, majd próbálja újra.";
+"Allow Encore in Accessibility, then try again." = "Engedélyezze az encore-t a Kisegítő lehetőségek között, majd próbálja újra.";
 "Also copy to the clipboard" = "Másolás a vágólapra is";
 "App" = "App";
 "Appearance" = "Megjelenés";
@@ -48,7 +48,7 @@
 "Check Now" = "Keresés most";
 "Check that %@ shows the same code." = "Ellenőrizze, hogy %@ ugyanazt a kódot mutatja-e.";
 "Choose the folder where macOS saves your screenshots." = "Válassza ki a mappát, ahová a macOS a képernyőképeket menti.";
-"Choose what Encore keeps. Everything stays on this Mac." = "Válassza ki, mit őrizhet meg az Encore. Minden ezen a Macen marad.";
+"Choose what Encore keeps. Everything stays on this Mac." = "Válassza ki, mit őrizhet meg az encore. Minden ezen a Macen marad.";
 "Choose…" = "Kiválasztás…";
 "Clear" = "Törlés";
 "Clear filters" = "Szűrők törlése";
@@ -119,9 +119,9 @@
 "Enable" = "Bekapcsolás";
 "Enable direct paste" = "Közvetlen beillesztés bekapcsolása";
 "Encode as Base64" = "Kódolás Base64-be";
-"Encore remembers this display. If disconnected, it uses the primary display until it returns." = "Az Encore megjegyzi a kiválasztott kijelzőt. Ha leválasztja, a fő kijelzőt használja, amíg újra nem csatlakoztatja.";
-"Encore Settings" = "Az Encore beállításai";
-"Encore — your clipboard history" = "Encore – a vágólap előzményei";
+"Encore remembers this display. If disconnected, it uses the primary display until it returns." = "Az encore megjegyzi a kiválasztott kijelzőt. Ha leválasztja, a fő kijelzőt használja, amíg újra nem csatlakoztatja.";
+"Encore Settings" = "Az encore beállításai";
+"Encore — your clipboard history" = "encore – a vágólap előzményei";
 "Erase the secret shared with %@" = "A következővel megosztott titok törlése: %@";
 "Essentials" = "Alapok";
 "Everyday use" = "Mindennapi használat";
@@ -145,7 +145,7 @@
 "File" = "Fájl";
 "File size" = "Fájlméret";
 "Files" = "Fájlok";
-"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. Storage and backups are unencrypted." = "A fájlokra csak hivatkozás történik, nem duplikálódnak. A méretük számít a szabályokban, de nem fogyasztja az Encore keretét. A tárolás és a biztonsági mentések titkosítatlanok.";
+"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. Storage and backups are unencrypted." = "A fájlokra csak hivatkozás történik, nem duplikálódnak. A méretük számít a szabályokban, de nem fogyasztja az encore keretét. A tárolás és a biztonsági mentések titkosítatlanok.";
 "Files remain at their original location." = "A fájlok az eredeti helyükön maradnak.";
 "Filter by type or app" = "Szűrés típus vagy app szerint";
 "Filters" = "Szűrők";
@@ -182,7 +182,7 @@
 "Keep editing" = "Szerkesztés folytatása";
 "Kept forever" = "Korlátlan ideig megőrizve";
 "Keychain Access" = "Kulcskarika";
-"Keychain unavailable: %@" = "A kulcskarika nem érhető el: %@";
+"Pairing unavailable: %@" = "A párosítás nem érhető el: %@";
 "Language" = "Nyelv";
 "Last copied" = "Utoljára másolva";
 "Launch at login" = "Megnyitás bejelentkezéskor";
@@ -196,7 +196,7 @@
 "Load size and duration presets" = "Méret- és időtartam-fokozatok betöltése";
 "Local library" = "Helyi könyvtár";
 "Looking for nearby Macs…" = "Közeli Macek keresése…";
-"macOS has not authorized this version of Encore. If access was already granted, turn Encore off and on in Accessibility. If needed, remove the old entry and add the installed app. Ad-hoc signatures can invalidate access after an update." = "A macOS nem engedélyezte az Encore ezen verzióját. Ha már korábban megadta a hozzáférést, kapcsolja ki, majd be az Encore-t a Kisegítő lehetőségek között. Szükség esetén távolítsa el a régi bejegyzést, és adja hozzá a telepített appot. Az ad hoc aláírás frissítés után érvénytelenítheti a hozzáférést.";
+"macOS has not authorized this version of Encore. If access was already granted, turn Encore off and on in Accessibility. If needed, remove the old entry and add the installed app. Ad-hoc signatures can invalidate access after an update." = "A macOS nem engedélyezte az encore ezen verzióját. Ha már korábban megadta a hozzáférést, kapcsolja ki, majd be az encore-t a Kisegítő lehetőségek között. Szükség esetén távolítsa el a régi bejegyzést, és adja hozzá a telepített appot. Az ad hoc aláírás frissítés után érvénytelenítheti a hozzáférést.";
 "macOS primary display" = "A macOS fő kijelzője";
 "macOS Settings…" = "macOS-beállítások…";
 "Manual paste active" = "Kézi beillesztés aktív";
@@ -213,8 +213,8 @@
 "New collection" = "Új gyűjtemény";
 "New collection…" = "Új gyűjtemény…";
 "New rule" = "Új szabály";
-"New screenshots in this folder join your history without changing the clipboard. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Az ebben a mappában létrejövő új képernyőképek a vágólap módosítása nélkül kerülnek az előzmények közé. A mappa figyelése csak akkor történik, ha az Encore és a rögzítés is aktív. A meglévő képernyőképek nem kerülnek importálásra.";
-"New screenshots in this folder join your history. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Az ebben a mappában létrejövő új képernyőképek bekerülnek az előzmények közé. A mappa figyelése csak akkor történik, ha az Encore és a rögzítés is aktív. A meglévő képernyőképek nem kerülnek importálásra.";
+"New screenshots in this folder join your history without changing the clipboard. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Az ebben a mappában létrejövő új képernyőképek a vágólap módosítása nélkül kerülnek az előzmények közé. A mappa figyelése csak akkor történik, ha az encore és a rögzítés is aktív. A meglévő képernyőképek nem kerülnek importálásra.";
+"New screenshots in this folder join your history. The folder is watched while Encore and capture are active. Existing screenshots are not imported." = "Az ebben a mappában létrejövő új képernyőképek bekerülnek az előzmények közé. A mappa figyelése csak akkor történik, ha az encore és a rögzítés is aktív. A meglévő képernyőképek nem kerülnek importálásra.";
 "New snippet" = "Új szövegrészlet";
 "No immediate deletions." = "Azonnal semmi sem törlődik.";
 "No installed apps are excluded" = "Nincs telepített kizárt app";
@@ -229,7 +229,7 @@
 "On paste" = "Beillesztés";
 "Online" = "Elérhető";
 "Open" = "Megnyitás";
-"Open Encore" = "Az Encore megnyitása";
+"Open Encore" = "Az encore megnyitása";
 "Open folder" = "Mappa megnyitása";
 "Open link" = "Link megnyitása";
 "Optional title" = "Cím (nem kötelező)";
@@ -240,7 +240,7 @@
 "Pair a Mac…" = "Mac párosítása…";
 "Paired Macs" = "Párosított Macek";
 "Pairing cancelled or failed. No secret was saved." = "A párosítás megszakadt vagy sikertelen volt. Nem lett titok mentve.";
-"Pairing happens once: check that both Macs show the same 6-digit code. The shared secret stays in each Mac’s Keychain. Removing a Mac erases it." = "A párosítás egyszeri: ellenőrizze, hogy mindkét Mac ugyanazt a 6 jegyű kódot mutatja-e. A megosztott titok mindkét Mac kulcskarikájában marad. Egy Mac eltávolításakor a titok törlődik.";
+"Pairing happens once: check that both Macs show the same 6-digit code. The shared secret stays on each Mac, readable only by your account. Removing a Mac erases it." = "A párosítás egyszeri: ellenőrizze, hogy mindkét Mac ugyanazt a 6 jegyű kódot mutatja-e. A megosztott titok mindkét Macen marad, és csak az Ön fiókja olvashatja. Egy Mac eltávolításakor a titok törlődik.";
 "Paper" = "Papír";
 "Paste" = "Beillesztés";
 "paste" = "beillesztés";
@@ -261,7 +261,7 @@
 "Queue finished" = "Sor befejezve";
 "Queue stopped: this item's content is unavailable." = "Sor leállítva: az elem tartalma nem érhető el.";
 "Quick paste" = "Gyors beillesztés";
-"Quit Encore" = "Kilépés az Encore-ból";
+"Quit Encore" = "Kilépés az encore-ból";
 "Recognition failed: %@" = "Sikertelen felismerés: %@";
 "Recognize image text" = "Szöveg felismerése a képen";
 "Recognize text" = "Szöveg felismerése";
@@ -367,7 +367,7 @@
 "Volume" = "Hangerő";
 "Waiting for confirmation on the other Mac…" = "Megerősítésre vár a másik Macen…";
 "When no rule matches" = "Ha egyik szabály sem illik";
-"Without access, Encore copies items for you to paste with ⌘V." = "Engedély nélkül az Encore csak a vágólapra másolja az elemeket, Ön pedig a ⌘V billentyűkkel illesztheti be őket.";
+"Without access, Encore copies items for you to paste with ⌘V." = "Engedély nélkül az encore csak a vágólapra másolja az elemeket, Ön pedig a ⌘V billentyűkkel illesztheti be őket.";
 "Wood" = "Fa";
 "Yesterday" = "Tegnap";
 "Your clipboard. Yours to keep.\nNative, local, and open source.\nMIT license · github.com/Kamasoutra/encore" = "Az Ön vágólapja. Végleg.\nNatív, helyi és nyílt forráskódú app.\nMIT-licenc · github.com/Kamasoutra/encore";
