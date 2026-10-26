@@ -361,12 +361,25 @@ struct BoardView: View {
 struct DaySeparator: View {
     let title: String
     var body: some View {
-        Text(title.uppercased(with: Localization.locale)).font(.system(size: 10, weight: .semibold)).tracking(0.8).foregroundStyle(.secondary).lineLimit(1).fixedSize()
-            .rotationEffect(.degrees(-90))
-            .frame(width: 18, height: 140)
-            .frame(maxHeight: .infinity, alignment: .top)
+        VerticalLabel {
+            Text(title.uppercased(with: Localization.locale)).font(.system(size: 10, weight: .semibold)).tracking(0.8).foregroundStyle(.secondary).lineLimit(1).fixedSize()
+                .rotationEffect(.degrees(-90))
+        }
+            .frame(width: 18)
+            .frame(maxHeight: .infinity, alignment: .bottom)
             .overlay(alignment: .leading) { Rectangle().fill(.primary.opacity(0.12)).frame(width: 1) }
             .accessibilityAddTraits(.isHeader)
+    }
+}
+
+/// Lays out a rotated label with its turned size, so it can be aligned like any other view.
+struct VerticalLabel: Layout {
+    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
+        let size = subviews.first?.sizeThatFits(.unspecified) ?? .zero
+        return CGSize(width: size.height, height: size.width)
+    }
+    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
+        subviews.first?.place(at: CGPoint(x: bounds.midX, y: bounds.midY), anchor: .center, proposal: .unspecified)
     }
 }
 
