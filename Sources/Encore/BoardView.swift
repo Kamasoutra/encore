@@ -383,6 +383,14 @@ struct VerticalLabel: Layout {
     }
 }
 
+/// Text is selectable only in the large preview: in cards, a right click must open Encore's menu, not the text menu.
+struct Selectable: ViewModifier {
+    let enabled: Bool
+    func body(content: Content) -> some View {
+        if enabled { content.textSelection(.enabled) } else { content.textSelection(.disabled) }
+    }
+}
+
 struct ClipCard: View {
     @ObservedObject var model: AppModel
     let clip: Clip
@@ -520,7 +528,7 @@ struct ClipContent: View {
                     Text(host).font(.system(size: 15 * scale, weight: .semibold)).lineLimit(1)
                 }
                 Text(url.map { ($0.path.removingPercentEncoding ?? $0.path) + ($0.query.map { "?\($0)" } ?? "") } ?? clip.text)
-                    .font(.system(size: 13 * scale)).foregroundStyle(.secondary).lineLimit(large ? nil : 4).textSelection(.enabled)
+                    .font(.system(size: 13 * scale)).foregroundStyle(.secondary).lineLimit(large ? nil : 4).modifier(Selectable(enabled: large))
                 if large, let url { Button { NSWorkspace.shared.open(url) } label: { Label(L("Open link"), systemImage: "arrow.up.forward.app") } }
             }.padding(14).frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         case .image:
@@ -549,7 +557,7 @@ struct ClipContent: View {
         case .code:
             ScrollView(large ? .vertical : []) {
                 Text(highlightedCode(clip.text)).font(.system(size: (large ? 13 : compact ? 11 : 12) * scale, design: .monospaced)).lineSpacing(3).lineLimit(large ? nil : compact ? 8 : 12)
-                    .textSelection(.enabled).frame(maxWidth: .infinity, alignment: .topLeading)
+                    .modifier(Selectable(enabled: large)).frame(maxWidth: .infinity, alignment: .topLeading)
             }.padding(10).frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                 .background(scheme == .dark ? Color.black.opacity(0.3) : Color.primary.opacity(0.05), in: RoundedRectangle(cornerRadius: 8)).padding(8)
         case .text:
@@ -560,7 +568,7 @@ struct ClipContent: View {
                     VStack(alignment: .leading, spacing: 6) {
                         if !clip.title.isEmpty { Text(clip.title).font(.system(size: 14 * scale, weight: .semibold)).lineLimit(large ? nil : 1) }
                         Text(String(clip.text.prefix(large ? 20_000 : 3000))).font(.system(size: (large ? 15 : compact ? 13 : 14) * scale)).lineSpacing(3).lineLimit(large ? nil : compact ? 7 : 12)
-                            .textSelection(.enabled)
+                            .modifier(Selectable(enabled: large))
                     }.frame(maxWidth: .infinity, alignment: .topLeading)
                 }.padding(.horizontal, 14).padding(.vertical, 12).frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             }
@@ -612,7 +620,7 @@ struct ClipActions: View {
 
     @ViewBuilder private var localActions: some View {
         Divider()
-        Button { model.toggleFavorite(ids) } label: { Label(clip.favorite ? L("Remove from favorites") : L("Add to favorites"), systemImage: clip.favorite ? "star.slash" : "star") }
+        Button { model.toggleFavorite(ids) } label: { Label(clip.favorite ? L("Remove from favorites") : L("Add to favorites"), systemImage: clip.favorite ? "star.slash" : "star") }.keyboardShortcut("d")
         Menu {
             ForEach(model.library.collections) { collection in
                 Button { model.assignCollection(collection.id, ids: ids) } label: {
@@ -633,6 +641,6 @@ struct ClipActions: View {
             if !clip.recognizedText.isEmpty { Button { model.addText(clip.recognizedText) } label: { Label(L("Create text from image"), systemImage: "text.badge.plus") } }
         }
         Divider()
-        Button(role: .destructive) { model.remove(ids) } label: { Label(L("Delete"), systemImage: "trash") }
+        Button(role: .destructive) { model.remove(ids) } label: { Label(L("Delete"), systemImage: "trash") }.keyboardShortcut(.delete)
     }
 }
