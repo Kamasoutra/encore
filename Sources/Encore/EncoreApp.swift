@@ -209,7 +209,7 @@ final class EncorePanel: NSPanel {
             quickLookPanel = preview
         }
         guard let preview = quickLookPanel else { return }
-        let size = NSSize(width: 540, height: 360)
+        let size = NSSize(width: 760, height: 480)
         let card = model.cursorFrame == .zero ? NSRect(x: panel.frame.width / 2, y: 0, width: 0, height: 0) : model.cursorFrame
         let bounds = screen.visibleFrame
         let x = min(max(panel.frame.minX + card.midX - size.width / 2, bounds.minX + 8), bounds.maxX - size.width - 8)

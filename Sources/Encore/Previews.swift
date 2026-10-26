@@ -75,8 +75,8 @@ struct RichTextPreview: NSViewRepresentable {
         view.textContainerInset = NSSize(width: 14, height: 14)
         view.textContainer?.lineFragmentPadding = 0
         view.textContainer?.widthTracksTextView = true
-        view.textContainer?.maximumNumberOfLines = 30
-        view.textContainer?.lineBreakMode = .byTruncatingTail
+        // No line limit: the frame already clips, and a limit shorter than the view
+        // made TextKit loop forever on rich text with tables (HTML emails).
         view.isVerticallyResizable = false
         view.isHorizontallyResizable = false
         view.setAccessibilityElement(false)
@@ -85,6 +85,11 @@ struct RichTextPreview: NSViewRepresentable {
     func updateNSView(_ view: NSTextView, context: Context) {
         guard context.coordinator.text !== text || context.coordinator.scale != scale else { return }
         context.coordinator.text = text; context.coordinator.scale = scale
+        view.textStorage?.setAttributedString(Self.styled(text, scale: scale))
+    }
+
+    /// Keeps the source layout but bounds font sizes and follows the system appearance.
+    static func styled(_ text: NSAttributedString, scale: Double) -> NSAttributedString {
         let copy = NSMutableAttributedString(attributedString: text)
         let range = NSRange(location: 0, length: copy.length)
         text.enumerateAttribute(.font, in: range) { value, span, _ in
@@ -94,11 +99,37 @@ struct RichTextPreview: NSViewRepresentable {
         }
         copy.addAttribute(.foregroundColor, value: NSColor.labelColor, range: range)
         copy.removeAttribute(.backgroundColor, range: range)
-        view.textStorage?.setAttributedString(copy)
+        return copy
     }
 
     final class PreviewTextView: NSTextView {
         override func hitTest(_ point: NSPoint) -> NSView? { nil }
+    }
+}
+
+/// Scrollable, selectable rich text for large previews.
+struct ScrollingRichText: NSViewRepresentable {
+    let text: NSAttributedString
+    var scale: Double = 1
+    final class Coordinator { var text: NSAttributedString?; var scale = 0.0 }
+    func makeCoordinator() -> Coordinator { Coordinator() }
+
+    func makeNSView(context: Context) -> NSScrollView {
+        let scroll = NSTextView.scrollableTextView()
+        scroll.drawsBackground = false
+        scroll.autohidesScrollers = true
+        let view = scroll.documentView as! NSTextView
+        view.isEditable = false
+        view.isSelectable = true
+        view.drawsBackground = false
+        view.textContainerInset = NSSize(width: 14, height: 14)
+        view.textContainer?.lineFragmentPadding = 0
+        return scroll
+    }
+    func updateNSView(_ scroll: NSScrollView, context: Context) {
+        guard context.coordinator.text !== text || context.coordinator.scale != scale else { return }
+        context.coordinator.text = text; context.coordinator.scale = scale
+        (scroll.documentView as? NSTextView)?.textStorage?.setAttributedString(RichTextPreview.styled(text, scale: scale))
     }
 }
 

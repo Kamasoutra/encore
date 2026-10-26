@@ -10,6 +10,7 @@ struct InspectorView: View {
     @State private var text: String
     @State private var title: String
     @State private var edited = false
+    @State private var editingPlain = false
 
     init(model: AppModel, clip: Clip, onClose: (() -> Void)? = nil, onDirtyChange: ((Bool) -> Void)? = nil) {
         self.model = model; self.clip = clip
@@ -41,16 +42,26 @@ struct InspectorView: View {
             }.font(.system(size: 12)).padding(12).background(.primary.opacity(0.035), in: RoundedRectangle(cornerRadius: 10))
             if editable {
                 TextField(L("Optional title"), text: $title).textFieldStyle(.roundedBorder)
-                TextEditor(text: $text).font(.system(size: 13, design: clip.kind == .code ? .monospaced : .default)).scrollContentBackground(.hidden).padding(10).background(.primary.opacity(0.035), in: RoundedRectangle(cornerRadius: 12))
+                Group {
+                    // Rich text is shown as laid out until the user chooses to edit it as plain text.
+                    if !editingPlain, clip.kind == .text, let rich = model.richText(for: clip) {
+                        ScrollingRichText(text: rich).background(.primary.opacity(0.035), in: RoundedRectangle(cornerRadius: 12)).clipShape(RoundedRectangle(cornerRadius: 12))
+                    } else {
+                        TextEditor(text: $text).font(.system(size: 13, design: clip.kind == .code ? .monospaced : .default)).scrollContentBackground(.hidden).padding(10).background(.primary.opacity(0.035), in: RoundedRectangle(cornerRadius: 12))
+                    }
+                }
                     .onChange(of: text) { _, _ in edited = true; onDirtyChange?(true) }
                     .onChange(of: title) { _, _ in edited = true; onDirtyChange?(true) }
                 HStack {
                     Text(L("\(text.count) characters")).font(.system(size: 11)).foregroundStyle(.secondary)
                     Spacer()
+                    if !editingPlain, clip.kind == .text, model.richText(for: clip) != nil {
+                        Button(L("Edit")) { editingPlain = true }
+                    }
                     Menu(L("Transform")) {
                         ForEach(TextAction.allCases) { action in
                             Button(action.title) {
-                                do { text = try action.apply(text) }
+                                do { text = try action.apply(text); editingPlain = true }
                                 catch { model.notify(error.localizedDescription) }
                             }
                         }

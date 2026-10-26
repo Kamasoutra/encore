@@ -568,7 +568,7 @@ struct ClipContent: View {
                 .background(scheme == .dark ? Color.black.opacity(0.3) : Color.primary.opacity(0.05), in: RoundedRectangle(cornerRadius: 8)).padding(8)
         case .text:
             if let rich = model.richText(for: clip) {
-                RichTextPreview(text: rich, scale: large ? 1.15 : scale)
+                if large { ScrollingRichText(text: rich, scale: 1.15) } else { RichTextPreview(text: rich, scale: scale) }
             } else {
                 ScrollView(large ? .vertical : []) {
                     VStack(alignment: .leading, spacing: 6) {
