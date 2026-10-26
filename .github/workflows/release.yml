@@ -47,14 +47,15 @@ jobs:
           plutil -lint dist/Encore.app/Contents/Info.plist
           codesign --verify --strict --deep dist/Encore.app
           codesign -d -r- dist/Encore.app 2>&1 | grep -q 'certificate root'
-          test "$(lipo -archs dist/Encore.app/Contents/MacOS/Encore)" = arm64
+          lipo dist/Encore.app/Contents/MacOS/Encore -verify_arch arm64 && lipo dist/Encore.app/Contents/MacOS/Encore -verify_arch x86_64
       - name: Package and sign update
         env:
           SPARKLE_PRIVATE_KEY: ${{ secrets.SPARKLE_PRIVATE_KEY }}
         run: |
           version=$(/usr/libexec/PlistBuddy -c 'Print CFBundleShortVersionString' Resources/Info.plist)
-          archive="Encore-macOS-arm64.zip"
-          (cd dist && ditto -c -k --sequesterRsrc --keepParent Encore.app "$archive" && shasum -a 256 "$archive" > SHA256SUMS)
+          archive="Encore-macOS.zip"
+          # The universal build also keeps the former Apple Silicon name so older download links still work.
+          (cd dist && ditto -c -k --sequesterRsrc --keepParent Encore.app "$archive" && cp "$archive" Encore-macOS-arm64.zip && shasum -a 256 "$archive" Encore-macOS-arm64.zip > SHA256SUMS)
           curl -fsSL "https://github.com/sparkle-project/Sparkle/releases/download/$SPARKLE_VERSION/Sparkle-$SPARKLE_VERSION.tar.xz" | tar -xJ -C "$RUNNER_TEMP" ./bin/sign_update
           signature=$(echo "$SPARKLE_PRIVATE_KEY" | "$RUNNER_TEMP/bin/sign_update" --ed-key-file - "dist/$archive")
           bash scripts/appcast.sh "dist/$archive" "$signature" > dist/appcast.xml
@@ -65,7 +66,7 @@ jobs:
           GH_REPO: ${{ github.repository }}
           RELEASE_TAG: ${{ github.ref_name }}
         run: |
-          assets=(dist/Encore-macOS-arm64.zip dist/SHA256SUMS dist/appcast.xml)
+          assets=(dist/Encore-macOS.zip dist/Encore-macOS-arm64.zip dist/SHA256SUMS dist/appcast.xml)
           if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
             gh release upload "$RELEASE_TAG" "${assets[@]}" --clobber
           else
@@ -81,7 +82,7 @@ jobs:
           export GIT_SSH_COMMAND="ssh -i $key -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new"
           git clone git@github.com:Kamasoutra/homebrew-tap.git "$RUNNER_TEMP/tap"
           mkdir -p "$RUNNER_TEMP/tap/Casks"
-          bash scripts/cask.sh dist/Encore-macOS-arm64.zip > "$RUNNER_TEMP/tap/Casks/encore.rb"
+          bash scripts/cask.sh dist/Encore-macOS.zip > "$RUNNER_TEMP/tap/Casks/encore.rb"
           cd "$RUNNER_TEMP/tap"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

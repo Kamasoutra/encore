@@ -17,4 +17,4 @@ Use `--demo` for screenshots. Never commit clipboard databases, backups, receipt
 
 Please discuss changes that introduce networking, telemetry, cloud synchronization, or new permissions before implementing them. Sharing between paired Macs stays on the local network and end-to-end encrypted. The default experience must remain local and usable without an account.
 
-Tagged releases use `.github/workflows/release.yml`: a matching `v<CFBundleShortVersionString>` tag tests and packages a signed arm64 build, then publishes the ZIP, a SHA-256 checksum and the Sparkle `appcast.xml`. Never include signing credentials or clipboard data in the repository.
+Tagged releases use `.github/workflows/release.yml`: a matching `v<CFBundleShortVersionString>` tag tests and packages a signed universal (arm64 and x86_64) build, then publishes the ZIP, a SHA-256 checksum and the Sparkle `appcast.xml`. Never include signing credentials or clipboard data in the repository.

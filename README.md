@@ -2,8 +2,8 @@
 <h1 align="center">Encore</h1>
 <p align="center"><strong>Your clipboard. Yours to keep.</strong></p>
 <p align="center">A native clipboard manager for macOS. Free, open source, and local.<br>No account, no subscription, no cloud.</p>
-<p align="center"><a href="https://github.com/Kamasoutra/encore/releases/latest/download/Encore-macOS-arm64.zip"><strong>Download for Apple Silicon ↓</strong></a> · <a href="https://github.com/Kamasoutra/encore/releases">Releases</a></p>
-<p align="center">macOS 14+ · 30 languages · MIT</p>
+<p align="center"><a href="https://github.com/Kamasoutra/encore/releases/latest/download/Encore-macOS.zip"><strong>Download for Mac ↓</strong></a> · <a href="https://github.com/Kamasoutra/encore/releases">Releases</a></p>
+<p align="center">macOS 14+ · Apple Silicon & Intel · 30 languages · MIT</p>
 
 <p align="center"><code>brew install --cask kamasoutra/tap/encore</code></p>
 
@@ -46,14 +46,14 @@ Built with SwiftUI and AppKit, not a web view. Light and dark appearances, 30 la
 brew install --cask kamasoutra/tap/encore
 ```
 
-**Or by hand:** [download the ZIP](https://github.com/Kamasoutra/encore/releases/latest/download/Encore-macOS-arm64.zip), unzip it, and move **Encore.app** to **Applications**.
+**Or by hand:** [download the ZIP](https://github.com/Kamasoutra/encore/releases/latest/download/Encore-macOS.zip), unzip it, and move **Encore.app** to **Applications**.
 
 Then:
 
 1. Open Encore. It is not notarized yet: if macOS blocks the first launch, follow [Apple's Open Anyway steps](https://support.apple.com/en-us/102445).
 2. Allow it in **System Settings → Privacy & Security → Accessibility** so Return pastes directly. Without it, Encore copies the item and you press ⌘V, and the shelf shows a warning until access is granted.
 
-Quit any other clipboard app that uses ⇧⌘V. Encore also lives in the menu bar and answers to **⌃⌥⌘V**. Requires macOS 14 or later on Apple Silicon. Each release includes a SHA-256 checksum.
+Quit any other clipboard app that uses ⇧⌘V. Encore also lives in the menu bar and answers to **⌃⌥⌘V**. Requires macOS 14 or later, on Apple Silicon or Intel. Each release includes a SHA-256 checksum.
 
 ## Keyboard
 

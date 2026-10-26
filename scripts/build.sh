@@ -1,8 +1,10 @@
 #!/bin/bash
 set -euo pipefail
 cd "$(dirname "$0")/.."
-swift build -c release
-bin_path="$(swift build -c release --show-bin-path)"
+# Universal binary: one download for Apple Silicon and Intel.
+build=(swift build -c release --arch arm64 --arch x86_64)
+"${build[@]}"
+bin_path="$("${build[@]}" --show-bin-path)"
 bundle="dist/Encore.app"
 rm -rf "$bundle"
 mkdir -p "$bundle/Contents/MacOS" "$bundle/Contents/Resources" "$bundle/Contents/Frameworks"
