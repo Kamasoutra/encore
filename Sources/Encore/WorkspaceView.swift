@@ -6,6 +6,7 @@ struct LibraryBody: View {
     @ObservedObject var model: AppModel
     let namespace: Namespace.ID
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.colorScheme) private var scheme
     @State private var appeared = false
     @State private var viewport = CGRect.zero
     @State private var revealed: UUID?
@@ -131,7 +132,9 @@ struct LibraryBody: View {
                             HStack(spacing: 8) {
                                 Text(section.title).font(.system(size: 13, weight: .semibold))
                                 Text(Localization.number(section.items.count)).font(.system(size: 12)).foregroundStyle(.secondary)
-                            }.frame(height: Self.header).frame(maxWidth: .infinity, alignment: .leading).background(.bar)
+                            }.frame(height: Self.header).frame(maxWidth: .infinity, alignment: .leading)
+                                // Same layers as the panel, so the pinned day hides the cards beneath without looking like a separate bar.
+                                .background(scheme == .dark ? Color.black.opacity(0.18) : Color.white.opacity(0.25)).background(SurfaceBackground(radius: 0))
                         }
                     }
                 }.padding(.horizontal, 16).padding(.bottom, 16)
