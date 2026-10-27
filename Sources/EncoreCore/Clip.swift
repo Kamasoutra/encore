@@ -69,6 +69,10 @@ public struct Clip: Codable, Identifiable, Equatable, Sendable {
     public var fileNames: [String]
     public var firstCopiedAt: Date?
     public var referencedFileBytes: Int64?
+    /// Snippet details, set by the user: a name shown instead of the type, tags and a code language.
+    public var name: String
+    public var tags: [String]
+    public var language: String?
 
     public init(id: UUID = UUID(), fingerprint: String = "", kind: ClipKind, text: String, title: String = "", sourceName: String = "Encore", sourceBundle: String = "", copiedAt: Date = Date(), favorite: Bool = false, byteCount: Int = 0, fileNames: [String] = [], referencedFileBytes: Int64? = nil) {
         self.id = id
@@ -86,9 +90,49 @@ public struct Clip: Codable, Identifiable, Equatable, Sendable {
         self.fileNames = fileNames
         self.firstCopiedAt = copiedAt
         self.referencedFileBytes = referencedFileBytes
+        self.name = ""
+        self.tags = []
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case id, fingerprint, kind, text, title, sourceName, sourceBundle, copiedAt, lastUsedAt, favorite, collectionIDs, recognizedText, byteCount, fileNames, firstCopiedAt, referencedFileBytes, name, tags, language
+    }
+
+    /// Libraries written before snippets have no name, tags or language: they decode as empty.
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        id = try values.decode(UUID.self, forKey: .id)
+        fingerprint = try values.decode(String.self, forKey: .fingerprint)
+        kind = try values.decode(ClipKind.self, forKey: .kind)
+        text = try values.decode(String.self, forKey: .text)
+        title = try values.decode(String.self, forKey: .title)
+        sourceName = try values.decode(String.self, forKey: .sourceName)
+        sourceBundle = try values.decode(String.self, forKey: .sourceBundle)
+        copiedAt = try values.decode(Date.self, forKey: .copiedAt)
+        lastUsedAt = try values.decodeIfPresent(Date.self, forKey: .lastUsedAt)
+        favorite = try values.decode(Bool.self, forKey: .favorite)
+        collectionIDs = try values.decode(Set<UUID>.self, forKey: .collectionIDs)
+        recognizedText = try values.decode(String.self, forKey: .recognizedText)
+        byteCount = try values.decode(Int.self, forKey: .byteCount)
+        fileNames = try values.decode([String].self, forKey: .fileNames)
+        firstCopiedAt = try values.decodeIfPresent(Date.self, forKey: .firstCopiedAt)
+        referencedFileBytes = try values.decodeIfPresent(Int64.self, forKey: .referencedFileBytes)
+        name = try values.decodeIfPresent(String.self, forKey: .name) ?? ""
+        tags = try values.decodeIfPresent([String].self, forKey: .tags) ?? []
+        language = try values.decodeIfPresent(String.self, forKey: .language)
+    }
+
+    /// Tags typed as free text: split on commas, spaces or #, lowercased, without duplicates.
+    public static func tags(from text: String) -> [String] {
+        var seen = Set<String>()
+        return text.split(whereSeparator: { $0 == "," || $0 == "#" || $0.isWhitespace })
+            .map { String($0.prefix(30)).lowercased() }
+            .filter { seen.insert($0).inserted }
+            .prefix(12).map { $0 }
     }
 
     public var displayTitle: String {
+        if !name.isEmpty { return name }
         if !title.isEmpty { return title }
         if kind == .file { return fileNames.first ?? L("File") }
         if kind == .image { return L("Copied image") }

@@ -16,9 +16,11 @@ public struct ClipQuery {
         if let source, clip.sourceBundle != source { return false }
         if favorites && !clip.favorite { return false }
         if let collectionID, !clip.collectionIDs.contains(collectionID) { return false }
-        let haystack = "\(clip.title) \(clip.text) \(clip.recognizedText) \(clip.sourceName) \(clip.fileNames.joined(separator: " "))".folding(options: [.diacriticInsensitive, .caseInsensitive], locale: .current)
+        let haystack = Self.fold("\(clip.name) \(clip.tags.joined(separator: " ")) \(clip.title) \(clip.text) \(clip.recognizedText) \(clip.sourceName) \(clip.fileNames.joined(separator: " "))")
         return query.split(whereSeparator: \.isWhitespace).allSatisfy { token in
-            let word = String(token).folding(options: [.diacriticInsensitive, .caseInsensitive], locale: .current)
+            let word = Self.fold(String(token))
+            if word.hasPrefix("tag:") { return clip.tags.contains(Self.fold(String(word.dropFirst(4)))) }
+            if word.hasPrefix("lang:") { return clip.language.map(Self.fold) == String(word.dropFirst(5)) }
             if word.hasPrefix("app:") { return clip.sourceName.lowercased().contains(word.dropFirst(4)) || clip.sourceBundle.lowercased().contains(word.dropFirst(4)) }
             if word.hasPrefix("type:") {
                 let value = String(word.dropFirst(5))
@@ -44,4 +46,14 @@ public struct ClipQuery {
             return haystack.contains(word)
         }
     }
+
+    /// Whether the plain words of the query all appear in the clip's name: such matches are listed first.
+    public func matchesName(_ clip: Clip) -> Bool {
+        let words = query.split(whereSeparator: \.isWhitespace).map { Self.fold(String($0)) }.filter { !$0.contains(":") }
+        guard !words.isEmpty, !clip.name.isEmpty else { return false }
+        let name = Self.fold(clip.name)
+        return words.allSatisfy(name.contains)
+    }
+
+    private static func fold(_ text: String) -> String { text.folding(options: [.diacriticInsensitive, .caseInsensitive], locale: .current) }
 }

@@ -37,6 +37,7 @@ public struct Backup: Codable {
                 library.clips[index].copiedAt = max(library.clips[index].copiedAt, entry.clip.copiedAt)
                 library.clips[index].favorite = library.clips[index].favorite || entry.clip.favorite
                 library.clips[index].collectionIDs.formUnion(entry.clip.collectionIDs.intersection(collectionIDs))
+                library.clips[index].adoptSnippetDetails(of: entry.clip)
                 continue
             }
             var clip = entry.clip
