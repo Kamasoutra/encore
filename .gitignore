@@ -5,3 +5,5 @@ dist/
 tmp/
 docs/
 .docs/
+website/public/
+.playwright-mcp/

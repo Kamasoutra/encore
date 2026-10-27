@@ -1,0 +1,139 @@
+/* encore website. Values come from encore-launch/brand/BRAND.md: night background, violet and pink halos,
+   SF Pro Black slams without final period, violet keycaps, content-type colors. */
+:root {
+  --night: #0D0919;
+  --violet: #9A6BFF;
+  --pink: #FF5C8C;
+  --red: #FF454D;
+  --ink: #FFFFFF;
+  --mist: rgba(255, 255, 255, 0.72);
+  --faint: rgba(255, 255, 255, 0.5);
+  --key: #212121;
+  --text: #FF9E40; --images: #7399FF; --files: #B380FF; --links: #40D9BF; --colors: #FF5C8C; --code: #9E73FF;
+  --beat: 0.469s; /* 128 BPM, like the videos */
+  --sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--night); color: var(--ink); font: 400 18px/1.55 var(--sans); overflow-x: hidden; }
+a { color: inherit; }
+img, video { display: block; max-width: 100%; }
+:focus-visible { outline: 3px solid var(--violet); outline-offset: 3px; border-radius: 6px; }
+
+/* Two halos drift slowly behind everything: the backgrounds are never still. */
+body::before, body::after { content: ""; position: fixed; z-index: -1; width: 80vmax; height: 80vmax; border-radius: 50%; filter: blur(40px); pointer-events: none; }
+body::before { background: radial-gradient(closest-side, rgba(154, 107, 255, 0.34), transparent); top: -30vmax; left: -25vmax; animation: drift 38s ease-in-out infinite alternate; }
+body::after { background: radial-gradient(closest-side, rgba(255, 92, 140, 0.22), transparent); bottom: -35vmax; right: -30vmax; animation: drift 46s ease-in-out infinite alternate-reverse; }
+@keyframes drift { to { transform: translate(14vmax, 10vmax); } }
+
+.wrap { width: min(1180px, 100% - 32px); margin-inline: auto; }
+
+/* Top bar */
+.bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 0; }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 22px; letter-spacing: -0.02em; text-decoration: none; }
+.brand img { width: 34px; height: 34px; }
+.bar nav { display: flex; align-items: center; gap: 18px; font-size: 15px; }
+.bar nav a { text-decoration: none; color: var(--mist); }
+.bar nav a:hover, .bar nav a[aria-current] { color: var(--ink); }
+.langs { display: flex; gap: 10px; }
+
+/* Slams: SF Pro Black, uppercase, tight. */
+.slam { font-weight: 900; text-transform: uppercase; letter-spacing: -0.02em; line-height: 0.88; margin: 0; }
+
+/* Hero: the hook from the videos, one line per beat. */
+.hero { text-align: center; padding: clamp(40px, 9vh, 110px) 0 56px; }
+.hook { font-size: clamp(44px, 8.4vw, 118px); display: grid; gap: 0.08em; }
+.hook span { display: block; }
+.hook .quiet { color: rgba(255, 255, 255, 0.75); }
+.hook .gone { color: var(--ink); text-shadow: -4px 0 rgba(0, 255, 255, 0.45), 4px 0 rgba(255, 69, 77, 0.75); }
+.hook .after { color: var(--violet); margin-top: 0.22em; font-size: 0.62em; }
+.lead { max-width: 34em; margin: 34px auto 0; font-size: clamp(18px, 2.1vw, 22px); color: var(--mist); }
+.get { margin-top: 36px; display: grid; grid-template-columns: minmax(0, 1fr); justify-items: center; gap: 14px; }
+.button { display: inline-flex; align-items: center; gap: 12px; padding: 18px 34px; border-radius: 999px; background: var(--violet); color: #fff; font-weight: 700; font-size: 19px; text-decoration: none; box-shadow: 0 10px 40px rgba(154, 107, 255, 0.6); transition: transform 0.15s, box-shadow 0.15s; }
+.button:hover { transform: translateY(-1px); box-shadow: 0 14px 50px rgba(154, 107, 255, 0.8); }
+.button:active { transform: scale(0.97); }
+.button svg { width: 20px; height: 20px; }
+.fine { font-size: 15px; color: var(--faint); margin: 0; }
+.brew { display: inline-flex; align-items: center; gap: 4px; max-width: 100%; padding: 6px 6px 6px 16px; border-radius: 12px; background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.1); }
+.brew code { min-width: 0; font: 15px var(--mono); color: var(--mist); white-space: nowrap; overflow-x: auto; }
+.brew button { flex: none; border: 0; border-radius: 8px; padding: 7px 12px; background: rgba(255, 255, 255, 0.1); color: var(--ink); font: 600 14px var(--sans); cursor: pointer; }
+.brew button:hover { background: rgba(255, 255, 255, 0.18); }
+
+/* Load sequence: each line slams from 230 % to 100 % on the beat; GONE shakes. */
+@media (prefers-reduced-motion: no-preference) {
+  .hook span { opacity: 0; animation: slam 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards; animation-delay: calc(var(--i) * var(--beat)); }
+  .hook .gone { animation: slam 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards, shake 0.36s calc(var(--i) * var(--beat) + 0.16s) 1; animation-delay: calc(var(--i) * var(--beat)); }
+  .hero .lead, .hero .get { opacity: 0; animation: rise 0.5s ease-out forwards; animation-delay: calc(5.4 * var(--beat)); }
+}
+@keyframes slam { 0% { opacity: 0; transform: scale(2.3); } 35% { opacity: 1; } 100% { opacity: 1; transform: scale(1); } }
+@keyframes shake { 20% { translate: -14px 0; } 40% { translate: 12px 0; } 60% { translate: -8px 0; } 80% { translate: 5px 0; } 100% { translate: 0; } }
+@keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { body::before, body::after { animation: none; } .button { transition: none; } }
+
+/* Video */
+.film { position: relative; margin: 30px auto 0; border-radius: 22px; overflow: hidden; box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.08); aspect-ratio: 16 / 9; background: #000; }
+.film video { width: 100%; height: 100%; object-fit: cover; }
+.sound { position: absolute; right: 16px; bottom: 16px; border: 0; border-radius: 999px; padding: 10px 16px; background: rgba(13, 9, 25, 0.75); color: #fff; font: 600 15px var(--sans); cursor: pointer; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.sound:hover { background: rgba(13, 9, 25, 0.92); }
+
+/* Keys: the dark keycaps with a violet rim from the videos. */
+.key { display: inline-grid; place-items: center; min-width: 1.9em; height: 1.9em; padding: 0 0.45em; border-radius: 0.36em; background: var(--key); border: 2px solid rgba(154, 107, 255, 0.8); box-shadow: 0 0.18em 0.6em rgba(154, 107, 255, 0.55); font-weight: 600; line-height: 1; color: #fff; }
+kbd.key { font: 600 1em var(--sans); }
+
+/* How it works: key, headline, text, then the real app. */
+.steps { display: grid; gap: clamp(80px, 12vw, 150px); padding: clamp(90px, 14vw, 170px) 0 0; }
+.step { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(28px, 5vw, 64px); align-items: center; }
+.step .key { font-size: clamp(30px, 4vw, 46px); margin-bottom: 26px; }
+.step h2 { font-size: clamp(40px, 5.6vw, 76px); }
+.step p { color: var(--mist); max-width: 30em; margin: 22px 0 0; }
+.step figure { margin: 0; }
+.step img { border-radius: 16px; width: 100%; height: auto; }
+.step.wide { grid-template-columns: 1fr; }
+.step .shelf { width: 100%; aspect-ratio: 4 / 3; overflow: hidden; border-radius: 16px; }
+.step .shelf img { width: auto; height: 100%; max-width: none; border-radius: 0; }
+
+/* Content types, in their card colors. */
+.types { padding: clamp(100px, 15vw, 180px) 0 0; font-size: clamp(46px, 9.6vw, 150px); display: flex; flex-wrap: wrap; gap: 0 0.3em; }
+.types span:nth-child(1) { color: var(--text); } .types span:nth-child(2) { color: var(--images); } .types span:nth-child(3) { color: var(--files); }
+.types span:nth-child(4) { color: var(--links); } .types span:nth-child(5) { color: var(--colors); } .types span:nth-child(6) { color: var(--code); }
+
+/* Your other Macs */
+.macs { padding: clamp(100px, 15vw, 180px) 0 0; display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 40px; align-items: end; }
+.macs h2 { font-size: clamp(46px, 7.4vw, 110px); }
+.macs h2 span { display: block; }
+.macs h2 span + span { color: var(--violet); }
+.macs p { color: var(--mist); margin: 0; }
+
+/* Details: a plain list of the rest. */
+.details { padding: clamp(90px, 13vw, 160px) 0 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 44px 48px; }
+.details h3 { margin: 0 0 8px; font-size: 20px; font-weight: 700; letter-spacing: -0.01em; }
+.details p { margin: 0; color: var(--mist); font-size: 17px; }
+
+/* Promise and last call */
+.promise { padding: clamp(110px, 16vw, 200px) 0 0; text-align: center; font-size: clamp(46px, 8vw, 120px); display: grid; gap: 0.06em; }
+.promise span:nth-child(2) { color: var(--violet); }
+.promise + .fine { text-align: center; margin-top: 26px; font-size: 17px; color: var(--mist); }
+.last { text-align: center; padding: clamp(110px, 15vw, 190px) 0 40px; }
+.last img { width: 132px; height: 132px; margin: 0 auto 26px; filter: drop-shadow(0 20px 50px rgba(154, 107, 255, 0.5)); }
+.last h2 { font-size: clamp(28px, 3.6vw, 46px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.12; margin: 0 auto; max-width: 18em; color: var(--mist); }
+.last .get { margin-top: 34px; }
+.star { color: var(--ink); font-weight: 600; text-decoration: none; padding: 10px 4px; }
+.star:hover { text-decoration: underline; }
+.note { max-width: 36em; margin: 30px auto 0; }
+
+footer { padding: 50px 0 40px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; color: var(--faint); font-size: 15px; }
+footer nav { display: flex; gap: 20px; }
+footer a { text-decoration: none; } footer a:hover { color: var(--ink); }
+
+@media (max-width: 860px) {
+  .step, .macs { grid-template-columns: minmax(0, 1fr); }
+  .details { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 560px) {
+  body { font-size: 17px; }
+  .details { grid-template-columns: 1fr; gap: 30px; }
+  .bar nav .hide-small { display: none; }
+  .brew code { font-size: 13px; }
+}
