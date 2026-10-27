@@ -2,7 +2,7 @@
 <h1 align="center">encore</h1>
 <p align="center"><strong>Your clipboard. Yours to keep.</strong></p>
 <p align="center">A native clipboard manager for macOS. Free, open source, and local.<br>No account, no subscription, no cloud.</p>
-<p align="center"><a href="https://github.com/Kamasoutra/encore/releases/latest/download/Encore-macOS.zip"><strong>Download for Mac ↓</strong></a> · <a href="https://github.com/Kamasoutra/encore/releases">Releases</a></p>
+<p align="center"><a href="https://github.com/Kamasoutra/encore/releases/latest/download/Encore-macOS.zip"><strong>Download for Mac ↓</strong></a> · <a href="https://kamasoutra.github.io/encore/">Website</a> · <a href="https://github.com/Kamasoutra/encore/releases">Releases</a></p>
 <p align="center">macOS 12+ · Apple Silicon & Intel · 30 languages · MIT</p>
 
 <p align="center"><code>brew install --cask kamasoutra/tap/encore</code></p>
