@@ -232,7 +232,6 @@
 "Open Encore" = "Mở encore";
 "Open folder" = "Mở thư mục";
 "Open link" = "Mở liên kết";
-"Optional title" = "Tiêu đề (tùy chọn)";
 "Organize & edit" = "Sắp xếp & sửa";
 "Other Macs" = "Máy Mac khác";
 "Pair" = "Ghép đôi";
@@ -380,3 +379,14 @@
 "search" = "tìm kiếm";
 "favorite" = "yêu thích";
 "delete" = "xóa";
+"Export snippets…" = "Xuất đoạn mẫu…";
+"Import snippets…" = "Nhập đoạn mẫu…";
+"In a favorite, {{name}} asks for a value when pasting. {{date}}, {{time}}, {{clipboard}} and {{cursor}} fill in by themselves." = "Trong mục yêu thích, {{name}} hỏi giá trị khi dán. {{date}}, {{time}}, {{clipboard}} và {{cursor}} tự điền.";
+"No tag" = "Không có thẻ";
+"None" = "Không";
+"Snippet name" = "Tên đoạn mẫu";
+"Snippets" = "Đoạn mẫu";
+"Snippets are your text favorites with their names and tags, as readable JSON to keep or share." = "Đoạn mẫu là các mục văn bản yêu thích kèm tên và thẻ, ở dạng JSON dễ đọc để lưu giữ hoặc chia sẻ.";
+"Snippets exported: %lld" = "Đã xuất đoạn mẫu: %lld";
+"Tags" = "Thẻ";
+"Tags, separated by commas" = "Thẻ, phân cách bằng dấu phẩy";

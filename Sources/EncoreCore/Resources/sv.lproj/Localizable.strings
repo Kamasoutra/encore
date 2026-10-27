@@ -232,7 +232,6 @@
 "Open Encore" = "Öppna encore";
 "Open folder" = "Öppna mapp";
 "Open link" = "Öppna länk";
-"Optional title" = "Valfri titel";
 "Organize & edit" = "Ordna och redigera";
 "Other Macs" = "Andra Mac-datorer";
 "Pair" = "Parkoppla";
@@ -380,3 +379,14 @@
 "search" = "sök";
 "favorite" = "favorit";
 "delete" = "radera";
+"Export snippets…" = "Exportera snippets…";
+"Import snippets…" = "Importera snippets…";
+"In a favorite, {{name}} asks for a value when pasting. {{date}}, {{time}}, {{clipboard}} and {{cursor}} fill in by themselves." = "I en favorit frågar {{name}} efter ett värde när du klistrar in. {{date}}, {{time}}, {{clipboard}} och {{cursor}} fylls i automatiskt.";
+"No tag" = "Utan tagg";
+"None" = "Ingen";
+"Snippet name" = "Snippetens namn";
+"Snippets" = "Snippets";
+"Snippets are your text favorites with their names and tags, as readable JSON to keep or share." = "Snippets är dina textfavoriter med namn och taggar, som läsbar JSON att spara eller dela.";
+"Snippets exported: %lld" = "Snippets exporterade: %lld";
+"Tags" = "Taggar";
+"Tags, separated by commas" = "Taggar, separerade med kommatecken";

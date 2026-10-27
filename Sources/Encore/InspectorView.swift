@@ -8,15 +8,21 @@ struct InspectorView: View {
     var onDirtyChange: ((Bool) -> Void)?
     @Environment(\.dismiss) private var dismiss
     @State private var text: String
-    @State private var title: String
+    @State private var name: String
+    @State private var tags: String
+    @State private var language: String
     @State private var edited = false
+    @State private var detailsEdited = false
     @State private var editingPlain = false
+    @FocusState private var nameFocused: Bool
 
     init(model: AppModel, clip: Clip, onClose: (() -> Void)? = nil, onDirtyChange: ((Bool) -> Void)? = nil) {
         self.model = model; self.clip = clip
         self.onClose = onClose; self.onDirtyChange = onDirtyChange
         _text = State(initialValue: clip.text)
-        _title = State(initialValue: clip.title)
+        _name = State(initialValue: clip.name)
+        _tags = State(initialValue: clip.tags.joined(separator: ", "))
+        _language = State(initialValue: clip.language ?? "")
     }
 
     private var current: Clip { model.library.clips.first { $0.id == clip.id } ?? clip }
@@ -40,8 +46,22 @@ struct InspectorView: View {
                 if let bytes = current.retentionByteCount { InfoRow(current.kind == .file ? L("File size") : L("Stored content"), value: Localization.bytes(bytes)) }
                 if let rule = model.retentionDecision(for: current).ruleName { InfoRow(L("Rule"), value: rule) }
             }.font(.system(size: 12)).padding(12).background(.primary.opacity(0.035), in: RoundedRectangle(cornerRadius: 10))
+            VStack(spacing: 8) {
+                TextField(L("Snippet name"), text: $name).textFieldStyle(.roundedBorder).focused($nameFocused)
+                HStack {
+                    TextField(L("Tags, separated by commas"), text: $tags).textFieldStyle(.roundedBorder)
+                    if clip.kind == .code {
+                        Picker(L("Language"), selection: $language) {
+                            Text(L("None")).tag("")
+                            ForEach(CodeLanguage.common, id: \.self) { Text($0).tag($0) }
+                        }.labelsHidden().frame(width: 150)
+                    }
+                }
+            }
+                .onChanged(name) { _ in detailsEdited = true; onDirtyChange?(true) }
+                .onChanged(tags) { _ in detailsEdited = true; onDirtyChange?(true) }
+                .onChanged(language) { _ in detailsEdited = true; onDirtyChange?(true) }
             if editable {
-                TextField(L("Optional title"), text: $title).textFieldStyle(.roundedBorder)
                 Group {
                     // Rich text is shown as laid out until the user chooses to edit it as plain text.
                     if !editingPlain, clip.kind == .text, let rich = model.richText(for: clip) {
@@ -51,7 +71,7 @@ struct InspectorView: View {
                     }
                 }
                     .onChanged(text) { _ in edited = true; onDirtyChange?(true) }
-                    .onChanged(title) { _ in edited = true; onDirtyChange?(true) }
+                Text(L("In a favorite, {{name}} asks for a value when pasting. {{date}}, {{time}}, {{clipboard}} and {{cursor}} fill in by themselves.")).font(.system(size: 11)).foregroundStyle(.secondary)
                 HStack {
                     Text(L("\(text.count) characters")).font(.system(size: 11)).foregroundStyle(.secondary)
                     Spacer()
@@ -87,14 +107,24 @@ struct InspectorView: View {
                 if editable && edited { Text(L("Saving replaces this item's formats with plain text.")).font(.system(size: 12)).foregroundStyle(.secondary).frame(maxWidth: 285, alignment: .leading) }
                 Spacer()
                 Button(L("Close")) { finish() }.keyboardShortcut(.cancelAction)
-                if editable {
-                    Button(L("Save")) {
-                        let saved = model.library.clips.contains(where: { $0.id == clip.id }) ? model.updateText(clip.id, text: text, title: title) : model.addText(text, title: title)
-                        if saved { onDirtyChange?(false); finish() }
-                    }.buttonStyle(.borderedProminent).disabled(!edited || text.isEmpty).keyboardShortcut("s", modifiers: .command)
-                }
+                Button(L("Save")) { if save() { onDirtyChange?(false); finish() } }
+                    .buttonStyle(.borderedProminent).disabled(!(edited || detailsEdited) || editable && edited && text.isEmpty).keyboardShortcut("s", modifiers: .command)
             }
-        }.padding(25).frame(minWidth: 560, maxWidth: .infinity, minHeight: 520, maxHeight: .infinity).font(.system(size: 13)).tint(Palette.accent).localized()
+        }
+        .onAppear { if model.renaming { model.renaming = false; nameFocused = true } }
+        .padding(25).frame(minWidth: 560, maxWidth: .infinity, minHeight: 520, maxHeight: .infinity).font(.system(size: 13)).tint(Palette.accent).localized()
     }
     private func finish() { if let onClose { onClose() } else { dismiss() } }
+
+    /// Content edits replace the item's formats with plain text; name, tags and language alone leave the content untouched.
+    private func save() -> Bool {
+        var id = clip.id
+        if editable && (edited || !model.library.clips.contains(where: { $0.id == clip.id })) {
+            let exists = model.library.clips.contains { $0.id == clip.id }
+            guard exists ? model.updateText(clip.id, text: text, title: current.title) : model.addText(text) else { return false }
+            if !exists, let added = model.library.clips.first(where: { $0.fingerprint == ClipPayload.text(text).fingerprint }) { id = added.id }
+        }
+        if detailsEdited { model.updateSnippet(id, name: name, tags: Clip.tags(from: tags), language: language.isEmpty ? nil : language) }
+        return true
+    }
 }

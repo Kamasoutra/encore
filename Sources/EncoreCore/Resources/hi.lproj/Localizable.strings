@@ -224,7 +224,6 @@
 "Open Encore" = "encore खोलें";
 "Open folder" = "फ़ोल्डर खोलें";
 "Open link" = "लिंक खोलें";
-"Optional title" = "वैकल्पिक शीर्षक";
 "Organize & edit" = "व्यवस्थित और संपादित करें";
 "Other Macs" = "दूसरे Mac";
 "Pair" = "पेयर करें";
@@ -380,3 +379,14 @@
 "search" = "खोजें";
 "favorite" = "पसंदीदा";
 "delete" = "हटाएँ";
+"Export snippets…" = "स्निपेट निर्यात करें…";
+"Import snippets…" = "स्निपेट आयात करें…";
+"In a favorite, {{name}} asks for a value when pasting. {{date}}, {{time}}, {{clipboard}} and {{cursor}} fill in by themselves." = "पसंदीदा में, {{name}} पेस्ट करते समय मान पूछता है। {{date}}, {{time}}, {{clipboard}} और {{cursor}} अपने आप भर जाते हैं।";
+"No tag" = "बिना टैग";
+"None" = "कोई नहीं";
+"Snippet name" = "स्निपेट का नाम";
+"Snippets" = "स्निपेट";
+"Snippets are your text favorites with their names and tags, as readable JSON to keep or share." = "स्निपेट आपके नाम और टैग वाले टेक्स्ट पसंदीदा हैं, सहेजने या साझा करने के लिए पढ़ने योग्य JSON में।";
+"Snippets exported: %lld" = "निर्यात किए गए स्निपेट: %lld";
+"Tags" = "टैग";
+"Tags, separated by commas" = "टैग, कॉमा से अलग";

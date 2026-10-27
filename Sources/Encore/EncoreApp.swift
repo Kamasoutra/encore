@@ -227,6 +227,7 @@ final class EncorePanel: NSPanel {
         // Each opening starts on the history: that is where the latest copy is.
         if model.board != "history" { model.board = "history" }
         model.query = ""
+        model.snippetForm = nil
         model.expanded = false
         model.searchFocused = false
         model.resetSelection()
@@ -247,6 +248,11 @@ final class EncorePanel: NSPanel {
     private func handleKey(_ event: NSEvent) -> NSEvent? {
         if event.type == .keyUp { return handleKeyUp(event) }
         guard event.window === panel, panel.isVisible, panel.attachedSheet == nil, NSApp.modalWindow == nil else { return event }
+        // The snippet form keeps typing, Return and Tab for its fields; Esc closes it.
+        if model.snippetForm != nil {
+            if event.keyCode == 53 { model.snippetForm = nil; return nil }
+            return event
+        }
         let flags = event.modifierFlags.intersection([.command, .shift, .option, .control])
         let command = flags.contains(.command)
         let shift = flags.contains(.shift)
@@ -260,7 +266,8 @@ final class EncorePanel: NSPanel {
                 if shift { model.createCollection() } else { newText() }
                 return nil
             case "t": model.preferences.captureEnabled.toggle(); model.preferencesChanged(); return nil
-            case "e", "r": model.inspector = model.selected; return nil
+            case "e": model.inspector = model.selected; return nil
+            case "r": model.renaming = true; model.inspector = model.selected; return nil
             case "d": model.toggleFavorite(); return nil
             case "+", "=": model.zoomCards(0.05); return nil
             case "-": model.zoomCards(-0.05); return nil

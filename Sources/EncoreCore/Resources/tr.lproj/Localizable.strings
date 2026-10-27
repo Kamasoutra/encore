@@ -224,7 +224,6 @@
 "Open Encore" = "encore’u aç";
 "Open folder" = "Klasörü aç";
 "Open link" = "Bağlantıyı aç";
-"Optional title" = "İsteğe bağlı başlık";
 "Organize & edit" = "Düzenle ve organize et";
 "Other Macs" = "Diğer Mac’ler";
 "Pair" = "Eşle";
@@ -380,3 +379,14 @@
 "search" = "ara";
 "favorite" = "favori";
 "delete" = "sil";
+"Export snippets…" = "Parçacıkları dışa aktar…";
+"Import snippets…" = "Parçacıkları içe aktar…";
+"In a favorite, {{name}} asks for a value when pasting. {{date}}, {{time}}, {{clipboard}} and {{cursor}} fill in by themselves." = "Bir favoride {{name}} yapıştırırken değer ister. {{date}}, {{time}}, {{clipboard}} ve {{cursor}} kendiliğinden doldurulur.";
+"No tag" = "Etiketsiz";
+"None" = "Yok";
+"Snippet name" = "Parçacık adı";
+"Snippets" = "Parçacıklar";
+"Snippets are your text favorites with their names and tags, as readable JSON to keep or share." = "Parçacıklar, adları ve etiketleriyle metin favorilerinizdir; saklamak ya da paylaşmak için okunabilir JSON olarak.";
+"Snippets exported: %lld" = "Dışa aktarılan parçacıklar: %lld";
+"Tags" = "Etiketler";
+"Tags, separated by commas" = "Virgülle ayrılmış etiketler";

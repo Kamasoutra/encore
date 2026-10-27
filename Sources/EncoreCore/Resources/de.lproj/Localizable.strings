@@ -232,7 +232,6 @@
 "Open Encore" = "encore öffnen";
 "Open folder" = "Ordner öffnen";
 "Open link" = "Link öffnen";
-"Optional title" = "Optionaler Titel";
 "Organize & edit" = "Ordnen & bearbeiten";
 "Other Macs" = "Andere Macs";
 "Pair" = "Koppeln";
@@ -380,3 +379,14 @@
 "search" = "suchen";
 "favorite" = "Favorit";
 "delete" = "löschen";
+"Export snippets…" = "Snippets exportieren…";
+"Import snippets…" = "Snippets importieren…";
+"In a favorite, {{name}} asks for a value when pasting. {{date}}, {{time}}, {{clipboard}} and {{cursor}} fill in by themselves." = "In einem Favoriten fragt {{name}} beim Einfügen nach einem Wert. {{date}}, {{time}}, {{clipboard}} und {{cursor}} füllen sich selbst aus.";
+"No tag" = "Ohne Tag";
+"None" = "Keine";
+"Snippet name" = "Name des Snippets";
+"Snippets" = "Snippets";
+"Snippets are your text favorites with their names and tags, as readable JSON to keep or share." = "Snippets sind deine Textfavoriten mit Namen und Tags, als lesbares JSON zum Aufbewahren oder Teilen.";
+"Snippets exported: %lld" = "Snippets exportiert: %lld";
+"Tags" = "Tags";
+"Tags, separated by commas" = "Tags, durch Kommas getrennt";

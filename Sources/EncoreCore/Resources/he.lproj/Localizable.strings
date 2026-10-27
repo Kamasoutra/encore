@@ -224,7 +224,6 @@
 "Open Encore" = "פתח את encore";
 "Open folder" = "פתח תיקייה";
 "Open link" = "פתח קישור";
-"Optional title" = "כותרת אופציונלית";
 "Organize & edit" = "ארגון ועריכה";
 "Other Macs" = "מחשבי Mac אחרים";
 "Pair" = "צמד";
@@ -380,3 +379,14 @@
 "search" = "חיפוש";
 "favorite" = "מועדף";
 "delete" = "מחיקה";
+"Export snippets…" = "ייצוא קטעים…";
+"Import snippets…" = "ייבוא קטעים…";
+"In a favorite, {{name}} asks for a value when pasting. {{date}}, {{time}}, {{clipboard}} and {{cursor}} fill in by themselves." = "במועדף, {{name}} מבקש ערך בעת ההדבקה. {{date}}, {{time}}, {{clipboard}} ו־{{cursor}} מתמלאים מעצמם.";
+"No tag" = "ללא תגית";
+"None" = "ללא";
+"Snippet name" = "שם הקטע";
+"Snippets" = "קטעים";
+"Snippets are your text favorites with their names and tags, as readable JSON to keep or share." = "קטעים הם המועדפים הטקסטואליים שלך עם שמות ותגיות, כ־JSON קריא לשמירה או לשיתוף.";
+"Snippets exported: %lld" = "קטעים שיוצאו: %lld";
+"Tags" = "תגיות";
+"Tags, separated by commas" = "תגיות, מופרדות בפסיקים";

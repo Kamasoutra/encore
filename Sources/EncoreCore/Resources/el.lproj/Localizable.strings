@@ -232,7 +232,6 @@
 "Open Encore" = "Άνοιγμα του encore";
 "Open folder" = "Άνοιγμα φακέλου";
 "Open link" = "Άνοιγμα συνδέσμου";
-"Optional title" = "Προαιρετικός τίτλος";
 "Organize & edit" = "Οργάνωση και επεξεργασία";
 "Other Macs" = "Άλλα Mac";
 "Pair" = "Σύζευξη";
@@ -380,3 +379,14 @@
 "search" = "αναζήτηση";
 "favorite" = "αγαπημένο";
 "delete" = "διαγραφή";
+"Export snippets…" = "Εξαγωγή αποσπασμάτων…";
+"Import snippets…" = "Εισαγωγή αποσπασμάτων…";
+"In a favorite, {{name}} asks for a value when pasting. {{date}}, {{time}}, {{clipboard}} and {{cursor}} fill in by themselves." = "Σε ένα αγαπημένο, το {{name}} ζητά τιμή κατά την επικόλληση. Τα {{date}}, {{time}}, {{clipboard}} και {{cursor}} συμπληρώνονται μόνα τους.";
+"No tag" = "Χωρίς ετικέτα";
+"None" = "Κανένα";
+"Snippet name" = "Όνομα αποσπάσματος";
+"Snippets" = "Αποσπάσματα";
+"Snippets are your text favorites with their names and tags, as readable JSON to keep or share." = "Τα αποσπάσματα είναι τα αγαπημένα κείμενά σας με ονόματα και ετικέτες, σε αναγνώσιμο JSON για φύλαξη ή κοινή χρήση.";
+"Snippets exported: %lld" = "Αποσπάσματα που εξήχθησαν: %lld";
+"Tags" = "Ετικέτες";
+"Tags, separated by commas" = "Ετικέτες, χωρισμένες με κόμματα";

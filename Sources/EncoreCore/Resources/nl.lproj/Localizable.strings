@@ -232,7 +232,6 @@
 "Open Encore" = "Open encore";
 "Open folder" = "Open map";
 "Open link" = "Open link";
-"Optional title" = "Optionele titel";
 "Organize & edit" = "Ordenen en wijzigen";
 "Other Macs" = "Andere Macs";
 "Pair" = "Koppel";
@@ -380,3 +379,14 @@
 "search" = "zoeken";
 "favorite" = "favoriet";
 "delete" = "verwijderen";
+"Export snippets…" = "Snippets exporteren…";
+"Import snippets…" = "Snippets importeren…";
+"In a favorite, {{name}} asks for a value when pasting. {{date}}, {{time}}, {{clipboard}} and {{cursor}} fill in by themselves." = "In een favoriet vraagt {{name}} bij het plakken om een waarde. {{date}}, {{time}}, {{clipboard}} en {{cursor}} vullen zichzelf in.";
+"No tag" = "Zonder tag";
+"None" = "Geen";
+"Snippet name" = "Naam van snippet";
+"Snippets" = "Snippets";
+"Snippets are your text favorites with their names and tags, as readable JSON to keep or share." = "Snippets zijn je tekstfavorieten met hun namen en tags, als leesbare JSON om te bewaren of te delen.";
+"Snippets exported: %lld" = "Snippets geëxporteerd: %lld";
+"Tags" = "Tags";
+"Tags, separated by commas" = "Tags, gescheiden door komma’s";

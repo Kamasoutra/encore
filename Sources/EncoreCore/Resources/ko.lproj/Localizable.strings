@@ -232,7 +232,6 @@
 "Open Encore" = "encore 열기";
 "Open folder" = "폴더 열기";
 "Open link" = "링크 열기";
-"Optional title" = "제목(선택 사항)";
 "Organize & edit" = "정리 및 편집";
 "Other Macs" = "다른 Mac";
 "Pair" = "페어링";
@@ -380,3 +379,14 @@
 "search" = "검색";
 "favorite" = "즐겨찾기";
 "delete" = "삭제";
+"Export snippets…" = "스니펫 내보내기…";
+"Import snippets…" = "스니펫 가져오기…";
+"In a favorite, {{name}} asks for a value when pasting. {{date}}, {{time}}, {{clipboard}} and {{cursor}} fill in by themselves." = "즐겨찾기에서 {{name}}은(는) 붙여넣을 때 값을 묻습니다. {{date}}, {{time}}, {{clipboard}}, {{cursor}}은(는) 자동으로 채워집니다.";
+"No tag" = "태그 없음";
+"None" = "없음";
+"Snippet name" = "스니펫 이름";
+"Snippets" = "스니펫";
+"Snippets are your text favorites with their names and tags, as readable JSON to keep or share." = "스니펫은 이름과 태그가 있는 텍스트 즐겨찾기로, 보관하거나 공유할 수 있는 읽기 쉬운 JSON입니다.";
+"Snippets exported: %lld" = "내보낸 스니펫: %lld";
+"Tags" = "태그";
+"Tags, separated by commas" = "쉼표로 구분한 태그";

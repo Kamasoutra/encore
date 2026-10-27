@@ -232,7 +232,6 @@
 "Open Encore" = "encoreを開く";
 "Open folder" = "フォルダを開く";
 "Open link" = "リンクを開く";
-"Optional title" = "タイトル（オプション）";
 "Organize & edit" = "整理と編集";
 "Other Macs" = "ほかのMac";
 "Pair" = "ペアリング";
@@ -380,3 +379,14 @@
 "search" = "検索";
 "favorite" = "お気に入り";
 "delete" = "削除";
+"Export snippets…" = "スニペットを書き出す…";
+"Import snippets…" = "スニペットを読み込む…";
+"In a favorite, {{name}} asks for a value when pasting. {{date}}, {{time}}, {{clipboard}} and {{cursor}} fill in by themselves." = "お気に入りでは、{{name}} はペースト時に値を尋ねます。{{date}}, {{time}}, {{clipboard}}、{{cursor}} は自動で入力されます。";
+"No tag" = "タグなし";
+"None" = "なし";
+"Snippet name" = "スニペット名";
+"Snippets" = "スニペット";
+"Snippets are your text favorites with their names and tags, as readable JSON to keep or share." = "スニペットは名前とタグ付きのテキストのお気に入りです。保存や共有に使える読みやすい JSON 形式です。";
+"Snippets exported: %lld" = "書き出したスニペット：%lld";
+"Tags" = "タグ";
+"Tags, separated by commas" = "タグ（カンマ区切り）";

@@ -232,7 +232,6 @@
 "Open Encore" = "打开 encore";
 "Open folder" = "打开文件夹";
 "Open link" = "打开链接";
-"Optional title" = "标题（可选）";
 "Organize & edit" = "整理与编辑";
 "Other Macs" = "其他 Mac";
 "Pair" = "配对";
@@ -380,3 +379,14 @@
 "search" = "搜索";
 "favorite" = "收藏";
 "delete" = "删除";
+"Export snippets…" = "导出片段…";
+"Import snippets…" = "导入片段…";
+"In a favorite, {{name}} asks for a value when pasting. {{date}}, {{time}}, {{clipboard}} and {{cursor}} fill in by themselves." = "在收藏中，{{name}} 会在粘贴时询问取值。{{date}}, {{time}}, {{clipboard}} 和 {{cursor}} 会自动填写。";
+"No tag" = "无标签";
+"None" = "无";
+"Snippet name" = "片段名称";
+"Snippets" = "片段";
+"Snippets are your text favorites with their names and tags, as readable JSON to keep or share." = "片段是带有名称和标签的文本收藏，以可读的 JSON 保存或分享。";
+"Snippets exported: %lld" = "已导出片段：%lld";
+"Tags" = "标签";
+"Tags, separated by commas" = "标签，用逗号分隔";

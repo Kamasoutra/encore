@@ -232,7 +232,6 @@
 "Open Encore" = "Az encore megnyitása";
 "Open folder" = "Mappa megnyitása";
 "Open link" = "Link megnyitása";
-"Optional title" = "Cím (nem kötelező)";
 "Organize & edit" = "Rendezés és szerkesztés";
 "Other Macs" = "Más Macek";
 "Pair" = "Párosítás";
@@ -380,3 +379,14 @@
 "search" = "keresés";
 "favorite" = "kedvenc";
 "delete" = "törlés";
+"Export snippets…" = "Szövegrészletek exportálása…";
+"Import snippets…" = "Szövegrészletek importálása…";
+"In a favorite, {{name}} asks for a value when pasting. {{date}}, {{time}}, {{clipboard}} and {{cursor}} fill in by themselves." = "Kedvencben a {{name}} beillesztéskor értéket kér. A {{date}}, {{time}}, {{clipboard}} és a {{cursor}} magától kitöltődik.";
+"No tag" = "Címke nélkül";
+"None" = "Nincs";
+"Snippet name" = "Részlet neve";
+"Snippets" = "Szövegrészletek";
+"Snippets are your text favorites with their names and tags, as readable JSON to keep or share." = "A szövegrészletek a szöveges kedvenceid nevekkel és címkékkel, olvasható JSON-ként megőrzéshez vagy megosztáshoz.";
+"Snippets exported: %lld" = "Exportált részletek: %lld";
+"Tags" = "Címkék";
+"Tags, separated by commas" = "Címkék vesszővel elválasztva";

@@ -242,6 +242,11 @@ struct SettingsView: View {
                     Spacer()
                     Button(L("Open folder")) { if let root = model.storage?.root { NSWorkspace.shared.open(root) } }
                 }
+                HStack {
+                    Button { model.exportSnippets() } label: { Label(L("Export snippets…"), systemImage: "text.badge.star") }
+                    Button { model.importSnippets() } label: { Label(L("Import snippets…"), systemImage: "square.and.arrow.down") }
+                }
+                caption(L("Snippets are your text favorites with their names and tags, as readable JSON to keep or share."))
                 Button(L("Clear history…"), role: .destructive) { model.clearHistory() }
             }
             if updates.available {

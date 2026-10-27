@@ -232,7 +232,6 @@
 "Open Encore" = "Avaa encore";
 "Open folder" = "Avaa kansio";
 "Open link" = "Avaa linkki";
-"Optional title" = "Valinnainen otsikko";
 "Organize & edit" = "Järjestä ja muokkaa";
 "Other Macs" = "Muut Macit";
 "Pair" = "Pariliitä";
@@ -380,3 +379,14 @@
 "search" = "hae";
 "favorite" = "suosikki";
 "delete" = "poista";
+"Export snippets…" = "Vie katkelmat…";
+"Import snippets…" = "Tuo katkelmia…";
+"In a favorite, {{name}} asks for a value when pasting. {{date}}, {{time}}, {{clipboard}} and {{cursor}} fill in by themselves." = "Suosikissa {{name}} kysyy arvoa liitettäessä. {{date}}, {{time}}, {{clipboard}} ja {{cursor}} täyttyvät itsestään.";
+"No tag" = "Ei tunnistetta";
+"None" = "Ei mitään";
+"Snippet name" = "Katkelman nimi";
+"Snippets" = "Katkelmat";
+"Snippets are your text favorites with their names and tags, as readable JSON to keep or share." = "Katkelmat ovat tekstisuosikkisi nimineen ja tunnisteineen, luettavana JSONina säilytettäväksi tai jaettavaksi.";
+"Snippets exported: %lld" = "Katkelmia viety: %lld";
+"Tags" = "Tunnisteet";
+"Tags, separated by commas" = "Tunnisteet pilkuilla erotettuina";

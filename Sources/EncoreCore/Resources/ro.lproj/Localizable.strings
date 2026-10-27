@@ -232,7 +232,6 @@
 "Open Encore" = "Deschide encore";
 "Open folder" = "Deschide dosarul";
 "Open link" = "Deschide linkul";
-"Optional title" = "Titlu opțional";
 "Organize & edit" = "Organizare și editare";
 "Other Macs" = "Alte Mac-uri";
 "Pair" = "Asociază";
@@ -380,3 +379,14 @@
 "search" = "caută";
 "favorite" = "favorit";
 "delete" = "șterge";
+"Export snippets…" = "Exportă fragmentele…";
+"Import snippets…" = "Importă fragmente…";
+"In a favorite, {{name}} asks for a value when pasting. {{date}}, {{time}}, {{clipboard}} and {{cursor}} fill in by themselves." = "Într-un favorit, {{name}} cere o valoare la lipire. {{date}}, {{time}}, {{clipboard}} și {{cursor}} se completează singure.";
+"No tag" = "Fără etichetă";
+"None" = "Niciunul";
+"Snippet name" = "Numele fragmentului";
+"Snippets" = "Fragmente";
+"Snippets are your text favorites with their names and tags, as readable JSON to keep or share." = "Fragmentele sunt favoritele tale text, cu nume și etichete, în JSON lizibil de păstrat sau distribuit.";
+"Snippets exported: %lld" = "Fragmente exportate: %lld";
+"Tags" = "Etichete";
+"Tags, separated by commas" = "Etichete, separate prin virgulă";

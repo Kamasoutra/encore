@@ -11,6 +11,7 @@ import EncoreCore
     private(set) var lastChangeAt = Date.distantPast
     private(set) var automaticScreenshotRevision: Int?
     var revision: Int { pasteboard.changeCount }
+    var currentText: String { pasteboard.string(forType: .string) ?? "" }
 
     init(model: AppModel, pasteboard: NSPasteboard = .general, initialOrigin: ClipboardOrigin? = nil) {
         self.model = model; self.pasteboard = pasteboard; changeCount = pasteboard.changeCount

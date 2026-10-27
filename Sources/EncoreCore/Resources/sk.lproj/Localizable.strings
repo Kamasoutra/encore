@@ -232,7 +232,6 @@
 "Open Encore" = "Otvoriť encore";
 "Open folder" = "Otvoriť priečinok";
 "Open link" = "Otvoriť odkaz";
-"Optional title" = "Voliteľný názov";
 "Organize & edit" = "Usporiadanie a úpravy";
 "Other Macs" = "Ďalšie Macy";
 "Pair" = "Spárovať";
@@ -380,3 +379,14 @@
 "search" = "hľadať";
 "favorite" = "obľúbené";
 "delete" = "odstrániť";
+"Export snippets…" = "Exportovať úryvky…";
+"Import snippets…" = "Importovať úryvky…";
+"In a favorite, {{name}} asks for a value when pasting. {{date}}, {{time}}, {{clipboard}} and {{cursor}} fill in by themselves." = "V obľúbenej položke sa {{name}} pri vkladaní opýta na hodnotu. {{date}}, {{time}}, {{clipboard}} a {{cursor}} sa vyplnia samy.";
+"No tag" = "Bez štítku";
+"None" = "Žiadny";
+"Snippet name" = "Názov úryvku";
+"Snippets" = "Úryvky";
+"Snippets are your text favorites with their names and tags, as readable JSON to keep or share." = "Úryvky sú vaše textové obľúbené položky s názvami a štítkami, ako čitateľný JSON na uloženie alebo zdieľanie.";
+"Snippets exported: %lld" = "Exportované úryvky: %lld";
+"Tags" = "Štítky";
+"Tags, separated by commas" = "Štítky oddelené čiarkami";

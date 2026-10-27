@@ -232,7 +232,6 @@
 "Open Encore" = "Відкрити encore";
 "Open folder" = "Відкрити папку";
 "Open link" = "Відкрити посилання";
-"Optional title" = "Назва (необов’язково)";
 "Organize & edit" = "Упорядкування й редагування";
 "Other Macs" = "Інші Mac";
 "Pair" = "Створити пару";
@@ -380,3 +379,14 @@
 "search" = "пошук";
 "favorite" = "в обране";
 "delete" = "видалити";
+"Export snippets…" = "Експортувати сніпети…";
+"Import snippets…" = "Імпортувати сніпети…";
+"In a favorite, {{name}} asks for a value when pasting. {{date}}, {{time}}, {{clipboard}} and {{cursor}} fill in by themselves." = "В обраному {{name}} запитує значення під час вставлення. {{date}}, {{time}}, {{clipboard}} і {{cursor}} заповнюються самі.";
+"No tag" = "Без тегу";
+"None" = "Немає";
+"Snippet name" = "Назва сніпета";
+"Snippets" = "Сніпети";
+"Snippets are your text favorites with their names and tags, as readable JSON to keep or share." = "Сніпети — це ваше текстове обране з назвами й тегами в читабельному JSON, щоб зберігати або ділитися.";
+"Snippets exported: %lld" = "Експортовано сніпетів: %lld";
+"Tags" = "Теги";
+"Tags, separated by commas" = "Теги через кому";

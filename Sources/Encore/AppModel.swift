@@ -5,6 +5,14 @@ import ImageIO
 import SystemConfiguration
 import EncoreCore
 
+struct SnippetForm: Identifiable {
+    let id = UUID()
+    let clip: Clip
+    let fields: [String]
+    let plain: Bool
+    let copyOnly: Bool
+}
+
 struct PeerStatus: Identifiable, Equatable {
     var device: PeerDevice
     var online: Bool
@@ -27,6 +35,10 @@ struct PeerStatus: Identifiable, Equatable {
     var cursorFrame: CGRect = .zero
     var libraryColumns = 1
     @Published var inspector: Clip? { didSet { if let inspector { presentInspector?(inspector) } } }
+    /// Set by ⌘R so the inspector opens with its name field focused.
+    var renaming = false
+    /// A snippet waiting for its {{fields}} before being pasted.
+    @Published var snippetForm: SnippetForm?
     @Published var queue: [UUID] = []
     @Published var collecting = false { didSet { if !collecting && oldValue { stackTap?.stop() } } }
     @Published var displayTime = Date()
@@ -102,9 +114,28 @@ struct PeerStatus: Identifiable, Equatable {
         startPeers()
     }
 
+    /// Matching items in display order: favorites grouped by language or tag, name matches first while searching.
     var filtered: [Clip] {
         let search = ClipQuery(query: query, kind: kind, source: source, favorites: board == "favorites", collectionID: UUID(uuidString: board))
-        return boardClips.filter { search.matches($0) }
+        let matches = boardClips.filter { search.matches($0) }
+        if board == "favorites" {
+            // Groups in alphabetical order, untagged last; most recent first inside a group.
+            return matches.enumerated().sorted { a, b in
+                let (left, right) = (a.element.snippetGroup, b.element.snippetGroup)
+                if left == right { return a.offset < b.offset }
+                if left.isEmpty || right.isEmpty { return right.isEmpty }
+                return left.localizedStandardCompare(right) == .orderedAscending
+            }.map(\.element)
+        }
+        let named = matches.filter(search.matchesName)
+        return named.isEmpty ? matches : named + matches.filter { !search.matchesName($0) }
+    }
+    /// Cards in sections: by group on Favorites, otherwise name matches then days.
+    var sections: [ClipSection] {
+        let clips = filtered
+        if board == "favorites" { return ClipSection.snippets(clips) }
+        let search = ClipQuery(query: query)
+        return ClipSection.group(clips, now: displayTime, named: clips.prefix(while: search.matchesName).count)
     }
     /// Local history, or the recent history of the paired Mac picked as board ("peer:<device id>").
     var boardClips: [Clip] { remotePeer == nil ? library.clips : remoteItems }
@@ -154,7 +185,7 @@ struct PeerStatus: Identifiable, Equatable {
 
     /// Moves to the card above or below in the library grid, whose rows restart at each day section.
     func moveRow(_ delta: Int, extend: Bool = false) {
-        let sections = ClipSection.group(filtered, now: displayTime).map { $0.items.map(\.clip.id) }
+        let sections = self.sections.map { $0.items.map(\.clip.id) }
         guard let s = sections.firstIndex(where: { $0.contains(cursor ?? UUID()) }) ?? (sections.isEmpty ? nil : 0) else { return }
         let columns = max(1, libraryColumns)
         let i = sections[s].firstIndex(of: cursor ?? UUID()) ?? 0
@@ -506,7 +537,8 @@ struct PeerStatus: Identifiable, Equatable {
         notify(L("Deletion undone"))
     }
 
-    func paste(_ clips: [Clip]? = nil, plain: Bool = false, copyOnly: Bool = false) {
+    /// `fields` holds the values typed in the snippet form; without them a favorite with {{fields}} opens the form first.
+    func paste(_ clips: [Clip]? = nil, plain: Bool = false, copyOnly: Bool = false, fields: [String: String]? = nil) {
         let values = clips ?? selectedClips
         guard !values.isEmpty else { return }
         if let peer = remotePeer, case let records = values.compactMap({ remoteRecords[$0.id] }), !records.isEmpty {
@@ -523,7 +555,13 @@ struct PeerStatus: Identifiable, Equatable {
         let payloads = values.compactMap { storage?.payload($0.id) }
         guard payloads.count == values.count else { notify(L("Content is unavailable on disk.")); return }
         let origin = values.count == 1 ? values[0].sourceBundle : ""
-        if plain {
+        var charactersAfterCursor: Int?
+        if values.count == 1, values[0].favorite, let template = SnippetTemplate(values[0].text) {
+            if fields == nil, !template.fields.isEmpty { snippetForm = SnippetForm(clip: values[0], fields: template.fields, plain: plain, copyOnly: copyOnly); return }
+            let rendered = template.render(values: fields ?? [:], clipboard: clipboard.currentText)
+            clipboard.write(.text(rendered.text), sourceBundle: origin)
+            charactersAfterCursor = rendered.charactersAfterCursor
+        } else if plain {
             let text = values.map { $0.text.isEmpty ? $0.recognizedText : $0.text }.joined(separator: "\n")
             guard !text.isEmpty else { notify(L("This item does not contain text.")); return }
             clipboard.write(.text(text), sourceBundle: origin)
@@ -541,29 +579,49 @@ struct PeerStatus: Identifiable, Equatable {
         dismissPanel?()
         if accessibilityGranted, let target, !target.isTerminated {
             target.activate(options: [])
-            deliverPaste(to: target, attempts: 12)
+            deliverPaste(to: target, attempts: 12, charactersAfterCursor: charactersAfterCursor ?? 0)
         } else {
             notify(L("Copied · press ⌘V, or enable direct paste in Settings."))
         }
     }
 
-    private func deliverPaste(to target: NSRunningApplication, attempts: Int) {
+    /// After ⌘V, a snippet's {{cursor}} is reached with ← presses, one per character pasted after it.
+    private func deliverPaste(to target: NSRunningApplication, attempts: Int, charactersAfterCursor: Int = 0) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.04) { [weak self] in
             guard let self else { return }
             guard target.isActive else {
-                if attempts > 0 { self.deliverPaste(to: target, attempts: attempts - 1) }
+                if attempts > 0 { self.deliverPaste(to: target, attempts: attempts - 1, charactersAfterCursor: charactersAfterCursor) }
                 else { self.notify(L("Copied · click the destination app and press ⌘V.")) }
                 return
             }
             let source = CGEventSource(stateID: .combinedSessionState)
-            let down = CGEvent(keyboardEventSource: source, virtualKey: 9, keyDown: true)
-            let up = CGEvent(keyboardEventSource: source, virtualKey: 9, keyDown: false)
-            down?.flags = .maskCommand; up?.flags = .maskCommand
-            down?.setIntegerValueField(.eventSourceUserData, value: StackTap.syntheticTag)
-            up?.setIntegerValueField(.eventSourceUserData, value: StackTap.syntheticTag)
-            down?.post(tap: .cghidEventTap); up?.post(tap: .cghidEventTap)
+            Self.postKey(9, flags: .maskCommand, source: source)
+            for _ in 0..<min(charactersAfterCursor, 2000) { Self.postKey(123, source: source) }
         }
     }
+
+    private static func postKey(_ key: CGKeyCode, flags: CGEventFlags = [], source: CGEventSource?) {
+        let down = CGEvent(keyboardEventSource: source, virtualKey: key, keyDown: true)
+        let up = CGEvent(keyboardEventSource: source, virtualKey: key, keyDown: false)
+        down?.flags = flags; up?.flags = flags
+        down?.setIntegerValueField(.eventSourceUserData, value: StackTap.syntheticTag)
+        up?.setIntegerValueField(.eventSourceUserData, value: StackTap.syntheticTag)
+        down?.post(tap: .cghidEventTap); up?.post(tap: .cghidEventTap)
+    }
+
+    /// Saves a name, tags and language. Naming or tagging an item makes it a favorite, where snippets live.
+    func updateSnippet(_ id: UUID, name: String, tags: [String], language: String?) {
+        guard let index = library.clips.firstIndex(where: { $0.id == id }) else { return }
+        library.clips[index].name = String(name.trimmingCharacters(in: .whitespacesAndNewlines).prefix(100))
+        library.clips[index].tags = tags
+        library.clips[index].language = language
+        if !library.clips[index].name.isEmpty || !tags.isEmpty { library.clips[index].favorite = true }
+        save()
+        reconcileSelection()
+    }
+
+    /// Tags used on the current board, for the library filters.
+    var tags: [String] { Array(Set(boardClips.flatMap(\.tags))).sorted { $0.localizedStandardCompare($1) == .orderedAscending } }
 
     func enqueue(_ ids: [UUID]? = nil) {
         for id in ids ?? selectedClips.map(\.id) where !queue.contains(id) { queue.append(id) }
@@ -762,6 +820,36 @@ struct PeerStatus: Identifiable, Equatable {
             library = result.library
             storage?.save(library, payloads: result.payloads)
             refreshFileSizes(); prune(); resetSelection()
+            notify(L("\(result.payloads.count) new items imported"))
+        } catch { notify(L("Import failed: \(error.localizedDescription)")) }
+    }
+
+    func exportSnippets() {
+        let panel = NSSavePanel()
+        panel.allowedContentTypes = [.json]
+        panel.nameFieldStringValue = "encore-snippets.json"
+        guard panel.runModal() == .OK, let url = panel.url else { return }
+        do {
+            let encoder = JSONEncoder()
+            encoder.outputFormatting = [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes]
+            let file = SnippetFile(library: library)
+            try encoder.encode(file).write(to: url, options: .atomic)
+            notify(L("Snippets exported: \(file.snippets.count)"))
+        } catch { notify(error.localizedDescription) }
+    }
+
+    func importSnippets() {
+        let panel = NSOpenPanel()
+        panel.allowedContentTypes = [.json]
+        guard panel.runModal() == .OK, let url = panel.url else { return }
+        do {
+            let size = try url.resourceValues(forKeys: [.fileSizeKey]).fileSize ?? 0
+            guard size < 100_000_000 else { throw CocoaError(.fileReadTooLarge) }
+            let result = try JSONDecoder().decode(SnippetFile.self, from: Data(contentsOf: url)).merged(into: library)
+            guard totalBytes + result.payloads.reduce(0, { $0 + $1.1.byteCount }) <= preferences.storageLimitMB * 1_048_576 else { throw CocoaError(.fileWriteOutOfSpace) }
+            library = result.library
+            storage?.save(library, payloads: result.payloads)
+            resetSelection()
             notify(L("\(result.payloads.count) new items imported"))
         } catch { notify(L("Import failed: \(error.localizedDescription)")) }
     }

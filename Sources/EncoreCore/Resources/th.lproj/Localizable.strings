@@ -232,7 +232,6 @@
 "Open Encore" = "เปิด encore";
 "Open folder" = "เปิดโฟลเดอร์";
 "Open link" = "เปิดลิงก์";
-"Optional title" = "ชื่อ (ไม่บังคับ)";
 "Organize & edit" = "จัดระเบียบและแก้ไข";
 "Other Macs" = "Mac เครื่องอื่น";
 "Pair" = "จับคู่";
@@ -380,3 +379,14 @@
 "search" = "ค้นหา";
 "favorite" = "รายการโปรด";
 "delete" = "ลบ";
+"Export snippets…" = "ส่งออกสนิปเป็ต…";
+"Import snippets…" = "นำเข้าสนิปเป็ต…";
+"In a favorite, {{name}} asks for a value when pasting. {{date}}, {{time}}, {{clipboard}} and {{cursor}} fill in by themselves." = "ในรายการโปรด {{name}} จะถามค่าเมื่อวาง ส่วน {{date}}, {{time}}, {{clipboard}} และ {{cursor}} จะเติมให้เอง";
+"No tag" = "ไม่มีแท็ก";
+"None" = "ไม่มี";
+"Snippet name" = "ชื่อสนิปเป็ต";
+"Snippets" = "สนิปเป็ต";
+"Snippets are your text favorites with their names and tags, as readable JSON to keep or share." = "สนิปเป็ตคือรายการโปรดแบบข้อความพร้อมชื่อและแท็ก ในรูปแบบ JSON ที่อ่านได้ เพื่อเก็บหรือแชร์";
+"Snippets exported: %lld" = "ส่งออกสนิปเป็ตแล้ว: %lld";
+"Tags" = "แท็ก";
+"Tags, separated by commas" = "แท็ก คั่นด้วยจุลภาค";

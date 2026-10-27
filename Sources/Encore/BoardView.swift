@@ -82,10 +82,12 @@ struct ClipSection: Identifiable {
     let title: String
     var items: [Item]
 
-    static func group(_ clips: [Clip], now: Date) -> [ClipSection] {
+    /// Day sections, after a first section for the `named` leading items that matched a search by name.
+    static func group(_ clips: [Clip], now: Date, named: Int = 0) -> [ClipSection] {
         var calendar = Calendar.current; calendar.locale = Localization.locale
         var sections: [ClipSection] = []
-        for (index, clip) in clips.enumerated() {
+        if named > 0 { sections.append(ClipSection(id: "named", title: L("Snippets"), items: clips.prefix(named).enumerated().map { .init(index: $0.offset, clip: $0.element) })) }
+        for (index, clip) in clips.enumerated().dropFirst(named) {
             let date = clip.copiedAt
             let (id, title): (String, String) = if calendar.isDate(date, inSameDayAs: now) { ("today", L("Today")) }
                 else if let yesterday = calendar.date(byAdding: .day, value: -1, to: now), calendar.isDate(date, inSameDayAs: yesterday) { ("yesterday", L("Yesterday")) }
@@ -93,6 +95,17 @@ struct ClipSection: Identifiable {
                 else { ("month-\(calendar.component(.year, from: date))-\(calendar.component(.month, from: date))", date.formatted(Date.FormatStyle(locale: Localization.locale).month(.wide).year())) }
             if sections.last?.id == id { sections[sections.count - 1].items.append(.init(index: index, clip: clip)) }
             else { sections.append(ClipSection(id: id, title: title, items: [.init(index: index, clip: clip)])) }
+        }
+        return sections
+    }
+
+    /// Favorites in a section per language or tag, as ordered by the model.
+    static func snippets(_ clips: [Clip]) -> [ClipSection] {
+        var sections: [ClipSection] = []
+        for (index, clip) in clips.enumerated() {
+            let group = clip.snippetGroup
+            if sections.last?.id == "group:\(group)" { sections[sections.count - 1].items.append(.init(index: index, clip: clip)) }
+            else { sections.append(ClipSection(id: "group:\(group)", title: group.isEmpty ? L("No tag") : group, items: [.init(index: index, clip: clip)])) }
         }
         return sections
     }
@@ -139,6 +152,7 @@ struct BoardView: View {
         .background(RoundedRectangle(cornerRadius: 20).fill(scheme == .dark ? Color.black.opacity(0.18) : Color.white.opacity(0.25)))
         .clipShape(RoundedRectangle(cornerRadius: 20))
         .overlay(RoundedRectangle(cornerRadius: 20).strokeBorder(.white.opacity(scheme == .dark ? 0.12 : 0.6), lineWidth: 1))
+        .overlay { if let form = model.snippetForm { SnippetFormView(model: model, form: form).id(form.id) } }
         .localized()
         .tint(Palette.accent)
         .onChanged(model.searchFocused) { value in searchFocus = value }
@@ -241,7 +255,7 @@ struct BoardView: View {
         ScrollViewReader { proxy in
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack(spacing: 12) {
-                    ForEach(ClipSection.group(model.filtered, now: model.displayTime)) { section in
+                    ForEach(model.sections) { section in
                         DaySeparator(title: section.title)
                         ForEach(section.items) { item in
                             ClipCard(model: model, clip: item.clip, index: item.index, compact: compact, namespace: cardSpace).id(item.clip.id)
@@ -438,7 +452,7 @@ struct ClipCard: View {
         VStack(spacing: 0) {
             HStack(spacing: 8 * scale) {
                 VStack(alignment: .leading, spacing: 1) {
-                    Text(clip.typeTitle).font(.system(size: 12 * scale, weight: .bold)).foregroundStyle(Palette.accent(clip.kind, dark: dark))
+                    Text(clip.name.isEmpty ? clip.typeTitle : clip.name).font(.system(size: 12 * scale, weight: .bold)).lineLimit(1).foregroundStyle(Palette.accent(clip.kind, dark: dark))
                     Text(model.relativeAge(clip.firstCopyDate)).font(.system(size: max(10, 11 * scale))).foregroundStyle(.secondary).lineLimit(1)
                 }
                 Spacer(minLength: 2)
@@ -501,6 +515,49 @@ struct ClipCard: View {
         }
         provider.suggestedName = clip.displayTitle
         return provider
+    }
+}
+
+/// Asks for a snippet's {{fields}} over the panel, then pastes the filled-in text.
+struct SnippetFormView: View {
+    let model: AppModel
+    let form: SnippetForm
+    @State private var values: [String: String] = [:]
+    @FocusState private var focus: String?
+
+    var body: some View {
+        ZStack {
+            Color.black.opacity(0.25).onTapGesture { model.snippetForm = nil }
+            VStack(alignment: .leading, spacing: 10) {
+                Text(form.clip.displayTitle).font(.system(size: 15, weight: .semibold)).lineLimit(1)
+                ForEach(form.fields, id: \.self) { field in
+                    TextField(field, text: Binding(get: { values[field, default: ""] }, set: { values[field] = $0 }))
+                        .textFieldStyle(.roundedBorder).focused($focus, equals: field)
+                        .onSubmit { advance(from: field) }
+                }
+                HStack {
+                    Spacer()
+                    Button(L("Cancel")) { model.snippetForm = nil }
+                    Button(L("Paste")) { paste() }.buttonStyle(.borderedProminent)
+                }
+            }
+            .padding(18).frame(width: 360)
+            .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 14))
+            .shadow(color: .black.opacity(0.3), radius: 20, y: 6)
+        }
+        .clipShape(RoundedRectangle(cornerRadius: 20))
+        // Focus once the field exists; set during appearance it is ignored.
+        .onAppear { DispatchQueue.main.async { focus = form.fields.first } }
+    }
+
+    /// Return moves to the next field, and pastes from the last one.
+    private func advance(from field: String) {
+        if let index = form.fields.firstIndex(of: field), index + 1 < form.fields.count { focus = form.fields[index + 1] } else { paste() }
+    }
+
+    private func paste() {
+        model.snippetForm = nil
+        model.paste([form.clip], plain: form.plain, copyOnly: form.copyOnly, fields: values)
     }
 }
 

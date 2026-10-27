@@ -63,6 +63,15 @@ struct LibraryBody: View {
                         }
                     }
                 }
+                if !model.tags.isEmpty {
+                    section(L("Tags")) {
+                        ChipRow {
+                            ForEach(model.tags, id: \.self) { tag in
+                                chip("#\(tag)", color: Palette.accent, selected: tagTokens.contains(tag)) { toggleTag(tag) }
+                            }
+                        }
+                    }
+                }
                 section(L("Dates")) {
                     Picker(L("Dates"), selection: Binding(get: { dateToken }, set: { setDate($0) })) {
                         Text(L("Today")).tag("today")
@@ -107,13 +116,24 @@ struct LibraryBody: View {
         model.query.split(separator: " ").first { $0.hasPrefix("date:") }.map { String($0.dropFirst(5)) } ?? ""
     }
 
+    private var tagTokens: Set<String> {
+        Set(model.query.split(separator: " ").filter { $0.hasPrefix("tag:") }.map { String($0.dropFirst(4)) })
+    }
+
+    private func toggleTag(_ tag: String) {
+        let token = "tag:\(tag)"
+        var words = model.query.split(separator: " ").map(String.init)
+        if words.contains(token) { words.removeAll { $0 == token } } else { words.append(token) }
+        model.query = words.joined(separator: " ")
+    }
+
     private func setDate(_ value: String) {
         let words = model.query.split(separator: " ").filter { !$0.hasPrefix("date:") }.map(String.init)
         model.query = (words + (value.isEmpty ? [] : ["date:\(value)"])).joined(separator: " ")
     }
 
     private var grid: some View {
-        let sections = ClipSection.group(model.filtered, now: model.displayTime)
+        let sections = model.sections
         return ScrollViewReader { proxy in
             ScrollView {
                 if model.remoteLoading {

@@ -224,7 +224,6 @@
 "Open Encore" = "Buka encore";
 "Open folder" = "Buka folder";
 "Open link" = "Buka tautan";
-"Optional title" = "Judul opsional";
 "Organize & edit" = "Atur & edit";
 "Other Macs" = "Mac Lain";
 "Pair" = "Pasangkan";
@@ -380,3 +379,14 @@
 "search" = "cari";
 "favorite" = "favorit";
 "delete" = "hapus";
+"Export snippets…" = "Ekspor cuplikan…";
+"Import snippets…" = "Impor cuplikan…";
+"In a favorite, {{name}} asks for a value when pasting. {{date}}, {{time}}, {{clipboard}} and {{cursor}} fill in by themselves." = "Di favorit, {{name}} meminta nilai saat menempel. {{date}}, {{time}}, {{clipboard}} dan {{cursor}} terisi sendiri.";
+"No tag" = "Tanpa tag";
+"None" = "Tidak ada";
+"Snippet name" = "Nama cuplikan";
+"Snippets" = "Cuplikan";
+"Snippets are your text favorites with their names and tags, as readable JSON to keep or share." = "Cuplikan adalah favorit teks Anda beserta nama dan tag, dalam JSON yang mudah dibaca untuk disimpan atau dibagikan.";
+"Snippets exported: %lld" = "Cuplikan diekspor: %lld";
+"Tags" = "Tag";
+"Tags, separated by commas" = "Tag, dipisahkan koma";

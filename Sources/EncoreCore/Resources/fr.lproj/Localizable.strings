@@ -232,7 +232,6 @@
 "Open Encore" = "Ouvrir encore";
 "Open folder" = "Ouvrir le dossier";
 "Open link" = "Ouvrir le lien";
-"Optional title" = "Titre facultatif";
 "Organize & edit" = "Organiser & éditer";
 "Other Macs" = "Autres Mac";
 "Pair" = "Appairer";
@@ -380,3 +379,14 @@
 "search" = "rechercher";
 "favorite" = "favori";
 "delete" = "supprimer";
+"Export snippets…" = "Exporter les extraits…";
+"Import snippets…" = "Importer des extraits…";
+"In a favorite, {{name}} asks for a value when pasting. {{date}}, {{time}}, {{clipboard}} and {{cursor}} fill in by themselves." = "Dans un favori, {{name}} demande une valeur au collage. {{date}}, {{time}}, {{clipboard}} et {{cursor}} se remplissent seuls.";
+"No tag" = "Sans tag";
+"None" = "Aucun";
+"Snippet name" = "Nom de l’extrait";
+"Snippets" = "Extraits";
+"Snippets are your text favorites with their names and tags, as readable JSON to keep or share." = "Les extraits sont vos favoris texte avec leurs noms et tags, en JSON lisible à garder ou partager.";
+"Snippets exported: %lld" = "Extraits exportés : %lld";
+"Tags" = "Tags";
+"Tags, separated by commas" = "Tags, séparés par des virgules";
