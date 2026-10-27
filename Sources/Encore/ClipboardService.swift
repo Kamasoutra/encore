@@ -11,7 +11,12 @@ import EncoreCore
     private(set) var lastChangeAt = Date.distantPast
     private(set) var automaticScreenshotRevision: Int?
     var revision: Int { pasteboard.changeCount }
-    var currentText: String { pasteboard.string(forType: .string) ?? "" }
+    /// Text for a snippet's {{clipboard}}. Passwords and other concealed copies, which encore never records, are not inserted either.
+    var currentText: String {
+        let types = pasteboard.types?.map(\.rawValue) ?? []
+        guard !PasteboardCapture.ignoredTypes.contains(where: types.contains) else { return "" }
+        return pasteboard.string(forType: .string) ?? ""
+    }
 
     init(model: AppModel, pasteboard: NSPasteboard = .general, initialOrigin: ClipboardOrigin? = nil) {
         self.model = model; self.pasteboard = pasteboard; changeCount = pasteboard.changeCount
