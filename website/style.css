@@ -38,6 +38,7 @@ body::after { background: radial-gradient(closest-side, rgba(255, 92, 140, 0.22)
 .bar nav a { text-decoration: none; color: var(--mist); }
 .bar nav a:hover, .bar nav a[aria-current] { color: var(--ink); }
 .langs { display: flex; gap: 10px; }
+.sponsor span { color: var(--pink); margin-right: 6px; }
 
 /* Slams: SF Pro Black, uppercase, tight. */
 .slam { font-weight: 900; text-transform: uppercase; letter-spacing: -0.02em; line-height: 0.88; margin: 0; }

@@ -6,6 +6,7 @@
 <p align="center">macOS 12+ · Apple Silicon & Intel · 30 languages · MIT</p>
 
 <p align="center"><code>brew install --cask kamasoutra/tap/encore</code></p>
+<p align="center"><a href="https://github.com/sponsors/Kamasoutra">♥ Support encore on GitHub Sponsors</a></p>
 
 ![encore in action: the shelf, a floating preview, and the library](assets/demo.gif)
 

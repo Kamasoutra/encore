@@ -53,6 +53,7 @@ STRINGS = {
         "star": "★ Star it on GitHub",
         "note": "encore is not notarized yet. The first time, open it from System Settings → Privacy & Security → Open Anyway.",
         "releases": "Releases",
+        "sponsor": "Sponsor",
         "license": "MIT license",
     },
     "fr": {
@@ -92,6 +93,7 @@ STRINGS = {
         "star": "★ Une étoile sur GitHub",
         "note": "encore n’est pas notarisé pour l’instant. La première fois, ouvre-le depuis Réglages Système → Confidentialité et sécurité → Ouvrir quand même.",
         "releases": "Versions",
+        "sponsor": "Soutenir",
         "license": "Licence MIT",
     },
 }
@@ -121,6 +123,7 @@ $detect
   <nav>
     <span class="langs">$langs</span>
     <a class="hide-small" href="$repo">GitHub</a>
+    <a class="sponsor" href="$sponsors"><span aria-hidden="true">♥</span>$sponsor</a>
   </nav>
 </header>
 <main>
@@ -173,7 +176,7 @@ $details
 </main>
 <footer class="wrap">
   <span>encore · $license</span>
-  <nav><a href="$repo">GitHub</a><a href="$repo/releases">$releases</a></nav>
+  <nav><a href="$repo">GitHub</a><a href="$repo/releases">$releases</a><a class="sponsor" href="$sponsors"><span aria-hidden="true">♥</span>$sponsor</a></nav>
 </footer>
 <script src="${base}site.js"></script>
 </body>
@@ -249,6 +252,7 @@ def build(lang, s):
         details="\n".join(f"<div><h3>{e(t)}</h3><p>{e(d)}</p></div>" for t, d in s["details"]),
         promise="".join(f"<span>{e(t)}</span>" for t in s["promise"]), promise_text=e(s["promise_text"]),
         last=e(s["last"]), star=e(s["star"]), note=e(s["note"]), releases=e(s["releases"]), license=e(s["license"]),
+        sponsor=e(s["sponsor"]), sponsors="https://github.com/sponsors/Kamasoutra",
     )
 
 
