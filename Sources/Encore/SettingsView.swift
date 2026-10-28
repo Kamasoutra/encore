@@ -311,7 +311,7 @@ struct SettingsView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 21) {
                 shortcutGroup(L("Essentials"), items: [(L("Show / hide"), model.shortcutStatus), (model.pastesDirectly ? L("Paste") : L("Copy"), "↩"), (model.pastesDirectly ? L("Paste as plain text") : L("Copy as plain text"), "⇧↩"), (L("Quick paste"), "⌘1 … ⌘9"), (L("Paste queue"), model.preferences.stackShortcutEnabled ? "⌘⇧C" : L("From the shelf"))])
-                shortcutGroup(L("Navigation"), items: [(L("Full library"), "↑"), (L("Reduce"), "↓"), (L("Select"), "← →"), (L("Extend selection"), "⇧←  ⇧→"), (L("Preview"), L("space")), (L("Search"), L("⌘F or start typing")), (L("Card size"), "⌘+  ⌘−"), (L("Select all"), "⌘A")])
+                shortcutGroup(L("Navigation"), items: [(L("Full library"), "↑"), (L("Reduce"), "↓"), (L("Select"), "← →"), (L("Extend selection"), "⇧←  ⇧→"), (L("Preview"), L("space")), (L("Search"), L("⌘F or start typing")), (L("Card size"), "⌘+  ⌘−"), (L("Select all"), "⌘A"), (L("Switch board"), "⌘←  ⌘→")])
                 shortcutGroup(L("Organize & edit"), items: [(L("Edit"), "⌘E"), (L("Rename"), "⌘R"), (L("Make a snippet"), "⌘S"), (L("Favorite"), "⌘D"), (L("Add to queue"), "⌘⇧↩"), (L("New snippet"), "⌘N"), (L("New collection"), "⌘⇧N"), (L("Delete / undo"), "⌘⌫ / ⌘Z"), (L("Toggle capture"), "⌘T"), (L("Settings"), "⌘,")])
                 VStack(alignment: .leading, spacing: 10) {
                     Text(L("Advanced search")).font(.system(size: 13, weight: .semibold))
@@ -400,11 +400,23 @@ struct SettingsView: View {
                 .help(L("Two copies, then a paste"))
         }.controlSize(.small).modifier(LightButtons())
     }
+    /// The alert sounds that come with macOS, played from where they are rather than copied.
+    private static let systemSounds = ((try? FileManager.default.contentsOfDirectory(at: URL(fileURLWithPath: "/System/Library/Sounds"), includingPropertiesForKeys: nil)) ?? [])
+        .filter { NSSound(contentsOf: $0, byReference: true) != nil }.sorted { $0.lastPathComponent < $1.lastPathComponent }
+
     private func soundFileRow(_ title: String, path: String?, action: FeedbackSounds.Action) -> some View {
         HStack {
             Text(title)
             Spacer()
             Text(path.map { ($0 as NSString).lastPathComponent } ?? L("Default soft sound")).foregroundStyle(.secondary).lineLimit(1)
+            Menu(L("System sound")) {
+                ForEach(Self.systemSounds, id: \.self) { url in
+                    Button(url.deletingPathExtension().lastPathComponent) {
+                        NSSound(contentsOf: url, byReference: true)?.play()
+                        if action == .capture { model.preferences.captureSoundPath = url.path } else { model.preferences.pasteSoundPath = url.path }
+                    }
+                }
+            }.fixedSize()
             Button(L("Choose…")) {
                 let panel = NSOpenPanel(); panel.allowedContentTypes = [.audio]
                 guard panel.runModal() == .OK, let url = panel.url else { return }
@@ -520,6 +532,15 @@ struct ShortcutRecorder: View {
         guard let monitor else { return }
         NSEvent.removeMonitor(monitor)
         self.monitor = nil
+        resumeOnceReleased()
+    }
+
+    /// The new shortcut would fire if registered while its keys are still held: wait until they are released.
+    private func resumeOnceReleased() {
+        guard NSEvent.modifierFlags.intersection([.command, .option, .control, .shift]).isEmpty else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { resumeOnceReleased() }
+            return
+        }
         resume()
     }
 }

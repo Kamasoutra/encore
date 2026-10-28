@@ -376,7 +376,7 @@ struct BoardView: View {
         HStack(spacing: 4) {
             Text(Localization.keys(keys)).font(.system(size: 11, weight: .semibold)).foregroundStyle(.primary).padding(.horizontal, 5).padding(.vertical, 2).background(.primary.opacity(0.1), in: RoundedRectangle(cornerRadius: 4))
             Text(label).font(.system(size: 11))
-        }
+        }.help(keys.contains("↩") ? L("↩ is the Return key, also called Enter.") : "")
     }
 
     private func toolButton(_ symbol: String, help: String, active: Bool = false, action: @escaping () -> Void) -> some View {
