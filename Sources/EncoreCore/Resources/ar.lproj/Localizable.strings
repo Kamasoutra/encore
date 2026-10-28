@@ -414,3 +414,8 @@
 "System sound" = "صوت النظام";
 "↩ is the Return key, also called Enter." = "↩ هو مفتاح الرجوع، ويسمى أيضًا Enter.";
 "boards" = "اللوحات";
+"Layout" = "التخطيط";
+"Shelf at the bottom" = "شريط في الأسفل";
+"Column on the left" = "عمود على اليسار";
+"Column on the right" = "عمود على اليمين";
+"The column shows your 5 latest copies in a small window on that side of the screen." = "يعرض العمود آخر 5 نسخ في نافذة صغيرة على ذلك الجانب من الشاشة.";

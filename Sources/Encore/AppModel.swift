@@ -151,6 +151,8 @@ struct PeerStatus: Identifiable, Equatable {
     var hasSnippets: Bool { library.clips.contains(where: \.snippet) }
     var boards: [String] { ["history", "favorites"] + (hasSnippets ? ["snippets"] : []) + library.collections.map(\.id.uuidString) + peers.map { "peer:\($0.id)" } }
     var remotePeer: PeerStatus? { board.hasPrefix("peer:") ? peers.first { "peer:\($0.id)" == board } : nil }
+    /// The narrow column on a side of the screen, instead of the shelf.
+    var sideColumn: Bool { preferences.placement != "bottom" }
     var selectedClips: [Clip] { filtered.filter { selection.contains($0.id) } }
     var selected: Clip? { boardClips.first { $0.id == cursor } }
     var sources: [(String, String)] {

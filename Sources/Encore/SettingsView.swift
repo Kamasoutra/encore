@@ -155,6 +155,12 @@ struct SettingsView: View {
                 caption(L("Drag the top handle to resize the shelf. Use ⌘+ and ⌘− to resize cards."))
             }
             SettingsGroup(L("Display")) {
+                Picker(L("Layout"), selection: $model.preferences.placement) {
+                    Text(L("Shelf at the bottom")).tag("bottom")
+                    Text(L("Column on the left")).tag("left")
+                    Text(L("Column on the right")).tag("right")
+                }
+                caption(L("The column shows your 5 latest copies in a small window on that side of the screen."))
                 Picker(L("Show shelf on"), selection: $model.preferences.displayTarget) {
                     Text(L("Current display · at pointer")).tag("active")
                     Text(L("macOS primary display")).tag("primary")

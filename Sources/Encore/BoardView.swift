@@ -120,6 +120,27 @@ struct BoardView: View {
     private var compact: Bool { model.preferences.compact }
 
     var body: some View {
+        Group {
+            if model.sideColumn { SideColumn(model: model) } else { shelf }
+        }
+        .background(SurfaceBackground(radius: 20))
+        .background(RoundedRectangle(cornerRadius: 20).fill(scheme == .dark ? Color.black.opacity(0.18) : Color.white.opacity(0.25)))
+        .clipShape(RoundedRectangle(cornerRadius: 20))
+        .overlay(RoundedRectangle(cornerRadius: 20).strokeBorder(.white.opacity(scheme == .dark ? 0.12 : 0.6), lineWidth: 1))
+        .overlay { if let form = model.snippetForm { SnippetFormView(model: model, form: form).id(form.id) } }
+        .overlay { if let id = model.snippetEditor, let clip = model.boardClips.first(where: { $0.id == id }) { SnippetEditorView(model: model, clip: clip).id(id) } }
+        .localized()
+        .tint(Palette.accent)
+        .onChanged(model.searchFocused) { value in searchFocus = value }
+        .onChanged(searchFocus) { value in model.searchFocused = value }
+        .onAppear { searchFocus = model.searchFocused }
+        .onPreferenceChange(CursorFrameKey.self) { frame in
+            model.cursorFrame = frame
+            if model.quickLook { model.updateQuickLook?() }
+        }
+    }
+
+    private var shelf: some View {
         VStack(spacing: 0) {
             Group {
                 if model.expanded { Color.clear } else {
@@ -147,21 +168,6 @@ struct BoardView: View {
                 }
             }.frame(maxHeight: .infinity)
             footer
-        }
-        .background(SurfaceBackground(radius: 20))
-        .background(RoundedRectangle(cornerRadius: 20).fill(scheme == .dark ? Color.black.opacity(0.18) : Color.white.opacity(0.25)))
-        .clipShape(RoundedRectangle(cornerRadius: 20))
-        .overlay(RoundedRectangle(cornerRadius: 20).strokeBorder(.white.opacity(scheme == .dark ? 0.12 : 0.6), lineWidth: 1))
-        .overlay { if let form = model.snippetForm { SnippetFormView(model: model, form: form).id(form.id) } }
-        .overlay { if let id = model.snippetEditor, let clip = model.boardClips.first(where: { $0.id == id }) { SnippetEditorView(model: model, clip: clip).id(id) } }
-        .localized()
-        .tint(Palette.accent)
-        .onChanged(model.searchFocused) { value in searchFocus = value }
-        .onChanged(searchFocus) { value in model.searchFocused = value }
-        .onAppear { searchFocus = model.searchFocused }
-        .onPreferenceChange(CursorFrameKey.self) { frame in
-            model.cursorFrame = frame
-            if model.quickLook { model.updateQuickLook?() }
         }
     }
 
@@ -824,3 +830,48 @@ struct CardNameField: View {
     }
 }
 
+
+/// The latest copies in a narrow column on a side of the screen: ↑ ↓ to choose, Return or a double-click to paste.
+struct SideColumn: View {
+    @ObservedObject var model: AppModel
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            HStack(spacing: 8) {
+                EncoreMark()
+                Text("encore").font(.system(size: 15, weight: .semibold)).tracking(-0.2)
+            }.padding(.horizontal, 6).padding(.bottom, 4)
+            if model.filtered.isEmpty {
+                Text(L("Copy text, a link, or an image. Find it here with \(model.shortcutStatus).")).font(.system(size: 12)).foregroundStyle(.secondary)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+            }
+            ForEach(Array(model.filtered.prefix(5).enumerated()), id: \.element.id) { index, clip in row(clip, index: index) }
+            Spacer(minLength: 0)
+        }
+        .padding(12)
+    }
+
+    private func row(_ clip: Clip, index: Int) -> some View {
+        let selected = model.cursor == clip.id
+        return HStack(spacing: 10) {
+            Group {
+                if clip.kind == .image, let image = model.image(for: clip) { Image(nsImage: image).resizable().scaledToFill() }
+                else { Image(systemName: clip.kind.symbol).font(.system(size: 14)).foregroundStyle(.secondary) }
+            }
+            .frame(width: 32, height: 32).clipShape(RoundedRectangle(cornerRadius: 6))
+            .background(.primary.opacity(0.06), in: RoundedRectangle(cornerRadius: 6))
+            VStack(alignment: .leading, spacing: 2) {
+                Text(clip.name.isEmpty && [.text, .code, .link].contains(clip.kind) ? String(clip.text.prefix(300)) : clip.displayTitle).font(.system(size: 12.5)).lineLimit(2)
+                Text(clip.sourceName).font(.system(size: 10.5)).foregroundStyle(.secondary).lineLimit(1)
+            }
+            Spacer(minLength: 4)
+            Text(Localization.keys("⌘\(index + 1)")).font(.system(size: 10.5, weight: .semibold)).foregroundStyle(.tertiary)
+        }
+        .padding(8)
+        .frame(maxWidth: .infinity, minHeight: 64, alignment: .leading)
+        .background(selected ? Palette.accent.opacity(0.22) : Color.primary.opacity(0.04), in: RoundedRectangle(cornerRadius: 10))
+        .contentShape(Rectangle())
+        .onTapGesture(count: 2) { model.paste([clip]) }
+        .onTapGesture { model.select(clip.id) }
+    }
+}

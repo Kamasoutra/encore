@@ -414,3 +414,8 @@
 "System sound" = "システムサウンド";
 "↩ is the Return key, also called Enter." = "↩ はReturnキー（Enterキー）です。";
 "boards" = "パネル";
+"Layout" = "レイアウト";
+"Shelf at the bottom" = "下部のシェルフ";
+"Column on the left" = "左側のカラム";
+"Column on the right" = "右側のカラム";
+"The column shows your 5 latest copies in a small window on that side of the screen." = "カラムには最新の5件のコピーが画面のその側の小さなウインドウに表示されます。";

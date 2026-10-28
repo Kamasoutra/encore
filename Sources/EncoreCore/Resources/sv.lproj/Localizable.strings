@@ -414,3 +414,8 @@
 "System sound" = "Systemljud";
 "↩ is the Return key, also called Enter." = "↩ är returtangenten, även kallad Enter.";
 "boards" = "paneler";
+"Layout" = "Layout";
+"Shelf at the bottom" = "List längst ned";
+"Column on the left" = "Kolumn till vänster";
+"Column on the right" = "Kolumn till höger";
+"The column shows your 5 latest copies in a small window on that side of the screen." = "Kolumnen visar dina 5 senaste kopior i ett litet fönster på den sidan av skärmen.";

@@ -414,3 +414,8 @@
 "System sound" = "Sunet de sistem";
 "↩ is the Return key, also called Enter." = "↩ este tasta Return, numită și Enter.";
 "boards" = "panouri";
+"Layout" = "Aspect";
+"Shelf at the bottom" = "Bară jos";
+"Column on the left" = "Coloană în stânga";
+"Column on the right" = "Coloană în dreapta";
+"The column shows your 5 latest copies in a small window on that side of the screen." = "Coloana afișează ultimele 5 copii într-o fereastră mică pe acea parte a ecranului.";

@@ -414,3 +414,8 @@
 "System sound" = "Dźwięk systemowy";
 "↩ is the Return key, also called Enter." = "↩ to klawisz Return, nazywany też Enter.";
 "boards" = "panele";
+"Layout" = "Układ";
+"Shelf at the bottom" = "Pasek na dole";
+"Column on the left" = "Kolumna po lewej";
+"Column on the right" = "Kolumna po prawej";
+"The column shows your 5 latest copies in a small window on that side of the screen." = "Kolumna pokazuje 5 ostatnich kopii w małym oknie po tej stronie ekranu.";

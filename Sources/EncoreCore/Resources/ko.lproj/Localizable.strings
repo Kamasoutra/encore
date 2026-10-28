@@ -414,3 +414,8 @@
 "System sound" = "시스템 사운드";
 "↩ is the Return key, also called Enter." = "↩는 Return 키(Enter 키)입니다.";
 "boards" = "패널";
+"Layout" = "레이아웃";
+"Shelf at the bottom" = "하단 선반";
+"Column on the left" = "왼쪽 열";
+"Column on the right" = "오른쪽 열";
+"The column shows your 5 latest copies in a small window on that side of the screen." = "열에는 최근 복사한 5개 항목이 화면 해당 쪽의 작은 창에 표시됩니다.";

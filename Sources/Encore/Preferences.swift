@@ -14,6 +14,8 @@ struct Preferences: Codable, Equatable {
     var disabledDefaultExclusions: [String] = []
     var panelHeight: Double = 380
     var compact = false
+    /// "bottom" for the shelf, or "left" / "right" for a narrow column of the latest copies on that edge of the screen.
+    var placement = "bottom"
     var appearance = "system"
     var shortcut = "commandShiftV"
     var stackShortcutEnabled = false
@@ -44,7 +46,7 @@ struct Preferences: Codable, Equatable {
 
     private enum CodingKeys: String, CodingKey {
         case retentionDays, historyLimit, storageLimitMB, captureEnabled, ignoreSensitive, recognizeImages
-        case excludedBundleIDs, panelHeight, compact, appearance, shortcut, retentionRules, cardScale, importScreenshots, copyScreenshotsToClipboard, screenshotFolder
+        case excludedBundleIDs, panelHeight, compact, placement, appearance, shortcut, retentionRules, cardScale, importScreenshots, copyScreenshotsToClipboard, screenshotFolder
         case soundsEnabled, soundTheme, soundVolume, captureSoundPath, pasteSoundPath, displayTarget, stackShortcutEnabled, disabledDefaultExclusions, language, shareWithPeers, pasteDirectly, syncFavorites, syncSnippets
     }
 
@@ -62,6 +64,7 @@ struct Preferences: Codable, Equatable {
             ?? (values.contains(.excludedBundleIDs) ? Self.legacyDefaultExcludedBundleIDs.filter { !excludedBundleIDs.contains($0) } : [])
         panelHeight = try values.decodeIfPresent(Double.self, forKey: .panelHeight) ?? panelHeight
         compact = try values.decodeIfPresent(Bool.self, forKey: .compact) ?? compact
+        placement = try values.decodeIfPresent(String.self, forKey: .placement) ?? placement
         appearance = try values.decodeIfPresent(String.self, forKey: .appearance) ?? appearance
         shortcut = try values.decodeIfPresent(String.self, forKey: .shortcut) ?? shortcut
         stackShortcutEnabled = try values.decodeIfPresent(Bool.self, forKey: .stackShortcutEnabled) ?? false

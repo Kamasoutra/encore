@@ -414,3 +414,8 @@
 "System sound" = "Järjestelmäääni";
 "↩ is the Return key, also called Enter." = "↩ on rivinvaihtonäppäin, eli Enter.";
 "boards" = "paneelit";
+"Layout" = "Asettelu";
+"Shelf at the bottom" = "Palkki alhaalla";
+"Column on the left" = "Sarake vasemmalla";
+"Column on the right" = "Sarake oikealla";
+"The column shows your 5 latest copies in a small window on that side of the screen." = "Sarake näyttää 5 viimeisintä kopiotasi pienessä ikkunassa näytön sillä reunalla.";

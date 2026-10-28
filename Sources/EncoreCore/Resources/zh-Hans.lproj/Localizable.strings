@@ -414,3 +414,8 @@
 "System sound" = "系统声音";
 "↩ is the Return key, also called Enter." = "↩ 是 Return 键，也叫 Enter 键。";
 "boards" = "面板";
+"Layout" = "布局";
+"Shelf at the bottom" = "底部横栏";
+"Column on the left" = "左侧竖栏";
+"Column on the right" = "右侧竖栏";
+"The column shows your 5 latest copies in a small window on that side of the screen." = "竖栏会在屏幕该侧的小窗口中显示最近 5 条拷贝。";

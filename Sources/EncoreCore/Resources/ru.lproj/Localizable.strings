@@ -414,3 +414,8 @@
 "System sound" = "Системный звук";
 "↩ is the Return key, also called Enter." = "↩ — это клавиша Return, она же Enter.";
 "boards" = "панели";
+"Layout" = "Расположение";
+"Shelf at the bottom" = "Полоса внизу";
+"Column on the left" = "Колонка слева";
+"Column on the right" = "Колонка справа";
+"The column shows your 5 latest copies in a small window on that side of the screen." = "Колонка показывает 5 последних копий в небольшом окне у этого края экрана.";

@@ -177,6 +177,12 @@ final class EncorePanel: NSPanel {
         let screen = ScreenPlacement.screen(target: model.preferences.displayTarget, screens: NSScreen.screens, pointer: mouse, current: panel.isVisible ? panel.screen : nil)
         let frame = (screen ?? NSScreen.main ?? NSScreen.screens[0]).visibleFrame
         // The library is the shelf grown upwards: same width, same bottom edge.
+        if model.sideColumn {
+            let size = NSSize(width: 340, height: min(frame.height - 20, 412))
+            let x = model.preferences.placement == "left" ? frame.minX + 10 : frame.maxX - size.width - 10
+            panel.setFrame(NSRect(x: x, y: frame.midY - size.height / 2, width: size.width, height: size.height), display: true)
+            return
+        }
         let shelf = min(frame.height - 30, model.preferences.panelHeight)
         let height = model.expanded ? max(shelf, min(frame.height - 30, max(640, frame.height * 0.8))) : shelf
         let target = NSRect(x: frame.minX + 12, y: frame.minY + 10, width: max(600, frame.width - 24), height: height)
@@ -300,6 +306,11 @@ final class EncorePanel: NSPanel {
                 model.board = boards[(current + Localization.step(rightArrow: event.keyCode == 124) + boards.count) % boards.count]
                 return nil
             }
+        }
+        // The side column is a vertical list: ↑ and ↓ move through it.
+        if model.sideColumn && !editing && (event.keyCode == 125 || event.keyCode == 126) {
+            model.move(event.keyCode == 125 ? 1 : -1)
+            return nil
         }
         switch event.keyCode {
         case 53:

@@ -414,3 +414,8 @@
 "System sound" = "Rendszerhang";
 "↩ is the Return key, also called Enter." = "A ↩ a Return billentyű, más néven Enter.";
 "boards" = "panelek";
+"Layout" = "Elrendezés";
+"Shelf at the bottom" = "Sáv alul";
+"Column on the left" = "Oszlop balra";
+"Column on the right" = "Oszlop jobbra";
+"The column shows your 5 latest copies in a small window on that side of the screen." = "Az oszlop az utolsó 5 másolatát mutatja egy kis ablakban a képernyő azon oldalán.";
