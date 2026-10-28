@@ -416,8 +416,12 @@
 "boards" = "paneler";
 "Layout" = "Layout";
 "Shelf at the bottom" = "List längst ned";
-"Column on the left" = "Kolumn till vänster";
-"Column on the right" = "Kolumn till höger";
-"The column shows your 6 latest copies in a small window on that side of the screen." = "Kolumnen visar dina 6 senaste kopior i ett litet fönster på den sidan av skärmen.";
 "choose" = "välj";
 "close" = "stäng";
+"Compact window" = "Kompakt fönster";
+"shelf" = "list";
+"compact" = "kompakt";
+"Shelf or compact window" = "List eller kompakt fönster";
+"Drag to move" = "Dra för att flytta";
+"The compact window lists your latest copies. Drag it by its title to move it: it snaps to the corners, the middle of each edge and the center, and opens there next time." = "Det kompakta fönstret listar dina senaste kopior. Dra i titeln för att flytta det: det fäster vid hörnen, mitten av varje kant och mitten, och öppnas där nästa gång.";
+"Copies shown" = "Visade kopior";

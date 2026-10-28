@@ -416,8 +416,12 @@
 "boards" = "panelek";
 "Layout" = "Elrendezés";
 "Shelf at the bottom" = "Sáv alul";
-"Column on the left" = "Oszlop balra";
-"Column on the right" = "Oszlop jobbra";
-"The column shows your 6 latest copies in a small window on that side of the screen." = "Az oszlop az utolsó 6 másolatát mutatja egy kis ablakban a képernyő azon oldalán.";
 "choose" = "választás";
 "close" = "bezárás";
+"Compact window" = "Kompakt ablak";
+"shelf" = "sáv";
+"compact" = "kompakt";
+"Shelf or compact window" = "Sáv vagy kompakt ablak";
+"Drag to move" = "Húzza az áthelyezéshez";
+"The compact window lists your latest copies. Drag it by its title to move it: it snaps to the corners, the middle of each edge and the center, and opens there next time." = "A kompakt ablak a legutóbbi másolatait mutatja. A címénél fogva húzza az áthelyezéshez: a sarkokhoz, az élek közepéhez és a középhez igazodik, és legközelebb ott nyílik meg.";
+"Copies shown" = "Megjelenített másolatok";

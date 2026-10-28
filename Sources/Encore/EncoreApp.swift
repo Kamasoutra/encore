@@ -41,6 +41,10 @@ final class EncorePanel: NSPanel {
     private var quickLookPanel: NSPanel?
     private var shownExpanded = false
     private var downPress: DispatchWorkItem?
+    private var shownColumn = false
+    /// Set while encore places the panel itself, so only the user's drags save a new place for the compact window.
+    private var movingPanel = false
+    private var snapWait: Timer?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         let demo = CommandLine.arguments.contains("--demo")
@@ -180,20 +184,63 @@ final class EncorePanel: NSPanel {
         let shelf = min(frame.height - 30, model.preferences.panelHeight)
         let height = model.expanded ? max(shelf, min(frame.height - 30, max(640, frame.height * 0.8))) : shelf
         var target = NSRect(x: frame.minX + 12, y: frame.minY + 10, width: max(600, frame.width - 24), height: height)
-        if model.columnShown {
-            // Six rows of 62 points with their gaps, plus the header, search field, footer and padding.
-            let size = NSSize(width: 360, height: min(frame.height - 20, 526))
-            let x = model.preferences.placement == "left" ? frame.minX + 10 : frame.maxX - size.width - 10
-            target = NSRect(x: x, y: frame.midY - size.height / 2, width: size.width, height: size.height)
-        }
-        let animate = panel.isVisible && shownExpanded != model.expanded && !NSWorkspace.shared.accessibilityDisplayShouldReduceMotion
-        shownExpanded = model.expanded
+        if model.columnShown { target = compactFrame(in: frame) }
+        let animate = panel.isVisible && (shownExpanded != model.expanded || shownColumn != model.columnShown) && !NSWorkspace.shared.accessibilityDisplayShouldReduceMotion
+        shownExpanded = model.expanded; shownColumn = model.columnShown
+        movingPanel = true
+        defer { DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { [weak self] in self?.movingPanel = false } }
         guard animate else { panel.setFrame(target, display: true); return }
         NSAnimationContext.runAnimationGroup { context in
             context.duration = 0.34
             context.timingFunction = CAMediaTimingFunction(controlPoints: 0.2, 0.9, 0.25, 1)
             panel.animator().setFrame(target, display: true)
         }
+    }
+
+    /// The compact window, at its saved place: a share of the room the screen leaves it, so it lands at the same spot on any screen.
+    private func compactFrame(in frame: NSRect) -> NSRect {
+        // The rows of 62 points with their gaps, plus 160 for the header, search field, library bar, footer and padding.
+        let rows = CGFloat(model.preferences.compactCount)
+        let size = NSSize(width: 360, height: min(frame.height - 20, rows * 62 + (rows - 1) * 6 + 160))
+        let position = model.preferences.compactPosition + [1, 0.5].dropFirst(model.preferences.compactPosition.count)
+        let roomX = frame.width - 20 - size.width, roomY = frame.height - 20 - size.height
+        return NSRect(x: frame.minX + 10 + roomX * min(1, max(0, position[0])), y: frame.minY + 10 + roomY * min(1, max(0, position[1])), width: size.width, height: size.height)
+    }
+
+    /// After the compact window is dragged: it snaps to the center, a corner or the middle of an edge when dropped near one, and keeps its place.
+    private func compactMoved() {
+        guard model.columnShown, panel.isVisible, !movingPanel, let screen = panel.screen else { return }
+        guard NSEvent.pressedMouseButtons == 0 else {
+            snapWait?.invalidate()
+            snapWait = Timer.scheduledTimer(withTimeInterval: 0.15, repeats: false) { [weak self] _ in MainActor.assumeIsolated { self?.compactMoved() } }
+            return
+        }
+        let frame = screen.visibleFrame
+        let roomX = max(1, frame.width - 20 - panel.frame.width), roomY = max(1, frame.height - 20 - panel.frame.height)
+        var position: [Double] = [min(1, max(0, (panel.frame.minX - frame.minX - 10) / roomX)), min(1, max(0, (panel.frame.minY - frame.minY - 10) / roomY))]
+        for axis in 0..<2 {
+            let room = axis == 0 ? roomX : roomY
+            if let anchor = [0.0, 0.5, 1].first(where: { abs($0 - position[axis]) * room < 60 }) { position[axis] = anchor }
+        }
+        model.preferences.compactPosition = position
+        model.preferencesChanged()
+        let target = compactFrame(in: frame)
+        guard target != panel.frame else { return }
+        movingPanel = true
+        NSAnimationContext.runAnimationGroup({ context in
+            context.duration = 0.18
+            panel.animator().setFrame(target, display: true)
+        }, completionHandler: { [weak self] in MainActor.assumeIsolated { self?.movingPanel = false } })
+    }
+
+    private func openLibraryFromColumn() {
+        guard model.columnShown else { return }
+        setExpanded(true)
+    }
+
+    func windowDidMove(_ notification: Notification) {
+        guard (notification.object as? NSWindow) === panel else { return }
+        compactMoved()
     }
 
     private func setExpanded(_ value: Bool) {
@@ -221,8 +268,13 @@ final class EncorePanel: NSPanel {
         let size = NSSize(width: 760, height: 480)
         let card = model.cursorFrame == .zero ? NSRect(x: panel.frame.width / 2, y: 0, width: 0, height: 0) : model.cursorFrame
         let bounds = screen.visibleFrame
-        let x = min(max(panel.frame.minX + card.midX - size.width / 2, bounds.minX + 8), bounds.maxX - size.width - 8)
-        let y = min(panel.frame.maxY + 10, bounds.maxY - size.height - 8)
+        var x = min(max(panel.frame.minX + card.midX - size.width / 2, bounds.minX + 8), bounds.maxX - size.width - 8)
+        var y = min(panel.frame.maxY + 10, bounds.maxY - size.height - 8)
+        if model.columnShown {
+            // Beside the compact window, on the side with more room.
+            x = panel.frame.midX > bounds.midX ? max(bounds.minX + 8, panel.frame.minX - size.width - 10) : min(bounds.maxX - size.width - 8, panel.frame.maxX + 10)
+            y = min(max(panel.frame.midY - size.height / 2, bounds.minY + 8), bounds.maxY - size.height - 8)
+        }
         preview.setFrame(NSRect(x: x, y: y, width: size.width, height: size.height), display: true)
         if preview.parent == nil { panel.addChildWindow(preview, ordered: .above) }
         preview.orderFront(nil)
@@ -282,18 +334,18 @@ final class EncorePanel: NSPanel {
             case ",": openSettings(); return nil
             case "f": model.searchFocused = true; return nil
             case "n":
-                if shift { model.createCollection() } else { newText() }
+                if shift { openLibraryFromColumn(); model.createCollection() } else { newText() }
                 return nil
             case "t": model.preferences.captureEnabled.toggle(); model.preferencesChanged(); return nil
             case "e": model.inspector = model.selected; return nil
-            // The column has no name field: renaming there would leave every key waiting for it.
-            case "r": if model.remotePeer == nil && !model.columnShown { model.renamingID = model.selected?.id }; return nil
-            case "s": if model.remotePeer == nil, let id = model.selected?.id { model.renamingID = nil; model.snippetEditor = id }; return nil
+            // The compact window is too small to rename or make a snippet: these open the library first.
+            case "r": if model.remotePeer == nil { openLibraryFromColumn(); model.renamingID = model.selected?.id }; return nil
+            case "s": if model.remotePeer == nil, let id = model.selected?.id { openLibraryFromColumn(); model.renamingID = nil; model.snippetEditor = id }; return nil
             case "d": model.toggleFavorite(); return nil
-            case "+", "=": model.zoomCards(0.05); return nil
-            case "-": model.zoomCards(-0.05); return nil
+            case "+", "=": if !model.columnShown { model.zoomCards(0.05) }; return nil
+            case "-": if !model.columnShown { model.zoomCards(-0.05) }; return nil
             case "z" where !editing: model.undoDelete(); return nil
-            case "a" where !editing: model.selection = Set(model.filtered.map(\.id)); return nil
+            case "a" where !editing: if !model.columnShown { model.selection = Set(model.filtered.map(\.id)) }; return nil
             case "c" where !editing: model.paste(copyOnly: true); return nil
             case "q": NSApp.terminate(nil); return nil
             default:
@@ -301,6 +353,9 @@ final class EncorePanel: NSPanel {
                     model.paste([model.filtered[index]], plain: shift); return nil
                 }
             }
+            // The compact window shows the history only: there is no board to switch to.
+            if (event.keyCode == 123 || event.keyCode == 124) && model.columnShown { return nil }
+            if command && shift && (event.keyCode == 36 || event.keyCode == 76) && model.columnShown { return nil }
             if event.keyCode == 123 || event.keyCode == 124 {
                 let boards = model.boards
                 let current = boards.firstIndex(of: model.board) ?? 0

@@ -416,8 +416,12 @@
 "boards" = "לוחות";
 "Layout" = "פריסה";
 "Shelf at the bottom" = "פס בתחתית";
-"Column on the left" = "עמודה משמאל";
-"Column on the right" = "עמודה מימין";
-"The column shows your 6 latest copies in a small window on that side of the screen." = "העמודה מציגה את 6 ההעתקות האחרונות בחלון קטן בצד הזה של המסך.";
 "choose" = "בחירה";
 "close" = "סגירה";
+"Compact window" = "חלון קומפקטי";
+"shelf" = "פס";
+"compact" = "קומפקטי";
+"Shelf or compact window" = "פס או חלון קומפקטי";
+"Drag to move" = "גרור כדי להזיז";
+"The compact window lists your latest copies. Drag it by its title to move it: it snaps to the corners, the middle of each edge and the center, and opens there next time." = "החלון הקומפקטי מציג את ההעתקות האחרונות שלך. גרור אותו בכותרת כדי להזיז: הוא נצמד לפינות, לאמצע כל קצה ולמרכז, ונפתח שם בפעם הבאה.";
+"Copies shown" = "העתקות מוצגות";

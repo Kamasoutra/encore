@@ -416,8 +416,12 @@
 "boards" = "boards";
 "Layout" = "Layout";
 "Shelf at the bottom" = "Shelf at the bottom";
-"Column on the left" = "Column on the left";
-"Column on the right" = "Column on the right";
-"The column shows your 6 latest copies in a small window on that side of the screen." = "The column shows your 6 latest copies in a small window on that side of the screen.";
 "choose" = "choose";
 "close" = "close";
+"Compact window" = "Compact window";
+"shelf" = "shelf";
+"compact" = "compact";
+"Shelf or compact window" = "Shelf or compact window";
+"Drag to move" = "Drag to move";
+"The compact window lists your latest copies. Drag it by its title to move it: it snaps to the corners, the middle of each edge and the center, and opens there next time." = "The compact window lists your latest copies. Drag it by its title to move it: it snaps to the corners, the middle of each edge and the center, and opens there next time.";
+"Copies shown" = "Copies shown";

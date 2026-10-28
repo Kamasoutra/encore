@@ -416,8 +416,12 @@
 "boards" = "पैनल";
 "Layout" = "लेआउट";
 "Shelf at the bottom" = "नीचे पट्टी";
-"Column on the left" = "बाईं ओर कॉलम";
-"Column on the right" = "दाईं ओर कॉलम";
-"The column shows your 6 latest copies in a small window on that side of the screen." = "कॉलम आपकी 6 सबसे हाल की कॉपी स्क्रीन के उस तरफ़ एक छोटी विंडो में दिखाता है।";
 "choose" = "चुनें";
 "close" = "बंद करें";
+"Compact window" = "कॉम्पैक्ट विंडो";
+"shelf" = "पट्टी";
+"compact" = "कॉम्पैक्ट";
+"Shelf or compact window" = "पट्टी या कॉम्पैक्ट विंडो";
+"Drag to move" = "हिलाने के लिए खींचें";
+"The compact window lists your latest copies. Drag it by its title to move it: it snaps to the corners, the middle of each edge and the center, and opens there next time." = "कॉम्पैक्ट विंडो आपकी हाल की कॉपी दिखाती है। इसे हिलाने के लिए शीर्षक से खींचें: यह कोनों, हर किनारे के बीच और केंद्र पर चिपक जाती है, और अगली बार वहीं खुलती है।";
+"Copies shown" = "दिखाई जाने वाली कॉपी";

@@ -416,8 +416,12 @@
 "boards" = "панели";
 "Layout" = "Расположение";
 "Shelf at the bottom" = "Полоса внизу";
-"Column on the left" = "Колонка слева";
-"Column on the right" = "Колонка справа";
-"The column shows your 6 latest copies in a small window on that side of the screen." = "Колонка показывает 6 последних копий в небольшом окне у этого края экрана.";
 "choose" = "выбрать";
 "close" = "закрыть";
+"Compact window" = "Компактное окно";
+"shelf" = "полоса";
+"compact" = "компактно";
+"Shelf or compact window" = "Полоса или компактное окно";
+"Drag to move" = "Перетащите, чтобы переместить";
+"The compact window lists your latest copies. Drag it by its title to move it: it snaps to the corners, the middle of each edge and the center, and opens there next time." = "Компактное окно показывает ваши последние копии. Перетащите его за заголовок: оно примагничивается к углам, серединам краёв и центру и в следующий раз откроется там же.";
+"Copies shown" = "Показывать копий";

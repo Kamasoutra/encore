@@ -416,8 +416,12 @@
 "boards" = "панелі";
 "Layout" = "Розташування";
 "Shelf at the bottom" = "Смуга внизу";
-"Column on the left" = "Стовпець ліворуч";
-"Column on the right" = "Стовпець праворуч";
-"The column shows your 6 latest copies in a small window on that side of the screen." = "Стовпець показує 6 останніх копій у невеликому вікні біля цього краю екрана.";
 "choose" = "вибрати";
 "close" = "закрити";
+"Compact window" = "Компактне вікно";
+"shelf" = "смуга";
+"compact" = "компактно";
+"Shelf or compact window" = "Смуга або компактне вікно";
+"Drag to move" = "Перетягніть, щоб перемістити";
+"The compact window lists your latest copies. Drag it by its title to move it: it snaps to the corners, the middle of each edge and the center, and opens there next time." = "Компактне вікно показує ваші останні копії. Перетягніть його за заголовок: воно прилипає до кутів, середин країв і центру та наступного разу відкриється там само.";
+"Copies shown" = "Показувати копій";

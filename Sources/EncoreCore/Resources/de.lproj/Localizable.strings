@@ -416,8 +416,12 @@
 "boards" = "Ansichten";
 "Layout" = "Layout";
 "Shelf at the bottom" = "Leiste unten";
-"Column on the left" = "Spalte links";
-"Column on the right" = "Spalte rechts";
-"The column shows your 6 latest copies in a small window on that side of the screen." = "Die Spalte zeigt Ihre 6 letzten Kopien in einem kleinen Fenster auf dieser Bildschirmseite.";
 "choose" = "auswählen";
 "close" = "schließen";
+"Compact window" = "Kompaktes Fenster";
+"shelf" = "Leiste";
+"compact" = "kompakt";
+"Shelf or compact window" = "Leiste oder kompaktes Fenster";
+"Drag to move" = "Zum Bewegen ziehen";
+"The compact window lists your latest copies. Drag it by its title to move it: it snaps to the corners, the middle of each edge and the center, and opens there next time." = "Das kompakte Fenster listet Ihre letzten Kopien. Ziehen Sie es am Titel, um es zu bewegen: Es rastet an den Ecken, der Mitte jedes Rands und der Bildschirmmitte ein und öffnet sich beim nächsten Mal dort.";
+"Copies shown" = "Angezeigte Kopien";

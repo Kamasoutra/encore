@@ -302,6 +302,7 @@ struct BoardView: View {
             Circle().fill(model.preferences.captureEnabled ? Color.green : Color.orange).frame(width: 6, height: 6)
             Text(model.preferences.captureEnabled ? L("\(model.filtered.count) items") : L("Capture paused")).font(.system(size: 11, weight: .medium)).monospacedDigit()
             pasteSwitch
+            layoutSwitch
             if model.preferences.pasteDirectly && !model.accessibilityGranted {
                 // Without Accessibility, Return can only copy: say so where the user looks.
                 Button { model.requestAccessibility() } label: {
@@ -356,6 +357,29 @@ struct BoardView: View {
         image.isTemplate = true
         return image
     }()
+
+    /// The shelf, or the compact window that lists the latest copies.
+    private var layoutSwitch: some View {
+        HStack(spacing: 0) {
+            ForEach(["bottom", "compact"], id: \.self) { placement in
+                let active = model.preferences.placement == placement
+                Button {
+                    guard !active else { return }
+                    model.preferences.placement = placement
+                    model.preferencesChanged()
+                    model.expanded = false
+                    model.resizePanel?()
+                } label: {
+                    Label(placement == "bottom" ? L("shelf") : L("compact"), systemImage: placement == "bottom" ? "rectangle.bottomthird.inset.filled" : "rectangle.inset.topright.filled")
+                        .font(.system(size: 11, weight: active ? .semibold : .medium))
+                        .padding(.horizontal, 7).padding(.vertical, 2)
+                        .background(active ? Palette.accent.opacity(0.35) : .clear, in: Capsule())
+                        .foregroundStyle(active ? AnyShapeStyle(.primary) : AnyShapeStyle(.primary.opacity(0.7)))
+                }.buttonStyle(.plain)
+            }
+        }.padding(2).background(.primary.opacity(0.06), in: Capsule())
+            .help(L("Shelf or compact window"))
+    }
 
     /// What Return and double-click do, kept in sync with the setting.
     private var pasteSwitch: some View {
@@ -838,7 +862,19 @@ struct SideColumn<Search: View>: View {
     let openLibrary: () -> Void
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
-    private var items: [Clip] { Array(model.filtered.prefix(6)) }
+    @State private var first = 0
+    private var items: [Clip] { model.filtered }
+    private var count: Int { model.preferences.compactCount }
+    private var visible: ArraySlice<Clip> { items.isEmpty ? [] : items[min(first, items.count - 1)..<min(items.count, first + count)] }
+
+    /// Keeps the cursor in the window, moving it as little as possible.
+    private func follow() {
+        guard let cursor = items.firstIndex(where: { $0.id == model.cursor }) else { first = 0; return }
+        let next = cursor < first ? cursor : cursor >= first + count ? cursor - count + 1 : min(first, max(0, items.count - count))
+        guard next != first else { return }
+        withAnimation(reduceMotion ? nil : .easeOut(duration: 0.15)) { first = next }
+    }
+    private var cursorOnFirst: Bool { items.first.map { $0.id == model.cursor } ?? true }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -846,31 +882,80 @@ struct SideColumn<Search: View>: View {
                 EncoreMark()
                 Text("encore").font(.system(size: 15, weight: .semibold)).tracking(-0.2)
                 Spacer()
-                Button(action: openLibrary) { Image(systemName: "arrow.up.left.and.arrow.down.right").font(.system(size: 12, weight: .semibold)) }
-                    .buttonStyle(.borderless).foregroundStyle(.secondary).help(L("Full library"))
-                if !model.preferences.captureEnabled { Image(systemName: "pause.circle.fill").foregroundStyle(.orange).help(L("Capture paused")) }
-            }.padding(.horizontal, 4)
+            }
+            .padding(.horizontal, 4)
+            .overlay(WindowDragArea().help(L("Drag to move")))
+            .overlay(alignment: .trailing) {
+                if !model.preferences.captureEnabled { Image(systemName: "pause.circle.fill").foregroundStyle(.orange).help(L("Capture paused")).padding(.trailing, 4) }
+            }
             search
+            libraryBar
+            // A window on the list, moved only by the keyboard: ↓ on the last copy shown brings the next one in.
             VStack(spacing: 6) {
-                if items.isEmpty {
-                    Text(model.query.isEmpty ? L("Copy text, a link, or an image. Find it here with \(model.shortcutStatus).") : L("Try another word or remove the filters."))
-                        .font(.system(size: 12)).foregroundStyle(.secondary).multilineTextAlignment(.center)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                }
-                ForEach(Array(items.enumerated()), id: \.element.id) { index, clip in
-                    SideRow(model: model, clip: clip, index: index)
+                ForEach(Array(visible.enumerated()), id: \.element.id) { offset, clip in
+                    SideRow(model: model, clip: clip, index: first + offset)
                         .transition(reduceMotion ? .opacity : .move(edge: .top).combined(with: .opacity))
                 }
                 Spacer(minLength: 0)
             }
-            .animation(reduceMotion ? nil : .spring(duration: 0.3, bounce: 0.15), value: items.map(\.id))
+            .frame(maxHeight: .infinity)
+            .overlay {
+                if items.isEmpty {
+                    Text(model.query.isEmpty ? L("Copy text, a link, or an image. Find it here with \(model.shortcutStatus).") : L("Try another word or remove the filters."))
+                        .font(.system(size: 12)).foregroundStyle(.secondary).multilineTextAlignment(.center)
+                }
+            }
+            .onChanged(model.cursor) { _ in follow() }
+            .onChanged(items.map(\.id)) { _ in follow() }
+            .animation(reduceMotion ? nil : .spring(duration: 0.3, bounce: 0.15), value: visible.map(\.id))
             HStack(spacing: 10) {
                 footerHint("↑↓", L("choose"))
                 footerHint("↩", model.pastesDirectly ? L("paste") : L("copy"))
-                footerHint("↑", L("explore"))
-            }.frame(maxWidth: .infinity)
+                Spacer(minLength: 4)
+                iconSwitch(model.preferences.pasteDirectly, on: ("arrow.down.doc", L("paste")), off: ("doc.on.doc", L("copy"))) { value in
+                    model.preferences.pasteDirectly = value; model.preferencesChanged()
+                }.help(L("What Return and double-click do"))
+                iconSwitch(false, on: ("rectangle.bottomthird.inset.filled", L("shelf")), off: ("rectangle.inset.topright.filled", L("compact"))) { shelf in
+                    guard shelf else { return }
+                    model.preferences.placement = "bottom"; model.preferencesChanged(); model.resizePanel?()
+                }.help(L("Shelf or compact window"))
+            }
         }
         .padding(12)
+    }
+
+    /// Above the first copy is the library: ↑ there, or a click, opens it.
+    private var libraryBar: some View {
+        Button(action: openLibrary) {
+            HStack(spacing: 6) {
+                Image(systemName: "chevron.up").font(.system(size: 10, weight: .bold))
+                Text(L("Library")).font(.system(size: 11.5, weight: .medium))
+                Spacer()
+                Text(Localization.keys("↑")).font(.system(size: 10.5, weight: .semibold)).padding(.horizontal, 4).padding(.vertical, 1.5)
+                    .background(.primary.opacity(0.1), in: RoundedRectangle(cornerRadius: 4))
+                    .opacity(cursorOnFirst ? 1 : 0)
+            }
+            .foregroundStyle(cursorOnFirst ? AnyShapeStyle(.primary) : AnyShapeStyle(.secondary))
+            .padding(.horizontal, 9).frame(height: 26)
+            .background(.primary.opacity(cursorOnFirst ? 0.08 : 0.04), in: RoundedRectangle(cornerRadius: 8))
+            .overlay(RoundedRectangle(cornerRadius: 8).strokeBorder(.primary.opacity(0.1), style: StrokeStyle(lineWidth: 1, dash: [3, 3])))
+            .contentShape(Rectangle())
+        }.buttonStyle(.plain).help(L("Full library"))
+    }
+
+    /// Two explicit icons, the active one highlighted: the compact counterpart of the shelf's text switches.
+    private func iconSwitch(_ value: Bool, on: (String, String), off: (String, String), set: @escaping (Bool) -> Void) -> some View {
+        HStack(spacing: 0) {
+            ForEach([true, false], id: \.self) { option in
+                let symbol = option ? on : off
+                let active = value == option
+                Button { if !active { withAnimation(.easeOut(duration: 0.15)) { set(option) } } } label: {
+                    Image(systemName: symbol.0).font(.system(size: 11, weight: .medium)).frame(width: 24, height: 18)
+                        .background(active ? Palette.accent.opacity(0.35) : .clear, in: Capsule())
+                        .foregroundStyle(active ? AnyShapeStyle(.primary) : AnyShapeStyle(.primary.opacity(0.6)))
+                }.buttonStyle(.plain).accessibilityLabel(symbol.1).help(symbol.1)
+            }
+        }.padding(2).background(.primary.opacity(0.06), in: Capsule())
     }
 
     private func footerHint(_ keys: String, _ label: String) -> some View {
@@ -880,6 +965,15 @@ struct SideColumn<Search: View>: View {
             Text(label).font(.system(size: 10.5))
         }.foregroundStyle(.secondary)
     }
+}
+
+/// Moves the window when dragged: the compact window has no title bar.
+private struct WindowDragArea: NSViewRepresentable {
+    final class DragView: NSView {
+        override func mouseDown(with event: NSEvent) { window?.performDrag(with: event) }
+    }
+    func makeNSView(context: Context) -> DragView { DragView() }
+    func updateNSView(_ view: DragView, context: Context) {}
 }
 
 private struct SideRow: View {

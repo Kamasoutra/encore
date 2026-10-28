@@ -416,8 +416,12 @@
 "boards" = "panely";
 "Layout" = "Rozloženie";
 "Shelf at the bottom" = "Lišta dole";
-"Column on the left" = "Stĺpec vľavo";
-"Column on the right" = "Stĺpec vpravo";
-"The column shows your 6 latest copies in a small window on that side of the screen." = "Stĺpec zobrazuje vašich 6 posledných kópií v malom okne na tejto strane obrazovky.";
 "choose" = "vybrať";
 "close" = "zavrieť";
+"Compact window" = "Kompaktné okno";
+"shelf" = "lišta";
+"compact" = "kompaktné";
+"Shelf or compact window" = "Lišta alebo kompaktné okno";
+"Drag to move" = "Presuňte potiahnutím";
+"The compact window lists your latest copies. Drag it by its title to move it: it snaps to the corners, the middle of each edge and the center, and opens there next time." = "Kompaktné okno zobrazuje vaše posledné kópie. Presuniete ho potiahnutím za názov: prichytí sa k rohom, stredu každého okraja a k stredu a nabudúce sa otvorí na rovnakom mieste.";
+"Copies shown" = "Zobrazené kópie";

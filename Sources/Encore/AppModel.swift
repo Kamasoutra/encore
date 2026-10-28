@@ -152,7 +152,7 @@ struct PeerStatus: Identifiable, Equatable {
     var boards: [String] { ["history", "favorites"] + (hasSnippets ? ["snippets"] : []) + library.collections.map(\.id.uuidString) + peers.map { "peer:\($0.id)" } }
     var remotePeer: PeerStatus? { board.hasPrefix("peer:") ? peers.first { "peer:\($0.id)" == board } : nil }
     /// The narrow column on a side of the screen, instead of the shelf.
-    var sideColumn: Bool { preferences.placement != "bottom" }
+    var sideColumn: Bool { preferences.placement == "compact" }
     /// The column is on screen: the library opened from it replaces it until ↓ is held.
     var columnShown: Bool { sideColumn && !expanded }
     var selectedClips: [Clip] { filtered.filter { selection.contains($0.id) } }

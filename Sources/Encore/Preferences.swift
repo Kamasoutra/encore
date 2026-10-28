@@ -14,8 +14,12 @@ struct Preferences: Codable, Equatable {
     var disabledDefaultExclusions: [String] = []
     var panelHeight: Double = 380
     var compact = false
-    /// "bottom" for the shelf, or "left" / "right" for a narrow column of the latest copies on that edge of the screen.
+    /// "bottom" for the shelf, or "compact" for a small window of the latest copies.
     var placement = "bottom"
+    /// Where the compact window sits, from 0 to 1 across the room the screen leaves it: 0 is the left or bottom edge, 1 the right or top.
+    var compactPosition: [Double] = [1, 0.5]
+    /// Copies the compact window shows at once; ↑ and ↓ bring in the others.
+    var compactCount = 6
     var appearance = "system"
     var shortcut = "commandShiftV"
     var stackShortcutEnabled = false
@@ -46,7 +50,7 @@ struct Preferences: Codable, Equatable {
 
     private enum CodingKeys: String, CodingKey {
         case retentionDays, historyLimit, storageLimitMB, captureEnabled, ignoreSensitive, recognizeImages
-        case excludedBundleIDs, panelHeight, compact, placement, appearance, shortcut, retentionRules, cardScale, importScreenshots, copyScreenshotsToClipboard, screenshotFolder
+        case excludedBundleIDs, panelHeight, compact, placement, compactPosition, compactCount, appearance, shortcut, retentionRules, cardScale, importScreenshots, copyScreenshotsToClipboard, screenshotFolder
         case soundsEnabled, soundTheme, soundVolume, captureSoundPath, pasteSoundPath, displayTarget, stackShortcutEnabled, disabledDefaultExclusions, language, shareWithPeers, pasteDirectly, syncFavorites, syncSnippets
     }
 
@@ -65,6 +69,10 @@ struct Preferences: Codable, Equatable {
         panelHeight = try values.decodeIfPresent(Double.self, forKey: .panelHeight) ?? panelHeight
         compact = try values.decodeIfPresent(Bool.self, forKey: .compact) ?? compact
         placement = try values.decodeIfPresent(String.self, forKey: .placement) ?? placement
+        compactPosition = try values.decodeIfPresent([Double].self, forKey: .compactPosition) ?? compactPosition
+        compactCount = min(10, max(3, try values.decodeIfPresent(Int.self, forKey: .compactCount) ?? compactCount))
+        // Test builds placed a column on the left or right edge: that is now the compact window, at the same place.
+        if placement == "left" || placement == "right" { compactPosition = [placement == "left" ? 0 : 1, 0.5]; placement = "compact" }
         appearance = try values.decodeIfPresent(String.self, forKey: .appearance) ?? appearance
         shortcut = try values.decodeIfPresent(String.self, forKey: .shortcut) ?? shortcut
         stackShortcutEnabled = try values.decodeIfPresent(Bool.self, forKey: .stackShortcutEnabled) ?? false

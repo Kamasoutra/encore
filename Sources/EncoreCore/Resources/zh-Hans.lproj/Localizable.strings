@@ -416,8 +416,12 @@
 "boards" = "面板";
 "Layout" = "布局";
 "Shelf at the bottom" = "底部横栏";
-"Column on the left" = "左侧竖栏";
-"Column on the right" = "右侧竖栏";
-"The column shows your 6 latest copies in a small window on that side of the screen." = "竖栏会在屏幕该侧的小窗口中显示最近 6 条拷贝。";
 "choose" = "选择";
 "close" = "关闭";
+"Compact window" = "紧凑窗口";
+"shelf" = "横栏";
+"compact" = "紧凑";
+"Shelf or compact window" = "横栏或紧凑窗口";
+"Drag to move" = "拖移以移动";
+"The compact window lists your latest copies. Drag it by its title to move it: it snaps to the corners, the middle of each edge and the center, and opens there next time." = "紧凑窗口列出最近的拷贝。拖移标题即可移动：它会吸附到四角、各边中点和中央，下次在同一位置打开。";
+"Copies shown" = "显示的拷贝数";

@@ -416,8 +416,12 @@
 "boards" = "패널";
 "Layout" = "레이아웃";
 "Shelf at the bottom" = "하단 선반";
-"Column on the left" = "왼쪽 열";
-"Column on the right" = "오른쪽 열";
-"The column shows your 6 latest copies in a small window on that side of the screen." = "열에는 최근 복사한 6개 항목이 화면 해당 쪽의 작은 창에 표시됩니다.";
 "choose" = "선택";
 "close" = "닫기";
+"Compact window" = "작은 창";
+"shelf" = "선반";
+"compact" = "작게";
+"Shelf or compact window" = "선반 또는 작은 창";
+"Drag to move" = "드래그하여 이동";
+"The compact window lists your latest copies. Drag it by its title to move it: it snaps to the corners, the middle of each edge and the center, and opens there next time." = "작은 창에 최근 복사한 항목이 표시됩니다. 제목을 드래그해 옮길 수 있으며, 모서리와 각 가장자리 가운데, 화면 중앙에 맞춰지고 다음에도 같은 위치에서 열립니다.";
+"Copies shown" = "표시할 항목 수";

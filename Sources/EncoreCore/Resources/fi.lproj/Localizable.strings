@@ -416,8 +416,12 @@
 "boards" = "paneelit";
 "Layout" = "Asettelu";
 "Shelf at the bottom" = "Palkki alhaalla";
-"Column on the left" = "Sarake vasemmalla";
-"Column on the right" = "Sarake oikealla";
-"The column shows your 6 latest copies in a small window on that side of the screen." = "Sarake näyttää 6 viimeisintä kopiotasi pienessä ikkunassa näytön sillä reunalla.";
 "choose" = "valitse";
 "close" = "sulje";
+"Compact window" = "Pieni ikkuna";
+"shelf" = "palkki";
+"compact" = "pieni";
+"Shelf or compact window" = "Palkki tai pieni ikkuna";
+"Drag to move" = "Siirrä vetämällä";
+"The compact window lists your latest copies. Drag it by its title to move it: it snaps to the corners, the middle of each edge and the center, and opens there next time." = "Pieni ikkuna näyttää viimeisimmät kopiosi. Siirrä sitä vetämällä otsikosta: se kiinnittyy kulmiin, reunojen keskelle ja keskelle, ja avautuu samaan kohtaan seuraavalla kerralla.";
+"Copies shown" = "Näytettävät kopiot";

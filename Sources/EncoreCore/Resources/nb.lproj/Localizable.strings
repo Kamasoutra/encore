@@ -416,8 +416,12 @@
 "boards" = "paneler";
 "Layout" = "Oppsett";
 "Shelf at the bottom" = "Linje nederst";
-"Column on the left" = "Kolonne til venstre";
-"Column on the right" = "Kolonne til høyre";
-"The column shows your 6 latest copies in a small window on that side of the screen." = "Kolonnen viser de 6 siste kopiene dine i et lite vindu på den siden av skjermen.";
 "choose" = "velg";
 "close" = "lukk";
+"Compact window" = "Kompakt vindu";
+"shelf" = "linje";
+"compact" = "kompakt";
+"Shelf or compact window" = "Linje eller kompakt vindu";
+"Drag to move" = "Dra for å flytte";
+"The compact window lists your latest copies. Drag it by its title to move it: it snaps to the corners, the middle of each edge and the center, and opens there next time." = "Det kompakte vinduet viser de siste kopiene dine. Dra i tittelen for å flytte det: det fester seg i hjørnene, midt på hver kant og i midten, og åpnes der neste gang.";
+"Copies shown" = "Viste kopier";

@@ -416,8 +416,12 @@
 "boards" = "panelen";
 "Layout" = "Indeling";
 "Shelf at the bottom" = "Balk onderaan";
-"Column on the left" = "Kolom links";
-"Column on the right" = "Kolom rechts";
-"The column shows your 6 latest copies in a small window on that side of the screen." = "De kolom toont je 6 laatste kopieën in een klein venster aan die kant van het scherm.";
 "choose" = "kiezen";
 "close" = "sluiten";
+"Compact window" = "Compact venster";
+"shelf" = "balk";
+"compact" = "compact";
+"Shelf or compact window" = "Balk of compact venster";
+"Drag to move" = "Sleep om te verplaatsen";
+"The compact window lists your latest copies. Drag it by its title to move it: it snaps to the corners, the middle of each edge and the center, and opens there next time." = "Het compacte venster toont je laatste kopieën. Sleep het aan de titel om het te verplaatsen: het klikt vast in de hoeken, het midden van elke rand en het midden, en opent daar de volgende keer.";
+"Copies shown" = "Getoonde kopieën";

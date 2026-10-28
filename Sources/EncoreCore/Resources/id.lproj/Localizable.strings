@@ -416,8 +416,12 @@
 "boards" = "panel";
 "Layout" = "Tata letak";
 "Shelf at the bottom" = "Bilah di bawah";
-"Column on the left" = "Kolom di kiri";
-"Column on the right" = "Kolom di kanan";
-"The column shows your 6 latest copies in a small window on that side of the screen." = "Kolom menampilkan 6 salinan terbarumu di jendela kecil di sisi layar itu.";
 "choose" = "pilih";
 "close" = "tutup";
+"Compact window" = "Jendela ringkas";
+"shelf" = "bilah";
+"compact" = "ringkas";
+"Shelf or compact window" = "Bilah atau jendela ringkas";
+"Drag to move" = "Seret untuk memindahkan";
+"The compact window lists your latest copies. Drag it by its title to move it: it snaps to the corners, the middle of each edge and the center, and opens there next time." = "Jendela ringkas menampilkan salinan terbarumu. Seret judulnya untuk memindahkan: jendela menempel di sudut, tengah tiap tepi, dan tengah layar, lalu terbuka di sana lain kali.";
+"Copies shown" = "Salinan yang ditampilkan";

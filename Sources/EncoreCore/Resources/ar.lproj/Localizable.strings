@@ -416,8 +416,12 @@
 "boards" = "اللوحات";
 "Layout" = "التخطيط";
 "Shelf at the bottom" = "شريط في الأسفل";
-"Column on the left" = "عمود على اليسار";
-"Column on the right" = "عمود على اليمين";
-"The column shows your 6 latest copies in a small window on that side of the screen." = "يعرض العمود آخر 6 نسخ في نافذة صغيرة على ذلك الجانب من الشاشة.";
 "choose" = "اختيار";
 "close" = "إغلاق";
+"Compact window" = "نافذة مدمجة";
+"shelf" = "شريط";
+"compact" = "مدمج";
+"Shelf or compact window" = "شريط أو نافذة مدمجة";
+"Drag to move" = "اسحب للتحريك";
+"The compact window lists your latest copies. Drag it by its title to move it: it snaps to the corners, the middle of each edge and the center, and opens there next time." = "تعرض النافذة المدمجة آخر نسخك. اسحبها من عنوانها لتحريكها: تلتصق بالزوايا ومنتصف كل حافة والمركز، وتفتح في المكان نفسه في المرة التالية.";
+"Copies shown" = "النسخ المعروضة";

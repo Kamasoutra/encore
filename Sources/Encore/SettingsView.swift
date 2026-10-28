@@ -157,10 +157,14 @@ struct SettingsView: View {
             SettingsGroup(L("Display")) {
                 Picker(L("Layout"), selection: $model.preferences.placement) {
                     Text(L("Shelf at the bottom")).tag("bottom")
-                    Text(L("Column on the left")).tag("left")
-                    Text(L("Column on the right")).tag("right")
+                    Text(L("Compact window")).tag("compact")
+                }.onChanged(model.preferences.placement) { _ in model.resizePanel?() }
+                if model.preferences.placement == "compact" {
+                    Stepper(value: $model.preferences.compactCount, in: 3...10) {
+                        HStack { Text(L("Copies shown")); Spacer(); Text(Localization.number(model.preferences.compactCount)).monospacedDigit().foregroundStyle(.secondary) }
+                    }.onChanged(model.preferences.compactCount) { _ in model.resizePanel?() }
                 }
-                caption(L("The column shows your 6 latest copies in a small window on that side of the screen."))
+                caption(L("The compact window lists your latest copies. Drag it by its title to move it: it snaps to the corners, the middle of each edge and the center, and opens there next time."))
                 Picker(L("Show shelf on"), selection: $model.preferences.displayTarget) {
                     Text(L("Current display · at pointer")).tag("active")
                     Text(L("macOS primary display")).tag("primary")

@@ -416,8 +416,12 @@
 "boards" = "bảng";
 "Layout" = "Bố cục";
 "Shelf at the bottom" = "Thanh ở dưới";
-"Column on the left" = "Cột bên trái";
-"Column on the right" = "Cột bên phải";
-"The column shows your 6 latest copies in a small window on that side of the screen." = "Cột hiển thị 6 bản sao gần nhất trong một cửa sổ nhỏ ở cạnh đó của màn hình.";
 "choose" = "chọn";
 "close" = "đóng";
+"Compact window" = "Cửa sổ thu gọn";
+"shelf" = "thanh";
+"compact" = "thu gọn";
+"Shelf or compact window" = "Thanh hoặc cửa sổ thu gọn";
+"Drag to move" = "Kéo để di chuyển";
+"The compact window lists your latest copies. Drag it by its title to move it: it snaps to the corners, the middle of each edge and the center, and opens there next time." = "Cửa sổ thu gọn liệt kê các bản sao gần nhất. Kéo phần tiêu đề để di chuyển: cửa sổ bám vào các góc, giữa mỗi cạnh và chính giữa, và lần sau sẽ mở tại đó.";
+"Copies shown" = "Số bản sao hiển thị";

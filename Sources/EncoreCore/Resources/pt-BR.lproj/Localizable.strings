@@ -416,8 +416,12 @@
 "boards" = "painéis";
 "Layout" = "Layout";
 "Shelf at the bottom" = "Faixa embaixo";
-"Column on the left" = "Coluna à esquerda";
-"Column on the right" = "Coluna à direita";
-"The column shows your 6 latest copies in a small window on that side of the screen." = "A coluna mostra suas 6 últimas cópias em uma pequena janela desse lado da tela.";
 "choose" = "escolher";
 "close" = "fechar";
+"Compact window" = "Janela compacta";
+"shelf" = "faixa";
+"compact" = "compacta";
+"Shelf or compact window" = "Faixa ou janela compacta";
+"Drag to move" = "Arraste para mover";
+"The compact window lists your latest copies. Drag it by its title to move it: it snaps to the corners, the middle of each edge and the center, and opens there next time." = "A janela compacta lista suas últimas cópias. Arraste-a pelo título para movê-la: ela se encaixa nos cantos, no meio de cada borda e no centro, e abre ali da próxima vez.";
+"Copies shown" = "Cópias exibidas";

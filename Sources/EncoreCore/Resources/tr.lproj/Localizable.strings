@@ -416,8 +416,12 @@
 "boards" = "panolar";
 "Layout" = "Düzen";
 "Shelf at the bottom" = "Altta şerit";
-"Column on the left" = "Solda sütun";
-"Column on the right" = "Sağda sütun";
-"The column shows your 6 latest copies in a small window on that side of the screen." = "Sütun, son 6 kopyanızı ekranın o tarafında küçük bir pencerede gösterir.";
 "choose" = "seç";
 "close" = "kapat";
+"Compact window" = "Kompakt pencere";
+"shelf" = "şerit";
+"compact" = "kompakt";
+"Shelf or compact window" = "Şerit veya kompakt pencere";
+"Drag to move" = "Taşımak için sürükleyin";
+"The compact window lists your latest copies. Drag it by its title to move it: it snaps to the corners, the middle of each edge and the center, and opens there next time." = "Kompakt pencere son kopyalarınızı listeler. Taşımak için başlığından sürükleyin: köşelere, her kenarın ortasına ve merkeze yapışır ve bir dahaki sefere orada açılır.";
+"Copies shown" = "Gösterilen kopyalar";
