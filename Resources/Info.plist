@@ -69,6 +69,10 @@
 	<string>encore connects directly to your paired Macs on the local network to share clipboard history, without any server.</string>
 	<key>SUEnableAutomaticChecks</key>
 	<true/>
+	<key>SUAutomaticallyUpdate</key>
+	<true/>
+	<key>SUScheduledCheckInterval</key>
+	<integer>3600</integer>
 	<key>SUFeedURL</key>
 	<string>https://github.com/Kamasoutra/encore/releases/latest/download/appcast.xml</string>
 	<key>SUPublicEDKey</key>
