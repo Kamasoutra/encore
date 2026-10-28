@@ -402,4 +402,7 @@
 "next" = "далее";
 "Remove from snippets" = "Убрать из сниппетов";
 "Share history" = "Открыть доступ к истории";
+"Sync favorites" = "Синхронизировать избранное";
+"Sync snippets" = "Синхронизировать сниппеты";
+"Merged with the paired Macs that sync them too, then kept up to date while they are connected. Independent of history sharing." = "Объединяются с сопряженными Mac, которые тоже их синхронизируют, и остаются актуальными, пока они подключены. Не зависит от доступа к истории.";
 "Turn on “Share history” on the other Mac, then choose it below. Both Macs must be on the same network." = "На другом Mac включите «Открыть доступ к истории», затем выберите его ниже. Оба Mac должны быть в одной сети.";

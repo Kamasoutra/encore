@@ -402,4 +402,7 @@
 "next" = "próximo";
 "Remove from snippets" = "Remover dos snippets";
 "Share history" = "Compartilhar o histórico";
+"Sync favorites" = "Sincronizar favoritos";
+"Sync snippets" = "Sincronizar snippets";
+"Merged with the paired Macs that sync them too, then kept up to date while they are connected. Independent of history sharing." = "Combinados com os Macs emparelhados que também os sincronizam e mantidos atualizados enquanto estão conectados. Independente do compartilhamento do histórico.";
 "Turn on “Share history” on the other Mac, then choose it below. Both Macs must be on the same network." = "Ative “Compartilhar o histórico” no outro Mac e escolha-o abaixo. Os dois Macs devem estar na mesma rede.";

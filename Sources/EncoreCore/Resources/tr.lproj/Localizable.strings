@@ -402,4 +402,7 @@
 "next" = "sonraki";
 "Remove from snippets" = "Parçacıklardan kaldır";
 "Share history" = "Geçmişi paylaş";
+"Sync favorites" = "Favorileri eşzamanla";
+"Sync snippets" = "Parçacıkları eşzamanla";
+"Merged with the paired Macs that sync them too, then kept up to date while they are connected. Independent of history sharing." = "Bunları eşzamanlayan eşlenmiş Mac’lerle birleştirilir ve bağlı oldukları sürece güncel tutulur. Geçmiş paylaşımından bağımsızdır.";
 "Turn on “Share history” on the other Mac, then choose it below. Both Macs must be on the same network." = "Diğer Mac’te “Geçmişi paylaş” seçeneğini açın, ardından o Mac’i aşağıdan seçin. İki Mac de aynı ağda olmalıdır.";

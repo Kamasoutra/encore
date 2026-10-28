@@ -74,6 +74,8 @@ struct PeerStatus: Identifiable, Equatable {
     var storage: Storage?
     let filePreviews = FilePreviews()
     private(set) var peerService: PeerService?
+    private var syncTimer: Timer?
+    private var syncing = false
     let deviceName = SCDynamicStoreCopyComputerName(nil, nil) as String? ?? Host.current().localizedName ?? "Mac"
     private var richTextCache: [UUID: NSAttributedString] = [:]
     private var checkedRichText = Set<UUID>()
@@ -341,7 +343,7 @@ struct PeerStatus: Identifiable, Equatable {
         let defaults = UserDefaults.standard
         let id = defaults.string(forKey: "peerDeviceID") ?? UUID().uuidString
         defaults.set(id, forKey: "peerDeviceID")
-        let provider = LibraryShare(storage: storage) { [weak self] in await self?.shareSnapshot() ?? (Library(), []) }
+        let provider = LibraryShare(storage: storage, access: { [weak self] in await self?.shareAccess() ?? ShareAccess(history: false, synced: []) }) { [weak self] in await self?.shareSnapshot() ?? (Library(), []) }
         do {
             let service = try PeerService(identity: .init(id: id, name: deviceName), store: FilePeerSecretStore(url: storage.root.appendingPathComponent("Peers.json"), legacy: KeychainPeerSecretStore()), provider: provider)
             service.onChange = { [weak self] in Task { @MainActor in self?.refreshPeers() } }
@@ -353,11 +355,22 @@ struct PeerStatus: Identifiable, Equatable {
     }
 
     private func shareSnapshot() -> (library: Library, excluded: Set<String>) { (library, Set(preferences.excludedBundleIDs)) }
+    private func shareAccess() -> ShareAccess { ShareAccess(history: preferences.shareWithPeers, synced: syncedCategories) }
+    /// Favorites and snippets each have their own sync setting.
+    var syncedCategories: Set<PinnedCategory> {
+        Set([preferences.syncFavorites ? .favorites : nil, preferences.syncSnippets ? .snippets : nil].compactMap { $0 })
+    }
 
     func refreshPeers() {
         guard let service = peerService else { return }
         let next = service.paired.map { PeerStatus(device: $0, online: service.isOnline($0.id)) }
-        if next != peers { peers = next }
+        if next != peers {
+            // A Mac that just came online is synced right away rather than at the next round.
+            let cameOnline = next.contains { peer in peer.online && !peers.contains { $0.id == peer.id && $0.online } }
+            peers = next
+            updateSyncTimer()
+            if cameOnline { syncPinnedNow() }
+        }
         let known = Set(next.map(\.id))
         let nearby = service.nearby.filter { !known.contains($0.id) }
         if nearby != nearbyMacs { nearbyMacs = nearby }
@@ -365,14 +378,75 @@ struct PeerStatus: Identifiable, Equatable {
 
     func refreshPeerActivity() {
         guard let service = peerService else { return }
-        if preferences.shareWithPeers {
+        // Syncing needs this Mac to answer its peers too, but only favorites and snippets are served unless history sharing is on.
+        if preferences.shareWithPeers || !syncedCategories.isEmpty {
             Task { [weak self] in
                 do { try await service.startSharing() } catch { self?.notify(L("Sharing unavailable: \(error.localizedDescription)")) }
             }
         } else { service.stopSharing() }
-        if preferences.shareWithPeers || !peers.isEmpty || pairingSheet { service.startBrowsing() } else { service.stopBrowsing() }
+        if preferences.shareWithPeers || !syncedCategories.isEmpty || !peers.isEmpty || pairingSheet { service.startBrowsing() } else { service.stopBrowsing() }
+        updateSyncTimer()
     }
 
+    private static let syncInterval: TimeInterval = 30
+
+    private func updateSyncTimer() {
+        if !syncedCategories.isEmpty && !peers.isEmpty {
+            guard syncTimer == nil else { return }
+            syncTimer = Timer.scheduledTimer(withTimeInterval: Self.syncInterval, repeats: true) { [weak self] _ in Task { @MainActor in self?.syncPinnedNow() } }
+            syncPinnedNow()
+        } else { syncTimer?.invalidate(); syncTimer = nil }
+    }
+
+    /// Pulls the favorites and snippets of each connected Mac and merges them. Each Mac pulls from the others, so changes travel both ways.
+    func syncPinnedNow() {
+        guard !syncedCategories.isEmpty, !syncing, let service = peerService, storage != nil, storageError == nil else { return }
+        let online = peers.filter(\.online)
+        guard !online.isEmpty else { return }
+        syncing = true
+        Task {
+            defer { syncing = false }
+            for peer in online {
+                // A Mac without syncing, or with it turned off, answers with an error: it is skipped until the next round.
+                guard let state = try? await service.pinned(peer.id) else { continue }
+                await merge(state, from: peer, service: service)
+            }
+        }
+    }
+
+    private func merge(_ state: PinnedState, from peer: PeerStatus, service: PeerService) async {
+        let before = pinnedSignature
+        let missing = library.merge(state, categories: syncedCategories)
+        let adopted = syncedCategories.intersection(state.categories)
+        var added: [(UUID, ClipPayload)] = []
+        for item in missing {
+            guard let payload = try? await service.payload(peer.id, id: item.id), payload.fingerprint == item.fingerprint,
+                  !library.clips.contains(where: { $0.fingerprint == item.fingerprint }),
+                  totalBytes + payload.byteCount <= preferences.storageLimitMB * 1_048_576,
+                  var clip = Self.clip(for: payload, sourceName: L("\(item.sourceName) · from \(peer.device.name)"), sourceBundle: item.sourceBundle) else { continue }
+            clip.fingerprint = payload.fingerprint
+            clip.adopt(item, categories: adopted)
+            library.clips.append(clip)
+            added.append((clip.id, payload))
+        }
+        guard !added.isEmpty || pinnedSignature != before else { return }
+        library.clips.sort { $0.copiedAt > $1.copiedAt }
+        if added.isEmpty { save() } else { storage?.save(library, payloads: added) }
+        if board == "snippets" && !hasSnippets { board = "history" } else { reconcileSelection() }
+    }
+
+    /// Changes only when a sync altered favorites, snippets or their details, so an idle sync never rewrites the library.
+    private var pinnedSignature: Int {
+        var hasher = Hasher()
+        for clip in library.clips where clip.isPinned || clip.favoriteChangedAt != nil || clip.snippetChangedAt != nil {
+            hasher.combine(clip.fingerprint); hasher.combine(clip.favorite); hasher.combine(clip.snippet); hasher.combine(clip.name)
+            hasher.combine(clip.tags); hasher.combine(clip.language); hasher.combine(clip.favoriteChangedAt); hasher.combine(clip.snippetChangedAt)
+        }
+        hasher.combine(library.removedFavorites)
+        hasher.combine(library.removedSnippets)
+        hasher.combine(library.clips.count)
+        return hasher.finalize()
+    }
 
     func beginPairing(with device: PeerDevice) {
         guard let service = peerService else { return }
@@ -502,7 +576,11 @@ struct PeerStatus: Identifiable, Equatable {
     func toggleFavorite(_ ids: Set<UUID>? = nil) {
         let chosen = ids ?? selection
         let shouldPin = !library.clips.filter { chosen.contains($0.id) }.allSatisfy(\.favorite)
-        for index in library.clips.indices where chosen.contains(library.clips[index].id) { library.clips[index].favorite = shouldPin }
+        for index in library.clips.indices where chosen.contains(library.clips[index].id) {
+            let was = library.clips[index].favorite
+            library.clips[index].favorite = shouldPin
+            library.changed(.favorites, index, was: was)
+        }
         save()
         reconcileSelection()
     }
@@ -522,6 +600,7 @@ struct PeerStatus: Identifiable, Equatable {
         let chosen = ids ?? selection
         deleted = library.clips.filter { chosen.contains($0.id) }.compactMap { clip in storage?.payload(clip.id).map { (clip, $0) } }
         let position = filtered.firstIndex { $0.id == cursor } ?? 0
+        for clip in library.clips where chosen.contains(clip.id) { library.pinnedDeleted(clip) }
         library.clips.removeAll { chosen.contains($0.id) }
         queue.removeAll { chosen.contains($0) }
         selection.subtract(chosen)
@@ -539,6 +618,8 @@ struct PeerStatus: Identifiable, Equatable {
         guard !deleted.isEmpty else { return }
         for (clip, payload) in deleted.reversed() where !library.clips.contains(where: { $0.id == clip.id }) {
             library.clips.append(clip)
+            if clip.favorite { library.changed(.favorites, library.clips.count - 1, was: false) }
+            if clip.snippet { library.changed(.snippets, library.clips.count - 1, was: false) }
             storage?.save(library, payload: (clip.id, payload))
         }
         library.clips.sort { $0.copiedAt > $1.copiedAt }
@@ -632,10 +713,12 @@ struct PeerStatus: Identifiable, Equatable {
     /// Saves a name, tags and language. Naming or tagging an item makes it a snippet.
     func updateSnippet(_ id: UUID, name: String, tags: [String], language: String?, snippet: Bool = false) {
         guard let index = library.clips.firstIndex(where: { $0.id == id }) else { return }
+        let was = library.clips[index].snippet
         library.clips[index].name = String(name.trimmingCharacters(in: .whitespacesAndNewlines).prefix(100))
         library.clips[index].tags = tags
         library.clips[index].language = language
         if snippet || !library.clips[index].name.isEmpty || !tags.isEmpty { library.clips[index].snippet = true }
+        library.changed(.snippets, index, was: was)
         save()
         reconcileSelection()
     }
@@ -710,6 +793,8 @@ struct PeerStatus: Identifiable, Equatable {
         let payload = ClipPayload.text(text)
         let duplicates = library.clips.filter { $0.id != id && $0.fingerprint == payload.fingerprint }
         guard payload.byteCount <= PasteboardCapture.maxBytes, totalBytes - library.clips[index].byteCount - duplicates.reduce(0, { $0 + $1.byteCount }) + payload.byteCount <= preferences.storageLimitMB * 1_048_576 else { notify(L("Storage limit reached.")); return false }
+        // Other Macs know the item by its content: the old content is removed there and the new one added.
+        if library.clips[index].fingerprint != payload.fingerprint { library.pinnedDeleted(library.clips[index]) }
         library.clips[index].text = text
         library.clips[index].title = title
         library.clips[index].kind = .detect(text: text)
@@ -725,6 +810,10 @@ struct PeerStatus: Identifiable, Equatable {
         }
         let removed = Set(duplicates.map(\.id))
         library.clips.removeAll { removed.contains($0.id) }
+        if let index = library.clips.firstIndex(where: { $0.id == id }) {
+            if library.clips[index].favorite { library.changed(.favorites, index, was: true) }
+            if library.clips[index].snippet { library.changed(.snippets, index, was: true) }
+        }
         if cursor.map(removed.contains) == true { cursor = id }
         if !selection.isDisjoint(with: removed) { selection.subtract(removed); selection.insert(id) }
         var seen = Set<UUID>()
@@ -826,7 +915,11 @@ struct PeerStatus: Identifiable, Equatable {
 
     /// Removes items from the snippets; they keep their name, tags and language, and return to the normal history lifetime.
     func removeSnippets(_ ids: Set<UUID>) {
-        for index in library.clips.indices where ids.contains(library.clips[index].id) { library.clips[index].snippet = false }
+        for index in library.clips.indices where ids.contains(library.clips[index].id) {
+            let was = library.clips[index].snippet
+            library.clips[index].snippet = false
+            library.changed(.snippets, index, was: was)
+        }
         save()
         if board == "snippets" && !hasSnippets { board = "history" } else { reconcileSelection() }
     }

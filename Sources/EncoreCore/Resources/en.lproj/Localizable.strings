@@ -402,4 +402,7 @@
 "next" = "next";
 "Remove from snippets" = "Remove from snippets";
 "Share history" = "Share history";
+"Sync favorites" = "Sync favorites";
+"Sync snippets" = "Sync snippets";
+"Merged with the paired Macs that sync them too, then kept up to date while they are connected. Independent of history sharing." = "Merged with the paired Macs that sync them too, then kept up to date while they are connected. Independent of history sharing.";
 "Turn on “Share history” on the other Mac, then choose it below. Both Macs must be on the same network." = "Turn on “Share history” on the other Mac, then choose it below. Both Macs must be on the same network.";

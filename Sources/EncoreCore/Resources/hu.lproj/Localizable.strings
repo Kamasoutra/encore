@@ -402,4 +402,7 @@
 "next" = "tovább";
 "Remove from snippets" = "Eltávolítás a részletek közül";
 "Share history" = "Előzmények megosztása";
+"Sync favorites" = "Kedvencek szinkronizálása";
+"Sync snippets" = "Részletek szinkronizálása";
+"Merged with the paired Macs that sync them too, then kept up to date while they are connected. Independent of history sharing." = "Egyesítve a szintén szinkronizáló párosított Macekkel, és naprakészen tartva, amíg kapcsolódnak. Független az előzmények megosztásától.";
 "Turn on “Share history” on the other Mac, then choose it below. Both Macs must be on the same network." = "A másik Macen kapcsolja be az „Előzmények megosztása” beállítást, majd válassza ki lent. Mindkét Macnek ugyanazon a hálózaton kell lennie.";

@@ -98,11 +98,11 @@ final class PeerLoopbackTests: XCTestCase {
         return FilePeerSecretStore(url: folder.appendingPathComponent("Peers.json"))
     }
 
-    private func makeService(_ name: String, store: PeerSecretStore, library: Library = Library(), excluded: Set<String> = []) throws -> (PeerService, Storage) {
+    private func makeService(_ name: String, store: PeerSecretStore, library: Library = Library(), excluded: Set<String> = [], access: ShareAccess = .init(history: true, synced: Set(PinnedCategory.allCases))) throws -> (PeerService, Storage) {
         let root = FileManager.default.temporaryDirectory.appendingPathComponent("Encore-Peer-\(name)-\(UUID())")
         cleanup.append { try? FileManager.default.removeItem(at: root) }
         let storage = try Storage(root: root)
-        let provider = LibraryShare(storage: storage) { (library, excluded) }
+        let provider = LibraryShare(storage: storage, access: { access }) { (library, excluded) }
         let service = try PeerService(identity: .init(id: UUID().uuidString, name: name), store: store, provider: provider, advertise: false, loopbackOnly: true)
         cleanup.append { service.stop() }
         return (service, storage)
@@ -197,6 +197,52 @@ final class PeerLoopbackTests: XCTestCase {
         XCTAssertTrue(sharer.paired.isEmpty)
         do { _ = try await reader.list(sharer.identity.id); XCTFail("revoked peer must be refused") }
         catch { XCTAssertEqual(error as? PeerFailure, .unknownPeer) }
+    }
+
+    func testSyncOnlySharingServesFavoritesAndSnippetsButNotHistory() async throws {
+        let note = ClipPayload.text("note"), favorite = ClipPayload.text("favorite"), snippet = ClipPayload.text("git status")
+        let secret = ClipPayload(items: [.init(["public.utf8-plain-text": Data("hunter2".utf8), "org.nspasteboard.ConcealedType": Data()])])
+        let noteClip = Clip(fingerprint: note.fingerprint, kind: .text, text: "note", byteCount: note.byteCount)
+        let favoriteClip = Clip(fingerprint: favorite.fingerprint, kind: .text, text: "favorite", favorite: true, byteCount: favorite.byteCount)
+        var snippetClip = Clip(fingerprint: snippet.fingerprint, kind: .code, text: "git status", byteCount: snippet.byteCount)
+        snippetClip.snippet = true; snippetClip.name = "Status"; snippetClip.language = "Bash"
+        let hiddenClip = Clip(fingerprint: secret.fingerprint, kind: .text, text: "hunter2", favorite: true, byteCount: secret.byteCount)
+        var library = Library()
+        library.clips = [noteClip, favoriteClip, snippetClip, hiddenClip]
+        library.removedSnippets = ["gone": Date()]
+
+        let sharerStore = makeStore("sync-sharer"), readerStore = makeStore("sync-reader")
+        let (sharer, storage) = try makeService("Mac Studio", store: sharerStore, library: library, access: .init(history: false, synced: [.snippets]))
+        storage.save(library, payloads: [(noteClip.id, note), (favoriteClip.id, favorite), (snippetClip.id, snippet), (hiddenClip.id, secret)])
+        storage.flush()
+        let (reader, _) = try makeService("MacBook", store: readerStore, access: .init(history: false, synced: []))
+        let port = try await sharer.startSharing()
+        let endpoint = NWEndpoint.hostPort(host: "127.0.0.1", port: try XCTUnwrap(NWEndpoint.Port(rawValue: port)))
+        sharer.onIncomingPairing = { $0.confirm() }
+        let outgoing = reader.pair(with: endpoint)
+        outgoing.confirm()
+        let outcome = await outgoing.finished()
+        XCTAssertEqual(outcome, .paired)
+        reader.register(sharer.identity, endpoint: endpoint)
+
+        let history = try await reader.list(sharer.identity.id)
+        XCTAssertTrue(history.isEmpty, "syncing alone must not expose the history")
+        let state = try await reader.pinned(sharer.identity.id)
+        XCTAssertEqual(state.items.map(\.id), [snippetClip.id], "only the synced category is served")
+        XCTAssertEqual(state.items.first?.language, "Bash")
+        XCTAssertNotNil(state.removedSnippets["gone"])
+        let fetched = try await reader.payload(sharer.identity.id, id: snippetClip.id)
+        XCTAssertEqual(fetched, snippet)
+        do { _ = try await reader.payload(sharer.identity.id, id: favoriteClip.id); XCTFail("favorites are not synced here") }
+        catch { XCTAssertEqual(error as? PeerFailure, .notFound) }
+        do { _ = try await reader.payload(sharer.identity.id, id: noteClip.id); XCTFail("history items stay private without history sharing") }
+        catch { XCTAssertEqual(error as? PeerFailure, .notFound) }
+
+        // The reader does not sync: its paired Mac is refused the same request.
+        let readerPort = try await reader.startSharing()
+        sharer.register(reader.identity, endpoint: .hostPort(host: "127.0.0.1", port: try XCTUnwrap(NWEndpoint.Port(rawValue: readerPort))))
+        do { _ = try await sharer.pinned(reader.identity.id); XCTFail("a Mac that does not sync answers with an error") }
+        catch { XCTAssertEqual(error as? PeerFailure, .forbidden) }
     }
 
     func testCancelledPairingStoresNothingOnEitherSide() async throws {

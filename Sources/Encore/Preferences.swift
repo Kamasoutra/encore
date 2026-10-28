@@ -32,6 +32,9 @@ struct Preferences: Codable, Equatable {
     var shareWithPeers = false
     /// Return and double-click paste into the front app; off, they only make the item the current clipboard.
     var pasteDirectly = true
+    /// Merge favorites, and snippets, with paired Macs that sync them too, and keep them in step while connected.
+    var syncFavorites = false
+    var syncSnippets = false
 
     var retentionPolicy: RetentionPolicy {
         RetentionPolicy(rules: retentionRules, fallback: retentionDays > 0 ? .init(retentionDays, .days) : .forever)
@@ -40,9 +43,9 @@ struct Preferences: Codable, Equatable {
     init() {}
 
     private enum CodingKeys: String, CodingKey {
-        case soundsEnabled, soundTheme, soundVolume, captureSoundPath, pasteSoundPath, displayTarget, stackShortcutEnabled, disabledDefaultExclusions, language, shareWithPeers, pasteDirectly
         case retentionDays, historyLimit, storageLimitMB, captureEnabled, ignoreSensitive, recognizeImages
         case excludedBundleIDs, panelHeight, compact, appearance, shortcut, retentionRules, cardScale, importScreenshots, copyScreenshotsToClipboard, screenshotFolder
+        case soundsEnabled, soundTheme, soundVolume, captureSoundPath, pasteSoundPath, displayTarget, stackShortcutEnabled, disabledDefaultExclusions, language, shareWithPeers, pasteDirectly, syncFavorites, syncSnippets
     }
 
     init(from decoder: Decoder) throws {
@@ -76,6 +79,8 @@ struct Preferences: Codable, Equatable {
         language = try values.decodeIfPresent(String.self, forKey: .language) ?? "fr"
         shareWithPeers = try values.decodeIfPresent(Bool.self, forKey: .shareWithPeers) ?? false
         pasteDirectly = try values.decodeIfPresent(Bool.self, forKey: .pasteDirectly) ?? true
+        syncFavorites = try values.decodeIfPresent(Bool.self, forKey: .syncFavorites) ?? false
+        syncSnippets = try values.decodeIfPresent(Bool.self, forKey: .syncSnippets) ?? false
     }
 
     static func load(demo: Bool) -> Preferences {

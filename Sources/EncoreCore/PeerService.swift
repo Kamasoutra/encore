@@ -5,6 +5,8 @@ import CryptoKit
 public protocol PeerContentProvider: Sendable {
     func list(_ request: ListRequest) async -> [RemoteClip]
     func payload(_ id: UUID) async -> ClipPayload?
+    /// Nil when this Mac does not sync its favorites and snippets.
+    func pinned() async -> PinnedState?
 }
 
 public final class PairingSession: @unchecked Sendable {
@@ -240,6 +242,15 @@ public final class PeerService: @unchecked Sendable {
         return clips
     }
 
+    /// The favorites and snippets of a paired Mac, if it syncs them.
+    public func pinned(_ peerID: String) async throws -> PinnedState {
+        let channel = try await session(peerID)
+        defer { channel.close() }
+        try await channel.send(.pinnedList)
+        guard case .pinned(let state) = try await channel.expect() else { throw PeerFailure.malformed }
+        return state
+    }
+
     public func payload(_ peerID: String, id: UUID) async throws -> ClipPayload {
         let channel = try await session(peerID)
         defer { channel.close() }
@@ -321,6 +332,9 @@ public final class PeerService: @unchecked Sendable {
             switch message {
             case .list(let request):
                 try await channel.send(.clips(await provider.list(request)))
+            case .pinnedList:
+                guard let state = await provider.pinned() else { try await channel.send(.error(.forbidden)); continue }
+                try await channel.send(.pinned(state))
             case .payload(let id):
                 guard let payload = await provider.payload(id) else { try await channel.send(.error(.notFound)); continue }
                 let encoder = PropertyListEncoder()

@@ -75,6 +75,9 @@ public struct Clip: Codable, Identifiable, Equatable, Sendable {
     public var language: String?
     /// Saved as a snippet: listed in its own board and kept forever, apart from favorites.
     public var snippet: Bool
+    /// Last changes to the favorite, and to the snippet state or details, compared between Macs when syncing.
+    public var favoriteChangedAt: Date?
+    public var snippetChangedAt: Date?
 
     public init(id: UUID = UUID(), fingerprint: String = "", kind: ClipKind, text: String, title: String = "", sourceName: String = "Encore", sourceBundle: String = "", copiedAt: Date = Date(), favorite: Bool = false, byteCount: Int = 0, fileNames: [String] = [], referencedFileBytes: Int64? = nil) {
         self.id = id
@@ -98,7 +101,7 @@ public struct Clip: Codable, Identifiable, Equatable, Sendable {
     }
 
     private enum CodingKeys: String, CodingKey {
-        case id, fingerprint, kind, text, title, sourceName, sourceBundle, copiedAt, lastUsedAt, favorite, collectionIDs, recognizedText, byteCount, fileNames, firstCopiedAt, referencedFileBytes, name, tags, language, snippet
+        case id, fingerprint, kind, text, title, sourceName, sourceBundle, copiedAt, lastUsedAt, favorite, collectionIDs, recognizedText, byteCount, fileNames, firstCopiedAt, referencedFileBytes, name, tags, language, snippet, favoriteChangedAt, snippetChangedAt
     }
 
     /// Libraries written before snippets have no name, tags or language: they decode as empty.
@@ -125,6 +128,8 @@ public struct Clip: Codable, Identifiable, Equatable, Sendable {
         language = try values.decodeIfPresent(String.self, forKey: .language)
         // Development builds of snippets marked a named item as a favorite instead.
         snippet = try values.decodeIfPresent(Bool.self, forKey: .snippet) ?? !name.isEmpty
+        favoriteChangedAt = try values.decodeIfPresent(Date.self, forKey: .favoriteChangedAt)
+        snippetChangedAt = try values.decodeIfPresent(Date.self, forKey: .snippetChangedAt)
     }
 
     /// Tags typed as free text: split on commas, spaces or #, lowercased, without duplicates.
@@ -198,6 +203,9 @@ public struct Library: Codable, Sendable {
     public var version = 1
     public var clips: [Clip] = []
     public var collections: [ClipCollection] = []
+    /// Favorites and snippets removed recently, by fingerprint, so syncing does not bring them back from another Mac.
+    public var removedFavorites: [String: Date]?
+    public var removedSnippets: [String: Date]?
     public init() {}
 
     @discardableResult public mutating func upsert(_ clip: Clip) -> UUID {

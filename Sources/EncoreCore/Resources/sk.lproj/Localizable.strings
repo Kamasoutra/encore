@@ -402,4 +402,7 @@
 "next" = "ďalej";
 "Remove from snippets" = "Odstrániť z úryvkov";
 "Share history" = "Zdieľať históriu";
+"Sync favorites" = "Synchronizovať obľúbené";
+"Sync snippets" = "Synchronizovať úryvky";
+"Merged with the paired Macs that sync them too, then kept up to date while they are connected. Independent of history sharing." = "Zlučujú sa so spárovanými Macmi, ktoré ich tiež synchronizujú, a zostávajú aktuálne, kým sú pripojené. Nezávisle od zdieľania histórie.";
 "Turn on “Share history” on the other Mac, then choose it below. Both Macs must be on the same network." = "Na druhom Macu zapnite „Zdieľať históriu“ a potom ho vyberte nižšie. Oba Macy musia byť v rovnakej sieti.";

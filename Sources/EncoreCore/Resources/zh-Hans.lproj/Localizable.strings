@@ -402,4 +402,7 @@
 "next" = "下一步";
 "Remove from snippets" = "从片段中移除";
 "Share history" = "共享历史记录";
+"Sync favorites" = "同步收藏";
+"Sync snippets" = "同步片段";
+"Merged with the paired Macs that sync them too, then kept up to date while they are connected. Independent of history sharing." = "与同样开启同步的已配对的 Mac 合并，并在连接期间保持最新。与共享历史记录相互独立。";
 "Turn on “Share history” on the other Mac, then choose it below. Both Macs must be on the same network." = "请在另一台 Mac 上打开“共享历史记录”，然后在下方选择它。两台 Mac 必须连接到同一网络。";

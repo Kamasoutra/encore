@@ -66,6 +66,9 @@ public enum PeerMessage: Codable, Equatable, Sendable {
     case payload(id: UUID)
     case chunk(index: Int, count: Int, data: Data)
     case error(PeerFailure)
+    /// Favorites and snippets to sync. A Mac without syncing cannot decode this request and answers with an error.
+    case pinnedList
+    case pinned(PinnedState)
 }
 
 public struct PeerEnvelope: Codable, Equatable, Sendable {

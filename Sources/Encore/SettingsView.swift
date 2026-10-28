@@ -273,6 +273,12 @@ struct SettingsView: View {
                 described(L("Off by default. When on, your paired Macs can browse this history and fetch an item on demand, over the local network only. Nothing is copied automatically. Excluded apps, files and confidential content are never shared.")) {
                     Toggle(L("Share history"), isOn: $model.preferences.shareWithPeers).disabled(model.peerService == nil)
                 }
+                described(L("Merged with the paired Macs that sync them too, then kept up to date while they are connected. Independent of history sharing.")) {
+                    VStack(alignment: .leading, spacing: 12) {
+                        Toggle(L("Sync favorites"), isOn: $model.preferences.syncFavorites).disabled(model.peerService == nil)
+                        Toggle(L("Sync snippets"), isOn: $model.preferences.syncSnippets).disabled(model.peerService == nil)
+                    }
+                }
             }
             SettingsGroup(L("Paired Macs")) {
                 if model.peers.isEmpty { Text(L("No paired Mac")).foregroundStyle(.secondary).padding(.vertical, 8) }

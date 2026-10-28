@@ -402,4 +402,7 @@
 "next" = "dalej";
 "Remove from snippets" = "Usuń z fragmentów";
 "Share history" = "Udostępniaj historię";
+"Sync favorites" = "Synchronizuj ulubione";
+"Sync snippets" = "Synchronizuj fragmenty";
+"Merged with the paired Macs that sync them too, then kept up to date while they are connected. Independent of history sharing." = "Łączone ze sparowanymi Makami, które też je synchronizują, i aktualizowane, gdy są połączone. Niezależnie od udostępniania historii.";
 "Turn on “Share history” on the other Mac, then choose it below. Both Macs must be on the same network." = "Na drugim Macu włącz opcję „Udostępniaj historię”, a następnie wybierz go poniżej. Oba Maki muszą być w tej samej sieci.";

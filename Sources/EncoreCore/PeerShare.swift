@@ -1,13 +1,25 @@
 import Foundation
 import ImageIO
 
+/// What a Mac agrees to share with its paired Macs: its browsable history, its favorites and snippets for syncing, or both.
+public struct ShareAccess: Sendable {
+    public var history: Bool
+    public var synced: Set<PinnedCategory>
+    public init(history: Bool, synced: Set<PinnedCategory>) { self.history = history; self.synced = synced }
+}
+
 public struct LibraryShare: PeerContentProvider {
     public typealias Snapshot = @Sendable () async -> (library: Library, excluded: Set<String>)
+    public typealias Access = @Sendable () async -> ShareAccess
     public let storage: Storage
+    public let access: Access
     public let snapshot: Snapshot
-    public init(storage: Storage, snapshot: @escaping Snapshot) { self.storage = storage; self.snapshot = snapshot }
+    public init(storage: Storage, access: @escaping Access = { ShareAccess(history: true, synced: Set(PinnedCategory.allCases)) }, snapshot: @escaping Snapshot) {
+        self.storage = storage; self.access = access; self.snapshot = snapshot
+    }
 
     public func list(_ request: ListRequest) async -> [RemoteClip] {
+        guard await access().history else { return [] }
         let (library, excluded) = await snapshot()
         let query = ClipQuery(query: request.query ?? "")
         let limit = max(1, min(PeerProtocol.maxListLimit, request.limit))
@@ -24,9 +36,20 @@ public struct LibraryShare: PeerContentProvider {
         return result
     }
 
+    public func pinned() async -> PinnedState? {
+        let categories = await access().synced
+        guard !categories.isEmpty else { return nil }
+        let (library, excluded) = await snapshot()
+        var state = library.pinnedState(categories: categories, excluded: excluded)
+        // Concealed content is never synced, like it is never listed.
+        state.items.removeAll { item in item.kind != .image && storage.payload(item.id).map(Self.concealed) ?? true }
+        return state
+    }
+
     public func payload(_ id: UUID) async -> ClipPayload? {
         let (library, excluded) = await snapshot()
-        guard let clip = library.clips.first(where: { $0.id == id }), Self.shareable(clip, excluded: excluded),
+        let access = await access()
+        guard let clip = library.clips.first(where: { $0.id == id }), access.history || access.synced.contains(where: clip.pinned(in:)), Self.shareable(clip, excluded: excluded),
               let payload = storage.payload(id), !Self.concealed(payload), payload.byteCount <= PasteboardCapture.maxBytes else { return nil }
         return payload
     }
