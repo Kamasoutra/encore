@@ -40,7 +40,8 @@ enum LoginItem {
 struct SettingsView: View {
     @ObservedObject var model: AppModel
     @ObservedObject private var updates = Updates.shared
-    @State private var section: SettingsSection = .general
+    // `--settings privacy` opens on that section, for screenshots.
+    @State private var section = CommandLine.arguments.drop { $0 != "--settings" }.dropFirst().first.flatMap(SettingsSection.init(rawValue:)) ?? .general
     @State private var launchAtLogin = LoginItem.enabled
 
     var body: some View {

@@ -76,7 +76,8 @@ struct PeerStatus: Identifiable, Equatable {
     private(set) var peerService: PeerService?
     private var syncTimer: Timer?
     private var syncing = false
-    let deviceName = SCDynamicStoreCopyComputerName(nil, nil) as String? ?? Host.current().localizedName ?? "Mac"
+    /// The demo shows a generic name, so screenshots do not reveal the real one.
+    var deviceName: String { demo ? "MacBook Pro" : SCDynamicStoreCopyComputerName(nil, nil) as String? ?? Host.current().localizedName ?? "Mac" }
     private var richTextCache: [UUID: NSAttributedString] = [:]
     private var checkedRichText = Set<UUID>()
     private var fileURLCache: [UUID: [URL]] = [:]
