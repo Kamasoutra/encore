@@ -102,6 +102,8 @@ Files are referenced rather than copied into encore, so a multi-gigabyte file us
 
 ## Your data
 
+The full picture, including what encore does not do yet, is on the website: **[Your data, in plain words](https://kamasoutra.github.io/encore/privacy/)**.
+
 History lives in `~/Library/Application Support/Encore/` and never leaves your Mac unless you turn on sharing. There is no account, telemetry, or remote link preview. Storage and exported backups are **unencrypted** and restricted to your macOS account.
 
 encore makes two kinds of network requests, both optional:

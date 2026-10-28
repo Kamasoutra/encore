@@ -14,6 +14,7 @@ SITE = "https://kamasoutra.github.io/encore/"
 REPO = "https://github.com/Kamasoutra/encore"
 ZIP = REPO + "/releases/latest/download/Encore-macOS.zip"
 BREW = "brew install --cask kamasoutra/tap/encore"
+SPONSORS = "https://github.com/sponsors/Kamasoutra"
 
 STRINGS = {
     "en": {
@@ -54,6 +55,10 @@ STRINGS = {
         "note": "encore is not notarized yet. The first time, open it from System Settings → Privacy & Security → Open Anyway.",
         "releases": "Releases",
         "sponsor": "Sponsor",
+        "privacy_nav": "Your data",
+        "trust": ["Stays on your Mac", "No account", "No telemetry", "Passwords left out"],
+        "trust_ask": "Want to know more? Worried about your data, and whether it will last?",
+        "trust_link": "We explain everything",
         "license": "MIT license",
     },
     "fr": {
@@ -94,11 +99,142 @@ STRINGS = {
         "note": "encore n’est pas notarisé pour l’instant. La première fois, ouvre-le depuis Réglages Système → Confidentialité et sécurité → Ouvrir quand même.",
         "releases": "Versions",
         "sponsor": "Soutenir",
+        "privacy_nav": "Tes données",
+        "trust": ["Reste sur ton Mac", "Sans compte", "Sans télémétrie", "Mots de passe ignorés"],
+        "trust_ask": "Tu veux en savoir plus ? Tu te préoccupes de tes données et de leur pérennité ?",
+        "trust_link": "On t’explique tout",
         "license": "Licence MIT",
     },
 }
 
-PAGE = Template("""<!doctype html>
+SRC = REPO + "/blob/main/Sources/EncoreCore/"
+
+# The data page, in trusted HTML and plain words. Every claim must match the code:
+# check it again whenever storage, capture, sync or updates change.
+PRIVACY = {
+    "en": {
+        "page_title": "Your data · encore",
+        "description": "Where encore keeps what you copy, what it never keeps, why there is no server, what is not perfect yet, and why the project is built to last.",
+        "title": "Your data stays yours",
+        "lead": "encore sees everything you copy: messages, addresses, sometimes sensitive things. So here is, simply and without jargon, what it does with them, what it never does, and what is not perfect yet.",
+        "facts": ["On your Mac", "No account", "No server", "No tracking", "Open source"],
+        "map_title": "Where does your data go?",
+        "map_lead": "Nowhere but your own Macs.",
+        "map": {
+            "mac": ("Your Mac", "Your history, favorites and snippets. One folder, that only you can open."),
+            "other": ("Your other Mac", "Only if you pair it yourself.", "Local network · encrypted"),
+            "github": ("GitHub", "Only to check for a new version.", "Signed updates"),
+            "server": ("An encore server", "It does not exist. No account, no cloud, no statistics: there is nowhere to send your data."),
+        },
+        "blocks": [
+            ("Everything stays on your Mac", [
+                "What you copy is kept in a single folder on your Mac: <code>~/Library/Application Support/Encore/</code>. Only your macOS account can open it.",
+                "No account to create, no usage statistics, no ads. encore does not even load the links you copy: it shows them as they are.",
+                "Text inside your images is recognized by macOS itself, on your Mac. Nothing is sent anywhere to be analyzed.",
+            ], None, ""),
+            ("What encore never keeps", [
+                "Password managers mark what they copy as confidential, and encore skips it. It also leaves out the password apps installed on your Mac: 1Password, Bitwarden, Dashlane, KeePassXC, Keychain Access and Passwords.",
+                "Exclude any other app, like your bank or your work chat, in Settings → Privacy. And pause capture in one click from the menu bar.",
+                "<small>Not every app marks its sensitive copies. When in doubt, exclude it.</small>",
+            ], "privacy", "encore’s Privacy settings: confidential content ignored, text recognition on this Mac, password apps excluded"),
+            ("You stay in control", [
+                "By default a copy is kept 30 days, then deleted. You choose how long, and rules by size or type clean up sooner. Favorites and snippets stay as long as you keep them.",
+                "Export your whole history, import it on another Mac, export your snippets to a readable file, open the folder, or clear the history, all from Settings → Data.",
+                "To uninstall completely, delete the app, that folder and its settings file, <code>~/Library/Preferences/local.kama.Encore.plist</code>.",
+            ], "data", "encore’s Data settings: retention, export and import, open the folder, clear the history"),
+            ("Between your Macs, without a cloud", [
+                "Sharing is off until you turn it on. To link two Macs, you pair them once: both screens show the same 6-digit code, and you confirm it matches. Nobody else can join.",
+                "Then your Macs talk to each other directly on your local network, without going through the internet or any server. Everything is end-to-end encrypted.",
+                "Copies from excluded apps, files and confidential content are never shared.",
+                "<small>For the curious: Curve25519 key exchange, ChaCha20-Poly1305 encryption.</small>",
+            ], "peers", "encore’s Other Macs settings: sharing and sync off by default, pairing with a 6-digit code"),
+        ],
+        "honest_title": "What is not perfect yet",
+        "honest_lead": "I would rather tell you myself.",
+        "honest": [
+            "<strong>Your history is not encrypted on disk.</strong> It is protected by your macOS account, and by FileVault when it is on: check System Settings → Privacy & Security → FileVault. Software running under your account could read it, as with most clipboard managers. Encrypting it is on the list.",
+            "<strong>encore is not notarized by Apple yet.</strong> To notarize an app, Apple asks for a developer membership at $99 a year. encore is a free personal project that earns me nothing, so until then the first launch needs “Open Anyway” in System Settings, once. If a small community gets behind it, that is the first thing its support will pay for: <a href='" + SPONSORS + "'>support encore on GitHub Sponsors</a>.",
+            "<strong>There is just me behind encore.</strong> I build it in the evenings, alongside my day job and my family life. There is no team and no guaranteed support: I fix things as fast as those evenings allow, starting with anything that touches security or your data. That is also why everything is open: anyone can report a problem, propose a fix on GitHub, or contribute.",
+        ],
+        "project_title": "A project built to last",
+        "project": [
+            "encore is a personal project, built in the open. It is free: no subscription, no paid tier, no ads.",
+            "All the code is public, under the MIT license. If I ever stop, encore keeps working on your Mac, and anyone can pick the code up.",
+            "Your data is not locked in: it is stored in standard JSON files that any program can read, and you can export all of it.",
+            "The code is written with the help of AI tools, openly: I decide, review and test every change, and I use encore every day. Automated tests run on every change, and every release is built in public by GitHub Actions.",
+        ],
+        "cta": ("A bug, a question, a doubt about security?", "I read every issue on GitHub. And if you want to help encore last, you can support it.", "Open an issue", "Support encore"),
+        "check_title": "Check it yourself",
+        "check_text": "Don’t take my word for it. These files hold what this page describes:",
+        "check": [
+            ("Storage.swift", "the folder and its permissions"),
+            ("PasteboardCapture.swift", "the copies that are skipped"),
+            ("PeerCrypto.swift", "the pairing code and the encryption between Macs"),
+        ],
+    },
+    "fr": {
+        "page_title": "Tes données · encore",
+        "description": "Où encore garde ce que tu copies, ce qu’il ne garde jamais, pourquoi il n’y a aucun serveur, ce qui n’est pas encore parfait, et pourquoi le projet est fait pour durer.",
+        "title": "Tes données restent chez toi",
+        "lead": "encore voit tout ce que tu copies : des messages, des adresses, parfois des choses sensibles. Alors voici, simplement et sans jargon, ce qu’il en fait, ce qu’il n’en fait jamais, et ce qui n’est pas encore parfait.",
+        "facts": ["Sur ton Mac", "Sans compte", "Sans serveur", "Sans pistage", "Open source"],
+        "map_title": "Où vont tes données ?",
+        "map_lead": "Nulle part ailleurs que sur tes propres Mac.",
+        "map": {
+            "mac": ("Ton Mac", "Ton historique, tes favoris et tes snippets. Un seul dossier, que toi seul peux ouvrir."),
+            "other": ("Ton autre Mac", "Seulement si tu l’appaires toi-même.", "Réseau local · chiffré"),
+            "github": ("GitHub", "Uniquement pour vérifier s’il y a une nouvelle version.", "Mises à jour signées"),
+            "server": ("Un serveur encore", "Il n’existe pas. Pas de compte, pas de cloud, pas de statistiques : il n’y a nulle part où envoyer tes données."),
+        },
+        "blocks": [
+            ("Tout reste sur ton Mac", [
+                "Ce que tu copies est rangé dans un seul dossier de ton Mac : <code>~/Library/Application Support/Encore/</code>. Seule ta session macOS peut l’ouvrir.",
+                "Pas de compte à créer, pas de statistiques d’utilisation, pas de publicité. encore ne charge même pas les liens que tu copies : il les affiche tels quels.",
+                "Le texte de tes images est reconnu par macOS lui-même, sur ton Mac. Rien n’est envoyé ailleurs pour être analysé.",
+            ], None, ""),
+            ("Ce qu’encore ne garde jamais", [
+                "Les gestionnaires de mots de passe signalent leurs copies comme confidentielles, et encore les ignore. Il écarte aussi d’office les apps de mots de passe installées sur ton Mac : 1Password, Bitwarden, Dashlane, KeePassXC, Trousseaux d’accès et Mots de passe.",
+                "Exclus n’importe quelle autre app, ta banque ou ta messagerie pro par exemple, dans Réglages → Confidentialité. Et mets la capture en pause en un clic depuis la barre des menus.",
+                "<small>Toutes les apps ne signalent pas leurs copies sensibles. Dans le doute, exclus-les.</small>",
+            ], "privacy", "Les réglages Confidentialité d’encore : contenus confidentiels ignorés, reconnaissance du texte sur ce Mac, apps de mots de passe exclues"),
+            ("Tu gardes la main", [
+                "Par défaut, une copie est gardée 30 jours, puis effacée. Tu choisis la durée, et des règles par taille ou par type font le ménage plus tôt. Favoris et snippets restent tant que tu les gardes.",
+                "Exporte tout ton historique, réimporte-le sur un autre Mac, exporte tes snippets dans un fichier lisible, ouvre le dossier ou vide l’historique, depuis Réglages → Données.",
+                "Pour désinstaller complètement, supprime l’app, ce dossier et son fichier de réglages, <code>~/Library/Preferences/local.kama.Encore.plist</code>.",
+            ], "data", "Les réglages Données d’encore : conservation, export et import, ouverture du dossier, effacement de l’historique"),
+            ("Entre tes Mac, sans cloud", [
+                "Le partage est désactivé tant que tu ne l’actives pas. Pour relier deux Mac, tu les appaires une seule fois : les deux écrans affichent le même code à 6 chiffres, et tu confirmes qu’ils correspondent. Personne d’autre ne peut s’inviter.",
+                "Ensuite, tes Mac se parlent directement sur ton réseau local, sans passer par internet ni par un serveur. Tout est chiffré de bout en bout.",
+                "Les copies des apps exclues, les fichiers et les contenus confidentiels ne sont jamais partagés.",
+                "<small>Pour les curieux : échange de clés Curve25519, chiffrement ChaCha20-Poly1305.</small>",
+            ], "peers", "Les réglages Autres Mac d’encore : partage et synchronisation désactivés par défaut, appairage avec un code à 6 chiffres"),
+        ],
+        "honest_title": "Ce qui n’est pas encore parfait",
+        "honest_lead": "Je préfère te le dire moi-même.",
+        "honest": [
+            "<strong>Ton historique n’est pas chiffré sur le disque.</strong> Il est protégé par ta session macOS, et par FileVault s’il est activé : vérifie dans Réglages Système → Confidentialité et sécurité → FileVault. Un logiciel qui tourne sous ta session pourrait le lire, comme avec la plupart des gestionnaires de presse-papiers. Le chiffrer est sur la liste.",
+            "<strong>encore n’est pas encore notarisé par Apple.</strong> Pour notariser une app, Apple demande un abonnement développeur à 99 $ par an. encore est un projet personnel et gratuit qui ne me rapporte rien : en attendant, il faut passer une fois par « Ouvrir quand même » dans les Réglages Système. Si une petite communauté se forme autour du projet, c’est la première chose que son soutien financera : <a href='" + SPONSORS + "'>soutenir encore sur GitHub Sponsors</a>.",
+            "<strong>Derrière encore, il n’y a que moi.</strong> Je le développe le soir, à côté de mon travail et de ma vie de famille. Il n’y a ni équipe ni support garanti : je corrige aussi vite que ces soirées le permettent, en commençant par tout ce qui touche à la sécurité ou à tes données. C’est aussi pour ça que tout est ouvert : n’importe qui peut signaler un problème, proposer une correction sur GitHub ou contribuer.",
+        ],
+        "project_title": "Un projet fait pour durer",
+        "project": [
+            "encore est un projet personnel, construit en public. Il est gratuit : pas d’abonnement, pas de version payante, pas de publicité.",
+            "Tout le code est public, sous licence MIT. Si je m’arrête un jour, encore continue de fonctionner sur ton Mac, et n’importe qui peut reprendre le code.",
+            "Tes données ne sont pas prisonnières : elles sont rangées dans des fichiers JSON standard, lisibles par n’importe quel programme, et tu peux tout exporter.",
+            "Le code est écrit avec l’aide d’outils d’IA, et c’est assumé : je décide, relis et teste chaque changement, et j’utilise encore tous les jours. Des tests automatiques tournent à chaque modification, et chaque version est compilée publiquement par GitHub Actions.",
+        ],
+        "cta": ("Un bug, une question, un doute sur la sécurité ?", "Je lis chaque issue sur GitHub. Et si tu veux aider encore à durer, tu peux le soutenir.", "Ouvrir une issue", "Soutenir encore"),
+        "check_title": "Vérifie par toi-même",
+        "check_text": "Ne me crois pas sur parole. Ces fichiers contiennent ce que décrit cette page :",
+        "check": [
+            ("Storage.swift", "le dossier et ses permissions"),
+            ("PasteboardCapture.swift", "les copies ignorées"),
+            ("PeerCrypto.swift", "le code d’appairage et le chiffrement entre Mac"),
+        ],
+    },
+}
+
+LAYOUT = Template("""<!doctype html>
 <html lang="$lang">
 <head>
 <meta charset="utf-8">
@@ -122,58 +258,13 @@ $detect
   <a class="brand" href="${base}$home"><img src="${base}media/icon.png" alt="" width="34" height="34">encore</a>
   <nav>
     <span class="langs">$langs</span>
+    <a href="${base}${home}privacy/"$privacy_current>$privacy_nav</a>
     <a class="hide-small" href="$repo">GitHub</a>
     <a class="sponsor" href="$sponsors"><span aria-hidden="true">♥</span>$sponsor</a>
   </nav>
 </header>
 <main>
-<section class="wrap hero">
-  <a class="new" href="#snippets"><b>$new_tag</b>$new<span aria-hidden="true">→</span></a>
-  <h1 class="slam hook">$hook</h1>
-  <p class="lead">$lead</p>
-  <div class="get">
-    <a class="button" href="$zip">$arrow$download</a>
-    <p class="fine">$requirements</p>
-    <p class="fine">$brew_label</p>
-    <div class="brew"><code>$brew</code><button type="button" data-copy="$brew" data-done="$copied">$copy</button></div>
-  </div>
-  <div class="film">
-    <video src="${base}media/$lang/encore.mp4" poster="${base}media/$lang/poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="$video"></video>
-    <button class="sound" type="button" data-on="$sound_on" data-off="$sound_off">$sound_on</button>
-  </div>
-</section>
-<section class="wrap snippets" id="snippets">
-  <div><h2 class="slam">$snippets</h2><p>$snippets_text</p></div>
-  <div class="film">
-    <video src="${base}media/$lang/snippets.mp4" poster="${base}media/$lang/snippets.jpg" autoplay muted loop playsinline preload="metadata" aria-label="$snippets_video"></video>
-    <button class="sound" type="button" data-on="$sound_on" data-off="$sound_off">$sound_on</button>
-  </div>
-</section>
-<section class="wrap steps">
-$steps
-</section>
-<section class="wrap" aria-label="$types_label"><p class="slam types">$types</p></section>
-<section class="wrap macs">
-  <h2 class="slam">$macs</h2>
-  <p>$macs_text</p>
-</section>
-<section class="wrap details">
-$details
-</section>
-<section class="wrap">
-  <p class="slam promise">$promise</p>
-  <p class="fine">$promise_text</p>
-</section>
-<section class="wrap last">
-  <img src="${base}media/icon.png" alt="" width="132" height="132" loading="lazy">
-  <h2>$last</h2>
-  <div class="get">
-    <a class="button" href="$zip">$arrow$download</a>
-    <a class="star" href="$repo">$star</a>
-  </div>
-  <p class="fine note">$note</p>
-</section>
-</main>
+$main</main>
 <footer class="wrap">
   <span>encore · $license</span>
   <nav><a href="$repo">GitHub</a><a href="$repo/releases">$releases</a><a class="sponsor" href="$sponsors"><span aria-hidden="true">♥</span>$sponsor</a></nav>
@@ -211,21 +302,88 @@ DOWNLOAD = f"""<!doctype html>
 
 CURRENT = ' aria-current="page"'
 
+HOME = Template("""<section class="wrap hero">
+  <a class="new" href="#snippets"><b>$new_tag</b>$new<span aria-hidden="true">→</span></a>
+  <h1 class="slam hook">$hook</h1>
+  <p class="lead">$lead</p>
+  <div class="get">
+    <a class="button" href="$zip">$arrow$download</a>
+    <p class="fine">$requirements</p>
+    <p class="fine">$brew_label</p>
+    <div class="brew"><code>$brew</code><button type="button" data-copy="$brew" data-done="$copied">$copy</button></div>
+  </div>
+  <div class="film">
+    <video src="${base}media/$lang/encore.mp4" poster="${base}media/$lang/poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="$video"></video>
+    <button class="sound" type="button" data-on="$sound_on" data-off="$sound_off">$sound_on</button>
+  </div>
+</section>
+<section class="wrap trust">
+  <p class="slam">$trust</p>
+  <p class="ask">$trust_ask</p>
+  <a class="button" href="${base}${home}privacy/">$trust_link<span aria-hidden="true">→</span></a>
+</section>
+<section class="wrap snippets" id="snippets">
+  <div><h2 class="slam">$snippets</h2><p>$snippets_text</p></div>
+  <div class="film">
+    <video src="${base}media/$lang/snippets.mp4" poster="${base}media/$lang/snippets.jpg" autoplay muted loop playsinline preload="metadata" aria-label="$snippets_video"></video>
+    <button class="sound" type="button" data-on="$sound_on" data-off="$sound_off">$sound_on</button>
+  </div>
+</section>
+<section class="wrap steps">
+$steps
+</section>
+<section class="wrap" aria-label="$types_label"><p class="slam types">$types</p></section>
+<section class="wrap macs">
+  <h2 class="slam">$macs</h2>
+  <p>$macs_text</p>
+</section>
+<section class="wrap details">
+$details
+</section>
+<section class="wrap">
+  <p class="slam promise">$promise</p>
+  <p class="fine">$promise_text</p>
+</section>
+<section class="wrap last">
+  <img src="${base}media/icon.png" alt="" width="132" height="132" loading="lazy">
+  <h2>$last</h2>
+  <div class="get">
+    <a class="button" href="$zip">$arrow$download</a>
+    <a class="star" href="$repo">$star</a>
+  </div>
+  <p class="fine note">$note</p>
+</section>
+""")
+
 
 def e(s):
     return html.escape(s, quote=True)
 
 
+def layout(lang, s, page, title, description, main):
+    """Wraps a page body in the head, top bar and footer shared by every page; `page` is its path below the language root."""
+    root = "" if lang == "en" else "fr/"
+    base = "../" * (root + page).count("/")
+    langs = "".join(
+        f'<a href="{base}{"" if code == "en" else "fr/"}{page}" hreflang="{code}" lang="{code}" data-lang="{code}"'
+        f'{CURRENT if code == lang else ""}>{code.upper()}</a>'
+        for code in ("en", "fr"))
+    return LAYOUT.substitute(
+        lang=lang, base=base, url=SITE + root + page, site=SITE, repo=REPO, home=root,
+        title=e(title), description=e(description),
+        alternates="\n".join(f'<link rel="alternate" hreflang="{c}" href="{SITE}{"" if c == "en" else "fr/"}{page}">' for c in ("en", "fr")),
+        detect=DETECT if lang == "en" and not page else "",
+        langs=langs, privacy_nav=e(s["privacy_nav"]), privacy_current=CURRENT if page == "privacy/" else "",
+        releases=e(s["releases"]), license=e(s["license"]),
+        sponsor=e(s["sponsor"]), sponsors=SPONSORS, main=main,
+    )
+
+
 def build(lang, s):
     base = "" if lang == "en" else "../"
-    url = SITE if lang == "en" else SITE + "fr/"
     hook = "".join(
         f'<span style="--i:{i}" class="{["", "", "quiet", "gone", "after"][i]}">{e(t)}</span>'
         for i, t in enumerate(s["hook"]))
-    langs = "".join(
-        f'<a href="{base}{"" if code == "en" else "fr/"}" hreflang="{code}" lang="{code}" data-lang="{code}"'
-        f'{CURRENT if code == lang else ""}>{code.upper()}</a>'
-        for code in ("en", "fr"))
     steps = []
     for key, title, text, shot, alt in s["steps"]:
         wide = shot == "library"
@@ -236,24 +394,77 @@ def build(lang, s):
             f'<article class="step{" wide" if wide else ""}">'
             f'<div class="copy"><kbd class="key">{e(key)}</kbd><h2 class="slam">{e(title)}</h2><p>{e(text)}</p></div>'
             f'<figure>{image}</figure></article>')
-    return PAGE.substitute(
-        lang=lang, base=base, url=url, site=SITE, repo=REPO, zip=ZIP, brew=e(BREW), arrow=ARROW,
-        home="" if lang == "en" else "fr/",
-        title=e(s["title"]), description=e(s["description"]),
-        alternates="\n".join(f'<link rel="alternate" hreflang="{c}" href="{SITE}{"" if c == "en" else "fr/"}">' for c in ("en", "fr")),
-        detect=DETECT if lang == "en" else "",
-        langs=langs, hook=hook, lead=e(s["lead"]), download=e(s["download"]), requirements=e(s["requirements"]),
+    main = HOME.substitute(
+        lang=lang, base=base, home="" if lang == "en" else "fr/", repo=REPO, zip=ZIP, brew=e(BREW), arrow=ARROW,
+        hook=hook, lead=e(s["lead"]), download=e(s["download"]), requirements=e(s["requirements"]),
         brew_label=e(s["brew"]), copy=e(s["copy"]), copied=e(s["copied"]),
         sound_on=e(s["sound_on"]), sound_off=e(s["sound_off"]), video=e(s["video"]),
         steps="\n".join(steps), new=e(s["new"]), new_tag=e(s["new_tag"]),
+        trust="".join(f"<span>{e(t)}</span>" for t in s["trust"]), trust_ask=e(s["trust_ask"]), trust_link=e(s["trust_link"]),
         snippets="".join(f"<span>{e(t)}</span>" for t in s["snippets"]), snippets_text=e(s["snippets_text"]), snippets_video=e(s["snippets_video"]),
         types_label=e(", ".join(s["types"])), types="".join(f"<span>{e(t)}</span>" for t in s["types"]),
         macs="".join(f"<span>{e(t)}</span>" for t in s["macs"]), macs_text=e(s["macs_text"]),
         details="\n".join(f"<div><h3>{e(t)}</h3><p>{e(d)}</p></div>" for t, d in s["details"]),
         promise="".join(f"<span>{e(t)}</span>" for t in s["promise"]), promise_text=e(s["promise_text"]),
-        last=e(s["last"]), star=e(s["star"]), note=e(s["note"]), releases=e(s["releases"]), license=e(s["license"]),
-        sponsor=e(s["sponsor"]), sponsors="https://github.com/sponsors/Kamasoutra",
+        last=e(s["last"]), star=e(s["star"]), note=e(s["note"]),
     )
+    return layout(lang, s, "", s["title"], s["description"], main)
+
+
+def build_privacy(lang, s):
+    """The data page. Its copy is trusted HTML, so it can hold paths and links."""
+    p = PRIVACY[lang]
+    base = "../" if lang == "en" else "../../"
+    para = lambda x: f"<p>{x}</p>" if isinstance(x, str) else "<ul>" + "".join(f"<li>{i}</li>" for i in x) + "</ul>"
+    m = p["map"]
+    diagram = (
+        f'<div class="map">'
+        f'<div class="node other"><h3>{m["other"][0]}</h3><p>{m["other"][1]}</p></div>'
+        f'<div class="link"><span>{m["other"][2]}</span></div>'
+        f'<div class="node mac"><img src="{base}media/icon.png" alt="" width="64" height="64"><h3>{m["mac"][0]}</h3><p>{m["mac"][1]}</p></div>'
+        f'<div class="link in"><span>{m["github"][2]}</span></div>'
+        f'<div class="node github"><h3>{m["github"][0]}</h3><p>{m["github"][1]}</p></div>'
+        f'<div class="node server"><h3><s>{m["server"][0]}</s></h3><p>{m["server"][1]}</p></div>'
+        f'</div>')
+    blocks = []
+    for i, (title, body, shot, alt) in enumerate(p["blocks"]):
+        figure = f'<figure><img src="{base}media/{lang}/settings-{shot}.png" alt="{e(alt)}" width="780" height="708" loading="lazy"></figure>' if shot else ""
+        blocks.append(f'<section class="block{" flip" if i % 2 == 0 else ""}{"" if shot else " solo"}"><div><h2 class="slam">{title}</h2>{"".join(para(x) for x in body)}</div>{figure}</section>')
+    check = "".join(f'<li><a href="{SRC}{f}"><code>{f}</code></a> {t}</li>' for f, t in p["check"])
+    main = f"""<div class="wrap data">
+<section class="intro">
+  <h1 class="slam">{e(p["title"])}</h1>
+  <p class="lead">{p["lead"]}</p>
+  <p class="facts">{"".join(f"<span>{e(t)}</span>" for t in p["facts"])}</p>
+</section>
+<section class="where">
+  <h2 class="slam">{p["map_title"]}</h2>
+  <p class="sub">{p["map_lead"]}</p>
+  {diagram}
+</section>
+{chr(10).join(blocks)}
+<section class="honest">
+  <h2 class="slam">{p["honest_title"]}</h2>
+  <p class="sub">{p["honest_lead"]}</p>
+  <ul>{"".join(f"<li>{x}</li>" for x in p["honest"])}</ul>
+</section>
+<section class="project">
+  <h2 class="slam">{p["project_title"]}</h2>
+  {"".join(para(x) for x in p["project"])}
+  <div class="cta">
+    <div><h3>{p["cta"][0]}</h3><p>{p["cta"][1]}</p></div>
+    <a class="button ghost" href="{REPO}/issues">{p["cta"][2]}</a>
+    <a class="button" href="{SPONSORS}"><span aria-hidden="true">♥</span>{p["cta"][3]}</a>
+  </div>
+</section>
+<section class="check">
+  <h2 class="slam">{p["check_title"]}</h2>
+  <p>{p["check_text"]}</p>
+  <ul>{check}</ul>
+</section>
+</div>
+"""
+    return layout(lang, s, "privacy/", p["page_title"], p["description"], main)
 
 
 def main():
@@ -265,6 +476,9 @@ def main():
     shutil.copytree(ROOT / "media", OUT / "media")
     (OUT / "index.html").write_text(build("en", STRINGS["en"]))
     (OUT / "fr" / "index.html").write_text(build("fr", STRINGS["fr"]))
+    for lang, folder in (("en", OUT), ("fr", OUT / "fr")):
+        (folder / "privacy").mkdir()
+        (folder / "privacy" / "index.html").write_text(build_privacy(lang, STRINGS[lang]))
     (OUT / "download" / "index.html").write_text(DOWNLOAD)
     (OUT / ".nojekyll").write_text("")
     print(OUT)
