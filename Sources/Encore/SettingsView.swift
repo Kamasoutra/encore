@@ -174,8 +174,11 @@ struct SettingsView: View {
                 caption(L("Encore remembers this display. If disconnected, it uses the primary display until it returns."))
             }
             SettingsGroup(L("Sound feedback")) {
-                Toggle(L("Play sounds on capture and paste"), isOn: $model.preferences.soundsEnabled)
-                percentageControl(L("Volume"), symbol: "speaker.wave.2", value: $model.preferences.soundVolume, range: 0...1)
+                // One row: as two, the form squeezes the volume between the switch and the themes until the slider is cut off.
+                VStack(spacing: 8) {
+                    Toggle(L("Play sounds on capture and paste"), isOn: $model.preferences.soundsEnabled)
+                    percentageControl(L("Volume"), symbol: "speaker.wave.2", value: $model.preferences.soundVolume, range: 0...1)
+                }
                 ForEach(SoundTheme.allCases) { theme in soundThemeRow(theme) }
                 if model.preferences.soundTheme == .custom {
                     soundFileRow(L("On copy"), path: model.preferences.captureSoundPath, action: .capture)
