@@ -100,6 +100,30 @@ kbd.key { font: 600 1em var(--sans); }
 .types span:nth-child(4) { color: var(--links); } .types span:nth-child(5) { color: var(--colors); } .types span:nth-child(6) { color: var(--code); }
 
 /* Your other Macs */
+/* The release pill: a rotating gradient rim, a glow that breathes on the beat, and a light sweep across it. */
+@property --spin { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+.new { position: relative; isolation: isolate; display: inline-flex; align-items: center; gap: 12px; margin-bottom: 30px; padding: 7px 18px 7px 7px; border-radius: 999px; font-size: 16px; font-weight: 600; color: var(--ink); text-decoration: none; overflow: hidden;
+  background: linear-gradient(var(--night), var(--night)) padding-box, conic-gradient(from var(--spin), var(--violet), var(--pink), var(--red), #FFB86B, var(--violet)) border-box; border: 1.5px solid transparent;
+  box-shadow: 0 0 24px rgba(154, 107, 255, 0.55), 0 0 70px rgba(255, 92, 140, 0.25); transition: transform 0.15s, box-shadow 0.2s; }
+.new::before { content: ""; position: absolute; inset: 0; z-index: -1; background: radial-gradient(120% 160% at 0% 50%, rgba(154, 107, 255, 0.35), transparent 60%); }
+.new::after { content: ""; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 30%, rgba(255, 255, 255, 0.35) 50%, transparent 70%); transform: translateX(-120%); pointer-events: none; }
+.new b { padding: 5px 12px; border-radius: 999px; font-size: 13px; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; background: linear-gradient(120deg, var(--violet), var(--pink)); box-shadow: 0 0 18px rgba(255, 92, 140, 0.6); }
+.new span { color: var(--pink); transition: transform 0.15s; }
+.new:hover { transform: translateY(-1px); box-shadow: 0 0 32px rgba(154, 107, 255, 0.8), 0 0 90px rgba(255, 92, 140, 0.4); }
+.new:hover span { transform: translateX(3px); }
+@media (prefers-reduced-motion: no-preference) {
+  .new { animation: rise 0.5s ease-out calc(5.4 * var(--beat)) both, spin 6s linear infinite, breathe calc(4 * var(--beat)) ease-in-out infinite; }
+  .new::after { animation: sweep 5s ease-in-out infinite 3s; }
+}
+@keyframes spin { to { --spin: 360deg; } }
+@keyframes breathe { 50% { box-shadow: 0 0 34px rgba(154, 107, 255, 0.85), 0 0 100px rgba(255, 92, 140, 0.4); } }
+@keyframes sweep { 0%, 60% { transform: translateX(-120%); } 85%, 100% { transform: translateX(120%); } }
+.snippets { padding: clamp(80px, 12vw, 150px) 0 0; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 40px; align-items: center; }
+.snippets h2 { font-size: clamp(46px, 7.4vw, 110px); }
+.snippets h2 span { display: block; }
+.snippets h2 span + span { color: var(--violet); font-size: 0.5em; margin-top: 0.15em; }
+.snippets p { color: var(--mist); margin: 18px 0 0; }
+.snippets .film { margin: 0; }
 .macs { padding: clamp(100px, 15vw, 180px) 0 0; display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 40px; align-items: end; }
 .macs h2 { font-size: clamp(46px, 7.4vw, 110px); }
 .macs h2 span { display: block; }
@@ -128,7 +152,7 @@ footer nav { display: flex; gap: 20px; }
 footer a { text-decoration: none; } footer a:hover { color: var(--ink); }
 
 @media (max-width: 860px) {
-  .step, .macs { grid-template-columns: minmax(0, 1fr); }
+  .step, .macs, .snippets { grid-template-columns: minmax(0, 1fr); }
   .details { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 560px) {

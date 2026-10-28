@@ -27,6 +27,10 @@ STRINGS = {
         "copy": "Copy", "copied": "Copied",
         "sound_on": "Turn sound on", "sound_off": "Mute",
         "video": "The encore launch video",
+        "new_tag": "New in 0.5", "new": "Snippets, synced between your Macs",
+        "snippets": ["Snippets", "On every Mac"],
+        "snippets_text": "Press ⌘S on any card: a name, a language (encore guesses it among 85) and tags. Placeholders like {{name}} ask for a value before pasting. Your snippets and favorites stay in step between your paired Macs.",
+        "snippets_video": "Snippets in encore 0.5",
         "steps": [
             ("⇧⌘V", "Everything you copy", "Press ⇧⌘V in any app. Your recent copies slide up as cards you recognize at a glance: an image is an image, a color is a color. Return pastes it right where you were.", "shelf", "The encore shelf with text, image, PDF, link, color and code cards"),
             ("space", "Space to peek", "Not sure it’s the right one? Space opens a large preview above the card, for images, PDFs, rich text and code.", "preview", "A large preview of an image card"),
@@ -38,7 +42,7 @@ STRINGS = {
         "details": [
             ("Retention you control", "Rules by size and type let heavy files go quickly and keep your snippets. Every card shows how long it stays."),
             ("Native screenshots", "Screenshots you take with macOS land in your history, ready to paste."),
-            ("Favorites and collections", "Keep addresses, templates and snippets forever, and drag cards into collections."),
+            ("Favorites and collections", "Keep addresses and templates forever, and drag cards into collections."),
             ("Private by default", "No account, no telemetry. Password managers are excluded, and content that apps mark as confidential is skipped."),
             ("Native, down to the details", "SwiftUI and AppKit, light and dark, 30 languages including right-to-left."),
             ("Updates itself", "Signed updates install straight from GitHub releases."),
@@ -62,6 +66,10 @@ STRINGS = {
         "copy": "Copier", "copied": "Copié",
         "sound_on": "Activer le son", "sound_off": "Couper le son",
         "video": "La vidéo de lancement d’encore",
+        "new_tag": "Nouveautés · 0.5", "new": "Les snippets, synchronisés entre tes Mac",
+        "snippets": ["Snippets", "Sur tous tes Mac"],
+        "snippets_text": "⌘S sur n’importe quelle carte : un nom, un langage (encore le devine parmi 85) et des tags. Les placeholders comme {{nom}} te demandent une valeur avant de coller. Tes snippets et tes favoris restent synchronisés entre tes Mac appairés.",
+        "snippets_video": "Les snippets dans encore 0.5",
         "steps": [
             ("⇧⌘V", "Tout ce que tu copies", "Appuie sur ⇧⌘V dans n’importe quelle app. Tes dernières copies apparaissent sous forme de cartes qu’on reconnaît d’un coup d’œil : une image est une image, une couleur est une couleur. Entrée, et c’est collé là où tu étais.", "shelf", "Le bandeau d’encore avec des cartes texte, image, PDF, lien, couleur et code"),
             ("espace", "Espace : aperçu", "Pas sûr que ce soit la bonne ? Espace ouvre un grand aperçu au-dessus de la carte : images, PDF, texte mis en forme, code.", "preview", "Le grand aperçu d’une carte image"),
@@ -71,9 +79,9 @@ STRINGS = {
         "macs": ["Sur tous tes Mac", "Sans cloud"],
         "macs_text": "Associe deux Mac avec un code à 6 chiffres et parcours l’historique récent de l’autre. La liaison est chiffrée de bout en bout et reste sur ton réseau local. Pas de serveur, pas de compte.",
         "details": [
-            ("Une rétention à ta main", "Des règles par taille et par type : les gros fichiers partent vite, tes extraits restent. Chaque carte affiche combien de temps elle reste."),
+            ("Une rétention à ta main", "Des règles par taille et par type : les gros fichiers partent vite, tes snippets restent. Chaque carte affiche combien de temps elle reste."),
             ("Les captures d’écran natives", "Les captures prises avec macOS arrivent dans ton historique, prêtes à coller."),
-            ("Favoris et collections", "Garde adresses, modèles et extraits pour toujours, et range tes cartes dans des collections."),
+            ("Favoris et collections", "Garde adresses et modèles pour toujours, et range tes cartes dans des collections."),
             ("Privé par défaut", "Pas de compte, pas de télémétrie. Les gestionnaires de mots de passe sont exclus, et les contenus marqués confidentiels sont ignorés."),
             ("Natif jusque dans les détails", "SwiftUI et AppKit, clair et sombre, 30 langues, y compris de droite à gauche."),
             ("Se met à jour tout seul", "Les mises à jour, signées, s’installent directement depuis GitHub."),
@@ -117,6 +125,7 @@ $detect
 </header>
 <main>
 <section class="wrap hero">
+  <a class="new" href="#snippets"><b>$new_tag</b>$new<span aria-hidden="true">→</span></a>
   <h1 class="slam hook">$hook</h1>
   <p class="lead">$lead</p>
   <div class="get">
@@ -127,6 +136,13 @@ $detect
   </div>
   <div class="film">
     <video src="${base}media/$lang/encore.mp4" poster="${base}media/$lang/poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="$video"></video>
+    <button class="sound" type="button" data-on="$sound_on" data-off="$sound_off">$sound_on</button>
+  </div>
+</section>
+<section class="wrap snippets" id="snippets">
+  <div><h2 class="slam">$snippets</h2><p>$snippets_text</p></div>
+  <div class="film">
+    <video src="${base}media/$lang/snippets.mp4" poster="${base}media/$lang/snippets.jpg" autoplay muted loop playsinline preload="metadata" aria-label="$snippets_video"></video>
     <button class="sound" type="button" data-on="$sound_on" data-off="$sound_off">$sound_on</button>
   </div>
 </section>
@@ -226,7 +242,8 @@ def build(lang, s):
         langs=langs, hook=hook, lead=e(s["lead"]), download=e(s["download"]), requirements=e(s["requirements"]),
         brew_label=e(s["brew"]), copy=e(s["copy"]), copied=e(s["copied"]),
         sound_on=e(s["sound_on"]), sound_off=e(s["sound_off"]), video=e(s["video"]),
-        steps="\n".join(steps),
+        steps="\n".join(steps), new=e(s["new"]), new_tag=e(s["new_tag"]),
+        snippets="".join(f"<span>{e(t)}</span>" for t in s["snippets"]), snippets_text=e(s["snippets_text"]), snippets_video=e(s["snippets_video"]),
         types_label=e(", ".join(s["types"])), types="".join(f"<span>{e(t)}</span>" for t in s["types"]),
         macs="".join(f"<span>{e(t)}</span>" for t in s["macs"]), macs_text=e(s["macs_text"]),
         details="\n".join(f"<div><h3>{e(t)}</h3><p>{e(d)}</p></div>" for t, d in s["details"]),
