@@ -121,7 +121,7 @@ struct BoardView: View {
 
     var body: some View {
         Group {
-            if model.sideColumn { SideColumn(model: model, search: searchBar) } else { shelf }
+            if model.columnShown { SideColumn(model: model, search: searchBar, openLibrary: { withAnimation(reduceMotion ? .easeOut(duration: 0.15) : .spring(duration: 0.34, bounce: 0.12)) { model.expanded = true } }) } else { shelf }
         }
         .background(SurfaceBackground(radius: 20))
         .background(RoundedRectangle(cornerRadius: 20).fill(scheme == .dark ? Color.black.opacity(0.18) : Color.white.opacity(0.25)))
@@ -835,6 +835,7 @@ struct CardNameField: View {
 struct SideColumn<Search: View>: View {
     @ObservedObject var model: AppModel
     let search: Search
+    let openLibrary: () -> Void
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     private var items: [Clip] { Array(model.filtered.prefix(6)) }
@@ -845,6 +846,8 @@ struct SideColumn<Search: View>: View {
                 EncoreMark()
                 Text("encore").font(.system(size: 15, weight: .semibold)).tracking(-0.2)
                 Spacer()
+                Button(action: openLibrary) { Image(systemName: "arrow.up.left.and.arrow.down.right").font(.system(size: 12, weight: .semibold)) }
+                    .buttonStyle(.borderless).foregroundStyle(.secondary).help(L("Full library"))
                 if !model.preferences.captureEnabled { Image(systemName: "pause.circle.fill").foregroundStyle(.orange).help(L("Capture paused")) }
             }.padding(.horizontal, 4)
             search
@@ -864,7 +867,7 @@ struct SideColumn<Search: View>: View {
             HStack(spacing: 10) {
                 footerHint("↑↓", L("choose"))
                 footerHint("↩", model.pastesDirectly ? L("paste") : L("copy"))
-                footerHint("esc", L("close"))
+                footerHint("↑", L("explore"))
             }.frame(maxWidth: .infinity)
         }
         .padding(12)

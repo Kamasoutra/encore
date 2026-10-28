@@ -176,16 +176,16 @@ final class EncorePanel: NSPanel {
         let mouse = NSEvent.mouseLocation
         let screen = ScreenPlacement.screen(target: model.preferences.displayTarget, screens: NSScreen.screens, pointer: mouse, current: panel.isVisible ? panel.screen : nil)
         let frame = (screen ?? NSScreen.main ?? NSScreen.screens[0]).visibleFrame
-        // The library is the shelf grown upwards: same width, same bottom edge.
-        if model.sideColumn {
-            let size = NSSize(width: 360, height: min(frame.height - 20, 526))
-            let x = model.preferences.placement == "left" ? frame.minX + 10 : frame.maxX - size.width - 10
-            panel.setFrame(NSRect(x: x, y: frame.midY - size.height / 2, width: size.width, height: size.height), display: true)
-            return
-        }
+        // The library is the shelf grown upwards: same width, same bottom edge. From the column, it grows out of the column.
         let shelf = min(frame.height - 30, model.preferences.panelHeight)
         let height = model.expanded ? max(shelf, min(frame.height - 30, max(640, frame.height * 0.8))) : shelf
-        let target = NSRect(x: frame.minX + 12, y: frame.minY + 10, width: max(600, frame.width - 24), height: height)
+        var target = NSRect(x: frame.minX + 12, y: frame.minY + 10, width: max(600, frame.width - 24), height: height)
+        if model.columnShown {
+            // Six rows of 62 points with their gaps, plus the header, search field, footer and padding.
+            let size = NSSize(width: 360, height: min(frame.height - 20, 526))
+            let x = model.preferences.placement == "left" ? frame.minX + 10 : frame.maxX - size.width - 10
+            target = NSRect(x: x, y: frame.midY - size.height / 2, width: size.width, height: size.height)
+        }
         let animate = panel.isVisible && shownExpanded != model.expanded && !NSWorkspace.shared.accessibilityDisplayShouldReduceMotion
         shownExpanded = model.expanded
         guard animate else { panel.setFrame(target, display: true); return }
@@ -286,7 +286,8 @@ final class EncorePanel: NSPanel {
                 return nil
             case "t": model.preferences.captureEnabled.toggle(); model.preferencesChanged(); return nil
             case "e": model.inspector = model.selected; return nil
-            case "r": if model.remotePeer == nil { model.renamingID = model.selected?.id }; return nil
+            // The column has no name field: renaming there would leave every key waiting for it.
+            case "r": if model.remotePeer == nil && !model.columnShown { model.renamingID = model.selected?.id }; return nil
             case "s": if model.remotePeer == nil, let id = model.selected?.id { model.renamingID = nil; model.snippetEditor = id }; return nil
             case "d": model.toggleFavorite(); return nil
             case "+", "=": model.zoomCards(0.05); return nil
@@ -309,11 +310,13 @@ final class EncorePanel: NSPanel {
         }
         // The side column is a vertical list: ↑ and ↓ move through it.
         // While searching too: the column has no other use for them, and Return pastes the chosen copy.
-        if model.sideColumn && (event.keyCode == 125 || event.keyCode == 126) {
-            model.move(event.keyCode == 125 ? 1 : -1)
+        // ↑ on the first copy opens the library.
+        if model.columnShown && (event.keyCode == 125 || event.keyCode == 126) {
+            if event.keyCode == 126 && !event.isARepeat && model.filtered.first.map({ $0.id == model.cursor }) != false { setExpanded(true) }
+            else { model.move(event.keyCode == 125 ? 1 : -1) }
             return nil
         }
-        if model.sideColumn && editing && (event.keyCode == 36 || event.keyCode == 76) && !command {
+        if model.columnShown && editing && (event.keyCode == 36 || event.keyCode == 76) && !command {
             model.paste(plain: shift)
             return nil
         }

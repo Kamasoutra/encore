@@ -153,6 +153,8 @@ struct PeerStatus: Identifiable, Equatable {
     var remotePeer: PeerStatus? { board.hasPrefix("peer:") ? peers.first { "peer:\($0.id)" == board } : nil }
     /// The narrow column on a side of the screen, instead of the shelf.
     var sideColumn: Bool { preferences.placement != "bottom" }
+    /// The column is on screen: the library opened from it replaces it until ↓ is held.
+    var columnShown: Bool { sideColumn && !expanded }
     var selectedClips: [Clip] { filtered.filter { selection.contains($0.id) } }
     var selected: Clip? { boardClips.first { $0.id == cursor } }
     var sources: [(String, String)] {
