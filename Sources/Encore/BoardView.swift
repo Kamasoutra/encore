@@ -121,7 +121,7 @@ struct BoardView: View {
 
     var body: some View {
         Group {
-            if model.sideColumn { SideColumn(model: model) } else { shelf }
+            if model.sideColumn { SideColumn(model: model, search: searchBar) } else { shelf }
         }
         .background(SurfaceBackground(radius: 20))
         .background(RoundedRectangle(cornerRadius: 20).fill(scheme == .dark ? Color.black.opacity(0.18) : Color.white.opacity(0.25)))
@@ -831,47 +831,137 @@ struct CardNameField: View {
 }
 
 
-/// The latest copies in a narrow column on a side of the screen: ↑ ↓ to choose, Return or a double-click to paste.
-struct SideColumn: View {
+/// The latest copies in a narrow column on a side of the screen: type to search, ↑ ↓ to choose, Return or a double-click to paste.
+struct SideColumn<Search: View>: View {
     @ObservedObject var model: AppModel
+    let search: Search
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
+    private var items: [Clip] { Array(model.filtered.prefix(6)) }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
+        VStack(alignment: .leading, spacing: 10) {
             HStack(spacing: 8) {
                 EncoreMark()
                 Text("encore").font(.system(size: 15, weight: .semibold)).tracking(-0.2)
-            }.padding(.horizontal, 6).padding(.bottom, 4)
-            if model.filtered.isEmpty {
-                Text(L("Copy text, a link, or an image. Find it here with \(model.shortcutStatus).")).font(.system(size: 12)).foregroundStyle(.secondary)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                Spacer()
+                if !model.preferences.captureEnabled { Image(systemName: "pause.circle.fill").foregroundStyle(.orange).help(L("Capture paused")) }
+            }.padding(.horizontal, 4)
+            search
+            VStack(spacing: 6) {
+                if items.isEmpty {
+                    Text(model.query.isEmpty ? L("Copy text, a link, or an image. Find it here with \(model.shortcutStatus).") : L("Try another word or remove the filters."))
+                        .font(.system(size: 12)).foregroundStyle(.secondary).multilineTextAlignment(.center)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                }
+                ForEach(Array(items.enumerated()), id: \.element.id) { index, clip in
+                    SideRow(model: model, clip: clip, index: index)
+                        .transition(reduceMotion ? .opacity : .move(edge: .top).combined(with: .opacity))
+                }
+                Spacer(minLength: 0)
             }
-            ForEach(Array(model.filtered.prefix(5).enumerated()), id: \.element.id) { index, clip in row(clip, index: index) }
-            Spacer(minLength: 0)
+            .animation(reduceMotion ? nil : .spring(duration: 0.3, bounce: 0.15), value: items.map(\.id))
+            HStack(spacing: 10) {
+                footerHint("↑↓", L("choose"))
+                footerHint("↩", model.pastesDirectly ? L("paste") : L("copy"))
+                footerHint("esc", L("close"))
+            }.frame(maxWidth: .infinity)
         }
         .padding(12)
     }
 
-    private func row(_ clip: Clip, index: Int) -> some View {
+    private func footerHint(_ keys: String, _ label: String) -> some View {
+        HStack(spacing: 4) {
+            Text(Localization.keys(keys)).font(.system(size: 10.5, weight: .semibold)).padding(.horizontal, 4).padding(.vertical, 1.5)
+                .background(.primary.opacity(0.1), in: RoundedRectangle(cornerRadius: 4))
+            Text(label).font(.system(size: 10.5))
+        }.foregroundStyle(.secondary)
+    }
+}
+
+private struct SideRow: View {
+    @ObservedObject var model: AppModel
+    let clip: Clip
+    let index: Int
+    @State private var hovered = false
+    @Environment(\.colorScheme) private var scheme
+
+    var body: some View {
         let selected = model.cursor == clip.id
-        return HStack(spacing: 10) {
-            Group {
-                if clip.kind == .image, let image = model.image(for: clip) { Image(nsImage: image).resizable().scaledToFill() }
-                else { Image(systemName: clip.kind.symbol).font(.system(size: 14)).foregroundStyle(.secondary) }
-            }
-            .frame(width: 32, height: 32).clipShape(RoundedRectangle(cornerRadius: 6))
-            .background(.primary.opacity(0.06), in: RoundedRectangle(cornerRadius: 6))
-            VStack(alignment: .leading, spacing: 2) {
-                Text(clip.name.isEmpty && [.text, .code, .link].contains(clip.kind) ? String(clip.text.prefix(300)) : clip.displayTitle).font(.system(size: 12.5)).lineLimit(2)
-                Text(clip.sourceName).font(.system(size: 10.5)).foregroundStyle(.secondary).lineLimit(1)
+        HStack(spacing: 10) {
+            preview
+                .frame(width: 42, height: 42).clipShape(RoundedRectangle(cornerRadius: 8))
+                .overlay(RoundedRectangle(cornerRadius: 8).strokeBorder(.primary.opacity(0.08)))
+                .overlay(alignment: .bottomTrailing) {
+                    if !clip.sourceBundle.isEmpty {
+                        Image(nsImage: ApplicationCatalog.app(clip.sourceBundle).icon).resizable().frame(width: 18, height: 18)
+                            .shadow(color: .black.opacity(0.25), radius: 1, y: 0.5).offset(x: 5, y: 5)
+                    }
+                }
+            VStack(alignment: .leading, spacing: 3) {
+                content
+                HStack(spacing: 4) {
+                    if clip.favorite { Image(systemName: "star.fill").font(.system(size: 9)).foregroundStyle(.yellow) }
+                    Text(clip.name.isEmpty ? clip.sourceName : clip.name).lineLimit(1)
+                    Text("·")
+                    Text(model.relativeAge(clip.copiedAt)).lineLimit(1).layoutPriority(1)
+                }.font(.system(size: 10.5)).foregroundStyle(.secondary)
             }
             Spacer(minLength: 4)
-            Text(Localization.keys("⌘\(index + 1)")).font(.system(size: 10.5, weight: .semibold)).foregroundStyle(.tertiary)
+            if index < 9 {
+                Text(Localization.keys("⌘\(index + 1)")).font(.system(size: 10.5, weight: .semibold)).monospacedDigit()
+                    .foregroundStyle(selected ? .primary : .tertiary)
+                    .padding(.horizontal, 5).padding(.vertical, 2)
+                    .background(.primary.opacity(selected ? 0.12 : 0.05), in: RoundedRectangle(cornerRadius: 5))
+            }
         }
-        .padding(8)
-        .frame(maxWidth: .infinity, minHeight: 64, alignment: .leading)
-        .background(selected ? Palette.accent.opacity(0.22) : Color.primary.opacity(0.04), in: RoundedRectangle(cornerRadius: 10))
+        .padding(.horizontal, 9).padding(.vertical, 8)
+        .frame(maxWidth: .infinity, minHeight: 62, alignment: .leading)
+        .background(selected ? Palette.accent.opacity(scheme == .dark ? 0.24 : 0.16) : Color.primary.opacity(hovered ? 0.08 : 0.04), in: RoundedRectangle(cornerRadius: 11))
+        .overlay(RoundedRectangle(cornerRadius: 11).strokeBorder(selected ? Palette.accent.opacity(0.9) : .clear, lineWidth: 1.5))
         .contentShape(Rectangle())
+        .onHover { hovered = $0 }
         .onTapGesture(count: 2) { model.paste([clip]) }
         .onTapGesture { model.select(clip.id) }
+        .help(clip.kind == .text ? String(clip.text.prefix(400)) : clip.displayTitle)
+    }
+
+    @ViewBuilder private var preview: some View {
+        switch clip.kind {
+        case .image:
+            if let image = model.image(for: clip) { Image(nsImage: image).resizable().scaledToFill() } else { symbol }
+        case .color:
+            Palette.color(clip.text)
+        case .file:
+            if let url = model.fileURLs(for: clip).first { Image(nsImage: NSWorkspace.shared.icon(forFile: url.path)).resizable().scaledToFit().padding(4) } else { symbol }
+        default:
+            symbol
+        }
+    }
+
+    private var symbol: some View {
+        ZStack {
+            Color.primary.opacity(0.06)
+            Image(systemName: clip.kind.symbol).font(.system(size: 15, weight: .medium)).foregroundStyle(clip.kind == .link ? Palette.accent : .secondary)
+        }
+    }
+
+    @ViewBuilder private var content: some View {
+        switch clip.kind {
+        case .link:
+            let url = URL(string: clip.text)
+            VStack(alignment: .leading, spacing: 1) {
+                Text(url?.host?.replacingOccurrences(of: "www.", with: "") ?? clip.text).font(.system(size: 12.5, weight: .semibold)).lineLimit(1)
+                Text(url.map { $0.path.removingPercentEncoding ?? $0.path } ?? "").font(.system(size: 11)).foregroundStyle(.secondary).lineLimit(1)
+            }
+        case .code:
+            Text(clip.text.trimmingCharacters(in: .whitespacesAndNewlines).prefix(300)).font(.system(size: 11.5, design: .monospaced)).lineLimit(2)
+        case .color:
+            Text(clip.text.uppercased()).font(.system(size: 12.5, weight: .semibold, design: .rounded)).lineLimit(1)
+        case .text:
+            Text(clip.name.isEmpty ? String(clip.text.trimmingCharacters(in: .whitespacesAndNewlines).prefix(300)) : clip.name).font(.system(size: 12.5)).lineLimit(2)
+        default:
+            Text(clip.displayTitle).font(.system(size: 12.5)).lineLimit(2)
+        }
     }
 }

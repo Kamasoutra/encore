@@ -418,4 +418,6 @@
 "Shelf at the bottom" = "底部橫欄";
 "Column on the left" = "左側直欄";
 "Column on the right" = "右側直欄";
-"The column shows your 5 latest copies in a small window on that side of the screen." = "直欄會在螢幕該側的小視窗中顯示最近 5 筆拷貝。";
+"The column shows your 6 latest copies in a small window on that side of the screen." = "直欄會在螢幕該側的小視窗中顯示最近 6 筆拷貝。";
+"choose" = "選擇";
+"close" = "關閉";

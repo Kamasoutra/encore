@@ -418,4 +418,6 @@
 "Shelf at the bottom" = "Bjælke nederst";
 "Column on the left" = "Kolonne til venstre";
 "Column on the right" = "Kolonne til højre";
-"The column shows your 5 latest copies in a small window on that side of the screen." = "Kolonnen viser dine 5 seneste kopier i et lille vindue i den side af skærmen.";
+"The column shows your 6 latest copies in a small window on that side of the screen." = "Kolonnen viser dine 6 seneste kopier i et lille vindue i den side af skærmen.";
+"choose" = "vælg";
+"close" = "luk";

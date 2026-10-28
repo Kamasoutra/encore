@@ -418,4 +418,6 @@
 "Shelf at the bottom" = "Lišta dole";
 "Column on the left" = "Stĺpec vľavo";
 "Column on the right" = "Stĺpec vpravo";
-"The column shows your 5 latest copies in a small window on that side of the screen." = "Stĺpec zobrazuje vašich 5 posledných kópií v malom okne na tejto strane obrazovky.";
+"The column shows your 6 latest copies in a small window on that side of the screen." = "Stĺpec zobrazuje vašich 6 posledných kópií v malom okne na tejto strane obrazovky.";
+"choose" = "vybrať";
+"close" = "zavrieť";

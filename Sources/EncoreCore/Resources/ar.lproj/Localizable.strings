@@ -418,4 +418,6 @@
 "Shelf at the bottom" = "شريط في الأسفل";
 "Column on the left" = "عمود على اليسار";
 "Column on the right" = "عمود على اليمين";
-"The column shows your 5 latest copies in a small window on that side of the screen." = "يعرض العمود آخر 5 نسخ في نافذة صغيرة على ذلك الجانب من الشاشة.";
+"The column shows your 6 latest copies in a small window on that side of the screen." = "يعرض العمود آخر 6 نسخ في نافذة صغيرة على ذلك الجانب من الشاشة.";
+"choose" = "اختيار";
+"close" = "إغلاق";

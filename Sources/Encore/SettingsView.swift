@@ -160,7 +160,7 @@ struct SettingsView: View {
                     Text(L("Column on the left")).tag("left")
                     Text(L("Column on the right")).tag("right")
                 }
-                caption(L("The column shows your 5 latest copies in a small window on that side of the screen."))
+                caption(L("The column shows your 6 latest copies in a small window on that side of the screen."))
                 Picker(L("Show shelf on"), selection: $model.preferences.displayTarget) {
                     Text(L("Current display · at pointer")).tag("active")
                     Text(L("macOS primary display")).tag("primary")

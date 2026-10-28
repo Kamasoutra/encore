@@ -418,4 +418,6 @@
 "Shelf at the bottom" = "แถบด้านล่าง";
 "Column on the left" = "คอลัมน์ด้านซ้าย";
 "Column on the right" = "คอลัมน์ด้านขวา";
-"The column shows your 5 latest copies in a small window on that side of the screen." = "คอลัมน์จะแสดงสำเนาล่าสุด 5 รายการในหน้าต่างเล็กๆ ด้านนั้นของหน้าจอ";
+"The column shows your 6 latest copies in a small window on that side of the screen." = "คอลัมน์จะแสดงสำเนาล่าสุด 6 รายการในหน้าต่างเล็กๆ ด้านนั้นของหน้าจอ";
+"choose" = "เลือก";
+"close" = "ปิด";

@@ -418,4 +418,6 @@
 "Shelf at the bottom" = "Palkki alhaalla";
 "Column on the left" = "Sarake vasemmalla";
 "Column on the right" = "Sarake oikealla";
-"The column shows your 5 latest copies in a small window on that side of the screen." = "Sarake näyttää 5 viimeisintä kopiotasi pienessä ikkunassa näytön sillä reunalla.";
+"The column shows your 6 latest copies in a small window on that side of the screen." = "Sarake näyttää 6 viimeisintä kopiotasi pienessä ikkunassa näytön sillä reunalla.";
+"choose" = "valitse";
+"close" = "sulje";

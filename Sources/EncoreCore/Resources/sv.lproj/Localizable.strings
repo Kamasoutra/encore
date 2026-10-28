@@ -418,4 +418,6 @@
 "Shelf at the bottom" = "List längst ned";
 "Column on the left" = "Kolumn till vänster";
 "Column on the right" = "Kolumn till höger";
-"The column shows your 5 latest copies in a small window on that side of the screen." = "Kolumnen visar dina 5 senaste kopior i ett litet fönster på den sidan av skärmen.";
+"The column shows your 6 latest copies in a small window on that side of the screen." = "Kolumnen visar dina 6 senaste kopior i ett litet fönster på den sidan av skärmen.";
+"choose" = "välj";
+"close" = "stäng";

@@ -418,4 +418,6 @@
 "Shelf at the bottom" = "Altta şerit";
 "Column on the left" = "Solda sütun";
 "Column on the right" = "Sağda sütun";
-"The column shows your 5 latest copies in a small window on that side of the screen." = "Sütun, son 5 kopyanızı ekranın o tarafında küçük bir pencerede gösterir.";
+"The column shows your 6 latest copies in a small window on that side of the screen." = "Sütun, son 6 kopyanızı ekranın o tarafında küçük bir pencerede gösterir.";
+"choose" = "seç";
+"close" = "kapat";

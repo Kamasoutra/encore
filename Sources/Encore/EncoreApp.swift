@@ -178,7 +178,7 @@ final class EncorePanel: NSPanel {
         let frame = (screen ?? NSScreen.main ?? NSScreen.screens[0]).visibleFrame
         // The library is the shelf grown upwards: same width, same bottom edge.
         if model.sideColumn {
-            let size = NSSize(width: 340, height: min(frame.height - 20, 412))
+            let size = NSSize(width: 360, height: min(frame.height - 20, 526))
             let x = model.preferences.placement == "left" ? frame.minX + 10 : frame.maxX - size.width - 10
             panel.setFrame(NSRect(x: x, y: frame.midY - size.height / 2, width: size.width, height: size.height), display: true)
             return
@@ -308,8 +308,13 @@ final class EncorePanel: NSPanel {
             }
         }
         // The side column is a vertical list: ↑ and ↓ move through it.
-        if model.sideColumn && !editing && (event.keyCode == 125 || event.keyCode == 126) {
+        // While searching too: the column has no other use for them, and Return pastes the chosen copy.
+        if model.sideColumn && (event.keyCode == 125 || event.keyCode == 126) {
             model.move(event.keyCode == 125 ? 1 : -1)
+            return nil
+        }
+        if model.sideColumn && editing && (event.keyCode == 36 || event.keyCode == 76) && !command {
+            model.paste(plain: shift)
             return nil
         }
         switch event.keyCode {
@@ -358,8 +363,13 @@ final class EncorePanel: NSPanel {
         default: break
         }
         if !editing && !command && !flags.contains(.control) && !flags.contains(.option) && event.specialKey == nil, let text = event.characters, text.unicodeScalars.allSatisfy({ !CharacterSet.controlCharacters.contains($0) }), !text.isEmpty {
-            model.query += text
+            // Typed into the field once it has focus: focusing selects its text, so a letter added before would be replaced by the next one.
             model.searchFocused = true
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+                if let editor = self.panel.firstResponder as? NSTextView, editor.isFieldEditor { editor.insertText(text, replacementRange: NSRange(location: (editor.string as NSString).length, length: 0)) }
+                else { self.model.query += text }
+            }
             return nil
         }
         return event

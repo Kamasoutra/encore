@@ -418,4 +418,6 @@
 "Shelf at the bottom" = "Смуга внизу";
 "Column on the left" = "Стовпець ліворуч";
 "Column on the right" = "Стовпець праворуч";
-"The column shows your 5 latest copies in a small window on that side of the screen." = "Стовпець показує 5 останніх копій у невеликому вікні біля цього краю екрана.";
+"The column shows your 6 latest copies in a small window on that side of the screen." = "Стовпець показує 6 останніх копій у невеликому вікні біля цього краю екрана.";
+"choose" = "вибрати";
+"close" = "закрити";

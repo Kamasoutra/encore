@@ -418,4 +418,6 @@
 "Shelf at the bottom" = "Γραμμή κάτω";
 "Column on the left" = "Στήλη αριστερά";
 "Column on the right" = "Στήλη δεξιά";
-"The column shows your 5 latest copies in a small window on that side of the screen." = "Η στήλη δείχνει τα 5 τελευταία σας αντίγραφα σε ένα μικρό παράθυρο σε εκείνη την πλευρά της οθόνης.";
+"The column shows your 6 latest copies in a small window on that side of the screen." = "Η στήλη δείχνει τα 6 τελευταία σας αντίγραφα σε ένα μικρό παράθυρο σε εκείνη την πλευρά της οθόνης.";
+"choose" = "επιλογή";
+"close" = "κλείσιμο";
