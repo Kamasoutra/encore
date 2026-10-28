@@ -501,7 +501,7 @@ final class EncorePanel: NSPanel {
     private static var aboutCredits: NSAttributedString {
         let paragraph = NSMutableParagraphStyle()
         paragraph.alignment = .center
-        return NSAttributedString(string: L("Your clipboard. Yours to keep.\nNative, local, and open source.\nMIT license · github.com/Kamasoutra/encore") + "\n\nSeti UI icons © Jesse Weed · MIT",
+        return NSAttributedString(string: L("Your clipboard. Yours to keep.\nNative, local, and open source.\nMIT license · github.com/Kamasoutra/encore") + "\n" + L("Support encore") + " · github.com/sponsors/Kamasoutra" + "\n\nSeti UI icons © Jesse Weed · MIT",
                                   attributes: [.paragraphStyle: paragraph, .font: NSFont.systemFont(ofSize: NSFont.smallSystemFontSize), .foregroundColor: NSColor.labelColor])
     }
 

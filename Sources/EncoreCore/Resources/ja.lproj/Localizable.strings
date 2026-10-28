@@ -406,3 +406,4 @@
 "Merged with the paired Macs that sync them too, then kept up to date while they are connected. Independent of history sharing." = "同じく同期しているペアリングしたMacと統合し、接続中は最新の状態に保ちます。履歴の共有とは独立しています。";
 "Turn on “Share history” on the other Mac, then choose it below. Both Macs must be on the same network." = "もう一方のMacで「履歴を共有」をオンにしてから、下で選択してください。両方のMacが同じネットワークに接続されている必要があります。";
 "Install updates automatically" = "アップデートを自動的にインストール";
+"Support encore" = "encore を支援";
