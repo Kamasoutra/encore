@@ -83,4 +83,20 @@ final class SourceAndPreferencesTests: XCTestCase {
             XCTAssertNil(model.storage?.payload(clip.id))
         }
     }
+
+    func testGlobalShortcutReadsOldPreferencesAndRecordsOnlySafeCombinations() throws {
+        XCTAssertEqual(GlobalShortcut(preference: "commandShiftV"), .standard)
+        XCTAssertEqual(GlobalShortcut(preference: "commandOptionV").label, "⌘⌥V")
+        XCTAssertEqual(GlobalShortcut(preference: "garbage"), .standard)
+        let custom = GlobalShortcut(code: 9, modifiers: 2048, label: "⌥V")
+        XCTAssertEqual(GlobalShortcut(preference: custom.preference), custom)
+        func key(_ flags: NSEvent.ModifierFlags) throws -> NSEvent {
+            try XCTUnwrap(NSEvent.keyEvent(with: .keyDown, location: .zero, modifierFlags: flags, timestamp: 0, windowNumber: 0, context: nil,
+                                           characters: "v", charactersIgnoringModifiers: "v", isARepeat: false, keyCode: 9))
+        }
+        XCTAssertNil(GlobalShortcut(event: try key(.command)))
+        XCTAssertNil(GlobalShortcut(event: try key([])))
+        XCTAssertEqual(GlobalShortcut(event: try key(.option))?.label, "⌥V")
+        XCTAssertEqual(GlobalShortcut(event: try key([.command, .shift]))?.preference, "commandShiftV")
+    }
 }

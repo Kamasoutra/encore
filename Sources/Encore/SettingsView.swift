@@ -1,4 +1,5 @@
 import AppKit
+import Carbon
 import SwiftUI
 import ServiceManagement
 import EncoreCore
@@ -41,6 +42,7 @@ struct SettingsView: View {
     @ObservedObject var model: AppModel
     @ObservedObject private var updates = Updates.shared
     // `--settings privacy` opens on that section, for screenshots.
+    @State private var shortcutRefused = false
     @State private var section = CommandLine.arguments.drop { $0 != "--settings" }.dropFirst().first.flatMap(SettingsSection.init(rawValue:)) ?? .general
     @State private var launchAtLogin = LoginItem.enabled
 
@@ -130,9 +132,11 @@ struct SettingsView: View {
                         catch { model.notify(L("Launch at login: \(error.localizedDescription)")); launchAtLogin = LoginItem.enabled }
                     }
                 }
-                Picker(L("Open Encore"), selection: $model.preferences.shortcut) {
-                    Text("⌘⇧V").tag("commandShiftV"); Text("⌘⌥V").tag("commandOptionV")
-                }.onChanged(model.preferences.shortcut) { _ in model.updateShortcuts?() }
+                HStack {
+                    Text(L("Open Encore")); Spacer()
+                    ShortcutRecorder(preference: $model.preferences.shortcut, refused: $shortcutRefused, suspend: { model.suspendShortcuts?() }, resume: { model.updateShortcuts?() })
+                }
+                if shortcutRefused { caption(L("Use ⌥ or ⌃, or ⌘ with ⇧, so that ⌘V and the shortcuts of your apps keep working.")) }
                 caption(L("Active shortcut: \(model.shortcutStatus). Fallback: ⌃⌥⌘V."))
                 Toggle(L("Use ⌘⇧C for the paste queue"), isOn: $model.preferences.stackShortcutEnabled)
                     .onChanged(model.preferences.stackShortcutEnabled) { _ in model.updateShortcuts?() }
@@ -478,4 +482,44 @@ private struct PairingSheet: View {
 
     private func formatted(_ code: String) -> String { code.count == 6 ? "\(code.prefix(3)) \(code.suffix(3))" : code }
     private func note(_ text: String) -> some View { Text(text).font(.system(size: 12)).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true) }
+}
+
+/// Records the shortcut that shows encore: click, then type the keys. Escape cancels.
+struct ShortcutRecorder: View {
+    @Binding var preference: String
+    @Binding var refused: Bool
+    let suspend: () -> Void
+    let resume: () -> Void
+    @State private var monitor: Any?
+
+    var body: some View {
+        HStack(spacing: 6) {
+            Button { monitor == nil ? start() : stop() } label: {
+                Text(monitor == nil ? Localization.keys(GlobalShortcut(preference: preference).label) : L("Type a shortcut…")).frame(minWidth: 110)
+            }
+            if monitor == nil && preference != GlobalShortcut.standard.preference {
+                Button { preference = GlobalShortcut.standard.preference; resume() } label: { Image(systemName: "arrow.uturn.backward") }
+                    .buttonStyle(.borderless).help(L("Back to ⌘⇧V"))
+            }
+        }
+        .onDisappear(perform: stop)
+    }
+
+    private func start() {
+        refused = false
+        suspend()
+        monitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
+            if Int(event.keyCode) == kVK_Escape { stop() }
+            else if let shortcut = GlobalShortcut(event: event) { preference = shortcut.preference; refused = false; stop() }
+            else { refused = true; NSSound.beep() }
+            return nil
+        }
+    }
+
+    private func stop() {
+        guard let monitor else { return }
+        NSEvent.removeMonitor(monitor)
+        self.monitor = nil
+        resume()
+    }
 }

@@ -407,3 +407,6 @@
 "Turn on “Share history” on the other Mac, then choose it below. Both Macs must be on the same network." = "请在另一台 Mac 上打开“共享历史记录”，然后在下方选择它。两台 Mac 必须连接到同一网络。";
 "Install updates automatically" = "自动安装更新";
 "Support encore" = "支持 encore";
+"Type a shortcut…" = "请按下快捷键…";
+"Back to ⌘⇧V" = "恢复为 ⌘⇧V";
+"Use ⌥ or ⌃, or ⌘ with ⇧, so that ⌘V and the shortcuts of your apps keep working." = "请使用 ⌥ 或 ⌃，或 ⌘ 加 ⇧，以免影响 ⌘V 和其他应用的快捷键。";

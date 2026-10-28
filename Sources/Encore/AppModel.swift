@@ -62,6 +62,7 @@ struct PeerStatus: Identifiable, Equatable {
     var showSettings: (() -> Void)?
     var activateTarget: (() -> NSRunningApplication?)?
     var updateShortcuts: (() -> Void)?
+    var suspendShortcuts: (() -> Void)?
     var updateAppearance: (() -> Void)?
     var resizePanel: (() -> Void)?
     var updateScreenshotCapture: (() -> Void)?

@@ -58,6 +58,7 @@ final class EncorePanel: NSPanel {
         }
         model.activateTarget = { [weak self] in self?.previousApplication }
         model.updateShortcuts = { [weak self] in self?.registerShortcuts() }
+        model.suspendShortcuts = { [weak self] in self?.hotkeys.suspend() }
         model.updateAppearance = { [weak self] in self?.applyAppearance() }
         model.resizePanel = { [weak self] in self?.positionPanel() }
         model.updateQuickLook = { [weak self] in self?.updateQuickLook() }
@@ -159,8 +160,9 @@ final class EncorePanel: NSPanel {
     }
 
     private func registerShortcuts() {
-        hotkeys.register(alternate: model.preferences.shortcut == "commandOptionV", stackEnabled: model.preferences.stackShortcutEnabled)
-        model.shortcutStatus = hotkeys.primaryAvailable ? (model.preferences.shortcut == "commandOptionV" ? "⌘⌥V" : "⌘⇧V") : "⌃⌥⌘V"
+        let shortcut = GlobalShortcut(preference: model.preferences.shortcut)
+        hotkeys.register(shortcut, stackEnabled: model.preferences.stackShortcutEnabled)
+        model.shortcutStatus = hotkeys.primaryAvailable ? shortcut.label : "⌃⌥⌘V"
         if !hotkeys.primaryAvailable { model.notify(L("Shortcut used by another app · fallback: ⌃⌥⌘V")) }
         if model.preferences.stackShortcutEnabled && !hotkeys.stackAvailable { model.notify(L("⌘⇧C is already used by another app. The queue is available from the shelf.")) }
     }

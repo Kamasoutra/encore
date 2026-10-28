@@ -407,3 +407,6 @@
 "Turn on “Share history” on the other Mac, then choose it below. Both Macs must be on the same network." = "Ενεργοποιήστε την επιλογή «Κοινή χρήση ιστορικού» στο άλλο Mac και επιλέξτε το παρακάτω. Και τα δύο Mac πρέπει να βρίσκονται στο ίδιο δίκτυο.";
 "Install updates automatically" = "Αυτόματη εγκατάσταση ενημερώσεων";
 "Support encore" = "Υποστηρίξτε το encore";
+"Type a shortcut…" = "Πατήστε μια συντόμευση…";
+"Back to ⌘⇧V" = "Επιστροφή σε ⌘⇧V";
+"Use ⌥ or ⌃, or ⌘ with ⇧, so that ⌘V and the shortcuts of your apps keep working." = "Χρησιμοποιήστε ⌥ ή ⌃, ή ⌘ με ⇧, ώστε το ⌘V και οι συντομεύσεις των εφαρμογών σας να λειτουργούν κανονικά.";

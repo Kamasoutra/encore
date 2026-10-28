@@ -407,3 +407,6 @@
 "Turn on “Share history” on the other Mac, then choose it below. Both Macs must be on the same network." = "เปิด “แชร์ประวัติ” บน Mac อีกเครื่อง แล้วเลือกเครื่องนั้นด้านล่าง Mac ทั้งสองเครื่องต้องอยู่ในเครือข่ายเดียวกัน";
 "Install updates automatically" = "ติดตั้งอัปเดตโดยอัตโนมัติ";
 "Support encore" = "สนับสนุน encore";
+"Type a shortcut…" = "กดปุ่มลัด…";
+"Back to ⌘⇧V" = "กลับไปใช้ ⌘⇧V";
+"Use ⌥ or ⌃, or ⌘ with ⇧, so that ⌘V and the shortcuts of your apps keep working." = "ใช้ ⌥ หรือ ⌃ หรือ ⌘ ร่วมกับ ⇧ เพื่อให้ ⌘V และปุ่มลัดของแอปยังใช้งานได้";
