@@ -1,15 +1,14 @@
-Native clipboard history for macOS 12+, now on Apple Silicon and Intel.
+Snippets, and favorites that follow you from Mac to Mac.
 
-- Intel Macs are supported: encore ships as a single universal app.
-- encore now runs on macOS 12 Monterey and 13 Ventura. Launch at login and Share need macOS 13.
-- Fixed a freeze when a rich-text email with tables was shown on a card.
-- The Space preview is larger and scrolls through long content.
-- Preview & edit shows rich text as laid out; Edit switches to plain text.
-- Paired Macs no longer ask for your login password after each update, and the app no longer freezes waiting for it: pairing keys moved from the Keychain to a private file. Existing pairings move over automatically, after one last prompt.
-- Arrow keys, the shelf and the library stay smooth on older Macs: a card now redraws only when it changes.
-- Holding an arrow key in the library keeps the selected card in view, and the first row no longer slides under the day title on opening.
-- Each opening of the shelf starts on the history.
-- The app name is now written encore everywhere.
+- **Snippets.** Press ⌘S on any card to give it a name, a language and tags. encore guesses the language among 85, with the icons you know from VS Code. Snippets get their own board and never expire.
+- **Placeholders.** `{{name}}` asks for a value before pasting; `{{clipboard}}`, `{{date}}` and `{{cursor}}` fill in by themselves. Search snippets with `tag:` and `lang:`, and export or import them as a readable JSON file.
+- **Rename in place.** ⌘R, or a click on a card's header, renames it right on the card.
+- **Paste or copy.** A switch in the footer, also in Settings, chooses what Return and double-click do. In copy mode, the card goes back to the top, ready for ⌘V.
+- **Sync with your paired Macs.** Favorites and snippets each have their own setting. They are merged, then kept in step over the local network: the latest change wins, and removals follow. Your history stays private unless you share it.
+- Updates are always checked; the setting now chooses whether they install on their own.
+- Settings for paired Macs are shorter and clearer, and the About window is centered.
+
+Sync needs encore 0.5 on both Macs.
 
 Download the ZIP, unzip, and move Encore.app to Applications. SHA256SUMS contains its checksum. Installed copies update themselves.
 

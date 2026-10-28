@@ -23,16 +23,25 @@ Your latest copies sit in a shelf at the bottom of the screen, newest first. Eac
 
 Press **↑** and the shelf grows into a full library: every copy grouped by day, filters by type, app and date, and a large preview with when it was first and last copied. Just start typing to search, including the text inside your images, recognized on your Mac. Hold **↓** to come back.
 
+## Snippets, ready when you are
+
+![Filing a card as a snippet with ⌘S](assets/snippet-editor.png)
+
+Press **⌘S** on any card to make it a snippet: give it a name, pick its language among 85 (encore guesses it for you, with the icons you know from VS Code), and add tags. Snippets get their own board, grouped by language or tag, and never expire. **⌘R**, or a click on a card's header, renames it in place.
+
+Write `{{name}}` in a snippet and encore asks for the value before pasting. `{{clipboard}}`, `{{date}}` and `{{cursor}}` fill in by themselves. Find snippets with `tag:` and `lang:`, and export or import them as a readable JSON file.
+
 ## Built to keep only what matters
 
-- **Favorites and collections** keep snippets, addresses and templates forever, and you can drag cards into them.
+- **Favorites and collections** keep addresses and templates forever, and you can drag cards into them.
+- **Paste or copy:** a switch in the footer chooses what Return and double-click do. In copy mode, the card goes back to the top, ready for ⌘V.
 - **Retention rules** by size and type clean up the heavy stuff on their own. Every card tells you how long it stays.
 - **Exclusions** keep password managers out, and content that apps mark as confidential is skipped.
 - **A paste queue** pastes several items in order, one ⌘V at a time.
 
 ## Your other Macs, without a cloud
 
-Pair two Macs on the same network with a 6-digit code, and each one appears as a tab in the shelf. Browse the other Mac's recent copies and paste them as if they were yours. The connection is end-to-end encrypted, keys stay on each Mac, and there is no server or account involved.
+Pair two Macs on the same network with a 6-digit code, and each one appears as a tab in the shelf. Browse the other Mac's recent copies and paste them as if they were yours. Turn on sync and your favorites and snippets, each with its own setting, are merged and kept in step between your Macs. The connection is end-to-end encrypted, keys stay on each Mac, and there is no server or account involved.
 
 ## Native, down to the details
 
@@ -68,10 +77,11 @@ Quit any other clipboard app that uses ⇧⌘V. encore also lives in the menu ba
 | Search / preview | ⌘F or type / Space |
 | Switch board | ⌘← / ⌘→ |
 | Favorite / settings | ⌘D / ⌘, |
+| Make a snippet / rename | ⌘S / ⌘R |
 | Delete / undo | Delete / ⌘Z |
 | Card size | ⌘+ / ⌘− |
 
-Search understands `app:safari type:link`, `date:today`, `date:7d`, `date:30d`, and `after:2026-10-01 before:2026-11-01`. The optional global queue shortcut ⇧⌘C is off by default.
+Search understands `app:safari type:link`, `tag:mail`, `lang:swift`, `date:today`, `date:7d`, `date:30d`, and `after:2026-10-01 before:2026-11-01`. The optional global queue shortcut ⇧⌘C is off by default.
 
 ## Keep the useful things
 
@@ -85,7 +95,7 @@ Retention rules are evaluated from top to bottom, and the first match wins. The 
 | Text below 1 MB | Forever |
 | Everything else | Your default duration |
 
-Copying an item again renews its expiry. Favorites and collection items stay indefinitely. Changes are previewed before you apply them.
+Copying an item again renews its expiry. Favorites, snippets and collection items stay indefinitely. Changes are previewed before you apply them.
 
 Files are referenced rather than copied into encore, so a multi-gigabyte file uses little storage. Moving or deleting the original can make an entry unavailable. Embedded clipboard data is limited to **25 MiB per copy**.
 
@@ -95,8 +105,8 @@ History lives in `~/Library/Application Support/Encore/` and never leaves your M
 
 encore makes two kinds of network requests, both optional:
 
-- **Updates.** encore checks GitHub for a new release, and installs it only if it is signed with the project's key. You can turn this off in Settings.
-- **Other Macs.** Off until you enable it. Macs find each other on the local network with Bonjour and pair with a 6-digit code. Traffic is end-to-end encrypted, and the keys stay on each Mac in a file only your account can read, next to the history.
+- **Updates.** encore checks GitHub for a new release, and installs it only if it is signed with the project's key. Settings choose whether it installs on its own or asks first.
+- **Other Macs.** Off until you enable sharing or sync. Macs find each other on the local network with Bonjour and pair with a 6-digit code. Traffic is end-to-end encrypted, and the keys stay on each Mac in a file only your account can read, next to the history.
 
 Defaults are 30 days, 2,000 unprotected items, and a 500 MiB content budget. Password-manager exclusions depend on installed apps. Confidential clipboard markers are honored, but not every app sets them. Screenshot import is off by default.
 
@@ -114,6 +124,6 @@ open dist/Encore.app
 
 Use `open -n dist/Encore.app --args --demo` for a separate, synthetic library. Quit the normal instance first. Without the release certificate, the build script signs ad hoc.
 
-encore is independently implemented and includes no code or assets from other clipboard apps. The default sound sets are synthesized by `scripts/sounds.py`. The Soft, Crisp and Wood sets are adapted from [Kenney's Interface Sounds](https://kenney.nl/assets/interface-sounds), released under CC0.
+encore is independently implemented and includes no code or assets from other clipboard apps. The default sound sets are synthesized by `scripts/sounds.py`. The Soft, Crisp and Wood sets are adapted from [Kenney's Interface Sounds](https://kenney.nl/assets/interface-sounds), released under CC0. Language icons come from [Seti UI](https://github.com/jesseweed/seti-ui), MIT.
 
 [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md) · [MIT license](LICENSE)
