@@ -43,7 +43,6 @@
 "Card size" = "Kích thước thẻ";
 "Change…" = "Thay đổi…";
 "Check again" = "Kiểm tra lại";
-"Check for updates automatically" = "Tự động kiểm tra bản cập nhật";
 "Check for Updates…" = "Kiểm tra bản cập nhật…";
 "Check Now" = "Kiểm tra ngay";
 "Check that %@ shows the same code." = "Hãy kiểm tra để chắc chắn %@ hiển thị cùng một mã.";
@@ -406,3 +405,4 @@
 "Sync snippets" = "Đồng bộ đoạn mẫu";
 "Merged with the paired Macs that sync them too, then kept up to date while they are connected. Independent of history sharing." = "Được hợp nhất với các máy Mac đã ghép đôi cũng bật đồng bộ, và luôn cập nhật khi đang kết nối. Độc lập với việc chia sẻ lịch sử.";
 "Turn on “Share history” on the other Mac, then choose it below. Both Macs must be on the same network." = "Bật “Chia sẻ lịch sử” trên máy Mac kia, sau đó chọn máy đó bên dưới. Cả hai máy Mac phải ở cùng một mạng.";
+"Install updates automatically" = "Tự động cài đặt bản cập nhật";

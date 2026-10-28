@@ -254,7 +254,7 @@ struct SettingsView: View {
             }
             if updates.available {
                 SettingsGroup(L("Updates")) {
-                    Toggle(L("Check for updates automatically"), isOn: Binding(get: { updates.automaticallyChecks }, set: { updates.automaticallyChecks = $0 }))
+                    Toggle(L("Install updates automatically"), isOn: Binding(get: { updates.automaticallyInstalls }, set: { updates.automaticallyInstalls = $0 }))
                     HStack {
                         Text(L("Version \(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "")")).foregroundStyle(.secondary)
                         Spacer()
@@ -346,8 +346,10 @@ struct SettingsView: View {
     private func caption(_ text: String) -> some View { Text(text).font(.system(size: 12)).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true) }
     private func percentageControl(_ title: String, symbol: String, value: Binding<Double>, range: ClosedRange<Double>) -> some View {
         VStack(spacing: 10) {
-            HStack {
-                Label(title, systemImage: symbol)
+            // A Label would make the form start the row separator at its text, leaving the icon outside the line.
+            HStack(spacing: 7) {
+                Image(systemName: symbol).foregroundStyle(.secondary).frame(width: 18)
+                Text(title)
                 Spacer()
                 Text(value.wrappedValue, format: .percent.precision(.fractionLength(0)))
                     .font(.system(size: 12, weight: .medium)).monospacedDigit()

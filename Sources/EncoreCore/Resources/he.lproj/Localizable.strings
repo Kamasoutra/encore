@@ -45,7 +45,6 @@
 "Check Now" = "בדוק עכשיו";
 "Check again" = "בדוק שוב";
 "Check for Updates…" = "חפש עדכונים…";
-"Check for updates automatically" = "חפש עדכונים באופן אוטומטי";
 "Check that %@ shows the same code." = "יש לוודא ש־%@ מציג את אותו קוד.";
 "Choose the folder where macOS saves your screenshots." = "יש לבחור את התיקייה שבה macOS שומר את צילומי המסך.";
 "Choose what Encore keeps. Everything stays on this Mac." = "יש לבחור מה encore ישמור. הכול נשאר במחשב Mac זה.";
@@ -406,3 +405,4 @@
 "Sync snippets" = "סנכרון קטעים";
 "Merged with the paired Macs that sync them too, then kept up to date while they are connected. Independent of history sharing." = "ממוזגים עם מחשבי Mac מצומדים שגם מסנכרנים אותם, ונשמרים מעודכנים כל עוד הם מחוברים. בלתי תלוי בשיתוף ההיסטוריה.";
 "Turn on “Share history” on the other Mac, then choose it below. Both Macs must be on the same network." = "יש להפעיל את ״שיתוף היסטוריה״ ב־Mac השני, ולאחר מכן לבחור אותו למטה. שני מחשבי ה־Mac צריכים להיות באותה רשת.";
+"Install updates automatically" = "התקנת עדכונים באופן אוטומטי";

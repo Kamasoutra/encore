@@ -43,7 +43,6 @@
 "Card size" = "ขนาดการ์ด";
 "Change…" = "เปลี่ยน…";
 "Check again" = "ตรวจสอบอีกครั้ง";
-"Check for updates automatically" = "ตรวจหาอัปเดตโดยอัตโนมัติ";
 "Check for Updates…" = "ตรวจหาอัปเดต…";
 "Check Now" = "ตรวจสอบตอนนี้";
 "Check that %@ shows the same code." = "ตรวจสอบว่า %@ แสดงรหัสเดียวกัน";
@@ -406,3 +405,4 @@
 "Sync snippets" = "ซิงค์สนิปเป็ต";
 "Merged with the paired Macs that sync them too, then kept up to date while they are connected. Independent of history sharing." = "รวมกับ Mac ที่จับคู่ไว้ซึ่งเปิดซิงค์ด้วย และอัปเดตให้ตรงกันขณะเชื่อมต่อ แยกจากการแชร์ประวัติ";
 "Turn on “Share history” on the other Mac, then choose it below. Both Macs must be on the same network." = "เปิด “แชร์ประวัติ” บน Mac อีกเครื่อง แล้วเลือกเครื่องนั้นด้านล่าง Mac ทั้งสองเครื่องต้องอยู่ในเครือข่ายเดียวกัน";
+"Install updates automatically" = "ติดตั้งอัปเดตโดยอัตโนมัติ";

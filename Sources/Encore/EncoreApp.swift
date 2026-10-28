@@ -495,7 +495,14 @@ final class EncorePanel: NSPanel {
     @objc private func quit() { NSApp.terminate(nil) }
     @objc private func about() {
         NSApp.activate(ignoringOtherApps: true)
-        NSApp.orderFrontStandardAboutPanel(options: [.applicationName: "encore", .applicationVersion: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "", .credits: NSAttributedString(string: L("Your clipboard. Yours to keep.\nNative, local, and open source.\nMIT license · github.com/Kamasoutra/encore") + "\n\nSeti UI icons © Jesse Weed · MIT")])
+        NSApp.orderFrontStandardAboutPanel(options: [.applicationName: "encore", .applicationVersion: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "", .credits: Self.aboutCredits])
+    }
+    /// Centered like the rest of the panel; plain credits are left-aligned.
+    private static var aboutCredits: NSAttributedString {
+        let paragraph = NSMutableParagraphStyle()
+        paragraph.alignment = .center
+        return NSAttributedString(string: L("Your clipboard. Yours to keep.\nNative, local, and open source.\nMIT license · github.com/Kamasoutra/encore") + "\n\nSeti UI icons © Jesse Weed · MIT",
+                                  attributes: [.paragraphStyle: paragraph, .font: NSFont.systemFont(ofSize: NSFont.smallSystemFontSize), .foregroundColor: NSColor.labelColor])
     }
 
     private func installMenu() {

@@ -9,12 +9,14 @@ import Sparkle
     private init() {
         let enabled = Bundle.main.object(forInfoDictionaryKey: "SUFeedURL") != nil && !CommandLine.arguments.contains("--demo")
         controller = enabled ? SPUStandardUpdaterController(startingUpdater: true, updaterDelegate: nil, userDriverDelegate: nil) : nil
+        // Checking is always on; the setting only chooses whether updates install without asking.
+        controller?.updater.automaticallyChecksForUpdates = true
     }
 
     var available: Bool { controller != nil }
-    var automaticallyChecks: Bool {
-        get { controller?.updater.automaticallyChecksForUpdates ?? false }
-        set { controller?.updater.automaticallyChecksForUpdates = newValue; objectWillChange.send() }
+    var automaticallyInstalls: Bool {
+        get { controller?.updater.automaticallyDownloadsUpdates ?? false }
+        set { controller?.updater.automaticallyDownloadsUpdates = newValue; objectWillChange.send() }
     }
     var lastCheck: Date? { controller?.updater.lastUpdateCheckDate }
 

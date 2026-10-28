@@ -45,7 +45,6 @@
 "Check Now" = "Periksa sekarang";
 "Check again" = "Periksa lagi";
 "Check for Updates…" = "Periksa pembaruan…";
-"Check for updates automatically" = "Periksa pembaruan secara otomatis";
 "Check that %@ shows the same code." = "Pastikan %@ menampilkan kode yang sama.";
 "Choose the folder where macOS saves your screenshots." = "Pilih folder tempat macOS menyimpan jepretan layar Anda.";
 "Choose what Encore keeps. Everything stays on this Mac." = "Pilih apa yang disimpan encore. Semuanya tetap di Mac ini.";
@@ -406,3 +405,4 @@
 "Sync snippets" = "Sinkronkan cuplikan";
 "Merged with the paired Macs that sync them too, then kept up to date while they are connected. Independent of history sharing." = "Digabungkan dengan Mac yang dipasangkan yang juga menyinkronkannya, lalu dijaga tetap terbaru selama terhubung. Terpisah dari berbagi riwayat.";
 "Turn on “Share history” on the other Mac, then choose it below. Both Macs must be on the same network." = "Aktifkan “Bagikan riwayat” di Mac lain, lalu pilih Mac tersebut di bawah. Kedua Mac harus berada di jaringan yang sama.";
+"Install updates automatically" = "Instal pembaruan secara otomatis";

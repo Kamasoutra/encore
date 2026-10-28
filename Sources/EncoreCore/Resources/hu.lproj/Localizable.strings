@@ -43,7 +43,6 @@
 "Card size" = "Kártyaméret";
 "Change…" = "Módosítás…";
 "Check again" = "Újraellenőrzés";
-"Check for updates automatically" = "Frissítések automatikus keresése";
 "Check for Updates…" = "Frissítések keresése…";
 "Check Now" = "Keresés most";
 "Check that %@ shows the same code." = "Ellenőrizze, hogy %@ ugyanazt a kódot mutatja-e.";
@@ -406,3 +405,4 @@
 "Sync snippets" = "Részletek szinkronizálása";
 "Merged with the paired Macs that sync them too, then kept up to date while they are connected. Independent of history sharing." = "Egyesítve a szintén szinkronizáló párosított Macekkel, és naprakészen tartva, amíg kapcsolódnak. Független az előzmények megosztásától.";
 "Turn on “Share history” on the other Mac, then choose it below. Both Macs must be on the same network." = "A másik Macen kapcsolja be az „Előzmények megosztása” beállítást, majd válassza ki lent. Mindkét Macnek ugyanazon a hálózaton kell lennie.";
+"Install updates automatically" = "Frissítések automatikus telepítése";

@@ -43,7 +43,6 @@
 "Card size" = "Mărime carduri";
 "Change…" = "Modifică…";
 "Check again" = "Verifică din nou";
-"Check for updates automatically" = "Caută automat actualizări";
 "Check for Updates…" = "Caută actualizări…";
 "Check Now" = "Verifică acum";
 "Check that %@ shows the same code." = "Verificați dacă %@ afișează același cod.";
@@ -406,3 +405,4 @@
 "Sync snippets" = "Sincronizează fragmentele";
 "Merged with the paired Macs that sync them too, then kept up to date while they are connected. Independent of history sharing." = "Combinate cu Mac-urile asociate care le sincronizează și ele și ținute la zi cât timp sunt conectate. Independent de partajarea istoricului.";
 "Turn on “Share history” on the other Mac, then choose it below. Both Macs must be on the same network." = "Activați „Partajează istoricul” pe celălalt Mac, apoi alegeți-l mai jos. Ambele Mac-uri trebuie să fie în aceeași rețea.";
+"Install updates automatically" = "Instalează automat actualizările";

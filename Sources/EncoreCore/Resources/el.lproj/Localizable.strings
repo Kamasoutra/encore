@@ -43,7 +43,6 @@
 "Card size" = "Μέγεθος καρτών";
 "Change…" = "Αλλαγή…";
 "Check again" = "Νέος έλεγχος";
-"Check for updates automatically" = "Αυτόματος έλεγχος για ενημερώσεις";
 "Check for Updates…" = "Έλεγχος για ενημερώσεις…";
 "Check Now" = "Έλεγχος τώρα";
 "Check that %@ shows the same code." = "Ελέγξτε ότι το %@ εμφανίζει τον ίδιο κωδικό.";
@@ -406,3 +405,4 @@
 "Sync snippets" = "Συγχρονισμός αποσπασμάτων";
 "Merged with the paired Macs that sync them too, then kept up to date while they are connected. Independent of history sharing." = "Συγχωνεύονται με τα Mac σε σύζευξη που τα συγχρονίζουν επίσης και μένουν ενημερωμένα όσο είναι συνδεδεμένα. Ανεξάρτητα από την κοινή χρήση ιστορικού.";
 "Turn on “Share history” on the other Mac, then choose it below. Both Macs must be on the same network." = "Ενεργοποιήστε την επιλογή «Κοινή χρήση ιστορικού» στο άλλο Mac και επιλέξτε το παρακάτω. Και τα δύο Mac πρέπει να βρίσκονται στο ίδιο δίκτυο.";
+"Install updates automatically" = "Αυτόματη εγκατάσταση ενημερώσεων";

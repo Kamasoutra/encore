@@ -43,7 +43,6 @@
 "Card size" = "Kartengröße";
 "Change…" = "Ändern …";
 "Check again" = "Erneut prüfen";
-"Check for updates automatically" = "Automatisch nach Updates suchen";
 "Check for Updates…" = "Nach Updates suchen …";
 "Check Now" = "Jetzt suchen";
 "Check that %@ shows the same code." = "Prüfen Sie, ob %@ denselben Code anzeigt.";
@@ -406,3 +405,4 @@
 "Sync snippets" = "Snippets synchronisieren";
 "Merged with the paired Macs that sync them too, then kept up to date while they are connected. Independent of history sharing." = "Mit den gekoppelten Macs zusammengeführt, die sie ebenfalls synchronisieren, und aktuell gehalten, solange sie verbunden sind. Unabhängig von der Verlaufsfreigabe.";
 "Turn on “Share history” on the other Mac, then choose it below. Both Macs must be on the same network." = "Aktivieren Sie auf dem anderen Mac „Verlauf teilen“ und wählen Sie ihn dann unten aus. Beide Macs müssen im selben Netzwerk sein.";
+"Install updates automatically" = "Updates automatisch installieren";

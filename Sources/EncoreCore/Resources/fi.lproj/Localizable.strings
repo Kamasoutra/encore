@@ -43,7 +43,6 @@
 "Card size" = "Korttien koko";
 "Change…" = "Muuta…";
 "Check again" = "Tarkista uudelleen";
-"Check for updates automatically" = "Tarkista päivitykset automaattisesti";
 "Check for Updates…" = "Tarkista päivitykset…";
 "Check Now" = "Tarkista nyt";
 "Check that %@ shows the same code." = "Tarkista, että %@ näyttää saman koodin.";
@@ -406,3 +405,4 @@
 "Sync snippets" = "Synkronoi katkelmat";
 "Merged with the paired Macs that sync them too, then kept up to date while they are connected. Independent of history sharing." = "Yhdistetään niitä myös synkronoivien pariliitettyjen Macien kanssa ja pidetään ajan tasalla yhteyden aikana. Historian jakamisesta riippumaton.";
 "Turn on “Share history” on the other Mac, then choose it below. Both Macs must be on the same network." = "Ota toisella Macilla käyttöön ”Jaa historia” ja valitse se sitten alta. Molempien Macien on oltava samassa verkossa.";
+"Install updates automatically" = "Asenna päivitykset automaattisesti";

@@ -43,7 +43,6 @@
 "Card size" = "Размер карточек";
 "Change…" = "Изменить…";
 "Check again" = "Проверить снова";
-"Check for updates automatically" = "Автоматически проверять наличие обновлений";
 "Check for Updates…" = "Проверить наличие обновлений…";
 "Check Now" = "Проверить сейчас";
 "Check that %@ shows the same code." = "Убедитесь, что на %@ отображается тот же код.";
@@ -406,3 +405,4 @@
 "Sync snippets" = "Синхронизировать сниппеты";
 "Merged with the paired Macs that sync them too, then kept up to date while they are connected. Independent of history sharing." = "Объединяются с сопряженными Mac, которые тоже их синхронизируют, и остаются актуальными, пока они подключены. Не зависит от доступа к истории.";
 "Turn on “Share history” on the other Mac, then choose it below. Both Macs must be on the same network." = "На другом Mac включите «Открыть доступ к истории», затем выберите его ниже. Оба Mac должны быть в одной сети.";
+"Install updates automatically" = "Устанавливать обновления автоматически";

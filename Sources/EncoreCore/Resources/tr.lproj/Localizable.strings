@@ -45,7 +45,6 @@
 "Check Now" = "Şimdi denetle";
 "Check again" = "Yeniden denetle";
 "Check for Updates…" = "Güncellemeleri denetle…";
-"Check for updates automatically" = "Güncellemeleri otomatik olarak denetle";
 "Check that %@ shows the same code." = "%@ aygıtının aynı kodu gösterdiğini kontrol edin.";
 "Choose the folder where macOS saves your screenshots." = "macOS’in ekran resimlerinizi kaydettiği klasörü seçin.";
 "Choose what Encore keeps. Everything stays on this Mac." = "encore’un neleri saklayacağını seçin. Her şey bu Mac’te kalır.";
@@ -406,3 +405,4 @@
 "Sync snippets" = "Parçacıkları eşzamanla";
 "Merged with the paired Macs that sync them too, then kept up to date while they are connected. Independent of history sharing." = "Bunları eşzamanlayan eşlenmiş Mac’lerle birleştirilir ve bağlı oldukları sürece güncel tutulur. Geçmiş paylaşımından bağımsızdır.";
 "Turn on “Share history” on the other Mac, then choose it below. Both Macs must be on the same network." = "Diğer Mac’te “Geçmişi paylaş” seçeneğini açın, ardından o Mac’i aşağıdan seçin. İki Mac de aynı ağda olmalıdır.";
+"Install updates automatically" = "Güncellemeleri otomatik olarak yükle";

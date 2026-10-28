@@ -43,7 +43,6 @@
 "Card size" = "Kortstorlek";
 "Change…" = "Ändra…";
 "Check again" = "Kontrollera igen";
-"Check for updates automatically" = "Sök efter uppdateringar automatiskt";
 "Check for Updates…" = "Sök efter uppdateringar…";
 "Check Now" = "Sök nu";
 "Check that %@ shows the same code." = "Kontrollera att %@ visar samma kod.";
@@ -406,3 +405,4 @@
 "Sync snippets" = "Synka snippets";
 "Merged with the paired Macs that sync them too, then kept up to date while they are connected. Independent of history sharing." = "Slås ihop med parkopplade Mac-datorer som också synkar dem och hålls aktuella medan de är anslutna. Oberoende av delning av historiken.";
 "Turn on “Share history” on the other Mac, then choose it below. Both Macs must be on the same network." = "Slå på ”Dela historiken” på den andra datorn och välj den sedan nedan. Båda datorerna måste vara på samma nätverk.";
+"Install updates automatically" = "Installera uppdateringar automatiskt";

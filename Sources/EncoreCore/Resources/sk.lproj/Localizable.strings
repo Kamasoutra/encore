@@ -43,7 +43,6 @@
 "Card size" = "Veľkosť kariet";
 "Change…" = "Zmeniť…";
 "Check again" = "Skontrolovať znova";
-"Check for updates automatically" = "Automaticky vyhľadávať aktualizácie";
 "Check for Updates…" = "Vyhľadať aktualizácie…";
 "Check Now" = "Vyhľadať teraz";
 "Check that %@ shows the same code." = "Overte, že %@ zobrazuje rovnaký kód.";
@@ -406,3 +405,4 @@
 "Sync snippets" = "Synchronizovať úryvky";
 "Merged with the paired Macs that sync them too, then kept up to date while they are connected. Independent of history sharing." = "Zlučujú sa so spárovanými Macmi, ktoré ich tiež synchronizujú, a zostávajú aktuálne, kým sú pripojené. Nezávisle od zdieľania histórie.";
 "Turn on “Share history” on the other Mac, then choose it below. Both Macs must be on the same network." = "Na druhom Macu zapnite „Zdieľať históriu“ a potom ho vyberte nižšie. Oba Macy musia byť v rovnakej sieti.";
+"Install updates automatically" = "Inštalovať aktualizácie automaticky";
