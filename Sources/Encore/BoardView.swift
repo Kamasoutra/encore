@@ -153,6 +153,7 @@ struct BoardView: View {
         .clipShape(RoundedRectangle(cornerRadius: 20))
         .overlay(RoundedRectangle(cornerRadius: 20).strokeBorder(.white.opacity(scheme == .dark ? 0.12 : 0.6), lineWidth: 1))
         .overlay { if let form = model.snippetForm { SnippetFormView(model: model, form: form).id(form.id) } }
+        .overlay { if let id = model.snippetEditor, let clip = model.boardClips.first(where: { $0.id == id }) { SnippetEditorView(model: model, clip: clip).id(id) } }
         .localized()
         .tint(Palette.accent)
         .onChanged(model.searchFocused) { value in searchFocus = value }
@@ -187,6 +188,7 @@ struct BoardView: View {
             HStack(spacing: 2) {
                 boardButton(L("History"), symbol: nil, id: "history", color: Palette.accent)
                 boardButton(L("Favorites"), symbol: "star.fill", id: "favorites", color: .orange)
+                if model.hasSnippets || model.board == "snippets" { boardButton(L("Snippets"), symbol: "curlybraces", id: "snippets", color: Palette.accent) }
                 ForEach(model.library.collections) { collection in
                     boardButton(collection.name, symbol: "circle.fill", id: collection.id.uuidString, color: Palette.collection[collection.colorIndex % Palette.collection.count])
                         .contextMenu {
@@ -293,7 +295,8 @@ struct BoardView: View {
         HStack(spacing: 14) {
             Circle().fill(model.preferences.captureEnabled ? Color.green : Color.orange).frame(width: 6, height: 6)
             Text(model.preferences.captureEnabled ? L("\(model.filtered.count) items") : L("Capture paused")).font(.system(size: 11, weight: .medium)).monospacedDigit()
-            if !model.accessibilityGranted {
+            pasteSwitch
+            if model.preferences.pasteDirectly && !model.accessibilityGranted {
                 // Without Accessibility, Return can only copy: say so where the user looks.
                 Button { model.requestAccessibility() } label: {
                     Label(L("Enable direct paste"), systemImage: "exclamationmark.triangle.fill").font(.system(size: 11, weight: .semibold))
@@ -311,17 +314,21 @@ struct BoardView: View {
             if model.status.isEmpty {
                 if model.expanded {
                     hint("← ↑ ↓ →", L("navigate"))
-                    hint("↩", L("paste"))
+                    hint("↩", model.pastesDirectly ? L("paste") : L("copy"))
                     hint("⌘E", L("Edit"))
+                    hint("⌘R", L("rename"))
+                    hint("⌘S", L("snippet"))
                     hint("⌘F", L("search"))
                     hint("⌘D", L("favorite"))
                     hint("⌘⌫", L("delete"))
                     Button { withAnimation(reduceMotion ? .easeOut(duration: 0.15) : .spring(duration: 0.34, bounce: 0.12)) { model.expanded = false } } label: { hint(L("hold ↓"), L("reduce")) }.buttonStyle(.plain)
                 } else {
                     Button { withAnimation(reduceMotion ? .easeOut(duration: 0.15) : .spring(duration: 0.34, bounce: 0.12)) { model.expanded = true } } label: { hint("↑", L("explore")) }.buttonStyle(.plain)
-                    hint("↩", L("paste"))
+                    hint("↩", model.pastesDirectly ? L("paste") : L("copy"))
                     hint("⇧↩", L("plain text"))
                     hint(L("space"), L("preview"))
+                    hint("⌘R", L("rename"))
+                    hint("⌘S", L("snippet"))
                     hint("⌘F", L("search"))
                     hint("⌘D", L("favorite"))
                     hint("⌘⌫", L("delete"))
@@ -333,6 +340,36 @@ struct BoardView: View {
             .onReceive(Timer.publish(every: 1.5, on: .main, in: .common).autoconnect()) { _ in
                 if !model.accessibilityGranted && AXIsProcessTrusted() { model.accessibilityGranted = true }
             }
+    }
+
+    /// Same symbol as scripts/icon.swift, one weight lighter so it stays crisp at footer size.
+    private static let iconArrow: NSImage = {
+        let image = NSImage(systemSymbolName: "arrow.uturn.backward", accessibilityDescription: nil)?.withSymbolConfiguration(.init(pointSize: 112, weight: .semibold)) ?? NSImage()
+        image.isTemplate = true
+        return image
+    }()
+
+    /// What Return and double-click do, kept in sync with the setting.
+    private var pasteSwitch: some View {
+        HStack(spacing: 0) {
+            // The arrow of the app icon: drawn at icon size and scaled down, since small point sizes use a squarer variant of the symbol.
+            Image(nsImage: Self.iconArrow).renderingMode(.template).resizable().scaledToFit().frame(height: 12).rotationEffect(.degrees(7)).foregroundStyle(.primary).padding(.leading, 7).padding(.trailing, 4)
+            ForEach([true, false], id: \.self) { direct in
+                let active = model.preferences.pasteDirectly == direct
+                Button {
+                    guard !active else { return }
+                    withAnimation(.easeOut(duration: 0.15)) { model.preferences.pasteDirectly = direct }
+                    model.preferencesChanged()
+                } label: {
+                    Label(direct ? L("paste") : L("copy"), systemImage: direct ? "arrow.down.doc" : "doc.on.doc")
+                        .font(.system(size: 11, weight: active ? .semibold : .medium))
+                        .padding(.horizontal, 7).padding(.vertical, 2)
+                        .background(active ? Palette.accent.opacity(0.35) : .clear, in: Capsule())
+                        .foregroundStyle(active ? AnyShapeStyle(.primary) : AnyShapeStyle(.primary.opacity(0.7)))
+                }.buttonStyle(.plain)
+            }
+        }.padding(2).background(.primary.opacity(0.06), in: Capsule())
+            .help(L("What Return and double-click do"))
     }
 
     private func hint(_ keys: String, _ label: String) -> some View {
@@ -434,6 +471,7 @@ struct ClipCard: View {
     private let preferences: Preferences
     private let now: Date
     private let remote: Bool
+    private let renaming: Bool
     @Environment(\.colorScheme) private var scheme
     @State private var hovered = false
     private var dark: Bool { scheme == .dark }
@@ -446,20 +484,35 @@ struct ClipCard: View {
         preferences = model.preferences
         now = model.displayTime
         remote = model.remotePeer != nil
+        renaming = model.renamingID == clip.id
     }
 
     var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 8 * scale) {
+                // The type stays visible as an icon once a name replaces it.
+                Image(systemName: clip.kind.symbol).font(.system(size: 13 * scale, weight: .semibold)).foregroundStyle(Palette.accent(clip.kind, dark: dark)).frame(width: 16 * scale)
                 VStack(alignment: .leading, spacing: 1) {
-                    Text(clip.name.isEmpty ? clip.typeTitle : clip.name).font(.system(size: 12 * scale, weight: .bold)).lineLimit(1).foregroundStyle(Palette.accent(clip.kind, dark: dark))
+                    if renaming {
+                        CardNameField(model: model, clip: clip, scale: scale).foregroundStyle(Palette.accent(clip.kind, dark: dark))
+                    } else {
+                        // A given name reads as a title; the type shown by default stays in the type's color, lighter.
+                        if clip.name.isEmpty {
+                            Text(clip.typeTitle).font(.system(size: 12 * scale, weight: .semibold)).lineLimit(1).foregroundStyle(Palette.accent(clip.kind, dark: dark).opacity(0.8))
+                        } else {
+                            Text(clip.name).font(.system(size: 12.5 * scale, weight: .bold)).lineLimit(1).foregroundStyle(.primary)
+                        }
+                    }
                     Text(model.relativeAge(clip.firstCopyDate)).font(.system(size: max(10, 11 * scale))).foregroundStyle(.secondary).lineLimit(1)
                 }
                 Spacer(minLength: 2)
+                if clip.snippet { SnippetBadge(clip: clip, size: 15 * scale) }
                 if clip.favorite { Image(systemName: "star.fill").font(.system(size: 12 * scale)).foregroundStyle(.yellow).accessibilityLabel(L("Favorites")) }
                 Image(nsImage: ApplicationCatalog.app(clip.sourceBundle).icon).resizable().interpolation(.high).frame(width: 28 * scale, height: 28 * scale).help(clip.sourceName)
-            }.padding(.leading, 12).padding(.trailing, 10).frame(height: 42 * scale)
+            }.padding(.leading, 10).padding(.trailing, 10).frame(height: 42 * scale)
                 .background(Palette.accent(clip.kind).opacity(dark ? 0.16 : 0.14))
+                .contentShape(Rectangle())
+                .onTapGesture { headerClick() }
             ClipContent(model: model, clip: clip, scale: scale, compact: compact).frame(maxWidth: .infinity, maxHeight: .infinity).clipped()
             HStack(spacing: 6) {
                 if index < 9 {
@@ -482,7 +535,7 @@ struct ClipCard: View {
         .background { if cursor { GeometryReader { proxy in Color.clear.preference(key: CursorFrameKey.self, value: proxy.frame(in: .global)) } } }
         .contentShape(RoundedRectangle(cornerRadius: 12))
         .onHover { hovered = $0 }
-        .onTapGesture(count: 2) { model.select(clip.id); model.paste([clip], plain: NSEvent.modifierFlags.contains(.shift)) }
+        .onTapGesture(count: 2) { model.cancelRename(); model.select(clip.id); model.paste([clip], plain: NSEvent.modifierFlags.contains(.shift)) }
         .onTapGesture { model.select(clip.id, modifiers: NSEvent.modifierFlags) }
         .contextMenu { ClipActions(model: model, clip: clip) }
         .onDrag { itemProvider() }
@@ -491,6 +544,19 @@ struct ClipCard: View {
         .accessibilityValue(selected ? L("Selected") : "")
         .accessibilityAddTraits(.isButton)
         .accessibilityAction { model.select(clip.id); model.paste([clip]) }
+    }
+
+    /// The header takes its own clicks, so it tells a double-click from a click that renames a selected card.
+    private func headerClick() {
+        guard !renaming else { return }
+        let flags = NSEvent.modifierFlags
+        if NSApp.currentEvent?.clickCount ?? 1 >= 2 {
+            model.cancelRename(); model.select(clip.id); model.paste([clip], plain: flags.contains(.shift))
+        } else if selected, cursor, model.selection.count == 1, !remote, flags.intersection([.command, .shift]).isEmpty {
+            model.scheduleRename(clip.id)
+        } else {
+            model.select(clip.id, modifiers: flags)
+        }
     }
 
     /// Time left before the clip expires, in orange during its last day.
@@ -697,8 +763,8 @@ struct ClipActions: View {
             if #available(macOS 13, *) { ShareLink(item: url) { Label(L("Share"), systemImage: "square.and.arrow.up") } }
             Divider()
         }
-        Button { model.paste(model.boardClips.filter { ids.contains($0.id) }) } label: { Label(L("Paste"), systemImage: "doc.on.clipboard") }.keyboardShortcut(.return, modifiers: [])
-        Button { model.paste(model.boardClips.filter { ids.contains($0.id) }, plain: true) } label: { Label(L("Paste as plain text"), systemImage: "text.alignleft") }.keyboardShortcut(.return, modifiers: .shift)
+        Button { model.paste(model.boardClips.filter { ids.contains($0.id) }) } label: { Label(model.pastesDirectly ? L("Paste") : L("Copy"), systemImage: "doc.on.clipboard") }.keyboardShortcut(.return, modifiers: [])
+        Button { model.paste(model.boardClips.filter { ids.contains($0.id) }, plain: true) } label: { Label(model.pastesDirectly ? L("Paste as plain text") : L("Copy as plain text"), systemImage: "text.alignleft") }.keyboardShortcut(.return, modifiers: .shift)
         Button { model.paste(model.boardClips.filter { ids.contains($0.id) }, copyOnly: true) } label: { Label(L("Copy"), systemImage: "doc.on.doc") }.keyboardShortcut("c")
         // Items from another Mac only become editable once pasted into the local history.
         if model.remotePeer == nil { localActions }
@@ -707,6 +773,8 @@ struct ClipActions: View {
     @ViewBuilder private var localActions: some View {
         Divider()
         Button { model.toggleFavorite(ids) } label: { Label(clip.favorite ? L("Remove from favorites") : L("Add to favorites"), systemImage: clip.favorite ? "star.slash" : "star") }.keyboardShortcut("d")
+        Button { model.renamingID = nil; model.snippetEditor = clip.id } label: { Label(L("Make a snippet"), systemImage: "curlybraces") }.keyboardShortcut("s")
+        if clip.snippet { Button { model.removeSnippets(ids) } label: { Label(L("Remove from snippets"), systemImage: "minus.circle") } }
         Menu {
             ForEach(model.library.collections) { collection in
                 Button { model.assignCollection(collection.id, ids: ids) } label: {
@@ -730,3 +798,27 @@ struct ClipActions: View {
         Button(role: .destructive) { model.remove(ids) } label: { Label(L("Delete"), systemImage: "trash") }.keyboardShortcut(.delete)
     }
 }
+
+/// Edits a card's name in place: Return or a click elsewhere keeps it, Escape (handled by the panel) drops it.
+struct CardNameField: View {
+    let model: AppModel
+    let clip: Clip
+    let scale: Double
+    @State private var name = ""
+    @FocusState private var focused: Bool
+
+    var body: some View {
+        TextField(clip.typeTitle, text: $name)
+            .textFieldStyle(.plain).font(.system(size: 12 * scale, weight: .bold))
+            .focused($focused)
+            .onSubmit { commit() }
+            .onChanged(focused) { if !$0 { commit() } }
+            .onAppear { name = clip.name; DispatchQueue.main.async { focused = true } }
+    }
+
+    private func commit() {
+        guard model.renamingID == clip.id else { return }
+        model.rename(clip.id, to: name)
+    }
+}
+

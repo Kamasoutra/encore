@@ -53,7 +53,7 @@ struct InspectorView: View {
                     if clip.kind == .code {
                         Picker(L("Language"), selection: $language) {
                             Text(L("None")).tag("")
-                            ForEach(CodeLanguage.common, id: \.self) { Text($0).tag($0) }
+                            ForEach(CodeLanguage.all) { Text($0.name).tag($0.name) }
                         }.labelsHidden().frame(width: 150)
                     }
                 }
@@ -71,7 +71,7 @@ struct InspectorView: View {
                     }
                 }
                     .onChanged(text) { _ in edited = true; onDirtyChange?(true) }
-                Text(L("In a favorite, {{name}} asks for a value when pasting. {{date}}, {{time}}, {{clipboard}} and {{cursor}} fill in by themselves.")).font(.system(size: 11)).foregroundStyle(.secondary)
+                Text(L("In a snippet, {{name}} asks for a value when pasting. {{date}}, {{time}}, {{clipboard}} and {{cursor}} fill in by themselves.")).font(.system(size: 11)).foregroundStyle(.secondary)
                 HStack {
                     Text(L("\(text.count) characters")).font(.system(size: 11)).foregroundStyle(.secondary)
                     Spacer()
@@ -111,7 +111,6 @@ struct InspectorView: View {
                     .buttonStyle(.borderedProminent).disabled(!(edited || detailsEdited) || editable && edited && text.isEmpty).keyboardShortcut("s", modifiers: .command)
             }
         }
-        .onAppear { if model.renaming { model.renaming = false; nameFocused = true } }
         .padding(25).frame(minWidth: 560, maxWidth: .infinity, minHeight: 520, maxHeight: .infinity).font(.system(size: 13)).tint(Palette.accent).localized()
     }
     private func finish() { if let onClose { onClose() } else { dismiss() } }

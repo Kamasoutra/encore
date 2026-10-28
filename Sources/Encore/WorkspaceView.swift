@@ -206,6 +206,7 @@ struct LibraryBody: View {
 
     private func dayTitle(_ section: ClipSection) -> some View {
         HStack(spacing: 8) {
+            if section.id.hasPrefix("group:"), let language = CodeLanguage.named(section.title) { LanguageIcon(language: language, size: 15) }
             Text(section.title).font(.system(size: 13, weight: .semibold))
             Text(Localization.number(section.items.count)).font(.system(size: 12)).foregroundStyle(.secondary)
         }.frame(height: Self.header).frame(maxWidth: .infinity, alignment: .leading)
@@ -251,11 +252,11 @@ struct LibraryPreview: View {
                 }
                 VStack(spacing: 8) {
                     HStack(spacing: 8) {
-                        Button { model.paste([clip]) } label: { HStack(spacing: 0) { Text(L("Paste")); Text("  ↩").foregroundStyle(.white.opacity(0.7)) }.frame(maxWidth: .infinity) }.buttonStyle(.borderedProminent)
+                        Button { model.paste([clip]) } label: { HStack(spacing: 0) { Text(model.pastesDirectly ? L("Paste") : L("Copy")); Text("  ↩").foregroundStyle(.white.opacity(0.7)) }.frame(maxWidth: .infinity) }.buttonStyle(.borderedProminent)
                         Button { model.inspector = clip } label: { Text(L("Edit")).frame(maxWidth: .infinity) }.disabled(model.remotePeer != nil)
                     }
                     HStack(spacing: 8) {
-                        Button { model.paste([clip], plain: true) } label: { Text(L("Paste as plain text")).lineLimit(1).frame(maxWidth: .infinity) }.disabled(clip.text.isEmpty)
+                        Button { model.paste([clip], plain: true) } label: { Text(model.pastesDirectly ? L("Paste as plain text") : L("Copy as plain text")).lineLimit(1).frame(maxWidth: .infinity) }.disabled(clip.text.isEmpty)
                         Menu(L("Transform")) { ForEach(TextAction.allCases) { action in Button(action.title) { model.transform(action, clip: clip) } } }.disabled(clip.text.isEmpty || model.remotePeer != nil)
                     }
                 }.controlSize(floating ? .small : .regular)

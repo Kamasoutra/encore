@@ -30,6 +30,8 @@ struct Preferences: Codable, Equatable {
     var displayTarget = "active"
     var language = "system"
     var shareWithPeers = false
+    /// Return and double-click paste into the front app; off, they only make the item the current clipboard.
+    var pasteDirectly = true
 
     var retentionPolicy: RetentionPolicy {
         RetentionPolicy(rules: retentionRules, fallback: retentionDays > 0 ? .init(retentionDays, .days) : .forever)
@@ -38,9 +40,9 @@ struct Preferences: Codable, Equatable {
     init() {}
 
     private enum CodingKeys: String, CodingKey {
+        case soundsEnabled, soundTheme, soundVolume, captureSoundPath, pasteSoundPath, displayTarget, stackShortcutEnabled, disabledDefaultExclusions, language, shareWithPeers, pasteDirectly
         case retentionDays, historyLimit, storageLimitMB, captureEnabled, ignoreSensitive, recognizeImages
         case excludedBundleIDs, panelHeight, compact, appearance, shortcut, retentionRules, cardScale, importScreenshots, copyScreenshotsToClipboard, screenshotFolder
-        case soundsEnabled, soundTheme, soundVolume, captureSoundPath, pasteSoundPath, displayTarget, stackShortcutEnabled, disabledDefaultExclusions, language, shareWithPeers
     }
 
     init(from decoder: Decoder) throws {
@@ -73,6 +75,7 @@ struct Preferences: Codable, Equatable {
         displayTarget = try values.decodeIfPresent(String.self, forKey: .displayTarget) ?? "active"
         language = try values.decodeIfPresent(String.self, forKey: .language) ?? "fr"
         shareWithPeers = try values.decodeIfPresent(Bool.self, forKey: .shareWithPeers) ?? false
+        pasteDirectly = try values.decodeIfPresent(Bool.self, forKey: .pasteDirectly) ?? true
     }
 
     static func load(demo: Bool) -> Preferences {

@@ -48,11 +48,14 @@ final class SnippetTests: XCTestCase {
         XCTAssertNil(SnippetTemplate("plain").map(\.text))
     }
 
-    func testSnippetFileExportsTextFavoritesAndMergesWithoutDuplicates() throws {
+    func testSnippetFileExportsTextSnippetsAndMergesWithoutDuplicates() throws {
         var library = Library()
-        var favorite = Clip(fingerprint: ClipPayload.text("git status").fingerprint, kind: .code, text: "git status", favorite: true)
-        favorite.name = "Status"
-        library.clips = [favorite, Clip(kind: .text, text: "not a favorite"), Clip(kind: .image, text: "", favorite: true)]
+        var snippet = Clip(fingerprint: ClipPayload.text("git status").fingerprint, kind: .code, text: "git status")
+        snippet.name = "Status"
+        snippet.snippet = true
+        var image = Clip(kind: .image, text: "")
+        image.snippet = true
+        library.clips = [snippet, Clip(kind: .text, text: "a favorite", favorite: true), image]
         let file = SnippetFile(library: library)
         XCTAssertEqual(file.snippets, [.init(name: "Status", text: "git status")])
 
@@ -68,7 +71,16 @@ final class SnippetTests: XCTestCase {
         XCTAssertEqual(existing.tags, ["git"])
         XCTAssertEqual(existing.language, "Bash")
         let added = try XCTUnwrap(merged.library.clips.first { $0.text == "Kind regards" })
-        XCTAssertTrue(added.favorite)
+        XCTAssertTrue(added.snippet)
+        XCTAssertFalse(added.favorite)
+        XCTAssertTrue(added.isProtected)
+
+        // Items named in development builds, before the snippet flag, become snippets.
+        var json = try XCTUnwrap(JSONSerialization.jsonObject(with: JSONEncoder().encode(snippet)) as? [String: Any])
+        json.removeValue(forKey: "snippet")
+        XCTAssertTrue(try JSONDecoder().decode(Clip.self, from: JSONSerialization.data(withJSONObject: json)).snippet)
+        json["name"] = ""
+        XCTAssertFalse(try JSONDecoder().decode(Clip.self, from: JSONSerialization.data(withJSONObject: json)).snippet)
         XCTAssertEqual(added.name, "Signature")
         XCTAssertEqual(added.fingerprint, ClipPayload.text("Kind regards").fingerprint)
     }
@@ -79,5 +91,43 @@ final class SnippetTests: XCTestCase {
         XCTAssertEqual(code.snippetGroup, "Swift")
         XCTAssertEqual(tagged.snippetGroup, "#admin")
         XCTAssertEqual(Clip(kind: .text, text: "z").snippetGroup, "")
+    }
+
+    func testLanguageCatalogAndDetection() {
+        XCTAssertGreaterThan(CodeLanguage.all.count, 80)
+        XCTAssertEqual(Set(CodeLanguage.all.map(\.name)).count, CodeLanguage.all.count)
+        XCTAssertEqual(CodeLanguage.named("py")?.name, "Python")
+        XCTAssertEqual(CodeLanguage.named("c#")?.name, "C#")
+        XCTAssertEqual(CodeLanguage.search("ty").first?.name, "TypeScript")
+        XCTAssertEqual(CodeLanguage.search("js").first?.name, "JavaScript")
+        var clip = Clip(kind: .code, text: "x")
+        clip.language = "JavaScript"
+        XCTAssertTrue(ClipQuery(query: "lang:js").matches(clip))
+
+        let samples: [(String, String?)] = [
+            ("#!/usr/bin/env python3\nprint('hi')", "Python"),
+            ("def greet(name):\n    return f'hi {name}'\n\nimport os", "Python"),
+            ("import SwiftUI\n\nstruct A: View {\n    @State var x = 0\n}", "Swift"),
+            ("fn main() {\n    let mut x = 1;\n    println!(\"{}\", x);\n}", "Rust"),
+            ("package main\n\nfunc main() {\n\tx := 1\n\tfmt.Println(x)\n}", "Go"),
+            ("SELECT id, name\nFROM users\nWHERE id = 1;", "SQL"),
+            ("select * from users;\ninsert into logs values (1);", "SQL"),
+            ("const add = (a, b) => a + b;\nconsole.log(add(1, 2));", "JavaScript"),
+            ("interface User {\n  name: string;\n  age: number;\n}", "TypeScript"),
+            ("{\"name\": \"encore\", \"version\": 1}", "JSON"),
+            ("<!DOCTYPE html>\n<html><body></body></html>", "HTML"),
+            ("<?php echo 'hi'; ?>", "PHP"),
+            ("FROM swift:5.10\nRUN swift build", "Dockerfile"),
+            (".card {\n  color: red;\n  margin: 0;\n}", "CSS"),
+            ("# Title\n\nSome [link](https://x.y) here.", "Markdown"),
+            ("defmodule Hello do\n  def world, do: :ok |> IO.inspect\nend", "Elixir"),
+            ("Bonjour, à demain pour le point projet.", nil),
+            ("https://example.com/path?x=1", nil),
+        ]
+        for (text, expected) in samples { XCTAssertEqual(CodeLanguage.detect(text)?.name, expected, text) }
+        // Long single lines must not make any pattern backtrack for seconds.
+        let start = Date()
+        for filler in ["a-b ", "select ", "def x(", ".a .b ", "$x = ", "- k: "] { _ = CodeLanguage.detect(String(repeating: filler, count: 2_000)) }
+        XCTAssertLessThan(Date().timeIntervalSince(start), 1)
     }
 }

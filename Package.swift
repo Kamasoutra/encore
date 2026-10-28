@@ -9,7 +9,7 @@ let package = Package(
     dependencies: [.package(url: "https://github.com/sparkle-project/Sparkle", exact: "2.10.0")],
     targets: [
         .target(name: "EncoreCore", resources: [.process("Resources")]),
-        .executableTarget(name: "Encore", dependencies: ["EncoreCore", .product(name: "Sparkle", package: "Sparkle")], resources: [.copy("Resources/Sounds")]),
+        .executableTarget(name: "Encore", dependencies: ["EncoreCore", .product(name: "Sparkle", package: "Sparkle")], resources: [.copy("Resources/Sounds"), .copy("Resources/Languages")]),
         .testTarget(name: "EncoreCoreTests", dependencies: ["EncoreCore"]),
         .testTarget(name: "EncoreAppTests", dependencies: ["Encore"])
     ]

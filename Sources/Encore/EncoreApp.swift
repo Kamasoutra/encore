@@ -228,6 +228,8 @@ final class EncorePanel: NSPanel {
         if model.board != "history" { model.board = "history" }
         model.query = ""
         model.snippetForm = nil
+        model.renamingID = nil
+        model.snippetEditor = nil
         model.expanded = false
         model.searchFocused = false
         model.resetSelection()
@@ -253,6 +255,15 @@ final class EncorePanel: NSPanel {
             if event.keyCode == 53 { model.snippetForm = nil; return nil }
             return event
         }
+        if model.snippetEditor != nil {
+            if event.keyCode == 53 { model.snippetEditor = nil; return nil }
+            return event
+        }
+        // While a card's name is edited, keys go to its field; Escape leaves the name unchanged.
+        if model.renamingID != nil {
+            if event.keyCode == 53 { model.renamingID = nil; return nil }
+            return event
+        }
         let flags = event.modifierFlags.intersection([.command, .shift, .option, .control])
         let command = flags.contains(.command)
         let shift = flags.contains(.shift)
@@ -267,7 +278,8 @@ final class EncorePanel: NSPanel {
                 return nil
             case "t": model.preferences.captureEnabled.toggle(); model.preferencesChanged(); return nil
             case "e": model.inspector = model.selected; return nil
-            case "r": model.renaming = true; model.inspector = model.selected; return nil
+            case "r": if model.remotePeer == nil { model.renamingID = model.selected?.id }; return nil
+            case "s": if model.remotePeer == nil, let id = model.selected?.id { model.renamingID = nil; model.snippetEditor = id }; return nil
             case "d": model.toggleFavorite(); return nil
             case "+", "=": model.zoomCards(0.05); return nil
             case "-": model.zoomCards(-0.05); return nil
@@ -281,7 +293,7 @@ final class EncorePanel: NSPanel {
                 }
             }
             if event.keyCode == 123 || event.keyCode == 124 {
-                let boards = ["history", "favorites"] + model.library.collections.map { $0.id.uuidString } + model.peers.map { "peer:\($0.id)" }
+                let boards = model.boards
                 let current = boards.firstIndex(of: model.board) ?? 0
                 model.board = boards[(current + Localization.step(rightArrow: event.keyCode == 124) + boards.count) % boards.count]
                 return nil
@@ -483,7 +495,7 @@ final class EncorePanel: NSPanel {
     @objc private func quit() { NSApp.terminate(nil) }
     @objc private func about() {
         NSApp.activate(ignoringOtherApps: true)
-        NSApp.orderFrontStandardAboutPanel(options: [.applicationName: "encore", .applicationVersion: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "", .credits: NSAttributedString(string: L("Your clipboard. Yours to keep.\nNative, local, and open source.\nMIT license · github.com/Kamasoutra/encore"))])
+        NSApp.orderFrontStandardAboutPanel(options: [.applicationName: "encore", .applicationVersion: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "", .credits: NSAttributedString(string: L("Your clipboard. Yours to keep.\nNative, local, and open source.\nMIT license · github.com/Kamasoutra/encore") + "\n\nSeti UI icons © Jesse Weed · MIT")])
     }
 
     private func installMenu() {

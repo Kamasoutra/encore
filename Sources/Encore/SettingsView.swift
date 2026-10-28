@@ -111,6 +111,9 @@ struct SettingsView: View {
                     }
                 }
                 caption(L("Accessibility access enables direct and sequential paste. Without it, Encore copies the item for you to paste with ⌘V."))
+                described(L("Off, they copy the item and bring it back to the top, ready to paste with ⌘V. A plain text copy leaves it in place.")) {
+                    Toggle(L("Paste on Return and double-click"), isOn: $model.preferences.pasteDirectly)
+                }
                 if !model.accessibilityGranted {
                     caption(L("macOS has not authorized this version of Encore. If access was already granted, turn Encore off and on in Accessibility. If needed, remove the old entry and add the installed app. Ad-hoc signatures can invalidate access after an update."))
                 }
@@ -246,7 +249,7 @@ struct SettingsView: View {
                     Button { model.exportSnippets() } label: { Label(L("Export snippets…"), systemImage: "text.badge.star") }
                     Button { model.importSnippets() } label: { Label(L("Import snippets…"), systemImage: "square.and.arrow.down") }
                 }
-                caption(L("Snippets are your text favorites with their names and tags, as readable JSON to keep or share."))
+                caption(L("Snippets with text, their names, languages and tags, as readable JSON to keep or share."))
                 Button(L("Clear history…"), role: .destructive) { model.clearHistory() }
             }
             if updates.available {
@@ -266,9 +269,10 @@ struct SettingsView: View {
     private var peers: some View {
         SettingsForm {
             SettingsGroup(L("Sharing")) {
-                Toggle(L("Share history with my paired Macs"), isOn: $model.preferences.shareWithPeers).disabled(model.peerService == nil)
                 InfoRow(L("This Mac’s name"), value: model.deviceName)
-                caption(L("Off by default. When on, your paired Macs can browse this history and fetch an item on demand, over the local network only. Nothing is copied automatically. Excluded apps, files and confidential content are never shared."))
+                described(L("Off by default. When on, your paired Macs can browse this history and fetch an item on demand, over the local network only. Nothing is copied automatically. Excluded apps, files and confidential content are never shared.")) {
+                    Toggle(L("Share history"), isOn: $model.preferences.shareWithPeers).disabled(model.peerService == nil)
+                }
             }
             SettingsGroup(L("Paired Macs")) {
                 if model.peers.isEmpty { Text(L("No paired Mac")).foregroundStyle(.secondary).padding(.vertical, 8) }
@@ -292,9 +296,9 @@ struct SettingsView: View {
     private var shortcuts: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 21) {
-                shortcutGroup(L("Essentials"), items: [(L("Show / hide"), model.shortcutStatus), (L("Paste"), "↩"), (L("Paste as plain text"), "⇧↩"), (L("Quick paste"), "⌘1 … ⌘9"), (L("Paste queue"), model.preferences.stackShortcutEnabled ? "⌘⇧C" : L("From the shelf"))])
+                shortcutGroup(L("Essentials"), items: [(L("Show / hide"), model.shortcutStatus), (model.pastesDirectly ? L("Paste") : L("Copy"), "↩"), (model.pastesDirectly ? L("Paste as plain text") : L("Copy as plain text"), "⇧↩"), (L("Quick paste"), "⌘1 … ⌘9"), (L("Paste queue"), model.preferences.stackShortcutEnabled ? "⌘⇧C" : L("From the shelf"))])
                 shortcutGroup(L("Navigation"), items: [(L("Full library"), "↑"), (L("Reduce"), "↓"), (L("Select"), "← →"), (L("Extend selection"), "⇧←  ⇧→"), (L("Preview"), L("space")), (L("Search"), L("⌘F or start typing")), (L("Card size"), "⌘+  ⌘−"), (L("Select all"), "⌘A")])
-                shortcutGroup(L("Organize & edit"), items: [(L("Edit"), "⌘E"), (L("Favorite"), "⌘D"), (L("Add to queue"), "⌘⇧↩"), (L("New snippet"), "⌘N"), (L("New collection"), "⌘⇧N"), (L("Delete / undo"), "⌘⌫ / ⌘Z"), (L("Toggle capture"), "⌘T"), (L("Settings"), "⌘,")])
+                shortcutGroup(L("Organize & edit"), items: [(L("Edit"), "⌘E"), (L("Rename"), "⌘R"), (L("Make a snippet"), "⌘S"), (L("Favorite"), "⌘D"), (L("Add to queue"), "⌘⇧↩"), (L("New snippet"), "⌘N"), (L("New collection"), "⌘⇧N"), (L("Delete / undo"), "⌘⌫ / ⌘Z"), (L("Toggle capture"), "⌘T"), (L("Settings"), "⌘,")])
                 VStack(alignment: .leading, spacing: 10) {
                     Text(L("Advanced search")).font(.system(size: 13, weight: .semibold))
                     Text("app:safari   type:image   date:today\nafter:2026-10-01   before:2026-11-01").font(.system(size: 12, design: .monospaced)).textSelection(.enabled)
@@ -325,6 +329,14 @@ struct SettingsView: View {
         let native = Localization.nativeName(code), local = Localization.displayName(code)
         return native.caseInsensitiveCompare(local) == .orderedSame ? native : "\(native) (\(local))"
     }
+    /// A setting and its explanation in one row, so the text keeps its distance from the next setting.
+    private func described<Content: View>(_ text: String, @ViewBuilder _ content: () -> Content) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            content()
+            caption(text)
+        }.padding(.vertical, 4)
+    }
+
     private func caption(_ text: String) -> some View { Text(text).font(.system(size: 12)).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true) }
     private func percentageControl(_ title: String, symbol: String, value: Binding<Double>, range: ClosedRange<Double>) -> some View {
         VStack(spacing: 10) {
@@ -400,7 +412,7 @@ private struct PairingSheet: View {
 
     private var discovery: some View {
         VStack(alignment: .leading, spacing: 12) {
-            note(L("Turn on “Share history with my paired Macs” on the other Mac, then choose it below. Both Macs must be on the same network."))
+            note(L("Turn on “Share history” on the other Mac, then choose it below. Both Macs must be on the same network."))
             VStack(spacing: 0) {
                 if model.nearbyMacs.isEmpty {
                     HStack(spacing: 8) { ProgressView().controlSize(.small); Text(L("Looking for nearby Macs…")).foregroundStyle(.secondary) }.frame(maxWidth: .infinity, alignment: .leading).padding(12)

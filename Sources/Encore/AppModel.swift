@@ -36,9 +36,13 @@ struct PeerStatus: Identifiable, Equatable {
     var libraryColumns = 1
     @Published var inspector: Clip? { didSet { if let inspector { presentInspector?(inspector) } } }
     /// Set by ⌘R so the inspector opens with its name field focused.
-    var renaming = false
+    /// The card whose name is being edited in place, from ⌘R or a click on a selected card's header.
+    @Published var renamingID: UUID?
+    private var pendingRename: DispatchWorkItem?
     /// A snippet waiting for its {{fields}} before being pasted.
     @Published var snippetForm: SnippetForm?
+    /// The card being filed as a snippet with ⌘S.
+    @Published var snippetEditor: UUID?
     @Published var queue: [UUID] = []
     @Published var collecting = false { didSet { if !collecting && oldValue { stackTap?.stop() } } }
     @Published var displayTime = Date()
@@ -114,11 +118,11 @@ struct PeerStatus: Identifiable, Equatable {
         startPeers()
     }
 
-    /// Matching items in display order: favorites grouped by language or tag, name matches first while searching.
+    /// Matching items in display order: snippets grouped by language or tag, name matches first while searching.
     var filtered: [Clip] {
-        let search = ClipQuery(query: query, kind: kind, source: source, favorites: board == "favorites", collectionID: UUID(uuidString: board))
+        let search = ClipQuery(query: query, kind: kind, source: source, favorites: board == "favorites", snippets: board == "snippets", collectionID: UUID(uuidString: board))
         let matches = boardClips.filter { search.matches($0) }
-        if board == "favorites" {
+        if board == "snippets" {
             // Groups in alphabetical order, untagged last; most recent first inside a group.
             return matches.enumerated().sorted { a, b in
                 let (left, right) = (a.element.snippetGroup, b.element.snippetGroup)
@@ -130,15 +134,18 @@ struct PeerStatus: Identifiable, Equatable {
         let named = matches.filter(search.matchesName)
         return named.isEmpty ? matches : named + matches.filter { !search.matchesName($0) }
     }
-    /// Cards in sections: by group on Favorites, otherwise name matches then days.
+    /// Cards in sections: by group on Snippets, otherwise name matches then days.
     var sections: [ClipSection] {
         let clips = filtered
-        if board == "favorites" { return ClipSection.snippets(clips) }
+        if board == "snippets" { return ClipSection.snippets(clips) }
         let search = ClipQuery(query: query)
         return ClipSection.group(clips, now: displayTime, named: clips.prefix(while: search.matchesName).count)
     }
     /// Local history, or the recent history of the paired Mac picked as board ("peer:<device id>").
     var boardClips: [Clip] { remotePeer == nil ? library.clips : remoteItems }
+    /// The Snippets board appears with the first snippet.
+    var hasSnippets: Bool { library.clips.contains(where: \.snippet) }
+    var boards: [String] { ["history", "favorites"] + (hasSnippets ? ["snippets"] : []) + library.collections.map(\.id.uuidString) + peers.map { "peer:\($0.id)" } }
     var remotePeer: PeerStatus? { board.hasPrefix("peer:") ? peers.first { "peer:\($0.id)" == board } : nil }
     var selectedClips: [Clip] { filtered.filter { selection.contains($0.id) } }
     var selected: Clip? { boardClips.first { $0.id == cursor } }
@@ -366,6 +373,7 @@ struct PeerStatus: Identifiable, Equatable {
         if preferences.shareWithPeers || !peers.isEmpty || pairingSheet { service.startBrowsing() } else { service.stopBrowsing() }
     }
 
+
     func beginPairing(with device: PeerDevice) {
         guard let service = peerService else { return }
         attach(service.pair(with: device))
@@ -478,6 +486,9 @@ struct PeerStatus: Identifiable, Equatable {
         refreshInstalledExclusions()
     }
 
+    /// Whether Return and double-click paste into the front app rather than only copy.
+    var pastesDirectly: Bool { preferences.pasteDirectly && accessibilityGranted }
+
     func notify(_ message: String) {
         statusTask?.cancel()
         status = message
@@ -537,7 +548,7 @@ struct PeerStatus: Identifiable, Equatable {
         notify(L("Deletion undone"))
     }
 
-    /// `fields` holds the values typed in the snippet form; without them a favorite with {{fields}} opens the form first.
+    /// `fields` holds the values typed in the snippet form; without them a snippet with {{fields}} opens the form first.
     func paste(_ clips: [Clip]? = nil, plain: Bool = false, copyOnly: Bool = false, fields: [String: String]? = nil) {
         let values = clips ?? selectedClips
         guard !values.isEmpty else { return }
@@ -556,7 +567,8 @@ struct PeerStatus: Identifiable, Equatable {
         guard payloads.count == values.count else { notify(L("Content is unavailable on disk.")); return }
         let origin = values.count == 1 ? values[0].sourceBundle : ""
         var charactersAfterCursor: Int?
-        if values.count == 1, values[0].favorite, let template = SnippetTemplate(values[0].text) {
+        var exact = false
+        if values.count == 1, values[0].snippet, let template = SnippetTemplate(values[0].text) {
             if fields == nil, !template.fields.isEmpty { snippetForm = SnippetForm(clip: values[0], fields: template.fields, plain: plain, copyOnly: copyOnly); return }
             let rendered = template.render(values: fields ?? [:], clipboard: clipboard.currentText)
             clipboard.write(.text(rendered.text), sourceBundle: origin)
@@ -569,11 +581,19 @@ struct PeerStatus: Identifiable, Equatable {
             clipboard.write(.text(values.map(\.text).joined(separator: "\n")), sourceBundle: origin)
         } else {
             clipboard.write(ClipPayload(items: payloads.flatMap(\.items)), sourceBundle: origin)
+            exact = values.count == 1
         }
         for index in library.clips.indices where values.contains(where: { $0.id == library.clips[index].id }) { library.clips[index].lastUsedAt = Date() }
+        let pasting = !copyOnly && preferences.pasteDirectly
+        if !pasting, exact, let index = library.clips.firstIndex(where: { $0.id == values[0].id }) {
+            // The item is now the current clipboard, so it moves back to the top like a fresh copy. Plain text or a filled snippet is a different content and leaves it in place.
+            library.clips[index].firstCopiedAt = library.clips[index].firstCopyDate
+            library.clips[index].copiedAt = Date()
+            library.clips.sort { $0.copiedAt > $1.copiedAt }
+        }
         save()
         playSound(.paste)
-        guard !copyOnly else { notify(L("Copied to clipboard")); return }
+        guard pasting else { if !copyOnly { dismissPanel?() }; notify(L("Copied to clipboard")); return }
         accessibilityGranted = AXIsProcessTrusted()
         let target = activateTarget?()
         dismissPanel?()
@@ -609,15 +629,34 @@ struct PeerStatus: Identifiable, Equatable {
         down?.post(tap: .cghidEventTap); up?.post(tap: .cghidEventTap)
     }
 
-    /// Saves a name, tags and language. Naming or tagging an item makes it a favorite, where snippets live.
-    func updateSnippet(_ id: UUID, name: String, tags: [String], language: String?) {
+    /// Saves a name, tags and language. Naming or tagging an item makes it a snippet.
+    func updateSnippet(_ id: UUID, name: String, tags: [String], language: String?, snippet: Bool = false) {
         guard let index = library.clips.firstIndex(where: { $0.id == id }) else { return }
         library.clips[index].name = String(name.trimmingCharacters(in: .whitespacesAndNewlines).prefix(100))
         library.clips[index].tags = tags
         library.clips[index].language = language
-        if !library.clips[index].name.isEmpty || !tags.isEmpty { library.clips[index].favorite = true }
+        if snippet || !library.clips[index].name.isEmpty || !tags.isEmpty { library.clips[index].snippet = true }
         save()
         reconcileSelection()
+    }
+
+    /// A click on a selected card's header renames it, unless a second click turns it into a double-click.
+    func scheduleRename(_ id: UUID) {
+        pendingRename?.cancel()
+        let work = DispatchWorkItem { [weak self] in
+            guard let self, self.cursor == id, self.selection == [id] else { return }
+            self.renamingID = id
+        }
+        pendingRename = work
+        DispatchQueue.main.asyncAfter(deadline: .now() + NSEvent.doubleClickInterval, execute: work)
+    }
+
+    func cancelRename() { pendingRename?.cancel(); pendingRename = nil }
+
+    func rename(_ id: UUID, to name: String) {
+        renamingID = nil
+        guard let clip = library.clips.first(where: { $0.id == id }), clip.name != name.trimmingCharacters(in: .whitespacesAndNewlines) else { return }
+        updateSnippet(id, name: name, tags: clip.tags, language: clip.language)
     }
 
     /// Tags used on the current board, for the library filters.
@@ -682,6 +721,7 @@ struct PeerStatus: Identifiable, Equatable {
         for duplicate in duplicates {
             library.clips[index].favorite = library.clips[index].favorite || duplicate.favorite
             library.clips[index].collectionIDs.formUnion(duplicate.collectionIDs)
+            library.clips[index].adoptSnippetDetails(of: duplicate)
         }
         let removed = Set(duplicates.map(\.id))
         library.clips.removeAll { removed.contains($0.id) }
@@ -782,6 +822,13 @@ struct PeerStatus: Identifiable, Equatable {
         library.collections.append(collection)
         board = collection.id.uuidString
         save()
+    }
+
+    /// Removes items from the snippets; they keep their name, tags and language, and return to the normal history lifetime.
+    func removeSnippets(_ ids: Set<UUID>) {
+        for index in library.clips.indices where ids.contains(library.clips[index].id) { library.clips[index].snippet = false }
+        save()
+        if board == "snippets" && !hasSnippets { board = "history" } else { reconcileSelection() }
     }
 
     func deleteCollection(_ collection: ClipCollection) {

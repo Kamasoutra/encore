@@ -73,6 +73,8 @@ public struct Clip: Codable, Identifiable, Equatable, Sendable {
     public var name: String
     public var tags: [String]
     public var language: String?
+    /// Saved as a snippet: listed in its own board and kept forever, apart from favorites.
+    public var snippet: Bool
 
     public init(id: UUID = UUID(), fingerprint: String = "", kind: ClipKind, text: String, title: String = "", sourceName: String = "Encore", sourceBundle: String = "", copiedAt: Date = Date(), favorite: Bool = false, byteCount: Int = 0, fileNames: [String] = [], referencedFileBytes: Int64? = nil) {
         self.id = id
@@ -92,10 +94,11 @@ public struct Clip: Codable, Identifiable, Equatable, Sendable {
         self.referencedFileBytes = referencedFileBytes
         self.name = ""
         self.tags = []
+        self.snippet = false
     }
 
     private enum CodingKeys: String, CodingKey {
-        case id, fingerprint, kind, text, title, sourceName, sourceBundle, copiedAt, lastUsedAt, favorite, collectionIDs, recognizedText, byteCount, fileNames, firstCopiedAt, referencedFileBytes, name, tags, language
+        case id, fingerprint, kind, text, title, sourceName, sourceBundle, copiedAt, lastUsedAt, favorite, collectionIDs, recognizedText, byteCount, fileNames, firstCopiedAt, referencedFileBytes, name, tags, language, snippet
     }
 
     /// Libraries written before snippets have no name, tags or language: they decode as empty.
@@ -120,6 +123,8 @@ public struct Clip: Codable, Identifiable, Equatable, Sendable {
         name = try values.decodeIfPresent(String.self, forKey: .name) ?? ""
         tags = try values.decodeIfPresent([String].self, forKey: .tags) ?? []
         language = try values.decodeIfPresent(String.self, forKey: .language)
+        // Development builds of snippets marked a named item as a favorite instead.
+        snippet = try values.decodeIfPresent(Bool.self, forKey: .snippet) ?? !name.isEmpty
     }
 
     /// Tags typed as free text: split on commas, spaces or #, lowercased, without duplicates.
@@ -140,7 +145,7 @@ public struct Clip: Codable, Identifiable, Equatable, Sendable {
         return String(text.split(separator: "\n").first.map(String.init)?.prefix(100) ?? L("Untitled").prefix(100))
     }
 
-    public var isProtected: Bool { favorite || !collectionIDs.isEmpty }
+    public var isProtected: Bool { favorite || snippet || !collectionIDs.isEmpty }
     public var firstCopyDate: Date { firstCopiedAt ?? copiedAt }
     public var retentionByteCount: Int64? {
         if kind == .file { return referencedFileBytes.flatMap { $0 >= 0 ? $0 : nil } }

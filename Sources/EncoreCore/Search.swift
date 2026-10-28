@@ -5,22 +5,27 @@ public struct ClipQuery {
     public var kind: ClipKind?
     public var source: String?
     public var favorites = false
+    public var snippets = false
     public var collectionID: UUID?
 
-    public init(query: String = "", kind: ClipKind? = nil, source: String? = nil, favorites: Bool = false, collectionID: UUID? = nil) {
-        self.query = query; self.kind = kind; self.source = source; self.favorites = favorites; self.collectionID = collectionID
+    public init(query: String = "", kind: ClipKind? = nil, source: String? = nil, favorites: Bool = false, snippets: Bool = false, collectionID: UUID? = nil) {
+        self.query = query; self.kind = kind; self.source = source; self.favorites = favorites; self.snippets = snippets; self.collectionID = collectionID
     }
 
     public func matches(_ clip: Clip, now: Date = Date(), calendar: Calendar = .current) -> Bool {
         if let kind, clip.kind != kind { return false }
         if let source, clip.sourceBundle != source { return false }
         if favorites && !clip.favorite { return false }
+        if snippets && !clip.snippet { return false }
         if let collectionID, !clip.collectionIDs.contains(collectionID) { return false }
         let haystack = Self.fold("\(clip.name) \(clip.tags.joined(separator: " ")) \(clip.title) \(clip.text) \(clip.recognizedText) \(clip.sourceName) \(clip.fileNames.joined(separator: " "))")
         return query.split(whereSeparator: \.isWhitespace).allSatisfy { token in
             let word = Self.fold(String(token))
             if word.hasPrefix("tag:") { return clip.tags.contains(Self.fold(String(word.dropFirst(4)))) }
-            if word.hasPrefix("lang:") { return clip.language.map(Self.fold) == String(word.dropFirst(5)) }
+            if word.hasPrefix("lang:") {
+                let value = String(word.dropFirst(5))
+                return clip.language.map { Self.fold($0) == value || CodeLanguage.named(value)?.name == $0 } ?? false
+            }
             if word.hasPrefix("app:") { return clip.sourceName.lowercased().contains(word.dropFirst(4)) || clip.sourceBundle.lowercased().contains(word.dropFirst(4)) }
             if word.hasPrefix("type:") {
                 let value = String(word.dropFirst(5))
