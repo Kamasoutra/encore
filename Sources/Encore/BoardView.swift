@@ -314,6 +314,7 @@ struct BoardView: View {
             if model.status.isEmpty {
                 if model.expanded {
                     hint("← ↑ ↓ →", L("navigate"))
+                    hint("⌘← ⌘→", L("boards"))
                     hint("↩", model.pastesDirectly ? L("paste") : L("copy"))
                     hint("⌘E", L("Edit"))
                     hint("⌘R", L("rename"))
@@ -324,6 +325,7 @@ struct BoardView: View {
                     Button { withAnimation(reduceMotion ? .easeOut(duration: 0.15) : .spring(duration: 0.34, bounce: 0.12)) { model.expanded = false } } label: { hint(L("hold ↓"), L("reduce")) }.buttonStyle(.plain)
                 } else {
                     Button { withAnimation(reduceMotion ? .easeOut(duration: 0.15) : .spring(duration: 0.34, bounce: 0.12)) { model.expanded = true } } label: { hint("↑", L("explore")) }.buttonStyle(.plain)
+                    hint("⌘← ⌘→", L("boards"))
                     hint("↩", model.pastesDirectly ? L("paste") : L("copy"))
                     hint("⇧↩", L("plain text"))
                     hint(L("space"), L("preview"))
