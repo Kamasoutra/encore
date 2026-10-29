@@ -128,7 +128,6 @@
 "Expired items will be removed from history. Original files are kept." = "ستتم إزالة العناصر المنتهية الصلاحية من السجل. تبقى ملفاتها الأصلية كما هي.";
 "Expires" = "انتهاء الصلاحية";
 "Expires in %@" = "تنتهي الصلاحية خلال %@";
-"Expires in under 1 min" = "تنتهي الصلاحية خلال أقل من دقيقة";
 "Expires: %@" = "تنتهي الصلاحية: %@";
 "Expiring now" = "تنتهي الصلاحية الآن";
 "Export…" = "تصدير…";

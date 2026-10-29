@@ -128,7 +128,6 @@
 "Expired items will be removed from history. Original files are kept." = "Các mục hết hạn sẽ bị xóa khỏi lịch sử. Tệp gốc vẫn được giữ.";
 "Expires" = "Hết hạn";
 "Expires in %@" = "Hết hạn sau %@";
-"Expires in under 1 min" = "Hết hạn trong chưa đầy 1 phút";
 "Expires: %@" = "Hết hạn: %@";
 "Expiring now" = "Sắp hết hạn";
 "explore" = "mở rộng";

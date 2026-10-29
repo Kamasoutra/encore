@@ -128,7 +128,6 @@
 "Expired items will be removed from history. Original files are kept." = "Položky, kterým už doba vypršela, budou odstraněny z historie. Jejich původní soubory zůstanou nedotčeny.";
 "Expires" = "Vypršení";
 "Expires in %@" = "Vyprší za %@";
-"Expires in under 1 min" = "Vyprší za méně než 1 min";
 "Expires: %@" = "Vyprší: %@";
 "Expiring now" = "Právě vyprší";
 "explore" = "procházet";

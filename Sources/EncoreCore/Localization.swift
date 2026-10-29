@@ -69,6 +69,14 @@ public enum Localization {
         formatter.unitsStyle = .abbreviated
         return formatter.string(from: seconds) ?? ""
     }
+    /// "42 s", in the selected language: the last minute before something expires.
+    public static func seconds(_ seconds: TimeInterval) -> String {
+        let formatter = DateComponentsFormatter()
+        formatter.calendar = calendar
+        formatter.allowedUnits = [.second]
+        formatter.unitsStyle = .short
+        return formatter.string(from: max(1, seconds.rounded(.up))) ?? ""
+    }
     private static var calendar: Calendar { var calendar = Calendar.current; calendar.locale = locale; return calendar }
 }
 

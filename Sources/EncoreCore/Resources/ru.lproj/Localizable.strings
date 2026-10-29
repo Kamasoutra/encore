@@ -128,7 +128,6 @@
 "Expired items will be removed from history. Original files are kept." = "Элементы с истекшим сроком будут удалены из истории. Исходные файлы останутся нетронутыми.";
 "Expires" = "Срок хранения";
 "Expires in %@" = "Истекает через %@";
-"Expires in under 1 min" = "Истекает менее чем через 1 мин";
 "Expires: %@" = "Хранится до: %@";
 "Expiring now" = "Срок истекает";
 "explore" = "обзор";

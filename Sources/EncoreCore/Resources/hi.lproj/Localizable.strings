@@ -128,7 +128,6 @@
 "Expired items will be removed from history. Original files are kept." = "समाप्त हो चुके आइटम इतिहास से हटा दिए जाएँगे। उनकी मूल फ़ाइलें बनी रहेंगी।";
 "Expires" = "समाप्ति";
 "Expires in %@" = "%@ में समाप्त होगा";
-"Expires in under 1 min" = "1 मिनट से कम में समाप्त होगा";
 "Expires: %@" = "समाप्ति: %@";
 "Expiring now" = "अभी समाप्त हो रहा है";
 "Export…" = "एक्सपोर्ट करें…";

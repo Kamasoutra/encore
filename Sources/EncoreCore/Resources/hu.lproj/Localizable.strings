@@ -128,7 +128,6 @@
 "Expired items will be removed from history. Original files are kept." = "A már lejárt elemek kikerülnek az előzményekből. Az eredeti fájljaik érintetlenek maradnak.";
 "Expires" = "Lejárat";
 "Expires in %@" = "Lejár %@ múlva";
-"Expires in under 1 min" = "Kevesebb mint 1 perc múlva lejár";
 "Expires: %@" = "Lejár: %@";
 "Expiring now" = "Most jár le";
 "explore" = "böngészés";

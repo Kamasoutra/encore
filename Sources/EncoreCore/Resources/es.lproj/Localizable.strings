@@ -128,7 +128,6 @@
 "Expired items will be removed from history. Original files are kept." = "Los elementos caducados se eliminarán del historial. Los archivos originales se conservan.";
 "Expires" = "Caduca";
 "Expires in %@" = "Caduca en %@";
-"Expires in under 1 min" = "Caduca en menos de 1 min";
 "Expires: %@" = "Caducidad: %@";
 "Expiring now" = "Caduca ahora";
 "explore" = "explorar";

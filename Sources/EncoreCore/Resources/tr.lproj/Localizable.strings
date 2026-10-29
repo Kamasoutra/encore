@@ -128,7 +128,6 @@
 "Expired items will be removed from history. Original files are kept." = "Süresi dolmuş öğeler geçmişten kaldırılacak. Özgün dosyaları olduğu gibi kalır.";
 "Expires" = "Süre sonu";
 "Expires in %@" = "%@ içinde sona erer";
-"Expires in under 1 min" = "1 dk’dan kısa sürede sona erer";
 "Expires: %@" = "Süre sonu: %@";
 "Expiring now" = "Süresi doluyor";
 "Export…" = "Dışa aktar…";

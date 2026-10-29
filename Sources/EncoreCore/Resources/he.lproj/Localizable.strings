@@ -128,7 +128,6 @@
 "Expired items will be removed from history. Original files are kept." = "פריטים שתוקפם פג יוסרו מההיסטוריה. הקבצים המקוריים שלהם יישארו ללא שינוי.";
 "Expires" = "תפוגה";
 "Expires in %@" = "יפוג בעוד %@";
-"Expires in under 1 min" = "יפוג בעוד פחות מדקה";
 "Expires: %@" = "תפוגה: %@";
 "Expiring now" = "פג תוקף כעת";
 "Export…" = "ייצא…";

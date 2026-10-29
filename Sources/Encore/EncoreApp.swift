@@ -31,6 +31,7 @@ final class EncorePanel: NSPanel {
     private var previousApplication: NSRunningApplication?
     private var permissionTimer: Timer?
     private var retentionTimer: Timer?
+    private var countdownTimer: Timer?
     private var wakeObserver: NSObjectProtocol?
     private var aboutWindow: NSWindow?
     private var screenshots: ScreenshotImporter!
@@ -131,6 +132,15 @@ final class EncorePanel: NSPanel {
             }
         }
         RunLoop.main.add(retentionTimer!, forMode: .common)
+        // Only while the panel shows something that expires within the minute: cards redraw with the time.
+        countdownTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
+            MainActor.assumeIsolated {
+                guard let self, self.panel.isVisible, self.model.expiresWithinAMinute else { return }
+                self.model.prune()
+                self.model.displayTime = Date()
+            }
+        }
+        RunLoop.main.add(countdownTimer!, forMode: .common)
         wakeObserver = NSWorkspace.shared.notificationCenter.addObserver(forName: NSWorkspace.didWakeNotification, object: nil, queue: .main) { [weak self] _ in
             MainActor.assumeIsolated { self?.model.prune() }
         }

@@ -128,7 +128,6 @@
 "Expired items will be removed from history. Original files are kept." = "Item yang sudah kedaluwarsa akan dihapus dari riwayat. File aslinya tetap utuh.";
 "Expires" = "Kedaluwarsa";
 "Expires in %@" = "Kedaluwarsa dalam %@";
-"Expires in under 1 min" = "Kedaluwarsa dalam kurang dari 1 mnt";
 "Expires: %@" = "Kedaluwarsa: %@";
 "Expiring now" = "Segera kedaluwarsa";
 "Export…" = "Ekspor…";

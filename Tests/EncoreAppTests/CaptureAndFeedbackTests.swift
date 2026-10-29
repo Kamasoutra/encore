@@ -96,7 +96,9 @@ final class CaptureAndFeedbackTests: XCTestCase {
             clip.firstCopiedAt = copied.addingTimeInterval(-86400)
             model.preferences.retentionRules = RetentionRule.examples
             model.displayTime = copied.addingTimeInterval(3590)
-            XCTAssertEqual(model.remainingRetention(for: clip), "Expires in under 1 min")
+            XCTAssertEqual(model.remainingRetention(for: clip), "Expires in 10 sec")
+            model.displayTime = copied.addingTimeInterval(3599.2)
+            XCTAssertEqual(model.remainingRetention(for: clip), "Expires in 1 sec", "The last fraction of a second still reads as one second")
             model.displayTime = copied.addingTimeInterval(3600)
             XCTAssertEqual(model.remainingRetention(for: clip), "Expiring now")
             clip.favorite = true
