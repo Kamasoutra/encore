@@ -32,7 +32,7 @@ STRINGS = {
         "copy": "Copy", "copied": "Copied",
         "sound_on": "Turn sound on", "sound_off": "Mute",
         "video": "The encore launch video",
-        "new_tag": "New in 0.6", "new": "A compact window, wherever you want it",
+        "new_tag": "New in 0.6.1", "new": "Safer passwords, and a way to help notarize encore",
         "snippets": ["Snippets", "On every Mac"],
         "snippets_text": "Press ⌘S on any card: a name, a language (encore guesses it among 85) and tags. Placeholders like {{name}} ask for a value before pasting. Your snippets and favorites stay in step between your paired Macs.",
         "snippets_video": "Snippets in encore 0.5",
@@ -81,7 +81,7 @@ STRINGS = {
         "copy": "Copier", "copied": "Copié",
         "sound_on": "Activer le son", "sound_off": "Couper le son",
         "video": "La vidéo de lancement d’encore",
-        "new_tag": "Nouveautés · 0.6", "new": "Une fenêtre compacte, où tu veux",
+        "new_tag": "Nouveautés · 0.6.1", "new": "Mots de passe protégés, et ton aide pour notariser encore",
         "snippets": ["Snippets", "Sur tous tes Mac"],
         "snippets_text": "⌘S sur n’importe quelle carte : un nom, un langage (encore le devine parmi 85) et des tags. Les placeholders comme {{nom}} te demandent une valeur avant de coller. Tes snippets et tes favoris restent synchronisés entre tes Mac appairés.",
         "snippets_video": "Les snippets dans encore 0.5",
@@ -176,12 +176,13 @@ PRIVACY = {
         "honest_lead": "I would rather tell you myself.",
         "honest": [
             "<strong>Your history is not encrypted on disk.</strong> It is protected by your macOS account, and by FileVault when it is on: check System Settings → Privacy & Security → FileVault. Software running under your account could read it, as with most clipboard managers. Encrypting it is on the list.",
-            "<strong>encore is not notarized by Apple yet.</strong> To notarize an app, Apple asks for a developer membership at $99 a year. encore is a free personal project that earns me nothing, so until then the first launch needs “Open Anyway” in System Settings, once. If a small community gets behind it, that is the first thing its support will pay for: <a href='" + SPONSORS + "'>support encore on GitHub Sponsors</a> or <a href='" + KOFI + "'>Ko-fi</a>.",
+            "<strong>encore is not notarized by Apple yet.</strong> To notarize an app, Apple asks for a developer membership at $99 a year. encore is a free personal project that earns me nothing, so until then the first launch needs “Open Anyway” in System Settings, once. If a small community gets behind it, that is the first thing its support will pay for, and the same account could also bring encore to the Mac App Store. You can <a href='" + SPONSORS + "'>support encore on GitHub Sponsors</a> or <a href='" + KOFI + "'>Ko-fi</a>.",
             "<strong>There is just me behind encore.</strong> I build it in the evenings, alongside my day job and my family life. There is no team and no guaranteed support: I fix things as fast as those evenings allow, starting with anything that touches security or your data. That is also why everything is open: anyone can report a problem, propose a fix on GitHub, or contribute.",
         ],
         "project_title": "A project built to last",
         "project": [
             "encore is a personal project, built in the open. It is free: no subscription, no paid tier, no ads.",
+            "A Mac App Store version would be an extra option, with its trade-offs: easier to install and update for some people, but sandboxed, which can limit features like direct paste, and slower to update, since Apple reviews each version. The version from GitHub and Homebrew would stay the main one.",
             "All the code is public, under the MIT license. If I ever stop, encore keeps working on your Mac, and anyone can pick the code up.",
             "Your data is not locked in: it is stored in standard JSON files that any program can read, and you can export all of it.",
             "The code is written with the help of AI tools, openly: I decide, review and test every change, and I use encore every day. Automated tests run on every change, and every release is built in public by GitHub Actions.",
@@ -244,12 +245,13 @@ PRIVACY = {
         "honest_lead": "Je préfère te le dire moi-même.",
         "honest": [
             "<strong>Ton historique n’est pas chiffré sur le disque.</strong> Il est protégé par ta session macOS, et par FileVault s’il est activé : vérifie dans Réglages Système → Confidentialité et sécurité → FileVault. Un logiciel qui tourne sous ta session pourrait le lire, comme avec la plupart des gestionnaires de presse-papiers. Le chiffrer est sur la liste.",
-            "<strong>encore n’est pas encore notarisé par Apple.</strong> Pour notariser une app, Apple demande un abonnement développeur à 99 $ par an. encore est un projet personnel et gratuit qui ne me rapporte rien : en attendant, il faut passer une fois par « Ouvrir quand même » dans les Réglages Système. Si une petite communauté se forme autour du projet, c’est la première chose que son soutien financera : <a href='" + SPONSORS + "'>soutenir encore sur GitHub Sponsors</a> ou <a href='" + KOFI + "'>Ko-fi</a>.",
+            "<strong>encore n’est pas encore notarisé par Apple.</strong> Pour notariser une app, Apple demande un abonnement développeur à 99 $ par an. encore est un projet personnel et gratuit qui ne me rapporte rien : en attendant, il faut passer une fois par « Ouvrir quand même » dans les Réglages Système. Si une petite communauté se forme autour du projet, c’est la première chose que son soutien financera, et le même compte permettrait aussi de le proposer sur le Mac App Store. Tu peux le <a href='" + SPONSORS + "'>soutenir sur GitHub Sponsors</a> ou <a href='" + KOFI + "'>Ko-fi</a>.",
             "<strong>Derrière encore, il n’y a que moi.</strong> Je le développe le soir, à côté de mon travail et de ma vie de famille. Il n’y a ni équipe ni support garanti : je corrige aussi vite que ces soirées le permettent, en commençant par tout ce qui touche à la sécurité ou à tes données. C’est aussi pour ça que tout est ouvert : n’importe qui peut signaler un problème, proposer une correction sur GitHub ou contribuer.",
         ],
         "project_title": "Un projet fait pour durer",
         "project": [
             "encore est un projet personnel, construit en public. Il est gratuit : pas d’abonnement, pas de version payante, pas de publicité.",
+            "Une version Mac App Store serait une option en plus, avec ses compromis : plus simple à installer pour certains, mais dans un bac à sable qui peut limiter des fonctions comme le collage direct, et plus lente à mettre à jour, puisqu’Apple relit chaque version. La version GitHub et Homebrew resterait la principale.",
             "Tout le code est public, sous licence MIT. Si je m’arrête un jour, encore continue de fonctionner sur ton Mac, et n’importe qui peut reprendre le code.",
             "Tes données ne sont pas prisonnières : elles sont rangées dans des fichiers JSON standard, lisibles par n’importe quel programme, et tu peux tout exporter.",
             "Le code est écrit avec l’aide d’outils d’IA, et c’est assumé : je décide, relis et teste chaque changement, et j’utilise encore tous les jours. Des tests automatiques tournent à chaque modification, et chaque version est compilée publiquement par GitHub Actions.",
@@ -340,7 +342,7 @@ DOWNLOAD = f"""<!doctype html>
 CURRENT = ' aria-current="page"'
 
 HOME = Template("""<section class="wrap hero">
-  <a class="new" href="${base}${home}features/#compact"><b>$new_tag</b>$new<span aria-hidden="true">→</span></a>
+  <a class="new" href="${base}${home}changelog/#v0.6.1"><b>$new_tag</b>$new<span aria-hidden="true">→</span></a>
   <h1 class="slam hook">$hook</h1>
   <p class="lead">$lead</p>
   <div class="get">
