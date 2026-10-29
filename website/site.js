@@ -38,3 +38,14 @@ document.querySelectorAll(".filters button").forEach(button => button.addEventLi
   document.querySelectorAll(".filters button").forEach(b => b.classList.toggle("on", b === button));
   if (button.dataset.kind) log.dataset.only = button.dataset.kind; else delete log.dataset.only;
 }));
+
+// The top bar: a backdrop once the page scrolls under it, and its height in --bar for sticky elements and anchors.
+// Not `top`: that name is taken by the window.
+const topBar = document.querySelector(".top");
+if (topBar) {
+  const measure = () => document.documentElement.style.setProperty("--bar", topBar.offsetHeight + "px");
+  const scrolled = () => topBar.classList.toggle("scrolled", scrollY > 8);
+  measure(); scrolled();
+  addEventListener("resize", measure);
+  addEventListener("scroll", scrolled, { passive: true });
+}

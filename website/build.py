@@ -260,16 +260,20 @@ $alternates
 $detect
 </head>
 <body>
-<header class="wrap bar">
+<header class="top">
+ <div class="wrap bar">
   <a class="brand" href="${base}$home"><img src="${base}media/icon.png" alt="" width="34" height="34">encore</a>
-  <nav>
-    <span class="langs">$langs</span>
-    <a class="hide-small" href="${base}${home}features/"$features_current>$features_nav</a>
-    <a class="hide-small" href="${base}${home}changelog/"$changelog_current>$changelog_nav</a>
+  <nav class="pages-nav">
+    <a href="${base}${home}features/"$features_current>$features_nav</a>
+    <a href="${base}${home}changelog/"$changelog_current>$changelog_nav</a>
     <a href="${base}${home}privacy/"$privacy_current>$privacy_nav</a>
-    <a class="hide-small" href="$repo">GitHub</a>
-    <a class="sponsor" href="$sponsors" aria-label="$sponsor"><span aria-hidden="true">♥</span><span class="label">$sponsor</span></a>
   </nav>
+  <div class="tools">
+    <span class="langs">$langs</span>
+    <a class="gh" href="$repo">GitHub</a>
+    <a class="sponsor" href="$sponsors" aria-label="$sponsor"><span aria-hidden="true">♥</span><span class="label">$sponsor</span></a>
+  </div>
+ </div>
 </header>
 <main>
 $main</main>
