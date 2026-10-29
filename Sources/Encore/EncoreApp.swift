@@ -21,6 +21,7 @@ final class EncorePanel: NSPanel {
 @MainActor final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, NSMenuDelegate {
     private var model: AppModel!
     private var panel: EncorePanel!
+    private var clipDust: ClipDustAnimator?
     private var settingsWindow: NSWindow?
     private var statusItem: NSStatusItem!
     private var hotkeys: Hotkeys!
@@ -77,6 +78,11 @@ final class EncorePanel: NSPanel {
         panel.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
         panel.delegate = self
         panel.contentView = NSHostingView(rootView: BoardView(model: model))
+        clipDust = ClipDustAnimator(panel: panel)
+        model.willRemoveClips = { [weak self] ids in
+            guard let self else { return }
+            self.clipDust?.animate(ids, frames: self.model.removalFrames, viewport: self.model.removalViewport)
+        }
         applyAppearance()
         installMenu()
         installStatusItem()
@@ -284,6 +290,7 @@ final class EncorePanel: NSPanel {
         guard panel.attachedSheet == nil, NSApp.modalWindow == nil else { return }
         model.searchFocused = false
         model.quickLook = false
+        clipDust?.cancel()
         panel.orderOut(nil)
     }
 

@@ -34,6 +34,9 @@ struct PeerStatus: Identifiable, Equatable {
     /// Frame of the cursor card in panel coordinates, used to anchor the floating preview.
     var cursorFrame: CGRect = .zero
     var libraryColumns = 1
+    var removalFrames: [UUID: CGRect] = [:]
+    var removalViewport = CGRect.zero
+    var willRemoveClips: ((Set<UUID>) -> Void)?
     /// A detected secret only holds its masked text: editing and saving it would replace the real value with dots.
     @Published var inspector: Clip? {
         didSet {
@@ -177,11 +180,15 @@ struct PeerStatus: Identifiable, Equatable {
         selectionAnchor = first
     }
 
-    func reconcileSelection() {
-        let valid = Set(filtered.map(\.id))
+    func reconcileSelection(near position: Int? = nil) {
+        let items = filtered
+        let valid = Set(items.map(\.id))
         selection.formIntersection(valid)
         if let cursor, valid.contains(cursor), !selection.isEmpty { return }
-        resetSelection()
+        let next = items.isEmpty ? nil : items[min(position ?? 0, items.count - 1)].id
+        cursor = next
+        selection = Set(next.map { [$0] } ?? [])
+        selectionAnchor = next
     }
 
     func select(_ id: UUID, modifiers: NSEvent.ModifierFlags = []) {
@@ -252,12 +259,14 @@ struct PeerStatus: Identifiable, Equatable {
     /// The app a copy came from cleared the clipboard soon after: that copy was meant to be temporary.
     func forgetCleared(_ id: UUID) {
         guard let clip = library.clips.first(where: { $0.id == id }), !clip.isProtected else { return }
+        let position = cursor.map { current in filtered.prefix { $0.id != current }.filter { $0.id != id }.count }
+        willRemoveClips?([id])
         library.clips.removeAll { $0.id == id }
         queue.removeAll { $0 == id }
         thumbnails.removeValue(forKey: id)
         clearPreviewCaches([id]); filePreviews.remove([id])
         storage?.save(library, deleting: [id])
-        reconcileSelection()
+        reconcileSelection(near: position)
         notify(L("Removed from history: its app cleared the clipboard"))
     }
 
@@ -285,13 +294,16 @@ struct PeerStatus: Identifiable, Equatable {
         var snapshot = library
         let removed = snapshot.prune(policy: preferences.retentionPolicy, limit: preferences.historyLimit, now: now)
         if !removed.isEmpty {
+            let removedIDs = Set(removed)
+            let position = cursor.map { current in filtered.prefix { $0.id != current }.filter { !removedIDs.contains($0.id) }.count }
+            willRemoveClips?(Set(removed))
             library = snapshot
             queue.removeAll { removed.contains($0) }
             for id in removed { thumbnails.removeValue(forKey: id) }
             clearPreviewCaches(Set(removed))
             filePreviews.remove(Set(removed))
             storage?.save(library, deleting: removed)
-            reconcileSelection()
+            reconcileSelection(near: position)
         }
     }
 
@@ -638,6 +650,7 @@ struct PeerStatus: Identifiable, Equatable {
         let chosen = ids ?? selection
         deleted = library.clips.filter { chosen.contains($0.id) }.compactMap { clip in storage?.payload(clip.id).map { (clip, $0) } }
         let position = filtered.firstIndex { $0.id == cursor } ?? 0
+        willRemoveClips?(chosen)
         for clip in library.clips where chosen.contains(clip.id) { library.pinnedDeleted(clip) }
         library.clips.removeAll { chosen.contains($0.id) }
         queue.removeAll { chosen.contains($0) }
@@ -1060,6 +1073,7 @@ struct PeerStatus: Identifiable, Equatable {
 
     func clear(everything: Bool) {
         let ids = library.clips.filter { everything || !$0.isProtected }.map(\.id)
+        willRemoveClips?(Set(ids))
         library.clips.removeAll { everything || !$0.isProtected }
         queue.removeAll { ids.contains($0) }
         deleted = []; thumbnails.removeAll()
