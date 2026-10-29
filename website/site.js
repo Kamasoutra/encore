@@ -31,3 +31,10 @@ if (versions.length && "IntersectionObserver" in window) {
   }), { rootMargin: "-30% 0px -60% 0px" });
   document.querySelectorAll(".release").forEach(release => observer.observe(release));
 }
+
+// Changelog filters: only one kind of change, or all of them.
+document.querySelectorAll(".filters button").forEach(button => button.addEventListener("click", () => {
+  const log = document.querySelector(".log");
+  document.querySelectorAll(".filters button").forEach(b => b.classList.toggle("on", b === button));
+  if (button.dataset.kind) log.dataset.only = button.dataset.kind; else delete log.dataset.only;
+}));

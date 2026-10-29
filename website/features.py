@@ -120,7 +120,7 @@ FEATURES = {
     },
 }
 
-# Newest first: (version, date, media or None, tagline, changes).
+# Newest first: (version, date, media or None, tagline, changes), each change tagged new, better or fix.
 RELEASES = {
     "en": {
         "page_title": "What's new · encore",
@@ -129,63 +129,68 @@ RELEASES = {
         "lead": "Every version of encore, newest first. Installed copies update themselves.",
         "versions": "Versions",
         "notes": "Release on GitHub",
+        "kinds": {"new": "New", "better": "Better", "fix": "Fixed"},
+        "counts": {"new": ("new", "new"), "better": ("improvement", "improvements"), "fix": ("fix", "fixes")},
+        "all": "All",
+        "pace": "{} versions in {} days",
+        "latest": "Latest",
         "items": [
             ("0.6.0", "2026-10-29", "compact.png", "A compact window, your own shortcut, and updates that arrive on their own.", [
-                "<b>Compact window.</b> A small panel of your latest copies, instead of the shelf: move it anywhere, it is drawn to the corners, edges and center, and opens there next time. Choose 3 to 10 copies, scroll with the arrows, press <kbd>↑</kbd> on the first one for the library.",
-                "<b>Your own shortcut.</b> Click it in Settings and type any combination, except those that would break your apps, like <kbd>⌘V</kbd> alone.",
-                "<b>System sounds.</b> The custom sound set can use the sounds that come with macOS.",
-                "<b>Updates that arrive.</b> encore checks every hour and, by default, installs updates as soon as none of its windows is open, then relaunches.",
-                "A switch in the footer moves between the shelf and the compact window. <kbd>⌘←</kbd> <kbd>⌘→</kbd> is listed in the shelf and in Settings.",
-                "The first letter typed into the search is no longer lost, and the volume slider is no longer cut off in Settings.",
-                "A link to support encore on GitHub Sponsors, in Settings and in About.",
+                ("new", "<b>Compact window.</b> A small panel of your latest copies, instead of the shelf: move it anywhere, it is drawn to the corners, edges and center, and opens there next time. Choose 3 to 10 copies, scroll with the arrows, press <kbd>↑</kbd> on the first one for the library."),
+                ("new", "<b>Your own shortcut.</b> Click it in Settings and type any combination, except those that would break your apps, like <kbd>⌘V</kbd> alone."),
+                ("new", "<b>System sounds.</b> The custom sound set can use the sounds that come with macOS."),
+                ("better", "<b>Updates that arrive.</b> encore checks every hour and, by default, installs updates as soon as none of its windows is open, then relaunches."),
+                ("better", "A switch in the footer moves between the shelf and the compact window. <kbd>⌘←</kbd> <kbd>⌘→</kbd> is listed in the shelf and in Settings."),
+                ("fix", "The first letter typed into the search is no longer lost, and the volume slider is no longer cut off in Settings."),
+                ("new", "A link to support encore on GitHub Sponsors, in Settings and in About."),
             ]),
             ("0.5.0", "2026-10-28", "snippets.jpg", "Snippets, and favorites that follow you from Mac to Mac.", [
-                "<b>Snippets.</b> <kbd>⌘S</kbd> on any card gives it a name, a language among 85 and tags. Snippets get their own board and never expire.",
-                "<b>Placeholders.</b> <code>{{name}}</code> asks for a value before pasting; <code>{{clipboard}}</code>, <code>{{date}}</code> and <code>{{cursor}}</code> fill in by themselves. Export and import snippets as JSON.",
-                "<b>Rename in place.</b> <kbd>⌘R</kbd>, or a click on a card's header.",
-                "<b>Paste or copy.</b> A switch chooses what <kbd>↩</kbd> and double-click do.",
-                "<b>Sync with your paired Macs.</b> Favorites and snippets, each with its own setting, merged then kept in step: the latest change wins, and removals follow.",
+                ("new", "<b>Snippets.</b> <kbd>⌘S</kbd> on any card gives it a name, a language among 85 and tags. Snippets get their own board and never expire."),
+                ("new", "<b>Placeholders.</b> <code>{{name}}</code> asks for a value before pasting; <code>{{clipboard}}</code>, <code>{{date}}</code> and <code>{{cursor}}</code> fill in by themselves. Export and import snippets as JSON."),
+                ("new", "<b>Rename in place.</b> <kbd>⌘R</kbd>, or a click on a card's header."),
+                ("new", "<b>Paste or copy.</b> A switch chooses what <kbd>↩</kbd> and double-click do."),
+                ("new", "<b>Sync with your paired Macs.</b> Favorites and snippets, each with its own setting, merged then kept in step: the latest change wins, and removals follow."),
             ]),
             ("0.4.3", "2026-10-26", None, "Intel Macs, macOS 12, and a smoother app on older Macs.", [
-                "One universal app for Apple Silicon and Intel, from macOS 12 Monterey.",
-                "Paired Macs no longer ask for your login password after each update.",
-                "A larger Space preview that scrolls through long content; rich text shown as laid out.",
-                "Arrows, the shelf and the library stay smooth on older Macs.",
-                "Fixed a freeze on rich-text emails with tables.",
+                ("new", "One universal app for Apple Silicon and Intel, from macOS 12 Monterey."),
+                ("fix", "Paired Macs no longer ask for your login password after each update."),
+                ("better", "A larger Space preview that scrolls through long content; rich text shown as laid out."),
+                ("better", "Arrows, the shelf and the library stay smooth on older Macs."),
+                ("fix", "Fixed a freeze on rich-text emails with tables."),
             ]),
             ("0.4.2", "2026-10-26", None, "Polish for light mode.", [
-                "Library day titles no longer show as a grey band on light backgrounds.",
-                "The storage usage is centered under its bar.",
+                ("fix", "Library day titles no longer show as a grey band on light backgrounds."),
+                ("fix", "The storage usage is centered under its bar."),
             ]),
             ("0.4.1", "2026-10-26", None, "Safer deletion and a steadier library.", [
-                "Deleting a card takes <kbd>⌘⌫</kbd>: a lone <kbd>⌫</kbd> no longer removes anything by accident.",
-                "A right click on card text opens encore's menu, with its shortcuts.",
-                "The keyboard cursor always stays in view in the library.",
-                "The bottom bar lists the shortcuts to search, favorite and delete.",
+                ("better", "Deleting a card takes <kbd>⌘⌫</kbd>: a lone <kbd>⌫</kbd> no longer removes anything by accident."),
+                ("better", "A right click on card text opens encore's menu, with its shortcuts."),
+                ("fix", "The keyboard cursor always stays in view in the library."),
+                ("better", "The bottom bar lists the shortcuts to search, favorite and delete."),
             ]),
             ("0.4.0", "2026-10-25", "preview.png", "The shelf grows into the library, and your other Macs join in.", [
-                "<b>A redesigned shelf</b> that grows into the full library: <kbd>↑</kbd> to explore, hold <kbd>↓</kbd> to come back.",
-                "<b>Space preview</b>, floating above the selected card.",
-                "<b>Your other Macs.</b> Browse and paste their recent history, paired with a code and end-to-end encrypted.",
-                "<b>Automatic updates</b> from GitHub releases, with a stable signature that keeps Accessibility allowed.",
-                "<b>30 languages</b>, with plurals, local formats and right-to-left layouts.",
-                "Six new sound sets with instant previews, and the time left before each card expires.",
+                ("new", "<b>A redesigned shelf</b> that grows into the full library: <kbd>↑</kbd> to explore, hold <kbd>↓</kbd> to come back."),
+                ("new", "<b>Space preview</b>, floating above the selected card."),
+                ("new", "<b>Your other Macs.</b> Browse and paste their recent history, paired with a code and end-to-end encrypted."),
+                ("new", "<b>Automatic updates</b> from GitHub releases, with a stable signature that keeps Accessibility allowed."),
+                ("new", "<b>30 languages</b>, with plurals, local formats and right-to-left layouts."),
+                ("new", "Six new sound sets with instant previews, and the time left before each card expires."),
             ]),
             ("0.3.0", "2026-10-25", "library.png", "A full library, in French and English.", [
-                "A library view with search, filters and preview.",
-                "French and English, selectable in Settings.",
-                "Exclusions that follow the apps you install.",
-                "Retention presets from 500 MB to 3 GB.",
+                ("new", "A library view with search, filters and preview."),
+                ("new", "French and English, selectable in Settings."),
+                ("better", "Exclusions that follow the apps you install."),
+                ("better", "Retention presets from 500 MB to 3 GB."),
             ]),
             ("0.2.1", "2026-10-25", None, "Real thumbnails for files copied from Finder.", [
-                "Finder file references resolve, so image and PDF history gets real thumbnails, names and sizes.",
+                ("fix", "Finder file references resolve, so image and PDF history gets real thumbnails, names and sizes."),
             ]),
             ("0.2.0", "2026-10-25", "shelf.png", "The first public version.", [
-                "The shelf: your history at <kbd>⇧⌘V</kbd>, pasted where you type.",
-                "Image and PDF thumbnails, rich text cards, search including the text in images.",
-                "Retention rules by size and type, with a preview before applying them.",
-                "Favorites, collections, the paste queue, and transforms for links, JSON and Base64.",
-                "Sounds on copy and paste, display choice, and opt-in screenshot import.",
+                ("new", "The shelf: your history at <kbd>⇧⌘V</kbd>, pasted where you type."),
+                ("new", "Image and PDF thumbnails, rich text cards, search including the text in images."),
+                ("new", "Retention rules by size and type, with a preview before applying them."),
+                ("new", "Favorites, collections, the paste queue, and transforms for links, JSON and Base64."),
+                ("new", "Sounds on copy and paste, display choice, and opt-in screenshot import."),
             ]),
         ],
     },
@@ -196,63 +201,68 @@ RELEASES = {
         "lead": "Toutes les versions d’encore, de la plus récente à la plus ancienne. Les copies installées se mettent à jour toutes seules.",
         "versions": "Versions",
         "notes": "Version sur GitHub",
+        "kinds": {"new": "Nouveau", "better": "Amélioré", "fix": "Corrigé"},
+        "counts": {"new": ("nouveauté", "nouveautés"), "better": ("amélioration", "améliorations"), "fix": ("correction", "corrections")},
+        "all": "Tout",
+        "pace": "{} versions en {} jours",
+        "latest": "Dernière version",
         "items": [
             ("0.6.0", "2026-10-29", "compact.png", "Une fenêtre compacte, ton propre raccourci, et des mises à jour qui arrivent seules.", [
-                "<b>Fenêtre compacte.</b> Un petit panneau de tes dernières copies, à la place du bandeau : déplace-le où tu veux, il est attiré par les coins, les bords et le centre, et se rouvre au même endroit. Choisis de 3 à 10 copies, fais défiler avec les flèches, appuie sur <kbd>↑</kbd> sur la première pour la bibliothèque.",
-                "<b>Ton propre raccourci.</b> Clique dessus dans les Réglages et tape la combinaison de ton choix, sauf celles qui casseraient tes apps, comme <kbd>⌘V</kbd> seul.",
-                "<b>Sons système.</b> Le jeu de sons personnalisé peut utiliser les sons fournis avec macOS.",
-                "<b>Des mises à jour qui arrivent.</b> encore vérifie toutes les heures et, par défaut, installe la mise à jour dès qu’aucune de ses fenêtres n’est ouverte, puis se relance.",
-                "Un interrupteur dans le pied passe du bandeau à la fenêtre compacte. <kbd>⌘←</kbd> <kbd>⌘→</kbd> apparaît dans le bandeau et dans les Réglages.",
-                "La première lettre tapée dans la recherche n’est plus perdue, et le curseur de volume n’est plus coupé dans les Réglages.",
-                "Un lien pour soutenir encore sur GitHub Sponsors, dans les Réglages et dans À propos.",
+                ("new", "<b>Fenêtre compacte.</b> Un petit panneau de tes dernières copies, à la place du bandeau : déplace-le où tu veux, il est attiré par les coins, les bords et le centre, et se rouvre au même endroit. Choisis de 3 à 10 copies, fais défiler avec les flèches, appuie sur <kbd>↑</kbd> sur la première pour la bibliothèque."),
+                ("new", "<b>Ton propre raccourci.</b> Clique dessus dans les Réglages et tape la combinaison de ton choix, sauf celles qui casseraient tes apps, comme <kbd>⌘V</kbd> seul."),
+                ("new", "<b>Sons système.</b> Le jeu de sons personnalisé peut utiliser les sons fournis avec macOS."),
+                ("better", "<b>Des mises à jour qui arrivent.</b> encore vérifie toutes les heures et, par défaut, installe la mise à jour dès qu’aucune de ses fenêtres n’est ouverte, puis se relance."),
+                ("better", "Un interrupteur dans le pied passe du bandeau à la fenêtre compacte. <kbd>⌘←</kbd> <kbd>⌘→</kbd> apparaît dans le bandeau et dans les Réglages."),
+                ("fix", "La première lettre tapée dans la recherche n’est plus perdue, et le curseur de volume n’est plus coupé dans les Réglages."),
+                ("new", "Un lien pour soutenir encore sur GitHub Sponsors, dans les Réglages et dans À propos."),
             ]),
             ("0.5.0", "2026-10-28", "snippets.jpg", "Les snippets, et des favoris qui te suivent de Mac en Mac.", [
-                "<b>Snippets.</b> <kbd>⌘S</kbd> sur une carte lui donne un nom, un langage parmi 85 et des tags. Les snippets ont leur propre tableau et n’expirent jamais.",
-                "<b>Variables.</b> <code>{{nom}}</code> demande une valeur avant de coller ; <code>{{clipboard}}</code>, <code>{{date}}</code> et <code>{{cursor}}</code> se remplissent seuls. Export et import des snippets en JSON.",
-                "<b>Renommer sur place.</b> <kbd>⌘R</kbd>, ou un clic sur l’en-tête d’une carte.",
-                "<b>Coller ou copier.</b> Un interrupteur choisit ce que font <kbd>↩</kbd> et le double-clic.",
-                "<b>Synchro avec tes Mac appairés.</b> Favoris et snippets, chacun avec son réglage, fusionnés puis tenus à jour : la modification la plus récente l’emporte, et les suppressions suivent.",
+                ("new", "<b>Snippets.</b> <kbd>⌘S</kbd> sur une carte lui donne un nom, un langage parmi 85 et des tags. Les snippets ont leur propre tableau et n’expirent jamais."),
+                ("new", "<b>Variables.</b> <code>{{nom}}</code> demande une valeur avant de coller ; <code>{{clipboard}}</code>, <code>{{date}}</code> et <code>{{cursor}}</code> se remplissent seuls. Export et import des snippets en JSON."),
+                ("new", "<b>Renommer sur place.</b> <kbd>⌘R</kbd>, ou un clic sur l’en-tête d’une carte."),
+                ("new", "<b>Coller ou copier.</b> Un interrupteur choisit ce que font <kbd>↩</kbd> et le double-clic."),
+                ("new", "<b>Synchro avec tes Mac appairés.</b> Favoris et snippets, chacun avec son réglage, fusionnés puis tenus à jour : la modification la plus récente l’emporte, et les suppressions suivent."),
             ]),
             ("0.4.3", "2026-10-26", None, "Les Mac Intel, macOS 12, et plus de fluidité sur les Mac anciens.", [
-                "Une seule app universelle pour Apple Silicon et Intel, dès macOS 12 Monterey.",
-                "Les Mac appairés ne demandent plus ton mot de passe de session après chaque mise à jour.",
-                "Un aperçu Espace plus grand qui fait défiler les longs contenus ; le texte enrichi garde sa mise en page.",
-                "Les flèches, le bandeau et la bibliothèque restent fluides sur les Mac anciens.",
-                "Correction d’un blocage sur les e-mails en texte enrichi avec des tableaux.",
+                ("new", "Une seule app universelle pour Apple Silicon et Intel, dès macOS 12 Monterey."),
+                ("fix", "Les Mac appairés ne demandent plus ton mot de passe de session après chaque mise à jour."),
+                ("better", "Un aperçu Espace plus grand qui fait défiler les longs contenus ; le texte enrichi garde sa mise en page."),
+                ("better", "Les flèches, le bandeau et la bibliothèque restent fluides sur les Mac anciens."),
+                ("fix", "Correction d’un blocage sur les e-mails en texte enrichi avec des tableaux."),
             ]),
             ("0.4.2", "2026-10-26", None, "Des finitions pour le mode clair.", [
-                "Les titres de jour de la bibliothèque n’apparaissent plus comme une bande grise sur fond clair.",
-                "L’espace utilisé est centré sous sa barre.",
+                ("fix", "Les titres de jour de la bibliothèque n’apparaissent plus comme une bande grise sur fond clair."),
+                ("fix", "L’espace utilisé est centré sous sa barre."),
             ]),
             ("0.4.1", "2026-10-26", None, "Une suppression plus sûre et une bibliothèque plus stable.", [
-                "Supprimer une carte demande <kbd>⌘⌫</kbd> : un <kbd>⌫</kbd> seul ne supprime plus rien par accident.",
-                "Un clic droit sur le texte d’une carte ouvre le menu d’encore, avec ses raccourcis.",
-                "Le curseur clavier reste toujours visible dans la bibliothèque.",
-                "La barre du bas liste les raccourcis pour chercher, mettre en favori et supprimer.",
+                ("better", "Supprimer une carte demande <kbd>⌘⌫</kbd> : un <kbd>⌫</kbd> seul ne supprime plus rien par accident."),
+                ("better", "Un clic droit sur le texte d’une carte ouvre le menu d’encore, avec ses raccourcis."),
+                ("fix", "Le curseur clavier reste toujours visible dans la bibliothèque."),
+                ("better", "La barre du bas liste les raccourcis pour chercher, mettre en favori et supprimer."),
             ]),
             ("0.4.0", "2026-10-25", "preview.png", "Le bandeau devient bibliothèque, et tes autres Mac s’invitent.", [
-                "<b>Un bandeau repensé</b> qui devient la bibliothèque complète : <kbd>↑</kbd> pour explorer, maintiens <kbd>↓</kbd> pour revenir.",
-                "<b>L’aperçu Espace</b>, flottant au-dessus de la carte choisie.",
-                "<b>Tes autres Mac.</b> Parcours et colle leur historique récent, appairés avec un code et chiffrés de bout en bout.",
-                "<b>Mises à jour automatiques</b> depuis les versions GitHub, avec une signature stable qui garde l’autorisation Accessibilité.",
-                "<b>30 langues</b>, avec les pluriels, les formats locaux et les mises en page de droite à gauche.",
-                "Six nouveaux jeux de sons à écouter en un clic, et le temps restant avant l’expiration de chaque carte.",
+                ("new", "<b>Un bandeau repensé</b> qui devient la bibliothèque complète : <kbd>↑</kbd> pour explorer, maintiens <kbd>↓</kbd> pour revenir."),
+                ("new", "<b>L’aperçu Espace</b>, flottant au-dessus de la carte choisie."),
+                ("new", "<b>Tes autres Mac.</b> Parcours et colle leur historique récent, appairés avec un code et chiffrés de bout en bout."),
+                ("new", "<b>Mises à jour automatiques</b> depuis les versions GitHub, avec une signature stable qui garde l’autorisation Accessibilité."),
+                ("new", "<b>30 langues</b>, avec les pluriels, les formats locaux et les mises en page de droite à gauche."),
+                ("new", "Six nouveaux jeux de sons à écouter en un clic, et le temps restant avant l’expiration de chaque carte."),
             ]),
             ("0.3.0", "2026-10-25", "library.png", "Une bibliothèque complète, en français et en anglais.", [
-                "Une vue bibliothèque avec recherche, filtres et aperçu.",
-                "Français et anglais, au choix dans les Réglages.",
-                "Des exclusions qui suivent les apps que tu installes.",
-                "Des préréglages de rétention de 500 Mo à 3 Go.",
+                ("new", "Une vue bibliothèque avec recherche, filtres et aperçu."),
+                ("new", "Français et anglais, au choix dans les Réglages."),
+                ("better", "Des exclusions qui suivent les apps que tu installes."),
+                ("better", "Des préréglages de rétention de 500 Mo à 3 Go."),
             ]),
             ("0.2.1", "2026-10-25", None, "De vraies miniatures pour les fichiers copiés depuis le Finder.", [
-                "Les références de fichiers du Finder sont résolues : l’historique d’images et de PDF a de vraies miniatures, noms et tailles.",
+                ("fix", "Les références de fichiers du Finder sont résolues : l’historique d’images et de PDF a de vraies miniatures, noms et tailles."),
             ]),
             ("0.2.0", "2026-10-25", "shelf.png", "La première version publique.", [
-                "Le bandeau : ton historique à <kbd>⇧⌘V</kbd>, collé là où tu écris.",
-                "Miniatures d’images et de PDF, cartes en texte enrichi, recherche jusque dans le texte des images.",
-                "Règles de rétention par taille et par type, avec un aperçu avant de les appliquer.",
-                "Favoris, collections, file de collage, et transformations pour les liens, le JSON et le Base64.",
-                "Sons à la copie et au collage, choix de l’écran, et import des captures d’écran en option.",
+                ("new", "Le bandeau : ton historique à <kbd>⇧⌘V</kbd>, collé là où tu écris."),
+                ("new", "Miniatures d’images et de PDF, cartes en texte enrichi, recherche jusque dans le texte des images."),
+                ("new", "Règles de rétention par taille et par type, avec un aperçu avant de les appliquer."),
+                ("new", "Favoris, collections, file de collage, et transformations pour les liens, le JSON et le Base64."),
+                ("new", "Sons à la copie et au collage, choix de l’écran, et import des captures d’écran en option."),
             ]),
         ],
     },
@@ -261,11 +271,22 @@ RELEASES = {
 
 # Screens much wider than tall, shown across the page under their text.
 WIDE = {"shelf.png", "library.png"}
+# Visuals made with the brand tools already sit on the violet backdrop; raw captures get it from the page.
+FRAMED = {"shelf.png", "library.png", "preview.png", "snippets.jpg", "snippets.mp4"}
 
 
 def short(version):
     """0.4.0 reads as 0.4 in a badge; 0.4.3 stays as it is."""
     return version[:-2] if version.endswith(".0") else version
+
+
+def figure(base, lang, name, alt):
+    return f'<figure{"" if name in FRAMED else " class=\"backdrop\""}>{media(base, lang, name, alt)}</figure>'
+
+
+def full(version):
+    """The release a feature arrived in, as tagged: 0.5 is 0.5.0."""
+    return version if version.count(".") == 2 else version + ".0"
 
 
 def media(base, lang, name, alt):
@@ -279,7 +300,7 @@ def media(base, lang, name, alt):
 def features_main(lang, base, home):
     f = FEATURES[lang]
     privacy = f"{base}{home}privacy/"
-    blocks, cards = [], []
+    blocks, groups = [], {}
     for key, version, shot, title, text in f["items"]:
         text = text.replace("{privacy}", privacy)
         badge = f'<span class="since{" fresh" if version == LATEST else ""}">{escape(f["new"]) + " · " if version == LATEST else ""}{escape(f["since"].format(short(version)))}</span>'
@@ -287,9 +308,13 @@ def features_main(lang, base, home):
             blocks.append(
                 f'<section class="feature{" flip" if len(blocks) % 2 else ""}{" tall" if shot == "compact.png" else ""}{" wide" if shot in WIDE else ""}" id="{key}">'
                 f'<div>{badge}<h2 class="slam">{escape(title)}</h2><p>{text}</p></div>'
-                f'<figure>{media(base, lang, shot, title)}</figure></section>')
+                f'{figure(base, lang, shot, title)}</section>')
         else:
-            cards.append(f'<li id="{key}">{badge}<h3>{escape(title)}</h3><p>{text}</p></li>')
+            groups.setdefault(full(version), []).append(f'<li id="{key}"><h3>{escape(title)}</h3><p>{text}</p></li>')
+    # The details, newest version first, each group linked to its release notes.
+    details = "".join(
+        f'<div class="group"><a class="ver" href="{base}{home}changelog/#v{v}">{short(v)}</a><ul>{"".join(items)}</ul></div>'
+        for v, items in sorted(groups.items(), key=lambda g: [int(n) for n in g[0].split(".")], reverse=True))
     return f"""<div class="wrap pages">
 <section class="intro">
   <h1 class="slam">{escape(f["title"])}</h1>
@@ -298,7 +323,7 @@ def features_main(lang, base, home):
 {chr(10).join(blocks)}
 <section class="more">
   <h2 class="slam">{escape(f["more_title"])}</h2>
-  <ul>{"".join(cards)}</ul>
+  {details}
   <p class="next"><a class="button ghost" href="{base}{home}changelog/">{escape(f["changelog"])}<span aria-hidden="true">→</span></a></p>
 </section>
 </div>
@@ -306,25 +331,41 @@ def features_main(lang, base, home):
 
 
 def changelog_main(lang, base, repo):
+    """A timeline: big entries for the versions that bring features, compact ones for fixes, and filters by kind of change."""
+    from datetime import date
     r = RELEASES[lang]
-    nav = "".join(f'<li><a href="#v{v}">{v}{" ·" if i == 0 else ""}{"<i>" + escape(FEATURES[lang]["new"]) + "</i>" if i == 0 else ""}</a></li>' for i, (v, *_rest) in enumerate(r["items"]))
+    items = r["items"]
+    days = (date.fromisoformat(items[0][1]) - date.fromisoformat(items[-1][1])).days + 1
+    nav = "".join(
+        f'<li class="{"major" if v.endswith(".0") else "minor"}"><a href="#v{v}">{short(v) if v.endswith(".0") else v}</a></li>'
+        for v, *_ in items)
+    filters = f'<button type="button" class="on" data-kind="">{escape(r["all"])}</button>' + "".join(
+        f'<button type="button" data-kind="{k}"><i class="k-{k}"></i>{escape(label)}</button>' for k, label in r["kinds"].items())
     entries = []
-    for version, date, shot, tagline, changes in r["items"]:
-        figure = f"<figure>{media(base, lang, shot, tagline)}</figure>" if shot else ""
+    for n, (version, day, shot, tagline, changes) in enumerate(items):
+        major = version.endswith(".0")
+        tally = {k: sum(1 for kind, _ in changes if kind == k) for k in r["kinds"]}
+        counts = "".join(f'<span class="k-{k}">{n} {escape(r["counts"][k][n > 1])}</span>' for k, n in tally.items() if n)
+        lines = "".join(f'<li class="k-{kind}"><span class="kind k-{kind}">{escape(r["kinds"][kind])}</span><span>{text}</span></li>' for kind, text in changes)
         entries.append(
-            f'<article class="release" id="v{version}">'
-            f'<header><h2>{version}</h2><time datetime="{date}">{date}</time></header>'
-            f'<p class="tagline">{escape(tagline)}</p>{figure}'
-            f'<ul>{"".join(f"<li>{c}</li>" for c in changes)}</ul>'
+            f'<article class="release {"major" if major else "minor"}{" latest" if n == 0 else ""}" id="v{version}">'
+            f'<header><h2>{short(version) if major else version}</h2>'
+            f'<div class="meta">{"<b>" + escape(r["latest"]) + "</b>" if n == 0 else ""}<time datetime="{day}">{day}</time><span class="counts">{counts}</span></div></header>'
+            # Slams take no final period.
+            f'<p class="tagline">{escape(tagline.rstrip(".") if major else tagline)}</p>'
+            f'{figure(base, lang, shot, tagline) if shot and major else ""}'
+            f'<ul>{lines}</ul>'
             f'<a class="gh" href="{repo}/releases/tag/v{version}">{escape(r["notes"])} →</a></article>')
-    return f"""<div class="wrap pages">
+    return f"""<div class="wrap pages log">
 <section class="intro">
   <h1 class="slam">{escape(r["title"])}</h1>
   <p class="lead">{escape(r["lead"])}</p>
+  <p class="pace">{escape(r["pace"].format(len(items), days))}</p>
+  <div class="filters" role="group">{filters}</div>
 </section>
 <div class="changes">
   <nav aria-label="{escape(r["versions"])}"><ul>{nav}</ul></nav>
-  <div>{"".join(entries)}</div>
+  <div class="timeline">{"".join(entries)}</div>
 </div>
 </div>
 """
