@@ -107,19 +107,32 @@ body::after { background: radial-gradient(closest-side, rgba(255, 92, 140, 0.22)
 .data code { font: 0.86em var(--mono); color: var(--ink); background: rgba(255, 255, 255, 0.08); padding: 2px 6px; border-radius: 6px; overflow-wrap: anywhere; }
 .data a { color: var(--ink); text-decoration-color: var(--pink); text-underline-offset: 3px; }
 .data .sub { font-size: clamp(19px, 2.2vw, 24px); color: var(--mist); margin-top: 14px; }
-.data .intro { text-align: center; padding-top: clamp(40px, 8vh, 100px); }
-.data .intro h1 { font-size: clamp(48px, 9vw, 128px); }
-.data .intro .lead { max-width: 40em; margin: 28px auto 0; }
+/* The top fits a laptop screen with the next section showing below it, so the page reads as scrollable. */
+.data .intro { text-align: center; padding-top: clamp(24px, 4vh, 56px); }
+.data .intro h1 { font-size: clamp(40px, 6vw, 86px); }
+.data .intro .lead { max-width: 44em; margin: 18px auto 0; font-size: clamp(17px, 1.6vw, 19px); }
+.data .where { padding-top: clamp(36px, 4.5vw, 64px); }
+/* Same look as the “In short” kicker above the summary. */
+.more-cue { display: inline-flex; flex-direction: column; align-items: center; gap: 4px; margin-top: 22px; font-size: 13px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; }
+/* Above the page's link colour. */
+.data .more-cue { color: var(--faint); }
+.data .more-cue:hover { color: var(--ink); }
+.more-cue span { font-size: 18px; }
+@media (prefers-reduced-motion: no-preference) { .more-cue span { animation: nudge 1.6s ease-in-out infinite; } }
+@keyframes nudge { 50% { transform: translateY(5px); } }
 /* The three guarantees, at the top of the data page, before the details: one panel, an icon and a colour each. */
-.summary { margin: 52px auto 0; max-width: 1080px; }
-.summary .kicker { margin: 0 0 16px; font-size: 13px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--faint); }
+.summary { margin: 30px auto 0; max-width: 1080px; }
+.summary .kicker { margin: 0 0 12px; font-size: 13px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--faint); }
 .guarantees { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); text-align: left;
   border-radius: 28px; background: linear-gradient(160deg, rgba(154, 107, 255, 0.14), rgba(255, 255, 255, 0.03) 60%); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12), 0 30px 80px rgba(0, 0, 0, 0.35); overflow: hidden; }
-.guarantees li { padding: 32px 30px 34px; }
+.guarantees li { padding: 24px 26px 26px; }
 .guarantees li + li { border-left: 1px solid rgba(255, 255, 255, 0.1); }
-.guarantees svg { display: block; box-sizing: border-box; width: 50px; height: 50px; padding: 12px; border-radius: 14px; color: var(--tone); background: color-mix(in srgb, var(--tone) 16%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tone) 40%, transparent); }
-.guarantees h2 { margin: 20px 0 0; font-size: 22px; font-weight: 800; letter-spacing: -0.01em; color: var(--ink); }
-.data .guarantees p { margin: 10px 0 0; font-size: 16px; line-height: 1.55; text-wrap: pretty; }
+.guarantees svg { display: block; box-sizing: border-box; width: 44px; height: 44px; padding: 10px; border-radius: 14px; color: var(--tone); background: color-mix(in srgb, var(--tone) 16%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tone) 40%, transparent); }
+.guarantees .head { display: flex; align-items: center; gap: 14px; }
+.guarantees h2 { margin: 0; font-size: 20px; font-weight: 800; letter-spacing: -0.01em; color: var(--ink); }
+.data .guarantees p { margin: 12px 0 0; font-size: 15px; line-height: 1.5; }
+.facts { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 20px 0 0; }
+.facts span { padding: 7px 16px; border-radius: 999px; font-size: 15px; font-weight: 600; color: var(--ink); background: rgba(154, 107, 255, 0.16); border: 1px solid rgba(154, 107, 255, 0.45); }
 @media (max-width: 900px) {
   .guarantees { grid-template-columns: minmax(0, 1fr); }
   .guarantees li + li { border-left: 0; border-top: 1px solid rgba(255, 255, 255, 0.1); }
@@ -392,5 +405,5 @@ footer a { text-decoration: none; } footer a:hover { color: var(--ink); }
 }
 
 /* French body text is justified, with hyphenation so the spacing stays even. Centered lines keep their alignment. */
-:lang(fr) :is(.step p, .snippets p, .macs p, .details p, .block p, .honest li, .project > p, .feature p, .more li p, .release li > span:last-child) { text-align: justify; hyphens: auto; -webkit-hyphens: auto; }
+:lang(fr) :is(.step p, .snippets p, .macs p, .details p, .block p, .honest li, .guarantees p, .project > p, .feature p, .more li p, .release li > span:last-child) { text-align: justify; hyphens: auto; -webkit-hyphens: auto; }
 :lang(fr) :is(.step, .snippets, .macs, .details, .block, .honest, .project, .feature, .more, .release) :is(a, kbd, code) { hyphens: manual; -webkit-hyphens: manual; }
