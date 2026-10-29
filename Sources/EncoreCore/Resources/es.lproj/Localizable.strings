@@ -444,3 +444,4 @@
 "Detect passwords, keys and card numbers" = "Detectar contraseñas, claves y tarjetas";
 "Delete after" = "Eliminar después de";
 "Characters shown" = "Caracteres visibles";
+"A masked secret cannot be edited. It still pastes as it is." = "Un secreto oculto no se puede editar. Se sigue pegando tal cual.";

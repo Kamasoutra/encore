@@ -444,3 +444,4 @@
 "Detect passwords, keys and card numbers" = "Gjenkjenn passord, nøkler og kort";
 "Delete after" = "Slett etter";
 "Characters shown" = "Synlige tegn";
+"A masked secret cannot be edited. It still pastes as it is." = "En skjult hemmelighet kan ikke redigeres. Den limes fortsatt inn som den er.";

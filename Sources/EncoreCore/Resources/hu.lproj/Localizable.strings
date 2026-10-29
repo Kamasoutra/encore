@@ -444,3 +444,4 @@
 "Detect passwords, keys and card numbers" = "Jelszavak, kulcsok és kártyák felismerése";
 "Delete after" = "Törlés ennyi idő után";
 "Characters shown" = "Látható karakterek";
+"A masked secret cannot be edited. It still pastes as it is." = "Az eltakart titok nem szerkeszthető. Továbbra is változatlanul illeszthető be.";

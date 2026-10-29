@@ -34,7 +34,13 @@ struct PeerStatus: Identifiable, Equatable {
     /// Frame of the cursor card in panel coordinates, used to anchor the floating preview.
     var cursorFrame: CGRect = .zero
     var libraryColumns = 1
-    @Published var inspector: Clip? { didSet { if let inspector { presentInspector?(inspector) } } }
+    /// A detected secret only holds its masked text: editing and saving it would replace the real value with dots.
+    @Published var inspector: Clip? {
+        didSet {
+            if inspector?.secret != nil { inspector = nil; notify(L("A masked secret cannot be edited. It still pastes as it is.")); return }
+            if let inspector { presentInspector?(inspector) }
+        }
+    }
     /// Set by ⌘R so the inspector opens with its name field focused.
     /// The card whose name is being edited in place, from ⌘R or a click on a selected card's header.
     @Published var renamingID: UUID?
@@ -870,6 +876,8 @@ struct PeerStatus: Identifiable, Equatable {
     }
 
     func richText(for clip: Clip) -> NSAttributedString? {
+        // A secret shows its masked text only, even when it was copied with formatting.
+        guard clip.secret == nil else { return nil }
         if checkedRichText.contains(clip.id) { return richTextCache[clip.id] }
         if checkedRichText.count >= 80 { checkedRichText.removeAll(); richTextCache.removeAll() }
         checkedRichText.insert(clip.id)

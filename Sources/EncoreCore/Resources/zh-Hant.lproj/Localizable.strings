@@ -444,3 +444,4 @@
 "Detect passwords, keys and card numbers" = "偵測密碼、金鑰和卡號";
 "Delete after" = "刪除時間";
 "Characters shown" = "顯示的字元數";
+"A masked secret cannot be edited. It still pastes as it is." = "已遮蔽的機密資訊無法編輯，但仍可原樣貼上。";

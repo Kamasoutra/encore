@@ -444,3 +444,4 @@
 "Detect passwords, keys and card numbers" = "पासवर्ड, कुंजी और कार्ड पहचानें";
 "Delete after" = "इतने समय बाद हटाएँ";
 "Characters shown" = "दिखने वाले अक्षर";
+"A masked secret cannot be edited. It still pastes as it is." = "छिपी गोपनीय जानकारी को संपादित नहीं किया जा सकता। यह अब भी जैसी है वैसी ही पेस्ट होती है।";

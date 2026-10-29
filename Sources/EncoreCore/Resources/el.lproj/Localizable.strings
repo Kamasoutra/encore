@@ -444,3 +444,4 @@
 "Detect passwords, keys and card numbers" = "Ανίχνευση συνθηματικών, κλειδιών και καρτών";
 "Delete after" = "Διαγραφή μετά από";
 "Characters shown" = "Ορατοί χαρακτήρες";
+"A masked secret cannot be edited. It still pastes as it is." = "Ένα κρυμμένο μυστικό δεν μπορεί να επεξεργαστεί. Επικολλάται κανονικά όπως είναι.";

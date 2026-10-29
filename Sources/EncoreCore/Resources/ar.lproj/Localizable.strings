@@ -444,3 +444,4 @@
 "Detect passwords, keys and card numbers" = "كشف كلمات السر والمفاتيح والبطاقات";
 "Delete after" = "الحذف بعد";
 "Characters shown" = "الأحرف الظاهرة";
+"A masked secret cannot be edited. It still pastes as it is." = "لا يمكن تعديل سر مخفي. لا يزال يُلصق كما هو.";
