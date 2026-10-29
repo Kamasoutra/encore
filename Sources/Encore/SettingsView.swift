@@ -92,7 +92,8 @@ struct SettingsView: View {
             Spacer()
             VStack(alignment: .leading, spacing: 7) {
                 Label(L("100% local"), systemImage: "lock.shield").font(.system(size: 12)).foregroundStyle(.secondary)
-                Link(destination: URL(string: "https://github.com/sponsors/Kamasoutra")!) {
+                // The site's support section offers GitHub Sponsors and Ko-fi, in the app's language.
+                Link(destination: URL(string: "https://kamasoutra.github.io/encore/" + (Localization.identifier.hasPrefix("fr") ? "fr/" : "") + "#support")!) {
                     Label { Text(L("Support encore")) } icon: { Image(systemName: "heart.fill").foregroundStyle(.pink) }
                 }.font(.system(size: 12))
                 HStack {
