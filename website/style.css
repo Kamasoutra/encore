@@ -242,6 +242,8 @@ kbd.key { font: 600 1em var(--sans); }
 .last h2 { font-size: clamp(28px, 3.6vw, 46px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.12; margin: 0 auto; max-width: 18em; color: var(--mist); }
 .last .get { margin-top: 34px; }
 .last .cta { max-width: 900px; margin: 56px auto 0; text-align: left; }
+/* Three buttons: the text takes its own line above them. */
+.last .cta > div { flex-basis: 100%; }
 .note { max-width: 36em; margin: 30px auto 0; }
 
 footer { padding: 50px 0 40px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; color: var(--faint); font-size: 15px; }
