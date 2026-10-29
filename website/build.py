@@ -17,6 +17,8 @@ REPO = "https://github.com/Kamasoutra/encore"
 ZIP = REPO + "/releases/latest/download/Encore-macOS.zip"
 BREW = "brew install --cask kamasoutra/tap/encore"
 SPONSORS = "https://github.com/sponsors/Kamasoutra"
+# Plain links only: Ko-fi's widget loads a third-party script that sets cookies.
+KOFI = "https://ko-fi.com/kamasoutra"
 
 STRINGS = {
     "en": {
@@ -55,8 +57,8 @@ STRINGS = {
         "last": "The clipboard your Mac should have shipped with",
         "star": "★ Star it on GitHub",
         "back_title": "Like encore?",
-        "back_text": "A star on GitHub helps other people find it, and your support helps it last.",
-        "support": "Support encore",
+        "back_text": "A star on GitHub helps other people find it, and a tip, on GitHub Sponsors or Ko-fi, helps it last.",
+        "support": "GitHub Sponsors",
         "note": "encore is not notarized yet. The first time, open it from System Settings → Privacy & Security → Open Anyway.",
         "releases": "Releases",
         "sponsor": "Sponsor",
@@ -104,8 +106,8 @@ STRINGS = {
         "last": "Le presse-papiers que ton Mac aurait dû avoir dès le départ",
         "star": "★ Soutiens-le sur GitHub",
         "back_title": "encore te plaît ?",
-        "back_text": "Une étoile sur GitHub aide d’autres personnes à le trouver, et un don via GitHub Sponsors l’aide à durer.",
-        "support": "Faire un don",
+        "back_text": "Une étoile sur GitHub aide d’autres personnes à le trouver, et un don, via GitHub Sponsors ou Ko-fi, l’aide à durer.",
+        "support": "GitHub Sponsors",
         "note": "encore n’est pas notarisé pour l’instant. La première fois, ouvre-le depuis Réglages Système → Confidentialité et sécurité → Ouvrir quand même.",
         "releases": "Versions",
         "sponsor": "Soutenir",
@@ -165,7 +167,7 @@ PRIVACY = {
         "honest_lead": "I would rather tell you myself.",
         "honest": [
             "<strong>Your history is not encrypted on disk.</strong> It is protected by your macOS account, and by FileVault when it is on: check System Settings → Privacy & Security → FileVault. Software running under your account could read it, as with most clipboard managers. Encrypting it is on the list.",
-            "<strong>encore is not notarized by Apple yet.</strong> To notarize an app, Apple asks for a developer membership at $99 a year. encore is a free personal project that earns me nothing, so until then the first launch needs “Open Anyway” in System Settings, once. If a small community gets behind it, that is the first thing its support will pay for: <a href='" + SPONSORS + "'>support encore on GitHub Sponsors</a>.",
+            "<strong>encore is not notarized by Apple yet.</strong> To notarize an app, Apple asks for a developer membership at $99 a year. encore is a free personal project that earns me nothing, so until then the first launch needs “Open Anyway” in System Settings, once. If a small community gets behind it, that is the first thing its support will pay for: <a href='" + SPONSORS + "'>support encore on GitHub Sponsors</a> or <a href='" + KOFI + "'>Ko-fi</a>.",
             "<strong>There is just me behind encore.</strong> I build it in the evenings, alongside my day job and my family life. There is no team and no guaranteed support: I fix things as fast as those evenings allow, starting with anything that touches security or your data. That is also why everything is open: anyone can report a problem, propose a fix on GitHub, or contribute.",
         ],
         "project_title": "A project built to last",
@@ -175,7 +177,7 @@ PRIVACY = {
             "Your data is not locked in: it is stored in standard JSON files that any program can read, and you can export all of it.",
             "The code is written with the help of AI tools, openly: I decide, review and test every change, and I use encore every day. Automated tests run on every change, and every release is built in public by GitHub Actions.",
         ],
-        "cta": ("A bug, a question, a doubt about security?", "I read every issue on GitHub. And if you want to help encore last, you can support it.", "Open an issue", "Support encore"),
+        "cta": ("A bug, a question, a doubt about security?", "I read every issue on GitHub. And if you want to help encore last, you can support it.", "Open an issue", "GitHub Sponsors"),
         "check_title": "Check it yourself",
         "check_text": "Don’t take my word for it. These files hold what this page describes:",
         "check": [
@@ -225,7 +227,7 @@ PRIVACY = {
         "honest_lead": "Je préfère te le dire moi-même.",
         "honest": [
             "<strong>Ton historique n’est pas chiffré sur le disque.</strong> Il est protégé par ta session macOS, et par FileVault s’il est activé : vérifie dans Réglages Système → Confidentialité et sécurité → FileVault. Un logiciel qui tourne sous ta session pourrait le lire, comme avec la plupart des gestionnaires de presse-papiers. Le chiffrer est sur la liste.",
-            "<strong>encore n’est pas encore notarisé par Apple.</strong> Pour notariser une app, Apple demande un abonnement développeur à 99 $ par an. encore est un projet personnel et gratuit qui ne me rapporte rien : en attendant, il faut passer une fois par « Ouvrir quand même » dans les Réglages Système. Si une petite communauté se forme autour du projet, c’est la première chose que son soutien financera : <a href='" + SPONSORS + "'>soutenir encore sur GitHub Sponsors</a>.",
+            "<strong>encore n’est pas encore notarisé par Apple.</strong> Pour notariser une app, Apple demande un abonnement développeur à 99 $ par an. encore est un projet personnel et gratuit qui ne me rapporte rien : en attendant, il faut passer une fois par « Ouvrir quand même » dans les Réglages Système. Si une petite communauté se forme autour du projet, c’est la première chose que son soutien financera : <a href='" + SPONSORS + "'>soutenir encore sur GitHub Sponsors</a> ou <a href='" + KOFI + "'>Ko-fi</a>.",
             "<strong>Derrière encore, il n’y a que moi.</strong> Je le développe le soir, à côté de mon travail et de ma vie de famille. Il n’y a ni équipe ni support garanti : je corrige aussi vite que ces soirées le permettent, en commençant par tout ce qui touche à la sécurité ou à tes données. C’est aussi pour ça que tout est ouvert : n’importe qui peut signaler un problème, proposer une correction sur GitHub ou contribuer.",
         ],
         "project_title": "Un projet fait pour durer",
@@ -235,7 +237,7 @@ PRIVACY = {
             "Tes données ne sont pas prisonnières : elles sont rangées dans des fichiers JSON standard, lisibles par n’importe quel programme, et tu peux tout exporter.",
             "Le code est écrit avec l’aide d’outils d’IA, et c’est assumé : je décide, relis et teste chaque changement, et j’utilise encore tous les jours. Des tests automatiques tournent à chaque modification, et chaque version est compilée publiquement par GitHub Actions.",
         ],
-        "cta": ("Un bug, une question, un doute sur la sécurité ?", "Je lis chaque issue sur GitHub. Et si tu veux aider encore à durer, tu peux le soutenir.", "Ouvrir une issue", "Soutenir encore"),
+        "cta": ("Un bug, une question, un doute sur la sécurité ?", "Je lis chaque issue sur GitHub. Et si tu veux aider encore à durer, tu peux le soutenir.", "Ouvrir une issue", "GitHub Sponsors"),
         "check_title": "Vérifie par toi-même",
         "check_text": "Ne me crois pas sur parole. Ces fichiers contiennent ce que décrit cette page :",
         "check": [
@@ -332,6 +334,7 @@ HOME = Template("""<section class="wrap hero">
     <div class="cta mini">
       <a class="button ghost" href="$repo">$star</a>
       <a class="button" href="$sponsors"><span aria-hidden="true">♥</span>$support</a>
+      <a class="button ghost" href="$kofi"><span aria-hidden="true">☕</span>Ko-fi</a>
     </div>
   </div>
   <div class="film">
@@ -373,10 +376,11 @@ $details
     <a class="button" href="$zip">$arrow$download</a>
   </div>
   <p class="fine note">$note</p>
-  <div class="cta">
+  <div class="cta" id="support">
     <div><h3>$back_title</h3><p>$back_text</p></div>
     <a class="button ghost" href="$repo">$star</a>
     <a class="button" href="$sponsors"><span aria-hidden="true">♥</span>$support</a>
+    <a class="button ghost" href="$kofi"><span aria-hidden="true">☕</span>Ko-fi</a>
   </div>
 </section>
 """)
@@ -435,7 +439,7 @@ def build(lang, s):
         details="\n".join(f"<div><h3>{e(t)}</h3><p>{e(d)}</p></div>" for t, d in s["details"]),
         promise="".join(f"<span>{e(t)}</span>" for t in s["promise"]), promise_text=e(s["promise_text"]),
         last=e(s["last"]), star=e(s["star"]), note=e(s["note"]),
-        back_title=e(s["back_title"]), back_text=e(s["back_text"]), support=e(s["support"]), sponsors=SPONSORS,
+        back_title=e(s["back_title"]), back_text=e(s["back_text"]), support=e(s["support"]), sponsors=SPONSORS, kofi=KOFI,
     )
     return layout(lang, s, "", s["title"], s["description"], main)
 
@@ -484,6 +488,7 @@ def build_privacy(lang, s):
     <div><h3>{p["cta"][0]}</h3><p>{p["cta"][1]}</p></div>
     <a class="button ghost" href="{REPO}/issues">{p["cta"][2]}</a>
     <a class="button" href="{SPONSORS}"><span aria-hidden="true">♥</span>{p["cta"][3]}</a>
+    <a class="button ghost" href="{KOFI}"><span aria-hidden="true">☕</span>Ko-fi</a>
   </div>
 </section>
 <section class="check">
