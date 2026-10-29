@@ -117,8 +117,14 @@ struct SettingsView: View {
             }
             Group {
                 if updates.updateFound, let latest = updates.latest {
-                    Button { updates.check() } label: { Label(L("\(latest) available"), systemImage: "arrow.down.circle.fill") }
-                        .buttonStyle(.borderless).foregroundStyle(Palette.accent)
+                    VStack(alignment: .leading, spacing: 8) {
+                        Label(L("\(latest) available"), systemImage: "arrow.down.circle.fill").foregroundStyle(Palette.accent)
+                        Button { updates.check() } label: {
+                            Text(L("Update now")).font(.system(size: 11, weight: .semibold)).foregroundStyle(.white)
+                                .frame(maxWidth: .infinity).padding(.vertical, 5)
+                                .background(LinearGradient(colors: [Palette.accent, .pink], startPoint: .leading, endPoint: .trailing), in: Capsule())
+                        }.buttonStyle(.plain)
+                    }
                 } else if updates.probing {
                     Text(L("Checking…")).foregroundStyle(.secondary)
                 } else if updates.latest != nil {
@@ -129,7 +135,9 @@ struct SettingsView: View {
             }.font(.system(size: 11, weight: .medium))
         }
         .padding(10).frame(maxWidth: .infinity, alignment: .leading)
-        .background(.primary.opacity(0.05), in: RoundedRectangle(cornerRadius: 10))
+        // An available update tints the card, so it stands out from the others.
+        .background(updates.updateFound ? AnyShapeStyle(LinearGradient(colors: [Palette.accent.opacity(0.28), Palette.accent.opacity(0.1)], startPoint: .topLeading, endPoint: .bottomTrailing)) : AnyShapeStyle(.primary.opacity(0.05)), in: RoundedRectangle(cornerRadius: 10))
+        .overlay(RoundedRectangle(cornerRadius: 10).strokeBorder(updates.updateFound ? Palette.accent.opacity(0.6) : .clear))
         .onAppear { updates.probeIfStale() }
     }
 
