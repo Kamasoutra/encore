@@ -195,20 +195,13 @@ final class EncorePanel: NSPanel {
 
     /// The compact window, at its saved place: a share of the room the screen leaves it, so it lands at the same spot on any screen.
     private func compactFrame(in frame: NSRect) -> NSRect {
-        // The rows of 62 points with their gaps, plus 160 for the header, search field, library bar, footer and padding.
-        let rows = CGFloat(model.preferences.compactCount)
-        let size = NSSize(width: 360, height: min(frame.height - 20, rows * 62 + (rows - 1) * 6 + 160))
-        let position = model.preferences.compactPosition + [1, 0.5].dropFirst(model.preferences.compactPosition.count)
-        let roomX = frame.width - 20 - size.width, roomY = frame.height - 20 - size.height
-        return NSRect(x: frame.minX + 10 + roomX * min(1, max(0, position[0])), y: frame.minY + 10 + roomY * min(1, max(0, position[1])), width: size.width, height: size.height)
+        CompactPlacement.frame(position: model.preferences.compactPosition, rows: model.preferences.compactCount, in: frame)
     }
 
     /// After the compact window is dragged, already snapped while moving: its place is kept for next time.
     private func compactMoved() {
         guard model.columnShown, let screen = panel.screen else { return }
-        let frame = screen.visibleFrame
-        let roomX = max(1, frame.width - 20 - panel.frame.width), roomY = max(1, frame.height - 20 - panel.frame.height)
-        model.preferences.compactPosition = [min(1, max(0, (panel.frame.minX - frame.minX - 10) / roomX)), min(1, max(0, (panel.frame.minY - frame.minY - 10) / roomY))]
+        model.preferences.compactPosition = CompactPlacement.position(of: panel.frame, in: screen.visibleFrame)
         model.preferencesChanged()
     }
 

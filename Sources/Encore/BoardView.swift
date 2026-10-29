@@ -963,8 +963,7 @@ struct SideColumn<Search: View>: View {
     }
 }
 
-/// Moves the compact window, which has no title bar, and snaps it while dragging to the center, the corners
-/// and the middle of each edge of the screen, 10 points in from the edges as where encore places it.
+/// Moves the compact window, which has no title bar, drawing it towards the snapping points while it is dragged.
 private struct WindowDragArea: NSViewRepresentable {
     let onEnd: () -> Void
 
@@ -981,22 +980,11 @@ private struct WindowDragArea: NSViewRepresentable {
                 let mouse = NSEvent.mouseLocation
                 var target = NSPoint(x: origin.x + mouse.x - start.x, y: origin.y + mouse.y - start.y)
                 if let screen = NSScreen.screens.first(where: { $0.frame.contains(mouse) }) ?? window.screen {
-                    target = Self.snap(target, size: window.frame.size, in: screen.visibleFrame)
+                    target = CompactPlacement.attract(target, size: window.frame.size, in: screen.visibleFrame)
                 }
                 window.setFrameOrigin(target)
             }
             onEnd?()
-        }
-
-        static func snap(_ origin: NSPoint, size: NSSize, in frame: NSRect) -> NSPoint {
-            // Drawn in rather than jumping: within 48 points the window lags towards the anchor, more as it gets closer, and holds within 6.
-            func axis(_ value: CGFloat, _ low: CGFloat, _ high: CGFloat) -> CGFloat {
-                let reach: CGFloat = 48, hold: CGFloat = 6
-                guard let anchor = [low, (low + high) / 2, high].min(by: { abs($0 - value) < abs($1 - value) }), abs(value - anchor) < reach else { return value }
-                let distance = abs(value - anchor), pull = max(0, distance - hold) / (reach - hold)
-                return anchor + (value < anchor ? -1 : 1) * reach * pull * pull
-            }
-            return NSPoint(x: axis(origin.x, frame.minX + 10, frame.maxX - 10 - size.width), y: axis(origin.y, frame.minY + 10, frame.maxY - 10 - size.height))
         }
     }
 
@@ -1006,8 +994,8 @@ private struct WindowDragArea: NSViewRepresentable {
 
 private struct SideRow: View {
     /// Rows have one height, so the list shows exactly the chosen number of copies.
-    static let height: CGFloat = 62
-    static let spacing: CGFloat = 6
+    static let height = CompactPlacement.rowHeight
+    static let spacing = CompactPlacement.rowSpacing
     @ObservedObject var model: AppModel
     let clip: Clip
     let index: Int
