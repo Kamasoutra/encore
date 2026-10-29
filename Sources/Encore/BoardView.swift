@@ -861,18 +861,8 @@ struct SideColumn<Search: View>: View {
     let openLibrary: () -> Void
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
-    @State private var first = 0
     private var items: [Clip] { model.filtered }
     private var count: Int { model.preferences.compactCount }
-    private var visible: ArraySlice<Clip> { items.isEmpty ? [] : items[min(first, items.count - 1)..<min(items.count, first + count)] }
-
-    /// Keeps the cursor in the window, moving it as little as possible.
-    private func follow() {
-        guard let cursor = items.firstIndex(where: { $0.id == model.cursor }) else { first = 0; return }
-        let next = cursor < first ? cursor : cursor >= first + count ? cursor - count + 1 : min(first, max(0, items.count - count))
-        guard next != first else { return }
-        withAnimation(reduceMotion ? nil : .easeOut(duration: 0.15)) { first = next }
-    }
     private var cursorOnFirst: Bool { items.first.map { $0.id == model.cursor } ?? true }
 
     var body: some View {
@@ -889,24 +879,30 @@ struct SideColumn<Search: View>: View {
             }
             search
             libraryBar
-            // A window on the list, moved only by the keyboard: ↓ on the last copy shown brings the next one in.
-            VStack(spacing: 6) {
-                ForEach(Array(visible.enumerated()), id: \.element.id) { offset, clip in
-                    SideRow(model: model, clip: clip, index: first + offset)
-                        .transition(reduceMotion ? .opacity : .move(edge: .top).combined(with: .opacity))
+            // Scrolled by the keyboard only: ↓ on the last copy shown slides the list up by one row.
+            ScrollViewReader { proxy in
+                ScrollView(showsIndicators: false) {
+                    LazyVStack(spacing: SideRow.spacing) {
+                        ForEach(Array(items.enumerated()), id: \.element.id) { index, clip in
+                            SideRow(model: model, clip: clip, index: index).id(clip.id)
+                        }
+                    }
                 }
-                Spacer(minLength: 0)
-            }
-            .frame(maxHeight: .infinity)
-            .overlay {
-                if items.isEmpty {
-                    Text(model.query.isEmpty ? L("Copy text, a link, or an image. Find it here with \(model.shortcutStatus).") : L("Try another word or remove the filters."))
-                        .font(.system(size: 12)).foregroundStyle(.secondary).multilineTextAlignment(.center)
+                .wheelScrollingDisabled()
+                .frame(height: CGFloat(count) * SideRow.height + CGFloat(count - 1) * SideRow.spacing)
+                .overlay {
+                    if items.isEmpty {
+                        Text(model.query.isEmpty ? L("Copy text, a link, or an image. Find it here with \(model.shortcutStatus).") : L("Try another word or remove the filters."))
+                            .font(.system(size: 12)).foregroundStyle(.secondary).multilineTextAlignment(.center)
+                    }
+                }
+                .onChanged(model.cursor) { id in
+                    guard let id else { return }
+                    withAnimation(reduceMotion ? nil : .easeOut(duration: 0.16)) { proxy.scrollTo(id) }
                 }
             }
-            .onChanged(model.cursor) { _ in follow() }
-            .onChanged(items.map(\.id)) { _ in follow() }
-            .animation(reduceMotion ? nil : .spring(duration: 0.3, bounce: 0.15), value: visible.map(\.id))
+            .animation(reduceMotion ? nil : .spring(duration: 0.3, bounce: 0.15), value: items.prefix(count).map(\.id))
+            Spacer(minLength: 0)
             // Same order as the shelf footer: the switches, then the hints.
             HStack(spacing: 10) {
                 iconSwitch(model.preferences.pasteDirectly, on: ("arrow.down.doc", L("paste")), off: ("doc.on.doc", L("copy"))) { value in
@@ -977,6 +973,9 @@ private struct WindowDragArea: NSViewRepresentable {
 }
 
 private struct SideRow: View {
+    /// Rows have one height, so the list shows exactly the chosen number of copies.
+    static let height: CGFloat = 62
+    static let spacing: CGFloat = 6
     @ObservedObject var model: AppModel
     let clip: Clip
     let index: Int
@@ -1013,7 +1012,7 @@ private struct SideRow: View {
             }
         }
         .padding(.horizontal, 9).padding(.vertical, 8)
-        .frame(maxWidth: .infinity, minHeight: 62, alignment: .leading)
+        .frame(maxWidth: .infinity, minHeight: Self.height, maxHeight: Self.height, alignment: .leading)
         .background(selected ? Palette.accent.opacity(scheme == .dark ? 0.24 : 0.16) : Color.primary.opacity(hovered ? 0.08 : 0.04), in: RoundedRectangle(cornerRadius: 11))
         .overlay(RoundedRectangle(cornerRadius: 11).strokeBorder(selected ? Palette.accent.opacity(0.9) : .clear, lineWidth: 1.5))
         .contentShape(Rectangle())

@@ -3,6 +3,11 @@ import SwiftUI
 // Encore runs on macOS 12: these wrappers keep the current SwiftUI APIs where they exist.
 
 extension View {
+    /// Scrolling left to code, as in the compact window moved by the arrows. macOS 12 keeps the wheel.
+    @ViewBuilder func wheelScrollingDisabled() -> some View {
+        if #available(macOS 13, *) { scrollDisabled(true) } else { self }
+    }
+
     /// `onChange` whose two-value form only exists from macOS 14.
     @ViewBuilder func onChanged<V: Equatable>(_ value: V, perform action: @escaping (V) -> Void) -> some View {
         if #available(macOS 14, *) { onChange(of: value) { _, new in action(new) } }
