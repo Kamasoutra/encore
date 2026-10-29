@@ -1083,6 +1083,16 @@ struct PeerStatus: Identifiable, Equatable {
         if let (text, payload) = try? DemoFixtures.richText() {
             accept(Clip(fingerprint: payload.fingerprint, kind: .text, text: text, sourceName: "Notes", sourceBundle: "com.apple.Notes", copiedAt: Date().addingTimeInterval(-90), byteCount: payload.byteCount), payload: payload)
         }
+        // `--demo --secrets` adds masked secrets with detection on, for screenshots of the feature.
+        if CommandLine.arguments.contains("--secrets") {
+            preferences.detectSecrets = true
+            for (value, kind, source, bundle, age) in [("k9#Lm2!qZxP4", SecretKind.password, "Firefox", "org.mozilla.firefox", 20.0), ("sk-ant-api03-Zq8xV2mN5pL1kR7tY4wB", .apiKey, "Terminal", "com.apple.Terminal", 45)] {
+                let payload = ClipPayload.text(value)
+                var clip = Clip(fingerprint: payload.fingerprint, kind: .text, text: SecretKind.mask(value, keeping: preferences.secretPreview), sourceName: source, sourceBundle: bundle, copiedAt: Date().addingTimeInterval(-age), byteCount: payload.byteCount)
+                clip.secret = kind
+                accept(clip, payload: payload)
+            }
+        }
         library.clips.sort { $0.copiedAt > $1.copiedAt }
         save()
     }
