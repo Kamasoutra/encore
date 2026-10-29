@@ -130,7 +130,7 @@ struct SettingsView: View {
         }
         .padding(10).frame(maxWidth: .infinity, alignment: .leading)
         .background(.primary.opacity(0.05), in: RoundedRectangle(cornerRadius: 10))
-        .onAppear { if updates.latest == nil { updates.probe() } }
+        .onAppear { updates.probeIfStale() }
     }
 
     /// Both ways to tip, side by side.
