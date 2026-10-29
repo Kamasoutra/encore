@@ -128,7 +128,6 @@
 "Expired items will be removed from history. Original files are kept." = "Τα στοιχεία που έληξαν θα αφαιρεθούν από το ιστορικό. Τα αρχικά αρχεία διατηρούνται.";
 "Expires" = "Λήξη";
 "Expires in %@" = "Λήγει σε %@";
-"Expires in under 1 min" = "Λήγει σε λιγότερο από 1 λεπ.";
 "Expires: %@" = "Λήξη: %@";
 "Expiring now" = "Λήγει τώρα";
 "explore" = "εξερεύνηση";

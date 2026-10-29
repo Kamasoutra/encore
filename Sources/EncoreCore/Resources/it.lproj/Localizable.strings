@@ -128,7 +128,6 @@
 "Expired items will be removed from history. Original files are kept." = "Gli elementi scaduti verranno rimossi dalla cronologia. I file originali vengono mantenuti.";
 "Expires" = "Scadenza";
 "Expires in %@" = "Scade tra %@";
-"Expires in under 1 min" = "Scade tra meno di 1 min";
 "Expires: %@" = "Scadenza: %@";
 "Expiring now" = "In scadenza";
 "explore" = "esplora";

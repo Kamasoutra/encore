@@ -297,13 +297,22 @@ struct PeerStatus: Identifiable, Equatable {
 
     func retentionDecision(for clip: Clip) -> RetentionDecision { preferences.retentionPolicy.decision(for: clip) }
 
+    /// Something expires within the minute: the cards then count down by the second.
+    var expiresWithinAMinute: Bool {
+        let now = Date()
+        return library.clips.contains { clip in
+            guard let deadline = retentionDecision(for: clip).expiresAt else { return false }
+            return deadline.timeIntervalSince(now) < 61
+        }
+    }
+
     func relativeAge(_ date: Date) -> String { Localization.relative(date, to: displayTime) }
 
     func remainingRetention(for clip: Clip) -> String {
         guard let deadline = retentionDecision(for: clip).expiresAt else { return L("Forever") }
         let seconds = deadline.timeIntervalSince(displayTime)
         guard seconds > 0 else { return L("Expiring now") }
-        if seconds < 60 { return L("Expires in under 1 min") }
+        if seconds < 60 { return L("Expires in \(Localization.seconds(seconds))") }
         return L("Expires in \(Localization.duration(seconds))")
     }
 

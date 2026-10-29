@@ -128,7 +128,6 @@
 "Expired items will be removed from history. Original files are kept." = "Jo vanhentuneet kohteet poistetaan historiasta. Alkuperäiset tiedostot säilyvät ennallaan.";
 "Expires" = "Vanhenee";
 "Expires in %@" = "Vanhenee %@ kuluttua";
-"Expires in under 1 min" = "Vanhenee alle 1 min kuluttua";
 "Expires: %@" = "Vanhenee: %@";
 "Expiring now" = "Vanhenee nyt";
 "explore" = "selaa";

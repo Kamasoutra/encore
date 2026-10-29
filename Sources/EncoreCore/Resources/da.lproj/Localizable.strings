@@ -128,7 +128,6 @@
 "Expired items will be removed from history. Original files are kept." = "Emner, der allerede er udløbet, fjernes fra historikken. De oprindelige filer forbliver uændrede.";
 "Expires" = "Udløber";
 "Expires in %@" = "Udløber om %@";
-"Expires in under 1 min" = "Udløber om under 1 min.";
 "Expires: %@" = "Udløber: %@";
 "Expiring now" = "Udløber nu";
 "explore" = "udforsk";

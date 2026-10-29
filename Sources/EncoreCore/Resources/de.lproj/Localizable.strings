@@ -128,7 +128,6 @@
 "Expired items will be removed from history. Original files are kept." = "Bereits abgelaufene Objekte werden aus dem Verlauf entfernt. Die Originaldateien bleiben unverändert.";
 "Expires" = "Ablauf";
 "Expires in %@" = "Läuft ab in %@";
-"Expires in under 1 min" = "Läuft in unter 1 Min. ab";
 "Expires: %@" = "Läuft ab: %@";
 "Expiring now" = "Läuft gleich ab";
 "explore" = "erkunden";

@@ -128,7 +128,6 @@
 "Expired items will be removed from history. Original files are kept." = "รายการที่หมดอายุจะถูกเอาออกจากประวัติ ไฟล์ต้นฉบับจะยังคงอยู่";
 "Expires" = "หมดอายุ";
 "Expires in %@" = "หมดอายุใน %@";
-"Expires in under 1 min" = "หมดอายุภายใน 1 นาที";
 "Expires: %@" = "หมดอายุ: %@";
 "Expiring now" = "กำลังจะหมดอายุ";
 "explore" = "ขยาย";

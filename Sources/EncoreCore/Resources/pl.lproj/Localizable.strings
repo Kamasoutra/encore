@@ -128,7 +128,6 @@
 "Expired items will be removed from history. Original files are kept." = "Elementy, które już wygasły, zostaną usunięte z historii. Ich pliki źródłowe pozostaną nienaruszone.";
 "Expires" = "Wygaśnięcie";
 "Expires in %@" = "Wygasa za %@";
-"Expires in under 1 min" = "Wygasa za mniej niż 1 min";
 "Expires: %@" = "Wygasa: %@";
 "Expiring now" = "Wygasa teraz";
 "explore" = "przeglądaj";

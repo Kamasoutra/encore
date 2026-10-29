@@ -128,7 +128,6 @@
 "Expired items will be removed from history. Original files are kept." = "期限切れの項目は履歴から削除されます。元のファイルは残ります。";
 "Expires" = "有効期限";
 "Expires in %@" = "あと%@で期限切れ";
-"Expires in under 1 min" = "1分以内に期限切れ";
 "Expires: %@" = "有効期限：%@";
 "Expiring now" = "まもなく期限切れ";
 "explore" = "展開";

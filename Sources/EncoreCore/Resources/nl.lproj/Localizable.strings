@@ -128,7 +128,6 @@
 "Expired items will be removed from history. Original files are kept." = "Al verlopen onderdelen worden uit de geschiedenis verwijderd. De oorspronkelijke bestanden blijven intact.";
 "Expires" = "Verloopt";
 "Expires in %@" = "Verloopt over %@";
-"Expires in under 1 min" = "Verloopt binnen 1 min.";
 "Expires: %@" = "Verloopt: %@";
 "Expiring now" = "Verloopt nu";
 "explore" = "verken";

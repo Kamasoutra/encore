@@ -128,7 +128,6 @@
 "Expired items will be removed from history. Original files are kept." = "过期项目将从历史记录中移除。原始文件会保留。";
 "Expires" = "过期时间";
 "Expires in %@" = "%@后过期";
-"Expires in under 1 min" = "不到 1 分钟后过期";
 "Expires: %@" = "过期时间：%@";
 "Expiring now" = "即将过期";
 "explore" = "展开";

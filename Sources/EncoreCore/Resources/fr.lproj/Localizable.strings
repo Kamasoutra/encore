@@ -128,7 +128,6 @@
 "Expired items will be removed from history. Original files are kept." = "Les éléments déjà expirés seront retirés de l’historique. Leurs fichiers d’origine restent intacts.";
 "Expires" = "Expiration";
 "Expires in %@" = "Expire dans %@";
-"Expires in under 1 min" = "Expire dans moins d’1 min";
 "Expires: %@" = "Expiration : %@";
 "Expiring now" = "Expiration imminente";
 "explore" = "explorer";
