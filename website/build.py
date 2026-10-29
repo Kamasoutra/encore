@@ -54,6 +54,9 @@ STRINGS = {
         "promise_text": "MIT licensed. The code is on GitHub, and every release is built in public by GitHub Actions.",
         "last": "The clipboard your Mac should have shipped with",
         "star": "★ Star it on GitHub",
+        "back_title": "Like encore?",
+        "back_text": "A star on GitHub helps other people find it, and your support helps it last.",
+        "support": "Support encore",
         "note": "encore is not notarized yet. The first time, open it from System Settings → Privacy & Security → Open Anyway.",
         "releases": "Releases",
         "sponsor": "Sponsor",
@@ -100,6 +103,9 @@ STRINGS = {
         "promise_text": "Licence MIT. Le code est sur GitHub, et chaque version est compilée publiquement par GitHub Actions.",
         "last": "Le presse-papiers que ton Mac aurait dû avoir dès le départ",
         "star": "★ Une étoile sur GitHub",
+        "back_title": "encore te plaît ?",
+        "back_text": "Une étoile sur GitHub aide d’autres personnes à le trouver, et ton soutien l’aide à durer.",
+        "support": "Soutenir encore",
         "note": "encore n’est pas notarisé pour l’instant. La première fois, ouvre-le depuis Réglages Système → Confidentialité et sécurité → Ouvrir quand même.",
         "releases": "Versions",
         "sponsor": "Soutenir",
@@ -361,9 +367,13 @@ $details
   <h2>$last</h2>
   <div class="get">
     <a class="button" href="$zip">$arrow$download</a>
-    <a class="star" href="$repo">$star</a>
   </div>
   <p class="fine note">$note</p>
+  <div class="cta">
+    <div><h3>$back_title</h3><p>$back_text</p></div>
+    <a class="button ghost" href="$repo">$star</a>
+    <a class="button" href="$sponsors"><span aria-hidden="true">♥</span>$support</a>
+  </div>
 </section>
 """)
 
@@ -421,6 +431,7 @@ def build(lang, s):
         details="\n".join(f"<div><h3>{e(t)}</h3><p>{e(d)}</p></div>" for t, d in s["details"]),
         promise="".join(f"<span>{e(t)}</span>" for t in s["promise"]), promise_text=e(s["promise_text"]),
         last=e(s["last"]), star=e(s["star"]), note=e(s["note"]),
+        back_title=e(s["back_title"]), back_text=e(s["back_text"]), support=e(s["support"]), sponsors=SPONSORS,
     )
     return layout(lang, s, "", s["title"], s["description"], main)
 
