@@ -148,6 +148,7 @@ struct LibraryBody: View {
                             ForEach(section.items) { item in
                                 ClipCard(model: model, clip: item.clip, index: item.index, compact: compact, height: 232 * scale, namespace: namespace)
                                     .id(item.clip.id)
+                                    .modifier(ClipDustFrame(id: item.clip.id))
                             }
                         } header: {
                             dayTitle(section)
@@ -155,8 +156,15 @@ struct LibraryBody: View {
                         }
                     }
                 }.padding(.horizontal, 16).padding(.bottom, 16)
+                    .animation(reduceMotion ? .easeOut(duration: 0.12) : .easeInOut(duration: 0.24), value: model.library.clips.map(\.id))
             }
             .coordinateSpace(name: "library")
+            .background {
+                GeometryReader { proxy in
+                    let frame = proxy.frame(in: .named("clip-dust"))
+                    Color.clear.preference(key: ClipDustViewportKey.self, value: CGRect(x: frame.minX, y: frame.minY + Self.header + 8, width: frame.width, height: max(0, frame.height - Self.header - 8)))
+                }
+            }
             // No pinned headers: a background never matches the translucent panel. Cards fade out at the top and the current day floats there.
             .mask {
                 VStack(spacing: 0) {

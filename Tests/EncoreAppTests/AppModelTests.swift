@@ -107,6 +107,39 @@ final class AppModelTests: XCTestCase {
         }
     }
 
+    @MainActor func testExpiringSelectedMiddleItemKeepsSelectionBesideTheGap() async throws {
+        try withModel { model in
+            let now = Date()
+            model.preferences.detectSecrets = true
+            model.preferences.secretLifetime = 30
+            model.library.clips = (0..<12).map { Clip(kind: .text, text: "Item \($0)", copiedAt: now) }
+            model.library.clips[2].secret = .password
+            model.library.clips[7].secret = .password
+            model.library.clips[2].copiedAt = now.addingTimeInterval(-31)
+            model.library.clips[7].copiedAt = now.addingTimeInterval(-31)
+            let next = model.library.clips[8].id
+            model.select(model.library.clips[7].id)
+            model.prune(now: now)
+            XCTAssertEqual(model.cursor, next)
+            XCTAssertEqual(model.selection, [next])
+            let following = model.library.clips[7].id
+            model.select(following, modifiers: .shift)
+            XCTAssertEqual(model.selection, [next, following])
+        }
+    }
+
+    @MainActor func testClearingSelectedLastItemSelectsItsPreviousNeighbor() async throws {
+        try withModel { model in
+            model.library.clips = (0..<12).map { Clip(kind: .text, text: "Item \($0)") }
+            let previous = model.library.clips[10].id
+            let last = model.library.clips[11].id
+            model.select(last)
+            model.forgetCleared(last)
+            XCTAssertEqual(model.cursor, previous)
+            XCTAssertEqual(model.selection, [previous])
+        }
+    }
+
     @MainActor func testQueueDeliveryUpdatesThePasteboardInFIFOOrderThenDisarms() async throws {
         try withModel { model in
             let pasteboard = NSPasteboard(name: .init("Encore-Queue-Test-\(UUID())"))

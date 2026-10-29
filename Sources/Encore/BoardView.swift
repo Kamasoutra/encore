@@ -129,6 +129,9 @@ struct BoardView: View {
         .overlay(RoundedRectangle(cornerRadius: 20).strokeBorder(.white.opacity(scheme == .dark ? 0.12 : 0.6), lineWidth: 1))
         .overlay { if let form = model.snippetForm { SnippetFormView(model: model, form: form).id(form.id) } }
         .overlay { if let id = model.snippetEditor, let clip = model.boardClips.first(where: { $0.id == id }) { SnippetEditorView(model: model, clip: clip).id(id) } }
+        .coordinateSpace(name: "clip-dust")
+        .onPreferenceChange(ClipDustFramesKey.self) { model.removalFrames = $0 }
+        .onPreferenceChange(ClipDustViewportKey.self) { model.removalViewport = $0 }
         .localized()
         .tint(Palette.accent)
         .onChanged(model.searchFocused) { value in searchFocus = value }
@@ -267,9 +270,14 @@ struct BoardView: View {
                         DaySeparator(title: section.title)
                         ForEach(section.items) { item in
                             ClipCard(model: model, clip: item.clip, index: item.index, compact: compact, namespace: cardSpace).id(item.clip.id)
+                                .modifier(ClipDustFrame(id: item.clip.id))
                         }
                     }
                 }.padding(.horizontal, 16).padding(.top, 8).padding(.bottom, 12)
+                    .animation(reduceMotion ? .easeOut(duration: 0.12) : .easeInOut(duration: 0.24), value: model.library.clips.map(\.id))
+            }
+            .background {
+                GeometryReader { proxy in Color.clear.preference(key: ClipDustViewportKey.self, value: proxy.frame(in: .named("clip-dust"))) }
             }
             .onChanged(model.cursor) { id in
                 guard let id else { return }
@@ -887,10 +895,14 @@ struct SideColumn<Search: View>: View {
                     LazyVStack(spacing: SideRow.spacing) {
                         ForEach(Array(items.enumerated()), id: \.element.id) { index, clip in
                             SideRow(model: model, clip: clip, index: index).id(clip.id)
+                                .modifier(ClipDustFrame(id: clip.id))
                         }
                     }
                 }
                 .frame(height: CGFloat(count) * SideRow.height + CGFloat(count - 1) * SideRow.spacing)
+                .background {
+                    GeometryReader { proxy in Color.clear.preference(key: ClipDustViewportKey.self, value: proxy.frame(in: .named("clip-dust"))) }
+                }
                 .overlay {
                     if items.isEmpty {
                         Text(model.query.isEmpty ? L("Copy text, a link, or an image. Find it here with \(model.shortcutStatus).") : L("Try another word or remove the filters."))
@@ -902,7 +914,7 @@ struct SideColumn<Search: View>: View {
                     withAnimation(reduceMotion ? nil : .easeOut(duration: 0.16)) { proxy.scrollTo(id) }
                 }
             }
-            .animation(reduceMotion ? nil : .spring(duration: 0.3, bounce: 0.15), value: items.prefix(count).map(\.id))
+            .animation(reduceMotion ? .easeOut(duration: 0.12) : .easeInOut(duration: 0.24), value: items.map(\.id))
             Spacer(minLength: 0)
             // Same order as the shelf footer: the switches, then the hints.
             HStack(spacing: 10) {
