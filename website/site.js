@@ -18,3 +18,16 @@ document.querySelectorAll(".film").forEach(film => {
 document.querySelectorAll("[data-lang]").forEach(link => {
   link.addEventListener("click", () => { try { localStorage.setItem("lang", link.dataset.lang); } catch (e) {} });
 });
+
+// Changelog: the version being read is highlighted in the list, which follows on narrow screens.
+const versions = document.querySelectorAll(".changes nav a");
+if (versions.length && "IntersectionObserver" in window) {
+  const links = new Map([...versions].map(a => [a.getAttribute("href").slice(1), a]));
+  const observer = new IntersectionObserver(entries => entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    versions.forEach(a => a.classList.remove("on"));
+    const link = links.get(entry.target.id);
+    if (link) { link.classList.add("on"); link.parentElement.parentElement.scrollLeft = link.offsetLeft - 16; }
+  }), { rootMargin: "-30% 0px -60% 0px" });
+  document.querySelectorAll(".release").forEach(release => observer.observe(release));
+}

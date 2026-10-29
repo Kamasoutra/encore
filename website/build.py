@@ -8,6 +8,8 @@ import html, shutil
 from pathlib import Path
 from string import Template
 
+from features import FEATURES, RELEASES, changelog_main, features_main
+
 ROOT = Path(__file__).resolve().parent
 OUT = ROOT / "public"
 SITE = "https://kamasoutra.github.io/encore/"
@@ -28,7 +30,7 @@ STRINGS = {
         "copy": "Copy", "copied": "Copied",
         "sound_on": "Turn sound on", "sound_off": "Mute",
         "video": "The encore launch video",
-        "new_tag": "New in 0.5", "new": "Snippets, synced between your Macs",
+        "new_tag": "New in 0.6", "new": "A compact window, wherever you want it",
         "snippets": ["Snippets", "On every Mac"],
         "snippets_text": "Press ⌘S on any card: a name, a language (encore guesses it among 85) and tags. Placeholders like {{name}} ask for a value before pasting. Your snippets and favorites stay in step between your paired Macs.",
         "snippets_video": "Snippets in encore 0.5",
@@ -56,6 +58,8 @@ STRINGS = {
         "releases": "Releases",
         "sponsor": "Sponsor",
         "privacy_nav": "Your data",
+        "features_nav": "Features",
+        "changelog_nav": "What's new",
         "trust": ["Stays on your Mac", "No account", "No telemetry", "Passwords left out"],
         "trust_ask": "Want to know more? Worried about your data, and whether it will last?",
         "trust_link": "We explain everything",
@@ -72,7 +76,7 @@ STRINGS = {
         "copy": "Copier", "copied": "Copié",
         "sound_on": "Activer le son", "sound_off": "Couper le son",
         "video": "La vidéo de lancement d’encore",
-        "new_tag": "Nouveautés · 0.5", "new": "Les snippets, synchronisés entre tes Mac",
+        "new_tag": "Nouveautés · 0.6", "new": "Une fenêtre compacte, où tu veux",
         "snippets": ["Snippets", "Sur tous tes Mac"],
         "snippets_text": "⌘S sur n’importe quelle carte : un nom, un langage (encore le devine parmi 85) et des tags. Les placeholders comme {{nom}} te demandent une valeur avant de coller. Tes snippets et tes favoris restent synchronisés entre tes Mac appairés.",
         "snippets_video": "Les snippets dans encore 0.5",
@@ -100,6 +104,8 @@ STRINGS = {
         "releases": "Versions",
         "sponsor": "Soutenir",
         "privacy_nav": "Tes données",
+        "features_nav": "Fonctionnalités",
+        "changelog_nav": "Nouveautés",
         "trust": ["Reste sur ton Mac", "Sans compte", "Sans télémétrie", "Mots de passe ignorés"],
         "trust_ask": "Tu veux en savoir plus ? Tu te préoccupes de tes données et de leur pérennité ?",
         "trust_link": "On t’explique tout",
@@ -258,16 +264,18 @@ $detect
   <a class="brand" href="${base}$home"><img src="${base}media/icon.png" alt="" width="34" height="34">encore</a>
   <nav>
     <span class="langs">$langs</span>
+    <a class="hide-small" href="${base}${home}features/"$features_current>$features_nav</a>
+    <a class="hide-small" href="${base}${home}changelog/"$changelog_current>$changelog_nav</a>
     <a href="${base}${home}privacy/"$privacy_current>$privacy_nav</a>
     <a class="hide-small" href="$repo">GitHub</a>
-    <a class="sponsor" href="$sponsors"><span aria-hidden="true">♥</span>$sponsor</a>
+    <a class="sponsor" href="$sponsors" aria-label="$sponsor"><span aria-hidden="true">♥</span><span class="label">$sponsor</span></a>
   </nav>
 </header>
 <main>
 $main</main>
 <footer class="wrap">
   <span>encore · $license</span>
-  <nav><a href="$repo">GitHub</a><a href="$repo/releases">$releases</a><a class="sponsor" href="$sponsors"><span aria-hidden="true">♥</span>$sponsor</a></nav>
+  <nav><a href="${base}${home}features/">$features_nav</a><a href="${base}${home}changelog/">$changelog_nav</a><a href="$repo">GitHub</a><a href="$repo/releases">$releases</a><a class="sponsor" href="$sponsors"><span aria-hidden="true">♥</span>$sponsor</a></nav>
 </footer>
 <script src="${base}site.js"></script>
 </body>
@@ -303,7 +311,7 @@ DOWNLOAD = f"""<!doctype html>
 CURRENT = ' aria-current="page"'
 
 HOME = Template("""<section class="wrap hero">
-  <a class="new" href="#snippets"><b>$new_tag</b>$new<span aria-hidden="true">→</span></a>
+  <a class="new" href="${base}${home}features/#compact"><b>$new_tag</b>$new<span aria-hidden="true">→</span></a>
   <h1 class="slam hook">$hook</h1>
   <p class="lead">$lead</p>
   <div class="get">
@@ -374,6 +382,8 @@ def layout(lang, s, page, title, description, main):
         alternates="\n".join(f'<link rel="alternate" hreflang="{c}" href="{SITE}{"" if c == "en" else "fr/"}{page}">' for c in ("en", "fr")),
         detect=DETECT if lang == "en" and not page else "",
         langs=langs, privacy_nav=e(s["privacy_nav"]), privacy_current=CURRENT if page == "privacy/" else "",
+        features_nav=e(s["features_nav"]), features_current=CURRENT if page == "features/" else "",
+        changelog_nav=e(s["changelog_nav"]), changelog_current=CURRENT if page == "changelog/" else "",
         releases=e(s["releases"]), license=e(s["license"]),
         sponsor=e(s["sponsor"]), sponsors=SPONSORS, main=main,
     )
@@ -467,6 +477,18 @@ def build_privacy(lang, s):
     return layout(lang, s, "privacy/", p["page_title"], p["description"], main)
 
 
+def build_features(lang, s):
+    f = FEATURES[lang]
+    base = "../" if lang == "en" else "../../"
+    return layout(lang, s, "features/", f["page_title"], f["description"], features_main(lang, base, "" if lang == "en" else "fr/"))
+
+
+def build_changelog(lang, s):
+    r = RELEASES[lang]
+    base = "../" if lang == "en" else "../../"
+    return layout(lang, s, "changelog/", r["page_title"], r["description"], changelog_main(lang, base, REPO))
+
+
 def main():
     shutil.rmtree(OUT, ignore_errors=True)
     (OUT / "fr").mkdir(parents=True)
@@ -477,8 +499,9 @@ def main():
     (OUT / "index.html").write_text(build("en", STRINGS["en"]))
     (OUT / "fr" / "index.html").write_text(build("fr", STRINGS["fr"]))
     for lang, folder in (("en", OUT), ("fr", OUT / "fr")):
-        (folder / "privacy").mkdir()
-        (folder / "privacy" / "index.html").write_text(build_privacy(lang, STRINGS[lang]))
+        for page, builder in (("privacy", build_privacy), ("features", build_features), ("changelog", build_changelog)):
+            (folder / page).mkdir()
+            (folder / page / "index.html").write_text(builder(lang, STRINGS[lang]))
     (OUT / "download" / "index.html").write_text(DOWNLOAD)
     (OUT / ".nojekyll").write_text("")
     print(OUT)
