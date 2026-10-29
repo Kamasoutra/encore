@@ -431,3 +431,16 @@
 "Clear History" = "Effacer l’historique";
 "Clear Everything" = "Tout effacer";
 "Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone." = "Effacer l’historique garde les favoris, les snippets et les éléments des collections. Tout effacer les supprime aussi. Cette action est définitive.";
+"Private key" = "Clé privée";
+"Card number" = "Numéro de carte";
+"API key" = "Clé d’API";
+"Token" = "Jeton";
+"Password" = "Mot de passe";
+"Removed from history: its app cleared the clipboard" = "Retiré de l’historique : son app a vidé le presse-papiers";
+"Passwords and secrets" = "Mots de passe et secrets";
+"Password managers can clear the clipboard a while after you copy a password. encore then removes that copy from its history too. In Bitwarden, choose a delay in Settings → Options → Clear clipboard." = "Les gestionnaires de mots de passe peuvent vider le presse-papiers quelque temps après la copie d’un mot de passe. encore retire alors aussi cette copie de son historique. Dans Bitwarden, choisissez un délai dans Paramètres → Options → Effacer le presse-papiers.";
+"Forget copies that their app clears" = "Oublier les copies que leur app efface";
+"Copies that look like passwords, API keys, tokens, private keys or card numbers are masked and deleted after the delay below. Pasting them still works, and they are never shared with your other Macs. Detection is a guess: ordinary copies, like code or identifiers, can be taken for secrets, and some secrets can be missed." = "Les copies qui ressemblent à des mots de passe, clés d’API, jetons, clés privées ou numéros de carte sont masquées et supprimées après le délai ci-dessous. Elles se collent toujours normalement et ne sont jamais partagées avec vos autres Mac. La détection reste une estimation : des copies ordinaires, comme du code ou des identifiants, peuvent être prises pour des secrets, et certains secrets peuvent passer inaperçus.";
+"Detect passwords, keys and card numbers" = "Détecter mots de passe, clés et cartes";
+"Delete after" = "Supprimer après";
+"Characters shown" = "Caractères visibles";

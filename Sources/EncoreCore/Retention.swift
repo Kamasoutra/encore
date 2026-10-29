@@ -87,10 +87,15 @@ public struct RetentionDecision: Equatable, Sendable {
 public struct RetentionPolicy: Equatable, Sendable {
     public var rules: [RetentionRule]
     public var fallback: RetentionDuration
-    public init(rules: [RetentionRule] = [], fallback: RetentionDuration = .init(30, .days)) { self.rules = rules; self.fallback = fallback }
+    /// How long detected secrets stay, ahead of every rule; nil when detection is off.
+    public var secretLifetime: TimeInterval?
+    public init(rules: [RetentionRule] = [], fallback: RetentionDuration = .init(30, .days), secretLifetime: TimeInterval? = nil) {
+        self.rules = rules; self.fallback = fallback; self.secretLifetime = secretLifetime
+    }
 
     public func decision(for clip: Clip, calendar: Calendar = .current) -> RetentionDecision {
         if clip.isProtected { return .init(expiresAt: nil, protected: true) }
+        if clip.secret != nil, let secretLifetime { return .init(expiresAt: clip.copiedAt.addingTimeInterval(secretLifetime), protected: false) }
         if let rule = rules.first(where: { $0.matches(clip) }) {
             return .init(expiresAt: rule.duration.expiration(from: clip.copiedAt, calendar: calendar), ruleID: rule.id, ruleName: rule.name, protected: false)
         }

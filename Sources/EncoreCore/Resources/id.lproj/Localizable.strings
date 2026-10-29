@@ -431,3 +431,16 @@
 "Clear History" = "Hapus riwayat";
 "Clear Everything" = "Hapus semua";
 "Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone." = "Hapus riwayat menyimpan favorit, snippet, dan item koleksi. Hapus semua juga menghapusnya. Tindakan ini tidak dapat diurungkan.";
+"Private key" = "Kunci privat";
+"Card number" = "Nomor kartu";
+"API key" = "Kunci API";
+"Token" = "Token";
+"Password" = "Kata sandi";
+"Removed from history: its app cleared the clipboard" = "Dihapus dari riwayat: aplikasinya mengosongkan papan klip";
+"Passwords and secrets" = "Kata sandi dan rahasia";
+"Password managers can clear the clipboard a while after you copy a password. encore then removes that copy from its history too. In Bitwarden, choose a delay in Settings → Options → Clear clipboard." = "Pengelola kata sandi dapat mengosongkan papan klip beberapa saat setelah kamu menyalin kata sandi. encore lalu juga menghapus salinan itu dari riwayatnya. Di Bitwarden, pilih jeda di Pengaturan → Opsi → Bersihkan papan klip.";
+"Forget copies that their app clears" = "Lupakan salinan yang dihapus aplikasinya";
+"Copies that look like passwords, API keys, tokens, private keys or card numbers are masked and deleted after the delay below. Pasting them still works, and they are never shared with your other Macs. Detection is a guess: ordinary copies, like code or identifiers, can be taken for secrets, and some secrets can be missed." = "Salinan yang tampak seperti kata sandi, kunci API, token, kunci privat, atau nomor kartu disamarkan dan dihapus setelah jeda di bawah. Salinan itu tetap bisa ditempel seperti biasa dan tidak pernah dibagikan ke Mac lainmu. Deteksi ini hanya perkiraan: salinan biasa, seperti kode atau pengenal, bisa dianggap rahasia, dan sebagian rahasia bisa terlewat.";
+"Detect passwords, keys and card numbers" = "Deteksi kata sandi, kunci, dan kartu";
+"Delete after" = "Hapus setelah";
+"Characters shown" = "Karakter terlihat";

@@ -431,3 +431,16 @@
 "Clear History" = "Előzmények törlése";
 "Clear Everything" = "Minden törlése";
 "Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone." = "Az Előzmények törlése megtartja a kedvenceket, a snippeteket és a gyűjtemények elemeit. A Minden törlése ezeket is eltávolítja. Nem vonható vissza.";
+"Private key" = "Privát kulcs";
+"Card number" = "Kártyaszám";
+"API key" = "API-kulcs";
+"Token" = "Token";
+"Password" = "Jelszó";
+"Removed from history: its app cleared the clipboard" = "Eltávolítva az előzményekből: az alkalmazása kiürítette a vágólapot";
+"Passwords and secrets" = "Jelszavak és titkok";
+"Password managers can clear the clipboard a while after you copy a password. encore then removes that copy from its history too. In Bitwarden, choose a delay in Settings → Options → Clear clipboard." = "A jelszókezelők a jelszó másolása után egy idővel kiüríthetik a vágólapot. Az encore ekkor ezt a másolatot az előzményekből is eltávolítja. A Bitwardenben válasszon késleltetést a Beállítások → Opciók → Vágólap törlése alatt.";
+"Forget copies that their app clears" = "Az alkalmazásuk által törölt másolatok elfelejtése";
+"Copies that look like passwords, API keys, tokens, private keys or card numbers are masked and deleted after the delay below. Pasting them still works, and they are never shared with your other Macs. Detection is a guess: ordinary copies, like code or identifiers, can be taken for secrets, and some secrets can be missed." = "A jelszónak, API-kulcsnak, tokennek, privát kulcsnak vagy kártyaszámnak tűnő másolatok el vannak takarva, és az alább választott idő után törlődnek. Beilleszteni továbbra is lehet őket, és soha nem osztja meg más Mac gépeivel. A felismerés becslés: hétköznapi másolatok, például kód vagy azonosítók, titoknak tűnhetnek, és egyes titkok elkerülhetik a figyelmet.";
+"Detect passwords, keys and card numbers" = "Jelszavak, kulcsok és kártyák felismerése";
+"Delete after" = "Törlés ennyi idő után";
+"Characters shown" = "Látható karakterek";

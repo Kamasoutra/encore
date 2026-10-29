@@ -431,3 +431,16 @@
 "Clear History" = "履歴を消去";
 "Clear Everything" = "すべて消去";
 "Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone." = "「履歴を消去」はお気に入り、スニペット、コレクションの項目を残します。「すべて消去」はそれらも削除します。元に戻せません。";
+"Private key" = "秘密鍵";
+"Card number" = "カード番号";
+"API key" = "APIキー";
+"Token" = "トークン";
+"Password" = "パスワード";
+"Removed from history: its app cleared the clipboard" = "履歴から削除しました：コピー元のアプリがクリップボードを消去しました";
+"Passwords and secrets" = "パスワードと秘密情報";
+"Password managers can clear the clipboard a while after you copy a password. encore then removes that copy from its history too. In Bitwarden, choose a delay in Settings → Options → Clear clipboard." = "パスワード管理アプリは、パスワードをコピーしてからしばらくするとクリップボードを消去することがあります。そのとき encore もそのコピーを履歴から削除します。Bitwarden では「設定」→「オプション」→「クリップボードの消去」で時間を選んでください。";
+"Forget copies that their app clears" = "コピー元のアプリが消去したコピーを忘れる";
+"Copies that look like passwords, API keys, tokens, private keys or card numbers are masked and deleted after the delay below. Pasting them still works, and they are never shared with your other Macs. Detection is a guess: ordinary copies, like code or identifiers, can be taken for secrets, and some secrets can be missed." = "パスワード、APIキー、トークン、秘密鍵、カード番号のように見えるコピーは伏せ字になり、下で選んだ時間が過ぎると削除されます。ペーストは通常どおりでき、ほかの Mac と共有されることはありません。検出は推測です。コードや識別子などの普通のコピーが秘密情報と判断されたり、秘密情報を見逃したりすることがあります。";
+"Detect passwords, keys and card numbers" = "パスワード、キー、カードを検出";
+"Delete after" = "削除までの時間";
+"Characters shown" = "表示する文字数";

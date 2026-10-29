@@ -431,3 +431,16 @@
 "Clear History" = "Geschiedenis wissen";
 "Clear Everything" = "Alles wissen";
 "Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone." = "Geschiedenis wissen bewaart favorieten, snippets en collectie-items. Alles wissen verwijdert die ook. Dit kan niet ongedaan worden gemaakt.";
+"Private key" = "Privésleutel";
+"Card number" = "Kaartnummer";
+"API key" = "API-sleutel";
+"Token" = "Token";
+"Password" = "Wachtwoord";
+"Removed from history: its app cleared the clipboard" = "Uit de geschiedenis verwijderd: de app heeft het klembord gewist";
+"Passwords and secrets" = "Wachtwoorden en geheimen";
+"Password managers can clear the clipboard a while after you copy a password. encore then removes that copy from its history too. In Bitwarden, choose a delay in Settings → Options → Clear clipboard." = "Wachtwoordbeheerders kunnen het klembord een tijdje na het kopiëren van een wachtwoord wissen. encore haalt die kopie dan ook uit de geschiedenis. Kies in Bitwarden een vertraging bij Instellingen → Opties → Klembord wissen.";
+"Forget copies that their app clears" = "Kopieën vergeten die hun app wist";
+"Copies that look like passwords, API keys, tokens, private keys or card numbers are masked and deleted after the delay below. Pasting them still works, and they are never shared with your other Macs. Detection is a guess: ordinary copies, like code or identifiers, can be taken for secrets, and some secrets can be missed." = "Kopieën die op wachtwoorden, API-sleutels, tokens, privésleutels of kaartnummers lijken, worden gemaskeerd en na de tijd hieronder verwijderd. Plakken werkt gewoon, en ze worden nooit met je andere Macs gedeeld. Herkenning is een schatting: gewone kopieën, zoals code of ID’s, kunnen voor geheimen worden aangezien, en sommige geheimen kunnen worden gemist.";
+"Detect passwords, keys and card numbers" = "Wachtwoorden, sleutels en kaarten herkennen";
+"Delete after" = "Verwijderen na";
+"Characters shown" = "Zichtbare tekens";

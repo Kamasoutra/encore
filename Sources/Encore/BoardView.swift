@@ -673,6 +673,7 @@ struct MatchedCard: ViewModifier {
 
 extension Clip {
     var typeTitle: String {
+        if let secret { return secret.title }
         guard kind == .file, let name = fileNames.first else { return kind.itemTitle }
         let ext = (name as NSString).pathExtension
         if ext.lowercased() == "pdf" { return "PDF" }

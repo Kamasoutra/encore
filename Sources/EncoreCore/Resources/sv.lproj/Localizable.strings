@@ -431,3 +431,16 @@
 "Clear History" = "Rensa historik";
 "Clear Everything" = "Rensa allt";
 "Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone." = "Rensa historik behåller favoriter, snippets och samlingsobjekt. Rensa allt tar bort även dem. Det går inte att ångra.";
+"Private key" = "Privat nyckel";
+"Card number" = "Kortnummer";
+"API key" = "API-nyckel";
+"Token" = "Token";
+"Password" = "Lösenord";
+"Removed from history: its app cleared the clipboard" = "Borttagen ur historiken: appen rensade urklipp";
+"Passwords and secrets" = "Lösenord och hemligheter";
+"Password managers can clear the clipboard a while after you copy a password. encore then removes that copy from its history too. In Bitwarden, choose a delay in Settings → Options → Clear clipboard." = "Lösenordshanterare kan rensa urklipp en stund efter att du kopierat ett lösenord. encore tar då också bort kopian ur historiken. I Bitwarden väljer du en tid under Inställningar → Alternativ → Rensa urklipp.";
+"Forget copies that their app clears" = "Glöm kopior som deras app rensar";
+"Copies that look like passwords, API keys, tokens, private keys or card numbers are masked and deleted after the delay below. Pasting them still works, and they are never shared with your other Macs. Detection is a guess: ordinary copies, like code or identifiers, can be taken for secrets, and some secrets can be missed." = "Kopior som ser ut som lösenord, API-nycklar, tokens, privata nycklar eller kortnummer maskeras och raderas efter tiden nedan. De kan fortfarande klistras in och delas aldrig med dina andra Mac. Igenkänningen är en uppskattning: vanliga kopior, som kod eller id, kan tas för hemligheter, och vissa hemligheter kan missas.";
+"Detect passwords, keys and card numbers" = "Känn igen lösenord, nycklar och kort";
+"Delete after" = "Radera efter";
+"Characters shown" = "Synliga tecken";

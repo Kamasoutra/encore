@@ -431,3 +431,16 @@
 "Clear History" = "مسح السجل";
 "Clear Everything" = "مسح الكل";
 "Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone." = "يحتفظ «مسح السجل» بالمفضلة والمقتطفات وعناصر المجموعات. ويزيلها «مسح الكل» أيضًا. لا يمكن التراجع عن ذلك.";
+"Private key" = "مفتاح خاص";
+"Card number" = "رقم البطاقة";
+"API key" = "مفتاح API";
+"Token" = "رمز مميز";
+"Password" = "كلمة السر";
+"Removed from history: its app cleared the clipboard" = "أُزيل من السجل: مسح تطبيقه الحافظة";
+"Passwords and secrets" = "كلمات السر والأسرار";
+"Password managers can clear the clipboard a while after you copy a password. encore then removes that copy from its history too. In Bitwarden, choose a delay in Settings → Options → Clear clipboard." = "يمكن لمديري كلمات السر مسح الحافظة بعد مدة من نسخ كلمة سر. عندها يزيل encore هذه النسخة من سجله أيضًا. في Bitwarden، اختر مهلة من الإعدادات ← الخيارات ← مسح الحافظة.";
+"Forget copies that their app clears" = "نسيان النسخ التي يمسحها تطبيقها";
+"Copies that look like passwords, API keys, tokens, private keys or card numbers are masked and deleted after the delay below. Pasting them still works, and they are never shared with your other Macs. Detection is a guess: ordinary copies, like code or identifiers, can be taken for secrets, and some secrets can be missed." = "تُخفى النسخ التي تشبه كلمات السر أو مفاتيح API أو الرموز المميزة أو المفاتيح الخاصة أو أرقام البطاقات، وتُحذف بعد المدة المحددة أدناه. يظل لصقها ممكنًا كالمعتاد، ولا تُشارك أبدًا مع أجهزة Mac الأخرى. الكشف تقديري: قد تُعد نسخ عادية، مثل الشيفرة أو المعرّفات، أسرارًا، وقد تفوت بعض الأسرار.";
+"Detect passwords, keys and card numbers" = "كشف كلمات السر والمفاتيح والبطاقات";
+"Delete after" = "الحذف بعد";
+"Characters shown" = "الأحرف الظاهرة";

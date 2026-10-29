@@ -431,3 +431,16 @@
 "Clear History" = "기록 지우기";
 "Clear Everything" = "모두 지우기";
 "Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone." = "기록 지우기는 즐겨찾기, 스니펫, 컬렉션 항목을 유지합니다. 모두 지우기는 이것들도 삭제합니다. 되돌릴 수 없습니다.";
+"Private key" = "개인 키";
+"Card number" = "카드 번호";
+"API key" = "API 키";
+"Token" = "토큰";
+"Password" = "암호";
+"Removed from history: its app cleared the clipboard" = "기록에서 제거됨: 해당 앱이 클립보드를 비웠습니다";
+"Passwords and secrets" = "암호 및 비밀 정보";
+"Password managers can clear the clipboard a while after you copy a password. encore then removes that copy from its history too. In Bitwarden, choose a delay in Settings → Options → Clear clipboard." = "암호 관리자는 암호를 복사한 뒤 잠시 후 클립보드를 비울 수 있습니다. 그러면 encore도 그 복사본을 기록에서 제거합니다. Bitwarden에서는 설정 → 옵션 → 클립보드 지우기에서 시간을 선택하세요.";
+"Forget copies that their app clears" = "앱이 지운 복사본 잊기";
+"Copies that look like passwords, API keys, tokens, private keys or card numbers are masked and deleted after the delay below. Pasting them still works, and they are never shared with your other Macs. Detection is a guess: ordinary copies, like code or identifiers, can be taken for secrets, and some secrets can be missed." = "암호, API 키, 토큰, 개인 키 또는 카드 번호처럼 보이는 복사본은 가려지며 아래에서 선택한 시간이 지나면 삭제됩니다. 붙여넣기는 평소처럼 되고, 다른 Mac과는 절대 공유되지 않습니다. 감지는 추정입니다. 코드나 식별자 같은 일반 복사본이 비밀 정보로 오인되거나 일부 비밀 정보가 감지되지 않을 수 있습니다.";
+"Detect passwords, keys and card numbers" = "암호, 키, 카드 감지";
+"Delete after" = "삭제까지";
+"Characters shown" = "표시할 문자 수";

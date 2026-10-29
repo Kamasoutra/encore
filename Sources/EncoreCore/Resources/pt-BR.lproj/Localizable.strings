@@ -431,3 +431,16 @@
 "Clear History" = "Limpar histórico";
 "Clear Everything" = "Limpar tudo";
 "Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone." = "Limpar histórico mantém favoritos, snippets e itens de coleções. Limpar tudo também os remove. Não é possível desfazer.";
+"Private key" = "Chave privada";
+"Card number" = "Número do cartão";
+"API key" = "Chave de API";
+"Token" = "Token";
+"Password" = "Senha";
+"Removed from history: its app cleared the clipboard" = "Removido do histórico: o app limpou a área de transferência";
+"Passwords and secrets" = "Senhas e segredos";
+"Password managers can clear the clipboard a while after you copy a password. encore then removes that copy from its history too. In Bitwarden, choose a delay in Settings → Options → Clear clipboard." = "Gerenciadores de senhas podem limpar a área de transferência algum tempo depois de você copiar uma senha. O encore então também remove essa cópia do histórico. No Bitwarden, escolha um tempo em Configurações → Opções → Limpar área de transferência.";
+"Forget copies that their app clears" = "Esquecer cópias que o app apaga";
+"Copies that look like passwords, API keys, tokens, private keys or card numbers are masked and deleted after the delay below. Pasting them still works, and they are never shared with your other Macs. Detection is a guess: ordinary copies, like code or identifiers, can be taken for secrets, and some secrets can be missed." = "Cópias que parecem senhas, chaves de API, tokens, chaves privadas ou números de cartão ficam ocultas e são apagadas após o tempo abaixo. Elas continuam sendo coladas normalmente e nunca são compartilhadas com seus outros Macs. A detecção é uma estimativa: cópias comuns, como código ou identificadores, podem ser tomadas por segredos, e alguns segredos podem passar despercebidos.";
+"Detect passwords, keys and card numbers" = "Detectar senhas, chaves e cartões";
+"Delete after" = "Apagar após";
+"Characters shown" = "Caracteres visíveis";

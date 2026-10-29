@@ -431,3 +431,16 @@
 "Clear History" = "Wyczyść historię";
 "Clear Everything" = "Wyczyść wszystko";
 "Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone." = "Wyczyść historię zachowuje ulubione, snippety i elementy kolekcji. Wyczyść wszystko usuwa również je. Tej operacji nie można cofnąć.";
+"Private key" = "Klucz prywatny";
+"Card number" = "Numer karty";
+"API key" = "Klucz API";
+"Token" = "Token";
+"Password" = "Hasło";
+"Removed from history: its app cleared the clipboard" = "Usunięto z historii: aplikacja wyczyściła schowek";
+"Passwords and secrets" = "Hasła i sekrety";
+"Password managers can clear the clipboard a while after you copy a password. encore then removes that copy from its history too. In Bitwarden, choose a delay in Settings → Options → Clear clipboard." = "Menedżery haseł mogą wyczyścić schowek jakiś czas po skopiowaniu hasła. encore usuwa wtedy tę kopię także z historii. W Bitwarden wybierz czas w Ustawienia → Opcje → Wyczyść schowek.";
+"Forget copies that their app clears" = "Zapominaj kopie czyszczone przez ich aplikację";
+"Copies that look like passwords, API keys, tokens, private keys or card numbers are masked and deleted after the delay below. Pasting them still works, and they are never shared with your other Macs. Detection is a guess: ordinary copies, like code or identifiers, can be taken for secrets, and some secrets can be missed." = "Kopie przypominające hasła, klucze API, tokeny, klucze prywatne lub numery kart są maskowane i usuwane po czasie wybranym poniżej. Nadal można je wklejać i nigdy nie są udostępniane innym Macom. Wykrywanie to przybliżenie: zwykłe kopie, jak kod czy identyfikatory, mogą zostać uznane za sekrety, a niektóre sekrety mogą zostać pominięte.";
+"Detect passwords, keys and card numbers" = "Wykrywaj hasła, klucze i karty";
+"Delete after" = "Usuń po";
+"Characters shown" = "Widoczne znaki";

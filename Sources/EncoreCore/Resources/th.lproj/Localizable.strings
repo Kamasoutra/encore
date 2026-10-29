@@ -431,3 +431,16 @@
 "Clear History" = "ล้างประวัติ";
 "Clear Everything" = "ล้างทั้งหมด";
 "Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone." = "ล้างประวัติจะเก็บรายการโปรด สนิปเป็ต และรายการในคอลเลกชันไว้ ล้างทั้งหมดจะลบรายการเหล่านั้นด้วย ไม่สามารถเลิกทำได้";
+"Private key" = "คีย์ส่วนตัว";
+"Card number" = "หมายเลขบัตร";
+"API key" = "คีย์ API";
+"Token" = "โทเค็น";
+"Password" = "รหัสผ่าน";
+"Removed from history: its app cleared the clipboard" = "ลบออกจากประวัติแล้ว: แอปของรายการนี้ล้างคลิปบอร์ด";
+"Passwords and secrets" = "รหัสผ่านและข้อมูลลับ";
+"Password managers can clear the clipboard a while after you copy a password. encore then removes that copy from its history too. In Bitwarden, choose a delay in Settings → Options → Clear clipboard." = "ตัวจัดการรหัสผ่านอาจล้างคลิปบอร์ดหลังจากที่คุณคัดลอกรหัสผ่านไปสักพัก จากนั้น encore จะลบสำเนานั้นออกจากประวัติด้วย ใน Bitwarden ให้เลือกระยะเวลาใน การตั้งค่า → ตัวเลือก → ล้างคลิปบอร์ด";
+"Forget copies that their app clears" = "ลืมสำเนาที่แอปของมันล้าง";
+"Copies that look like passwords, API keys, tokens, private keys or card numbers are masked and deleted after the delay below. Pasting them still works, and they are never shared with your other Macs. Detection is a guess: ordinary copies, like code or identifiers, can be taken for secrets, and some secrets can be missed." = "สำเนาที่ดูเหมือนรหัสผ่าน คีย์ API โทเค็น คีย์ส่วนตัว หรือหมายเลขบัตร จะถูกซ่อนและลบหลังจากระยะเวลาด้านล่าง ยังวางได้ตามปกติ และจะไม่ถูกแชร์กับ Mac เครื่องอื่นของคุณ การตรวจจับเป็นการคาดเดา สำเนาทั่วไป เช่น โค้ดหรือตัวระบุ อาจถูกมองว่าเป็นข้อมูลลับ และข้อมูลลับบางอย่างอาจหลุดรอดไป";
+"Detect passwords, keys and card numbers" = "ตรวจจับรหัสผ่าน คีย์ และบัตร";
+"Delete after" = "ลบหลังจาก";
+"Characters shown" = "อักขระที่แสดง";

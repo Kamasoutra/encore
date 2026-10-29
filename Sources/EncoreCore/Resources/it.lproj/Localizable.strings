@@ -431,3 +431,16 @@
 "Clear History" = "Cancella cronologia";
 "Clear Everything" = "Cancella tutto";
 "Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone." = "Cancella cronologia mantiene preferiti, snippet ed elementi delle raccolte. Cancella tutto rimuove anche quelli. L’azione è irreversibile.";
+"Private key" = "Chiave privata";
+"Card number" = "Numero di carta";
+"API key" = "Chiave API";
+"Token" = "Token";
+"Password" = "Password";
+"Removed from history: its app cleared the clipboard" = "Rimosso dalla cronologia: la sua app ha svuotato gli appunti";
+"Passwords and secrets" = "Password e segreti";
+"Password managers can clear the clipboard a while after you copy a password. encore then removes that copy from its history too. In Bitwarden, choose a delay in Settings → Options → Clear clipboard." = "I gestori di password possono svuotare gli appunti qualche tempo dopo la copia di una password. encore allora rimuove anche quella copia dalla cronologia. In Bitwarden, scegli un intervallo in Impostazioni → Opzioni → Cancella appunti.";
+"Forget copies that their app clears" = "Dimentica le copie che la loro app cancella";
+"Copies that look like passwords, API keys, tokens, private keys or card numbers are masked and deleted after the delay below. Pasting them still works, and they are never shared with your other Macs. Detection is a guess: ordinary copies, like code or identifiers, can be taken for secrets, and some secrets can be missed." = "Le copie che sembrano password, chiavi API, token, chiavi private o numeri di carta vengono mascherate ed eliminate dopo l’intervallo qui sotto. Si incollano comunque normalmente e non vengono mai condivise con gli altri Mac. Il rilevamento è una stima: copie comuni, come codice o identificatori, possono essere scambiate per segreti, e alcuni segreti possono sfuggire.";
+"Detect passwords, keys and card numbers" = "Rileva password, chiavi e carte";
+"Delete after" = "Elimina dopo";
+"Characters shown" = "Caratteri visibili";

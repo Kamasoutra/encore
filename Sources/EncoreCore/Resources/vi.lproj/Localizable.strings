@@ -431,3 +431,16 @@
 "Clear History" = "Xóa lịch sử";
 "Clear Everything" = "Xóa tất cả";
 "Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone." = "Xóa lịch sử giữ lại mục yêu thích, snippet và mục trong bộ sưu tập. Xóa tất cả sẽ xóa cả những mục đó. Không thể hoàn tác.";
+"Private key" = "Khóa riêng tư";
+"Card number" = "Số thẻ";
+"API key" = "Khóa API";
+"Token" = "Token";
+"Password" = "Mật khẩu";
+"Removed from history: its app cleared the clipboard" = "Đã xóa khỏi lịch sử: ứng dụng của nó đã xóa bảng tạm";
+"Passwords and secrets" = "Mật khẩu và bí mật";
+"Password managers can clear the clipboard a while after you copy a password. encore then removes that copy from its history too. In Bitwarden, choose a delay in Settings → Options → Clear clipboard." = "Trình quản lý mật khẩu có thể xóa bảng tạm một lúc sau khi bạn sao chép mật khẩu. Khi đó encore cũng xóa bản sao đó khỏi lịch sử. Trong Bitwarden, chọn thời gian tại Cài đặt → Tùy chọn → Xóa bảng tạm.";
+"Forget copies that their app clears" = "Quên các bản sao bị ứng dụng của chúng xóa";
+"Copies that look like passwords, API keys, tokens, private keys or card numbers are masked and deleted after the delay below. Pasting them still works, and they are never shared with your other Macs. Detection is a guess: ordinary copies, like code or identifiers, can be taken for secrets, and some secrets can be missed." = "Các bản sao trông giống mật khẩu, khóa API, token, khóa riêng tư hoặc số thẻ sẽ được che và xóa sau thời gian bên dưới. Chúng vẫn dán được bình thường và không bao giờ được chia sẻ với các máy Mac khác của bạn. Việc phát hiện chỉ là ước đoán: các bản sao thông thường như mã hoặc mã định danh có thể bị coi là bí mật, và một số bí mật có thể bị bỏ sót.";
+"Detect passwords, keys and card numbers" = "Phát hiện mật khẩu, khóa và thẻ";
+"Delete after" = "Xóa sau";
+"Characters shown" = "Ký tự hiển thị";

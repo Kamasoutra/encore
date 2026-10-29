@@ -54,7 +54,8 @@ public struct LibraryShare: PeerContentProvider {
         return payload
     }
 
-    public static func shareable(_ clip: Clip, excluded: Set<String>) -> Bool { clip.kind != .file && !excluded.contains(clip.sourceBundle) }
+    /// Detected secrets never leave this Mac.
+    public static func shareable(_ clip: Clip, excluded: Set<String>) -> Bool { clip.kind != .file && clip.secret == nil && !excluded.contains(clip.sourceBundle) }
 
     public static func concealed(_ payload: ClipPayload) -> Bool {
         payload.items.contains { item in PasteboardCapture.ignoredTypes.contains { item.representations[$0] != nil } }

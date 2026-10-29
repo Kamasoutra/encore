@@ -38,12 +38,18 @@ struct Preferences: Codable, Equatable {
     var shareWithPeers = false
     /// Return and double-click paste into the front app; off, they only make the item the current clipboard.
     var pasteDirectly = true
+    /// When an app clears the clipboard soon after a copy, as password managers can, the copy leaves the history too.
+    var forgetClearedCopies = true
+    /// Mask copies that look like passwords, keys, tokens or card numbers, and delete them after `secretLifetime` seconds.
+    var detectSecrets = false
+    var secretLifetime: Double = 60
+    var secretPreview = 3
     /// Merge favorites, and snippets, with paired Macs that sync them too, and keep them in step while connected.
     var syncFavorites = false
     var syncSnippets = false
 
     var retentionPolicy: RetentionPolicy {
-        RetentionPolicy(rules: retentionRules, fallback: retentionDays > 0 ? .init(retentionDays, .days) : .forever)
+        RetentionPolicy(rules: retentionRules, fallback: retentionDays > 0 ? .init(retentionDays, .days) : .forever, secretLifetime: detectSecrets ? secretLifetime : nil)
     }
 
     init() {}
@@ -51,7 +57,7 @@ struct Preferences: Codable, Equatable {
     private enum CodingKeys: String, CodingKey {
         case retentionDays, historyLimit, storageLimitMB, captureEnabled, ignoreSensitive, recognizeImages
         case excludedBundleIDs, panelHeight, compact, placement, compactPosition, compactCount, appearance, shortcut, retentionRules, cardScale, importScreenshots, copyScreenshotsToClipboard, screenshotFolder
-        case soundsEnabled, soundTheme, soundVolume, captureSoundPath, pasteSoundPath, displayTarget, stackShortcutEnabled, disabledDefaultExclusions, language, shareWithPeers, pasteDirectly, syncFavorites, syncSnippets
+        case soundsEnabled, soundTheme, soundVolume, captureSoundPath, pasteSoundPath, displayTarget, stackShortcutEnabled, disabledDefaultExclusions, language, shareWithPeers, pasteDirectly, syncFavorites, syncSnippets, forgetClearedCopies, detectSecrets, secretLifetime, secretPreview
     }
 
     init(from decoder: Decoder) throws {
@@ -92,6 +98,10 @@ struct Preferences: Codable, Equatable {
         pasteDirectly = try values.decodeIfPresent(Bool.self, forKey: .pasteDirectly) ?? true
         syncFavorites = try values.decodeIfPresent(Bool.self, forKey: .syncFavorites) ?? false
         syncSnippets = try values.decodeIfPresent(Bool.self, forKey: .syncSnippets) ?? false
+        forgetClearedCopies = try values.decodeIfPresent(Bool.self, forKey: .forgetClearedCopies) ?? true
+        detectSecrets = try values.decodeIfPresent(Bool.self, forKey: .detectSecrets) ?? false
+        secretLifetime = min(86_400, max(10, try values.decodeIfPresent(Double.self, forKey: .secretLifetime) ?? 60))
+        secretPreview = min(8, max(0, try values.decodeIfPresent(Int.self, forKey: .secretPreview) ?? 3))
     }
 
     static func load(demo: Bool) -> Preferences {

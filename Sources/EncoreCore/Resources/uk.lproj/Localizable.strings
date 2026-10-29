@@ -431,3 +431,16 @@
 "Clear History" = "Очистити історію";
 "Clear Everything" = "Видалити все";
 "Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone." = "«Очистити історію» зберігає вибране, сніпети й елементи колекцій. «Видалити все» видаляє і їх. Цю дію не можна скасувати.";
+"Private key" = "Закритий ключ";
+"Card number" = "Номер картки";
+"API key" = "Ключ API";
+"Token" = "Токен";
+"Password" = "Пароль";
+"Removed from history: its app cleared the clipboard" = "Вилучено з історії: програма очистила буфер обміну";
+"Passwords and secrets" = "Паролі та секрети";
+"Password managers can clear the clipboard a while after you copy a password. encore then removes that copy from its history too. In Bitwarden, choose a delay in Settings → Options → Clear clipboard." = "Менеджери паролів можуть очищати буфер обміну через певний час після копіювання пароля. Тоді encore теж вилучає цю копію з історії. У Bitwarden виберіть затримку в розділі «Налаштування» → «Параметри» → «Очистити буфер обміну».";
+"Forget copies that their app clears" = "Забувати копії, які очищає їхня програма";
+"Copies that look like passwords, API keys, tokens, private keys or card numbers are masked and deleted after the delay below. Pasting them still works, and they are never shared with your other Macs. Detection is a guess: ordinary copies, like code or identifiers, can be taken for secrets, and some secrets can be missed." = "Копії, схожі на паролі, ключі API, токени, закриті ключі або номери карток, приховуються й видаляються через час, вибраний нижче. Їх і далі можна вставляти, і вони ніколи не передаються на ваші інші Mac. Розпізнавання приблизне: звичайні копії, як-от код чи ідентифікатори, можуть сприйматися як секрети, а деякі секрети можуть бути пропущені.";
+"Detect passwords, keys and card numbers" = "Розпізнавати паролі, ключі та картки";
+"Delete after" = "Видаляти через";
+"Characters shown" = "Видимі символи";

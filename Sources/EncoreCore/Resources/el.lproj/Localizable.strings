@@ -431,3 +431,16 @@
 "Clear History" = "Διαγραφή ιστορικού";
 "Clear Everything" = "Διαγραφή όλων";
 "Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone." = "Η Διαγραφή ιστορικού κρατά αγαπημένα, snippets και στοιχεία συλλογών. Η Διαγραφή όλων τα αφαιρεί κι αυτά. Δεν μπορεί να αναιρεθεί.";
+"Private key" = "Ιδιωτικό κλειδί";
+"Card number" = "Αριθμός κάρτας";
+"API key" = "Κλειδί API";
+"Token" = "Token";
+"Password" = "Συνθηματικό";
+"Removed from history: its app cleared the clipboard" = "Αφαιρέθηκε από το ιστορικό: η εφαρμογή του άδειασε το πρόχειρο";
+"Passwords and secrets" = "Συνθηματικά και μυστικά";
+"Password managers can clear the clipboard a while after you copy a password. encore then removes that copy from its history too. In Bitwarden, choose a delay in Settings → Options → Clear clipboard." = "Οι διαχειριστές συνθηματικών μπορούν να αδειάσουν το πρόχειρο λίγη ώρα μετά την αντιγραφή ενός συνθηματικού. Το encore τότε αφαιρεί και αυτό το αντίγραφο από το ιστορικό. Στο Bitwarden, επιλέξτε καθυστέρηση στις Ρυθμίσεις → Επιλογές → Εκκαθάριση προχείρου.";
+"Forget copies that their app clears" = "Ξεχνάτε αντίγραφα που διαγράφει η εφαρμογή τους";
+"Copies that look like passwords, API keys, tokens, private keys or card numbers are masked and deleted after the delay below. Pasting them still works, and they are never shared with your other Macs. Detection is a guess: ordinary copies, like code or identifiers, can be taken for secrets, and some secrets can be missed." = "Τα αντίγραφα που μοιάζουν με συνθηματικά, κλειδιά API, tokens, ιδιωτικά κλειδιά ή αριθμούς καρτών αποκρύπτονται και διαγράφονται μετά τον χρόνο παρακάτω. Επικολλώνται κανονικά και δεν κοινοποιούνται ποτέ στους άλλους Mac σας. Η ανίχνευση είναι εκτίμηση: συνηθισμένα αντίγραφα, όπως κώδικας ή αναγνωριστικά, μπορεί να θεωρηθούν μυστικά, και κάποια μυστικά μπορεί να ξεφύγουν.";
+"Detect passwords, keys and card numbers" = "Ανίχνευση συνθηματικών, κλειδιών και καρτών";
+"Delete after" = "Διαγραφή μετά από";
+"Characters shown" = "Ορατοί χαρακτήρες";
