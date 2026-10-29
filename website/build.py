@@ -149,6 +149,7 @@ PRIVACY = {
             ("What encore never keeps", [
                 "Password managers mark what they copy as confidential, and encore skips it. It also leaves out the password apps installed on your Mac: 1Password, Bitwarden, Dashlane, KeePassXC, Keychain Access and Passwords.",
                 "Exclude any other app, like your bank or your work chat, in Settings → Privacy. And pause capture in one click from the menu bar.",
+                "Browser extensions, like Bitwarden in Firefox, copy as the browser and mark nothing. Two settings cover them. When the app clears the clipboard after a copy (in Bitwarden: Settings → Options → Clear clipboard), encore forgets that copy too. And, if you turn it on, encore spots copies that look like passwords, API keys, tokens or card numbers, masks them and deletes them after the delay you choose. It is a guess: an ordinary copy can be taken for a secret, and a secret can be missed.",
                 "<small>Not every app marks its sensitive copies. When in doubt, exclude it.</small>",
             ], "privacy", "encore’s Privacy settings: confidential content ignored, text recognition on this Mac, password apps excluded"),
             ("You stay in control", [
@@ -209,6 +210,7 @@ PRIVACY = {
             ("Ce qu’encore ne garde jamais", [
                 "Les gestionnaires de mots de passe signalent leurs copies comme confidentielles, et encore les ignore. Il écarte aussi d’office les apps de mots de passe installées sur ton Mac : 1Password, Bitwarden, Dashlane, KeePassXC, Trousseaux d’accès et Mots de passe.",
                 "Exclus n’importe quelle autre app, ta banque ou ta messagerie pro par exemple, dans Réglages → Confidentialité. Et mets la capture en pause en un clic depuis la barre des menus.",
+                "Les extensions de navigateur, comme Bitwarden dans Firefox, copient au nom du navigateur et ne signalent rien. Deux réglages les couvrent. Quand l’app vide le presse-papiers après une copie (dans Bitwarden : Paramètres → Options → Effacer le presse-papiers), encore oublie aussi cette copie. Et, si tu l’actives, encore repère les copies qui ressemblent à des mots de passe, clés d’API, jetons ou numéros de carte, les masque et les supprime après le délai de ton choix. C’est une estimation : une copie ordinaire peut être prise pour un secret, et un secret peut passer inaperçu.",
                 "<small>Toutes les apps ne signalent pas leurs copies sensibles. Dans le doute, exclus-les.</small>",
             ], "privacy", "Les réglages Confidentialité d’encore : contenus confidentiels ignorés, reconnaissance du texte sur ce Mac, apps de mots de passe exclues"),
             ("Tu gardes la main", [
