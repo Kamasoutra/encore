@@ -431,3 +431,16 @@
 "Clear History" = "Vymazať históriu";
 "Clear Everything" = "Vymazať všetko";
 "Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone." = "Vymazať históriu ponechá obľúbené, snippety a položky zbierok. Vymazať všetko odstráni aj ich. Akciu nemožno vrátiť.";
+"Private key" = "Súkromný kľúč";
+"Card number" = "Číslo karty";
+"API key" = "Kľúč API";
+"Token" = "Token";
+"Password" = "Heslo";
+"Removed from history: its app cleared the clipboard" = "Odstránené z histórie: aplikácia vymazala schránku";
+"Passwords and secrets" = "Heslá a tajné údaje";
+"Password managers can clear the clipboard a while after you copy a password. encore then removes that copy from its history too. In Bitwarden, choose a delay in Settings → Options → Clear clipboard." = "Správcovia hesiel môžu schránku vymazať nejaký čas po skopírovaní hesla. encore potom túto kópiu odstráni aj z histórie. V Bitwardene zvoľte oneskorenie v Nastavenia → Možnosti → Vymazať schránku.";
+"Forget copies that their app clears" = "Zabúdať kópie, ktoré ich aplikácia vymaže";
+"Copies that look like passwords, API keys, tokens, private keys or card numbers are masked and deleted after the delay below. Pasting them still works, and they are never shared with your other Macs. Detection is a guess: ordinary copies, like code or identifiers, can be taken for secrets, and some secrets can be missed." = "Kópie, ktoré vyzerajú ako heslá, kľúče API, tokeny, súkromné kľúče alebo čísla kariet, sa skryjú a zmažú po nižšie zvolenom čase. Vkladanie naďalej funguje a nikdy sa nezdieľajú s vašimi ďalšími Macmi. Rozpoznávanie je odhad: bežné kópie, napríklad kód alebo identifikátory, môžu byť považované za tajné údaje a niektoré tajné údaje môžu uniknúť.";
+"Detect passwords, keys and card numbers" = "Rozpoznávať heslá, kľúče a karty";
+"Delete after" = "Zmazať po";
+"Characters shown" = "Viditeľné znaky";

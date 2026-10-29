@@ -431,3 +431,16 @@
 "Clear History" = "Tyhjennä historia";
 "Clear Everything" = "Tyhjennä kaikki";
 "Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone." = "Tyhjennä historia säilyttää suosikit, snippetit ja kokoelmien kohteet. Tyhjennä kaikki poistaa myös ne. Toimintoa ei voi kumota.";
+"Private key" = "Yksityinen avain";
+"Card number" = "Kortin numero";
+"API key" = "API-avain";
+"Token" = "Tunnus";
+"Password" = "Salasana";
+"Removed from history: its app cleared the clipboard" = "Poistettu historiasta: appi tyhjensi leikepöydän";
+"Passwords and secrets" = "Salasanat ja salaisuudet";
+"Password managers can clear the clipboard a while after you copy a password. encore then removes that copy from its history too. In Bitwarden, choose a delay in Settings → Options → Clear clipboard." = "Salasanojen hallintaohjelmat voivat tyhjentää leikepöydän jonkin ajan kuluttua salasanan kopioinnista. encore poistaa silloin kopion myös historiastaan. Valitse Bitwardenissa viive kohdassa Asetukset → Valinnat → Tyhjennä leikepöytä.";
+"Forget copies that their app clears" = "Unohda kopiot, jotka niiden appi tyhjentää";
+"Copies that look like passwords, API keys, tokens, private keys or card numbers are masked and deleted after the delay below. Pasting them still works, and they are never shared with your other Macs. Detection is a guess: ordinary copies, like code or identifiers, can be taken for secrets, and some secrets can be missed." = "Salasanoilta, API-avaimilta, tunnuksilta, yksityisiltä avaimilta tai korttinumeroilta näyttävät kopiot peitetään ja poistetaan alla valitun ajan jälkeen. Niitä voi silti liittää, eikä niitä koskaan jaeta muille Maceillesi. Tunnistus on arvio: tavalliset kopiot, kuten koodi tai tunnisteet, voidaan luulla salaisuuksiksi, ja osa salaisuuksista voi jäädä huomaamatta.";
+"Detect passwords, keys and card numbers" = "Tunnista salasanat, avaimet ja kortit";
+"Delete after" = "Poista kuluttua";
+"Characters shown" = "Näkyvät merkit";

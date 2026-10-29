@@ -431,3 +431,16 @@
 "Clear History" = "Geçmişi temizle";
 "Clear Everything" = "Tümünü temizle";
 "Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone." = "Geçmişi temizle; favorileri, snippet’leri ve koleksiyon öğelerini korur. Tümünü temizle bunları da siler. Geri alınamaz.";
+"Private key" = "Özel anahtar";
+"Card number" = "Kart numarası";
+"API key" = "API anahtarı";
+"Token" = "Belirteç";
+"Password" = "Parola";
+"Removed from history: its app cleared the clipboard" = "Geçmişten kaldırıldı: uygulaması panoyu temizledi";
+"Passwords and secrets" = "Parolalar ve gizli bilgiler";
+"Password managers can clear the clipboard a while after you copy a password. encore then removes that copy from its history too. In Bitwarden, choose a delay in Settings → Options → Clear clipboard." = "Parola yöneticileri, bir parolayı kopyalamanızdan bir süre sonra panoyu temizleyebilir. encore bu kopyayı geçmişinden de kaldırır. Bitwarden’da Ayarlar → Seçenekler → Panoyu temizle bölümünden bir süre seçin.";
+"Forget copies that their app clears" = "Uygulamasının temizlediği kopyaları unut";
+"Copies that look like passwords, API keys, tokens, private keys or card numbers are masked and deleted after the delay below. Pasting them still works, and they are never shared with your other Macs. Detection is a guess: ordinary copies, like code or identifiers, can be taken for secrets, and some secrets can be missed." = "Parola, API anahtarı, belirteç, özel anahtar veya kart numarasına benzeyen kopyalar gizlenir ve aşağıdaki süreden sonra silinir. Yine normal şekilde yapıştırılır ve diğer Mac’lerinizle asla paylaşılmaz. Algılama bir tahmindir: kod veya tanımlayıcı gibi sıradan kopyalar gizli bilgi sanılabilir, bazı gizli bilgiler de gözden kaçabilir.";
+"Detect passwords, keys and card numbers" = "Parola, anahtar ve kartları algıla";
+"Delete after" = "Silme süresi";
+"Characters shown" = "Görünen karakterler";

@@ -431,3 +431,16 @@
 "Clear History" = "ניקוי היסטוריה";
 "Clear Everything" = "מחיקת הכול";
 "Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone." = "ניקוי היסטוריה שומר מועדפים, קטעי קוד ופריטי אוספים. מחיקת הכול מסירה גם אותם. לא ניתן לבטל פעולה זו.";
+"Private key" = "מפתח פרטי";
+"Card number" = "מספר כרטיס";
+"API key" = "מפתח API";
+"Token" = "אסימון";
+"Password" = "סיסמה";
+"Removed from history: its app cleared the clipboard" = "הוסר מההיסטוריה: היישום שלו ניקה את לוח הגזירים";
+"Passwords and secrets" = "סיסמאות וסודות";
+"Password managers can clear the clipboard a while after you copy a password. encore then removes that copy from its history too. In Bitwarden, choose a delay in Settings → Options → Clear clipboard." = "מנהלי סיסמאות יכולים לנקות את לוח הגזירים זמן מה אחרי שהעתקת סיסמה. encore מסיר אז את ההעתקה גם מההיסטוריה שלו. ב-Bitwarden, בחר השהיה בהגדרות ← אפשרויות ← ניקוי לוח הגזירים.";
+"Forget copies that their app clears" = "לשכוח העתקות שהיישום שלהן מנקה";
+"Copies that look like passwords, API keys, tokens, private keys or card numbers are masked and deleted after the delay below. Pasting them still works, and they are never shared with your other Macs. Detection is a guess: ordinary copies, like code or identifiers, can be taken for secrets, and some secrets can be missed." = "העתקות שנראות כמו סיסמאות, מפתחות API, אסימונים, מפתחות פרטיים או מספרי כרטיסים מוסתרות ונמחקות אחרי הזמן שנבחר למטה. עדיין אפשר להדביק אותן כרגיל, והן אף פעם לא משותפות עם מחשבי ה-Mac האחרים שלך. הזיהוי הוא הערכה: העתקות רגילות, כמו קוד או מזהים, עלולות להיחשב לסודות, וחלק מהסודות עלולים לחמוק.";
+"Detect passwords, keys and card numbers" = "זיהוי סיסמאות, מפתחות וכרטיסים";
+"Delete after" = "מחיקה אחרי";
+"Characters shown" = "תווים גלויים";

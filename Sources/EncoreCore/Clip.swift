@@ -78,6 +78,8 @@ public struct Clip: Codable, Identifiable, Equatable, Sendable {
     /// Last changes to the favorite, and to the snippet state or details, compared between Macs when syncing.
     public var favoriteChangedAt: Date?
     public var snippetChangedAt: Date?
+    /// Set when secret detection flagged the copy: `text` is then masked, the payload keeps the real value to paste.
+    public var secret: SecretKind?
 
     public init(id: UUID = UUID(), fingerprint: String = "", kind: ClipKind, text: String, title: String = "", sourceName: String = "Encore", sourceBundle: String = "", copiedAt: Date = Date(), favorite: Bool = false, byteCount: Int = 0, fileNames: [String] = [], referencedFileBytes: Int64? = nil) {
         self.id = id
@@ -101,7 +103,7 @@ public struct Clip: Codable, Identifiable, Equatable, Sendable {
     }
 
     private enum CodingKeys: String, CodingKey {
-        case id, fingerprint, kind, text, title, sourceName, sourceBundle, copiedAt, lastUsedAt, favorite, collectionIDs, recognizedText, byteCount, fileNames, firstCopiedAt, referencedFileBytes, name, tags, language, snippet, favoriteChangedAt, snippetChangedAt
+        case id, fingerprint, kind, text, title, sourceName, sourceBundle, copiedAt, lastUsedAt, favorite, collectionIDs, recognizedText, byteCount, fileNames, firstCopiedAt, referencedFileBytes, name, tags, language, snippet, favoriteChangedAt, snippetChangedAt, secret
     }
 
     /// Libraries written before snippets have no name, tags or language: they decode as empty.
@@ -130,6 +132,7 @@ public struct Clip: Codable, Identifiable, Equatable, Sendable {
         snippet = try values.decodeIfPresent(Bool.self, forKey: .snippet) ?? !name.isEmpty
         favoriteChangedAt = try values.decodeIfPresent(Date.self, forKey: .favoriteChangedAt)
         snippetChangedAt = try values.decodeIfPresent(Date.self, forKey: .snippetChangedAt)
+        secret = try values.decodeIfPresent(SecretKind.self, forKey: .secret)
     }
 
     /// Tags typed as free text: split on commas, spaces or #, lowercased, without duplicates.

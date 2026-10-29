@@ -431,3 +431,16 @@
 "Clear History" = "清除歷史記錄";
 "Clear Everything" = "全部清除";
 "Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone." = "「清除歷史記錄」會保留喜好項目、程式碼片段和收藏集項目。「全部清除」也會刪除它們。此操作無法還原。";
+"Private key" = "私密金鑰";
+"Card number" = "卡號";
+"API key" = "API 金鑰";
+"Token" = "權杖";
+"Password" = "密碼";
+"Removed from history: its app cleared the clipboard" = "已從歷史記錄中移除：其來源 App 清除了剪貼板";
+"Passwords and secrets" = "密碼與機密資訊";
+"Password managers can clear the clipboard a while after you copy a password. encore then removes that copy from its history too. In Bitwarden, choose a delay in Settings → Options → Clear clipboard." = "密碼管理工具可能會在你拷貝密碼一段時間後清除剪貼板。屆時 encore 也會從歷史記錄中移除這筆拷貝。在 Bitwarden 中，可在「設定」→「選項」→「清除剪貼板」中選擇時間。";
+"Forget copies that their app clears" = "忘記被來源 App 清除的拷貝";
+"Copies that look like passwords, API keys, tokens, private keys or card numbers are masked and deleted after the delay below. Pasting them still works, and they are never shared with your other Macs. Detection is a guess: ordinary copies, like code or identifiers, can be taken for secrets, and some secrets can be missed." = "看起來像密碼、API 金鑰、權杖、私密金鑰或卡號的拷貝會被遮蔽，並在下方選擇的時間後刪除。它們仍可正常貼上，且絕不會分享到你的其他 Mac。偵測只是推測：程式碼或識別碼等一般拷貝可能被誤認為機密資訊，部分機密資訊也可能被遺漏。";
+"Detect passwords, keys and card numbers" = "偵測密碼、金鑰和卡號";
+"Delete after" = "刪除時間";
+"Characters shown" = "顯示的字元數";

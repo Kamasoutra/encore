@@ -431,3 +431,16 @@
 "Clear History" = "Verlauf löschen";
 "Clear Everything" = "Alles löschen";
 "Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone." = "„Verlauf löschen“ behält Favoriten, Snippets und Sammlungselemente. „Alles löschen“ entfernt auch diese. Dies kann nicht rückgängig gemacht werden.";
+"Private key" = "Privater Schlüssel";
+"Card number" = "Kartennummer";
+"API key" = "API-Schlüssel";
+"Token" = "Token";
+"Password" = "Passwort";
+"Removed from history: its app cleared the clipboard" = "Aus dem Verlauf entfernt: Die App hat die Zwischenablage geleert";
+"Passwords and secrets" = "Passwörter und Geheimnisse";
+"Password managers can clear the clipboard a while after you copy a password. encore then removes that copy from its history too. In Bitwarden, choose a delay in Settings → Options → Clear clipboard." = "Passwortmanager können die Zwischenablage eine Weile nach dem Kopieren eines Passworts leeren. encore entfernt diese Kopie dann auch aus dem Verlauf. Wählen Sie in Bitwarden eine Verzögerung unter Einstellungen → Optionen → Zwischenablage leeren.";
+"Forget copies that their app clears" = "Kopien vergessen, die ihre App löscht";
+"Copies that look like passwords, API keys, tokens, private keys or card numbers are masked and deleted after the delay below. Pasting them still works, and they are never shared with your other Macs. Detection is a guess: ordinary copies, like code or identifiers, can be taken for secrets, and some secrets can be missed." = "Kopien, die wie Passwörter, API-Schlüssel, Tokens, private Schlüssel oder Kartennummern aussehen, werden maskiert und nach der unten gewählten Zeit gelöscht. Einsetzen funktioniert weiterhin, und sie werden nie mit Ihren anderen Macs geteilt. Die Erkennung ist eine Schätzung: Gewöhnliche Kopien wie Code oder Kennungen können für Geheimnisse gehalten und manche Geheimnisse übersehen werden.";
+"Detect passwords, keys and card numbers" = "Passwörter, Schlüssel und Karten erkennen";
+"Delete after" = "Löschen nach";
+"Characters shown" = "Sichtbare Zeichen";

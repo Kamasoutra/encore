@@ -278,6 +278,23 @@ struct SettingsView: View {
                 Toggle(L("Recognize text in images"), isOn: $model.preferences.recognizeImages)
                 caption(L("OCR runs on this Mac. No account or telemetry. Links are not loaded in the background."))
             }
+            SettingsGroup(L("Passwords and secrets")) {
+                described(L("Password managers can clear the clipboard a while after you copy a password. encore then removes that copy from its history too. In Bitwarden, choose a delay in Settings → Options → Clear clipboard.")) {
+                    Toggle(L("Forget copies that their app clears"), isOn: $model.preferences.forgetClearedCopies)
+                }
+                described(L("Copies that look like passwords, API keys, tokens, private keys or card numbers are masked and deleted after the delay below. Pasting them still works, and they are never shared with your other Macs. Detection is a guess: ordinary copies, like code or identifiers, can be taken for secrets, and some secrets can be missed.")) {
+                    Toggle(L("Detect passwords, keys and card numbers"), isOn: $model.preferences.detectSecrets)
+                }
+                if model.preferences.detectSecrets {
+                    Picker(L("Delete after"), selection: $model.preferences.secretLifetime) {
+                        ForEach([30.0, 60, 300, 900, 3600], id: \.self) { Text(Self.lifetime($0)).tag($0) }
+                    }
+                    Picker(L("Characters shown"), selection: $model.preferences.secretPreview) {
+                        Text(L("None")).tag(0)
+                        ForEach([2, 3, 4, 6], id: \.self) { Text(Localization.number($0)).tag($0) }
+                    }
+                }
+            }
             SettingsGroup(L("Excluded apps")) {
                 VStack(spacing: 0) {
                     if model.installedExcludedBundleIDs.isEmpty { Text(L("No installed apps are excluded")).foregroundStyle(.secondary).padding(.vertical, 8) }
@@ -436,6 +453,17 @@ struct SettingsView: View {
         return native.caseInsensitiveCompare(local) == .orderedSame ? native : "\(native) (\(local))"
     }
     /// A setting and its explanation in one row, so the text keeps its distance from the next setting.
+    /// "30 seconds", "5 minutes", "1 hour", in the app's language.
+    private static func lifetime(_ seconds: Double) -> String {
+        let formatter = DateComponentsFormatter()
+        var calendar = Calendar.current
+        calendar.locale = Localization.locale
+        formatter.calendar = calendar
+        formatter.allowedUnits = [.hour, .minute, .second]
+        formatter.unitsStyle = .full
+        return formatter.string(from: seconds) ?? ""
+    }
+
     private func described<Content: View>(_ text: String, @ViewBuilder _ content: () -> Content) -> some View {
         VStack(alignment: .leading, spacing: 6) {
             content()

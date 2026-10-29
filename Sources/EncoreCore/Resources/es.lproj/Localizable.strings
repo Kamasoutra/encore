@@ -431,3 +431,16 @@
 "Clear History" = "Borrar historial";
 "Clear Everything" = "Borrar todo";
 "Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone." = "Borrar historial conserva favoritos, snippets y elementos de colecciones. Borrar todo también los elimina. No se puede deshacer.";
+"Private key" = "Clave privada";
+"Card number" = "Número de tarjeta";
+"API key" = "Clave de API";
+"Token" = "Token";
+"Password" = "Contraseña";
+"Removed from history: its app cleared the clipboard" = "Eliminado del historial: su app vació el portapapeles";
+"Passwords and secrets" = "Contraseñas y secretos";
+"Password managers can clear the clipboard a while after you copy a password. encore then removes that copy from its history too. In Bitwarden, choose a delay in Settings → Options → Clear clipboard." = "Los gestores de contraseñas pueden vaciar el portapapeles un tiempo después de copiar una contraseña. encore también quita entonces esa copia del historial. En Bitwarden, elige un tiempo en Ajustes → Opciones → Limpiar portapapeles.";
+"Forget copies that their app clears" = "Olvidar las copias que su app borra";
+"Copies that look like passwords, API keys, tokens, private keys or card numbers are masked and deleted after the delay below. Pasting them still works, and they are never shared with your other Macs. Detection is a guess: ordinary copies, like code or identifiers, can be taken for secrets, and some secrets can be missed." = "Las copias que parecen contraseñas, claves de API, tokens, claves privadas o números de tarjeta se ocultan y se eliminan tras el tiempo indicado abajo. Se siguen pegando con normalidad y nunca se comparten con tus otros Mac. La detección es una estimación: copias normales, como código o identificadores, pueden tomarse por secretos, y algunos secretos pueden pasar desapercibidos.";
+"Detect passwords, keys and card numbers" = "Detectar contraseñas, claves y tarjetas";
+"Delete after" = "Eliminar después de";
+"Characters shown" = "Caracteres visibles";

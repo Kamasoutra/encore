@@ -431,3 +431,16 @@
 "Clear History" = "इतिहास साफ़ करें";
 "Clear Everything" = "सब कुछ साफ़ करें";
 "Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone." = "इतिहास साफ़ करें पसंदीदा, स्निपेट और संग्रह आइटम रखता है। सब कुछ साफ़ करें उन्हें भी हटा देता है। इसे पूर्ववत नहीं किया जा सकता।";
+"Private key" = "निजी कुंजी";
+"Card number" = "कार्ड नंबर";
+"API key" = "API कुंजी";
+"Token" = "टोकन";
+"Password" = "पासवर्ड";
+"Removed from history: its app cleared the clipboard" = "इतिहास से हटाया गया: इसके ऐप ने क्लिपबोर्ड साफ़ किया";
+"Passwords and secrets" = "पासवर्ड और गोपनीय जानकारी";
+"Password managers can clear the clipboard a while after you copy a password. encore then removes that copy from its history too. In Bitwarden, choose a delay in Settings → Options → Clear clipboard." = "पासवर्ड मैनेजर पासवर्ड कॉपी करने के कुछ समय बाद क्लिपबोर्ड साफ़ कर सकते हैं। तब encore भी उस कॉपी को अपने इतिहास से हटा देता है। Bitwarden में सेटिंग्स → विकल्प → क्लिपबोर्ड साफ़ करें में समय चुनें।";
+"Forget copies that their app clears" = "जिन कॉपी को उनका ऐप साफ़ करे, उन्हें भूल जाएँ";
+"Copies that look like passwords, API keys, tokens, private keys or card numbers are masked and deleted after the delay below. Pasting them still works, and they are never shared with your other Macs. Detection is a guess: ordinary copies, like code or identifiers, can be taken for secrets, and some secrets can be missed." = "पासवर्ड, API कुंजी, टोकन, निजी कुंजी या कार्ड नंबर जैसी दिखने वाली कॉपी छिपा दी जाती हैं और नीचे चुने गए समय के बाद हटा दी जाती हैं। उन्हें अब भी सामान्य रूप से पेस्ट किया जा सकता है, और वे आपके अन्य Mac के साथ कभी साझा नहीं होतीं। पहचान एक अनुमान है: कोड या पहचानकर्ता जैसी सामान्य कॉपी को गोपनीय समझा जा सकता है, और कुछ गोपनीय जानकारी छूट सकती है।";
+"Detect passwords, keys and card numbers" = "पासवर्ड, कुंजी और कार्ड पहचानें";
+"Delete after" = "इतने समय बाद हटाएँ";
+"Characters shown" = "दिखने वाले अक्षर";

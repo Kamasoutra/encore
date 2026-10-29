@@ -233,11 +233,27 @@ struct PeerStatus: Identifiable, Equatable {
         if selection.isEmpty { resetSelection() }
         prune()
         if preferences.recognizeImages, clip.kind == .image { recognize(id) }
+        // A secret goes as soon as its time is up, without waiting for the minute's pruning.
+        if clip.secret != nil && preferences.detectSecrets {
+            DispatchQueue.main.asyncAfter(deadline: .now() + preferences.secretLifetime + 1) { [weak self] in self?.prune() }
+        }
         playSound(.capture)
         return true
     }
 
     func save() { storage?.save(library) }
+
+    /// The app a copy came from cleared the clipboard soon after: that copy was meant to be temporary.
+    func forgetCleared(_ id: UUID) {
+        guard let clip = library.clips.first(where: { $0.id == id }), !clip.isProtected else { return }
+        library.clips.removeAll { $0.id == id }
+        queue.removeAll { $0 == id }
+        thumbnails.removeValue(forKey: id)
+        clearPreviewCaches([id]); filePreviews.remove([id])
+        storage?.save(library, deleting: [id])
+        reconcileSelection()
+        notify(L("Removed from history: its app cleared the clipboard"))
+    }
 
     func reloadStorage() {
         guard let root = storage?.root else { return }

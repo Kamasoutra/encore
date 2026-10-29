@@ -5,6 +5,8 @@ import EncoreCore
     private unowned let model: AppModel
     private let pasteboard: NSPasteboard
     private var changeCount: Int
+    /// The last copy taken, kept until the next change: if that change empties the clipboard, the copy is forgotten.
+    private var lastCapture: (id: UUID, at: Date)?
     private var timer: Timer?
     private var activationObserver: NSObjectProtocol?
     private var activeOrigin: ClipboardOrigin
@@ -54,6 +56,13 @@ import EncoreCore
         changeCount = pasteboard.changeCount
         lastChangeAt = Date()
         automaticScreenshotRevision = nil
+        // Password managers can clear the clipboard a while after a copy: the copy then leaves the history too.
+        let previous = lastCapture
+        lastCapture = nil
+        if Self.isCleared(pasteboard) {
+            if model.preferences.forgetClearedCopies, let previous, Date().timeIntervalSince(previous.at) < Self.clearWindow { model.forgetCleared(previous.id) }
+            return
+        }
         guard model.preferences.captureEnabled, model.storage != nil else { return }
         var origin = activeOrigin
         if let declared = pasteboard.string(forType: .init("org.nspasteboard.source")) {
@@ -68,7 +77,16 @@ import EncoreCore
         if model.preferences.ignoreSensitive && isSecureField() { return }
         do {
             if let capture = try PasteboardCapture.read(pasteboard, sourceName: origin.name, sourceBundle: bundle, ignoreSensitive: model.preferences.ignoreSensitive) {
-                model.accept(capture.clip, payload: capture.payload)
+                var clip = capture.clip
+                // The card shows a masked text; the payload keeps the real value, so pasting still works.
+                if model.preferences.detectSecrets, [.text, .code].contains(clip.kind), let secret = SecretKind.detect(clip.text) {
+                    clip.secret = secret
+                    clip.text = SecretKind.mask(clip.text, keeping: model.preferences.secretPreview)
+                    clip.kind = .text
+                }
+                if model.accept(clip, payload: capture.payload), let id = model.library.clips.first(where: { $0.fingerprint == clip.fingerprint })?.id {
+                    lastCapture = (id, Date())
+                }
             }
         } catch { model.notify(error.localizedDescription) }
     }
@@ -85,6 +103,19 @@ import EncoreCore
         changeCount = pasteboard.changeCount
         lastChangeAt = screenshotCapturedAt ?? Date()
         automaticScreenshotRevision = screenshotCapturedAt == nil ? nil : changeCount
+    }
+
+    /// Bitwarden's longest clearing delay is five minutes; others wait less.
+    static let clearWindow: TimeInterval = 600
+
+    /// Nothing left, or only spaces and invisible characters, which is how some apps clear the clipboard.
+    static func isCleared(_ pasteboard: NSPasteboard) -> Bool {
+        guard let items = pasteboard.pasteboardItems, !items.isEmpty else { return true }
+        let types = Set(items.flatMap(\.types).map(\.rawValue))
+        let content = ["public.file-url", "public.png", "public.tiff", "public.jpeg", "com.adobe.pdf", "public.url"]
+        guard !content.contains(where: types.contains) else { return false }
+        let text = pasteboard.string(forType: .string) ?? ""
+        return text.trimmingCharacters(in: .whitespacesAndNewlines.union(.controlCharacters)).isEmpty
     }
 
     private func isSecureField() -> Bool {

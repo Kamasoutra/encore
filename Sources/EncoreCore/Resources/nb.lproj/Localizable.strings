@@ -431,3 +431,16 @@
 "Clear History" = "Tøm logg";
 "Clear Everything" = "Tøm alt";
 "Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone." = "Tøm logg beholder favoritter, snippets og samlingselementer. Tøm alt fjerner også dem. Dette kan ikke angres.";
+"Private key" = "Privat nøkkel";
+"Card number" = "Kortnummer";
+"API key" = "API-nøkkel";
+"Token" = "Token";
+"Password" = "Passord";
+"Removed from history: its app cleared the clipboard" = "Fjernet fra loggen: appen tømte utklippstavlen";
+"Passwords and secrets" = "Passord og hemmeligheter";
+"Password managers can clear the clipboard a while after you copy a password. encore then removes that copy from its history too. In Bitwarden, choose a delay in Settings → Options → Clear clipboard." = "Passordbehandlere kan tømme utklippstavlen en stund etter at du har kopiert et passord. encore fjerner da også kopien fra loggen. I Bitwarden velger du en forsinkelse under Innstillinger → Alternativer → Tøm utklippstavle.";
+"Forget copies that their app clears" = "Glem kopier som appen deres tømmer";
+"Copies that look like passwords, API keys, tokens, private keys or card numbers are masked and deleted after the delay below. Pasting them still works, and they are never shared with your other Macs. Detection is a guess: ordinary copies, like code or identifiers, can be taken for secrets, and some secrets can be missed." = "Kopier som ser ut som passord, API-nøkler, tokens, private nøkler eller kortnumre, skjules og slettes etter tiden nedenfor. De kan fortsatt limes inn og deles aldri med de andre Mac-ene dine. Gjenkjenningen er et anslag: vanlige kopier, som kode eller ID-er, kan tas for hemmeligheter, og noen hemmeligheter kan overses.";
+"Detect passwords, keys and card numbers" = "Gjenkjenn passord, nøkler og kort";
+"Delete after" = "Slett etter";
+"Characters shown" = "Synlige tegn";

@@ -431,3 +431,16 @@
 "Clear History" = "Clear History";
 "Clear Everything" = "Clear Everything";
 "Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone." = "Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone.";
+"Private key" = "Private key";
+"Card number" = "Card number";
+"API key" = "API key";
+"Token" = "Token";
+"Password" = "Password";
+"Removed from history: its app cleared the clipboard" = "Removed from history: its app cleared the clipboard";
+"Passwords and secrets" = "Passwords and secrets";
+"Password managers can clear the clipboard a while after you copy a password. encore then removes that copy from its history too. In Bitwarden, choose a delay in Settings → Options → Clear clipboard." = "Password managers can clear the clipboard a while after you copy a password. encore then removes that copy from its history too. In Bitwarden, choose a delay in Settings → Options → Clear clipboard.";
+"Forget copies that their app clears" = "Forget copies that their app clears";
+"Copies that look like passwords, API keys, tokens, private keys or card numbers are masked and deleted after the delay below. Pasting them still works, and they are never shared with your other Macs. Detection is a guess: ordinary copies, like code or identifiers, can be taken for secrets, and some secrets can be missed." = "Copies that look like passwords, API keys, tokens, private keys or card numbers are masked and deleted after the delay below. Pasting them still works, and they are never shared with your other Macs. Detection is a guess: ordinary copies, like code or identifiers, can be taken for secrets, and some secrets can be missed.";
+"Detect passwords, keys and card numbers" = "Detect passwords, keys and card numbers";
+"Delete after" = "Delete after";
+"Characters shown" = "Characters shown";
