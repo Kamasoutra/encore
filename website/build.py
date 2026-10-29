@@ -131,7 +131,13 @@ PRIVACY = {
         "description": "Where encore keeps what you copy, what it never keeps, why there is no server, what is not perfect yet, and why the project is built to last.",
         "title": "Your data stays yours",
         "lead": "encore sees everything you copy: messages, addresses, sometimes sensitive things. So here is, simply and without jargon, what it does with them, what it never does, and what is not perfect yet.",
-        "facts": ["On your Mac", "No account", "No server", "No tracking", "Open source"],
+        # The three guarantees, before the details: each claim must hold in the code.
+        "summary": "In short",
+        "guarantees": [
+            ("What stays local", "Everything. Your history lives on your Mac, with no account and no server. Only the update check reaches GitHub."),
+            ("What is left out", "Copies that apps mark as confidential, the password apps installed on your Mac, and any app you add. Copies cleared by their app are forgotten."),
+            ("What you can turn off", "Capture, in one click from the menu bar. Text recognition. Sharing with your other Macs, off by default. And you can clear everything, any time."),
+        ],
         "map_title": "Where does your data go?",
         "map_lead": "Nowhere but your own Macs.",
         "map": {
@@ -192,7 +198,12 @@ PRIVACY = {
         "description": "Où encore garde ce que tu copies, ce qu’il ne garde jamais, pourquoi il n’y a aucun serveur, ce qui n’est pas encore parfait, et pourquoi le projet est fait pour durer.",
         "title": "Tes données restent chez toi",
         "lead": "encore voit tout ce que tu copies : des messages, des adresses, parfois des choses sensibles. Alors voici, simplement et sans jargon, ce qu’il en fait, ce qu’il n’en fait jamais, et ce qui n’est pas encore parfait.",
-        "facts": ["Sur ton Mac", "Sans compte", "Sans serveur", "Sans pistage", "Open source"],
+        "summary": "En bref",
+        "guarantees": [
+            ("Ce qui reste local", "Tout. Ton historique vit sur ton Mac, sans compte ni serveur. Seule la vérification des mises à jour contacte GitHub."),
+            ("Ce qui est exclu", "Les copies que les apps marquent comme confidentielles, les apps de mots de passe installées et toutes celles que tu ajoutes. Les copies effacées par leur app sont oubliées."),
+            ("Ce que tu peux couper", "La capture, en un clic depuis la barre des menus. La reconnaissance de texte. Le partage avec tes autres Mac, coupé par défaut. Et tout effacer, quand tu veux."),
+        ],
         "map_title": "Où vont tes données ?",
         "map_lead": "Nulle part ailleurs que sur tes propres Mac.",
         "map": {
@@ -446,6 +457,15 @@ def build(lang, s):
     return layout(lang, s, "", s["title"], s["description"], main)
 
 
+# A Mac, a crossed shield, a power button: what stays local, what is left out, what you can turn off.
+_svg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{}</svg>'
+GUARANTEE_ICONS = [
+    ("var(--violet)", _svg.format('<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/>')),
+    ("var(--links)", _svg.format('<path d="M12 3l7 3v6c0 4.2-3 7.6-7 9-4-1.4-7-4.8-7-9V6z"/><path d="M9 9l6 6M15 9l-6 6"/>')),
+    ("var(--pink)", _svg.format('<path d="M12 3v8"/><path d="M6.3 6.8a8 8 0 1 0 11.4 0"/>')),
+]
+
+
 def build_privacy(lang, s):
     """The data page. Its copy is trusted HTML, so it can hold paths and links."""
     p = PRIVACY[lang]
@@ -470,7 +490,10 @@ def build_privacy(lang, s):
 <section class="intro">
   <h1 class="slam">{e(p["title"])}</h1>
   <p class="lead">{p["lead"]}</p>
-  <p class="facts">{"".join(f"<span>{e(t)}</span>" for t in p["facts"])}</p>
+  <div class="summary">
+    <p class="kicker">{e(p["summary"])}</p>
+    <ul class="guarantees">{"".join(f'<li style="--tone:{tone}">{icon}<h2>{e(t)}</h2><p>{e(d)}</p></li>' for (t, d), (tone, icon) in zip(p["guarantees"], GUARANTEE_ICONS))}</ul>
+  </div>
 </section>
 <section class="where">
   <h2 class="slam">{p["map_title"]}</h2>

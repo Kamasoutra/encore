@@ -110,8 +110,21 @@ body::after { background: radial-gradient(closest-side, rgba(255, 92, 140, 0.22)
 .data .intro { text-align: center; padding-top: clamp(40px, 8vh, 100px); }
 .data .intro h1 { font-size: clamp(48px, 9vw, 128px); }
 .data .intro .lead { max-width: 40em; margin: 28px auto 0; }
-.facts { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 32px 0 0; }
-.facts span { padding: 7px 16px; border-radius: 999px; font-size: 15px; font-weight: 600; color: var(--ink); background: rgba(154, 107, 255, 0.16); border: 1px solid rgba(154, 107, 255, 0.45); }
+/* The three guarantees, at the top of the data page, before the details: one panel, an icon and a colour each. */
+.summary { margin: 52px auto 0; max-width: 1080px; }
+.summary .kicker { margin: 0 0 16px; font-size: 13px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--faint); }
+.guarantees { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); text-align: left;
+  border-radius: 28px; background: linear-gradient(160deg, rgba(154, 107, 255, 0.14), rgba(255, 255, 255, 0.03) 60%); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12), 0 30px 80px rgba(0, 0, 0, 0.35); overflow: hidden; }
+.guarantees li { padding: 32px 30px 34px; }
+.guarantees li + li { border-left: 1px solid rgba(255, 255, 255, 0.1); }
+.guarantees svg { display: block; box-sizing: border-box; width: 50px; height: 50px; padding: 12px; border-radius: 14px; color: var(--tone); background: color-mix(in srgb, var(--tone) 16%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tone) 40%, transparent); }
+.guarantees h2 { margin: 20px 0 0; font-size: 22px; font-weight: 800; letter-spacing: -0.01em; color: var(--ink); }
+.data .guarantees p { margin: 10px 0 0; font-size: 16px; line-height: 1.55; text-wrap: pretty; }
+@media (max-width: 900px) {
+  .guarantees { grid-template-columns: minmax(0, 1fr); }
+  .guarantees li + li { border-left: 0; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+  .guarantees li { padding: 26px 24px; }
+}
 
 /* Where your data goes: your Mac in the middle, the only two places it can talk to, and the server that does not exist. */
 .where { text-align: center; }
