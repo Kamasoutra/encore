@@ -42,9 +42,6 @@ final class EncorePanel: NSPanel {
     private var shownExpanded = false
     private var downPress: DispatchWorkItem?
     private var shownColumn = false
-    /// Set while encore places the panel itself, so only the user's drags save a new place for the compact window.
-    private var movingPanel = false
-    private var snapWait: Timer?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         let demo = CommandLine.arguments.contains("--demo")
@@ -66,6 +63,7 @@ final class EncorePanel: NSPanel {
         model.updateAppearance = { [weak self] in self?.applyAppearance() }
         model.resizePanel = { [weak self] in self?.positionPanel() }
         model.updateQuickLook = { [weak self] in self?.updateQuickLook() }
+        model.compactMoved = { [weak self] in self?.compactMoved() }
         panel = EncorePanel(contentRect: .zero, styleMask: [.borderless, .nonactivatingPanel], backing: .buffered, defer: false)
         panel.title = "encore"
         panel.identifier = NSUserInterfaceItemIdentifier("EncoreBoard")
@@ -187,8 +185,6 @@ final class EncorePanel: NSPanel {
         if model.columnShown { target = compactFrame(in: frame) }
         let animate = panel.isVisible && (shownExpanded != model.expanded || shownColumn != model.columnShown) && !NSWorkspace.shared.accessibilityDisplayShouldReduceMotion
         shownExpanded = model.expanded; shownColumn = model.columnShown
-        movingPanel = true
-        defer { DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { [weak self] in self?.movingPanel = false } }
         guard animate else { panel.setFrame(target, display: true); return }
         NSAnimationContext.runAnimationGroup { context in
             context.duration = 0.34
@@ -207,42 +203,18 @@ final class EncorePanel: NSPanel {
         return NSRect(x: frame.minX + 10 + roomX * min(1, max(0, position[0])), y: frame.minY + 10 + roomY * min(1, max(0, position[1])), width: size.width, height: size.height)
     }
 
-    /// After the compact window is dragged: it snaps to the center, a corner or the middle of an edge when dropped near one, and keeps its place.
+    /// After the compact window is dragged, already snapped while moving: its place is kept for next time.
     private func compactMoved() {
-        guard model.columnShown, panel.isVisible, !movingPanel, let screen = panel.screen else { return }
-        guard NSEvent.pressedMouseButtons == 0 else {
-            snapWait?.invalidate()
-            snapWait = Timer.scheduledTimer(withTimeInterval: 0.02, repeats: false) { [weak self] _ in MainActor.assumeIsolated { self?.compactMoved() } }
-            return
-        }
+        guard model.columnShown, let screen = panel.screen else { return }
         let frame = screen.visibleFrame
         let roomX = max(1, frame.width - 20 - panel.frame.width), roomY = max(1, frame.height - 20 - panel.frame.height)
-        var position: [Double] = [min(1, max(0, (panel.frame.minX - frame.minX - 10) / roomX)), min(1, max(0, (panel.frame.minY - frame.minY - 10) / roomY))]
-        for axis in 0..<2 {
-            let room = axis == 0 ? roomX : roomY
-            if let anchor = [0.0, 0.5, 1].first(where: { abs($0 - position[axis]) * room < 60 }) { position[axis] = anchor }
-        }
-        model.preferences.compactPosition = position
+        model.preferences.compactPosition = [min(1, max(0, (panel.frame.minX - frame.minX - 10) / roomX)), min(1, max(0, (panel.frame.minY - frame.minY - 10) / roomY))]
         model.preferencesChanged()
-        // Only the origin moves: animating the whole frame made the content flicker in size.
-        let target = compactFrame(in: frame).origin
-        guard abs(target.x - panel.frame.minX) > 0.5 || abs(target.y - panel.frame.minY) > 0.5 else { return }
-        movingPanel = true
-        NSAnimationContext.runAnimationGroup({ context in
-            context.duration = 0.09
-            context.timingFunction = CAMediaTimingFunction(name: .easeOut)
-            panel.animator().setFrameOrigin(target)
-        }, completionHandler: { [weak self] in MainActor.assumeIsolated { self?.movingPanel = false } })
     }
 
     private func openLibraryFromColumn() {
         guard model.columnShown else { return }
         setExpanded(true)
-    }
-
-    func windowDidMove(_ notification: Notification) {
-        guard (notification.object as? NSWindow) === panel else { return }
-        compactMoved()
     }
 
     private func setExpanded(_ value: Bool) {

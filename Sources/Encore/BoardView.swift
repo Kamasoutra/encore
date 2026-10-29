@@ -873,13 +873,13 @@ struct SideColumn<Search: View>: View {
                 Spacer()
             }
             .padding(.horizontal, 4)
-            .overlay(WindowDragArea().help(L("Drag to move")))
+            .overlay(WindowDragArea { model.compactMoved?() }.help(L("Drag to move")))
             .overlay(alignment: .trailing) {
                 if !model.preferences.captureEnabled { Image(systemName: "pause.circle.fill").foregroundStyle(.orange).help(L("Capture paused")).padding(.trailing, 4) }
             }
             search
             libraryBar
-            // Scrolled by the keyboard only: ↓ on the last copy shown slides the list up by one row.
+            // ↓ on the last copy shown slides the list up by one row; the wheel scrolls it too.
             ScrollViewReader { proxy in
                 ScrollView(showsIndicators: false) {
                     LazyVStack(spacing: SideRow.spacing) {
@@ -888,7 +888,6 @@ struct SideColumn<Search: View>: View {
                         }
                     }
                 }
-                .wheelScrollingDisabled()
                 .frame(height: CGFloat(count) * SideRow.height + CGFloat(count - 1) * SideRow.spacing)
                 .overlay {
                     if items.isEmpty {
@@ -963,13 +962,38 @@ struct SideColumn<Search: View>: View {
     }
 }
 
-/// Moves the window when dragged: the compact window has no title bar.
+/// Moves the compact window, which has no title bar, and snaps it while dragging to the center, the corners
+/// and the middle of each edge of the screen, 10 points in from the edges as where encore places it.
 private struct WindowDragArea: NSViewRepresentable {
+    let onEnd: () -> Void
+
     final class DragView: NSView {
-        override func mouseDown(with event: NSEvent) { window?.performDrag(with: event) }
+        var onEnd: (() -> Void)?
+
+        override func mouseDown(with event: NSEvent) {
+            guard let window else { return }
+            let start = NSEvent.mouseLocation, origin = window.frame.origin
+            while let next = window.nextEvent(matching: [.leftMouseDragged, .leftMouseUp]), next.type == .leftMouseDragged {
+                let mouse = NSEvent.mouseLocation
+                var target = NSPoint(x: origin.x + mouse.x - start.x, y: origin.y + mouse.y - start.y)
+                if let screen = NSScreen.screens.first(where: { $0.frame.contains(mouse) }) ?? window.screen {
+                    target = Self.snap(target, size: window.frame.size, in: screen.visibleFrame)
+                }
+                window.setFrameOrigin(target)
+            }
+            onEnd?()
+        }
+
+        static func snap(_ origin: NSPoint, size: NSSize, in frame: NSRect) -> NSPoint {
+            func axis(_ value: CGFloat, _ low: CGFloat, _ high: CGFloat) -> CGFloat {
+                [low, (low + high) / 2, high].first { abs($0 - value) < 36 } ?? value
+            }
+            return NSPoint(x: axis(origin.x, frame.minX + 10, frame.maxX - 10 - size.width), y: axis(origin.y, frame.minY + 10, frame.maxY - 10 - size.height))
+        }
     }
+
     func makeNSView(context: Context) -> DragView { DragView() }
-    func updateNSView(_ view: DragView, context: Context) {}
+    func updateNSView(_ view: DragView, context: Context) { view.onEnd = onEnd }
 }
 
 private struct SideRow: View {
