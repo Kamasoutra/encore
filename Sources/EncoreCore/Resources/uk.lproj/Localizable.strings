@@ -49,7 +49,6 @@
 "Choose the folder where macOS saves your screenshots." = "Виберіть папку, у яку macOS зберігає знімки екрана.";
 "Choose what Encore keeps. Everything stays on this Mac." = "Виберіть, що може зберігати encore. Усе залишається на цьому Mac.";
 "Choose…" = "Вибрати…";
-"Clear" = "Очистити";
 "Clear filters" = "Скинути фільтри";
 "Clear history?" = "Очистити історію?";
 "Clear history…" = "Очистити історію…";
@@ -138,7 +137,6 @@
 "Favorite" = "Вибране";
 "Favorite or collection" = "Вибране або колекція";
 "Favorites" = "Вибране";
-"Favorites and collection items will be kept. This action cannot be undone." = "Вибране й елементи колекцій збережуться. Цю дію не можна відмінити.";
 "Favorites and collections are kept. The item-count limit only applies to unmatched items. Expiration removes a file from history, never from its original folder." = "Вибране й колекції зберігаються. Обмеження кількості діє лише для елементів без правила. Після закінчення терміну файл видаляється з історії, але ніколи — з оригінальної папки.";
 "Favorites, collections, and rule-managed items bypass the item-count limit. A full budget blocks new copies. Maximum embedded content per copy: 25 MiB." = "На вибране, колекції та елементи з правилами обмеження кількості не поширюється. Коли ліміт вичерпано, нові копії не зберігаються. Технічна межа: 25 МіБ вбудованого вмісту на копію.";
 "File" = "Файл";
@@ -430,3 +428,6 @@
 "Star on GitHub" = "Поставити зірку";
 "Helps others find encore" = "Допомагає іншим знайти encore";
 "Update now" = "Оновити";
+"Clear History" = "Очистити історію";
+"Clear Everything" = "Видалити все";
+"Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone." = "«Очистити історію» зберігає вибране, сніпети й елементи колекцій. «Видалити все» видаляє і їх. Цю дію не можна скасувати.";

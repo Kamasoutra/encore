@@ -49,7 +49,6 @@
 "Choose the folder where macOS saves your screenshots." = "Escolha a pasta onde o macOS salva suas capturas de tela.";
 "Choose what Encore keeps. Everything stays on this Mac." = "Escolha o que o encore guarda. Tudo fica neste Mac.";
 "Choose…" = "Escolher…";
-"Clear" = "Limpar";
 "Clear filters" = "Limpar filtros";
 "Clear history?" = "Limpar o histórico?";
 "Clear history…" = "Limpar histórico…";
@@ -138,7 +137,6 @@
 "Favorite" = "Favorito";
 "Favorite or collection" = "Favorito ou coleção";
 "Favorites" = "Favoritos";
-"Favorites and collection items will be kept. This action cannot be undone." = "Os favoritos e os itens das coleções serão mantidos. Esta ação não pode ser desfeita.";
 "Favorites and collections are kept. The item-count limit only applies to unmatched items. Expiration removes a file from history, never from its original folder." = "Favoritos e coleções são mantidos. O limite de itens só se aplica aos itens sem regra. A expiração remove um arquivo do histórico, nunca da pasta original.";
 "Favorites, collections, and rule-managed items bypass the item-count limit. A full budget blocks new copies. Maximum embedded content per copy: 25 MiB." = "Favoritos, coleções e itens com regra não contam no limite de itens. Com o espaço cheio, novas cópias são bloqueadas. Conteúdo incorporado máximo por cópia: 25 MiB.";
 "File" = "Arquivo";
@@ -430,3 +428,6 @@
 "Star on GitHub" = "Dar uma estrela";
 "Helps others find encore" = "Ajuda outras pessoas a encontrar o encore";
 "Update now" = "Atualizar";
+"Clear History" = "Limpar histórico";
+"Clear Everything" = "Limpar tudo";
+"Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone." = "Limpar histórico mantém favoritos, snippets e itens de coleções. Limpar tudo também os remove. Não é possível desfazer.";

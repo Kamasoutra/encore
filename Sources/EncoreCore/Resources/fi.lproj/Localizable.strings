@@ -49,7 +49,6 @@
 "Choose the folder where macOS saves your screenshots." = "Valitse kansio, johon macOS tallentaa kuvakaappauksesi.";
 "Choose what Encore keeps. Everything stays on this Mac." = "Valitse, mitä encore saa säilyttää. Kaikki pysyy tällä Macilla.";
 "Choose…" = "Valitse…";
-"Clear" = "Tyhjennä";
 "Clear filters" = "Tyhjennä suodattimet";
 "Clear history?" = "Tyhjennetäänkö historia?";
 "Clear history…" = "Tyhjennä historia…";
@@ -138,7 +137,6 @@
 "Favorite" = "Suosikki";
 "Favorite or collection" = "Suosikki tai kokoelma";
 "Favorites" = "Suosikit";
-"Favorites and collection items will be kept. This action cannot be undone." = "Suosikit ja kokoelmien kohteet säilytetään. Toimintoa ei voi perua.";
 "Favorites and collections are kept. The item-count limit only applies to unmatched items. Expiration removes a file from history, never from its original folder." = "Suosikit ja kokoelmat säilytetään. Enimmäismäärä koskee vain kohteita, joilla ei ole sääntöä. Vanhentunut tiedosto poistuu historiasta, ei koskaan alkuperäisestä kansiostaan.";
 "Favorites, collections, and rule-managed items bypass the item-count limit. A full budget blocks new copies. Maximum embedded content per copy: 25 MiB." = "Enimmäismäärä ei koske suosikkeja, kokoelmia eikä kohteita, joilla on sääntö. Kun kiintiö on täynnä, uudet kopiot estetään. Tekninen raja: 25 MiB upotettua sisältöä kopiota kohden.";
 "File" = "Tiedosto";
@@ -430,3 +428,6 @@
 "Star on GitHub" = "Anna tähti";
 "Helps others find encore" = "Auttaa muita löytämään encoren";
 "Update now" = "Päivitä nyt";
+"Clear History" = "Tyhjennä historia";
+"Clear Everything" = "Tyhjennä kaikki";
+"Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone." = "Tyhjennä historia säilyttää suosikit, snippetit ja kokoelmien kohteet. Tyhjennä kaikki poistaa myös ne. Toimintoa ei voi kumota.";

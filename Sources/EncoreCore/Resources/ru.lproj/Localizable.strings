@@ -49,7 +49,6 @@
 "Choose the folder where macOS saves your screenshots." = "Выберите папку, в которую macOS сохраняет снимки экрана.";
 "Choose what Encore keeps. Everything stays on this Mac." = "Выберите, что может хранить encore. Все остается на этом Mac.";
 "Choose…" = "Выбрать…";
-"Clear" = "Очистить";
 "Clear filters" = "Сбросить фильтры";
 "Clear history?" = "Очистить историю?";
 "Clear history…" = "Очистить историю…";
@@ -138,7 +137,6 @@
 "Favorite" = "Избранное";
 "Favorite or collection" = "Избранное или коллекция";
 "Favorites" = "Избранное";
-"Favorites and collection items will be kept. This action cannot be undone." = "Избранное и элементы коллекций сохранятся. Это действие нельзя отменить.";
 "Favorites and collections are kept. The item-count limit only applies to unmatched items. Expiration removes a file from history, never from its original folder." = "Избранное и коллекции сохраняются. Ограничение количества действует только для элементов без правила. По истечении срока файл удаляется из истории, но никогда — из исходной папки.";
 "Favorites, collections, and rule-managed items bypass the item-count limit. A full budget blocks new copies. Maximum embedded content per copy: 25 MiB." = "На избранное, коллекции и элементы с правилами ограничение количества не распространяется. Когда лимит исчерпан, новые копии не сохраняются. Технический предел: 25 МиБ встроенного содержимого на копию.";
 "File" = "Файл";
@@ -430,3 +428,6 @@
 "Star on GitHub" = "Поставить звезду";
 "Helps others find encore" = "Помогает другим найти encore";
 "Update now" = "Обновить";
+"Clear History" = "Очистить историю";
+"Clear Everything" = "Удалить всё";
+"Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone." = "«Очистить историю» сохраняет избранное, сниппеты и элементы коллекций. «Удалить всё» удаляет и их. Это действие нельзя отменить.";

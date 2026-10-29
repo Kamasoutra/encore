@@ -49,7 +49,6 @@
 "Choose the folder where macOS saves your screenshots." = "Choisissez le dossier où macOS enregistre vos captures d’écran.";
 "Choose what Encore keeps. Everything stays on this Mac." = "Choisissez ce qu’encore peut garder. Tout reste sur ce Mac.";
 "Choose…" = "Choisir…";
-"Clear" = "Effacer";
 "Clear filters" = "Effacer les filtres";
 "Clear history?" = "Effacer l’historique ?";
 "Clear history…" = "Effacer l’historique…";
@@ -138,7 +137,6 @@
 "Favorite" = "Favori";
 "Favorite or collection" = "Favori ou collection";
 "Favorites" = "Favoris";
-"Favorites and collection items will be kept. This action cannot be undone." = "Les favoris et les éléments des collections seront conservés. Cette action est définitive.";
 "Favorites and collections are kept. The item-count limit only applies to unmatched items. Expiration removes a file from history, never from its original folder." = "Favoris et collections restent conservés. La limite de nombre ne s’applique qu’aux éléments sans règle. Un fichier expire de l’historique, jamais de son dossier d’origine.";
 "Favorites, collections, and rule-managed items bypass the item-count limit. A full budget blocks new copies. Maximum embedded content per copy: 25 MiB." = "Favoris, collections et éléments sous règle échappent à la limite de nombre. Le budget plein bloque les nouvelles copies. Limite technique : 25 Mio de contenu intégré par copie.";
 "File" = "Fichier";
@@ -430,3 +428,6 @@
 "Star on GitHub" = "Mettre une étoile";
 "Helps others find encore" = "Aide d’autres personnes à découvrir encore";
 "Update now" = "Mettre à jour";
+"Clear History" = "Effacer l’historique";
+"Clear Everything" = "Tout effacer";
+"Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone." = "Effacer l’historique garde les favoris, les snippets et les éléments des collections. Tout effacer les supprime aussi. Cette action est définitive.";

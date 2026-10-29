@@ -49,7 +49,6 @@
 "Choose the folder where macOS saves your screenshots." = "macOS’in ekran resimlerinizi kaydettiği klasörü seçin.";
 "Choose what Encore keeps. Everything stays on this Mac." = "encore’un neleri saklayacağını seçin. Her şey bu Mac’te kalır.";
 "Choose…" = "Seç…";
-"Clear" = "Temizle";
 "Clear filters" = "Filtreleri temizle";
 "Clear history?" = "Geçmiş temizlensin mi?";
 "Clear history…" = "Geçmişi temizle…";
@@ -137,7 +136,6 @@
 "Favorite" = "Favori";
 "Favorite or collection" = "Favori veya koleksiyon";
 "Favorites" = "Favoriler";
-"Favorites and collection items will be kept. This action cannot be undone." = "Favoriler ve koleksiyon öğeleri saklanacak. Bu işlem geri alınamaz.";
 "Favorites and collections are kept. The item-count limit only applies to unmatched items. Expiration removes a file from history, never from its original folder." = "Favoriler ve koleksiyonlar saklanır. Öğe sayısı sınırı yalnızca hiçbir kurala uymayan öğeler için geçerlidir. Süresi dolan dosya geçmişten kaldırılır, özgün klasöründen asla.";
 "Favorites, collections, and rule-managed items bypass the item-count limit. A full budget blocks new copies. Maximum embedded content per copy: 25 MiB." = "Favoriler, koleksiyonlar ve kurala bağlı öğeler öğe sayısı sınırına tabi değildir. Bütçe dolduğunda yeni kopyalar engellenir. Kopya başına en fazla 25 MiB gömülü içerik.";
 "File" = "Dosya";
@@ -430,3 +428,6 @@
 "Star on GitHub" = "Yıldız verin";
 "Helps others find encore" = "Başkalarının encore’u bulmasına yardım eder";
 "Update now" = "Şimdi güncelle";
+"Clear History" = "Geçmişi temizle";
+"Clear Everything" = "Tümünü temizle";
+"Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone." = "Geçmişi temizle; favorileri, snippet’leri ve koleksiyon öğelerini korur. Tümünü temizle bunları da siler. Geri alınamaz.";

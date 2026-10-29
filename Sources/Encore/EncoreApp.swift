@@ -527,6 +527,7 @@ final class EncorePanel: NSPanel {
             let menu = NSMenu()
             menu.addItem(withTitle: L("Open Encore"), action: #selector(openBoard), keyEquivalent: "")
             menu.addItem(withTitle: model.preferences.captureEnabled ? L("Pause capture") : L("Resume capture"), action: #selector(toggleCapture), keyEquivalent: "")
+            menu.addItem(withTitle: L("Clear history…"), action: #selector(clearHistory), keyEquivalent: "")
             menu.addItem(.separator())
             menu.addItem(withTitle: L("Settings…"), action: #selector(settingsAction), keyEquivalent: "")
             if Updates.shared.available { menu.addItem(withTitle: L("Check for Updates…"), action: #selector(checkForUpdates), keyEquivalent: "") }
@@ -542,6 +543,13 @@ final class EncorePanel: NSPanel {
 
     func menuDidClose(_ menu: NSMenu) { statusItem.menu = nil }
     @objc private func openBoard() { show() }
+    @objc private func clearHistory() { model.clearHistory() }
+
+    /// `open encore://clear-history` asks the running app to clear its history, with the usual confirmation:
+    /// deleting the files instead would be undone by the next save from memory.
+    func application(_ application: NSApplication, open urls: [URL]) {
+        for url in urls where url.scheme == "encore" && url.host == "clear-history" { model.clearHistory() }
+    }
     @objc private func toggleCapture() { model.preferences.captureEnabled.toggle(); model.preferencesChanged() }
     @objc private func settingsAction() { openSettings() }
     @objc private func checkForUpdates() { Updates.shared.check() }

@@ -49,7 +49,6 @@
 "Choose the folder where macOS saves your screenshots." = "Alegeți dosarul în care macOS salvează capturile de ecran.";
 "Choose what Encore keeps. Everything stays on this Mac." = "Alegeți ce păstrează encore. Totul rămâne pe acest Mac.";
 "Choose…" = "Alege…";
-"Clear" = "Golește";
 "Clear filters" = "Resetează filtrele";
 "Clear history?" = "Goliți istoricul?";
 "Clear history…" = "Golește istoricul…";
@@ -138,7 +137,6 @@
 "Favorite" = "Favorit";
 "Favorite or collection" = "Favorit sau colecție";
 "Favorites" = "Favorite";
-"Favorites and collection items will be kept. This action cannot be undone." = "Favoritele și elementele din colecții vor fi păstrate. Această acțiune nu poate fi anulată.";
 "Favorites and collections are kept. The item-count limit only applies to unmatched items. Expiration removes a file from history, never from its original folder." = "Favoritele și colecțiile sunt păstrate. Limita de elemente se aplică doar elementelor fără regulă. Expirarea elimină un fișier din istoric, niciodată din dosarul său original.";
 "Favorites, collections, and rule-managed items bypass the item-count limit. A full budget blocks new copies. Maximum embedded content per copy: 25 MiB." = "Favoritele, colecțiile și elementele gestionate de reguli nu intră în limita de elemente. Când spațiul este plin, copiile noi sunt blocate. Conținut încorporat maxim per copiere: 25 MiB.";
 "File" = "Fișier";
@@ -430,3 +428,6 @@
 "Star on GitHub" = "Dați o stea";
 "Helps others find encore" = "Îi ajută pe alții să găsească encore";
 "Update now" = "Actualizați";
+"Clear History" = "Ștergeți istoricul";
+"Clear Everything" = "Ștergeți tot";
+"Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone." = "Ștergeți istoricul păstrează favoritele, snippeturile și elementele colecțiilor. Ștergeți tot le elimină și pe acestea. Acțiunea este ireversibilă.";

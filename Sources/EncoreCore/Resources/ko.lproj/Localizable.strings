@@ -49,7 +49,6 @@
 "Choose the folder where macOS saves your screenshots." = "macOS가 스크린샷을 저장하는 폴더를 선택하십시오.";
 "Choose what Encore keeps. Everything stays on this Mac." = "encore에 보관할 항목을 선택합니다. 모든 데이터는 이 Mac에 남습니다.";
 "Choose…" = "선택…";
-"Clear" = "지우기";
 "Clear filters" = "필터 지우기";
 "Clear history?" = "기록을 지우겠습니까?";
 "Clear history…" = "기록 지우기…";
@@ -138,7 +137,6 @@
 "Favorite" = "즐겨찾기";
 "Favorite or collection" = "즐겨찾기 또는 모음";
 "Favorites" = "즐겨찾기";
-"Favorites and collection items will be kept. This action cannot be undone." = "즐겨찾기와 모음 항목은 유지됩니다. 이 동작은 실행 취소할 수 없습니다.";
 "Favorites and collections are kept. The item-count limit only applies to unmatched items. Expiration removes a file from history, never from its original folder." = "즐겨찾기와 모음은 유지됩니다. 항목 수 제한은 규칙과 일치하지 않는 항목에만 적용됩니다. 만료된 파일은 기록에서만 제거되며 원본 폴더에서는 제거되지 않습니다.";
 "Favorites, collections, and rule-managed items bypass the item-count limit. A full budget blocks new copies. Maximum embedded content per copy: 25 MiB." = "즐겨찾기, 모음 및 규칙으로 관리되는 항목은 항목 수 제한을 받지 않습니다. 용량이 가득 차면 새로 복사한 항목은 저장되지 않습니다. 복사 1회당 최대 내장 콘텐츠: 25MiB.";
 "File" = "파일";
@@ -430,3 +428,6 @@
 "Star on GitHub" = "별 달기";
 "Helps others find encore" = "다른 사람들이 encore를 찾도록 도와줍니다";
 "Update now" = "지금 업데이트";
+"Clear History" = "기록 지우기";
+"Clear Everything" = "모두 지우기";
+"Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone." = "기록 지우기는 즐겨찾기, 스니펫, 컬렉션 항목을 유지합니다. 모두 지우기는 이것들도 삭제합니다. 되돌릴 수 없습니다.";

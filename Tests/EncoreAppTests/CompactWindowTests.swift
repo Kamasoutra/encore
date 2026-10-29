@@ -104,6 +104,23 @@ final class CompactWindowTests: XCTestCase {
         XCTAssertEqual(try JSONDecoder().decode(Preferences.self, from: JSONEncoder().encode(custom)), custom)
     }
 
+    @MainActor func testClearingKeepsProtectedItemsUnlessEverythingGoes() {
+        let model = AppModel(demo: true, pasteboard: NSPasteboard(name: .init("Encore-Clear-Test-\(UUID())")))
+        defer { if let root = model.storage?.root { try? FileManager.default.removeItem(at: root) } }
+        func fill() {
+            var favorite = Clip(kind: .text, text: "Kept as a favorite"); favorite.favorite = true
+            var snippet = Clip(kind: .code, text: "let kept = true"); snippet.snippet = true
+            var filed = Clip(kind: .text, text: "Kept in a collection"); filed.collectionIDs = [UUID()]
+            model.library.clips = [Clip(kind: .text, text: "Gone"), favorite, snippet, filed, Clip(kind: .link, text: "https://example.com")]
+        }
+        fill()
+        model.clear(everything: false)
+        XCTAssertEqual(Set(model.library.clips.map(\.text)), ["Kept as a favorite", "let kept = true", "Kept in a collection"])
+        fill()
+        model.clear(everything: true)
+        XCTAssertTrue(model.library.clips.isEmpty)
+    }
+
     @MainActor func testTheColumnGivesWayToTheLibraryOpenedFromIt() {
         let model = AppModel(demo: true, pasteboard: NSPasteboard(name: .init("Encore-Compact-Test-\(UUID())")))
         defer { if let root = model.storage?.root { try? FileManager.default.removeItem(at: root) } }

@@ -49,7 +49,6 @@
 "Choose the folder where macOS saves your screenshots." = "macOSがスクリーンショットを保存するフォルダを選択してください。";
 "Choose what Encore keeps. Everything stays on this Mac." = "encoreで保持する内容を選択します。すべてこのMac上に保存されます。";
 "Choose…" = "選択…";
-"Clear" = "消去";
 "Clear filters" = "フィルタを消去";
 "Clear history?" = "履歴を消去しますか？";
 "Clear history…" = "履歴を消去…";
@@ -138,7 +137,6 @@
 "Favorite" = "お気に入り";
 "Favorite or collection" = "お気に入りまたはコレクション";
 "Favorites" = "お気に入り";
-"Favorites and collection items will be kept. This action cannot be undone." = "お気に入りとコレクションの項目は残ります。この操作は取り消せません。";
 "Favorites and collections are kept. The item-count limit only applies to unmatched items. Expiration removes a file from history, never from its original folder." = "お気に入りとコレクションは保持されます。項目数の上限は、どのルールにも一致しない項目にのみ適用されます。期限切れになったファイルは履歴から削除されますが、元のフォルダからは削除されません。";
 "Favorites, collections, and rule-managed items bypass the item-count limit. A full budget blocks new copies. Maximum embedded content per copy: 25 MiB." = "お気に入り、コレクション、ルールで管理される項目は項目数の上限の対象外です。容量がいっぱいになると、新しいコピーは保存されません。1回のコピーで埋め込めるコンテンツの上限：25 MiB。";
 "File" = "ファイル";
@@ -430,3 +428,6 @@
 "Star on GitHub" = "スターを付ける";
 "Helps others find encore" = "ほかの人が encore を見つける助けになります";
 "Update now" = "今すぐアップデート";
+"Clear History" = "履歴を消去";
+"Clear Everything" = "すべて消去";
+"Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone." = "「履歴を消去」はお気に入り、スニペット、コレクションの項目を残します。「すべて消去」はそれらも削除します。元に戻せません。";

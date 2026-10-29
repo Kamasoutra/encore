@@ -49,7 +49,6 @@
 "Choose the folder where macOS saves your screenshots." = "Vyberte priečinok, do ktorého macOS ukladá vaše snímky obrazovky.";
 "Choose what Encore keeps. Everything stays on this Mac." = "Vyberte, čo môže encore uchovávať. Všetko zostáva na tomto Macu.";
 "Choose…" = "Vybrať…";
-"Clear" = "Vymazať";
 "Clear filters" = "Vymazať filtre";
 "Clear history?" = "Vymazať históriu?";
 "Clear history…" = "Vymazať históriu…";
@@ -138,7 +137,6 @@
 "Favorite" = "Obľúbené";
 "Favorite or collection" = "Obľúbené alebo zbierka";
 "Favorites" = "Obľúbené";
-"Favorites and collection items will be kept. This action cannot be undone." = "Obľúbené a položky v zbierkach zostanú zachované. Túto akciu nie je možné vrátiť.";
 "Favorites and collections are kept. The item-count limit only applies to unmatched items. Expiration removes a file from history, never from its original folder." = "Obľúbené a zbierky sa uchovávajú. Limit počtu platí len pre položky bez pravidla. Vypršanie odstráni súbor z histórie, nikdy z jeho pôvodného priečinka.";
 "Favorites, collections, and rule-managed items bypass the item-count limit. A full budget blocks new copies. Maximum embedded content per copy: 25 MiB." = "Na obľúbené, zbierky a položky s pravidlom sa limit počtu nevzťahuje. Po vyčerpaní limitu sa nové kópie neukladajú. Technický limit: 25 MiB vloženého obsahu na kópiu.";
 "File" = "Súbor";
@@ -430,3 +428,6 @@
 "Star on GitHub" = "Dať hviezdičku";
 "Helps others find encore" = "Pomôže ostatným nájsť encore";
 "Update now" = "Aktualizovať";
+"Clear History" = "Vymazať históriu";
+"Clear Everything" = "Vymazať všetko";
+"Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone." = "Vymazať históriu ponechá obľúbené, snippety a položky zbierok. Vymazať všetko odstráni aj ich. Akciu nemožno vrátiť.";

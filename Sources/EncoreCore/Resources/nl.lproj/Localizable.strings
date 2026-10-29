@@ -49,7 +49,6 @@
 "Choose the folder where macOS saves your screenshots." = "Kies de map waarin macOS je schermafbeeldingen bewaart.";
 "Choose what Encore keeps. Everything stays on this Mac." = "Kies wat encore mag bewaren. Alles blijft op deze Mac.";
 "Choose…" = "Kies…";
-"Clear" = "Wis";
 "Clear filters" = "Wis filters";
 "Clear history?" = "Geschiedenis wissen?";
 "Clear history…" = "Wis geschiedenis…";
@@ -138,7 +137,6 @@
 "Favorite" = "Favoriet";
 "Favorite or collection" = "Favoriet of collectie";
 "Favorites" = "Favorieten";
-"Favorites and collection items will be kept. This action cannot be undone." = "Favorieten en onderdelen in collecties blijven bewaard. Deze actie kan niet ongedaan worden gemaakt.";
 "Favorites and collections are kept. The item-count limit only applies to unmatched items. Expiration removes a file from history, never from its original folder." = "Favorieten en collecties blijven bewaard. Het maximale aantal geldt alleen voor onderdelen zonder regel. Een verlopen bestand verdwijnt uit de geschiedenis, nooit uit de oorspronkelijke map.";
 "Favorites, collections, and rule-managed items bypass the item-count limit. A full budget blocks new copies. Maximum embedded content per copy: 25 MiB." = "Favorieten, collecties en onderdelen met een regel vallen buiten het maximale aantal. Als het budget vol is, worden nieuwe kopieën geblokkeerd. Technische limiet: 25 MiB ingesloten inhoud per kopie.";
 "File" = "Bestand";
@@ -430,3 +428,6 @@
 "Star on GitHub" = "Ster op GitHub";
 "Helps others find encore" = "Helpt anderen encore te vinden";
 "Update now" = "Nu bijwerken";
+"Clear History" = "Geschiedenis wissen";
+"Clear Everything" = "Alles wissen";
+"Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone." = "Geschiedenis wissen bewaart favorieten, snippets en collectie-items. Alles wissen verwijdert die ook. Dit kan niet ongedaan worden gemaakt.";

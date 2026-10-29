@@ -49,7 +49,6 @@
 "Choose the folder where macOS saves your screenshots." = "יש לבחור את התיקייה שבה macOS שומר את צילומי המסך.";
 "Choose what Encore keeps. Everything stays on this Mac." = "יש לבחור מה encore ישמור. הכול נשאר במחשב Mac זה.";
 "Choose…" = "בחר…";
-"Clear" = "נקה";
 "Clear filters" = "נקה מסננים";
 "Clear history?" = "לנקות את ההיסטוריה?";
 "Clear history…" = "נקה היסטוריה…";
@@ -137,7 +136,6 @@
 "Favorite" = "מועדף";
 "Favorite or collection" = "מועדף או אוסף";
 "Favorites" = "מועדפים";
-"Favorites and collection items will be kept. This action cannot be undone." = "מועדפים ופריטים באוספים יישמרו. לא ניתן לבטל פעולה זו.";
 "Favorites and collections are kept. The item-count limit only applies to unmatched items. Expiration removes a file from history, never from its original folder." = "מועדפים ואוספים נשמרים. מגבלת מספר הפריטים חלה רק על פריטים שאינם תואמים לכלל. כשתוקפו של קובץ פג, הוא מוסר מההיסטוריה ולעולם לא מהתיקייה המקורית שלו.";
 "Favorites, collections, and rule-managed items bypass the item-count limit. A full budget blocks new copies. Maximum embedded content per copy: 25 MiB." = "מועדפים, אוספים ופריטים הכפופים לכלל אינם נספרים במגבלת מספר הפריטים. כשהמכסה מלאה, העתקות חדשות נחסמות. מקסימום תוכן מוטמע לכל העתקה: 25 MiB.";
 "File" = "קובץ";
@@ -430,3 +428,6 @@
 "Star on GitHub" = "תנו כוכב";
 "Helps others find encore" = "עוזר לאחרים למצוא את encore";
 "Update now" = "עדכן עכשיו";
+"Clear History" = "ניקוי היסטוריה";
+"Clear Everything" = "מחיקת הכול";
+"Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone." = "ניקוי היסטוריה שומר מועדפים, קטעי קוד ופריטי אוספים. מחיקת הכול מסירה גם אותם. לא ניתן לבטל פעולה זו.";

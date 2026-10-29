@@ -49,7 +49,6 @@
 "Choose the folder where macOS saves your screenshots." = "Välj mappen där macOS sparar dina skärmavbilder.";
 "Choose what Encore keeps. Everything stays on this Mac." = "Välj vad encore får behålla. Allt stannar på den här datorn.";
 "Choose…" = "Välj…";
-"Clear" = "Rensa";
 "Clear filters" = "Rensa filter";
 "Clear history?" = "Vill du rensa historiken?";
 "Clear history…" = "Rensa historik…";
@@ -138,7 +137,6 @@
 "Favorite" = "Favorit";
 "Favorite or collection" = "Favorit eller samling";
 "Favorites" = "Favoriter";
-"Favorites and collection items will be kept. This action cannot be undone." = "Favoriter och objekt i samlingar behålls. Åtgärden kan inte ångras.";
 "Favorites and collections are kept. The item-count limit only applies to unmatched items. Expiration removes a file from history, never from its original folder." = "Favoriter och samlingar behålls. Maxantalet gäller bara objekt utan regel. En fil som upphör tas bort från historiken, aldrig från sin ursprungliga mapp.";
 "Favorites, collections, and rule-managed items bypass the item-count limit. A full budget blocks new copies. Maximum embedded content per copy: 25 MiB." = "Favoriter, samlingar och objekt med regel omfattas inte av maxantalet. När budgeten är full blockeras nya kopior. Teknisk gräns: 25 MiB inbäddat innehåll per kopia.";
 "File" = "Fil";
@@ -430,3 +428,6 @@
 "Star on GitHub" = "Stjärnmärk";
 "Helps others find encore" = "Hjälper andra att hitta encore";
 "Update now" = "Uppdatera nu";
+"Clear History" = "Rensa historik";
+"Clear Everything" = "Rensa allt";
+"Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone." = "Rensa historik behåller favoriter, snippets och samlingsobjekt. Rensa allt tar bort även dem. Det går inte att ångra.";
