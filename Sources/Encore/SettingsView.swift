@@ -132,7 +132,7 @@ struct SettingsView: View {
         .onAppear { if updates.latest == nil { updates.probe() } }
     }
 
-    /// Both ways to support encore, side by side.
+    /// The ways to support encore: a tip on either platform, or a star.
     private var supportCard: some View {
         VStack(alignment: .leading, spacing: 7) {
             Label { Text(L("Support encore")) } icon: { Image(systemName: "heart.fill").foregroundStyle(.pink) }
@@ -141,6 +141,7 @@ struct SettingsView: View {
             VStack(spacing: 5) {
                 supportLink("GitHub Sponsors", symbol: "heart", url: "https://github.com/sponsors/Kamasoutra")
                 supportLink("Ko-fi", symbol: "cup.and.saucer", url: "https://ko-fi.com/kamasoutra")
+                supportLink(L("Star on GitHub"), symbol: "star", url: "https://github.com/Kamasoutra/encore")
             }
         }
         .padding(10).frame(maxWidth: .infinity, alignment: .leading)
