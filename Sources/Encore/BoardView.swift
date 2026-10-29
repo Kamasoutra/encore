@@ -343,7 +343,6 @@ struct BoardView: View {
                     hint("⌘⌫", L("delete"))
                 }
             }
-            Text(L("100% local")).font(.system(size: 11, weight: .medium)).foregroundStyle(.tertiary).padding(.leading, 2)
         }.foregroundStyle(.secondary).padding(.horizontal, 16).frame(height: 34)
             .overlay(alignment: .top) { Rectangle().fill(.primary.opacity(0.07)).frame(height: 1) }
             .onReceive(Timer.publish(every: 1.5, on: .main, in: .common).autoconnect()) { _ in
@@ -908,10 +907,8 @@ struct SideColumn<Search: View>: View {
             .onChanged(model.cursor) { _ in follow() }
             .onChanged(items.map(\.id)) { _ in follow() }
             .animation(reduceMotion ? nil : .spring(duration: 0.3, bounce: 0.15), value: visible.map(\.id))
+            // Same order as the shelf footer: the switches, then the hints.
             HStack(spacing: 10) {
-                footerHint("↑↓", L("choose"))
-                footerHint("↩", model.pastesDirectly ? L("paste") : L("copy"))
-                Spacer(minLength: 4)
                 iconSwitch(model.preferences.pasteDirectly, on: ("arrow.down.doc", L("paste")), off: ("doc.on.doc", L("copy"))) { value in
                     model.preferences.pasteDirectly = value; model.preferencesChanged()
                 }.help(L("What Return and double-click do"))
@@ -919,6 +916,9 @@ struct SideColumn<Search: View>: View {
                     guard shelf else { return }
                     model.preferences.placement = "bottom"; model.preferencesChanged(); model.resizePanel?()
                 }.help(L("Shelf or compact window"))
+                Spacer(minLength: 4)
+                footerHint("↑↓", L("choose"))
+                footerHint("↩", model.pastesDirectly ? L("paste") : L("copy"))
             }
         }
         .padding(12)

@@ -212,7 +212,7 @@ final class EncorePanel: NSPanel {
         guard model.columnShown, panel.isVisible, !movingPanel, let screen = panel.screen else { return }
         guard NSEvent.pressedMouseButtons == 0 else {
             snapWait?.invalidate()
-            snapWait = Timer.scheduledTimer(withTimeInterval: 0.15, repeats: false) { [weak self] _ in MainActor.assumeIsolated { self?.compactMoved() } }
+            snapWait = Timer.scheduledTimer(withTimeInterval: 0.02, repeats: false) { [weak self] _ in MainActor.assumeIsolated { self?.compactMoved() } }
             return
         }
         let frame = screen.visibleFrame
@@ -224,12 +224,14 @@ final class EncorePanel: NSPanel {
         }
         model.preferences.compactPosition = position
         model.preferencesChanged()
-        let target = compactFrame(in: frame)
-        guard target != panel.frame else { return }
+        // Only the origin moves: animating the whole frame made the content flicker in size.
+        let target = compactFrame(in: frame).origin
+        guard abs(target.x - panel.frame.minX) > 0.5 || abs(target.y - panel.frame.minY) > 0.5 else { return }
         movingPanel = true
         NSAnimationContext.runAnimationGroup({ context in
-            context.duration = 0.18
-            panel.animator().setFrame(target, display: true)
+            context.duration = 0.09
+            context.timingFunction = CAMediaTimingFunction(name: .easeOut)
+            panel.animator().setFrameOrigin(target)
         }, completionHandler: { [weak self] in MainActor.assumeIsolated { self?.movingPanel = false } })
     }
 
