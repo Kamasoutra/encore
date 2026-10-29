@@ -873,7 +873,8 @@ struct SideColumn<Search: View>: View {
                 Spacer()
             }
             .padding(.horizontal, 4)
-            .overlay(WindowDragArea { model.compactMoved?() }.help(L("Drag to move")))
+            // The whole top strip, out to the window's edges, so a grab just above or beside the title still moves it.
+            .overlay(WindowDragArea { model.compactMoved?() }.padding(.horizontal, -12).padding(.top, -12).padding(.bottom, -5).help(L("Drag to move")))
             .overlay(alignment: .trailing) {
                 if !model.preferences.captureEnabled { Image(systemName: "pause.circle.fill").foregroundStyle(.orange).help(L("Capture paused")).padding(.trailing, 4) }
             }
@@ -969,6 +970,9 @@ private struct WindowDragArea: NSViewRepresentable {
 
     final class DragView: NSView {
         var onEnd: (() -> Void)?
+
+        // The first click on the window moves it too, instead of only making it active.
+        override func acceptsFirstMouse(for event: NSEvent?) -> Bool { true }
 
         override func mouseDown(with event: NSEvent) {
             guard let window else { return }
