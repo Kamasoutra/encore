@@ -985,8 +985,12 @@ private struct WindowDragArea: NSViewRepresentable {
         }
 
         static func snap(_ origin: NSPoint, size: NSSize, in frame: NSRect) -> NSPoint {
+            // Drawn in rather than jumping: within 48 points the window lags towards the anchor, more as it gets closer, and holds within 6.
             func axis(_ value: CGFloat, _ low: CGFloat, _ high: CGFloat) -> CGFloat {
-                [low, (low + high) / 2, high].first { abs($0 - value) < 36 } ?? value
+                let reach: CGFloat = 48, hold: CGFloat = 6
+                guard let anchor = [low, (low + high) / 2, high].min(by: { abs($0 - value) < abs($1 - value) }), abs(value - anchor) < reach else { return value }
+                let distance = abs(value - anchor), pull = max(0, distance - hold) / (reach - hold)
+                return anchor + (value < anchor ? -1 : 1) * reach * pull * pull
             }
             return NSPoint(x: axis(origin.x, frame.minX + 10, frame.maxX - 10 - size.width), y: axis(origin.y, frame.minY + 10, frame.maxY - 10 - size.height))
         }
