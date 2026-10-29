@@ -282,16 +282,21 @@ struct SettingsView: View {
                 described(L("Password managers can clear the clipboard a while after you copy a password. encore then removes that copy from its history too. In Bitwarden, choose a delay in Settings → Options → Clear clipboard.")) {
                     Toggle(L("Forget copies that their app clears"), isOn: $model.preferences.forgetClearedCopies)
                 }
-                described(L("Copies that look like passwords, API keys, tokens, private keys or card numbers are masked and deleted after the delay below. Pasting them still works, and they are never shared with your other Macs. Detection is a guess: ordinary copies, like code or identifiers, can be taken for secrets, and some secrets can be missed.")) {
-                    Toggle(L("Detect passwords, keys and card numbers"), isOn: $model.preferences.detectSecrets)
-                }
-                if model.preferences.detectSecrets {
-                    Picker(L("Delete after"), selection: $model.preferences.secretLifetime) {
-                        ForEach([30.0, 60, 300, 900, 3600], id: \.self) { Text(Self.lifetime($0)).tag($0) }
+                // One row: as separate rows, the form squeezed the explanation against the pickers below it.
+                VStack(alignment: .leading, spacing: 10) {
+                    described(L("Copies that look like passwords, API keys, tokens, private keys or card numbers are masked and deleted after the delay below. Pasting them still works, and they are never shared with your other Macs. Detection is a guess: ordinary copies, like code or identifiers, can be taken for secrets, and some secrets can be missed.")) {
+                        Toggle(L("Detect passwords, keys and card numbers"), isOn: $model.preferences.detectSecrets)
                     }
-                    Picker(L("Characters shown"), selection: $model.preferences.secretPreview) {
-                        Text(L("None")).tag(0)
-                        ForEach([2, 3, 4, 6], id: \.self) { Text(Localization.number($0)).tag($0) }
+                    if model.preferences.detectSecrets {
+                        Divider()
+                        Picker(L("Delete after"), selection: $model.preferences.secretLifetime) {
+                            ForEach([30.0, 60, 300, 900, 3600], id: \.self) { Text(Self.lifetime($0)).tag($0) }
+                        }
+                        Divider()
+                        Picker(L("Characters shown"), selection: $model.preferences.secretPreview) {
+                            Text(L("None")).tag(0)
+                            ForEach([2, 3, 4, 6], id: \.self) { Text(Localization.number($0)).tag($0) }
+                        }.padding(.bottom, 4)
                     }
                 }
             }
