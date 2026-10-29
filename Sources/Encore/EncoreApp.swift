@@ -135,6 +135,11 @@ final class EncorePanel: NSPanel {
             MainActor.assumeIsolated { self?.model.prune() }
         }
         model.clipboard.start()
+        // `--demo --open shelf|compact` shows the panel on launch, for screenshots.
+        if model.demo, let mode = CommandLine.arguments.drop(while: { $0 != "--open" }).dropFirst().first {
+            model.preferences.placement = mode == "compact" ? "compact" : "bottom"
+            show()
+        }
         screenshots.configure()
         if demo || CommandLine.arguments.contains("--show") || !UserDefaults.standard.bool(forKey: "hasLaunched") {
             if !demo { UserDefaults.standard.set(true, forKey: "hasLaunched") }
@@ -165,7 +170,7 @@ final class EncorePanel: NSPanel {
         let shortcut = GlobalShortcut(preference: model.preferences.shortcut)
         hotkeys.register(shortcut, stackEnabled: model.preferences.stackShortcutEnabled)
         model.shortcutStatus = hotkeys.primaryAvailable ? shortcut.label : "⌃⌥⌘V"
-        if !hotkeys.primaryAvailable { model.notify(L("Shortcut used by another app · fallback: ⌃⌥⌘V")) }
+        if !hotkeys.primaryAvailable && !model.demo { model.notify(L("Shortcut used by another app · fallback: ⌃⌥⌘V")) }
         if model.preferences.stackShortcutEnabled && !hotkeys.stackAvailable { model.notify(L("⌘⇧C is already used by another app. The queue is available from the shelf.")) }
     }
 
