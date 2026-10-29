@@ -1,12 +1,12 @@
-A compact window, your own shortcut, and updates that arrive on their own.
+Clear your history in two clicks, and keep passwords copied from a browser out of it.
 
-- **Compact window.** Prefer something smaller than the shelf? A narrow panel of your latest copies, wherever you put it: it is drawn to the corners, the middle of each edge and the center, and opens at the same spot next time, even on another screen. Choose 3 to 10 copies, scroll with the arrows, and press ↑ on the first one to open the library. Switch from the footer or in Settings.
-- **Your own shortcut.** Click it in Settings and type any combination. encore refuses those that would break your apps, like ⌘V alone, and ⌃⌥⌘V always works as a fallback.
-- **System sounds.** The custom sound set can use the sounds that come with macOS.
-- **Updates that arrive.** encore now checks every hour and, by default, installs an update as soon as none of its windows is open, then relaunches. Copies older than 0.6 still find this one on their old daily schedule.
-- ⌘← ⌘→ to switch boards is shown in the shelf and in Settings.
-- The first letter typed into the search is no longer lost, and the volume slider is no longer cut off in Settings.
-- A link to support encore on GitHub Sponsors, in Settings and in About.
+- **Copies cleared by their app are forgotten.** Password managers can clear the clipboard a while after you copy a password. encore now removes that copy from its history too. This covers browser extensions, which copy as the browser and cannot be excluded on their own. With Bitwarden in Firefox or Chrome: open the extension, go to Settings → Options → Clear clipboard, and pick a delay, from 10 seconds to 5 minutes. On by default, in Settings → Privacy → Passwords and secrets.
+- **Secret detection, off by default.** Turn on "Detect passwords, keys and card numbers" and copies that look like passwords, API keys, tokens, private keys or card numbers are masked on their card, showing only their first characters, and deleted after the delay you choose, from 30 seconds to an hour. Pasting them still works, and they are never shared with your other Macs. Detection is a guess: an ordinary copy, like a code identifier, can be taken for a secret, and a secret can be missed.
+- **Clear the history from anywhere.** From the menu bar icon, from Settings → Data, or with `open encore://clear-history` in Terminal, without quitting encore. Choose to keep your favorites, snippets and collections, or to clear everything.
+- **Cards dissolve when they disappear.** Deleted or expired cards turn to dust while their neighbors slide into place, in the shelf, the library and the compact window. With macOS Reduce Motion enabled, a short fade replaces the particles. If the selected card expires, selection stays beside it.
+- **Ko-fi, and a first goal.** Next to GitHub Sponsors, you can now support encore on [Ko-fi](https://ko-fi.com/kamasoutra), by card or PayPal, without an account. The first goal is Apple's developer account, $99 a year: encore could then be notarized and install without the "Open Anyway" step, and come to the Mac App Store as an extra option, simpler to install, but sandboxed and slower to update, since Apple reviews each version. The GitHub version would stay the main one.
+- **The settings sidebar** shows the version you use and the latest one available, checked each time Settings open, with an Update button when there is one. It also offers a star on GitHub, and support on GitHub Sponsors or Ko-fi.
+- Section names and cards no longer get cut off in any of the 30 languages.
 
 Download the ZIP, unzip, and move Encore.app to Applications. SHA256SUMS contains its checksum. Installed copies update themselves.
 
