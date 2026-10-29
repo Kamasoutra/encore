@@ -92,6 +92,7 @@ struct SettingsView: View {
             Spacer()
             VStack(alignment: .leading, spacing: 10) {
                 if updates.available { versionCard }
+                starCard
                 supportCard
                 HStack {
                     Label(L("100% local"), systemImage: "lock.shield")
@@ -132,7 +133,7 @@ struct SettingsView: View {
         .onAppear { if updates.latest == nil { updates.probe() } }
     }
 
-    /// The ways to support encore: a tip on either platform, or a star.
+    /// Both ways to tip, side by side.
     private var supportCard: some View {
         VStack(alignment: .leading, spacing: 7) {
             Label { Text(L("Support encore")) } icon: { Image(systemName: "heart.fill").foregroundStyle(.pink) }
@@ -141,11 +142,25 @@ struct SettingsView: View {
             VStack(spacing: 5) {
                 supportLink("GitHub Sponsors", symbol: "heart", url: "https://github.com/sponsors/Kamasoutra")
                 supportLink("Ko-fi", symbol: "cup.and.saucer", url: "https://ko-fi.com/kamasoutra")
-                supportLink(L("Star on GitHub"), symbol: "star", url: "https://github.com/Kamasoutra/encore")
             }
         }
         .padding(10).frame(maxWidth: .infinity, alignment: .leading)
         .background(LinearGradient(colors: [Palette.accent.opacity(0.14), Color.pink.opacity(0.1)], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: 10))
+    }
+
+    /// A star costs nothing: it has its own card, apart from the tips.
+    private var starCard: some View {
+        Link(destination: URL(string: "https://github.com/Kamasoutra/encore")!) {
+            // Laid out like the support card: the symbol on the title line, the reason below at full width.
+            VStack(alignment: .leading, spacing: 4) {
+                Label { Text(L("Star on GitHub")) } icon: { Image(systemName: "star.fill").foregroundStyle(.yellow) }
+                    .font(.system(size: 12, weight: .semibold))
+                Text(L("Helps others find encore")).font(.system(size: 10.5)).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
+            }
+            .padding(10).frame(maxWidth: .infinity, alignment: .leading)
+            .background(.primary.opacity(0.05), in: RoundedRectangle(cornerRadius: 10))
+            .contentShape(Rectangle())
+        }.buttonStyle(.plain).foregroundStyle(.primary)
     }
 
     private func supportLink(_ title: String, symbol: String, url: String) -> some View {
