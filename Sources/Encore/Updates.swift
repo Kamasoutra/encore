@@ -28,10 +28,18 @@ import Sparkle
     /// The newest version the feed offers, once a check has run; the current one when encore is up to date.
     @Published private(set) var latest: String?
     @Published private(set) var probing = false
+    private var probedAt: Date?
     var updateFound: Bool { latest.map { $0 != Self.current } ?? false }
+
+    /// Probes when the settings open, at most every five minutes, so going back and forth does not query GitHub each time.
+    func probeIfStale() {
+        guard probedAt.map({ Date().timeIntervalSince($0) > 300 }) ?? true else { return }
+        probe()
+    }
 
     /// Reads the feed without showing anything, to tell whether a newer version exists.
     func probe() {
+        probedAt = Date()
         if demo { latest = Self.current; return }
         guard let controller, !probing, controller.updater.canCheckForUpdates else { return }
         probing = true
