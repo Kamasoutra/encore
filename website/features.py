@@ -144,7 +144,7 @@ RELEASES = {
                 ("fix", "The first letter typed into the search is no longer lost, and the volume slider is no longer cut off in Settings."),
                 ("new", "A link to support encore on GitHub Sponsors, in Settings and in About."),
             ]),
-            ("0.5.0", "2026-10-28", "snippets.jpg", "Snippets, and favorites that follow you from Mac to Mac.", [
+            ("0.5.0", "2026-10-28", "snippets.mp4", "Snippets, and favorites that follow you from Mac to Mac.", [
                 ("new", "<b>Snippets.</b> <kbd>⌘S</kbd> on any card gives it a name, a language among 85 and tags. Snippets get their own board and never expire."),
                 ("new", "<b>Placeholders.</b> <code>{{name}}</code> asks for a value before pasting; <code>{{clipboard}}</code>, <code>{{date}}</code> and <code>{{cursor}}</code> fill in by themselves. Export and import snippets as JSON."),
                 ("new", "<b>Rename in place.</b> <kbd>⌘R</kbd>, or a click on a card's header."),
@@ -216,7 +216,7 @@ RELEASES = {
                 ("fix", "La première lettre tapée dans la recherche n’est plus perdue, et le curseur de volume n’est plus coupé dans les Réglages."),
                 ("new", "Un lien pour soutenir encore sur GitHub Sponsors, dans les Réglages et dans À propos."),
             ]),
-            ("0.5.0", "2026-10-28", "snippets.jpg", "Les snippets, et des favoris qui te suivent de Mac en Mac.", [
+            ("0.5.0", "2026-10-28", "snippets.mp4", "Les snippets, et des favoris qui te suivent de Mac en Mac.", [
                 ("new", "<b>Snippets.</b> <kbd>⌘S</kbd> sur une carte lui donne un nom, un langage parmi 85 et des tags. Les snippets ont leur propre tableau et n’expirent jamais."),
                 ("new", "<b>Variables.</b> <code>{{nom}}</code> demande une valeur avant de coller ; <code>{{clipboard}}</code>, <code>{{date}}</code> et <code>{{cursor}}</code> se remplissent seuls. Export et import des snippets en JSON."),
                 ("new", "<b>Renommer sur place.</b> <kbd>⌘R</kbd>, ou un clic sur l’en-tête d’une carte."),
