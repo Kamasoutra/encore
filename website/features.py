@@ -6,7 +6,7 @@ Each one says the version it arrived in: check it against `git tag --contains` w
 
 from html import escape
 
-LATEST = "0.6.0"
+LATEST = "0.6.1"
 
 # (key, version, media, title, text): media is an image or video in media/<lang>/, or None for the cards at the end.
 FEATURES = {
@@ -33,7 +33,7 @@ FEATURES = {
             ("privacy", "0.2", "settings-privacy.png", "Private by design",
              "Everything stays on your Mac: no account, no telemetry, no link loaded behind your back. Password managers are left out, and content that apps mark as confidential is never recorded. <a href='{privacy}'>Read how your data is handled, in plain words</a>."),
             ("passwords", "0.6.1", "secrets.png", "Your passwords stay out of it",
-             "Browser extensions like Bitwarden in Firefox copy as the browser and mark nothing. When the extension clears the clipboard after a copy (Settings → Options → Clear clipboard), encore forgets that copy too. And if you turn on detection, copies that look like passwords, API keys, tokens or card numbers are masked, showing only their first characters, then deleted after the delay you choose. They still paste, and never reach your other Macs. It is a guess: an ordinary copy can be taken for a secret."),
+             "Browser extensions like Bitwarden in Firefox copy as the browser and mark nothing. When the extension clears the clipboard after a copy (Settings → Options → Clear clipboard), encore forgets that copy too. And if you turn on detection, copies that look like passwords, API keys, tokens or card numbers are masked, showing only their first characters, then deleted after the delay you choose. They still paste, and never reach your other Macs. It is a guess: an ordinary copy can be taken for a secret. When a card disappears, it dissolves into dust and its neighbors slide into place."),
             ("preview", "0.4", "preview.png", "See before you paste",
              "Press <kbd>Space</kbd> on a card for a large floating preview that follows your selection: long texts scroll, images and PDFs show in full, rich text keeps its layout."),
             ("shortcut", "0.6.0", "settings-general.png", "Your shortcut, your rules",
@@ -60,6 +60,8 @@ FEATURES = {
              "Turn it on, and new screenshots saved by macOS land in your history, ready to paste."),
             ("languages", "0.4", None, "30 languages",
              "With local formats, plurals and right-to-left layouts."),
+            ("clear", "0.6.1", None, "Clear from anywhere",
+             "From the menu bar icon, from Settings, or with <code>open encore://clear-history</code>: keep favorites and snippets, or clear everything."),
             ("updates", "0.4", None, "Signed updates",
              "encore checks GitHub every hour and installs only updates signed with the project's key."),
             ("universal", "0.4.3", None, "Every recent Mac",
@@ -89,7 +91,7 @@ FEATURES = {
             ("privacy", "0.2", "settings-privacy.png", "Privé par conception",
              "Tout reste sur ton Mac : pas de compte, pas de télémétrie, aucun lien chargé dans ton dos. Les gestionnaires de mots de passe sont écartés, et ce que les apps marquent comme confidentiel n’est jamais enregistré. <a href='{privacy}'>Lis comment tes données sont traitées, sans jargon</a>."),
             ("passwords", "0.6.1", "secrets.png", "Tes mots de passe restent à l’écart",
-             "Les extensions comme Bitwarden dans Firefox copient au nom du navigateur et ne signalent rien. Quand l’extension vide le presse-papiers après une copie (Paramètres → Options → Effacer le presse-papiers), encore oublie aussi cette copie. Et si tu actives la détection, les copies qui ressemblent à des mots de passe, clés d’API, jetons ou numéros de carte sont masquées, seuls leurs premiers caractères restent visibles, puis supprimées après le délai de ton choix. Elles se collent toujours et ne partent jamais vers tes autres Mac. C’est une estimation : une copie ordinaire peut être prise pour un secret."),
+             "Les extensions comme Bitwarden dans Firefox copient au nom du navigateur et ne signalent rien. Quand l’extension vide le presse-papiers après une copie (Paramètres → Options → Effacer le presse-papiers), encore oublie aussi cette copie. Et si tu actives la détection, les copies qui ressemblent à des mots de passe, clés d’API, jetons ou numéros de carte sont masquées, seuls leurs premiers caractères restent visibles, puis supprimées après le délai de ton choix. Elles se collent toujours et ne partent jamais vers tes autres Mac. C’est une estimation : une copie ordinaire peut être prise pour un secret. Quand une tuile disparaît, elle se désagrège en poussière et ses voisines referment l’espace."),
             ("preview", "0.4", "preview.png", "Voir avant de coller",
              "Appuie sur <kbd>Espace</kbd> sur une carte pour un grand aperçu flottant qui suit ta sélection : les longs textes défilent, images et PDF s’affichent en entier, le texte enrichi garde sa mise en page."),
             ("shortcut", "0.6.0", "settings-general.png", "Ton raccourci, tes règles",
@@ -116,6 +118,8 @@ FEATURES = {
              "Active l’option, et les nouvelles captures enregistrées par macOS rejoignent ton historique, prêtes à coller."),
             ("languages", "0.4", None, "30 langues",
              "Avec les formats locaux, les pluriels et les mises en page de droite à gauche."),
+            ("clear", "0.6.1", None, "Tout effacer, de partout",
+             "Depuis l’icône de la barre des menus, les Réglages ou avec <code>open encore://clear-history</code> : garde favoris et snippets, ou efface tout."),
             ("updates", "0.4", None, "Des mises à jour signées",
              "encore vérifie GitHub toutes les heures et n’installe que les mises à jour signées avec la clé du projet."),
             ("universal", "0.4.3", None, "Tous les Mac récents",
@@ -139,6 +143,15 @@ RELEASES = {
         "pace": "{} versions in {} days",
         "latest": "Latest",
         "items": [
+            ("0.6.1", "2026-10-30", "secrets.mp4", "Passwords copied from a browser stay out of your history.", [
+                ("new", "<b>Cleared copies are forgotten.</b> When a password manager clears the clipboard after a copy, encore removes that copy from its history too. It covers browser extensions, which copy as the browser. In Bitwarden: Settings → Options → Clear clipboard, then pick a delay. On by default."),
+                ("new", "<b>Secret detection, off by default.</b> Copies that look like passwords, API keys, tokens, private keys or card numbers are masked, showing only their first characters, and deleted after the delay you choose. They still paste and are never shared with your other Macs. It is a guess: an ordinary copy can be taken for a secret, and a secret can be missed."),
+                ("new", "<b>Clear from anywhere.</b> From the menu bar icon, Settings → Data or <code>open encore://clear-history</code>, without quitting: keep favorites, snippets and collections, or clear everything."),
+                ("new", "<b>Ko-fi, and a first goal.</b> Next to GitHub Sponsors, you can now support encore on <a href='https://ko-fi.com/kamasoutra'>Ko-fi</a>, by card or PayPal, without an account. The first goal is Apple’s developer account, $99 a year: encore could then be notarized and install without the “Open Anyway” step, and come to the Mac App Store as an extra option, simpler to install, but sandboxed and slower to update, since Apple reviews each version."),
+                ("better", "<b>Cards turn to dust.</b> Deleted or expired cards dissolve while their neighbors slide into place, in the shelf, the library and the compact window. macOS Reduce Motion replaces the particles with a short fade. If the selected card expires, selection stays beside it."),
+                ("better", "The settings sidebar shows your version and the latest one, checked each time Settings open, with an Update button when there is one, a star on GitHub, and support on GitHub Sponsors or Ko-fi."),
+                ("fix", "Section names and cards no longer get cut off in any of the 30 languages."),
+            ]),
             ("0.6.0", "2026-10-29", "compact.png", "A compact window, your own shortcut, and updates that arrive on their own.", [
                 ("new", "<b>Compact window.</b> A small panel of your latest copies, instead of the shelf: move it anywhere, it is drawn to the corners, edges and center, and opens there next time. Choose 3 to 10 copies, scroll with the arrows, press <kbd>↑</kbd> on the first one for the library."),
                 ("new", "<b>Your own shortcut.</b> Click it in Settings and type any combination, except those that would break your apps, like <kbd>⌘V</kbd> alone."),
@@ -211,6 +224,15 @@ RELEASES = {
         "pace": "{} versions en {} jours",
         "latest": "Dernière version",
         "items": [
+            ("0.6.1", "2026-10-30", "secrets.mp4", "Les mots de passe copiés depuis un navigateur restent hors de ton historique.", [
+                ("new", "<b>Les copies effacées sont oubliées.</b> Quand un gestionnaire de mots de passe vide le presse-papiers après une copie, encore retire aussi cette copie de son historique. Ça couvre les extensions de navigateur, qui copient au nom du navigateur. Dans Bitwarden : Paramètres → Options → Effacer le presse-papiers, puis choisis un délai. Activé par défaut."),
+                ("new", "<b>Détection des secrets, désactivée par défaut.</b> Les copies qui ressemblent à des mots de passe, clés d’API, jetons, clés privées ou numéros de carte sont masquées, seuls leurs premiers caractères restent visibles, et supprimées après le délai de ton choix. Elles se collent toujours et ne sont jamais partagées avec tes autres Mac. C’est une estimation : une copie ordinaire peut être prise pour un secret, et un secret peut passer inaperçu."),
+                ("new", "<b>Tout effacer, de partout.</b> Depuis l’icône de la barre des menus, Réglages → Données ou <code>open encore://clear-history</code>, sans quitter l’app : garde favoris, snippets et collections, ou efface tout."),
+                ("new", "<b>Ko-fi, et un premier objectif.</b> À côté de GitHub Sponsors, tu peux maintenant soutenir encore sur <a href='https://ko-fi.com/kamasoutra'>Ko-fi</a>, par carte ou PayPal, sans compte. Premier objectif : le compte développeur Apple, 99 $ par an. encore pourrait alors être notarisé et s’installer sans l’étape « Ouvrir quand même », et arriver sur le Mac App Store en option, plus simple à installer, mais dans un bac à sable et plus lent à mettre à jour, puisqu’Apple relit chaque version."),
+                ("better", "<b>Les tuiles partent en poussière.</b> Les tuiles supprimées ou expirées se désagrègent pendant que leurs voisines referment l’espace, dans le bandeau, la bibliothèque et la fenêtre compacte. Le réglage macOS Réduire les animations remplace les particules par un fondu court. Quand la tuile sélectionnée expire, la sélection reste à côté."),
+                ("better", "La colonne des réglages affiche ta version et la dernière disponible, vérifiée à chaque ouverture, avec un bouton pour mettre à jour, une étoile sur GitHub et le soutien via GitHub Sponsors ou Ko-fi."),
+                ("fix", "Les noms de section et les encarts ne sont plus coupés, dans aucune des 30 langues."),
+            ]),
             ("0.6.0", "2026-10-29", "compact.png", "Une fenêtre compacte, ton propre raccourci, et des mises à jour qui arrivent seules.", [
                 ("new", "<b>Fenêtre compacte.</b> Un petit panneau de tes dernières copies, à la place du bandeau : déplace-le où tu veux, il est attiré par les coins, les bords et le centre, et se rouvre au même endroit. Choisis de 3 à 10 copies, fais défiler avec les flèches, appuie sur <kbd>↑</kbd> sur la première pour la bibliothèque."),
                 ("new", "<b>Ton propre raccourci.</b> Clique dessus dans les Réglages et tape la combinaison de ton choix, sauf celles qui casseraient tes apps, comme <kbd>⌘V</kbd> seul."),
@@ -285,7 +307,8 @@ def short(version):
 
 
 def figure(base, lang, name, alt):
-    return f'<figure{"" if name in FRAMED else " class=\"backdrop\""}>{media(base, lang, name, alt)}</figure>'
+    frame = "" if name in FRAMED else ' class="backdrop"'
+    return f'<figure{frame}>{media(base, lang, name, alt)}</figure>'
 
 
 def full(version):
@@ -307,7 +330,9 @@ def features_main(lang, base, home):
     blocks, groups = [], {}
     for key, version, shot, title, text in f["items"]:
         text = text.replace("{privacy}", privacy)
-        badge = f'<span class="since{" fresh" if version == LATEST else ""}">{escape(f["new"]) + " · " if version == LATEST else ""}{escape(f["since"].format(short(version)))}</span>'
+        # Everything from the latest series is new: 0.6.1 does not make the 0.6 features old.
+        fresh = full(version).rsplit(".", 1)[0] == LATEST.rsplit(".", 1)[0]
+        badge = f'<span class="since{" fresh" if fresh else ""}">{escape(f["new"]) + " · " if fresh else ""}{escape(f["since"].format(short(version)))}</span>'
         if shot:
             blocks.append(
                 f'<section class="feature{" flip" if len(blocks) % 2 else ""}{" tall" if shot == "compact.png" else ""}{" wide" if shot in WIDE else ""}" id="{key}">'
@@ -351,17 +376,17 @@ def changelog_main(lang, base, repo):
         f'<button type="button" data-kind="{k}"><i class="k-{k}"></i>{escape(label)}</button>' for k, label in r["kinds"].items())
     entries = []
     for n, (version, day, shot, tagline, changes) in enumerate(items):
-        major = version.endswith(".0")
+        big = major(version, changes)
         tally = {k: sum(1 for kind, _ in changes if kind == k) for k in r["kinds"]}
         counts = "".join(f'<span class="k-{k}">{n} {escape(r["counts"][k][n > 1])}</span>' for k, n in tally.items() if n)
         lines = "".join(f'<li class="k-{kind}"><span class="kind k-{kind}">{escape(r["kinds"][kind])}</span><span>{text}</span></li>' for kind, text in changes)
         entries.append(
-            f'<article class="release {"major" if major else "minor"}{" latest" if n == 0 else ""}" id="v{version}">'
-            f'<header><h2>{short(version) if major else version}</h2>'
+            f'<article class="release {"major" if big else "minor"}{" latest" if n == 0 else ""}" id="v{version}">'
+            f'<header><h2>{short(version) if big else version}</h2>'
             f'<div class="meta">{"<b>" + escape(r["latest"]) + "</b>" if n == 0 else ""}<time datetime="{day}">{day}</time><span class="counts">{counts}</span></div></header>'
             # Slams take no final period.
-            f'<p class="tagline">{escape(tagline.rstrip(".") if major else tagline)}</p>'
-            f'{figure(base, lang, shot, tagline) if shot and major else ""}'
+            f'<p class="tagline">{escape(tagline.rstrip(".") if big else tagline)}</p>'
+            f'{figure(base, lang, shot, tagline) if shot and big else ""}'
             f'<ul>{lines}</ul>'
             f'<a class="gh" href="{repo}/releases/tag/v{version}">{escape(r["notes"])} →</a></article>')
     return f"""<div class="wrap pages log">
