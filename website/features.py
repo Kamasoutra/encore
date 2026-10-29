@@ -340,9 +340,13 @@ def changelog_main(lang, base, repo):
     r = RELEASES[lang]
     items = r["items"]
     days = (date.fromisoformat(items[0][1]) - date.fromisoformat(items[-1][1])).days + 1
+    # A version that brings features gets the big treatment, whatever its number; fixes stay compact.
+    def major(version, changes): return version.endswith(".0") or any(kind == "new" for kind, _ in changes)
+    # In the list, the size follows the number (0.X large, 0.X.Y small), and dots show the kinds of change inside.
+    def dots(changes): return "".join(f'<i class="k-{k}"></i>' for k in r["kinds"] if any(kind == k for kind, _ in changes))
     nav = "".join(
-        f'<li class="{"major" if v.endswith(".0") else "minor"}"><a href="#v{v}">{short(v) if v.endswith(".0") else v}</a></li>'
-        for v, *_ in items)
+        f'<li class="{"major" if v.endswith(".0") else "minor"}"><a href="#v{v}">{short(v)}<span class="dots">{dots(c)}</span></a></li>'
+        for v, _, _, _, c in items)
     filters = f'<button type="button" class="on" data-kind="">{escape(r["all"])}</button>' + "".join(
         f'<button type="button" data-kind="{k}"><i class="k-{k}"></i>{escape(label)}</button>' for k, label in r["kinds"].items())
     entries = []
