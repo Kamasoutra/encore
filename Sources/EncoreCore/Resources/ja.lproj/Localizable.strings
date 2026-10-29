@@ -444,3 +444,4 @@
 "Detect passwords, keys and card numbers" = "パスワード、キー、カードを検出";
 "Delete after" = "削除までの時間";
 "Characters shown" = "表示する文字数";
+"A masked secret cannot be edited. It still pastes as it is." = "伏せ字の秘密情報は編集できません。ペーストはそのままできます。";

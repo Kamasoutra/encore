@@ -444,3 +444,4 @@
 "Detect passwords, keys and card numbers" = "Распознавать пароли, ключи и карты";
 "Delete after" = "Удалять через";
 "Characters shown" = "Видимые символы";
+"A masked secret cannot be edited. It still pastes as it is." = "Скрытый секрет нельзя изменить. Он по-прежнему вставляется как есть.";

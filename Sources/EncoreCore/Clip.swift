@@ -219,6 +219,8 @@ public struct Library: Codable, Sendable {
             existing.referencedFileBytes = clip.referencedFileBytes
             existing.sourceName = clip.sourceName
             existing.sourceBundle = clip.sourceBundle
+            // A copy kept before detection was on is masked once copied again; a secret is never unmasked.
+            if clip.secret != nil { existing.secret = clip.secret; existing.text = clip.text; existing.kind = clip.kind }
             clips.insert(existing, at: 0)
             return existing.id
         }

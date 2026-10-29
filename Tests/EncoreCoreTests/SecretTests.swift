@@ -50,6 +50,21 @@ final class SecretTests: XCTestCase {
         XCTAssertEqual(library.prune(policy: policy, limit: 0, now: Date(timeIntervalSince1970: 1061)), [secret.id])
     }
 
+    func testACopyKeptBeforeDetectionIsMaskedWhenCopiedAgainAndNeverUnmasked() {
+        var library = Library()
+        let plain = Clip(fingerprint: "same", kind: .text, text: "k9#Lm2!qZx")
+        library.upsert(plain)
+        var again = Clip(fingerprint: "same", kind: .text, text: "k9#••••••••")
+        again.secret = .password
+        library.upsert(again)
+        XCTAssertEqual(library.clips.count, 1)
+        XCTAssertEqual(library.clips[0].text, "k9#••••••••")
+        XCTAssertEqual(library.clips[0].secret, .password)
+        library.upsert(Clip(fingerprint: "same", kind: .text, text: "k9#Lm2!qZx"))
+        XCTAssertEqual(library.clips[0].secret, .password, "Copying it with detection off keeps it masked")
+        XCTAssertEqual(library.clips[0].text, "k9#••••••••")
+    }
+
     func testSecretsAreNeverSharedAndSurviveSaving() throws {
         var clip = Clip(kind: .text, text: "ghp••••••••", sourceBundle: "org.mozilla.firefox")
         XCTAssertTrue(LibraryShare.shareable(clip, excluded: []))

@@ -444,3 +444,4 @@
 "Detect passwords, keys and card numbers" = "Rozpoznávať heslá, kľúče a karty";
 "Delete after" = "Zmazať po";
 "Characters shown" = "Viditeľné znaky";
+"A masked secret cannot be edited. It still pastes as it is." = "Skrytý tajný údaj nemožno upraviť. Stále sa vkladá bez zmeny.";

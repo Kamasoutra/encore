@@ -444,3 +444,4 @@
 "Detect passwords, keys and card numbers" = "Detectați parole, chei și carduri";
 "Delete after" = "Ștergere după";
 "Characters shown" = "Caractere vizibile";
+"A masked secret cannot be edited. It still pastes as it is." = "Un secret mascat nu poate fi modificat. Se lipește în continuare așa cum este.";

@@ -444,3 +444,4 @@
 "Detect passwords, keys and card numbers" = "암호, 키, 카드 감지";
 "Delete after" = "삭제까지";
 "Characters shown" = "표시할 문자 수";
+"A masked secret cannot be edited. It still pastes as it is." = "가려진 비밀 정보는 편집할 수 없습니다. 붙여넣기는 그대로 됩니다.";
