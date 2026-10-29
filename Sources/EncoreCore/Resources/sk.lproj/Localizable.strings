@@ -424,3 +424,6 @@
 "Drag to move" = "Presuňte potiahnutím";
 "The compact window lists your latest copies. Drag it by its title to move it: it snaps to the corners, the middle of each edge and the center, and opens there next time." = "Kompaktné okno zobrazuje vaše posledné kópie. Presuniete ho potiahnutím za názov: prichytí sa k rohom, stredu každého okraja a k stredu a nabudúce sa otvorí na rovnakom mieste.";
 "Copies shown" = "Zobrazené kópie";
+"%@ available" = "K dispozícii %@";
+"Up to date" = "Aktuálne";
+"Checking…" = "Kontrola…";

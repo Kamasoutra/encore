@@ -424,3 +424,6 @@
 "Drag to move" = "ลากเพื่อย้าย";
 "The compact window lists your latest copies. Drag it by its title to move it: it snaps to the corners, the middle of each edge and the center, and opens there next time." = "หน้าต่างขนาดเล็กแสดงสำเนาล่าสุดของคุณ ลากที่ชื่อเพื่อย้าย: จะดูดติดที่มุม กึ่งกลางของแต่ละขอบ และตรงกลาง และจะเปิดที่เดิมในครั้งถัดไป";
 "Copies shown" = "จำนวนสำเนาที่แสดง";
+"%@ available" = "มี %@ แล้ว";
+"Up to date" = "เป็นปัจจุบัน";
+"Checking…" = "กำลังตรวจสอบ…";

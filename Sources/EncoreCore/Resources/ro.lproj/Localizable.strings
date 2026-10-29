@@ -424,3 +424,6 @@
 "Drag to move" = "Trageți pentru a muta";
 "The compact window lists your latest copies. Drag it by its title to move it: it snaps to the corners, the middle of each edge and the center, and opens there next time." = "Fereastra compactă afișează ultimele copii. Trageți-o de titlu pentru a o muta: se aliniază la colțuri, la mijlocul fiecărei margini și în centru, și se deschide acolo data viitoare.";
 "Copies shown" = "Copii afișate";
+"%@ available" = "%@ disponibilă";
+"Up to date" = "Actualizat";
+"Checking…" = "Se verifică…";

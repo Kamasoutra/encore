@@ -90,19 +90,72 @@ struct SettingsView: View {
                 }
             }.listStyle(.sidebar).hiddenScrollBackground()
             Spacer()
-            VStack(alignment: .leading, spacing: 7) {
-                Label(L("100% local"), systemImage: "lock.shield").font(.system(size: 12)).foregroundStyle(.secondary)
-                // The site's support section offers GitHub Sponsors and Ko-fi, in the app's language.
-                Link(destination: URL(string: "https://kamasoutra.github.io/encore/" + (Localization.identifier.hasPrefix("fr") ? "fr/" : "") + "#support")!) {
-                    Label { Text(L("Support encore")) } icon: { Image(systemName: "heart.fill").foregroundStyle(.pink) }
-                }.font(.system(size: 12))
+            VStack(alignment: .leading, spacing: 10) {
+                if updates.available { versionCard }
+                supportCard
                 HStack {
-                    Text("v\(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "dev")").font(.system(size: 12)).foregroundStyle(.secondary)
+                    Label(L("100% local"), systemImage: "lock.shield")
                     Spacer()
-                    Link("GitHub ↗", destination: URL(string: "https://github.com/Kamasoutra/encore")!).font(.system(size: 12))
-                }
-            }.padding(8)
+                    Link("GitHub ↗", destination: URL(string: "https://github.com/Kamasoutra/encore")!)
+                }.font(.system(size: 11)).foregroundStyle(.secondary).padding(.horizontal, 4)
+            }
         }.padding(15).frame(width: 175).background(.primary.opacity(0.025))
+    }
+
+    /// The version in use, and the newest one the feed offers, with a check that shows nothing unless there is an update.
+    private var versionCard: some View {
+        VStack(alignment: .leading, spacing: 5) {
+            HStack(spacing: 4) {
+                Text("encore \(Updates.current)").font(.system(size: 12, weight: .semibold))
+                Spacer()
+                if updates.probing { ProgressView().controlSize(.small).scaleEffect(0.6).frame(width: 16, height: 16) }
+                else {
+                    Button { updates.probe() } label: { Image(systemName: "arrow.clockwise").font(.system(size: 11, weight: .semibold)) }
+                        .buttonStyle(.borderless).foregroundStyle(.secondary).help(L("Check for Updates…"))
+                }
+            }
+            Group {
+                if updates.updateFound, let latest = updates.latest {
+                    Button { updates.check() } label: { Label(L("\(latest) available"), systemImage: "arrow.down.circle.fill") }
+                        .buttonStyle(.borderless).foregroundStyle(Palette.accent)
+                } else if updates.probing {
+                    Text(L("Checking…")).foregroundStyle(.secondary)
+                } else if updates.latest != nil {
+                    Label(L("Up to date"), systemImage: "checkmark.circle.fill").foregroundStyle(.green)
+                } else {
+                    Button(L("Check for Updates…")) { updates.probe() }.buttonStyle(.borderless).foregroundStyle(Palette.accent)
+                }
+            }.font(.system(size: 11, weight: .medium))
+        }
+        .padding(10).frame(maxWidth: .infinity, alignment: .leading)
+        .background(.primary.opacity(0.05), in: RoundedRectangle(cornerRadius: 10))
+        .onAppear { if updates.latest == nil { updates.probe() } }
+    }
+
+    /// Both ways to support encore, side by side.
+    private var supportCard: some View {
+        VStack(alignment: .leading, spacing: 7) {
+            Label { Text(L("Support encore")) } icon: { Image(systemName: "heart.fill").foregroundStyle(.pink) }
+                .font(.system(size: 12, weight: .semibold))
+            // One under the other: the sidebar is too narrow for both names side by side.
+            VStack(spacing: 5) {
+                supportLink("GitHub Sponsors", symbol: "heart", url: "https://github.com/sponsors/Kamasoutra")
+                supportLink("Ko-fi", symbol: "cup.and.saucer", url: "https://ko-fi.com/kamasoutra")
+            }
+        }
+        .padding(10).frame(maxWidth: .infinity, alignment: .leading)
+        .background(LinearGradient(colors: [Palette.accent.opacity(0.14), Color.pink.opacity(0.1)], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: 10))
+    }
+
+    private func supportLink(_ title: String, symbol: String, url: String) -> some View {
+        Link(destination: URL(string: url)!) {
+            HStack(spacing: 5) {
+                Image(systemName: symbol).font(.system(size: 10, weight: .semibold)).frame(width: 13)
+                Text(title).font(.system(size: 11, weight: .semibold)).lineLimit(1).fixedSize()
+            }
+            .padding(.horizontal, 7).padding(.vertical, 4).frame(maxWidth: .infinity, alignment: .leading)
+                .background(.primary.opacity(0.08), in: Capsule())
+        }.buttonStyle(.plain).foregroundStyle(.primary)
     }
 
     private var general: some View {

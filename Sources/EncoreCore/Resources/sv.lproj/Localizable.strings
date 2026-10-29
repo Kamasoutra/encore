@@ -424,3 +424,6 @@
 "Drag to move" = "Dra för att flytta";
 "The compact window lists your latest copies. Drag it by its title to move it: it snaps to the corners, the middle of each edge and the center, and opens there next time." = "Det kompakta fönstret listar dina senaste kopior. Dra i titeln för att flytta det: det fäster vid hörnen, mitten av varje kant och mitten, och öppnas där nästa gång.";
 "Copies shown" = "Visade kopior";
+"%@ available" = "%@ finns";
+"Up to date" = "Uppdaterad";
+"Checking…" = "Söker…";

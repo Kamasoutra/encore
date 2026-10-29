@@ -424,3 +424,6 @@
 "Drag to move" = "Húzza az áthelyezéshez";
 "The compact window lists your latest copies. Drag it by its title to move it: it snaps to the corners, the middle of each edge and the center, and opens there next time." = "A kompakt ablak a legutóbbi másolatait mutatja. A címénél fogva húzza az áthelyezéshez: a sarkokhoz, az élek közepéhez és a középhez igazodik, és legközelebb ott nyílik meg.";
 "Copies shown" = "Megjelenített másolatok";
+"%@ available" = "%@ elérhető";
+"Up to date" = "Naprakész";
+"Checking…" = "Ellenőrzés…";

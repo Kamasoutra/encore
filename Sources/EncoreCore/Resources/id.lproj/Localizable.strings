@@ -424,3 +424,6 @@
 "Drag to move" = "Seret untuk memindahkan";
 "The compact window lists your latest copies. Drag it by its title to move it: it snaps to the corners, the middle of each edge and the center, and opens there next time." = "Jendela ringkas menampilkan salinan terbarumu. Seret judulnya untuk memindahkan: jendela menempel di sudut, tengah tiap tepi, dan tengah layar, lalu terbuka di sana lain kali.";
 "Copies shown" = "Salinan yang ditampilkan";
+"%@ available" = "%@ tersedia";
+"Up to date" = "Terbaru";
+"Checking…" = "Memeriksa…";

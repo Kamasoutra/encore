@@ -424,3 +424,6 @@
 "Drag to move" = "ドラッグして移動";
 "The compact window lists your latest copies. Drag it by its title to move it: it snaps to the corners, the middle of each edge and the center, and opens there next time." = "コンパクトウインドウには最新のコピーが表示されます。タイトル部分をドラッグして移動できます。角、各辺の中央、画面中央に吸着し、次回も同じ位置に開きます。";
 "Copies shown" = "表示するコピー数";
+"%@ available" = "%@ があります";
+"Up to date" = "最新です";
+"Checking…" = "確認中…";

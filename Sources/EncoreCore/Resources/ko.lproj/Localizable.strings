@@ -424,3 +424,6 @@
 "Drag to move" = "드래그하여 이동";
 "The compact window lists your latest copies. Drag it by its title to move it: it snaps to the corners, the middle of each edge and the center, and opens there next time." = "작은 창에 최근 복사한 항목이 표시됩니다. 제목을 드래그해 옮길 수 있으며, 모서리와 각 가장자리 가운데, 화면 중앙에 맞춰지고 다음에도 같은 위치에서 열립니다.";
 "Copies shown" = "표시할 항목 수";
+"%@ available" = "%@ 사용 가능";
+"Up to date" = "최신 상태";
+"Checking…" = "확인 중…";
