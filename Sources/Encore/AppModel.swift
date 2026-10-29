@@ -1003,19 +1003,27 @@ struct PeerStatus: Identifiable, Equatable {
 
     /// Asks first, then clears the history, keeping favorites, snippets and collection items, or clears everything.
     /// Reached from Settings, the menu bar icon and `open encore://clear-history`.
+    /// A link can open this from a web page: Return cancels, both ways to clear need a click, and only one confirmation shows at a time.
     func clearHistory() {
+        guard !confirmingClear else { return }
+        confirmingClear = true
+        defer { confirmingClear = false }
         NSApp.activate(ignoringOtherApps: true)
         let alert = NSAlert()
         alert.messageText = L("Clear history?")
         alert.informativeText = L("Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone.")
         alert.addButton(withTitle: L("Clear History")); alert.addButton(withTitle: L("Clear Everything")); alert.addButton(withTitle: L("Cancel"))
+        alert.buttons[0].keyEquivalent = ""
         alert.buttons[1].hasDestructiveAction = true
+        alert.buttons[2].keyEquivalent = "\r"
         switch alert.runModal() {
         case .alertFirstButtonReturn: clear(everything: false)
         case .alertSecondButtonReturn: clear(everything: true)
         default: break
         }
     }
+
+    private var confirmingClear = false
 
     func clear(everything: Bool) {
         let ids = library.clips.filter { everything || !$0.isProtected }.map(\.id)
