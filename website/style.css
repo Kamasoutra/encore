@@ -153,6 +153,10 @@ body::after { background: radial-gradient(closest-side, rgba(255, 92, 140, 0.22)
 .cta .button span { color: #fff; }
 .cta .button.ghost { background: rgba(255, 255, 255, 0.08); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.3); }
 .cta .button.ghost:hover { background: rgba(255, 255, 255, 0.14); }
+/* The same two buttons, smaller, under the Homebrew command. */
+.cta.mini { margin: 6px 0 0; padding: 0; background: none; border: 0; box-shadow: none; justify-content: center; gap: 10px; }
+.cta.mini .button { padding: 9px 17px; font-size: 14px; gap: 8px; box-shadow: 0 6px 22px rgba(255, 92, 140, 0.3); }
+.cta.mini .button.ghost { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.3); }
 .check ul { margin: 16px 0 0; padding-left: 1.2em; display: grid; gap: 8px; }
 .check li::marker { color: var(--pink); }
 @media (max-width: 900px) {

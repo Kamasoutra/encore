@@ -329,6 +329,10 @@ HOME = Template("""<section class="wrap hero">
     <p class="fine">$requirements</p>
     <p class="fine">$brew_label</p>
     <div class="brew"><code>$brew</code><button type="button" data-copy="$brew" data-done="$copied">$copy</button></div>
+    <div class="cta mini">
+      <a class="button ghost" href="$repo">$star</a>
+      <a class="button" href="$sponsors"><span aria-hidden="true">♥</span>$support</a>
+    </div>
   </div>
   <div class="film">
     <video src="${base}media/$lang/encore.mp4" poster="${base}media/$lang/poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="$video"></video>
