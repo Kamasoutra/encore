@@ -49,7 +49,6 @@
 "Choose the folder where macOS saves your screenshots." = "वह फ़ोल्डर चुनें जहाँ macOS आपके स्क्रीनशॉट सहेजता है।";
 "Choose what Encore keeps. Everything stays on this Mac." = "चुनें कि encore क्या रखे। सब कुछ इसी Mac पर रहता है।";
 "Choose…" = "चुनें…";
-"Clear" = "साफ़ करें";
 "Clear filters" = "फ़िल्टर साफ़ करें";
 "Clear history?" = "इतिहास साफ़ करें?";
 "Clear history…" = "इतिहास साफ़ करें…";
@@ -137,7 +136,6 @@
 "Favorite" = "पसंदीदा";
 "Favorite or collection" = "पसंदीदा या संग्रह";
 "Favorites" = "पसंदीदा";
-"Favorites and collection items will be kept. This action cannot be undone." = "पसंदीदा और संग्रह के आइटम रखे जाएँगे। इस क्रिया को पूर्ववत नहीं किया जा सकता।";
 "Favorites and collections are kept. The item-count limit only applies to unmatched items. Expiration removes a file from history, never from its original folder." = "पसंदीदा और संग्रह रखे जाते हैं। आइटम की संख्या की सीमा केवल उन आइटम पर लागू होती है जिन पर कोई नियम लागू नहीं होता। समाप्त होने पर फ़ाइल इतिहास से हटती है, अपने मूल फ़ोल्डर से कभी नहीं।";
 "Favorites, collections, and rule-managed items bypass the item-count limit. A full budget blocks new copies. Maximum embedded content per copy: 25 MiB." = "पसंदीदा, संग्रह और नियम वाले आइटम पर आइटम की संख्या की सीमा लागू नहीं होती। बजट भर जाने पर नई कॉपी रुक जाती हैं। प्रति कॉपी अधिकतम एम्बेड किया गया कॉन्टेंट: 25 MiB।";
 "File" = "फ़ाइल";
@@ -430,3 +428,6 @@
 "Star on GitHub" = "स्टार दें";
 "Helps others find encore" = "दूसरों को encore खोजने में मदद करता है";
 "Update now" = "अभी अपडेट करें";
+"Clear History" = "इतिहास साफ़ करें";
+"Clear Everything" = "सब कुछ साफ़ करें";
+"Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone." = "इतिहास साफ़ करें पसंदीदा, स्निपेट और संग्रह आइटम रखता है। सब कुछ साफ़ करें उन्हें भी हटा देता है। इसे पूर्ववत नहीं किया जा सकता।";

@@ -49,7 +49,6 @@
 "Choose the folder where macOS saves your screenshots." = "Pilih folder tempat macOS menyimpan jepretan layar Anda.";
 "Choose what Encore keeps. Everything stays on this Mac." = "Pilih apa yang disimpan encore. Semuanya tetap di Mac ini.";
 "Choose…" = "Pilih…";
-"Clear" = "Kosongkan";
 "Clear filters" = "Hapus filter";
 "Clear history?" = "Kosongkan riwayat?";
 "Clear history…" = "Kosongkan riwayat…";
@@ -137,7 +136,6 @@
 "Favorite" = "Favorit";
 "Favorite or collection" = "Favorit atau koleksi";
 "Favorites" = "Favorit";
-"Favorites and collection items will be kept. This action cannot be undone." = "Favorit dan item koleksi akan tetap disimpan. Tindakan ini tidak dapat diurungkan.";
 "Favorites and collections are kept. The item-count limit only applies to unmatched items. Expiration removes a file from history, never from its original folder." = "Favorit dan koleksi tetap disimpan. Batas jumlah item hanya berlaku untuk item tanpa aturan. File yang kedaluwarsa dihapus dari riwayat, tidak pernah dari folder aslinya.";
 "Favorites, collections, and rule-managed items bypass the item-count limit. A full budget blocks new copies. Maximum embedded content per copy: 25 MiB." = "Favorit, koleksi, dan item yang diatur aturan tidak terkena batas jumlah item. Anggaran yang penuh memblokir salinan baru. Maksimum konten tersemat per salinan: 25 MiB.";
 "File" = "File";
@@ -430,3 +428,6 @@
 "Star on GitHub" = "Beri bintang";
 "Helps others find encore" = "Membantu orang lain menemukan encore";
 "Update now" = "Perbarui";
+"Clear History" = "Hapus riwayat";
+"Clear Everything" = "Hapus semua";
+"Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone." = "Hapus riwayat menyimpan favorit, snippet, dan item koleksi. Hapus semua juga menghapusnya. Tindakan ini tidak dapat diurungkan.";

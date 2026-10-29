@@ -49,7 +49,6 @@
 "Choose the folder where macOS saves your screenshots." = "เลือกโฟลเดอร์ที่ macOS บันทึกภาพหน้าจอของคุณ";
 "Choose what Encore keeps. Everything stays on this Mac." = "เลือกสิ่งที่ encore จะเก็บไว้ ทุกอย่างจะอยู่บน Mac เครื่องนี้";
 "Choose…" = "เลือก…";
-"Clear" = "ล้าง";
 "Clear filters" = "ล้างตัวกรอง";
 "Clear history?" = "ล้างประวัติหรือไม่";
 "Clear history…" = "ล้างประวัติ…";
@@ -138,7 +137,6 @@
 "Favorite" = "รายการโปรด";
 "Favorite or collection" = "รายการโปรดหรือคอลเลกชัน";
 "Favorites" = "รายการโปรด";
-"Favorites and collection items will be kept. This action cannot be undone." = "รายการโปรดและรายการในคอลเลกชันจะถูกเก็บไว้ คุณไม่สามารถเลิกทำการกระทำนี้ได้";
 "Favorites and collections are kept. The item-count limit only applies to unmatched items. Expiration removes a file from history, never from its original folder." = "รายการโปรดและคอลเลกชันจะถูกเก็บไว้ ขีดจำกัดจำนวนรายการใช้กับรายการที่ไม่ตรงกับกฎใดเท่านั้น การหมดอายุจะเอาไฟล์ออกจากประวัติเท่านั้น ไม่ใช่จากโฟลเดอร์ต้นฉบับ";
 "Favorites, collections, and rule-managed items bypass the item-count limit. A full budget blocks new copies. Maximum embedded content per copy: 25 MiB." = "รายการโปรด คอลเลกชัน และรายการที่จัดการโดยกฎจะไม่นับรวมในขีดจำกัดจำนวนรายการ เมื่อพื้นที่เต็ม รายการที่คัดลอกใหม่จะไม่ถูกบันทึก เนื้อหาที่ฝังสูงสุดต่อการคัดลอกหนึ่งครั้ง: 25 MiB";
 "File" = "ไฟล์";
@@ -430,3 +428,6 @@
 "Star on GitHub" = "ให้ดาว";
 "Helps others find encore" = "ช่วยให้คนอื่นพบ encore";
 "Update now" = "อัปเดตเลย";
+"Clear History" = "ล้างประวัติ";
+"Clear Everything" = "ล้างทั้งหมด";
+"Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone." = "ล้างประวัติจะเก็บรายการโปรด สนิปเป็ต และรายการในคอลเลกชันไว้ ล้างทั้งหมดจะลบรายการเหล่านั้นด้วย ไม่สามารถเลิกทำได้";

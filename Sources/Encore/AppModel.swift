@@ -1001,14 +1001,25 @@ struct PeerStatus: Identifiable, Equatable {
         } catch { notify(L("Import failed: \(error.localizedDescription)")) }
     }
 
+    /// Asks first, then clears the history, keeping favorites, snippets and collection items, or clears everything.
+    /// Reached from Settings, the menu bar icon and `open encore://clear-history`.
     func clearHistory() {
+        NSApp.activate(ignoringOtherApps: true)
         let alert = NSAlert()
         alert.messageText = L("Clear history?")
-        alert.informativeText = L("Favorites and collection items will be kept. This action cannot be undone.")
-        alert.addButton(withTitle: L("Cancel")); alert.addButton(withTitle: L("Clear"))
-        guard alert.runModal() == .alertSecondButtonReturn else { return }
-        let ids = library.clips.filter { !$0.isProtected }.map(\.id)
-        library.clips.removeAll { !$0.isProtected }
+        alert.informativeText = L("Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone.")
+        alert.addButton(withTitle: L("Clear History")); alert.addButton(withTitle: L("Clear Everything")); alert.addButton(withTitle: L("Cancel"))
+        alert.buttons[1].hasDestructiveAction = true
+        switch alert.runModal() {
+        case .alertFirstButtonReturn: clear(everything: false)
+        case .alertSecondButtonReturn: clear(everything: true)
+        default: break
+        }
+    }
+
+    func clear(everything: Bool) {
+        let ids = library.clips.filter { everything || !$0.isProtected }.map(\.id)
+        library.clips.removeAll { everything || !$0.isProtected }
         queue.removeAll { ids.contains($0) }
         deleted = []; thumbnails.removeAll()
         clearPreviewCaches(Set(ids)); filePreviews.remove(Set(ids))

@@ -49,7 +49,6 @@
 "Choose the folder where macOS saves your screenshots." = "Velg mappen der macOS arkiverer skjermbildene dine.";
 "Choose what Encore keeps. Everything stays on this Mac." = "Velg hva encore kan beholde. Alt blir værende på denne Macen.";
 "Choose…" = "Velg…";
-"Clear" = "Tøm";
 "Clear filters" = "Fjern filtre";
 "Clear history?" = "Tømme historikken?";
 "Clear history…" = "Tøm historikk…";
@@ -138,7 +137,6 @@
 "Favorite" = "Favoritt";
 "Favorite or collection" = "Favoritt eller samling";
 "Favorites" = "Favoritter";
-"Favorites and collection items will be kept. This action cannot be undone." = "Favoritter og objekter i samlinger beholdes. Handlingen kan ikke angres.";
 "Favorites and collections are kept. The item-count limit only applies to unmatched items. Expiration removes a file from history, never from its original folder." = "Favoritter og samlinger beholdes. Maksimalt antall gjelder bare objekter uten regel. En fil som utløper, fjernes fra historikken, aldri fra den opprinnelige mappen.";
 "Favorites, collections, and rule-managed items bypass the item-count limit. A full budget blocks new copies. Maximum embedded content per copy: 25 MiB." = "Favoritter, samlinger og objekter med regel er unntatt fra maksimalt antall. Når budsjettet er fullt, blokkeres nye kopier. Teknisk grense: 25 MiB innebygd innhold per kopi.";
 "File" = "Fil";
@@ -430,3 +428,6 @@
 "Star on GitHub" = "Gi en stjerne";
 "Helps others find encore" = "Hjelper andre å finne encore";
 "Update now" = "Oppdater nå";
+"Clear History" = "Tøm logg";
+"Clear Everything" = "Tøm alt";
+"Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone." = "Tøm logg beholder favoritter, snippets og samlingselementer. Tøm alt fjerner også dem. Dette kan ikke angres.";

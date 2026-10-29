@@ -49,7 +49,6 @@
 "Choose the folder where macOS saves your screenshots." = "Chọn thư mục nơi macOS lưu ảnh chụp màn hình của bạn.";
 "Choose what Encore keeps. Everything stays on this Mac." = "Chọn nội dung encore giữ lại. Mọi thứ đều nằm trên máy Mac này.";
 "Choose…" = "Chọn…";
-"Clear" = "Xóa";
 "Clear filters" = "Xóa bộ lọc";
 "Clear history?" = "Xóa lịch sử?";
 "Clear history…" = "Xóa lịch sử…";
@@ -138,7 +137,6 @@
 "Favorite" = "Mục ưa thích";
 "Favorite or collection" = "Mục ưa thích hoặc bộ sưu tập";
 "Favorites" = "Mục ưa thích";
-"Favorites and collection items will be kept. This action cannot be undone." = "Mục ưa thích và các mục trong bộ sưu tập sẽ được giữ lại. Bạn không thể hoàn tác tác vụ này.";
 "Favorites and collections are kept. The item-count limit only applies to unmatched items. Expiration removes a file from history, never from its original folder." = "Mục ưa thích và bộ sưu tập được giữ lại. Giới hạn số lượng mục chỉ áp dụng cho các mục không khớp quy tắc nào. Khi hết hạn, tệp chỉ bị xóa khỏi lịch sử, không bao giờ bị xóa khỏi thư mục gốc.";
 "Favorites, collections, and rule-managed items bypass the item-count limit. A full budget blocks new copies. Maximum embedded content per copy: 25 MiB." = "Mục ưa thích, bộ sưu tập và các mục do quy tắc quản lý không bị tính vào giới hạn số lượng mục. Khi dung lượng đầy, nội dung sao chép mới sẽ không được lưu. Nội dung nhúng tối đa mỗi lần sao chép: 25 MiB.";
 "File" = "Tệp";
@@ -430,3 +428,6 @@
 "Star on GitHub" = "Gắn sao";
 "Helps others find encore" = "Giúp người khác tìm thấy encore";
 "Update now" = "Cập nhật ngay";
+"Clear History" = "Xóa lịch sử";
+"Clear Everything" = "Xóa tất cả";
+"Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone." = "Xóa lịch sử giữ lại mục yêu thích, snippet và mục trong bộ sưu tập. Xóa tất cả sẽ xóa cả những mục đó. Không thể hoàn tác.";

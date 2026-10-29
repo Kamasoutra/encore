@@ -49,7 +49,6 @@
 "Choose the folder where macOS saves your screenshots." = "選擇 macOS 儲存截圖的檔案夾。";
 "Choose what Encore keeps. Everything stays on this Mac." = "選擇 encore 要保留的內容。所有內容都會留在這部 Mac 上。";
 "Choose…" = "選擇…";
-"Clear" = "清除";
 "Clear filters" = "清除過濾條件";
 "Clear history?" = "要清除歷史記錄嗎？";
 "Clear history…" = "清除歷史記錄…";
@@ -138,7 +137,6 @@
 "Favorite" = "喜好項目";
 "Favorite or collection" = "喜好項目或合輯";
 "Favorites" = "喜好項目";
-"Favorites and collection items will be kept. This action cannot be undone." = "喜好項目和合輯中的項目會保留。此動作無法還原。";
 "Favorites and collections are kept. The item-count limit only applies to unmatched items. Expiration removes a file from history, never from its original folder." = "喜好項目和合輯會保留。項目數量上限只適用於不符合任何規則的項目。到期只會將檔案從歷史記錄中移除，不會從其原始檔案夾中移除。";
 "Favorites, collections, and rule-managed items bypass the item-count limit. A full budget blocks new copies. Maximum embedded content per copy: 25 MiB." = "喜好項目、合輯和由規則管理的項目不受項目數量上限限制。容量已滿時，新拷貝的內容不會儲存。每次拷貝的內嵌內容上限：25 MiB。";
 "File" = "檔案";
@@ -430,3 +428,6 @@
 "Star on GitHub" = "點個星號";
 "Helps others find encore" = "幫助更多人發現 encore";
 "Update now" = "立即更新";
+"Clear History" = "清除歷史記錄";
+"Clear Everything" = "全部清除";
+"Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone." = "「清除歷史記錄」會保留喜好項目、程式碼片段和收藏集項目。「全部清除」也會刪除它們。此操作無法還原。";

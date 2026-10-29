@@ -49,7 +49,6 @@
 "Choose the folder where macOS saves your screenshots." = "Válassza ki a mappát, ahová a macOS a képernyőképeket menti.";
 "Choose what Encore keeps. Everything stays on this Mac." = "Válassza ki, mit őrizhet meg az encore. Minden ezen a Macen marad.";
 "Choose…" = "Kiválasztás…";
-"Clear" = "Törlés";
 "Clear filters" = "Szűrők törlése";
 "Clear history?" = "Törli az előzményeket?";
 "Clear history…" = "Előzmények törlése…";
@@ -138,7 +137,6 @@
 "Favorite" = "Kedvenc";
 "Favorite or collection" = "Kedvenc vagy gyűjtemény";
 "Favorites" = "Kedvencek";
-"Favorites and collection items will be kept. This action cannot be undone." = "A kedvencek és a gyűjtemények elemei megmaradnak. Ez a művelet nem vonható vissza.";
 "Favorites and collections are kept. The item-count limit only applies to unmatched items. Expiration removes a file from history, never from its original folder." = "A kedvencek és a gyűjtemények megmaradnak. A darabszámkorlát csak a szabály nélküli elemekre vonatkozik. A lejárat a fájlt az előzményekből távolítja el, az eredeti mappájából soha.";
 "Favorites, collections, and rule-managed items bypass the item-count limit. A full budget blocks new copies. Maximum embedded content per copy: 25 MiB." = "A kedvencekre, a gyűjteményekre és a szabály alá eső elemekre nem vonatkozik a darabszámkorlát. Megtelt keret esetén az új másolatok nem kerülnek mentésre. Műszaki korlát: másolatonként 25 MiB beágyazott tartalom.";
 "File" = "Fájl";
@@ -430,3 +428,6 @@
 "Star on GitHub" = "Csillagozás";
 "Helps others find encore" = "Segít másoknak megtalálni az encore-t";
 "Update now" = "Frissítés";
+"Clear History" = "Előzmények törlése";
+"Clear Everything" = "Minden törlése";
+"Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone." = "Az Előzmények törlése megtartja a kedvenceket, a snippeteket és a gyűjtemények elemeit. A Minden törlése ezeket is eltávolítja. Nem vonható vissza.";

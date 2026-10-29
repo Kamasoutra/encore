@@ -49,7 +49,6 @@
 "Choose the folder where macOS saves your screenshots." = "Choose the folder where macOS saves your screenshots.";
 "Choose what Encore keeps. Everything stays on this Mac." = "Choose what encore keeps. Everything stays on this Mac.";
 "Choose…" = "Choose…";
-"Clear" = "Clear";
 "Clear filters" = "Clear filters";
 "Clear history?" = "Clear history?";
 "Clear history…" = "Clear history…";
@@ -138,7 +137,6 @@
 "Favorite" = "Favorite";
 "Favorite or collection" = "Favorite or collection";
 "Favorites" = "Favorites";
-"Favorites and collection items will be kept. This action cannot be undone." = "Favorites and collection items will be kept. This action cannot be undone.";
 "Favorites and collections are kept. The item-count limit only applies to unmatched items. Expiration removes a file from history, never from its original folder." = "Favorites and collections are kept. The item-count limit only applies to unmatched items. Expiration removes a file from history, never from its original folder.";
 "Favorites, collections, and rule-managed items bypass the item-count limit. A full budget blocks new copies. Maximum embedded content per copy: 25 MiB." = "Favorites, collections, and rule-managed items bypass the item-count limit. A full budget blocks new copies. Maximum embedded content per copy: 25 MiB.";
 "File" = "File";
@@ -430,3 +428,6 @@
 "Star on GitHub" = "Star on GitHub";
 "Helps others find encore" = "Helps others find encore";
 "Update now" = "Update now";
+"Clear History" = "Clear History";
+"Clear Everything" = "Clear Everything";
+"Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone." = "Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone.";

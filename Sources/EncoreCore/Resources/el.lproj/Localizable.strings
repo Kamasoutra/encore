@@ -49,7 +49,6 @@
 "Choose the folder where macOS saves your screenshots." = "Επιλέξτε τον φάκελο όπου το macOS αποθηκεύει τα στιγμιότυπα οθόνης.";
 "Choose what Encore keeps. Everything stays on this Mac." = "Επιλέξτε τι διατηρεί το encore. Όλα μένουν σε αυτό το Mac.";
 "Choose…" = "Επιλογή…";
-"Clear" = "Καθαρισμός";
 "Clear filters" = "Καθαρισμός φίλτρων";
 "Clear history?" = "Καθαρισμός ιστορικού;";
 "Clear history…" = "Καθαρισμός ιστορικού…";
@@ -138,7 +137,6 @@
 "Favorite" = "Αγαπημένο";
 "Favorite or collection" = "Αγαπημένο ή συλλογή";
 "Favorites" = "Αγαπημένα";
-"Favorites and collection items will be kept. This action cannot be undone." = "Τα αγαπημένα και τα στοιχεία των συλλογών θα διατηρηθούν. Αυτή η ενέργεια δεν μπορεί να αναιρεθεί.";
 "Favorites and collections are kept. The item-count limit only applies to unmatched items. Expiration removes a file from history, never from its original folder." = "Τα αγαπημένα και οι συλλογές διατηρούνται. Το όριο στοιχείων ισχύει μόνο για στοιχεία χωρίς κανόνα. Η λήξη αφαιρεί ένα αρχείο από το ιστορικό, ποτέ από τον αρχικό του φάκελο.";
 "Favorites, collections, and rule-managed items bypass the item-count limit. A full budget blocks new copies. Maximum embedded content per copy: 25 MiB." = "Τα αγαπημένα, οι συλλογές και τα στοιχεία με κανόνα δεν μετρούν στο όριο στοιχείων. Όταν ο χώρος γεμίσει, τα νέα αντίγραφα αποκλείονται. Μέγιστο ενσωματωμένο περιεχόμενο ανά αντιγραφή: 25 MiB.";
 "File" = "Αρχείο";
@@ -430,3 +428,6 @@
 "Star on GitHub" = "Αστέρι στο GitHub";
 "Helps others find encore" = "Βοηθά άλλους να βρουν το encore";
 "Update now" = "Ενημέρωση";
+"Clear History" = "Διαγραφή ιστορικού";
+"Clear Everything" = "Διαγραφή όλων";
+"Clear History keeps favorites, snippets and collection items. Clear Everything removes them too. This cannot be undone." = "Η Διαγραφή ιστορικού κρατά αγαπημένα, snippets και στοιχεία συλλογών. Η Διαγραφή όλων τα αφαιρεί κι αυτά. Δεν μπορεί να αναιρεθεί.";
