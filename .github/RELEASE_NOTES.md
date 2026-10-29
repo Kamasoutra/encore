@@ -1,14 +1,12 @@
-Snippets, and favorites that follow you from Mac to Mac.
+A compact window, your own shortcut, and updates that arrive on their own.
 
-- **Snippets.** Press ⌘S on any card to give it a name, a language and tags. encore guesses the language among 85, with the icons you know from VS Code. Snippets get their own board and never expire.
-- **Placeholders.** `{{name}}` asks for a value before pasting; `{{clipboard}}`, `{{date}}` and `{{cursor}}` fill in by themselves. Search snippets with `tag:` and `lang:`, and export or import them as a readable JSON file.
-- **Rename in place.** ⌘R, or a click on a card's header, renames it right on the card.
-- **Paste or copy.** A switch in the footer, also in Settings, chooses what Return and double-click do. In copy mode, the card goes back to the top, ready for ⌘V.
-- **Sync with your paired Macs.** Favorites and snippets each have their own setting. They are merged, then kept in step over the local network: the latest change wins, and removals follow. Your history stays private unless you share it.
-- Updates are always checked; the setting now chooses whether they install on their own.
-- Settings for paired Macs are shorter and clearer, and the About window is centered.
-
-Sync needs encore 0.5 on both Macs.
+- **Compact window.** Prefer something smaller than the shelf? A narrow panel of your latest copies, wherever you put it: it is drawn to the corners, the middle of each edge and the center, and opens at the same spot next time, even on another screen. Choose 3 to 10 copies, scroll with the arrows, and press ↑ on the first one to open the library. Switch from the footer or in Settings.
+- **Your own shortcut.** Click it in Settings and type any combination. encore refuses those that would break your apps, like ⌘V alone, and ⌃⌥⌘V always works as a fallback.
+- **System sounds.** The custom sound set can use the sounds that come with macOS.
+- **Updates that arrive.** encore now checks every hour and, by default, installs an update as soon as none of its windows is open, then relaunches. Copies older than 0.6 still find this one on their old daily schedule.
+- ⌘← ⌘→ to switch boards is shown in the shelf and in Settings.
+- The first letter typed into the search is no longer lost, and the volume slider is no longer cut off in Settings.
+- A link to support encore on GitHub Sponsors, in Settings and in About.
 
 Download the ZIP, unzip, and move Encore.app to Applications. SHA256SUMS contains its checksum. Installed copies update themselves.
 

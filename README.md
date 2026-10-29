@@ -16,7 +16,7 @@ You copy all day. encore remembers it, so you can stop copying the same things t
 
 ![The encore shelf](assets/shelf-dark.png)
 
-Your latest copies sit in a shelf at the bottom of the screen, newest first. Each card shows what it holds at a glance: the text itself, the image, the page of a PDF, the color swatch, the code with its highlighting, and the app it came from. Arrows to move, Return to paste, ⇧Return for plain text, ⌘1–9 for the first nine. Press **Space** to preview a card in full size without leaving the shelf.
+Your latest copies sit in a shelf at the bottom of the screen, newest first. Each card shows what it holds at a glance: the text itself, the image, the page of a PDF, the color swatch, the code with its highlighting, and the app it came from. Arrows to move, Return to paste, ⇧Return for plain text, ⌘1–9 for the first nine. Press **Space** to preview a card in full size without leaving the shelf. Prefer something smaller? The **compact window** lists your latest copies in a narrow panel you can put anywhere, and remembers its place.
 
 ## A library when you need to dig
 
@@ -39,6 +39,7 @@ Write `{{name}}` in a snippet and encore asks for the value before pasting. `{{c
 - **Retention rules** by size and type clean up the heavy stuff on their own. Every card tells you how long it stays.
 - **Exclusions** keep password managers out, and content that apps mark as confidential is skipped.
 - **A paste queue** pastes several items in order, one ⌘V at a time.
+- **Your own shortcut:** ⇧⌘V by default, or any combination you type in Settings.
 
 ## Your other Macs, without a cloud
 
@@ -69,7 +70,7 @@ Quit any other clipboard app that uses ⇧⌘V. encore also lives in the menu ba
 
 | Action | Shortcut |
 | --- | --- |
-| Show / hide | ⇧⌘V |
+| Show / hide | ⇧⌘V, or your own |
 | Library | ↑ from the shelf |
 | Back to the shelf | Hold ↓ in the library |
 | Move / extend selection | Arrows / ⇧ + arrows |
