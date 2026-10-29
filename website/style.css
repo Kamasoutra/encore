@@ -345,6 +345,10 @@ footer a { text-decoration: none; } footer a:hover { color: var(--ink); }
 .changes nav ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
 .changes nav a { display: block; padding: 6px 14px; border-radius: 10px; text-decoration: none; color: var(--faint); font: 600 15px var(--mono); transition: color 0.15s, background 0.15s; }
 .changes nav .major a { color: var(--mist); font: 900 24px/1.1 var(--sans); letter-spacing: -0.02em; padding-block: 8px; }
+.changes nav a { display: flex; align-items: center; gap: 10px; }
+.changes nav .dots { display: inline-flex; gap: 4px; }
+.changes nav .dots i { width: 7px; height: 7px; border-radius: 50%; }
+.changes nav .dots .k-new { background: var(--new); } .changes nav .dots .k-better { background: var(--better); } .changes nav .dots .k-fix { background: var(--fix); }
 .changes nav a:hover, .changes nav a.on { color: var(--ink); background: rgba(255, 255, 255, 0.07); }
 .timeline { position: relative; padding-left: 44px; }
 .timeline::before { content: ""; position: absolute; left: 9px; top: 18px; bottom: 0; width: 2px; background: linear-gradient(180deg, var(--violet), var(--pink) 30%, rgba(255, 255, 255, 0.08) 75%); }
