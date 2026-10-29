@@ -253,7 +253,7 @@
 "Preview & edit" = "Просмотр и правка";
 "Preview and edit" = "Просмотр и правка";
 "Preview — %@" = "Просмотр — %@";
-"Privacy" = "Конфиденциальность";
+"Privacy" = "Приватность";
 "Queue active · copy, then paste in order with ⌘V" = "Очередь активна · копируйте, затем вставляйте по порядку с помощью ⌘V";
 "Queue finished" = "Очередь завершена";
 "Queue stopped: this item's content is unavailable." = "Очередь остановлена: содержимое элемента недоступно.";
@@ -309,7 +309,7 @@
 "Sharing" = "Общий доступ";
 "Sharing unavailable: %@" = "Общий доступ невозможен: %@";
 "Shortcut used by another app · fallback: ⌃⌥⌘V" = "Сочетание занято другим приложением · запасное: ⌃⌥⌘V";
-"Shortcuts" = "Сочетания клавиш";
+"Shortcuts" = "Клавиши";
 "Show / hide" = "Показать / скрыть";
 "Show shelf on" = "Показывать панель на";
 "Size" = "Размер";

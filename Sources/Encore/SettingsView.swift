@@ -83,7 +83,8 @@ struct SettingsView: View {
             HStack(spacing: 10) { EncoreMark(size: 35); Text("encore").font(.system(size: 22, weight: .semibold)) }.padding(.horizontal, 7).padding(.top, 13)
             List(selection: Binding<SettingsSection?>(get: { section }, set: { if let value = $0 { section = value } })) {
                 ForEach(SettingsSection.allCases) { item in
-                    Label(item.title, systemImage: item.symbol)
+                    // Long section names wrap instead of being cut, in every language.
+                    Label { Text(item.title).fixedSize(horizontal: false, vertical: true) } icon: { Image(systemName: item.symbol) }
                         .font(.system(size: 13))
                         .padding(.vertical, 4)
                         .tag(item)
@@ -95,12 +96,12 @@ struct SettingsView: View {
                 starCard
                 supportCard
                 HStack {
-                    Label(L("100% local"), systemImage: "lock.shield")
-                    Spacer()
-                    Link("GitHub ↗", destination: URL(string: "https://github.com/Kamasoutra/encore")!)
+                    Label(L("100% local"), systemImage: "lock.shield").lineLimit(1).minimumScaleFactor(0.75)
+                    Spacer(minLength: 4)
+                    Link("GitHub ↗", destination: URL(string: "https://github.com/Kamasoutra/encore")!).fixedSize()
                 }.font(.system(size: 11)).foregroundStyle(.secondary).padding(.horizontal, 4)
             }
-        }.padding(15).frame(width: 175).background(.primary.opacity(0.025))
+        }.padding(15).frame(width: 192).background(.primary.opacity(0.025))
     }
 
     /// The version in use, and the newest one the feed offers, with a check that shows nothing unless there is an update.
@@ -144,7 +145,7 @@ struct SettingsView: View {
     /// Both ways to tip, side by side.
     private var supportCard: some View {
         VStack(alignment: .leading, spacing: 7) {
-            Label { Text(L("Support encore")) } icon: { Image(systemName: "heart.fill").foregroundStyle(.pink) }
+            Label { Text(L("Support encore")).fixedSize(horizontal: false, vertical: true) } icon: { Image(systemName: "heart.fill").foregroundStyle(.pink) }
                 .font(.system(size: 12, weight: .semibold))
             // One under the other: the sidebar is too narrow for both names side by side.
             VStack(spacing: 5) {
@@ -161,7 +162,7 @@ struct SettingsView: View {
         Link(destination: URL(string: "https://github.com/Kamasoutra/encore")!) {
             // Laid out like the support card: the symbol on the title line, the reason below at full width.
             VStack(alignment: .leading, spacing: 4) {
-                Label { Text(L("Star on GitHub")) } icon: { Image(systemName: "star.fill").foregroundStyle(.yellow) }
+                Label { Text(L("Star on GitHub")).fixedSize(horizontal: false, vertical: true) } icon: { Image(systemName: "star.fill").foregroundStyle(.yellow) }
                     .font(.system(size: 12, weight: .semibold))
                 Text(L("Helps others find encore")).font(.system(size: 10.5)).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
             }
