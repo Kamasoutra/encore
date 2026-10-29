@@ -133,6 +133,8 @@ PRIVACY = {
         "lead": "encore sees everything you copy: messages, addresses, sometimes sensitive things. So here is, simply and without jargon, what it does with them, what it never does, and what is not perfect yet.",
         # The three guarantees, before the details: each claim must hold in the code.
         "summary": "In short",
+        "more": "The details",
+        "facts": ["100% local", "No account", "No server", "No tracking", "Open source"],
         "guarantees": [
             ("What stays local", "Everything. Your history lives on your Mac, with no account and no server. Only the update check reaches GitHub."),
             ("What is left out", "Copies that apps mark as confidential, the password apps installed on your Mac, and any app you add. Copies cleared by their app are forgotten."),
@@ -199,6 +201,8 @@ PRIVACY = {
         "title": "Tes données restent chez toi",
         "lead": "encore voit tout ce que tu copies : des messages, des adresses, parfois des choses sensibles. Alors voici, simplement et sans jargon, ce qu’il en fait, ce qu’il n’en fait jamais, et ce qui n’est pas encore parfait.",
         "summary": "En bref",
+        "more": "Les détails",
+        "facts": ["100 % local", "Sans compte", "Sans serveur", "Sans pistage", "Open source"],
         "guarantees": [
             ("Ce qui reste local", "Tout. Ton historique vit sur ton Mac, sans compte ni serveur. Seule la vérification des mises à jour contacte GitHub."),
             ("Ce qui est exclu", "Les copies que les apps marquent comme confidentielles, les apps de mots de passe installées et toutes celles que tu ajoutes. Les copies effacées par leur app sont oubliées."),
@@ -492,10 +496,12 @@ def build_privacy(lang, s):
   <p class="lead">{p["lead"]}</p>
   <div class="summary">
     <p class="kicker">{e(p["summary"])}</p>
-    <ul class="guarantees">{"".join(f'<li style="--tone:{tone}">{icon}<h2>{e(t)}</h2><p>{e(d)}</p></li>' for (t, d), (tone, icon) in zip(p["guarantees"], GUARANTEE_ICONS))}</ul>
+    <ul class="guarantees">{"".join(f'<li style="--tone:{tone}"><div class="head">{icon}<h2>{e(t)}</h2></div><p>{e(d)}</p></li>' for (t, d), (tone, icon) in zip(p["guarantees"], GUARANTEE_ICONS))}</ul>
+    <p class="facts">{"".join(f"<span>{e(x)}</span>" for x in p["facts"])}</p>
   </div>
+  <a class="more-cue" href="#where">{e(p["more"])}<span aria-hidden="true">↓</span></a>
 </section>
-<section class="where">
+<section class="where" id="where">
   <h2 class="slam">{p["map_title"]}</h2>
   <p class="sub">{p["map_lead"]}</p>
   {diagram}
