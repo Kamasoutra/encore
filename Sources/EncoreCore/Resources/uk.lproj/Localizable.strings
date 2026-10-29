@@ -424,3 +424,6 @@
 "Drag to move" = "Перетягніть, щоб перемістити";
 "The compact window lists your latest copies. Drag it by its title to move it: it snaps to the corners, the middle of each edge and the center, and opens there next time." = "Компактне вікно показує ваші останні копії. Перетягніть його за заголовок: воно прилипає до кутів, середин країв і центру та наступного разу відкриється там само.";
 "Copies shown" = "Показувати копій";
+"%@ available" = "Доступна %@";
+"Up to date" = "Актуальна версія";
+"Checking…" = "Перевірка…";

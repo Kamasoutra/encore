@@ -424,3 +424,6 @@
 "Drag to move" = "اسحب للتحريك";
 "The compact window lists your latest copies. Drag it by its title to move it: it snaps to the corners, the middle of each edge and the center, and opens there next time." = "تعرض النافذة المدمجة آخر نسخك. اسحبها من عنوانها لتحريكها: تلتصق بالزوايا ومنتصف كل حافة والمركز، وتفتح في المكان نفسه في المرة التالية.";
 "Copies shown" = "النسخ المعروضة";
+"%@ available" = "%@ متاح";
+"Up to date" = "محدّث";
+"Checking…" = "جارٍ التحقق…";

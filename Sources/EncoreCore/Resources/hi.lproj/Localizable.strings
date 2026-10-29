@@ -424,3 +424,6 @@
 "Drag to move" = "हिलाने के लिए खींचें";
 "The compact window lists your latest copies. Drag it by its title to move it: it snaps to the corners, the middle of each edge and the center, and opens there next time." = "कॉम्पैक्ट विंडो आपकी हाल की कॉपी दिखाती है। इसे हिलाने के लिए शीर्षक से खींचें: यह कोनों, हर किनारे के बीच और केंद्र पर चिपक जाती है, और अगली बार वहीं खुलती है।";
 "Copies shown" = "दिखाई जाने वाली कॉपी";
+"%@ available" = "%@ उपलब्ध";
+"Up to date" = "अद्यतन";
+"Checking…" = "जाँच हो रही है…";

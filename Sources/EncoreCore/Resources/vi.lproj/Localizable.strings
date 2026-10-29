@@ -424,3 +424,6 @@
 "Drag to move" = "Kéo để di chuyển";
 "The compact window lists your latest copies. Drag it by its title to move it: it snaps to the corners, the middle of each edge and the center, and opens there next time." = "Cửa sổ thu gọn liệt kê các bản sao gần nhất. Kéo phần tiêu đề để di chuyển: cửa sổ bám vào các góc, giữa mỗi cạnh và chính giữa, và lần sau sẽ mở tại đó.";
 "Copies shown" = "Số bản sao hiển thị";
+"%@ available" = "Đã có %@";
+"Up to date" = "Đã cập nhật";
+"Checking…" = "Đang kiểm tra…";

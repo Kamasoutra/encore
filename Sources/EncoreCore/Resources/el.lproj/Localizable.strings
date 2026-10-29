@@ -424,3 +424,6 @@
 "Drag to move" = "Σύρετε για μετακίνηση";
 "The compact window lists your latest copies. Drag it by its title to move it: it snaps to the corners, the middle of each edge and the center, and opens there next time." = "Το συμπαγές παράθυρο δείχνει τα τελευταία σας αντίγραφα. Σύρετέ το από τον τίτλο για να το μετακινήσετε: κουμπώνει στις γωνίες, στη μέση κάθε άκρης και στο κέντρο, και ανοίγει εκεί την επόμενη φορά.";
 "Copies shown" = "Εμφανιζόμενα αντίγραφα";
+"%@ available" = "Διαθέσιμη η %@";
+"Up to date" = "Ενημερωμένο";
+"Checking…" = "Έλεγχος…";

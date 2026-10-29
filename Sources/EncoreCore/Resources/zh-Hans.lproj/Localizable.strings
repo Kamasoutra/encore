@@ -424,3 +424,6 @@
 "Drag to move" = "拖移以移动";
 "The compact window lists your latest copies. Drag it by its title to move it: it snaps to the corners, the middle of each edge and the center, and opens there next time." = "紧凑窗口列出最近的拷贝。拖移标题即可移动：它会吸附到四角、各边中点和中央，下次在同一位置打开。";
 "Copies shown" = "显示的拷贝数";
+"%@ available" = "%@ 可用";
+"Up to date" = "已是最新";
+"Checking…" = "正在检查…";

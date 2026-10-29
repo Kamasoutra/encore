@@ -424,3 +424,6 @@
 "Drag to move" = "Przeciągnij, aby przenieść";
 "The compact window lists your latest copies. Drag it by its title to move it: it snaps to the corners, the middle of each edge and the center, and opens there next time." = "Kompaktowe okno pokazuje ostatnie kopie. Przeciągnij je za tytuł, aby je przenieść: przyciąga się do narożników, środka każdej krawędzi i środka ekranu, a następnym razem otwiera się w tym samym miejscu.";
 "Copies shown" = "Widoczne kopie";
+"%@ available" = "Dostępna wersja %@";
+"Up to date" = "Aktualna";
+"Checking…" = "Sprawdzanie…";

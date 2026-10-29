@@ -424,3 +424,6 @@
 "Drag to move" = "Arraste para mover";
 "The compact window lists your latest copies. Drag it by its title to move it: it snaps to the corners, the middle of each edge and the center, and opens there next time." = "A janela compacta lista suas últimas cópias. Arraste-a pelo título para movê-la: ela se encaixa nos cantos, no meio de cada borda e no centro, e abre ali da próxima vez.";
 "Copies shown" = "Cópias exibidas";
+"%@ available" = "%@ disponível";
+"Up to date" = "Atualizado";
+"Checking…" = "Verificando…";

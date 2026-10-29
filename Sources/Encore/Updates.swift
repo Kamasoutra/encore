@@ -21,6 +21,22 @@ import Sparkle
         set { controller?.updater.automaticallyDownloadsUpdates = newValue; objectWillChange.send() }
     }
     var lastCheck: Date? { controller?.updater.lastUpdateCheckDate }
+    static let current = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "dev"
+    /// The newest version the feed offers, once a check has run; the current one when encore is up to date.
+    @Published private(set) var latest: String?
+    @Published private(set) var probing = false
+    var updateFound: Bool { latest.map { $0 != Self.current } ?? false }
+
+    /// Reads the feed without showing anything, to tell whether a newer version exists.
+    func probe() {
+        guard let controller, !probing, controller.updater.canCheckForUpdates else { return }
+        probing = true
+        controller.updater.checkForUpdateInformation()
+    }
+
+    func updater(_ updater: SPUUpdater, didFindValidUpdate item: SUAppcastItem) { latest = item.displayVersionString; probing = false }
+    func updaterDidNotFindUpdate(_ updater: SPUUpdater) { latest = Self.current; probing = false }
+    func updater(_ updater: SPUUpdater, didFinishUpdateCycleFor updateCheck: SPUUpdateCheck, error: Error?) { probing = false }
 
     func check() {
         NSApp.activate(ignoringOtherApps: true)
