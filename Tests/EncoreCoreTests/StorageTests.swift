@@ -38,6 +38,25 @@ final class StorageTests: XCTestCase {
         XCTAssertNil(store.payload(clip.id))
     }
 
+    func testSavesWithinTheDelayMakeOneWriteAndAContentWrittenAgainSurvivesItsDeletion() throws {
+        let store = try Storage(root: directory)
+        store.writeDelay = 30
+        var library = Library()
+        let clip = Clip(kind: .text, text: "keep me")
+        library.clips = [clip]
+        store.save(library, payload: (clip.id, .text(clip.text)))
+        library.clips = []
+        store.save(library, deleting: [clip.id])
+        XCTAssertNil(store.payload(clip.id), "A pending deletion already reads as gone")
+        library.clips = [clip]
+        store.save(library, payload: (clip.id, .text(clip.text)))
+        // Nothing written yet: the delay is not over.
+        XCTAssertFalse(FileManager.default.fileExists(atPath: directory.appendingPathComponent("Library.json").path))
+        store.flush()
+        XCTAssertEqual(try store.load().clips.map(\.id), [clip.id])
+        XCTAssertEqual(store.payload(clip.id)?.items.count, 1, "Undoing a deletion keeps the content")
+    }
+
     func testLibraryAndPayloadAreOwnerOnly() throws {
         let store = try Storage(root: directory)
         let clip = Clip(kind: .text, text: "private")
@@ -72,7 +91,12 @@ final class StorageTests: XCTestCase {
         library.clips.append(second)
         store.save(library, payload: (second.id, .text(second.text)))
         store.flush()
-        XCTAssertNil(store.payload(second.id))
+        // Both saves fall in one write, which fails: nothing saved after that commits.
+        let third = Clip(kind: .text, text: "third")
+        library.clips.append(third)
+        store.save(library, payload: (third.id, .text(third.text)))
+        store.flush()
+        XCTAssertNil(store.payload(third.id))
         var isDirectory: ObjCBool = false
         XCTAssertTrue(FileManager.default.fileExists(atPath: directory.appendingPathComponent("Library.json").path, isDirectory: &isDirectory))
         XCTAssertTrue(isDirectory.boolValue)

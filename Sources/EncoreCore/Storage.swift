@@ -8,6 +8,12 @@ public final class Storage: @unchecked Sendable {
     private var failed = false
     private var metadataDate: Date?
     private var lastBackup = Date.distantPast
+    /// Library.json is written at most once per `writeDelay`, with the latest state: rewriting a large history on every copy
+    /// encoded megabytes each time. New contents are still written at once, and `flush` and `load` write what is pending.
+    public var writeDelay: TimeInterval = 1
+    private var pendingLibrary: Library?
+    private var pendingDeletions: [UUID] = []
+    private var writeScheduled = false
     private var recoveredMessage: String?
     public var recoveryNotice: String? { queue.sync { recoveredMessage } }
     private var errorHandler: (@MainActor @Sendable (String) -> Void)?
@@ -24,6 +30,7 @@ public final class Storage: @unchecked Sendable {
 
     public func load() throws -> Library {
         try queue.sync {
+            writePending()
             let url = root.appendingPathComponent("Library.json")
             guard FileManager.default.fileExists(atPath: url.path) else { return Library() }
             do {
@@ -47,8 +54,9 @@ public final class Storage: @unchecked Sendable {
         }
     }
 
+    /// A content waiting to be removed with the next write already reads as gone.
     public func payload(_ id: UUID) -> ClipPayload? {
-        queue.sync { try? decoder.decode(ClipPayload.self, from: Data(contentsOf: payloadURL(id))) }
+        queue.sync { pendingDeletions.contains(id) ? nil : try? decoder.decode(ClipPayload.self, from: Data(contentsOf: payloadURL(id))) }
     }
 
     public func save(_ library: Library, payload: (UUID, ClipPayload)? = nil, deleting: [UUID] = []) {
@@ -60,6 +68,28 @@ public final class Storage: @unchecked Sendable {
             guard !failed else { return }
             do {
                 for (id, value) in payloads { try write(encoder.encode(value), to: payloadURL(id)) }
+                // A content written again, as by undoing a deletion, must not be removed by the pending write.
+                let written = Set(payloads.map(\.0))
+                pendingDeletions.removeAll { written.contains($0) }
+            } catch {
+                fail(error)
+                return
+            }
+            pendingLibrary = library
+            pendingDeletions += deleting
+            guard !writeScheduled else { return }
+            writeScheduled = true
+            queue.asyncAfter(deadline: .now() + writeDelay) { [self] in writePending() }
+        }
+    }
+
+    /// On the storage queue: writes the latest library, after a backup at most once a minute, then removes deleted contents.
+    private func writePending() {
+        writeScheduled = false
+        guard !failed, let library = pendingLibrary else { return }
+        let deleting = pendingDeletions
+        pendingLibrary = nil; pendingDeletions = []
+        do {
                 let metadata = root.appendingPathComponent("Library.json")
                 let backup = root.appendingPathComponent("Library.backup.json")
                 if FileManager.default.fileExists(atPath: metadata.path),
@@ -75,15 +105,18 @@ public final class Storage: @unchecked Sendable {
                 try write(encoder.encode(library), to: metadata)
                 metadataDate = try metadata.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate
                 for id in deleting { try? FileManager.default.removeItem(at: payloadURL(id)) }
-            } catch {
-                failed = true
-                let handler = errorHandler
-                DispatchQueue.main.async { handler?(error.localizedDescription) }
-            }
+        } catch {
+            fail(error)
         }
     }
 
-    public func flush() { queue.sync {} }
+    private func fail(_ error: Error) {
+        failed = true
+        let handler = errorHandler
+        DispatchQueue.main.async { handler?(error.localizedDescription) }
+    }
+
+    public func flush() { queue.sync { writePending() } }
 
     private func decodeLibrary(_ data: Data) throws -> Library {
         let library = try decoder.decode(Library.self, from: data)
