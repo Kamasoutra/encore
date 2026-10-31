@@ -113,7 +113,7 @@ struct SettingsView: View {
                 if updates.probing { ProgressView().controlSize(.small).scaleEffect(0.6).frame(width: 16, height: 16) }
                 else {
                     Button { updates.probe() } label: { Image(systemName: "arrow.clockwise").font(.system(size: 11, weight: .semibold)) }
-                        .buttonStyle(.borderless).foregroundStyle(.secondary).help(L("Check for Updates…"))
+                        .buttonStyle(.borderless).foregroundStyle(.secondary).help(L("Check for Updates…")).accessibilityLabel(L("Check for Updates…"))
                 }
             }
             Group {
@@ -309,7 +309,7 @@ struct SettingsView: View {
                             Image(nsImage: app.icon).resizable().interpolation(.high).frame(width: 27, height: 27)
                             Text(app.name).font(.system(size: 13))
                             Spacer()
-                            Button(role: .destructive) { model.removeExcludedApp(bundle) } label: { Image(systemName: "minus.circle").foregroundStyle(.secondary) }.buttonStyle(.plain).help(L("Stop excluding \(app.name)"))
+                            Button(role: .destructive) { model.removeExcludedApp(bundle) } label: { Image(systemName: "minus.circle").foregroundStyle(.secondary) }.buttonStyle(.plain).help(L("Stop excluding \(app.name)")).accessibilityLabel(L("Stop excluding \(app.name)"))
                         }.padding(.vertical, 8).help(bundle)
                         if bundle != model.installedExcludedBundleIDs.last { Divider() }
                     }
@@ -645,7 +645,7 @@ struct ShortcutRecorder: View {
             }
             if monitor == nil && preference != GlobalShortcut.standard.preference {
                 Button { preference = GlobalShortcut.standard.preference; resume() } label: { Image(systemName: "arrow.uturn.backward") }
-                    .buttonStyle(.borderless).help(L("Back to ⌘⇧V"))
+                    .buttonStyle(.borderless).help(L("Back to ⌘⇧V")).accessibilityLabel(L("Back to ⌘⇧V"))
             }
         }
         .onDisappear(perform: stop)

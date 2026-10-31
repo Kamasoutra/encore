@@ -20,7 +20,7 @@ struct RetentionSettingsView: View {
                     Button(L("Load size and duration presets")) { rules = RetentionRule.examples }
                     Button(L("Remove all rules")) { rules = [] }
                 }.fixedSize()
-                Button { rules.append(RetentionRule()) } label: { Image(systemName: "plus") }.help(L("Add rule"))
+                Button { rules.append(RetentionRule()) } label: { Image(systemName: "plus") }.help(L("Add rule")).accessibilityLabel(L("Add rule"))
             }
             ScrollView {
                 VStack(spacing: 10) {
@@ -106,9 +106,9 @@ private struct RetentionRuleEditor: View {
                 Text("\(index + 1)").font(.system(size: 11, weight: .semibold)).foregroundStyle(Palette.accent).frame(width: 20, height: 20).background(Palette.accent.opacity(0.12), in: Circle())
                 Toggle(L("Enable"), isOn: $rule.enabled).labelsHidden().toggleStyle(.switch).controlSize(.mini)
                 TextField(L("Rule name"), text: $rule.name).textFieldStyle(.plain).font(.system(size: 13, weight: .semibold))
-                Button { move(-1) } label: { Image(systemName: "chevron.up") }.disabled(!canMoveUp).help(L("Move rule up"))
-                Button { move(1) } label: { Image(systemName: "chevron.down") }.disabled(!canMoveDown).help(L("Move rule down"))
-                Button(role: .destructive, action: remove) { Image(systemName: "trash") }.help(L("Delete rule"))
+                Button { move(-1) } label: { Image(systemName: "chevron.up") }.disabled(!canMoveUp).help(L("Move rule up")).accessibilityLabel(L("Move rule up"))
+                Button { move(1) } label: { Image(systemName: "chevron.down") }.disabled(!canMoveDown).help(L("Move rule down")).accessibilityLabel(L("Move rule down"))
+                Button(role: .destructive, action: remove) { Image(systemName: "trash") }.help(L("Delete rule")).accessibilityLabel(L("Delete rule"))
             }.buttonStyle(.borderless)
             HStack(spacing: 8) {
                 Picker(L("Type"), selection: $rule.kind) {

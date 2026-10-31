@@ -37,7 +37,7 @@ struct InspectorView: View {
                     Text(clip.sourceName).font(.system(size: 13)).foregroundStyle(.secondary)
                 }
                 Spacer()
-                Button { model.toggleFavorite([clip.id]) } label: { Image(systemName: current.favorite ? "star.fill" : "star").foregroundStyle(.orange) }.buttonStyle(.plain).help(L("Favorite"))
+                Button { model.toggleFavorite([clip.id]) } label: { Image(systemName: current.favorite ? "star.fill" : "star").foregroundStyle(.orange) }.buttonStyle(.plain).help(L("Favorite")).accessibilityLabel(L("Favorite"))
             }
             VStack(spacing: 5) {
                 InfoRow(L("First copied"), value: Localization.date(current.firstCopyDate))

@@ -459,8 +459,8 @@ struct BoardView: View {
             HStack {
                 Button(model.collecting ? L("Stop") : L("Enable")) { model.toggleCollecting() }.buttonStyle(.borderedProminent).controlSize(.small)
                 Spacer()
-                Button { model.queue.reverse() } label: { Image(systemName: "arrow.up.arrow.down") }.buttonStyle(.plain).help(L("Reverse order"))
-                Button { model.queue = []; model.collecting = false } label: { Image(systemName: "trash") }.buttonStyle(.plain).help(L("Clear queue"))
+                Button { model.queue.reverse() } label: { Image(systemName: "arrow.up.arrow.down") }.buttonStyle(.plain).help(L("Reverse order")).accessibilityLabel(L("Reverse order"))
+                Button { model.queue = []; model.collecting = false } label: { Image(systemName: "trash") }.buttonStyle(.plain).help(L("Clear queue")).accessibilityLabel(L("Clear queue"))
             }
         }.padding(14).frame(width: 235).background(.primary.opacity(0.03)).overlay(alignment: .leading) { Rectangle().fill(.primary.opacity(0.07)).frame(width: 1) }.padding(.bottom, 10)
     }
