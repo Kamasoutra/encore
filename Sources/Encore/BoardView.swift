@@ -85,16 +85,28 @@ struct ClipSection: Identifiable {
     /// Day sections, after a first section for the `named` leading items that matched a search by name.
     static func group(_ clips: [Clip], now: Date, named: Int = 0) -> [ClipSection] {
         var calendar = Calendar.current; calendar.locale = Localization.locale
+        // The day and week bounds are worked out once, and a month is named only when its section opens:
+        // doing both for every card took a third of a second with 10,000 items.
+        let today = calendar.startOfDay(for: now)
+        let yesterday = calendar.date(byAdding: .day, value: -1, to: today) ?? today
+        let week = calendar.dateInterval(of: .weekOfYear, for: now)
         var sections: [ClipSection] = []
         if named > 0 { sections.append(ClipSection(id: "named", title: L("Snippets"), items: clips.prefix(named).enumerated().map { .init(index: $0.offset, clip: $0.element) })) }
         for (index, clip) in clips.enumerated().dropFirst(named) {
             let date = clip.copiedAt
-            let (id, title): (String, String) = if calendar.isDate(date, inSameDayAs: now) { ("today", L("Today")) }
-                else if let yesterday = calendar.date(byAdding: .day, value: -1, to: now), calendar.isDate(date, inSameDayAs: yesterday) { ("yesterday", L("Yesterday")) }
-                else if let week = calendar.dateInterval(of: .weekOfYear, for: now), week.contains(date) { ("week", L("This week")) }
-                else { ("month-\(calendar.component(.year, from: date))-\(calendar.component(.month, from: date))", date.formatted(Date.FormatStyle(locale: Localization.locale).month(.wide).year())) }
-            if sections.last?.id == id { sections[sections.count - 1].items.append(.init(index: index, clip: clip)) }
-            else { sections.append(ClipSection(id: id, title: title, items: [.init(index: index, clip: clip)])) }
+            let id: String
+            if date >= today { id = "today" }
+            else if date >= yesterday { id = "yesterday" }
+            else if let week, week.contains(date) { id = "week" }
+            else { let month = calendar.dateComponents([.year, .month], from: date); id = "month-\(month.year ?? 0)-\(month.month ?? 0)" }
+            if sections.last?.id == id { sections[sections.count - 1].items.append(.init(index: index, clip: clip)); continue }
+            let title = switch id {
+            case "today": L("Today")
+            case "yesterday": L("Yesterday")
+            case "week": L("This week")
+            default: date.formatted(Date.FormatStyle(locale: Localization.locale).month(.wide).year())
+            }
+            sections.append(ClipSection(id: id, title: title, items: [.init(index: index, clip: clip)]))
         }
         return sections
     }

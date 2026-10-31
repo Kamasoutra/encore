@@ -20,12 +20,12 @@ struct PeerStatus: Identifiable, Equatable {
 }
 
 @MainActor final class AppModel: ObservableObject {
-    @Published var library = Library() { didSet { filteredCache = nil } }
+    @Published var library = Library() { didSet { filteredCache = nil; lastSearch = nil } }
     @Published var preferences: Preferences { didSet { filteredCache = nil } }
     @Published var query = "" { didSet { filteredCache = nil; resetSelection() } }
-    @Published var kind: ClipKind? { didSet { filteredCache = nil; resetSelection() } }
-    @Published var source: String? { didSet { filteredCache = nil; resetSelection() } }
-    @Published var board = "history" { didSet { filteredCache = nil; loadRemote(); resetSelection() } }
+    @Published var kind: ClipKind? { didSet { filteredCache = nil; lastSearch = nil; resetSelection() } }
+    @Published var source: String? { didSet { filteredCache = nil; lastSearch = nil; resetSelection() } }
+    @Published var board = "history" { didSet { filteredCache = nil; lastSearch = nil; loadRemote(); resetSelection() } }
     @Published var selection: Set<UUID> = [] { didSet { pasteOrders = nil } }
     /// The order the selected cards were picked in: several cards paste in this order, whatever their place on the board.
     @Published var selectionOrder: [UUID] = [] { didSet { pasteOrders = nil } }
@@ -100,7 +100,7 @@ struct PeerStatus: Identifiable, Equatable {
     private var selectionAnchor: UUID?
     private var statusTask: Task<Void, Never>?
     private var thumbnails: [UUID: NSImage] = [:]
-    @Published private(set) var remoteItems: [Clip] = [] { didSet { filteredCache = nil } }
+    @Published private(set) var remoteItems: [Clip] = [] { didSet { filteredCache = nil; lastSearch = nil } }
     @Published private(set) var remoteLoading = false
     private var remoteRecords: [UUID: RemoteClip] = [:]
     private var remoteTask: Task<Void, Never>?
@@ -137,7 +137,7 @@ struct PeerStatus: Identifiable, Equatable {
     }
 
     /// Kept until the history, the search, a filter, the board or the peers change: one selection change read it about eight times.
-    private var filteredCache: [Clip]?
+    private var filteredCache: [Clip]? { didSet { if filteredCache == nil { sectionsCache = nil } } }
 
     /// Matching items in display order: snippets grouped by language or tag, name matches first while searching.
     var filtered: [Clip] {
@@ -147,9 +147,15 @@ struct PeerStatus: Identifiable, Equatable {
         return result
     }
 
+    /// The last plain search and its matches: a longer search can only narrow them, so typing a word does not go through the whole history at each letter.
+    private var lastSearch: (query: String, matches: [Clip])?
+
     private func computeFiltered() -> [Clip] {
         let search = ClipQuery(query: query, kind: kind, source: source, favorites: board == "favorites", snippets: board == "snippets", collectionID: UUID(uuidString: board))
-        let matches = boardClips.filter { search.matches($0) }
+        // Operators can widen as they are typed, like a date being completed: only plain words narrow for sure.
+        let narrowing = !query.contains(":") && lastSearch.map { !$0.query.isEmpty && !$0.query.contains(":") && query.hasPrefix($0.query) } == true
+        let matches = (narrowing ? lastSearch!.matches : boardClips).filter { search.matches($0) }
+        lastSearch = (query, matches)
         if board == "snippets" {
             // Groups in alphabetical order, untagged last; most recent first inside a group.
             return matches.enumerated().sorted { a, b in
@@ -162,8 +168,18 @@ struct PeerStatus: Identifiable, Equatable {
         let named = matches.filter(search.matchesName)
         return named.isEmpty ? matches : named + matches.filter { !search.matchesName($0) }
     }
+    /// Kept with the filtered list, and while the time shown stays the same: arrows in the library read it on every press.
+    private var sectionsCache: (time: Date, sections: [ClipSection])?
+
     /// Cards in sections: by group on Snippets, otherwise name matches then days.
     var sections: [ClipSection] {
+        if filteredCache != nil, let sectionsCache, sectionsCache.time == displayTime { return sectionsCache.sections }
+        let result = computeSections()
+        sectionsCache = (displayTime, result)
+        return result
+    }
+
+    private func computeSections() -> [ClipSection] {
         let clips = filtered
         if board == "snippets" { return ClipSection.snippets(clips) }
         let search = ClipQuery(query: query)
@@ -372,14 +388,16 @@ struct PeerStatus: Identifiable, Equatable {
     }
 
     func refreshFileSizes() {
+        // Changes go to a copy, set back once: each change made on `library` itself copies the whole history and redraws.
+        var snapshot = library
         var changed = false
-        for index in library.clips.indices where library.clips[index].kind == .file && library.clips[index].referencedFileBytes == nil {
-            if let payload = storage?.payload(library.clips[index].id), let size = PasteboardCapture.referencedSize(of: payload.fileURLs) {
-                library.clips[index].referencedFileBytes = size
+        for index in snapshot.clips.indices where snapshot.clips[index].kind == .file && snapshot.clips[index].referencedFileBytes == nil {
+            if let payload = storage?.payload(snapshot.clips[index].id), let size = PasteboardCapture.referencedSize(of: payload.fileURLs) {
+                snapshot.clips[index].referencedFileBytes = size
                 changed = true
             }
         }
-        if changed { save() }
+        if changed { library = snapshot; save() }
     }
 
     func retentionSummary(for clip: Clip) -> String {
@@ -665,11 +683,13 @@ struct PeerStatus: Identifiable, Equatable {
     func toggleFavorite(_ ids: Set<UUID>? = nil) {
         let chosen = ids ?? selection
         let shouldPin = !library.clips.filter { chosen.contains($0.id) }.allSatisfy(\.favorite)
-        for index in library.clips.indices where chosen.contains(library.clips[index].id) {
-            let was = library.clips[index].favorite
-            library.clips[index].favorite = shouldPin
-            library.changed(.favorites, index, was: was)
+        var snapshot = library
+        for index in snapshot.clips.indices where chosen.contains(snapshot.clips[index].id) {
+            let was = snapshot.clips[index].favorite
+            snapshot.clips[index].favorite = shouldPin
+            snapshot.changed(.favorites, index, was: was)
         }
+        library = snapshot
         save()
         reconcileSelection()
     }
@@ -677,10 +697,12 @@ struct PeerStatus: Identifiable, Equatable {
     func assignCollection(_ collection: UUID, ids: Set<UUID>? = nil, toggle: Bool = true) {
         let chosen = ids ?? selection
         let allMembers = library.clips.filter { chosen.contains($0.id) }.allSatisfy { $0.collectionIDs.contains(collection) }
-        for index in library.clips.indices where chosen.contains(library.clips[index].id) {
-            if toggle && allMembers { library.clips[index].collectionIDs.remove(collection) }
-            else { library.clips[index].collectionIDs.insert(collection) }
+        var snapshot = library
+        for index in snapshot.clips.indices where chosen.contains(snapshot.clips[index].id) {
+            if toggle && allMembers { snapshot.clips[index].collectionIDs.remove(collection) }
+            else { snapshot.clips[index].collectionIDs.insert(collection) }
         }
+        library = snapshot
         save()
         reconcileSelection()
     }
@@ -754,14 +776,17 @@ struct PeerStatus: Identifiable, Equatable {
             clipboard.write(ClipPayload(items: payloads.flatMap(\.items)), sourceBundle: origin)
             exact = values.count == 1
         }
-        for index in library.clips.indices where values.contains(where: { $0.id == library.clips[index].id }) { library.clips[index].lastUsedAt = Date() }
+        let pastedIDs = Set(values.map(\.id))
+        var snapshot = library
+        for index in snapshot.clips.indices where pastedIDs.contains(snapshot.clips[index].id) { snapshot.clips[index].lastUsedAt = Date() }
         let pasting = !copyOnly && preferences.pasteDirectly
-        if !pasting, exact, let index = library.clips.firstIndex(where: { $0.id == values[0].id }) {
+        if !pasting, exact, let index = snapshot.clips.firstIndex(where: { $0.id == values[0].id }) {
             // The item is now the current clipboard, so it moves back to the top like a fresh copy. Plain text or a filled snippet is a different content and leaves it in place.
-            library.clips[index].firstCopiedAt = library.clips[index].firstCopyDate
-            library.clips[index].copiedAt = Date()
-            library.clips.sort { $0.copiedAt > $1.copiedAt }
+            snapshot.clips[index].firstCopiedAt = snapshot.clips[index].firstCopyDate
+            snapshot.clips[index].copiedAt = Date()
+            snapshot.clips.sort { $0.copiedAt > $1.copiedAt }
         }
+        library = snapshot
         save()
         playSound(.paste)
         guard pasting else { if !copyOnly { dismissPanel?() }; notify(L("Copied to clipboard")); return }
@@ -1144,6 +1169,27 @@ struct PeerStatus: Identifiable, Equatable {
         }
         if let (text, payload) = try? DemoFixtures.richText() {
             accept(Clip(fingerprint: payload.fingerprint, kind: .text, text: text, sourceName: "Notes", sourceBundle: "com.apple.Notes", copiedAt: Date().addingTimeInterval(-90), byteCount: payload.byteCount), payload: payload)
+        }
+        // `--demo --items 10000` adds that many varied copies, saved at once, to measure encore with a large history.
+        if let value = CommandLine.arguments.drop(while: { $0 != "--items" }).dropFirst().first, let count = Int(value), count > 0 {
+            preferences.historyLimit = 0; preferences.retentionDays = 0; preferences.storageLimitMB = 100_000
+            let samples = ["Les bonnes idées reviennent encore.", "https://developer.apple.com/design/human-interface-guidelines", "#A78BFA",
+                           "struct GoodIdea {\n    let captured = true\n}", "Bonjour Sam,\n\nMerci pour ton retour !", "jp@example.com"]
+            let apps = [("Notes", "com.apple.Notes"), ("Safari", "com.apple.Safari"), ("Figma", "com.figma.Desktop"), ("Xcode", "com.apple.dt.Xcode"), ("Mail", "com.apple.mail")]
+            var payloads: [(UUID, ClipPayload)] = []
+            var clips = library.clips
+            for index in 0..<count {
+                let text = samples[index % samples.count] + " \(index)"
+                let payload = ClipPayload.text(text)
+                let app = apps[index % apps.count]
+                var clip = Clip(fingerprint: payload.fingerprint, kind: .detect(text: text), text: text, sourceName: app.0, sourceBundle: app.1,
+                                copiedAt: Date().addingTimeInterval(-600 - Double(index) * 97), byteCount: payload.byteCount)
+                clip.favorite = index % 50 == 0
+                clips.append(clip)
+                payloads.append((clip.id, payload))
+            }
+            library.clips = clips.sorted { $0.copiedAt > $1.copiedAt }
+            storage?.save(library, payloads: payloads)
         }
         // `--demo --secrets` adds masked secrets with detection on, for screenshots of the feature.
         if CommandLine.arguments.contains("--secrets") {

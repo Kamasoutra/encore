@@ -107,6 +107,28 @@ final class AppModelTests: XCTestCase {
         }
     }
 
+    @MainActor func testTypingASearchLetterByLetterFindsWhatAFullSearchFinds() async throws {
+        try withModel { model in
+            model.preferences.historyLimit = 0; model.preferences.retentionDays = 0
+            var library = Library(); library.clips = ScaleBenchmarkTests.history(400)
+            model.library = library
+            @MainActor func full(_ query: String) -> [UUID] {
+                let search = ClipQuery(query: query)
+                let matches = model.library.clips.filter { search.matches($0) }
+                let named = matches.filter(search.matchesName)
+                return (named.isEmpty ? matches : named + matches.filter { !search.matchesName($0) }).map(\.id)
+            }
+            for query in ["d", "de", "des", "desi", "design", "design 1", "design 12", "Bonjour", "bonjour sam", "type:link", "type:link 3"] {
+                model.query = query
+                XCTAssertEqual(model.filtered.map(\.id), full(query), query)
+            }
+            model.query = "nouv"
+            model.addText("Nouvelle copie")
+            model.query = "nouve"
+            XCTAssertEqual(model.filtered.map(\.text), ["Nouvelle copie"], "A copy made between two letters is found")
+        }
+    }
+
     @MainActor func testSeveralCardsPasteInTheOrderTheyWereSelected() async throws {
         try withModel { model in
             for value in ["E", "D", "C", "B", "A"] { model.addText(value) }
