@@ -71,6 +71,11 @@ STRINGS = {
         "note": "encore is not notarized yet. The first time, open it from System Settings → Privacy & Security → Open Anyway.",
         "releases": "Releases",
         "sponsor": "Sponsor",
+        "support_button": "Support encore",
+        "support_title": "Support encore",
+        "support_lead": "encore is free and earns me nothing. A tip helps it last, and the first goal is Apple’s developer account, so encore can be notarized.",
+        "support_choices": (("GitHub Sponsors", "With your GitHub account"), ("Ko-fi", "By card or PayPal, without an account")),
+        "close": "Close",
         "privacy_nav": "Your data",
         "features_nav": "Features",
         "changelog_nav": "What's new",
@@ -120,6 +125,11 @@ STRINGS = {
         "note": "encore n’est pas notarisé pour l’instant. La première fois, ouvre-le depuis Réglages Système → Confidentialité et sécurité → Ouvrir quand même.",
         "releases": "Versions",
         "sponsor": "Soutenir",
+        "support_button": "Soutenir encore",
+        "support_title": "Soutenir encore",
+        "support_lead": "encore est gratuit et ne me rapporte rien. Un don l’aide à durer, et le premier objectif est le compte développeur Apple, pour qu’encore soit notarisé.",
+        "support_choices": (("GitHub Sponsors", "Avec ton compte GitHub"), ("Ko-fi", "Par carte ou PayPal, sans compte")),
+        "close": "Fermer",
         "privacy_nav": "Tes données",
         "features_nav": "Fonctionnalités",
         "changelog_nav": "Nouveautés",
@@ -198,7 +208,7 @@ PRIVACY = {
             "Your data is not locked in: it is stored in standard JSON files that any program can read, and you can export all of it.",
             "The code is written with the help of AI tools, openly: I decide, review and test every change, and I use encore every day. Automated tests run on every change, and every release is built in public by GitHub Actions.",
         ],
-        "cta": ("A bug, a question, a doubt about security?", "I read every issue on GitHub. And if you want to help encore last, you can support it.", "Open an issue", "GitHub Sponsors"),
+        "cta": ("A bug, a question, a doubt about security?", "I read every issue on GitHub. And if you want to help encore last, you can support it.", "Open an issue"),
         "check_title": "Check it yourself",
         "check_text": "Don’t take my word for it. These files hold what this page describes:",
         "check": [
@@ -269,7 +279,7 @@ PRIVACY = {
             "Tes données ne sont pas prisonnières : elles sont rangées dans des fichiers JSON standard, lisibles par n’importe quel programme, et tu peux tout exporter.",
             "Le code est écrit avec l’aide d’outils d’IA, et c’est assumé : je décide, relis et teste chaque changement, et j’utilise encore tous les jours. Des tests automatiques tournent à chaque modification, et chaque version est compilée publiquement par GitHub Actions.",
         ],
-        "cta": ("Un bug, une question, un doute sur la sécurité ?", "Je lis chaque issue sur GitHub. Et si tu veux aider encore à durer, tu peux le soutenir.", "Ouvrir une issue", "GitHub Sponsors"),
+        "cta": ("Un bug, une question, un doute sur la sécurité ?", "Je lis chaque issue sur GitHub. Et si tu veux aider encore à durer, tu peux le soutenir.", "Ouvrir une issue"),
         "check_title": "Vérifie par toi-même",
         "check_text": "Ne me crois pas sur parole. Ces fichiers contiennent ce que décrit cette page :",
         "check": [
@@ -311,7 +321,7 @@ $detect
   <div class="tools">
     <span class="langs">$langs</span>
     <a class="gh" href="$repo">GitHub</a>
-    <a class="sponsor" href="$sponsors" aria-label="$sponsor"><span aria-hidden="true">♥</span><span class="label">$sponsor</span></a>
+    <a class="sponsor" href="${base}${home}#support" data-support aria-label="$sponsor"><span aria-hidden="true">♥</span><span class="label">$sponsor</span></a>
   </div>
  </div>
 </header>
@@ -319,8 +329,9 @@ $detect
 $main</main>
 <footer class="wrap">
   <span>encore · $license</span>
-  <nav><a href="${base}${home}features/">$features_nav</a><a href="${base}${home}changelog/">$changelog_nav</a><a href="$repo">GitHub</a><a href="$repo/releases">$releases</a><a class="sponsor" href="$sponsors"><span aria-hidden="true">♥</span>$sponsor</a></nav>
+  <nav><a href="${base}${home}features/">$features_nav</a><a href="${base}${home}changelog/">$changelog_nav</a><a href="$repo">GitHub</a><a href="$repo/releases">$releases</a><a class="sponsor" href="${base}${home}#support" data-support><span aria-hidden="true">♥</span>$sponsor</a></nav>
 </footer>
+$support_dialog
 <script src="${base}site.js"></script>
 </body>
 </html>
@@ -366,7 +377,7 @@ HOME = Template("""<section class="wrap hero">
     <div class="cta mini">
       <a class="button ghost" href="$repo">$star</a>
       <a class="button" href="$sponsors"><span aria-hidden="true">♥</span>$support</a>
-      <a class="button ghost" href="$kofi"><span aria-hidden="true">☕</span>Ko-fi</a>
+      <a class="button" href="$kofi"><span aria-hidden="true">☕</span>Ko-fi</a>
     </div>
   </div>
   <div class="film">
@@ -411,8 +422,7 @@ $details
   <div class="cta" id="support">
     <div><h3>$back_title</h3><p>$back_text</p></div>
     <a class="button ghost" href="$repo">$star</a>
-    <a class="button" href="$sponsors"><span aria-hidden="true">♥</span>$support</a>
-    <a class="button ghost" href="$kofi"><span aria-hidden="true">☕</span>Ko-fi</a>
+    <a class="button" href="$sponsors" data-support><span aria-hidden="true">♥</span>$support_button</a>
   </div>
 </section>
 """)
@@ -420,6 +430,17 @@ $details
 
 def e(s):
     return html.escape(s, quote=True)
+
+
+def support_dialog(s):
+    """The choice between GitHub Sponsors and Ko-fi, opened by every [data-support] link (site.js)."""
+    icons = {"GitHub Sponsors": ("♥", SPONSORS), "Ko-fi": ("☕", KOFI)}
+    choices = "".join(f'<a class="choice" href="{icons[name][1]}"><span aria-hidden="true">{icons[name][0]}</span><b>{e(name)}</b><small>{e(note)}</small></a>'
+                      for name, note in s["support_choices"])
+    return (f'<dialog class="support-dialog" aria-labelledby="support-title">'
+            f'<form method="dialog"><button class="close" aria-label="{e(s["close"])}">×</button></form>'
+            f'<h2 id="support-title">{e(s["support_title"])}</h2><p>{e(s["support_lead"])}</p>'
+            f'<div class="choices">{choices}</div></dialog>')
 
 
 def layout(lang, s, page, title, description, main):
@@ -439,7 +460,7 @@ def layout(lang, s, page, title, description, main):
         features_nav=e(s["features_nav"]), features_current=CURRENT if page == "features/" else "",
         changelog_nav=e(s["changelog_nav"]), changelog_current=CURRENT if page == "changelog/" else "",
         releases=e(s["releases"]), license=e(s["license"]),
-        sponsor=e(s["sponsor"]), sponsors=SPONSORS, main=main,
+        sponsor=e(s["sponsor"]), sponsors=SPONSORS, main=main, support_dialog=support_dialog(s),
     )
 
 
@@ -471,7 +492,7 @@ def build(lang, s):
         details="\n".join(f"<div><h3>{e(t)}</h3><p>{e(d)}</p></div>" for t, d in s["details"]),
         promise="".join(f"<span>{e(t)}</span>" for t in s["promise"]), promise_text=e(s["promise_text"]),
         last=e(s["last"]), star=e(s["star"]), note=e(s["note"]),
-        back_title=e(s["back_title"]), back_text=e(s["back_text"]), support=e(s["support"]), sponsors=SPONSORS, kofi=KOFI,
+        back_title=e(s["back_title"]), back_text=e(s["back_text"]), support=e(s["support"]), support_button=e(s["support_button"]), sponsors=SPONSORS, kofi=KOFI,
     )
     return layout(lang, s, "", s["title"], s["description"], main)
 
@@ -533,8 +554,7 @@ def build_privacy(lang, s):
   <div class="cta">
     <div><h3>{p["cta"][0]}</h3><p>{p["cta"][1]}</p></div>
     <a class="button ghost" href="{REPO}/issues">{p["cta"][2]}</a>
-    <a class="button" href="{SPONSORS}"><span aria-hidden="true">♥</span>{p["cta"][3]}</a>
-    <a class="button ghost" href="{KOFI}"><span aria-hidden="true">☕</span>Ko-fi</a>
+    <a class="button" href="{SPONSORS}" data-support><span aria-hidden="true">♥</span>{e(s["support_button"])}</a>
   </div>
 </section>
 <section class="check">

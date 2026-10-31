@@ -59,3 +59,14 @@ document.querySelectorAll(".era").forEach(group => {
     card.querySelectorAll("[data-era-text]").forEach(text => { text.hidden = text.dataset.eraText !== button.dataset.era; });
   }));
 });
+
+// Support: one choice between GitHub Sponsors and Ko-fi. Without JS, the links lead to a page offering both.
+const supportDialog = document.querySelector(".support-dialog");
+if (supportDialog && supportDialog.showModal) {
+  document.querySelectorAll("[data-support]").forEach(link => link.addEventListener("click", event => {
+    event.preventDefault();
+    supportDialog.showModal();
+  }));
+  // A click on the backdrop closes it.
+  supportDialog.addEventListener("click", event => { if (event.target === supportDialog) supportDialog.close(); });
+}

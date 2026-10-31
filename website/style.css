@@ -418,3 +418,19 @@ footer a { text-decoration: none; } footer a:hover { color: var(--ink); }
 /* French body text is justified, with hyphenation so the spacing stays even. Centered lines keep their alignment. */
 :lang(fr) :is(.step p, .snippets p, .macs p, .details p, .block p, .honest li, .guarantees p, .project > p, .feature p, .more li p, .release li > span:last-child) { text-align: justify; hyphens: auto; -webkit-hyphens: auto; }
 :lang(fr) :is(.step, .snippets, .macs, .details, .block, .honest, .project, .feature, .more, .release) :is(a, kbd, code) { hyphens: manual; -webkit-hyphens: manual; }
+
+/* Support: the choice between GitHub Sponsors and Ko-fi. */
+.support-dialog { width: min(560px, calc(100vw - 32px)); padding: 34px; border: 1px solid rgba(154, 107, 255, 0.45); border-radius: 26px; background: radial-gradient(120% 90% at 0% 0%, rgba(154, 107, 255, 0.22), transparent 60%), #140E24; color: var(--ink); box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6); text-align: center; }
+.support-dialog::backdrop { background: rgba(8, 5, 16, 0.6); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+.support-dialog h2 { margin: 0 0 10px; font-size: 26px; }
+.support-dialog p { margin: 0 auto 24px; max-width: 42ch; color: var(--mist); }
+.support-dialog form { position: absolute; top: 14px; right: 14px; margin: 0; }
+.support-dialog .close { width: 34px; height: 34px; border: 0; border-radius: 50%; background: rgba(255, 255, 255, 0.08); color: var(--mist); font-size: 20px; line-height: 1; cursor: pointer; }
+.support-dialog .close:hover { color: var(--ink); background: rgba(255, 255, 255, 0.14); }
+.choices { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.choice { display: grid; justify-items: center; align-content: start; gap: 6px; padding: 22px 16px; border-radius: 20px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.12); color: var(--ink); text-decoration: none; transition: transform 0.15s, background 0.15s, border-color 0.15s; }
+.choice:hover { transform: translateY(-2px); background: rgba(154, 107, 255, 0.14); border-color: rgba(154, 107, 255, 0.6); }
+.choice span { height: 34px; font-size: 26px; line-height: 34px; color: var(--pink); }
+.choice b { font-size: 18px; }
+.choice small { color: var(--mist); font-size: 14px; }
+@media (max-width: 480px) { .support-dialog { padding: 30px 20px 22px; } .choices { grid-template-columns: minmax(0, 1fr); } }
