@@ -34,7 +34,14 @@ final class StorageTests: XCTestCase {
         let (before, beforePayload) = clip("copied before")
         var library = Library(); library.upsert(before)
         store.save(library, payload: (before.id, beforePayload)); store.flush()
+        // Damaged libraries kept for recovery: a readable one keeps only kept items, an unreadable one goes.
+        let recovery = directory.appendingPathComponent("Recovery")
+        try FileManager.default.createDirectory(at: recovery, withIntermediateDirectories: true)
+        try JSONEncoder().encode(library).write(to: recovery.appendingPathComponent("Library-damaged-a.json"))
+        try Data("not json".utf8).write(to: recovery.appendingPathComponent("Library-damaged-b.json"))
         store.setEphemeral(true, library: library); store.flush()
+        XCTAssertEqual(try JSONDecoder().decode(Library.self, from: Data(contentsOf: recovery.appendingPathComponent("Library-damaged-a.json"))).clips, [])
+        XCTAssertFalse(FileManager.default.fileExists(atPath: recovery.appendingPathComponent("Library-damaged-b.json").path))
         let itemFile = { (id: UUID) in self.directory.appendingPathComponent("Items/\(id.uuidString).json") }
         let onDisk = { try Storage(root: self.directory).load().clips.map(\.text) }
         XCTAssertFalse(FileManager.default.fileExists(atPath: itemFile(before.id).path), "An earlier copy leaves the disk")

@@ -122,7 +122,7 @@ struct PeerStatus: Identifiable, Equatable {
             storage = store
             historyEncrypted = store.isEncrypted
             library = try store.load()
-            if preferences.ephemeralHistory && !demo { store.setEphemeral(true, library: library) }
+            if preferences.ephemeralHistory && !demo { store.setEphemeral(true, library: library) { [weak self] error in self?.ephemeralFailed(error) } }
             store.onError = { [weak self] message in
                 self?.storageError = message
                 self?.preferences.captureEnabled = false
@@ -433,9 +433,23 @@ struct PeerStatus: Identifiable, Equatable {
             Task { @MainActor [weak self] in
                 guard let self else { return }
                 self.changingEphemeral = false
-                if let error { self.notify(L("Could not change where the history is kept: \(error.localizedDescription)")) }
+                if let error { self.ephemeralFailed(error) }
                 else { self.notify(on ? L("History kept in memory only") : L("History saved to disk again")) }
             }
+        }
+    }
+
+    /// A move between disk and memory cut short: the setting shows what the storage now does, and capture pauses
+    /// until the user has seen the message, as for any other storage failure.
+    nonisolated private func ephemeralFailed(_ error: Error?) {
+        guard let error else { return }
+        let message = error.localizedDescription
+        Task { @MainActor [weak self] in
+            guard let self else { return }
+            if let storage = self.storage, self.preferences.ephemeralHistory != storage.isEphemeral { self.preferences.ephemeralHistory = storage.isEphemeral }
+            self.preferences.captureEnabled = false
+            self.preferencesChanged()
+            self.notify(L("Could not change where the history is kept: \(message)"))
         }
     }
 
@@ -519,7 +533,7 @@ struct PeerStatus: Identifiable, Equatable {
             let next = try Storage(root: root, key: demo ? nil : try readHistoryKey())
             let restored = try next.load()
             next.onError = { [weak self] error in self?.storageError = error; self?.preferences.captureEnabled = false }
-            if preferences.ephemeralHistory && !demo { next.setEphemeral(true, library: restored) }
+            if preferences.ephemeralHistory && !demo { next.setEphemeral(true, library: restored) { [weak self] error in self?.ephemeralFailed(error) } }
             storage = next; library = restored; storageError = nil; historyEncrypted = next.isEncrypted
             collecting = false; queue = []; deleted = []
             thumbnails.removeAll(); richTextCache.removeAll(); checkedRichText.removeAll(); fileURLCache.removeAll()

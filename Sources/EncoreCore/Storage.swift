@@ -171,9 +171,18 @@ public final class Storage: @unchecked Sendable {
             writePending()
             do {
                 if on {
-                    for clip in library.clips where !clip.isProtected { try moveToMemory(clip.id) }
+                    // Set first: a write coming during the move stays in memory, whatever happens next.
                     ephemeral = true
                     lastKept = []
+                    for clip in library.clips where !clip.isProtected { try moveToMemory(clip.id) }
+                    // Damaged libraries kept for recovery list copies with their text: only kept items stay, or the file goes.
+                    let recovery = (try? FileManager.default.contentsOfDirectory(at: root.appendingPathComponent("Recovery"), includingPropertiesForKeys: nil)) ?? []
+                    for url in recovery where url.pathExtension == "json" {
+                        if var damaged = try? decodeLibrary(open(Data(contentsOf: url))) {
+                            damaged.clips = damaged.clips.filter(\.isProtected)
+                            try write(encoder.encode(damaged), to: url)
+                        } else { try FileManager.default.removeItem(at: url) }
+                    }
                     let written = try keepOnDisk(library)
                     let data = try encoder.encode(written)
                     try write(data, to: root.appendingPathComponent("Library.json"))

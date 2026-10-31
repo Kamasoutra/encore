@@ -70,6 +70,7 @@ final class EncorePanel: NSPanel {
         panel = EncorePanel(contentRect: .zero, styleMask: [.borderless, .nonactivatingPanel], backing: .buffered, defer: false)
         panel.title = "encore"
         panel.identifier = NSUserInterfaceItemIdentifier("EncoreBoard")
+        applyScreenSharing(to: panel)
         panel.isOpaque = false
         panel.backgroundColor = .clear
         panel.hasShadow = true
@@ -151,7 +152,7 @@ final class EncorePanel: NSPanel {
         wakeObserver = NSWorkspace.shared.notificationCenter.addObserver(forName: NSWorkspace.didWakeNotification, object: nil, queue: .main) { [weak self] _ in
             MainActor.assumeIsolated { self?.model.prune() }
         }
-        // Windows opened later, like Settings or the preview, follow the screen sharing setting as they appear.
+        // encore sets its own windows as it builds them; this catches those macOS makes for it, like alerts and menus.
         windowObserver = NotificationCenter.default.addObserver(forName: NSWindow.didChangeOcclusionStateNotification, object: nil, queue: .main) { [weak self] note in
             MainActor.assumeIsolated { if let window = note.object as? NSWindow { self?.applyScreenSharing(to: window) } }
         }
@@ -262,6 +263,7 @@ final class EncorePanel: NSPanel {
             let preview = NSPanel(contentRect: .zero, styleMask: [.borderless, .nonactivatingPanel], backing: .buffered, defer: false)
             preview.isOpaque = false; preview.backgroundColor = .clear; preview.hasShadow = true
             preview.level = .floating; preview.hidesOnDeactivate = false; preview.isReleasedWhenClosed = false
+            applyScreenSharing(to: preview)
             preview.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
             preview.contentView = NSHostingView(rootView: QuickLookView(model: model))
             quickLookPanel = preview
@@ -459,6 +461,7 @@ final class EncorePanel: NSPanel {
             let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 780, height: 680), styleMask: [.titled, .closable, .miniaturizable], backing: .buffered, defer: false)
             window.title = L("Encore Settings")
             window.isReleasedWhenClosed = false
+            applyScreenSharing(to: window)
             window.contentView = NSHostingView(rootView: SettingsView(model: model))
             window.center()
             settingsWindow = window
@@ -475,6 +478,7 @@ final class EncorePanel: NSPanel {
             let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 740, height: 700), styleMask: [.titled, .closable, .miniaturizable, .resizable], backing: .buffered, defer: false)
             window.contentMinSize = NSSize(width: 560, height: 520)
             window.isReleasedWhenClosed = false
+            applyScreenSharing(to: window)
             window.delegate = self
             window.center()
             inspectorWindow = window
