@@ -447,7 +447,6 @@
 "Pasted in position %lld" = "Ditempel di urutan %lld";
 "Encryption" = "Enkripsi";
 "Encrypt the history on this Mac" = "Enkripsi riwayat di Mac ini";
-"Your history and its contents are encrypted with a key kept in your macOS keychain: another app, or someone who copies the files, sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "Riwayatmu dan isinya dienkripsi dengan kunci yang disimpan di rantai kunci macOS: aplikasi lain, atau orang yang menyalin filenya, tidak melihat apa pun yang terbaca. Ekspor tetap JSON yang terbaca. Tanpa rantai kunci Mac ini, riwayat tidak bisa dibaca.";
 "History encrypted" = "Riwayat dienkripsi";
 "History no longer encrypted" = "Riwayat tidak lagi dienkripsi";
 "Could not change the encryption: %@" = "Tidak dapat mengubah enkripsi: %@";
@@ -456,3 +455,9 @@
 "Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "Aplikasi apa pun yang berjalan di akun macOS-mu, atau siapa pun yang menyalin file ini, bisa membaca semua yang kamu salin, termasuk kata sandi yang tidak terdeteksi. Matikan hanya jika ada alat lain yang sudah melindungi file ini.";
 "Turn Off Encryption" = "Matikan enkripsi";
 "Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. The history is encrypted; exports stay readable JSON." = "File dirujuk, bukan diduplikasi. Ukurannya digunakan untuk aturan, tetapi tidak memakai anggaran encore. Riwayat dienkripsi; ekspor tetap JSON yang terbaca.";
+"Encrypt the history?" = "Enkripsi riwayat?";
+"Until encore is signed by Apple, macOS asks for your Mac password after each update of encore, before it can read its key. Enter it and choose Always Allow. If you refuse, the history stays locked until you allow it." = "Selama encore belum ditandatangani oleh Apple, macOS meminta kata sandi Mac-mu setelah setiap pembaruan encore, sebelum ia bisa membaca kuncinya. Masukkan kata sandi lalu pilih Selalu Izinkan. Jika kamu menolak, riwayat tetap terkunci sampai kamu mengizinkannya.";
+"Encrypt" = "Enkripsi";
+"Off by default for now: until encore is signed by Apple, macOS asks for your Mac password after each update, before encore can read its key. Once encore is signed, encryption will be on by default, with no prompt." = "Mati secara default untuk saat ini: selama encore belum ditandatangani oleh Apple, macOS meminta kata sandi Mac-mu setelah setiap pembaruan, sebelum encore bisa membaca kuncinya. Setelah encore ditandatangani, enkripsi akan aktif secara default, tanpa permintaan apa pun.";
+"encore needs your permission to read its key in the keychain. Click %@, enter your Mac password, then choose Always Allow." = "encore perlu izinmu untuk membaca kuncinya di rantai kunci. Klik %@, masukkan kata sandi Mac-mu, lalu pilih Selalu Izinkan.";
+"Encrypts your history and its contents with a key kept in your macOS keychain: another app, or someone who copies the files, then sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "Mengenkripsi riwayatmu dan isinya dengan kunci yang disimpan di rantai kunci macOS: aplikasi lain, atau orang yang menyalin filenya, lalu tidak melihat apa pun yang terbaca. Ekspor tetap JSON yang terbaca. Tanpa rantai kunci Mac ini, riwayat tidak bisa dibaca.";

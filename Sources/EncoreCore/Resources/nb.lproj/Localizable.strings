@@ -447,7 +447,6 @@
 "Pasted in position %lld" = "Limes inn som nummer %lld";
 "Encryption" = "Kryptering";
 "Encrypt the history on this Mac" = "Krypter loggen på denne Macen";
-"Your history and its contents are encrypted with a key kept in your macOS keychain: another app, or someone who copies the files, sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "Loggen og innholdet krypteres med en nøkkel i macOS-nøkkelringen din: en annen app, eller noen som kopierer filene, ser ingenting leselig. Eksporter forblir lesbar JSON. Uten nøkkelringen på denne Macen kan ikke loggen leses.";
 "History encrypted" = "Loggen er kryptert";
 "History no longer encrypted" = "Loggen er ikke lenger kryptert";
 "Could not change the encryption: %@" = "Kunne ikke endre krypteringen: %@";
@@ -456,3 +455,9 @@
 "Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "Alle apper som kjører under macOS-kontoen din, eller den som kopierer filene, kan da lese alt du har kopiert, også passord som ikke ble oppdaget. Slå det bare av hvis noe annet allerede beskytter filene.";
 "Turn Off Encryption" = "Slå av kryptering";
 "Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. The history is encrypted; exports stay readable JSON." = "Filer refereres til og dupliseres ikke. Størrelsen deres teller for reglene, men ikke mot budsjettet til encore. Loggen er kryptert; eksporter forblir lesbar JSON.";
+"Encrypt the history?" = "Kryptere loggen?";
+"Until encore is signed by Apple, macOS asks for your Mac password after each update of encore, before it can read its key. Enter it and choose Always Allow. If you refuse, the history stays locked until you allow it." = "Til encore er signert av Apple, ber macOS om passordet til Macen etter hver oppdatering av encore, før den kan lese nøkkelen sin. Skriv det inn og velg Tillat alltid. Hvis du nekter, forblir loggen låst til du tillater det.";
+"Encrypt" = "Krypter";
+"Off by default for now: until encore is signed by Apple, macOS asks for your Mac password after each update, before encore can read its key. Once encore is signed, encryption will be on by default, with no prompt." = "Av som standard inntil videre: til encore er signert av Apple, ber macOS om passordet til Macen etter hver oppdatering, før encore kan lese nøkkelen sin. Når encore er signert, blir kryptering på som standard, uten noen forespørsel.";
+"encore needs your permission to read its key in the keychain. Click %@, enter your Mac password, then choose Always Allow." = "encore trenger tillatelsen din for å lese nøkkelen sin i nøkkelringen. Klikk på %@, skriv inn passordet til Macen og velg Tillat alltid.";
+"Encrypts your history and its contents with a key kept in your macOS keychain: another app, or someone who copies the files, then sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "Krypterer loggen og innholdet med en nøkkel i macOS-nøkkelringen din: en annen app, eller noen som kopierer filene, ser da ingenting leselig. Eksporter forblir lesbar JSON. Uten nøkkelringen på denne Macen kan ikke loggen leses.";

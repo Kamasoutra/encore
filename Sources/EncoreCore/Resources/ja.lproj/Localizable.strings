@@ -447,7 +447,6 @@
 "Pasted in position %lld" = "%lld番目にペースト";
 "Encryption" = "暗号化";
 "Encrypt the history on this Mac" = "このMacで履歴を暗号化";
-"Your history and its contents are encrypted with a key kept in your macOS keychain: another app, or someone who copies the files, sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "履歴とその内容は、macOSのキーチェーンに保管された鍵で暗号化されます。ほかのアプリやファイルをコピーした人には、読める内容は何も見えません。書き出したファイルは読めるJSONのままです。このMacのキーチェーンがないと履歴は読めません。";
 "History encrypted" = "履歴を暗号化しました";
 "History no longer encrypted" = "履歴の暗号化を解除しました";
 "Could not change the encryption: %@" = "暗号化を変更できませんでした：%@";
@@ -456,3 +455,9 @@
 "Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "macOSアカウントで動くどのアプリも、これらのファイルをコピーした人も、検出されなかったパスワードを含め、コピーした内容をすべて読めるようになります。ほかの手段ですでに保護している場合にのみオフにしてください。";
 "Turn Off Encryption" = "暗号化をオフにする";
 "Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. The history is encrypted; exports stay readable JSON." = "ファイルは複製されず、参照として保存されます。サイズは保持ルールに使用されますが、encoreの容量は消費しません。履歴は暗号化されています。書き出したファイルは読めるJSONのままです。";
+"Encrypt the history?" = "履歴を暗号化しますか？";
+"Until encore is signed by Apple, macOS asks for your Mac password after each update of encore, before it can read its key. Enter it and choose Always Allow. If you refuse, the history stays locked until you allow it." = "encoreがAppleの署名を受けるまでは、encoreをアップデートするたびに、鍵を読む前にmacOSがMacのパスワードを求めます。入力して「常に許可」を選んでください。拒否すると、許可するまで履歴はロックされたままです。";
+"Encrypt" = "暗号化";
+"Off by default for now: until encore is signed by Apple, macOS asks for your Mac password after each update, before encore can read its key. Once encore is signed, encryption will be on by default, with no prompt." = "当面はデフォルトでオフ：encoreがAppleの署名を受けるまでは、アップデートのたびに、encoreが鍵を読む前にmacOSがMacのパスワードを求めます。署名を受けたら、暗号化は確認なしでデフォルトでオンになります。";
+"encore needs your permission to read its key in the keychain. Click %@, enter your Mac password, then choose Always Allow." = "encoreがキーチェーンの鍵を読むには許可が必要です。「%@」をクリックし、Macのパスワードを入力して「常に許可」を選んでください。";
+"Encrypts your history and its contents with a key kept in your macOS keychain: another app, or someone who copies the files, then sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "履歴とその内容を、macOSのキーチェーンに保管された鍵で暗号化します。ほかのアプリやファイルをコピーした人には、読める内容は何も見えなくなります。書き出したファイルは読めるJSONのままです。このMacのキーチェーンがないと履歴は読めません。";

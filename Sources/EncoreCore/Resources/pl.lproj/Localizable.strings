@@ -447,7 +447,6 @@
 "Pasted in position %lld" = "Wklejany jako %lld.";
 "Encryption" = "Szyfrowanie";
 "Encrypt the history on this Mac" = "Szyfruj historię na tym Macu";
-"Your history and its contents are encrypted with a key kept in your macOS keychain: another app, or someone who copies the files, sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "Historia i jej zawartość są szyfrowane kluczem przechowywanym w pęku kluczy macOS: inna aplikacja ani ktoś, kto skopiuje pliki, nie zobaczy nic czytelnego. Eksporty pozostają czytelnym JSON-em. Bez pęku kluczy tego Maca historii nie da się odczytać.";
 "History encrypted" = "Historia zaszyfrowana";
 "History no longer encrypted" = "Historia nie jest już szyfrowana";
 "Could not change the encryption: %@" = "Nie udało się zmienić szyfrowania: %@";
@@ -456,3 +455,9 @@
 "Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "Każda aplikacja działająca na Twoim koncie macOS lub ktoś, kto skopiuje te pliki, mógłby wtedy odczytać wszystko, co skopiowałeś, także niewykryte hasła. Wyłącz je tylko, jeśli inne narzędzie już chroni te pliki.";
 "Turn Off Encryption" = "Wyłącz szyfrowanie";
 "Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. The history is encrypted; exports stay readable JSON." = "Pliki są przywoływane, a nie powielane. Ich rozmiar jest uwzględniany w regułach, ale nie zużywa limitu encore. Historia jest zaszyfrowana; eksporty pozostają czytelnym JSON-em.";
+"Encrypt the history?" = "Zaszyfrować historię?";
+"Until encore is signed by Apple, macOS asks for your Mac password after each update of encore, before it can read its key. Enter it and choose Always Allow. If you refuse, the history stays locked until you allow it." = "Dopóki encore nie jest podpisany przez Apple, macOS po każdej aktualizacji encore prosi o hasło do Maca, zanim aplikacja odczyta swój klucz. Wpisz je i wybierz Zawsze pozwalaj. Jeśli odmówisz, historia pozostanie zablokowana, dopóki nie pozwolisz.";
+"Encrypt" = "Szyfruj";
+"Off by default for now: until encore is signed by Apple, macOS asks for your Mac password after each update, before encore can read its key. Once encore is signed, encryption will be on by default, with no prompt." = "Na razie domyślnie wyłączone: dopóki encore nie jest podpisany przez Apple, macOS po każdej aktualizacji prosi o hasło do Maca, zanim encore odczyta swój klucz. Gdy encore zostanie podpisany, szyfrowanie będzie domyślnie włączone, bez żadnych próśb.";
+"encore needs your permission to read its key in the keychain. Click %@, enter your Mac password, then choose Always Allow." = "encore potrzebuje Twojej zgody, aby odczytać swój klucz z pęku kluczy. Kliknij %@, wpisz hasło do Maca, a potem wybierz Zawsze pozwalaj.";
+"Encrypts your history and its contents with a key kept in your macOS keychain: another app, or someone who copies the files, then sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "Szyfruje historię i jej zawartość kluczem przechowywanym w pęku kluczy macOS: inna aplikacja ani ktoś, kto skopiuje pliki, nie zobaczy wtedy nic czytelnego. Eksporty pozostają czytelnym JSON-em. Bez pęku kluczy tego Maca historii nie da się odczytać.";

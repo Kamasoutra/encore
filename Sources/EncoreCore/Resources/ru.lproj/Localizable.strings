@@ -447,7 +447,6 @@
 "Pasted in position %lld" = "Вставляется %lld-м";
 "Encryption" = "Шифрование";
 "Encrypt the history on this Mac" = "Шифровать историю на этом Mac";
-"Your history and its contents are encrypted with a key kept in your macOS keychain: another app, or someone who copies the files, sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "История и её содержимое шифруются ключом из связки ключей macOS: другое приложение или тот, кто скопирует файлы, не увидит ничего читаемого. Экспорт остаётся читаемым JSON. Без связки ключей этого Mac историю прочитать нельзя.";
 "History encrypted" = "История зашифрована";
 "History no longer encrypted" = "История больше не зашифрована";
 "Could not change the encryption: %@" = "Не удалось изменить шифрование: %@";
@@ -456,3 +455,9 @@
 "Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "Любое приложение под вашей учётной записью macOS или тот, кто скопирует эти файлы, сможет прочитать всё, что вы копировали, включая нераспознанные пароли. Отключайте, только если эти файлы уже защищает что-то другое.";
 "Turn Off Encryption" = "Отключить шифрование";
 "Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. The history is encrypted; exports stay readable JSON." = "Файлы хранятся как ссылки, без копирования. Их размер учитывается в правилах, но не расходует лимит encore. История зашифрована; экспорт остаётся читаемым JSON.";
+"Encrypt the history?" = "Зашифровать историю?";
+"Until encore is signed by Apple, macOS asks for your Mac password after each update of encore, before it can read its key. Enter it and choose Always Allow. If you refuse, the history stays locked until you allow it." = "Пока encore не подписан Apple, macOS после каждого обновления encore запрашивает пароль вашего Mac, прежде чем он сможет прочитать свой ключ. Введите его и выберите «Всегда разрешать». Если откажетесь, история останется заблокированной, пока вы не разрешите.";
+"Encrypt" = "Зашифровать";
+"Off by default for now: until encore is signed by Apple, macOS asks for your Mac password after each update, before encore can read its key. Once encore is signed, encryption will be on by default, with no prompt." = "Пока выключено по умолчанию: до тех пор, пока encore не подписан Apple, macOS после каждого обновления запрашивает пароль вашего Mac, прежде чем encore сможет прочитать свой ключ. Когда encore будет подписан, шифрование будет включено по умолчанию, без запросов.";
+"encore needs your permission to read its key in the keychain. Click %@, enter your Mac password, then choose Always Allow." = "encore нужно ваше разрешение, чтобы прочитать свой ключ в связке ключей. Нажмите «%@», введите пароль Mac и выберите «Всегда разрешать».";
+"Encrypts your history and its contents with a key kept in your macOS keychain: another app, or someone who copies the files, then sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "Шифрует историю и её содержимое ключом из связки ключей macOS: другое приложение или тот, кто скопирует файлы, тогда не увидит ничего читаемого. Экспорт остаётся читаемым JSON. Без связки ключей этого Mac историю прочитать нельзя.";

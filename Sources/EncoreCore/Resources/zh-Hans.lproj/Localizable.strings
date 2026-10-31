@@ -447,7 +447,6 @@
 "Pasted in position %lld" = "第 %lld 个粘贴";
 "Encryption" = "加密";
 "Encrypt the history on this Mac" = "在此 Mac 上加密历史记录";
-"Your history and its contents are encrypted with a key kept in your macOS keychain: another app, or someone who copies the files, sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "你的历史记录及其内容会用保存在 macOS 钥匙串中的密钥加密：其他 App 或拷贝这些文件的人都看不到任何可读内容。导出的文件仍是可读的 JSON。没有这台 Mac 的钥匙串，就无法读取历史记录。";
 "History encrypted" = "历史记录已加密";
 "History no longer encrypted" = "历史记录已不再加密";
 "Could not change the encryption: %@" = "无法更改加密：%@";
@@ -456,3 +455,9 @@
 "Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "这样一来，在你的 macOS 账户下运行的任何 App，或拷贝这些文件的任何人，都能读取你拷贝过的所有内容，包括未被检测到的密码。只有在其他工具已经保护这些文件时才关闭。";
 "Turn Off Encryption" = "关闭加密";
 "Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. The history is encrypted; exports stay readable JSON." = "文件以引用方式保存，不会复制。文件大小用于保留规则，但不占用 encore 的容量。历史记录已加密；导出的文件仍是可读的 JSON。";
+"Encrypt the history?" = "要加密历史记录吗？";
+"Until encore is signed by Apple, macOS asks for your Mac password after each update of encore, before it can read its key. Enter it and choose Always Allow. If you refuse, the history stays locked until you allow it." = "在 encore 获得 Apple 签名之前，每次更新 encore 后，macOS 都会在它读取密钥前要求输入 Mac 密码。输入密码并选择“始终允许”。如果拒绝，历史记录会保持锁定，直到你允许。";
+"Encrypt" = "加密";
+"Off by default for now: until encore is signed by Apple, macOS asks for your Mac password after each update, before encore can read its key. Once encore is signed, encryption will be on by default, with no prompt." = "目前默认关闭：在 encore 获得 Apple 签名之前，每次更新后，macOS 都会在 encore 读取密钥前要求输入 Mac 密码。encore 获得签名后，加密将默认开启，且不会再询问。";
+"encore needs your permission to read its key in the keychain. Click %@, enter your Mac password, then choose Always Allow." = "encore 需要你的许可才能读取钥匙串中的密钥。点按“%@”，输入 Mac 密码，然后选择“始终允许”。";
+"Encrypts your history and its contents with a key kept in your macOS keychain: another app, or someone who copies the files, then sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "用保存在 macOS 钥匙串中的密钥加密你的历史记录及其内容：这样，其他 App 或拷贝这些文件的人都看不到任何可读内容。导出的文件仍是可读的 JSON。没有这台 Mac 的钥匙串，就无法读取历史记录。";

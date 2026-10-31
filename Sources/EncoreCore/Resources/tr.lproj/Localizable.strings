@@ -447,7 +447,6 @@
 "Pasted in position %lld" = "%lld. sırada yapıştırılır";
 "Encryption" = "Şifreleme";
 "Encrypt the history on this Mac" = "Geçmişi bu Mac’te şifrele";
-"Your history and its contents are encrypted with a key kept in your macOS keychain: another app, or someone who copies the files, sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "Geçmişiniz ve içerikleri macOS anahtar zincirinizdeki bir anahtarla şifrelenir: başka bir uygulama ya da dosyaları kopyalayan biri okunabilir hiçbir şey görmez. Dışa aktarılanlar okunabilir JSON olarak kalır. Bu Mac’in anahtar zinciri olmadan geçmiş okunamaz.";
 "History encrypted" = "Geçmiş şifrelendi";
 "History no longer encrypted" = "Geçmiş artık şifreli değil";
 "Could not change the encryption: %@" = "Şifreleme değiştirilemedi: %@";
@@ -456,3 +455,9 @@
 "Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "macOS hesabınızda çalışan herhangi bir uygulama ya da bu dosyaları kopyalayan biri, algılanmamış parolalar dahil kopyaladığınız her şeyi okuyabilir. Yalnızca bu dosyaları başka bir şey zaten koruyorsa kapatın.";
 "Turn Off Encryption" = "Şifrelemeyi kapat";
 "Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. The history is encrypted; exports stay readable JSON." = "Dosyalara başvurulur, kopyaları oluşturulmaz. Boyutları kurallarda kullanılır ancak encore’un bütçesinden düşülmez. Geçmiş şifrelidir; dışa aktarılanlar okunabilir JSON olarak kalır.";
+"Encrypt the history?" = "Geçmiş şifrelensin mi?";
+"Until encore is signed by Apple, macOS asks for your Mac password after each update of encore, before it can read its key. Enter it and choose Always Allow. If you refuse, the history stays locked until you allow it." = "encore Apple tarafından imzalanana kadar macOS, encore’un her güncellemesinden sonra anahtarını okuyabilmesi için Mac parolanızı ister. Parolayı girin ve Her Zaman İzin Ver’i seçin. Reddederseniz geçmiş, izin verene kadar kilitli kalır.";
+"Encrypt" = "Şifrele";
+"Off by default for now: until encore is signed by Apple, macOS asks for your Mac password after each update, before encore can read its key. Once encore is signed, encryption will be on by default, with no prompt." = "Şimdilik varsayılan olarak kapalı: encore Apple tarafından imzalanana kadar macOS her güncellemeden sonra, encore anahtarını okuyabilmeden önce Mac parolanızı ister. encore imzalandığında şifreleme varsayılan olarak açık olacak, hiçbir soru sorulmadan.";
+"encore needs your permission to read its key in the keychain. Click %@, enter your Mac password, then choose Always Allow." = "encore’un anahtar zincirindeki anahtarını okumak için izninize ihtiyacı var. %@ öğesine tıklayın, Mac parolanızı girin ve Her Zaman İzin Ver’i seçin.";
+"Encrypts your history and its contents with a key kept in your macOS keychain: another app, or someone who copies the files, then sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "Geçmişinizi ve içeriklerini macOS anahtar zincirinizdeki bir anahtarla şifreler: başka bir uygulama ya da dosyaları kopyalayan biri artık okunabilir hiçbir şey görmez. Dışa aktarılanlar okunabilir JSON olarak kalır. Bu Mac’in anahtar zinciri olmadan geçmiş okunamaz.";

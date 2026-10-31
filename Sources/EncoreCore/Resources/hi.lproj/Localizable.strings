@@ -447,7 +447,6 @@
 "Pasted in position %lld" = "स्थान %lld पर पेस्ट होगा";
 "Encryption" = "एन्क्रिप्शन";
 "Encrypt the history on this Mac" = "इस Mac पर इतिहास एन्क्रिप्ट करें";
-"Your history and its contents are encrypted with a key kept in your macOS keychain: another app, or someone who copies the files, sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "आपका इतिहास और उसकी सामग्री आपकी macOS कीचेन में रखी कुंजी से एन्क्रिप्ट होती है: कोई दूसरा ऐप, या फ़ाइलें कॉपी करने वाला कोई व्यक्ति, कुछ भी पठनीय नहीं देखता। एक्सपोर्ट पठनीय JSON ही रहते हैं। इस Mac की कीचेन के बिना इतिहास पढ़ा नहीं जा सकता।";
 "History encrypted" = "इतिहास एन्क्रिप्ट हो गया";
 "History no longer encrypted" = "इतिहास अब एन्क्रिप्ट नहीं है";
 "Could not change the encryption: %@" = "एन्क्रिप्शन नहीं बदला जा सका: %@";
@@ -456,3 +455,9 @@
 "Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "तब आपके macOS खाते में चलने वाला कोई भी ऐप, या ये फ़ाइलें कॉपी करने वाला कोई भी व्यक्ति, आपकी कॉपी की हुई हर चीज़ पढ़ सकता है, बिना पहचाने गए पासवर्ड भी। इसे तभी बंद करें जब कोई और चीज़ इन फ़ाइलों को पहले से सुरक्षित रखती हो।";
 "Turn Off Encryption" = "एन्क्रिप्शन बंद करें";
 "Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. The history is encrypted; exports stay readable JSON." = "फ़ाइलों को रेफ़र किया जाता है, उनकी डुप्लिकेट नहीं बनती। उनका आकार नियमों में गिना जाता है, पर encore के बजट में नहीं। इतिहास एन्क्रिप्टेड है; एक्सपोर्ट पठनीय JSON ही रहते हैं।";
+"Encrypt the history?" = "इतिहास एन्क्रिप्ट करें?";
+"Until encore is signed by Apple, macOS asks for your Mac password after each update of encore, before it can read its key. Enter it and choose Always Allow. If you refuse, the history stays locked until you allow it." = "जब तक encore पर Apple के हस्ताक्षर नहीं होते, macOS encore के हर अपडेट के बाद उसकी कुंजी पढ़ने से पहले आपके Mac का पासवर्ड माँगता है। उसे डालें और ‘हमेशा अनुमति दें’ चुनें। अगर आप मना करते हैं, तो इतिहास तब तक लॉक रहता है जब तक आप अनुमति नहीं देते।";
+"Encrypt" = "एन्क्रिप्ट करें";
+"Off by default for now: until encore is signed by Apple, macOS asks for your Mac password after each update, before encore can read its key. Once encore is signed, encryption will be on by default, with no prompt." = "फ़िलहाल डिफ़ॉल्ट रूप से बंद: जब तक encore पर Apple के हस्ताक्षर नहीं होते, macOS हर अपडेट के बाद encore के अपनी कुंजी पढ़ने से पहले आपके Mac का पासवर्ड माँगता है। encore पर हस्ताक्षर होते ही एन्क्रिप्शन डिफ़ॉल्ट रूप से चालू रहेगा, बिना किसी अनुरोध के।";
+"encore needs your permission to read its key in the keychain. Click %@, enter your Mac password, then choose Always Allow." = "encore को कीचेन में अपनी कुंजी पढ़ने के लिए आपकी अनुमति चाहिए। ‘%@’ पर क्लिक करें, अपने Mac का पासवर्ड डालें, फिर ‘हमेशा अनुमति दें’ चुनें।";
+"Encrypts your history and its contents with a key kept in your macOS keychain: another app, or someone who copies the files, then sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "आपके इतिहास और उसकी सामग्री को आपकी macOS कीचेन में रखी कुंजी से एन्क्रिप्ट करता है: तब कोई दूसरा ऐप, या फ़ाइलें कॉपी करने वाला कोई व्यक्ति, कुछ भी पठनीय नहीं देखता। एक्सपोर्ट पठनीय JSON ही रहते हैं। इस Mac की कीचेन के बिना इतिहास पढ़ा नहीं जा सकता।";

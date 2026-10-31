@@ -447,7 +447,6 @@
 "Pasted in position %lld" = "Dán ở vị trí %lld";
 "Encryption" = "Mã hóa";
 "Encrypt the history on this Mac" = "Mã hóa lịch sử trên máy Mac này";
-"Your history and its contents are encrypted with a key kept in your macOS keychain: another app, or someone who copies the files, sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "Lịch sử và nội dung của bạn được mã hóa bằng khóa lưu trong chuỗi khóa macOS: ứng dụng khác, hay người sao chép các tệp, sẽ không thấy gì đọc được. Bản xuất vẫn là JSON đọc được. Không có chuỗi khóa của máy Mac này thì không thể đọc lịch sử.";
 "History encrypted" = "Đã mã hóa lịch sử";
 "History no longer encrypted" = "Lịch sử không còn được mã hóa";
 "Could not change the encryption: %@" = "Không thể thay đổi mã hóa: %@";
@@ -456,3 +455,9 @@
 "Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "Khi đó, bất kỳ ứng dụng nào chạy trong tài khoản macOS của bạn, hoặc người sao chép các tệp này, đều có thể đọc mọi thứ bạn đã sao chép, kể cả mật khẩu chưa được phát hiện. Chỉ tắt nếu đã có công cụ khác bảo vệ các tệp này.";
 "Turn Off Encryption" = "Tắt mã hóa";
 "Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. The history is encrypted; exports stay readable JSON." = "Tệp được tham chiếu, không bị sao chép thêm. Kích thước tệp được dùng cho quy tắc lưu giữ nhưng không chiếm dung lượng của encore. Lịch sử đã được mã hóa; bản xuất vẫn là JSON đọc được.";
+"Encrypt the history?" = "Mã hóa lịch sử?";
+"Until encore is signed by Apple, macOS asks for your Mac password after each update of encore, before it can read its key. Enter it and choose Always Allow. If you refuse, the history stays locked until you allow it." = "Cho đến khi encore được Apple ký, macOS sẽ hỏi mật khẩu máy Mac sau mỗi lần cập nhật encore, trước khi nó có thể đọc khóa của mình. Hãy nhập mật khẩu và chọn Luôn cho phép. Nếu bạn từ chối, lịch sử sẽ bị khóa cho đến khi bạn cho phép.";
+"Encrypt" = "Mã hóa";
+"Off by default for now: until encore is signed by Apple, macOS asks for your Mac password after each update, before encore can read its key. Once encore is signed, encryption will be on by default, with no prompt." = "Tạm thời tắt theo mặc định: cho đến khi encore được Apple ký, macOS sẽ hỏi mật khẩu máy Mac sau mỗi lần cập nhật, trước khi encore có thể đọc khóa của mình. Khi encore được ký, mã hóa sẽ bật theo mặc định mà không hỏi gì.";
+"encore needs your permission to read its key in the keychain. Click %@, enter your Mac password, then choose Always Allow." = "encore cần bạn cho phép để đọc khóa trong chuỗi khóa. Nhấp vào %@, nhập mật khẩu máy Mac, rồi chọn Luôn cho phép.";
+"Encrypts your history and its contents with a key kept in your macOS keychain: another app, or someone who copies the files, then sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "Mã hóa lịch sử và nội dung của bạn bằng khóa lưu trong chuỗi khóa macOS: khi đó ứng dụng khác, hay người sao chép các tệp, sẽ không thấy gì đọc được. Bản xuất vẫn là JSON đọc được. Không có chuỗi khóa của máy Mac này thì không thể đọc lịch sử.";

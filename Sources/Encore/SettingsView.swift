@@ -343,13 +343,14 @@ struct SettingsView: View {
     private var data: some View {
         SettingsForm {
             SettingsGroup(L("Encryption")) {
-                described(L("Your history and its contents are encrypted with a key kept in your macOS keychain: another app, or someone who copies the files, sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read.")) {
+                described(L("Encrypts your history and its contents with a key kept in your macOS keychain: another app, or someone who copies the files, then sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read.")) {
                     HStack {
                         Toggle(L("Encrypt the history on this Mac"), isOn: Binding(get: { model.historyEncrypted }, set: { model.setHistoryEncryption($0) }))
                             .disabled(model.demo || model.convertingHistory || model.storage == nil || model.storageError != nil || model.keychainError != nil)
                         if model.convertingHistory { ProgressView().controlSize(.small) }
                     }
                 }
+                caption(L("Off by default for now: until encore is signed by Apple, macOS asks for your Mac password after each update, before encore can read its key. Once encore is signed, encryption will be on by default, with no prompt."))
             }
             SettingsGroup(L("Retention")) {
                 InfoRow(L("Retention without a rule"), value: model.preferences.retentionDays == 0 ? L("Forever") : L("\(model.preferences.retentionDays) days"))

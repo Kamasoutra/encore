@@ -447,7 +447,6 @@
 "Pasted in position %lld" = "วางเป็นลำดับที่ %lld";
 "Encryption" = "การเข้ารหัส";
 "Encrypt the history on this Mac" = "เข้ารหัสประวัติบน Mac นี้";
-"Your history and its contents are encrypted with a key kept in your macOS keychain: another app, or someone who copies the files, sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "ประวัติและเนื้อหาของคุณจะถูกเข้ารหัสด้วยกุญแจที่เก็บในพวงกุญแจ macOS แอปอื่นหรือผู้ที่คัดลอกไฟล์จะไม่เห็นสิ่งใดที่อ่านได้ การส่งออกยังคงเป็น JSON ที่อ่านได้ หากไม่มีพวงกุญแจของ Mac นี้ จะอ่านประวัติไม่ได้";
 "History encrypted" = "เข้ารหัสประวัติแล้ว";
 "History no longer encrypted" = "ประวัติไม่ได้เข้ารหัสอีกต่อไป";
 "Could not change the encryption: %@" = "ไม่สามารถเปลี่ยนการเข้ารหัสได้: %@";
@@ -456,3 +455,9 @@
 "Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "แอปใดก็ตามที่ทำงานภายใต้บัญชี macOS ของคุณ หรือใครก็ตามที่คัดลอกไฟล์เหล่านี้ จะอ่านทุกสิ่งที่คุณคัดลอกได้ รวมถึงรหัสผ่านที่ตรวจไม่พบ ปิดเฉพาะเมื่อมีเครื่องมืออื่นปกป้องไฟล์เหล่านี้อยู่แล้ว";
 "Turn Off Encryption" = "ปิดการเข้ารหัส";
 "Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. The history is encrypted; exports stay readable JSON." = "ไฟล์จะถูกอ้างอิง ไม่ได้ทำสำเนา ขนาดไฟล์ใช้สำหรับกฎการเก็บรักษาแต่ไม่กินพื้นที่ของ encore ประวัติถูกเข้ารหัส ส่วนการส่งออกยังคงเป็น JSON ที่อ่านได้";
+"Encrypt the history?" = "เข้ารหัสประวัติไหม";
+"Until encore is signed by Apple, macOS asks for your Mac password after each update of encore, before it can read its key. Enter it and choose Always Allow. If you refuse, the history stays locked until you allow it." = "จนกว่า encore จะได้รับการลงนามโดย Apple macOS จะขอรหัสผ่าน Mac ของคุณหลังการอัปเดต encore ทุกครั้ง ก่อนที่จะอ่านกุญแจได้ ป้อนรหัสผ่านแล้วเลือก “อนุญาตเสมอ” หากคุณปฏิเสธ ประวัติจะถูกล็อกไว้จนกว่าคุณจะอนุญาต";
+"Encrypt" = "เข้ารหัส";
+"Off by default for now: until encore is signed by Apple, macOS asks for your Mac password after each update, before encore can read its key. Once encore is signed, encryption will be on by default, with no prompt." = "ปิดเป็นค่าเริ่มต้นไปก่อน: จนกว่า encore จะได้รับการลงนามโดย Apple macOS จะขอรหัสผ่าน Mac ของคุณหลังการอัปเดตทุกครั้ง ก่อนที่ encore จะอ่านกุญแจได้ เมื่อ encore ได้รับการลงนามแล้ว การเข้ารหัสจะเปิดเป็นค่าเริ่มต้นโดยไม่มีการถามใดๆ";
+"encore needs your permission to read its key in the keychain. Click %@, enter your Mac password, then choose Always Allow." = "encore ต้องได้รับอนุญาตจากคุณเพื่ออ่านกุญแจในพวงกุญแจ คลิก “%@” ป้อนรหัสผ่าน Mac แล้วเลือก “อนุญาตเสมอ”";
+"Encrypts your history and its contents with a key kept in your macOS keychain: another app, or someone who copies the files, then sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "เข้ารหัสประวัติและเนื้อหาของคุณด้วยกุญแจที่เก็บในพวงกุญแจ macOS แล้วแอปอื่นหรือผู้ที่คัดลอกไฟล์จะไม่เห็นสิ่งใดที่อ่านได้ การส่งออกยังคงเป็น JSON ที่อ่านได้ หากไม่มีพวงกุญแจของ Mac นี้ จะอ่านประวัติไม่ได้";

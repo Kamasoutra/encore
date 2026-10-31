@@ -447,7 +447,6 @@
 "Pasted in position %lld" = "Liitetään järjestyksessä %lld.";
 "Encryption" = "Salaus";
 "Encrypt the history on this Mac" = "Salaa historia tällä Macilla";
-"Your history and its contents are encrypted with a key kept in your macOS keychain: another app, or someone who copies the files, sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "Historiasi ja sen sisältö salataan macOS-avainnipun avaimella: toinen appi tai tiedostot kopioiva henkilö ei näe mitään luettavaa. Viennit pysyvät luettavana JSONina. Ilman tämän Macin avainnippua historiaa ei voi lukea.";
 "History encrypted" = "Historia salattu";
 "History no longer encrypted" = "Historia ei ole enää salattu";
 "Could not change the encryption: %@" = "Salausta ei voitu muuttaa: %@";
@@ -456,3 +455,9 @@
 "Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "Mikä tahansa macOS-tililläsi toimiva appi tai tiedostot kopioiva henkilö voisi silloin lukea kaiken kopioimasi, myös tunnistamatta jääneet salasanat. Poista käytöstä vain, jos jokin muu jo suojaa tiedostot.";
 "Turn Off Encryption" = "Poista salaus käytöstä";
 "Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. The history is encrypted; exports stay readable JSON." = "Tiedostoihin viitataan, eikä niitä monisteta. Niiden koko lasketaan sääntöihin mutta ei encoren kiintiöön. Historia on salattu; viennit pysyvät luettavana JSONina.";
+"Encrypt the history?" = "Salataanko historia?";
+"Until encore is signed by Apple, macOS asks for your Mac password after each update of encore, before it can read its key. Enter it and choose Always Allow. If you refuse, the history stays locked until you allow it." = "Kunnes Apple on allekirjoittanut encoren, macOS kysyy Macin salasanaa jokaisen encoren päivityksen jälkeen, ennen kuin se voi lukea avaimensa. Syötä se ja valitse Salli aina. Jos kieltäydyt, historia pysyy lukittuna, kunnes sallit sen.";
+"Encrypt" = "Salaa";
+"Off by default for now: until encore is signed by Apple, macOS asks for your Mac password after each update, before encore can read its key. Once encore is signed, encryption will be on by default, with no prompt." = "Toistaiseksi oletuksena pois: kunnes Apple on allekirjoittanut encoren, macOS kysyy Macin salasanaa jokaisen päivityksen jälkeen, ennen kuin encore voi lukea avaimensa. Kun encore on allekirjoitettu, salaus on oletuksena päällä ilman kyselyjä.";
+"encore needs your permission to read its key in the keychain. Click %@, enter your Mac password, then choose Always Allow." = "encore tarvitsee lupasi lukea avaimensa avainnipusta. Klikkaa %@, syötä Macin salasana ja valitse Salli aina.";
+"Encrypts your history and its contents with a key kept in your macOS keychain: another app, or someone who copies the files, then sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "Salaa historiasi ja sen sisällön macOS-avainnipun avaimella: toinen appi tai tiedostot kopioiva henkilö ei silloin näe mitään luettavaa. Viennit pysyvät luettavana JSONina. Ilman tämän Macin avainnippua historiaa ei voi lukea.";
