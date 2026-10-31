@@ -589,8 +589,8 @@ struct ClipCard: View {
         .background { if cursor { GeometryReader { proxy in Color.clear.preference(key: CursorFrameKey.self, value: proxy.frame(in: .global)) } } }
         .contentShape(RoundedRectangle(cornerRadius: 12))
         .onHover { hovered = $0 }
-        .onTapGesture(count: 2) { model.cancelRename(); model.select(clip.id); model.paste([clip], plain: NSEvent.modifierFlags.contains(.shift)) }
-        .onTapGesture { model.select(clip.id, modifiers: NSEvent.modifierFlags) }
+        // One gesture reading macOS's click count: a separate double-click gesture made SwiftUI hold every click for the double-click delay.
+        .onTapGesture { cardClick() }
         .contextMenu { ClipActions(model: model, clip: clip) }
         .onDrag { itemProvider() }
         .accessibilityElement(children: .combine)
@@ -598,6 +598,16 @@ struct ClipCard: View {
         .accessibilityValue(order.map { L("Pasted in position \($0)") } ?? (selected ? L("Selected") : ""))
         .accessibilityAddTraits(.isButton)
         .accessibilityAction { model.select(clip.id); model.paste([clip]) }
+    }
+
+    /// A click selects at once; the second click of a double-click pastes. ⌘ is never a double-click, so a card can be ticked and unticked quickly.
+    private func cardClick() {
+        let flags = NSEvent.modifierFlags
+        if NSApp.currentEvent?.clickCount ?? 1 >= 2, !flags.contains(.command) {
+            model.cancelRename(); model.select(clip.id); model.paste([clip], plain: flags.contains(.shift))
+        } else {
+            model.select(clip.id, modifiers: flags)
+        }
     }
 
     /// The header takes its own clicks, so it tells a double-click from a click that renames a selected card.
@@ -1065,8 +1075,7 @@ private struct SideRow: View {
         .overlay(RoundedRectangle(cornerRadius: 11).strokeBorder(selected ? Palette.accent.opacity(0.9) : .clear, lineWidth: 1.5))
         .contentShape(Rectangle())
         .onHover { hovered = $0 }
-        .onTapGesture(count: 2) { model.paste([clip]) }
-        .onTapGesture { model.select(clip.id) }
+        .onTapGesture { if NSApp.currentEvent?.clickCount ?? 1 >= 2 { model.paste([clip]) } else { model.select(clip.id) } }
         .help(clip.kind == .text ? String(clip.text.prefix(400)) : clip.displayTitle)
     }
 
