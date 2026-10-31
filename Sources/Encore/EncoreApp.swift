@@ -356,8 +356,9 @@ final class EncorePanel: NSPanel {
         // While searching too: the column has no other use for them, and Return pastes the chosen copy.
         // ↑ on the first copy opens the library.
         if model.columnShown && (event.keyCode == 125 || event.keyCode == 126) {
-            if event.keyCode == 126 && !event.isARepeat && model.filtered.first.map({ $0.id == model.cursor }) != false { setExpanded(true) }
-            else { model.move(event.keyCode == 125 ? 1 : -1) }
+            // ⇧ extends the selection, as on the shelf; ↑ alone on the first copy opens the library.
+            if event.keyCode == 126 && !shift && !event.isARepeat && model.filtered.first.map({ $0.id == model.cursor }) != false { setExpanded(true) }
+            else { model.move(event.keyCode == 125 ? 1 : -1, extend: shift) }
             return nil
         }
         if model.columnShown && editing && (event.keyCode == 36 || event.keyCode == 76) && !command {

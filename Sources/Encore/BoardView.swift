@@ -1053,10 +1053,22 @@ private struct SideRow: View {
     @Environment(\.colorScheme) private var scheme
 
     var body: some View {
-        let selected = model.cursor == clip.id
+        let selected = model.selection.contains(clip.id)
+        let cursor = model.cursor == clip.id
+        let order = model.pasteOrder(of: clip.id)
         HStack(spacing: 10) {
             preview
                 .frame(width: 42, height: 42).clipShape(RoundedRectangle(cornerRadius: 8))
+                // The same paste numbers as on the shelf, on the thumbnail's corner: the scrolling list clips anything past the row.
+                .overlay(alignment: .topLeading) {
+                    if let order {
+                        Text(Localization.number(order)).font(.system(size: 10, weight: .bold, design: .rounded)).monospacedDigit().foregroundStyle(.white)
+                            .frame(minWidth: 18, minHeight: 18).padding(.horizontal, order > 9 ? 3 : 0)
+                            .background(LinearGradient(colors: [Palette.accent, Color(red: 1, green: 0.36, blue: 0.55)], startPoint: .topLeading, endPoint: .bottomTrailing), in: Capsule())
+                            .offset(x: -6, y: -6)
+                            .help(L("Pasted in position \(order)"))
+                    }
+                }
                 .overlay(RoundedRectangle(cornerRadius: 8).strokeBorder(.primary.opacity(0.08)))
                 .overlay(alignment: .bottomTrailing) {
                     if !clip.sourceBundle.isEmpty {
@@ -1084,10 +1096,15 @@ private struct SideRow: View {
         .padding(.horizontal, 9).padding(.vertical, 8)
         .frame(maxWidth: .infinity, minHeight: Self.height, maxHeight: Self.height, alignment: .leading)
         .background(selected ? Palette.accent.opacity(scheme == .dark ? 0.24 : 0.16) : Color.primary.opacity(hovered ? 0.08 : 0.04), in: RoundedRectangle(cornerRadius: 11))
-        .overlay(RoundedRectangle(cornerRadius: 11).strokeBorder(selected ? Palette.accent.opacity(0.9) : .clear, lineWidth: 1.5))
+        .overlay(RoundedRectangle(cornerRadius: 11).strokeBorder(cursor ? Palette.accent.opacity(0.9) : selected ? Palette.accent.opacity(0.4) : .clear, lineWidth: 1.5))
         .contentShape(Rectangle())
         .onHover { hovered = $0 }
-        .onTapGesture { if NSApp.currentEvent?.clickCount ?? 1 >= 2 { model.paste([clip]) } else { model.select(clip.id) } }
+        .onTapGesture {
+            let flags = NSEvent.modifierFlags
+            if NSApp.currentEvent?.clickCount ?? 1 >= 2, !flags.contains(.command) { model.paste([clip], plain: flags.contains(.shift)) }
+            else { model.select(clip.id, modifiers: flags) }
+        }
+        .accessibilityValue(order.map { L("Pasted in position \($0)") } ?? (selected ? L("Selected") : ""))
         .help(clip.kind == .text ? String(clip.text.prefix(400)) : clip.displayTitle)
     }
 
