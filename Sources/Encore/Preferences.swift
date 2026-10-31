@@ -46,6 +46,12 @@ struct Preferences: Codable, Equatable {
     var detectSecrets = false
     var secretLifetime: Double = 60
     var secretPreview = 3
+    /// A detected secret leaves the history once pasted, and the clipboard is emptied a little later if it still holds it.
+    var forgetPastedSecrets = true
+    /// encore's windows are left out of screen sharing, recordings and screenshots, so a call never shows the history.
+    var hideFromScreenSharing = true
+    /// Only favorites, snippets and collections are written to disk; other copies stay in memory until encore quits.
+    var ephemeralHistory = false
     /// Merge favorites, and snippets, with paired Macs that sync them too, and keep them in step while connected.
     var syncFavorites = false
     var syncSnippets = false
@@ -59,7 +65,7 @@ struct Preferences: Codable, Equatable {
     private enum CodingKeys: String, CodingKey {
         case retentionDays, historyLimit, storageLimitMB, captureEnabled, captureResumesAt, ignoreSensitive, recognizeImages
         case excludedBundleIDs, panelHeight, compact, placement, compactPosition, compactCount, appearance, shortcut, retentionRules, cardScale, importScreenshots, copyScreenshotsToClipboard, screenshotFolder
-        case soundsEnabled, soundTheme, soundVolume, captureSoundPath, pasteSoundPath, displayTarget, stackShortcutEnabled, disabledDefaultExclusions, language, shareWithPeers, pasteDirectly, syncFavorites, syncSnippets, forgetClearedCopies, detectSecrets, secretLifetime, secretPreview
+        case soundsEnabled, soundTheme, soundVolume, captureSoundPath, pasteSoundPath, displayTarget, stackShortcutEnabled, disabledDefaultExclusions, language, shareWithPeers, pasteDirectly, syncFavorites, syncSnippets, forgetClearedCopies, detectSecrets, secretLifetime, secretPreview, forgetPastedSecrets, hideFromScreenSharing, ephemeralHistory
     }
 
     init(from decoder: Decoder) throws {
@@ -105,6 +111,9 @@ struct Preferences: Codable, Equatable {
         detectSecrets = try values.decodeIfPresent(Bool.self, forKey: .detectSecrets) ?? false
         secretLifetime = min(86_400, max(10, try values.decodeIfPresent(Double.self, forKey: .secretLifetime) ?? 60))
         secretPreview = min(8, max(0, try values.decodeIfPresent(Int.self, forKey: .secretPreview) ?? 3))
+        forgetPastedSecrets = try values.decodeIfPresent(Bool.self, forKey: .forgetPastedSecrets) ?? true
+        hideFromScreenSharing = try values.decodeIfPresent(Bool.self, forKey: .hideFromScreenSharing) ?? true
+        ephemeralHistory = try values.decodeIfPresent(Bool.self, forKey: .ephemeralHistory) ?? false
     }
 
     static func load(demo: Bool) -> Preferences {

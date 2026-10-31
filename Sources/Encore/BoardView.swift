@@ -887,6 +887,9 @@ struct ClipActions: View {
             Button { model.createCollection() } label: { Label(L("New collection…"), systemImage: "folder.badge.plus") }
         } label: { Label(L("Collections"), systemImage: "folder") }
         Button { model.enqueue(model.filtered.filter { ids.contains($0.id) }.map(\.id)) } label: { Label(L("Add to queue"), systemImage: "text.badge.plus") }
+        if !clip.sourceBundle.isEmpty, clip.sourceBundle != Bundle.main.bundleIdentifier {
+            Button { model.excludeApp(of: clip) } label: { Label(L("Stop saving copies from \(clip.sourceName)"), systemImage: "nosign") }
+        }
         Divider()
         Button { model.inspector = clip } label: { Label(L("Preview and edit"), systemImage: "eye") }.keyboardShortcut("e")
         if !clip.text.isEmpty {

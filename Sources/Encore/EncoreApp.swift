@@ -34,6 +34,7 @@ final class EncorePanel: NSPanel {
     private var retentionTimer: Timer?
     private var countdownTimer: Timer?
     private var wakeObserver: NSObjectProtocol?
+    private var windowObserver: NSObjectProtocol?
     private var aboutWindow: NSWindow?
     private var screenshots: ScreenshotImporter!
     private var inspectorWindow: NSWindow?
@@ -150,6 +151,10 @@ final class EncorePanel: NSPanel {
         wakeObserver = NSWorkspace.shared.notificationCenter.addObserver(forName: NSWorkspace.didWakeNotification, object: nil, queue: .main) { [weak self] _ in
             MainActor.assumeIsolated { self?.model.prune() }
         }
+        // Windows opened later, like Settings or the preview, follow the screen sharing setting as they appear.
+        windowObserver = NotificationCenter.default.addObserver(forName: NSWindow.didChangeOcclusionStateNotification, object: nil, queue: .main) { [weak self] note in
+            MainActor.assumeIsolated { if let window = note.object as? NSWindow { self?.applyScreenSharing(to: window) } }
+        }
         model.clipboard.start()
         // `--demo --open shelf|compact` shows the panel on launch, for screenshots.
         if model.demo, let mode = CommandLine.arguments.drop(while: { $0 != "--open" }).dropFirst().first {
@@ -195,6 +200,13 @@ final class EncorePanel: NSPanel {
         NSApp.appearance = appearance == "dark" ? NSAppearance(named: .darkAqua) : appearance == "light" ? NSAppearance(named: .aqua) : nil
         // A dimmed icon in the menu bar shows that capture is paused, without opening encore.
         statusItem?.button?.appearsDisabled = !model.preferences.captureEnabled
+        for window in NSApp.windows { applyScreenSharing(to: window) }
+    }
+
+    /// The demo is made to be captured, for the website and the README, so it never hides.
+    private func applyScreenSharing(to window: NSWindow) {
+        let sharing: NSWindow.SharingType = model.preferences.hideFromScreenSharing && !model.demo ? .none : .readOnly
+        if window.sharingType != sharing { window.sharingType = sharing }
     }
 
     private func positionPanel() {

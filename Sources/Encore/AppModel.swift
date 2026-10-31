@@ -122,6 +122,7 @@ struct PeerStatus: Identifiable, Equatable {
             storage = store
             historyEncrypted = store.isEncrypted
             library = try store.load()
+            if preferences.ephemeralHistory && !demo { store.setEphemeral(true, library: library) }
             store.onError = { [weak self] message in
                 self?.storageError = message
                 self?.preferences.captureEnabled = false
@@ -138,6 +139,7 @@ struct PeerStatus: Identifiable, Equatable {
         resetSelection()
         if let notice = storage?.recoveryNotice { notify(notice) }
         scheduleCaptureResume()
+        refreshIgnoredDay()
         startPeers()
     }
 
@@ -411,19 +413,99 @@ struct PeerStatus: Identifiable, Equatable {
         } catch { notify(L("Could not change the encryption: \(error.localizedDescription)")) }
     }
 
+    @Published private(set) var changingEphemeral = false
+
+    /// Keeps the history in memory only, or writes it to disk again. Favorites, snippets and collections always go to disk.
+    func setEphemeralHistory(_ on: Bool) {
+        guard !demo, let storage, storageError == nil, !changingEphemeral, on != preferences.ephemeralHistory else { return }
+        if on {
+            NSApp.activate(ignoringOtherApps: true)
+            let alert = NSAlert()
+            alert.messageText = L("Keep the history in memory only?")
+            alert.informativeText = L("Favorites, snippets and collections stay on disk. Your other copies leave the disk now: they stay in memory while encore runs, and are gone when it quits, restarts or updates.")
+            alert.addButton(withTitle: L("Cancel")); alert.addButton(withTitle: L("Keep in Memory"))
+            guard alert.runModal() == .alertSecondButtonReturn else { return }
+        }
+        preferences.ephemeralHistory = on
+        preferencesChanged()
+        changingEphemeral = true
+        storage.setEphemeral(on, library: library) { error in
+            Task { @MainActor [weak self] in
+                guard let self else { return }
+                self.changingEphemeral = false
+                if let error { self.notify(L("Could not change where the history is kept: \(error.localizedDescription)")) }
+                else { self.notify(on ? L("History kept in memory only") : L("History saved to disk again")) }
+            }
+        }
+    }
+
     /// The app a copy came from cleared the clipboard soon after: that copy was meant to be temporary.
     func forgetCleared(_ id: UUID) {
-        guard let clip = library.clips.first(where: { $0.id == id }), !clip.isProtected else { return }
-        let position = cursor.map { current in filtered.prefix { $0.id != current }.filter { $0.id != id }.count }
-        willRemoveClips?([id])
-        library.clips.removeAll { $0.id == id }
-        queue.removeAll { $0 == id }
-        thumbnails.removeValue(forKey: id)
-        clearPreviewCaches([id]); filePreviews.remove([id])
-        storage?.save(library, deleting: [id])
-        reconcileSelection(near: position)
-        notify(L("Removed from history: its app cleared the clipboard"))
+        guard library.clips.contains(where: { $0.id == id && !$0.isProtected }) else { return }
+        noteIgnored(.cleared)
+        forget([id], message: L("Removed from history: its app cleared the clipboard"))
     }
+
+    /// Why a copy was left out or hidden, counted per day without its content, so the protections can be seen at work.
+    enum IgnoredReason: String, CaseIterable, Codable {
+        case excludedApp, passwordField, confidential, secret, cleared
+
+        var title: String {
+            switch self {
+            case .excludedApp: L("From excluded apps")
+            case .passwordField: L("Typed in password fields")
+            case .confidential: L("Marked confidential by their app")
+            case .secret: L("Secrets detected and masked")
+            case .cleared: L("Forgotten after their app cleared them")
+            }
+        }
+    }
+
+    private struct IgnoredDay: Codable { var day: Date; var counts: [String: Int] }
+
+    /// Today's counts; they start again each day, and the demo shows a typical day.
+    @Published private(set) var ignoredToday: [IgnoredReason: Int] = [:]
+
+    func noteIgnored(_ reason: IgnoredReason) {
+        refreshIgnoredDay()
+        ignoredToday[reason, default: 0] += 1
+        guard !demo else { return }
+        let stored = IgnoredDay(day: Calendar.current.startOfDay(for: Date()), counts: Dictionary(uniqueKeysWithValues: ignoredToday.map { ($0.key.rawValue, $0.value) }))
+        if let data = try? JSONEncoder().encode(stored) { UserDefaults.standard.set(data, forKey: "ignoredToday") }
+    }
+
+    /// Reads the stored counts when they are from today, and drops them once the day has changed.
+    func refreshIgnoredDay() {
+        if demo {
+            if ignoredToday.isEmpty { ignoredToday = [.excludedApp: 8, .confidential: 3, .secret: 2, .cleared: 1] }
+            return
+        }
+        let today = Calendar.current.startOfDay(for: Date())
+        guard let data = UserDefaults.standard.data(forKey: "ignoredToday"), let stored = try? JSONDecoder().decode(IgnoredDay.self, from: data), stored.day == today else {
+            if !ignoredToday.isEmpty { ignoredToday = [:] }
+            return
+        }
+        let counts = Dictionary(uniqueKeysWithValues: stored.counts.compactMap { key, value in IgnoredReason(rawValue: key).map { ($0, value) } })
+        if counts != ignoredToday { ignoredToday = counts }
+    }
+
+    /// Removes copies meant to be temporary, without undo. Favorites, snippets and collections stay.
+    private func forget(_ candidates: Set<UUID>, message: String) {
+        let ids = Set(library.clips.filter { candidates.contains($0.id) && !$0.isProtected }.map(\.id))
+        guard !ids.isEmpty else { return }
+        let position = cursor.map { current in filtered.prefix { $0.id != current }.filter { !ids.contains($0.id) }.count }
+        willRemoveClips?(ids)
+        library.clips.removeAll { ids.contains($0.id) }
+        queue.removeAll { ids.contains($0) }
+        for id in ids { thumbnails.removeValue(forKey: id) }
+        clearPreviewCaches(ids); filePreviews.remove(ids)
+        storage?.save(library, deleting: Array(ids))
+        reconcileSelection(near: position)
+        notify(message)
+    }
+
+    /// Delay before the clipboard is emptied after a secret is pasted: time enough for a ⌘V by hand.
+    static var pastedSecretClearDelay: TimeInterval = 30
 
     func reloadStorage() {
         guard let root = storage?.root else { return }
@@ -437,6 +519,7 @@ struct PeerStatus: Identifiable, Equatable {
             let next = try Storage(root: root, key: demo ? nil : try readHistoryKey())
             let restored = try next.load()
             next.onError = { [weak self] error in self?.storageError = error; self?.preferences.captureEnabled = false }
+            if preferences.ephemeralHistory && !demo { next.setEphemeral(true, library: restored) }
             storage = next; library = restored; storageError = nil; historyEncrypted = next.isEncrypted
             collecting = false; queue = []; deleted = []
             thumbnails.removeAll(); richTextCache.removeAll(); checkedRichText.removeAll(); fileURLCache.removeAll()
@@ -762,6 +845,25 @@ struct PeerStatus: Identifiable, Equatable {
         if visible != installedExcludedBundleIDs { ApplicationCatalog.invalidate(); installedExcludedBundleIDs = visible }
     }
 
+    /// Stops saving copies from the app a card came from, and offers to delete the copies from it already kept.
+    func excludeApp(of clip: Clip) {
+        let bundle = clip.sourceBundle
+        guard !bundle.isEmpty, bundle != Bundle.main.bundleIdentifier else { return }
+        preferences.disabledDefaultExclusions.removeAll { $0 == bundle }
+        if !preferences.excludedBundleIDs.contains(bundle) { preferences.excludedBundleIDs.append(bundle) }
+        preferencesChanged()
+        refreshInstalledExclusions()
+        let copies = Set(library.clips.filter { $0.sourceBundle == bundle && !$0.isProtected }.map(\.id))
+        guard !copies.isEmpty else { return notify(L("Copies from \(clip.sourceName) are no longer saved")) }
+        NSApp.activate(ignoringOtherApps: true)
+        let alert = NSAlert()
+        alert.messageText = L("Copies from \(clip.sourceName) are no longer saved")
+        alert.informativeText = L("Also delete the copies from this app already in the history? Favorites, snippets and collections are kept.")
+        alert.addButton(withTitle: L("Keep Them")); alert.addButton(withTitle: L("Delete"))
+        alert.buttons[1].hasDestructiveAction = true
+        if alert.runModal() == .alertSecondButtonReturn { remove(copies) }
+    }
+
     func removeExcludedApp(_ id: String) {
         preferences.removeExcludedApp(id)
         refreshInstalledExclusions()
@@ -888,6 +990,11 @@ struct PeerStatus: Identifiable, Equatable {
         }
         library = snapshot
         save()
+        // A password is usually needed once: it leaves the history now, and the clipboard a little later.
+        if preferences.forgetPastedSecrets, values.contains(where: { $0.secret != nil }) {
+            clipboard.clearLater(after: Self.pastedSecretClearDelay)
+            forget(Set(values.filter { $0.secret != nil }.map(\.id)), message: L("Secret pasted, then forgotten. The clipboard will be emptied in 30 seconds."))
+        }
         playSound(.paste)
         guard pasting else { if !copyOnly { dismissPanel?() }; notify(L("Copied to clipboard")); return }
         accessibilityGranted = AXIsProcessTrusted()

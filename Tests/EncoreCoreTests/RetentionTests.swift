@@ -16,6 +16,14 @@ final class RetentionTests: XCTestCase {
         XCTAssertNotNil(policy.decision(for: clip(100, kind: .image), calendar: utc).expiresAt)
     }
 
+    func testARuleCanTargetOneApp() {
+        let terminal = RetentionRule(app: "com.apple.Terminal", duration: .init(1, .days))
+        var fromTerminal = clip(200); fromTerminal.sourceBundle = "com.apple.Terminal"
+        var fromNotes = clip(200); fromNotes.sourceBundle = "com.apple.Notes"
+        XCTAssertEqual(RetentionPolicy(rules: [terminal]).decision(for: fromTerminal).ruleID, terminal.id)
+        XCTAssertNil(RetentionPolicy(rules: [terminal]).decision(for: fromNotes).ruleID)
+    }
+
     func testReorderingChangesTheWinningRuleAndDisabledRulesDoNotMatch() {
         let short = RetentionRule(minimumBytes: 100, duration: .init(1, .hours))
         var long = RetentionRule(minimumBytes: 100, duration: .init(7, .days))

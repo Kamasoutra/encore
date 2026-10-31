@@ -7,6 +7,8 @@ struct RetentionSettingsView: View {
     @State private var fallbackDays = 30
     @State private var confirm = false
     @State private var loaded = false
+    /// Apps a rule can target: those in the history, and any app a saved rule already names.
+    @State private var apps: [(bundle: String, name: String)] = []
     private var valid: Bool { rules.allSatisfy(\.isValid) }
     private var changed: Bool { rules != model.preferences.retentionRules || fallbackDays != model.preferences.retentionDays }
     private var removalCount: Int { valid ? model.retentionRemovalCount(rules: rules, fallbackDays: fallbackDays) : 0 }
@@ -34,7 +36,7 @@ struct RetentionSettingsView: View {
                     }
                     ForEach(Array(rules.enumerated()), id: \.element.id) { index, rule in
                         if let binding = binding(rule.id) {
-                            RetentionRuleEditor(rule: binding, index: index, canMoveUp: index > 0, canMoveDown: index + 1 < rules.count, move: { delta in rules.swapAt(index, index + delta) }, remove: { rules.removeAll { $0.id == rule.id } })
+                            RetentionRuleEditor(rule: binding, index: index, apps: apps, canMoveUp: index > 0, canMoveDown: index + 1 < rules.count, move: { delta in rules.swapAt(index, index + delta) }, remove: { rules.removeAll { $0.id == rule.id } })
                         }
                     }
                 }.padding(1)
@@ -71,7 +73,13 @@ struct RetentionSettingsView: View {
         let original = rules[index]
         return Binding(get: { rules.first(where: { $0.id == id }) ?? original }, set: { value in if let index = rules.firstIndex(where: { $0.id == id }) { rules[index] = value } })
     }
-    private func load() { rules = model.preferences.retentionRules; fallbackDays = model.preferences.retentionDays }
+    private func load() {
+        rules = model.preferences.retentionRules; fallbackDays = model.preferences.retentionDays
+        var names: [String: String] = [:]
+        for clip in model.library.clips where !clip.sourceBundle.isEmpty && names[clip.sourceBundle] == nil { names[clip.sourceBundle] = clip.sourceName }
+        for bundle in rules.compactMap(\.app) where names[bundle] == nil { names[bundle] = ApplicationCatalog.app(bundle).name }
+        apps = names.map { (bundle: $0.key, name: $0.value) }.sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
+    }
     private func apply() { model.applyRetention(rules: rules, fallbackDays: fallbackDays) }
 }
 
@@ -87,6 +95,7 @@ private enum SizeUnit: Int64, CaseIterable, Identifiable {
 private struct RetentionRuleEditor: View {
     @Binding var rule: RetentionRule
     let index: Int
+    let apps: [(bundle: String, name: String)]
     let canMoveUp: Bool
     let canMoveDown: Bool
     let move: (Int) -> Void
@@ -94,8 +103,8 @@ private struct RetentionRuleEditor: View {
     @State private var minUnit: SizeUnit
     @State private var maxUnit: SizeUnit
 
-    init(rule: Binding<RetentionRule>, index: Int, canMoveUp: Bool, canMoveDown: Bool, move: @escaping (Int) -> Void, remove: @escaping () -> Void) {
-        _rule = rule; self.index = index; self.canMoveUp = canMoveUp; self.canMoveDown = canMoveDown; self.move = move; self.remove = remove
+    init(rule: Binding<RetentionRule>, index: Int, apps: [(bundle: String, name: String)], canMoveUp: Bool, canMoveDown: Bool, move: @escaping (Int) -> Void, remove: @escaping () -> Void) {
+        _rule = rule; self.index = index; self.apps = apps; self.canMoveUp = canMoveUp; self.canMoveDown = canMoveDown; self.move = move; self.remove = remove
         _minUnit = State(initialValue: .preferred(for: rule.wrappedValue.minimumBytes))
         _maxUnit = State(initialValue: .preferred(for: rule.wrappedValue.maximumBytes ?? 1_000_000_000))
     }
@@ -110,6 +119,13 @@ private struct RetentionRuleEditor: View {
                 Button { move(1) } label: { Image(systemName: "chevron.down") }.disabled(!canMoveDown).help(L("Move rule down")).accessibilityLabel(L("Move rule down"))
                 Button(role: .destructive, action: remove) { Image(systemName: "trash") }.help(L("Delete rule")).accessibilityLabel(L("Delete rule"))
             }.buttonStyle(.borderless)
+            HStack(spacing: 8) {
+                Text(L("Copied from")).foregroundStyle(.secondary)
+                Picker(L("App"), selection: $rule.app) {
+                    Text(L("Any app")).tag(String?.none)
+                    ForEach(apps, id: \.bundle) { app in Text(app.name).tag(Optional(app.bundle)) }
+                }.labelsHidden().frame(width: 200)
+            }
             HStack(spacing: 8) {
                 Picker(L("Type"), selection: $rule.kind) {
                     Text(L("All types")).tag(ClipKind?.none)

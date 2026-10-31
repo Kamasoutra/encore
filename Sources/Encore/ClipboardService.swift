@@ -73,8 +73,10 @@ import EncoreCore
             }
         }
         let bundle = origin.bundleID
-        guard bundle != Bundle.main.bundleIdentifier, !model.preferences.excludedBundleIDs.contains(bundle) else { return }
-        if model.preferences.ignoreSensitive && isSecureField() { return }
+        guard bundle != Bundle.main.bundleIdentifier else { return }
+        if model.preferences.excludedBundleIDs.contains(bundle) { return model.noteIgnored(.excludedApp) }
+        if model.preferences.ignoreSensitive && isSecureField() { return model.noteIgnored(.passwordField) }
+        if model.preferences.ignoreSensitive && PasteboardCapture.isConfidential(pasteboard) { return model.noteIgnored(.confidential) }
         do {
             if let capture = try PasteboardCapture.read(pasteboard, sourceName: origin.name, sourceBundle: bundle, ignoreSensitive: model.preferences.ignoreSensitive) {
                 var clip = capture.clip
@@ -83,6 +85,7 @@ import EncoreCore
                     clip.secret = secret
                     clip.text = SecretKind.mask(clip.text, keeping: model.preferences.secretPreview)
                     clip.kind = .text
+                    model.noteIgnored(.secret)
                 }
                 if model.accept(clip, payload: capture.payload), let id = model.library.clips.first(where: { $0.fingerprint == clip.fingerprint })?.id {
                     lastCapture = (id, Date())
@@ -103,6 +106,16 @@ import EncoreCore
         changeCount = pasteboard.changeCount
         lastChangeAt = screenshotCapturedAt ?? Date()
         automaticScreenshotRevision = screenshotCapturedAt == nil ? nil : changeCount
+    }
+
+    /// Empties the clipboard after a while if it still holds what encore last wrote, as password managers do once a password is used.
+    func clearLater(after delay: TimeInterval) {
+        let written = changeCount
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in
+            guard let self, self.pasteboard.changeCount == written else { return }
+            self.pasteboard.clearContents()
+            self.changeCount = self.pasteboard.changeCount
+        }
     }
 
     /// Bitwarden's longest clearing delay is five minutes; others wait less.

@@ -25,6 +25,45 @@ final class StorageTests: XCTestCase {
         XCTAssertEqual(reopened.payload(clip.id), payload)
     }
 
+    func testMemoryOnlyKeepsCopiesOffTheDiskButFavorites() throws {
+        let store = try Storage(root: directory)
+        func clip(_ text: String, favorite: Bool = false) -> (Clip, ClipPayload) {
+            let payload = ClipPayload.text(text)
+            return (Clip(fingerprint: payload.fingerprint, kind: .text, text: text, favorite: favorite, byteCount: payload.byteCount), payload)
+        }
+        let (before, beforePayload) = clip("copied before")
+        var library = Library(); library.upsert(before)
+        store.save(library, payload: (before.id, beforePayload)); store.flush()
+        store.setEphemeral(true, library: library); store.flush()
+        let itemFile = { (id: UUID) in self.directory.appendingPathComponent("Items/\(id.uuidString).json") }
+        let onDisk = { try Storage(root: self.directory).load().clips.map(\.text) }
+        XCTAssertFalse(FileManager.default.fileExists(atPath: itemFile(before.id).path), "An earlier copy leaves the disk")
+        XCTAssertEqual(store.payload(before.id), beforePayload, "and still pastes from memory")
+        XCTAssertEqual(try onDisk(), [], "Its text is not in the library file either")
+
+        let (secret, secretPayload) = clip("new copy")
+        let (kept, keptPayload) = clip("a favorite", favorite: true)
+        library.upsert(secret); library.upsert(kept)
+        store.save(library, payloads: [(secret.id, secretPayload), (kept.id, keptPayload)]); store.flush()
+        XCTAssertFalse(FileManager.default.fileExists(atPath: itemFile(secret.id).path))
+        XCTAssertTrue(FileManager.default.fileExists(atPath: itemFile(kept.id).path))
+        XCTAssertEqual(try onDisk(), ["a favorite"])
+
+        // Favorited later, a copy goes to disk; no longer a favorite, it leaves it again.
+        let index = try XCTUnwrap(library.clips.firstIndex { $0.id == secret.id })
+        library.clips[index].favorite = true
+        store.save(library); store.flush()
+        XCTAssertTrue(FileManager.default.fileExists(atPath: itemFile(secret.id).path))
+        library.clips[index].favorite = false
+        store.save(library); store.flush()
+        XCTAssertFalse(FileManager.default.fileExists(atPath: itemFile(secret.id).path))
+        XCTAssertEqual(store.payload(secret.id), secretPayload)
+
+        store.setEphemeral(false, library: library); store.flush()
+        XCTAssertEqual(Set(try onDisk()), ["copied before", "new copy", "a favorite"], "Turned off, everything is written again")
+        XCTAssertEqual(try Storage(root: directory).payload(secret.id), secretPayload)
+    }
+
     func testSerialSavesPreserveLatestStateAndDeletionRemovesPayload() throws {
         let store = try Storage(root: directory)
         var library = Library()

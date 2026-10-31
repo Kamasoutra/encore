@@ -17,7 +17,7 @@ private enum SettingsSection: String, CaseIterable, Identifiable {
         switch self {
         case .general: L("A clipboard that fits the way you work.")
         case .privacy: L("Choose what Encore keeps. Everything stays on this Mac.")
-        case .retention: L("Set retention by size and type. The first matching rule wins.")
+        case .retention: L("Set retention by app, size and type. The first matching rule wins.")
         case .data: L("Retention, backups, and storage usage.")
         case .peers: L("Find what you copy on your other Macs. Direct over the local network, encrypted, no account.")
         case .shortcuts: L("Find, select, and paste. All from the keyboard.")
@@ -275,7 +275,16 @@ struct SettingsView: View {
 
     private var privacy: some View {
         SettingsForm {
+            SettingsGroup(L("Left out today")) {
+                let reasons = AppModel.IgnoredReason.allCases.filter { (model.ignoredToday[$0] ?? 0) > 0 }
+                if reasons.isEmpty { Text(L("Nothing left out yet today.")).foregroundStyle(.secondary) }
+                ForEach(reasons, id: \.self) { reason in InfoRow(reason.title, value: Localization.number(model.ignoredToday[reason] ?? 0)) }
+                caption(L("Counted on this Mac, without any of the content, and started again each day."))
+            }.onAppear { model.refreshIgnoredDay() }
             SettingsGroup(L("Capture")) {
+                described(L("encore's windows are left out of screen sharing, recordings and screenshots: during a call, others never see your history, even when you open it. Turn this off to take a screenshot of encore.")) {
+                    Toggle(L("Hide encore from screen sharing"), isOn: $model.preferences.hideFromScreenSharing)
+                }
                 Toggle(L("Ignore confidential and transient content"), isOn: $model.preferences.ignoreSensitive)
                 Toggle(L("Recognize text in images"), isOn: $model.preferences.recognizeImages)
                 caption(L("OCR runs on this Mac. No account or telemetry. Links are not loaded in the background."))
@@ -298,6 +307,10 @@ struct SettingsView: View {
                         Picker(L("Characters shown"), selection: $model.preferences.secretPreview) {
                             Text(L("None")).tag(0)
                             ForEach([2, 3, 4, 6], id: \.self) { Text(Localization.number($0)).tag($0) }
+                        }
+                        Divider()
+                        described(L("A detected secret leaves the history as soon as it is pasted, and the clipboard is emptied 30 seconds later if it still holds it, so another app cannot read it there.")) {
+                            Toggle(L("Forget a secret once pasted"), isOn: $model.preferences.forgetPastedSecrets)
                         }.padding(.bottom, 4)
                     }
                 }
@@ -353,6 +366,15 @@ struct SettingsView: View {
                     }
                 }
                 caption(L("Off by default for now: until encore is signed by Apple, macOS asks for your Mac password after each update, before encore can read its key. Once encore is signed, encryption will be on by default, with no prompt."))
+            }
+            SettingsGroup(L("Memory only")) {
+                described(L("Favorites, snippets and collections are saved as usual. Your other copies are never written to disk: they stay in memory while encore runs, and are gone when it quits, restarts or updates.")) {
+                    HStack {
+                        Toggle(L("Keep the history in memory only"), isOn: Binding(get: { model.preferences.ephemeralHistory }, set: { model.setEphemeralHistory($0) }))
+                            .disabled(model.demo || model.changingEphemeral || model.storage == nil || model.storageError != nil)
+                        if model.changingEphemeral { ProgressView().controlSize(.small) }
+                    }
+                }
             }
             SettingsGroup(L("Retention")) {
                 InfoRow(L("Retention without a rule"), value: model.preferences.retentionDays == 0 ? L("Forever") : L("\(model.preferences.retentionDays) days"))

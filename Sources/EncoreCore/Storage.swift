@@ -20,6 +20,12 @@ public final class Storage: @unchecked Sendable {
     private var key: SymmetricKey?
     private static let sealedMagic = Data("ENCORE-SEALED-1\n".utf8)
     public var isEncrypted: Bool { queue.sync { key != nil } }
+    /// In memory only: favorites, snippets and collections go to disk, everything else stays in memory and is gone when encore quits.
+    private var ephemeral = false
+    private var memoryPayloads: [UUID: ClipPayload] = [:]
+    /// Items kept on disk at the last write, to notice one that stops being kept, like a favorite removed.
+    private var lastKept: Set<UUID> = []
+    public var isEphemeral: Bool { queue.sync { ephemeral } }
     private var recoveredMessage: String?
     public var recoveryNotice: String? { queue.sync { recoveredMessage } }
     private var errorHandler: (@MainActor @Sendable (String) -> Void)?
@@ -64,7 +70,10 @@ public final class Storage: @unchecked Sendable {
 
     /// A content waiting to be removed with the next write already reads as gone.
     public func payload(_ id: UUID) -> ClipPayload? {
-        queue.sync { pendingDeletions.contains(id) ? nil : try? decoder.decode(ClipPayload.self, from: open(Data(contentsOf: payloadURL(id)))) }
+        queue.sync {
+            if pendingDeletions.contains(id) { return nil }
+            return memoryPayloads[id] ?? (try? decoder.decode(ClipPayload.self, from: open(Data(contentsOf: payloadURL(id)))))
+        }
     }
 
     public func save(_ library: Library, payload: (UUID, ClipPayload)? = nil, deleting: [UUID] = []) {
@@ -75,7 +84,11 @@ public final class Storage: @unchecked Sendable {
         queue.async { [self] in
             guard !failed else { return }
             do {
-                for (id, value) in payloads { try write(encoder.encode(value), to: payloadURL(id)) }
+                let kept = ephemeral ? Set(library.clips.filter(\.isProtected).map(\.id)) : []
+                for (id, value) in payloads {
+                    if ephemeral && !kept.contains(id) { memoryPayloads[id] = value; continue }
+                    try write(encoder.encode(value), to: payloadURL(id))
+                }
                 // A content written again, as by undoing a deletion, must not be removed by the pending write.
                 let written = Set(payloads.map(\.0))
                 pendingDeletions.removeAll { written.contains($0) }
@@ -98,6 +111,8 @@ public final class Storage: @unchecked Sendable {
         let deleting = pendingDeletions
         pendingLibrary = nil; pendingDeletions = []
         do {
+                for id in deleting { memoryPayloads.removeValue(forKey: id) }
+                let library = ephemeral ? try keepOnDisk(library) : library
                 let metadata = root.appendingPathComponent("Library.json")
                 let backup = root.appendingPathComponent("Library.backup.json")
                 if FileManager.default.fileExists(atPath: metadata.path),
@@ -126,6 +141,58 @@ public final class Storage: @unchecked Sendable {
 
     public func flush() { queue.sync { writePending() } }
 
+    /// On the storage queue, in memory only mode: moves contents between disk and memory as items become kept or stop being kept,
+    /// and returns the library as written to disk, with only the kept items.
+    private func keepOnDisk(_ library: Library) throws -> Library {
+        let kept = Set(library.clips.filter(\.isProtected).map(\.id))
+        for id in kept where memoryPayloads[id] != nil {
+            try write(encoder.encode(memoryPayloads[id]!), to: payloadURL(id))
+            memoryPayloads.removeValue(forKey: id)
+        }
+        let present = Set(library.clips.map(\.id))
+        for id in lastKept.subtracting(kept) where present.contains(id) { try moveToMemory(id) }
+        lastKept = kept
+        var written = library
+        written.clips = library.clips.filter(\.isProtected)
+        return written
+    }
+
+    private func moveToMemory(_ id: UUID) throws {
+        let url = payloadURL(id)
+        guard FileManager.default.fileExists(atPath: url.path) else { return }
+        memoryPayloads[id] = try decoder.decode(ClipPayload.self, from: open(Data(contentsOf: url)))
+        try FileManager.default.removeItem(at: url)
+    }
+
+    /// Turns memory only mode on or off. On, the contents of items not kept leave the disk now, and the library and its backup
+    /// are written again without them. Off, what was in memory is written to disk.
+    public func setEphemeral(_ on: Bool, library: Library, completion: @escaping @Sendable (Error?) -> Void = { _ in }) {
+        queue.async { [self] in
+            writePending()
+            do {
+                if on {
+                    for clip in library.clips where !clip.isProtected { try moveToMemory(clip.id) }
+                    ephemeral = true
+                    lastKept = []
+                    let written = try keepOnDisk(library)
+                    let data = try encoder.encode(written)
+                    try write(data, to: root.appendingPathComponent("Library.json"))
+                    let backup = root.appendingPathComponent("Library.backup.json")
+                    if FileManager.default.fileExists(atPath: backup.path) { try write(data, to: backup) }
+                } else if ephemeral {
+                    for (id, value) in memoryPayloads { try write(encoder.encode(value), to: payloadURL(id)) }
+                    memoryPayloads = [:]
+                    ephemeral = false
+                    try write(encoder.encode(library), to: root.appendingPathComponent("Library.json"))
+                }
+                metadataDate = try? root.appendingPathComponent("Library.json").resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate
+                DispatchQueue.main.async { completion(nil) }
+            } catch {
+                DispatchQueue.main.async { completion(error) }
+            }
+        }
+    }
+
     /// Encrypts the whole history under `newKey`, or turns it back to plain files with nil: the library, its backup and every content.
     /// Runs on the storage queue; files already in the target form are left as they are.
     public func changeKey(to newKey: SymmetricKey?, library: Library, completion: @escaping @Sendable (Error?) -> Void) {
@@ -143,7 +210,8 @@ public final class Storage: @unchecked Sendable {
                 for url in recovery where url.pathExtension == "json" { if let plain = try? open(Data(contentsOf: url)) { contents.append((url, plain)) } }
                 key = newKey
                 for (url, plain) in contents { try write(plain, to: url) }
-                try write(encoder.encode(library), to: root.appendingPathComponent("Library.json"))
+                // Copies listed in the library carry their text: in memory only mode, only kept items reach the disk.
+                try write(encoder.encode(ephemeral ? keepOnDisk(library) : library), to: root.appendingPathComponent("Library.json"))
                 metadataDate = try root.appendingPathComponent("Library.json").resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate
                 DispatchQueue.main.async { completion(nil) }
             } catch {

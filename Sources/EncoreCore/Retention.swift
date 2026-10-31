@@ -46,12 +46,14 @@ public struct RetentionRule: Codable, Equatable, Identifiable, Sendable {
     public var name: String
     public var enabled: Bool
     public var kind: ClipKind?
+    /// Bundle id of the only app the rule applies to, or nil for every app. Absent from rules made before 0.7.
+    public var app: String?
     public var minimumBytes: Int64
     public var maximumBytes: Int64?
     public var duration: RetentionDuration
 
-    public init(id: UUID = UUID(), name: String = L("New rule"), enabled: Bool = true, kind: ClipKind? = nil, minimumBytes: Int64 = 0, maximumBytes: Int64? = nil, duration: RetentionDuration = .init(7, .days)) {
-        self.id = id; self.name = name; self.enabled = enabled; self.kind = kind
+    public init(id: UUID = UUID(), name: String = L("New rule"), enabled: Bool = true, kind: ClipKind? = nil, app: String? = nil, minimumBytes: Int64 = 0, maximumBytes: Int64? = nil, duration: RetentionDuration = .init(7, .days)) {
+        self.id = id; self.name = name; self.enabled = enabled; self.kind = kind; self.app = app
         self.minimumBytes = minimumBytes; self.maximumBytes = maximumBytes; self.duration = duration
     }
 
@@ -60,7 +62,7 @@ public struct RetentionRule: Codable, Equatable, Identifiable, Sendable {
     }
 
     public func matches(_ clip: Clip) -> Bool {
-        guard enabled, isValid, kind == nil || kind == clip.kind else { return false }
+        guard enabled, isValid, kind == nil || kind == clip.kind, app == nil || app == clip.sourceBundle else { return false }
         guard let bytes = clip.retentionByteCount else { return minimumBytes == 0 && maximumBytes == nil }
         return bytes >= minimumBytes && (maximumBytes.map { bytes < $0 } ?? true)
     }

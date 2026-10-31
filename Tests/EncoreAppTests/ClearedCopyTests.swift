@@ -59,4 +59,37 @@ final class ClearedCopyTests: XCTestCase {
             XCTAssertNotNil(model.retentionDecision(for: clip).expiresAt)
         }
     }
+
+    @MainActor func testAPastedSecretIsForgottenThenLeavesTheClipboard() throws {
+        let delay = AppModel.pastedSecretClearDelay
+        AppModel.pastedSecretClearDelay = 0.2
+        defer { AppModel.pastedSecretClearDelay = delay }
+        try withModel { model, pb in
+            model.preferences.detectSecrets = true
+            copy("ghp_aB3dE5fG7hJ9kL1mN3pQ5rS7tU9vW1xY3zA5x", to: pb); model.clipboard.poll()
+            copy("an ordinary copy", to: pb); model.clipboard.poll()
+            let secret = try XCTUnwrap(model.library.clips.first { $0.secret != nil })
+            model.paste([secret], copyOnly: true)
+            XCTAssertFalse(model.library.clips.contains { $0.id == secret.id }, "Gone from the history once pasted")
+            XCTAssertEqual(pb.string(forType: .string), "ghp_aB3dE5fG7hJ9kL1mN3pQ5rS7tU9vW1xY3zA5x", "Still there to paste by hand")
+            RunLoop.main.run(until: Date().addingTimeInterval(0.5))
+            XCTAssertNil(pb.string(forType: .string), "Then emptied from the clipboard")
+            XCTAssertEqual(model.library.clips.map(\.text), ["an ordinary copy"])
+        }
+    }
+
+    @MainActor func testConfidentialAndExcludedCopiesAreCountedWithoutBeingSaved() throws {
+        try withModel { model, pb in
+            let before = model.ignoredToday
+            pb.clearContents()
+            pb.setString("from a password manager", forType: .string)
+            pb.setData(Data(), forType: .init("org.nspasteboard.ConcealedType"))
+            model.clipboard.poll()
+            model.preferences.excludedBundleIDs.append("org.mozilla.firefox")
+            copy("from an excluded browser", to: pb); model.clipboard.poll()
+            XCTAssertTrue(model.library.clips.isEmpty)
+            XCTAssertEqual(model.ignoredToday[.confidential, default: 0], before[.confidential, default: 0] + 1)
+            XCTAssertEqual(model.ignoredToday[.excludedApp, default: 0], before[.excludedApp, default: 0] + 1)
+        }
+    }
 }
