@@ -855,6 +855,12 @@ struct ClipActions: View {
     let clip: Clip
     private var ids: Set<UUID> { model.selection.contains(clip.id) ? model.selection : [clip.id] }
 
+    /// The compact window is too small for the snippet editor or the preview: they open the library first, as their shortcuts do.
+    private func roomy(_ action: () -> Void) {
+        if model.columnShown { withAnimation(.spring(duration: 0.34, bounce: 0.12)) { model.expanded = true } }
+        action()
+    }
+
     var body: some View {
         if let file = model.fileURLs(for: clip).first {
             Button { NSWorkspace.shared.open(file) } label: { Label(L("Open"), systemImage: "arrow.up.forward.app") }.keyboardShortcut("o")
@@ -875,7 +881,7 @@ struct ClipActions: View {
     @ViewBuilder private var localActions: some View {
         Divider()
         Button { model.toggleFavorite(ids) } label: { Label(clip.favorite ? L("Remove from favorites") : L("Add to favorites"), systemImage: clip.favorite ? "star.slash" : "star") }.keyboardShortcut("d")
-        Button { model.renamingID = nil; model.snippetEditor = clip.id } label: { Label(L("Make a snippet"), systemImage: "curlybraces") }.keyboardShortcut("s")
+        Button { roomy { model.renamingID = nil; model.snippetEditor = clip.id } } label: { Label(L("Make a snippet"), systemImage: "curlybraces") }.keyboardShortcut("s")
         if clip.snippet { Button { model.removeSnippets(ids) } label: { Label(L("Remove from snippets"), systemImage: "minus.circle") } }
         Menu {
             ForEach(model.library.collections) { collection in
@@ -891,7 +897,7 @@ struct ClipActions: View {
             Button { model.excludeApp(of: clip) } label: { Label(L("Stop saving copies from \(clip.sourceName)"), systemImage: "nosign") }
         }
         Divider()
-        Button { model.inspector = clip } label: { Label(L("Preview and edit"), systemImage: "eye") }.keyboardShortcut("e")
+        Button { roomy { model.inspector = clip } } label: { Label(L("Preview and edit"), systemImage: "eye") }.keyboardShortcut("e")
         if !clip.text.isEmpty {
             Menu { ForEach(TextAction.allCases) { action in Button(action.title) { model.transform(action, clip: clip) } } } label: { Label(L("Transform a copy"), systemImage: "wand.and.stars") }
         }
@@ -1132,6 +1138,7 @@ private struct SideRow: View {
             if NSApp.currentEvent?.clickCount ?? 1 >= 2, !flags.contains(.command) { model.paste([clip], plain: flags.contains(.shift)) }
             else { model.select(clip.id, modifiers: flags) }
         }
+        .contextMenu { ClipActions(model: model, clip: clip) }
         .accessibilityValue(order.map { L("Pasted in position \($0)") } ?? (selected ? L("Selected") : ""))
         .help(clip.kind == .text ? String(clip.text.prefix(400)) : clip.displayTitle)
     }
