@@ -123,7 +123,7 @@ struct ClipSection: Identifiable {
     }
 }
 
-/// With several cards selected, only the first one, numbered 1, can be dragged: it carries the others.
+/// With several cards selected, only selected cards can be dragged: each carries the whole selection.
 private struct DragSource: ViewModifier {
     let enabled: Bool
     let model: AppModel
@@ -141,8 +141,10 @@ private struct DragPreview: View {
     @Environment(\.colorScheme) private var scheme
 
     var body: some View {
-        // Read when the drag starts: the card numbered 1 is not redrawn when more cards join the selection.
-        let count = model.selection.contains(clip.id) ? model.selection.count : 1
+        // Read when the drag starts: a card is not redrawn when more cards join the selection. It always shows the first one.
+        let group = model.selection.contains(clip.id) && model.selection.count > 1
+        let count = group ? model.selection.count : 1
+        let clip = group ? model.selectedClips.first ?? clip : clip
         HStack(spacing: 9) {
             Image(systemName: clip.kind.symbol).font(.system(size: 14, weight: .semibold)).foregroundStyle(Palette.accent(clip.kind, dark: scheme == .dark))
             Text(clip.displayTitle).font(.system(size: 12.5, weight: .medium)).lineLimit(1).frame(maxWidth: 220, alignment: .leading)
@@ -558,15 +560,16 @@ struct Selectable: ViewModifier {
 }
 
 /// A copy dragged out of encore: its own contents for other apps, and its id for encore's collections and snippet order.
-/// With several cards selected, the first one carries them all: their text one per line, as pasting them does.
+/// With several cards selected, any of them carries them all, in selection order, one per line, images included.
 @MainActor func clipItemProvider(model: AppModel, clip: Clip) -> NSItemProvider {
     let provider = NSItemProvider()
     let group = model.selection.count > 1 && model.selection.contains(clip.id) ? model.selectedClips : [clip]
     let ids = Data(group.map(\.id.uuidString).joined(separator: "\n").utf8)
     provider.registerDataRepresentation(forTypeIdentifier: "local.kama.encore.clip-id", visibility: .ownProcess) { completion in completion(ids, nil); return nil }
     if group.count > 1 {
-        let text = Data(group.map(model.plainText(of:)).joined(separator: "\n").utf8)
-        provider.registerDataRepresentation(forTypeIdentifier: "public.utf8-plain-text", visibility: .all) { completion in completion(text, nil); return nil }
+        for (type, data) in model.combinedPayload(group).items[0].representations {
+            provider.registerDataRepresentation(forTypeIdentifier: type, visibility: .all) { completion in completion(data, nil); return nil }
+        }
     } else if let payload = model.storage?.payload(clip.id), let item = payload.items.first {
         for (type, data) in item.representations {
             provider.registerDataRepresentation(forTypeIdentifier: type, visibility: .all) { completion in completion(data, nil); return nil }
@@ -594,7 +597,7 @@ struct ClipCard: View {
     private let order: Int?
     /// On the Snippets board, a snippet can be dragged onto another to take its place.
     private let reorderable: Bool
-    /// Kept with the card so it is redrawn when a second card is selected: only the one numbered 1 can then be dragged.
+    /// Kept with the card so it is redrawn when a second card is selected: only selected cards can then be dragged.
     private let severalSelected: Bool
     @Environment(\.colorScheme) private var scheme
     @State private var hovered = false
@@ -679,7 +682,7 @@ struct ClipCard: View {
         // One gesture reading macOS's click count: a separate double-click gesture made SwiftUI hold every click for the double-click delay.
         .onTapGesture { cardClick() }
         .contextMenu { ClipActions(model: model, clip: clip) }
-        .modifier(DragSource(enabled: !severalSelected || order == 1, model: model, clip: clip) { clipItemProvider(model: model, clip: clip) })
+        .modifier(DragSource(enabled: !severalSelected || selected, model: model, clip: clip) { clipItemProvider(model: model, clip: clip) })
         .onDrop(of: reorderable ? ["local.kama.encore.clip-id"] : [], isTargeted: $dropTarget) { providers in
             guard let provider = providers.first else { return false }
             provider.loadDataRepresentation(forTypeIdentifier: "local.kama.encore.clip-id") { data, _ in
@@ -1188,7 +1191,7 @@ private struct SideRow: View {
             else { model.select(clip.id, modifiers: flags) }
         }
         .contextMenu { ClipActions(model: model, clip: clip) }
-        .modifier(DragSource(enabled: model.selection.count <= 1 || order == 1, model: model, clip: clip) { clipItemProvider(model: model, clip: clip) })
+        .modifier(DragSource(enabled: model.selection.count <= 1 || selected, model: model, clip: clip) { clipItemProvider(model: model, clip: clip) })
         .accessibilityElement(children: .combine)
         .accessibilityLabel(L("\(clip.kind.title), \(clip.displayTitle), \(clip.sourceName)"))
         .accessibilityValue(order.map { L("Pasted in position \($0)") } ?? (selected ? L("Selected") : ""))

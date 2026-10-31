@@ -15,6 +15,24 @@ final class AppModelTests: XCTestCase {
         try body(model)
     }
 
+    @MainActor func testSeveralCardsWithAnImageKeepTheImageInPlace() throws {
+        try withModel { model in
+            let png = NSBitmapImageRep(bitmapDataPlanes: nil, pixelsWide: 4, pixelsHigh: 4, bitsPerSample: 8, samplesPerPixel: 4, hasAlpha: true, isPlanar: false, colorSpaceName: .deviceRGB, bytesPerRow: 0, bitsPerPixel: 0)!.representation(using: .png, properties: [:])!
+            let payloads = [ClipPayload.text("before"), ClipPayload(items: [PasteItem(["public.png": png])]), ClipPayload.text("after")]
+            let clips = [Clip(kind: .text, text: "before"), Clip(kind: .image, text: ""), Clip(kind: .text, text: "after")]
+            var library = Library(); library.clips = clips
+            model.library = library
+            model.storage?.save(library, payloads: zip(clips.map(\.id), payloads).map { ($0, $1) }); model.storage?.flush()
+            let item = try XCTUnwrap(model.combinedPayload(clips).items.first)
+            XCTAssertEqual(item.representations["public.utf8-plain-text"].flatMap { String(data: $0, encoding: .utf8) }, "before\nafter")
+            let rich = try XCTUnwrap(item.representations["com.apple.flat-rtfd"].flatMap { NSAttributedString(rtfd: $0, documentAttributes: nil) })
+            var attachments = 0
+            rich.enumerateAttribute(.attachment, in: NSRange(location: 0, length: rich.length)) { value, _, _ in if value != nil { attachments += 1 } }
+            XCTAssertEqual(attachments, 1, "The image sits between the two texts")
+            XCTAssertTrue(rich.string.hasPrefix("before\n") && rich.string.hasSuffix("\nafter"))
+        }
+    }
+
     @MainActor func testSnippetsAreReorderedByDraggingAndKeepTheirPlace() throws {
         try withModel { model in
             for text in ["one", "two", "three"] { model.addText(text) }

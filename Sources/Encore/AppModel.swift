@@ -964,6 +964,37 @@ struct PeerStatus: Identifiable, Equatable {
         return clip.text.isEmpty ? clip.recognizedText : clip.text
     }
 
+    /// Several copies as one item, in order, one per line: their text, and, when images are among them, the same with the images in place,
+    /// for apps that take rich text like Pages, TextEdit or Mail.
+    func combinedPayload(_ clips: [Clip]) -> ClipPayload {
+        let images = clips.map(imageData(of:))
+        let lines = zip(clips, images).compactMap { clip, image in image == nil ? plainText(of: clip) : nil }
+        var representations = ["public.utf8-plain-text": Data(lines.joined(separator: "\n").utf8)]
+        if images.contains(where: { $0 != nil }) {
+            let rich = NSMutableAttributedString()
+            for (index, clip) in clips.enumerated() {
+                if index > 0 { rich.append(NSAttributedString(string: "\n")) }
+                if let image = images[index] {
+                    let file = FileWrapper(regularFileWithContents: image.data)
+                    file.preferredFilename = "image-\(index + 1).\(image.ext)"
+                    rich.append(NSAttributedString(attachment: NSTextAttachment(fileWrapper: file)))
+                } else { rich.append(NSAttributedString(string: plainText(of: clip))) }
+            }
+            representations["com.apple.flat-rtfd"] = rich.rtfd(from: NSRange(location: 0, length: rich.length), documentAttributes: [.documentType: NSAttributedString.DocumentType.rtfd])
+        }
+        return ClipPayload(items: [PasteItem(representations)])
+    }
+
+    private func imageData(of clip: Clip) -> (data: Data, ext: String)? {
+        guard clip.kind == .image else { return nil }
+        let representations = storage?.payload(clip.id)?.items.first?.representations ?? [:]
+        for (type, ext) in [("public.png", "png"), ("public.jpeg", "jpg"), ("public.tiff", "tiff")] {
+            if let data = representations[type] { return (data, ext) }
+        }
+        if let url = fileURLs(for: clip).first, let data = try? Data(contentsOf: url) { return (data, url.pathExtension.lowercased()) }
+        return nil
+    }
+
     /// `fields` holds the values typed in the snippet form; without them a snippet with {{fields}} opens the form first.
     func paste(_ clips: [Clip]? = nil, plain: Bool = false, copyOnly: Bool = false, fields: [String: String]? = nil) {
         let values = clips ?? selectedClips
@@ -995,6 +1026,8 @@ struct PeerStatus: Identifiable, Equatable {
             clipboard.write(.text(text), sourceBundle: origin)
         } else if values.count > 1 && values.allSatisfy({ [.text, .code, .link, .color].contains($0.kind) }) {
             clipboard.write(.text(values.map(plainText(of:)).joined(separator: "\n")), sourceBundle: origin)
+        } else if values.count > 1 && values.allSatisfy({ [.text, .code, .link, .color, .image].contains($0.kind) }) && !values.allSatisfy({ $0.kind == .image }) {
+            clipboard.write(combinedPayload(values), sourceBundle: origin)
         } else {
             clipboard.write(ClipPayload(items: payloads.flatMap(\.items)), sourceBundle: origin)
             exact = values.count == 1
