@@ -41,7 +41,7 @@ STRINGS = {
         "copy": "Copy", "copied": "Copied",
         "sound_on": "Turn sound on", "sound_off": "Mute",
         "video": "The encore launch video",
-        "new_tag": "New in 0.7", "new": "Your history, encrypted on your disk",
+        "new_tag": "New in 0.7", "new": "Encrypt your history, and paste in the order you pick",
         "snippets": ["Snippets", "On every Mac"],
         "snippets_text": "Press ⌘S on any card: a name, a language (encore guesses it among 85) and tags. Placeholders like {{name}} ask for a value before pasting. Your snippets and favorites stay in step between your paired Macs.",
         "snippets_video": "Snippets in encore 0.5",
@@ -95,7 +95,7 @@ STRINGS = {
         "copy": "Copier", "copied": "Copié",
         "sound_on": "Activer le son", "sound_off": "Couper le son",
         "video": "La vidéo de lancement d’encore",
-        "new_tag": "Nouveautés · 0.7", "new": "Ton historique, chiffré sur ton disque",
+        "new_tag": "Nouveautés · 0.7", "new": "Chiffre ton historique, et colle dans l’ordre choisi",
         "snippets": ["Snippets", "Sur tous tes Mac"],
         "snippets_text": "⌘S sur n’importe quelle carte : un nom, un langage (encore le devine parmi 85) et des tags. Les placeholders comme {{nom}} te demandent une valeur avant de coller. Tes snippets et tes favoris restent synchronisés entre tes Mac appairés.",
         "snippets_video": "Les snippets dans encore 0.5",
@@ -153,9 +153,9 @@ PRIVACY = {
         # The three guarantees, before the details: each claim must hold in the code.
         "summary": "In short",
         "more": "The details",
-        "facts": ["100% local", "Encrypted", "No account", "No server", "No tracking", "Open source"],
+        "facts": ["100% local", "Optional encryption", "No account", "No server", "No tracking", "Open source"],
         "guarantees": [
-            ("What stays local", "Everything. Your history lives on your Mac, encrypted, with no account and no server. Only the update check reaches GitHub."),
+            ("What stays local", "Everything. Your history lives on your Mac, with no account and no server. Only the update check reaches GitHub."),
             ("What is left out", "Copies that apps mark as confidential, the password apps installed on your Mac, and any app you add. Copies cleared by their app are forgotten."),
             ("What you can turn off", "Capture, in one click from the menu bar. Text recognition. Sharing with your other Macs, off by default. And you can clear everything, any time."),
         ],
@@ -169,7 +169,7 @@ PRIVACY = {
         },
         "blocks": [
             ("Everything stays on your Mac", [
-                "What you copy is kept in a single folder on your Mac: <code>~/Library/Application Support/Encore/</code>, encrypted with a key kept in your keychain: another app, or someone who copies the folder, sees nothing readable. You can turn this off in Settings → Data.",
+                "What you copy is kept in a single folder on your Mac: <code>~/Library/Application Support/Encore/</code>. Only your macOS account can open it. Since 0.7, you can also encrypt it with a key kept in your keychain, in Settings → Data: another app, or someone who copies the folder, then sees nothing readable. Changing Mac? Export your history first, or use Migration Assistant, which brings the keychain along: without it, an encrypted history cannot be read.",
                 "No account to create, no usage statistics, no ads. encore does not even load the links you copy: it shows them as they are.",
                 "Text inside your images is recognized by macOS itself, on your Mac. Nothing is sent anywhere to be analyzed.",
             ], None, ""),
@@ -196,7 +196,7 @@ PRIVACY = {
         "honest": [
             then_now("Before and after 0.7", "Before 0.7", "Since 0.7",
                      "<strong>Your history is not encrypted on disk.</strong> It is protected by your macOS account, and by FileVault when it is on: check System Settings → Privacy & Security → FileVault. Software running under your account could read it, as with most clipboard managers. Encrypting it is on the list.",
-                     "<strong><s>Your history is not encrypted on disk.</s></strong> Since 0.7, it is, by default, with a key kept in your keychain: a backup or a copy of the folder shows nothing readable. Exports stay readable JSON, so your data is never locked in: store them like any sensitive file. And while encore runs, it reads what you copy, so software that already controls your session could too, as with any clipboard manager."),
+                     "<strong>Your history is not encrypted by default.</strong> Since 0.7, you can encrypt it in Settings → Data, with a key kept in your keychain. It is off by default for now: until encore is signed by Apple, macOS would ask for your Mac password after each update, and encore is updated often. That gets tiring, and can even look suspicious. Once encore is signed, encryption will be on by default, with no prompt. Exports stay readable JSON, so your data is never locked in: store them like any sensitive file. And while encore runs, it reads what you copy, so software that already controls your session could too, as with any clipboard manager."),
             "<strong>encore is not notarized by Apple yet.</strong> To notarize an app, Apple asks for a developer membership at $99 a year. encore is a free personal project that earns me nothing, so until then the first launch needs “Open Anyway” in System Settings, once. If a small community gets behind it, that is the first thing its support will pay for, and the same account could also bring encore to the Mac App Store. You can <a href='" + SPONSORS + "'>support encore on GitHub Sponsors</a> or <a href='" + KOFI + "'>Ko-fi</a>.",
             "<strong>There is just me behind encore.</strong> I build it in the evenings, alongside my day job and my family life. There is no team and no guaranteed support: I fix things as fast as those evenings allow, starting with anything that touches security or your data. That is also why everything is open: anyone can report a problem, propose a fix on GitHub, or contribute.",
         ],
@@ -224,9 +224,9 @@ PRIVACY = {
         "lead": "encore voit tout ce que tu copies : des messages, des adresses, parfois des choses sensibles. Alors voici, simplement et sans jargon, ce qu’il en fait, ce qu’il n’en fait jamais, et ce qui n’est pas encore parfait.",
         "summary": "En bref",
         "more": "Les détails",
-        "facts": ["100 % local", "Chiffré", "Sans compte", "Sans serveur", "Sans pistage", "Open source"],
+        "facts": ["100 % local", "Chiffrement en option", "Sans compte", "Sans serveur", "Sans pistage", "Open source"],
         "guarantees": [
-            ("Ce qui reste local", "Tout. Ton historique vit sur ton Mac, chiffré, sans compte ni serveur. Seule la vérification des mises à jour contacte GitHub."),
+            ("Ce qui reste local", "Tout. Ton historique vit sur ton Mac, sans compte ni serveur. Seule la vérification des mises à jour contacte GitHub."),
             ("Ce qui est exclu", "Les copies que les apps marquent comme confidentielles, les apps de mots de passe installées et toutes celles que tu ajoutes. Les copies effacées par leur app sont oubliées."),
             ("Ce que tu peux couper", "La capture, en un clic depuis la barre des menus. La reconnaissance de texte. Le partage avec tes autres Mac, coupé par défaut. Et tout effacer, quand tu veux."),
         ],
@@ -240,7 +240,7 @@ PRIVACY = {
         },
         "blocks": [
             ("Tout reste sur ton Mac", [
-                "Ce que tu copies est rangé dans un seul dossier de ton Mac : <code>~/Library/Application Support/Encore/</code>, chiffré avec une clé gardée dans ton trousseau : une autre app, ou quelqu’un qui copie le dossier, ne voit rien de lisible. Tu peux le désactiver dans Réglages → Données.",
+                "Ce que tu copies est rangé dans un seul dossier de ton Mac : <code>~/Library/Application Support/Encore/</code>. Seule ta session macOS peut l’ouvrir. Depuis la 0.7, tu peux aussi le chiffrer avec une clé gardée dans ton trousseau, dans Réglages → Données : une autre app, ou quelqu’un qui copie le dossier, ne voit alors rien de lisible. Tu changes de Mac ? Exporte d’abord ton historique, ou passe par l’Assistant migration, qui emporte aussi le trousseau : sans lui, un historique chiffré ne peut pas être lu.",
                 "Pas de compte à créer, pas de statistiques d’utilisation, pas de publicité. encore ne charge même pas les liens que tu copies : il les affiche tels quels.",
                 "Le texte de tes images est reconnu par macOS lui-même, sur ton Mac. Rien n’est envoyé ailleurs pour être analysé.",
             ], None, ""),
@@ -267,7 +267,7 @@ PRIVACY = {
         "honest": [
             then_now("Avant et depuis la 0.7", "Avant la 0.7", "Depuis la 0.7",
                      "<strong>Ton historique n’est pas chiffré sur le disque.</strong> Il est protégé par ta session macOS, et par FileVault s’il est activé : vérifie dans Réglages Système → Confidentialité et sécurité → FileVault. Un logiciel qui tourne sous ta session pourrait le lire, comme avec la plupart des gestionnaires de presse-papiers. Le chiffrer est sur la liste.",
-                     "<strong><s>Ton historique n’est pas chiffré sur le disque.</s></strong> Depuis la 0.7, il l’est, par défaut, avec une clé gardée dans ton trousseau : une sauvegarde ou une copie du dossier ne montre rien de lisible. Les exports restent du JSON lisible, pour que tes données ne soient jamais prisonnières : range-les comme n’importe quel fichier sensible. Et pendant qu’encore tourne, il lit ce que tu copies : un logiciel qui contrôle déjà ta session pourrait le faire aussi, comme avec tout gestionnaire de presse-papiers."),
+                     "<strong>Ton historique n’est pas chiffré par défaut.</strong> Depuis la 0.7, tu peux le chiffrer dans Réglages → Données, avec une clé gardée dans ton trousseau. C’est désactivé par défaut pour l’instant : tant qu’encore n’est pas signé par Apple, macOS demanderait le mot de passe de ton Mac après chaque mise à jour, et encore en reçoit souvent. C’est vite pénible, et ça peut même paraître louche. Dès qu’encore sera signé, le chiffrement sera actif par défaut, sans aucune demande. Les exports restent du JSON lisible, pour que tes données ne soient jamais prisonnières : range-les comme n’importe quel fichier sensible. Et pendant qu’encore tourne, il lit ce que tu copies : un logiciel qui contrôle déjà ta session pourrait le faire aussi, comme avec tout gestionnaire de presse-papiers."),
             "<strong>encore n’est pas encore notarisé par Apple.</strong> Pour notariser une app, Apple demande un abonnement développeur à 99 $ par an. encore est un projet personnel et gratuit qui ne me rapporte rien : en attendant, il faut passer une fois par « Ouvrir quand même » dans les Réglages Système. Si une petite communauté se forme autour du projet, c’est la première chose que son soutien financera, et le même compte permettrait aussi de le proposer sur le Mac App Store. Tu peux le <a href='" + SPONSORS + "'>soutenir sur GitHub Sponsors</a> ou <a href='" + KOFI + "'>Ko-fi</a>.",
             "<strong>Derrière encore, il n’y a que moi.</strong> Je le développe le soir, à côté de mon travail et de ma vie de famille. Il n’y a ni équipe ni support garanti : je corrige aussi vite que ces soirées le permettent, en commençant par tout ce qui touche à la sécurité ou à tes données. C’est aussi pour ça que tout est ouvert : n’importe qui peut signaler un problème, proposer une correction sur GitHub ou contribuer.",
         ],
