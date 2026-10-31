@@ -42,6 +42,8 @@ Write `{{name}}` in a snippet and encore asks for the value before pasting. `{{c
 - **Clear the history** from the menu bar, from Settings, or with `open encore://clear-history`, keeping favorites and snippets or not.
 - **Several cards at once:** select them with ⌘-click or ⇧ and the arrows, each one shows its number, and they paste in the order you picked.
 - **A paste queue** pastes several items in order, one ⌘V at a time.
+- **Pause capture for a while** from the menu bar icon, for 5 minutes or an hour: it comes back on its own.
+- **Snippets in your order:** drag one onto another on the Snippets board, and the order follows your paired Macs.
 - **Your own shortcut:** ⇧⌘V by default, or any combination you type in Settings.
 
 ## Your other Macs, without a cloud
