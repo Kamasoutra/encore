@@ -445,3 +445,13 @@
 "Characters shown" = "Synlige tegn";
 "A masked secret cannot be edited. It still pastes as it is." = "En skjult hemmelighed kan ikke redigeres. Den indsættes stadig, som den er.";
 "Pasted in position %lld" = "Indsættes som nummer %lld";
+"Encryption" = "Kryptering";
+"Encrypt the history on this Mac" = "Krypter historikken på denne Mac";
+"Your history and its contents are encrypted with a key kept in your macOS keychain: another app, or someone who copies the files, sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "Din historik og dens indhold krypteres med en nøgle i din macOS-nøglering: en anden app, eller nogen der kopierer filerne, ser intet læsbart. Eksporter forbliver læsbar JSON. Uden denne Macs nøglering kan historikken ikke læses.";
+"History encrypted" = "Historikken er krypteret";
+"History no longer encrypted" = "Historikken er ikke længere krypteret";
+"Could not change the encryption: %@" = "Kunne ikke ændre krypteringen: %@";
+"The history is encrypted, and its key is not in this Mac's keychain." = "Historikken er krypteret, og dens nøgle er ikke i denne Macs nøglering.";
+"Store the history without encryption?" = "Gem historikken uden kryptering?";
+"Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "Enhver app under din macOS-konto, eller nogen der kopierer filerne, kan så læse alt, du har kopieret, også adgangskoder der ikke blev genkendt. Slå det kun fra, hvis noget andet allerede beskytter filerne.";
+"Turn Off Encryption" = "Slå kryptering fra";

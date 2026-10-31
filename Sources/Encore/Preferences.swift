@@ -44,6 +44,8 @@ struct Preferences: Codable, Equatable {
     var detectSecrets = false
     var secretLifetime: Double = 60
     var secretPreview = 3
+    /// Encryption is on by default; this remembers that the user turned it off, so it is not turned back on at the next launch.
+    var historyEncryptionDeclined = false
     /// Merge favorites, and snippets, with paired Macs that sync them too, and keep them in step while connected.
     var syncFavorites = false
     var syncSnippets = false
@@ -57,7 +59,7 @@ struct Preferences: Codable, Equatable {
     private enum CodingKeys: String, CodingKey {
         case retentionDays, historyLimit, storageLimitMB, captureEnabled, ignoreSensitive, recognizeImages
         case excludedBundleIDs, panelHeight, compact, placement, compactPosition, compactCount, appearance, shortcut, retentionRules, cardScale, importScreenshots, copyScreenshotsToClipboard, screenshotFolder
-        case soundsEnabled, soundTheme, soundVolume, captureSoundPath, pasteSoundPath, displayTarget, stackShortcutEnabled, disabledDefaultExclusions, language, shareWithPeers, pasteDirectly, syncFavorites, syncSnippets, forgetClearedCopies, detectSecrets, secretLifetime, secretPreview
+        case soundsEnabled, soundTheme, soundVolume, captureSoundPath, pasteSoundPath, displayTarget, stackShortcutEnabled, disabledDefaultExclusions, language, shareWithPeers, pasteDirectly, syncFavorites, syncSnippets, forgetClearedCopies, detectSecrets, secretLifetime, secretPreview, historyEncryptionDeclined
     }
 
     init(from decoder: Decoder) throws {
@@ -102,6 +104,7 @@ struct Preferences: Codable, Equatable {
         detectSecrets = try values.decodeIfPresent(Bool.self, forKey: .detectSecrets) ?? false
         secretLifetime = min(86_400, max(10, try values.decodeIfPresent(Double.self, forKey: .secretLifetime) ?? 60))
         secretPreview = min(8, max(0, try values.decodeIfPresent(Int.self, forKey: .secretPreview) ?? 3))
+        historyEncryptionDeclined = try values.decodeIfPresent(Bool.self, forKey: .historyEncryptionDeclined) ?? false
     }
 
     static func load(demo: Bool) -> Preferences {

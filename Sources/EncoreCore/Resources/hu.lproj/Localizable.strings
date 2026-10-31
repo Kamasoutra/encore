@@ -445,3 +445,13 @@
 "Characters shown" = "Látható karakterek";
 "A masked secret cannot be edited. It still pastes as it is." = "Az eltakart titok nem szerkeszthető. Továbbra is változatlanul illeszthető be.";
 "Pasted in position %lld" = "%lld. helyen kerül beillesztésre";
+"Encryption" = "Titkosítás";
+"Encrypt the history on this Mac" = "Előzmények titkosítása ezen a Macen";
+"Your history and its contents are encrypted with a key kept in your macOS keychain: another app, or someone who copies the files, sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "Az előzmények és tartalmuk a macOS-kulcskarikájában tárolt kulccsal titkosítva vannak: egy másik alkalmazás vagy aki lemásolja a fájlokat, semmi olvashatót nem lát. Az exportok olvasható JSON-ok maradnak. A Mac kulcskarikája nélkül az előzmények nem olvashatók.";
+"History encrypted" = "Előzmények titkosítva";
+"History no longer encrypted" = "Az előzmények már nincsenek titkosítva";
+"Could not change the encryption: %@" = "Nem sikerült módosítani a titkosítást: %@";
+"The history is encrypted, and its key is not in this Mac's keychain." = "Az előzmények titkosítva vannak, és a kulcsuk nincs ennek a Macnek a kulcskarikájában.";
+"Store the history without encryption?" = "Titkosítás nélkül menti az előzményeket?";
+"Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "Bármely alkalmazás, amely a macOS-fiókja alatt fut, vagy bárki, aki lemásolja ezeket a fájlokat, elolvashatná mindazt, amit másolt, a fel nem ismert jelszavakat is. Csak akkor kapcsolja ki, ha más már védi ezeket a fájlokat.";
+"Turn Off Encryption" = "Titkosítás kikapcsolása";

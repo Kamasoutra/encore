@@ -445,3 +445,13 @@
 "Characters shown" = "Karakter terlihat";
 "A masked secret cannot be edited. It still pastes as it is." = "Rahasia yang disamarkan tidak bisa diedit. Tetap bisa ditempel apa adanya.";
 "Pasted in position %lld" = "Ditempel di urutan %lld";
+"Encryption" = "Enkripsi";
+"Encrypt the history on this Mac" = "Enkripsi riwayat di Mac ini";
+"Your history and its contents are encrypted with a key kept in your macOS keychain: another app, or someone who copies the files, sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "Riwayatmu dan isinya dienkripsi dengan kunci yang disimpan di rantai kunci macOS: aplikasi lain, atau orang yang menyalin filenya, tidak melihat apa pun yang terbaca. Ekspor tetap JSON yang terbaca. Tanpa rantai kunci Mac ini, riwayat tidak bisa dibaca.";
+"History encrypted" = "Riwayat dienkripsi";
+"History no longer encrypted" = "Riwayat tidak lagi dienkripsi";
+"Could not change the encryption: %@" = "Tidak dapat mengubah enkripsi: %@";
+"The history is encrypted, and its key is not in this Mac's keychain." = "Riwayat dienkripsi, dan kuncinya tidak ada di rantai kunci Mac ini.";
+"Store the history without encryption?" = "Simpan riwayat tanpa enkripsi?";
+"Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "Aplikasi apa pun yang berjalan di akun macOS-mu, atau siapa pun yang menyalin file ini, bisa membaca semua yang kamu salin, termasuk kata sandi yang tidak terdeteksi. Matikan hanya jika ada alat lain yang sudah melindungi file ini.";
+"Turn Off Encryption" = "Matikan enkripsi";

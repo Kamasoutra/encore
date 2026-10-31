@@ -445,3 +445,13 @@
 "Characters shown" = "表示する文字数";
 "A masked secret cannot be edited. It still pastes as it is." = "伏せ字の秘密情報は編集できません。ペーストはそのままできます。";
 "Pasted in position %lld" = "%lld番目にペースト";
+"Encryption" = "暗号化";
+"Encrypt the history on this Mac" = "このMacで履歴を暗号化";
+"Your history and its contents are encrypted with a key kept in your macOS keychain: another app, or someone who copies the files, sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "履歴とその内容は、macOSのキーチェーンに保管された鍵で暗号化されます。ほかのアプリやファイルをコピーした人には、読める内容は何も見えません。書き出したファイルは読めるJSONのままです。このMacのキーチェーンがないと履歴は読めません。";
+"History encrypted" = "履歴を暗号化しました";
+"History no longer encrypted" = "履歴の暗号化を解除しました";
+"Could not change the encryption: %@" = "暗号化を変更できませんでした：%@";
+"The history is encrypted, and its key is not in this Mac's keychain." = "履歴は暗号化されていますが、その鍵がこのMacのキーチェーンにありません。";
+"Store the history without encryption?" = "暗号化せずに履歴を保存しますか？";
+"Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "macOSアカウントで動くどのアプリも、これらのファイルをコピーした人も、検出されなかったパスワードを含め、コピーした内容をすべて読めるようになります。ほかの手段ですでに保護している場合にのみオフにしてください。";
+"Turn Off Encryption" = "暗号化をオフにする";

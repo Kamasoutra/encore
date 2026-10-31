@@ -115,8 +115,10 @@ struct PeerStatus: Identifiable, Equatable {
         if demo { preferences.displayTarget = "primary" }
         do {
             let root = demo ? FileManager.default.temporaryDirectory.appendingPathComponent("Encore-Demo-\(ProcessInfo.processInfo.processIdentifier)") : FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].appendingPathComponent("Encore")
-            let store = try Storage(root: root)
+            // The key is in the keychain only while the history is encrypted.
+            let store = try Storage(root: root, key: demo ? nil : try? HistoryKey.read())
             storage = store
+            historyEncrypted = store.isEncrypted
             library = try store.load()
             store.onError = { [weak self] message in
                 self?.storageError = message
@@ -133,6 +135,8 @@ struct PeerStatus: Identifiable, Equatable {
         if demo { seedDemo() } else { refreshFileSizes(); prune() }
         resetSelection()
         if let notice = storage?.recoveryNotice { notify(notice) }
+        // On by default: a history kept in plain files, new or from an earlier version, is encrypted unless the user turned it off.
+        if !demo, storageError == nil, !historyEncrypted, !preferences.historyEncryptionDeclined { setHistoryEncryption(true, confirmed: true) }
         startPeers()
     }
 
@@ -311,6 +315,45 @@ struct PeerStatus: Identifiable, Equatable {
 
     func save() { storage?.save(library) }
 
+    @Published private(set) var historyEncrypted = false
+    @Published private(set) var convertingHistory = false
+
+    /// Encrypts the history on disk or turns it back to plain files. The key is created before any file is sealed,
+    /// and removed only once every file is plain again: a conversion cut short leaves a history that still reads.
+    func setHistoryEncryption(_ on: Bool, confirmed: Bool = false) {
+        guard !demo, let storage, !convertingHistory, on != historyEncrypted else { return }
+        if !on && !confirmed {
+            NSApp.activate(ignoringOtherApps: true)
+            let alert = NSAlert()
+            alert.alertStyle = .warning
+            alert.messageText = L("Store the history without encryption?")
+            alert.informativeText = L("Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files.")
+            alert.addButton(withTitle: L("Cancel")); alert.addButton(withTitle: L("Turn Off Encryption"))
+            alert.buttons[1].hasDestructiveAction = true
+            guard alert.runModal() == .alertSecondButtonReturn else { return }
+        }
+        preferences.historyEncryptionDeclined = !on
+        preferencesChanged()
+        do {
+            let key = on ? try HistoryKey.create() : nil
+            convertingHistory = true
+            storage.changeKey(to: key, library: library) { error in
+                Task { @MainActor [weak self] in
+                    guard let self else { return }
+                    self.convertingHistory = false
+                    if let error {
+                        self.historyEncrypted = storage.isEncrypted
+                        self.notify(L("Could not change the encryption: \(error.localizedDescription)"))
+                        return
+                    }
+                    if !on { HistoryKey.delete() }
+                    self.historyEncrypted = on
+                    if !confirmed || !on { self.notify(on ? L("History encrypted") : L("History no longer encrypted")) }
+                }
+            }
+        } catch { notify(L("Could not change the encryption: \(error.localizedDescription)")) }
+    }
+
     /// The app a copy came from cleared the clipboard soon after: that copy was meant to be temporary.
     func forgetCleared(_ id: UUID) {
         guard let clip = library.clips.first(where: { $0.id == id }), !clip.isProtected else { return }
@@ -334,7 +377,7 @@ struct PeerStatus: Identifiable, Equatable {
         guard alert.runModal() == .alertSecondButtonReturn else { return }
         do {
             storage?.flush()
-            let next = try Storage(root: root)
+            let next = try Storage(root: root, key: demo ? nil : try? HistoryKey.read())
             let restored = try next.load()
             next.onError = { [weak self] error in self?.storageError = error; self?.preferences.captureEnabled = false }
             storage = next; library = restored; storageError = nil

@@ -445,3 +445,13 @@
 "Characters shown" = "显示的字符数";
 "A masked secret cannot be edited. It still pastes as it is." = "已遮盖的机密信息无法编辑，但仍可原样粘贴。";
 "Pasted in position %lld" = "第 %lld 个粘贴";
+"Encryption" = "加密";
+"Encrypt the history on this Mac" = "在此 Mac 上加密历史记录";
+"Your history and its contents are encrypted with a key kept in your macOS keychain: another app, or someone who copies the files, sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "你的历史记录及其内容会用保存在 macOS 钥匙串中的密钥加密：其他 App 或拷贝这些文件的人都看不到任何可读内容。导出的文件仍是可读的 JSON。没有这台 Mac 的钥匙串，就无法读取历史记录。";
+"History encrypted" = "历史记录已加密";
+"History no longer encrypted" = "历史记录已不再加密";
+"Could not change the encryption: %@" = "无法更改加密：%@";
+"The history is encrypted, and its key is not in this Mac's keychain." = "历史记录已加密，但其密钥不在这台 Mac 的钥匙串中。";
+"Store the history without encryption?" = "要不加密保存历史记录吗？";
+"Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "这样一来，在你的 macOS 账户下运行的任何 App，或拷贝这些文件的任何人，都能读取你拷贝过的所有内容，包括未被检测到的密码。只有在其他工具已经保护这些文件时才关闭。";
+"Turn Off Encryption" = "关闭加密";

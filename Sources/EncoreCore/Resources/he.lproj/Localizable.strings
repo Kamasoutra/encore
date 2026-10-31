@@ -445,3 +445,13 @@
 "Characters shown" = "תווים גלויים";
 "A masked secret cannot be edited. It still pastes as it is." = "אי אפשר לערוך סוד מוסתר. הוא עדיין מודבק כמו שהוא.";
 "Pasted in position %lld" = "מודבק במקום %lld";
+"Encryption" = "הצפנה";
+"Encrypt the history on this Mac" = "הצפנת ההיסטוריה ב-Mac הזה";
+"Your history and its contents are encrypted with a key kept in your macOS keychain: another app, or someone who copies the files, sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "ההיסטוריה ותוכנה מוצפנים במפתח שנשמר במחזיק המפתחות של macOS: יישום אחר, או מי שמעתיק את הקבצים, לא רואה שום דבר קריא. הייצוא נשאר JSON קריא. בלי מחזיק המפתחות של ה-Mac הזה אי אפשר לקרוא את ההיסטוריה.";
+"History encrypted" = "ההיסטוריה הוצפנה";
+"History no longer encrypted" = "ההיסטוריה כבר לא מוצפנת";
+"Could not change the encryption: %@" = "לא ניתן לשנות את ההצפנה: %@";
+"The history is encrypted, and its key is not in this Mac's keychain." = "ההיסטוריה מוצפנת, והמפתח שלה לא נמצא במחזיק המפתחות של ה-Mac הזה.";
+"Store the history without encryption?" = "לשמור את ההיסטוריה בלי הצפנה?";
+"Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "כל יישום שרץ תחת חשבון ה-macOS שלך, או כל מי שמעתיק את הקבצים, יוכל לקרוא את כל מה שהעתקת, כולל סיסמאות שלא זוהו. כבה רק אם משהו אחר כבר מגן על הקבצים האלה.";
+"Turn Off Encryption" = "כיבוי ההצפנה";

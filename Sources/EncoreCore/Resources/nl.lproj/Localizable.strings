@@ -445,3 +445,13 @@
 "Characters shown" = "Zichtbare tekens";
 "A masked secret cannot be edited. It still pastes as it is." = "Een gemaskeerd geheim kan niet worden bewerkt. Het wordt nog steeds ongewijzigd geplakt.";
 "Pasted in position %lld" = "Geplakt op positie %lld";
+"Encryption" = "Versleuteling";
+"Encrypt the history on this Mac" = "Geschiedenis op deze Mac versleutelen";
+"Your history and its contents are encrypted with a key kept in your macOS keychain: another app, or someone who copies the files, sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "Je geschiedenis en de inhoud ervan worden versleuteld met een sleutel uit je macOS-sleutelhanger: een andere app, of iemand die de bestanden kopieert, ziet niets leesbaars. Exports blijven leesbare JSON. Zonder de sleutelhanger van deze Mac is de geschiedenis niet te lezen.";
+"History encrypted" = "Geschiedenis versleuteld";
+"History no longer encrypted" = "Geschiedenis niet meer versleuteld";
+"Could not change the encryption: %@" = "Kan versleuteling niet wijzigen: %@";
+"The history is encrypted, and its key is not in this Mac's keychain." = "De geschiedenis is versleuteld en de sleutel staat niet in de sleutelhanger van deze Mac.";
+"Store the history without encryption?" = "Geschiedenis opslaan zonder versleuteling?";
+"Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "Elke app onder je macOS-account, of iemand die deze bestanden kopieert, kan dan alles lezen wat je hebt gekopieerd, ook niet herkende wachtwoorden. Zet het alleen uit als iets anders deze bestanden al beschermt.";
+"Turn Off Encryption" = "Versleuteling uitzetten";

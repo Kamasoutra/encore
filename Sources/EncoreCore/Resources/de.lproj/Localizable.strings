@@ -445,3 +445,13 @@
 "Characters shown" = "Sichtbare Zeichen";
 "A masked secret cannot be edited. It still pastes as it is." = "Ein maskiertes Geheimnis kann nicht bearbeitet werden. Es wird weiterhin unverändert eingesetzt.";
 "Pasted in position %lld" = "Wird an Position %lld eingesetzt";
+"Encryption" = "Verschlüsselung";
+"Encrypt the history on this Mac" = "Verlauf auf diesem Mac verschlüsseln";
+"Your history and its contents are encrypted with a key kept in your macOS keychain: another app, or someone who copies the files, sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "Ihr Verlauf und seine Inhalte werden mit einem Schlüssel aus Ihrem macOS-Schlüsselbund verschlüsselt: Eine andere App oder jemand, der die Dateien kopiert, sieht nichts Lesbares. Exporte bleiben lesbares JSON. Ohne den Schlüsselbund dieses Macs kann der Verlauf nicht gelesen werden.";
+"History encrypted" = "Verlauf verschlüsselt";
+"History no longer encrypted" = "Verlauf nicht mehr verschlüsselt";
+"Could not change the encryption: %@" = "Verschlüsselung konnte nicht geändert werden: %@";
+"The history is encrypted, and its key is not in this Mac's keychain." = "Der Verlauf ist verschlüsselt, und sein Schlüssel ist nicht im Schlüsselbund dieses Macs.";
+"Store the history without encryption?" = "Verlauf ohne Verschlüsselung speichern?";
+"Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "Jede App unter Ihrem macOS-Konto oder jeder, der diese Dateien kopiert, könnte dann alles lesen, was Sie kopiert haben, auch nicht erkannte Passwörter. Deaktivieren Sie sie nur, wenn diese Dateien bereits anders geschützt sind.";
+"Turn Off Encryption" = "Verschlüsselung deaktivieren";

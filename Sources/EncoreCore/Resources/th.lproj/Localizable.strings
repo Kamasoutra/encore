@@ -445,3 +445,13 @@
 "Characters shown" = "อักขระที่แสดง";
 "A masked secret cannot be edited. It still pastes as it is." = "แก้ไขข้อมูลลับที่ถูกซ่อนไม่ได้ แต่ยังวางได้ตามเดิม";
 "Pasted in position %lld" = "วางเป็นลำดับที่ %lld";
+"Encryption" = "การเข้ารหัส";
+"Encrypt the history on this Mac" = "เข้ารหัสประวัติบน Mac นี้";
+"Your history and its contents are encrypted with a key kept in your macOS keychain: another app, or someone who copies the files, sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "ประวัติและเนื้อหาของคุณจะถูกเข้ารหัสด้วยกุญแจที่เก็บในพวงกุญแจ macOS แอปอื่นหรือผู้ที่คัดลอกไฟล์จะไม่เห็นสิ่งใดที่อ่านได้ การส่งออกยังคงเป็น JSON ที่อ่านได้ หากไม่มีพวงกุญแจของ Mac นี้ จะอ่านประวัติไม่ได้";
+"History encrypted" = "เข้ารหัสประวัติแล้ว";
+"History no longer encrypted" = "ประวัติไม่ได้เข้ารหัสอีกต่อไป";
+"Could not change the encryption: %@" = "ไม่สามารถเปลี่ยนการเข้ารหัสได้: %@";
+"The history is encrypted, and its key is not in this Mac's keychain." = "ประวัติถูกเข้ารหัส และกุญแจไม่อยู่ในพวงกุญแจของ Mac นี้";
+"Store the history without encryption?" = "บันทึกประวัติโดยไม่เข้ารหัสใช่ไหม";
+"Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "แอปใดก็ตามที่ทำงานภายใต้บัญชี macOS ของคุณ หรือใครก็ตามที่คัดลอกไฟล์เหล่านี้ จะอ่านทุกสิ่งที่คุณคัดลอกได้ รวมถึงรหัสผ่านที่ตรวจไม่พบ ปิดเฉพาะเมื่อมีเครื่องมืออื่นปกป้องไฟล์เหล่านี้อยู่แล้ว";
+"Turn Off Encryption" = "ปิดการเข้ารหัส";

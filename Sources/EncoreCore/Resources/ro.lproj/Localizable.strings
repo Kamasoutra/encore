@@ -445,3 +445,13 @@
 "Characters shown" = "Caractere vizibile";
 "A masked secret cannot be edited. It still pastes as it is." = "Un secret mascat nu poate fi modificat. Se lipește în continuare așa cum este.";
 "Pasted in position %lld" = "Lipit pe poziția %lld";
+"Encryption" = "Criptare";
+"Encrypt the history on this Mac" = "Criptați istoricul pe acest Mac";
+"Your history and its contents are encrypted with a key kept in your macOS keychain: another app, or someone who copies the files, sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "Istoricul și conținutul său sunt criptate cu o cheie păstrată în portchei macOS: o altă aplicație sau cineva care copiază fișierele nu vede nimic lizibil. Exporturile rămân JSON lizibil. Fără portcheiul acestui Mac, istoricul nu poate fi citit.";
+"History encrypted" = "Istoric criptat";
+"History no longer encrypted" = "Istoricul nu mai este criptat";
+"Could not change the encryption: %@" = "Criptarea nu a putut fi schimbată: %@";
+"The history is encrypted, and its key is not in this Mac's keychain." = "Istoricul este criptat, iar cheia sa nu se află în portcheiul acestui Mac.";
+"Store the history without encryption?" = "Salvați istoricul fără criptare?";
+"Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "Orice aplicație care rulează sub contul dvs. macOS sau oricine copiază aceste fișiere ar putea citi tot ce ați copiat, inclusiv parolele nedetectate. Dezactivați-o doar dacă un alt instrument protejează deja aceste fișiere.";
+"Turn Off Encryption" = "Dezactivați criptarea";

@@ -445,3 +445,13 @@
 "Characters shown" = "Ký tự hiển thị";
 "A masked secret cannot be edited. It still pastes as it is." = "Không thể sửa bí mật đã được che. Nó vẫn được dán nguyên trạng.";
 "Pasted in position %lld" = "Dán ở vị trí %lld";
+"Encryption" = "Mã hóa";
+"Encrypt the history on this Mac" = "Mã hóa lịch sử trên máy Mac này";
+"Your history and its contents are encrypted with a key kept in your macOS keychain: another app, or someone who copies the files, sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "Lịch sử và nội dung của bạn được mã hóa bằng khóa lưu trong chuỗi khóa macOS: ứng dụng khác, hay người sao chép các tệp, sẽ không thấy gì đọc được. Bản xuất vẫn là JSON đọc được. Không có chuỗi khóa của máy Mac này thì không thể đọc lịch sử.";
+"History encrypted" = "Đã mã hóa lịch sử";
+"History no longer encrypted" = "Lịch sử không còn được mã hóa";
+"Could not change the encryption: %@" = "Không thể thay đổi mã hóa: %@";
+"The history is encrypted, and its key is not in this Mac's keychain." = "Lịch sử đã được mã hóa và khóa của nó không có trong chuỗi khóa của máy Mac này.";
+"Store the history without encryption?" = "Lưu lịch sử mà không mã hóa?";
+"Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "Khi đó, bất kỳ ứng dụng nào chạy trong tài khoản macOS của bạn, hoặc người sao chép các tệp này, đều có thể đọc mọi thứ bạn đã sao chép, kể cả mật khẩu chưa được phát hiện. Chỉ tắt nếu đã có công cụ khác bảo vệ các tệp này.";
+"Turn Off Encryption" = "Tắt mã hóa";

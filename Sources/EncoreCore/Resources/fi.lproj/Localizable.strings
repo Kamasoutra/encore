@@ -445,3 +445,13 @@
 "Characters shown" = "Näkyvät merkit";
 "A masked secret cannot be edited. It still pastes as it is." = "Peitettyä salaisuutta ei voi muokata. Sen voi silti liittää sellaisenaan.";
 "Pasted in position %lld" = "Liitetään järjestyksessä %lld.";
+"Encryption" = "Salaus";
+"Encrypt the history on this Mac" = "Salaa historia tällä Macilla";
+"Your history and its contents are encrypted with a key kept in your macOS keychain: another app, or someone who copies the files, sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "Historiasi ja sen sisältö salataan macOS-avainnipun avaimella: toinen appi tai tiedostot kopioiva henkilö ei näe mitään luettavaa. Viennit pysyvät luettavana JSONina. Ilman tämän Macin avainnippua historiaa ei voi lukea.";
+"History encrypted" = "Historia salattu";
+"History no longer encrypted" = "Historia ei ole enää salattu";
+"Could not change the encryption: %@" = "Salausta ei voitu muuttaa: %@";
+"The history is encrypted, and its key is not in this Mac's keychain." = "Historia on salattu, eikä sen avainta ole tämän Macin avainnipussa.";
+"Store the history without encryption?" = "Tallennetaanko historia salaamatta?";
+"Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "Mikä tahansa macOS-tililläsi toimiva appi tai tiedostot kopioiva henkilö voisi silloin lukea kaiken kopioimasi, myös tunnistamatta jääneet salasanat. Poista käytöstä vain, jos jokin muu jo suojaa tiedostot.";
+"Turn Off Encryption" = "Poista salaus käytöstä";

@@ -342,6 +342,15 @@ struct SettingsView: View {
 
     private var data: some View {
         SettingsForm {
+            SettingsGroup(L("Encryption")) {
+                described(L("Your history and its contents are encrypted with a key kept in your macOS keychain: another app, or someone who copies the files, sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read.")) {
+                    HStack {
+                        Toggle(L("Encrypt the history on this Mac"), isOn: Binding(get: { model.historyEncrypted }, set: { model.setHistoryEncryption($0) }))
+                            .disabled(model.demo || model.convertingHistory || model.storage == nil)
+                        if model.convertingHistory { ProgressView().controlSize(.small) }
+                    }
+                }
+            }
             SettingsGroup(L("Retention")) {
                 InfoRow(L("Retention without a rule"), value: model.preferences.retentionDays == 0 ? L("Forever") : L("\(model.preferences.retentionDays) days"))
                 Button { section = .retention } label: { Label(L("Configure retention rules"), systemImage: "clock.arrow.circlepath") }

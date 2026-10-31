@@ -445,3 +445,13 @@
 "Characters shown" = "Видимі символи";
 "A masked secret cannot be edited. It still pastes as it is." = "Прихований секрет не можна змінити. Він і далі вставляється як є.";
 "Pasted in position %lld" = "Вставляється %lld-м";
+"Encryption" = "Шифрування";
+"Encrypt the history on this Mac" = "Шифрувати історію на цьому Mac";
+"Your history and its contents are encrypted with a key kept in your macOS keychain: another app, or someone who copies the files, sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "Історія та її вміст шифруються ключем зі в’язки ключів macOS: інша програма чи той, хто скопіює файли, не побачить нічого читабельного. Експорт лишається читабельним JSON. Без в’язки ключів цього Mac історію прочитати не можна.";
+"History encrypted" = "Історію зашифровано";
+"History no longer encrypted" = "Історія більше не зашифрована";
+"Could not change the encryption: %@" = "Не вдалося змінити шифрування: %@";
+"The history is encrypted, and its key is not in this Mac's keychain." = "Історію зашифровано, а її ключа немає у в’язці ключів цього Mac.";
+"Store the history without encryption?" = "Зберігати історію без шифрування?";
+"Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "Будь-яка програма під вашим обліковим записом macOS або той, хто скопіює ці файли, зможе прочитати все, що ви копіювали, включно з нерозпізнаними паролями. Вимикайте, лише якщо ці файли вже захищає щось інше.";
+"Turn Off Encryption" = "Вимкнути шифрування";

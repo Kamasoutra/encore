@@ -445,3 +445,13 @@
 "Characters shown" = "Characters shown";
 "A masked secret cannot be edited. It still pastes as it is." = "A masked secret cannot be edited. It still pastes as it is.";
 "Pasted in position %lld" = "Pasted in position %lld";
+"Encryption" = "Encryption";
+"Encrypt the history on this Mac" = "Encrypt the history on this Mac";
+"Your history and its contents are encrypted with a key kept in your macOS keychain: another app, or someone who copies the files, sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "Your history and its contents are encrypted with a key kept in your macOS keychain: another app, or someone who copies the files, sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read.";
+"History encrypted" = "History encrypted";
+"History no longer encrypted" = "History no longer encrypted";
+"Could not change the encryption: %@" = "Could not change the encryption: %@";
+"The history is encrypted, and its key is not in this Mac's keychain." = "The history is encrypted, and its key is not in this Mac's keychain.";
+"Store the history without encryption?" = "Store the history without encryption?";
+"Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files.";
+"Turn Off Encryption" = "Turn Off Encryption";

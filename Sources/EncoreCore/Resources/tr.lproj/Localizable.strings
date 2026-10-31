@@ -445,3 +445,13 @@
 "Characters shown" = "Görünen karakterler";
 "A masked secret cannot be edited. It still pastes as it is." = "Gizlenmiş bir gizli bilgi düzenlenemez. Yine olduğu gibi yapıştırılır.";
 "Pasted in position %lld" = "%lld. sırada yapıştırılır";
+"Encryption" = "Şifreleme";
+"Encrypt the history on this Mac" = "Geçmişi bu Mac’te şifrele";
+"Your history and its contents are encrypted with a key kept in your macOS keychain: another app, or someone who copies the files, sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "Geçmişiniz ve içerikleri macOS anahtar zincirinizdeki bir anahtarla şifrelenir: başka bir uygulama ya da dosyaları kopyalayan biri okunabilir hiçbir şey görmez. Dışa aktarılanlar okunabilir JSON olarak kalır. Bu Mac’in anahtar zinciri olmadan geçmiş okunamaz.";
+"History encrypted" = "Geçmiş şifrelendi";
+"History no longer encrypted" = "Geçmiş artık şifreli değil";
+"Could not change the encryption: %@" = "Şifreleme değiştirilemedi: %@";
+"The history is encrypted, and its key is not in this Mac's keychain." = "Geçmiş şifreli ve anahtarı bu Mac’in anahtar zincirinde yok.";
+"Store the history without encryption?" = "Geçmiş şifrelenmeden mi saklansın?";
+"Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "macOS hesabınızda çalışan herhangi bir uygulama ya da bu dosyaları kopyalayan biri, algılanmamış parolalar dahil kopyaladığınız her şeyi okuyabilir. Yalnızca bu dosyaları başka bir şey zaten koruyorsa kapatın.";
+"Turn Off Encryption" = "Şifrelemeyi kapat";

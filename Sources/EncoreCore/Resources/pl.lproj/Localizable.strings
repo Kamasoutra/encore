@@ -445,3 +445,13 @@
 "Characters shown" = "Widoczne znaki";
 "A masked secret cannot be edited. It still pastes as it is." = "Zamaskowanego sekretu nie można edytować. Nadal wkleja się bez zmian.";
 "Pasted in position %lld" = "Wklejany jako %lld.";
+"Encryption" = "Szyfrowanie";
+"Encrypt the history on this Mac" = "Szyfruj historię na tym Macu";
+"Your history and its contents are encrypted with a key kept in your macOS keychain: another app, or someone who copies the files, sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "Historia i jej zawartość są szyfrowane kluczem przechowywanym w pęku kluczy macOS: inna aplikacja ani ktoś, kto skopiuje pliki, nie zobaczy nic czytelnego. Eksporty pozostają czytelnym JSON-em. Bez pęku kluczy tego Maca historii nie da się odczytać.";
+"History encrypted" = "Historia zaszyfrowana";
+"History no longer encrypted" = "Historia nie jest już szyfrowana";
+"Could not change the encryption: %@" = "Nie udało się zmienić szyfrowania: %@";
+"The history is encrypted, and its key is not in this Mac's keychain." = "Historia jest zaszyfrowana, a jej klucza nie ma w pęku kluczy tego Maca.";
+"Store the history without encryption?" = "Zapisywać historię bez szyfrowania?";
+"Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "Każda aplikacja działająca na Twoim koncie macOS lub ktoś, kto skopiuje te pliki, mógłby wtedy odczytać wszystko, co skopiowałeś, także niewykryte hasła. Wyłącz je tylko, jeśli inne narzędzie już chroni te pliki.";
+"Turn Off Encryption" = "Wyłącz szyfrowanie";

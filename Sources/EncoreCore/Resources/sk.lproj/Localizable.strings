@@ -445,3 +445,13 @@
 "Characters shown" = "Viditeľné znaky";
 "A masked secret cannot be edited. It still pastes as it is." = "Skrytý tajný údaj nemožno upraviť. Stále sa vkladá bez zmeny.";
 "Pasted in position %lld" = "Vloží sa ako %lld.";
+"Encryption" = "Šifrovanie";
+"Encrypt the history on this Mac" = "Šifrovať históriu na tomto Macu";
+"Your history and its contents are encrypted with a key kept in your macOS keychain: another app, or someone who copies the files, sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "Vaša história a jej obsah sa šifrujú kľúčom uloženým vo vašej kľúčenke macOS: iná aplikácia ani niekto, kto skopíruje súbory, neuvidí nič čitateľné. Exporty zostávajú čitateľným JSON. Bez kľúčenky tohto Macu sa história nedá prečítať.";
+"History encrypted" = "História zašifrovaná";
+"History no longer encrypted" = "História už nie je šifrovaná";
+"Could not change the encryption: %@" = "Šifrovanie sa nepodarilo zmeniť: %@";
+"The history is encrypted, and its key is not in this Mac's keychain." = "História je zašifrovaná a jej kľúč nie je v kľúčenke tohto Macu.";
+"Store the history without encryption?" = "Ukladať históriu bez šifrovania?";
+"Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "Akákoľvek aplikácia spustená pod vaším účtom macOS alebo ktokoľvek, kto skopíruje tieto súbory, by potom mohol čítať všetko, čo ste skopírovali, vrátane nerozpoznaných hesiel. Vypnite ho, len ak tieto súbory už chráni niečo iné.";
+"Turn Off Encryption" = "Vypnúť šifrovanie";

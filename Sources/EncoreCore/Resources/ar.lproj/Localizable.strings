@@ -445,3 +445,13 @@
 "Characters shown" = "الأحرف الظاهرة";
 "A masked secret cannot be edited. It still pastes as it is." = "لا يمكن تعديل سر مخفي. لا يزال يُلصق كما هو.";
 "Pasted in position %lld" = "يُلصق في الموضع %lld";
+"Encryption" = "التشفير";
+"Encrypt the history on this Mac" = "تشفير السجل على هذا الـMac";
+"Your history and its contents are encrypted with a key kept in your macOS keychain: another app, or someone who copies the files, sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "يُشفَّر سجلك ومحتوياته بمفتاح محفوظ في سلسلة مفاتيح macOS: لا يرى تطبيق آخر، أو من ينسخ الملفات، أي شيء مقروء. تبقى الملفات المصدّرة بصيغة JSON مقروءة. ولا يمكن قراءة السجل من دون سلسلة مفاتيح هذا الـMac.";
+"History encrypted" = "تم تشفير السجل";
+"History no longer encrypted" = "لم يعد السجل مشفرًا";
+"Could not change the encryption: %@" = "تعذّر تغيير التشفير: %@";
+"The history is encrypted, and its key is not in this Mac's keychain." = "السجل مشفّر، ومفتاحه غير موجود في سلسلة مفاتيح هذا الـMac.";
+"Store the history without encryption?" = "حفظ السجل دون تشفير؟";
+"Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "عندها يمكن لأي تطبيق يعمل ضمن حساب macOS الخاص بك، أو لأي شخص ينسخ هذه الملفات، قراءة كل ما نسخته، بما في ذلك كلمات السر التي لم تُكتشف. لا تعطّله إلا إذا كانت أداة أخرى تحمي هذه الملفات بالفعل.";
+"Turn Off Encryption" = "إيقاف التشفير";

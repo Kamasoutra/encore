@@ -445,3 +445,13 @@
 "Characters shown" = "표시할 문자 수";
 "A masked secret cannot be edited. It still pastes as it is." = "가려진 비밀 정보는 편집할 수 없습니다. 붙여넣기는 그대로 됩니다.";
 "Pasted in position %lld" = "%lld번째로 붙여넣기";
+"Encryption" = "암호화";
+"Encrypt the history on this Mac" = "이 Mac에서 기록 암호화";
+"Your history and its contents are encrypted with a key kept in your macOS keychain: another app, or someone who copies the files, sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "기록과 그 내용은 macOS 키체인에 보관된 키로 암호화됩니다. 다른 앱이나 파일을 복사한 사람은 읽을 수 있는 내용을 볼 수 없습니다. 내보낸 파일은 읽을 수 있는 JSON으로 유지됩니다. 이 Mac의 키체인이 없으면 기록을 읽을 수 없습니다.";
+"History encrypted" = "기록을 암호화했습니다";
+"History no longer encrypted" = "기록 암호화를 해제했습니다";
+"Could not change the encryption: %@" = "암호화를 변경할 수 없습니다: %@";
+"The history is encrypted, and its key is not in this Mac's keychain." = "기록이 암호화되어 있지만 키가 이 Mac의 키체인에 없습니다.";
+"Store the history without encryption?" = "기록을 암호화하지 않고 저장할까요?";
+"Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "macOS 계정에서 실행되는 모든 앱이나 이 파일을 복사한 사람이 감지되지 않은 암호를 포함해 복사한 모든 내용을 읽을 수 있게 됩니다. 다른 도구가 이미 이 파일을 보호하는 경우에만 끄세요.";
+"Turn Off Encryption" = "암호화 끄기";

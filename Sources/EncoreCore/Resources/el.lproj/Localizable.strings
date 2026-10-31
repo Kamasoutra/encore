@@ -445,3 +445,13 @@
 "Characters shown" = "Ορατοί χαρακτήρες";
 "A masked secret cannot be edited. It still pastes as it is." = "Ένα κρυμμένο μυστικό δεν μπορεί να επεξεργαστεί. Επικολλάται κανονικά όπως είναι.";
 "Pasted in position %lld" = "Επικόλληση στη θέση %lld";
+"Encryption" = "Κρυπτογράφηση";
+"Encrypt the history on this Mac" = "Κρυπτογράφηση ιστορικού σε αυτό το Mac";
+"Your history and its contents are encrypted with a key kept in your macOS keychain: another app, or someone who copies the files, sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "Το ιστορικό και τα περιεχόμενά του κρυπτογραφούνται με κλειδί από την κλειδοθήκη του macOS: μια άλλη εφαρμογή ή κάποιος που αντιγράφει τα αρχεία δεν βλέπει τίποτα αναγνώσιμο. Οι εξαγωγές παραμένουν αναγνώσιμο JSON. Χωρίς την κλειδοθήκη αυτού του Mac, το ιστορικό δεν διαβάζεται.";
+"History encrypted" = "Το ιστορικό κρυπτογραφήθηκε";
+"History no longer encrypted" = "Το ιστορικό δεν είναι πλέον κρυπτογραφημένο";
+"Could not change the encryption: %@" = "Δεν ήταν δυνατή η αλλαγή της κρυπτογράφησης: %@";
+"The history is encrypted, and its key is not in this Mac's keychain." = "Το ιστορικό είναι κρυπτογραφημένο και το κλειδί του δεν βρίσκεται στην κλειδοθήκη αυτού του Mac.";
+"Store the history without encryption?" = "Αποθήκευση ιστορικού χωρίς κρυπτογράφηση;";
+"Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "Οποιαδήποτε εφαρμογή εκτελείται στον λογαριασμό σας macOS, ή όποιος αντιγράψει αυτά τα αρχεία, θα μπορούσε να διαβάσει ό,τι αντιγράψατε, ακόμη και συνθηματικά που δεν εντοπίστηκαν. Απενεργοποιήστε την μόνο αν κάτι άλλο προστατεύει ήδη αυτά τα αρχεία.";
+"Turn Off Encryption" = "Απενεργοποίηση κρυπτογράφησης";

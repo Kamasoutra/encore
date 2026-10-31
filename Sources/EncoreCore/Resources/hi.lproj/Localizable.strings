@@ -445,3 +445,13 @@
 "Characters shown" = "दिखने वाले अक्षर";
 "A masked secret cannot be edited. It still pastes as it is." = "छिपी गोपनीय जानकारी को संपादित नहीं किया जा सकता। यह अब भी जैसी है वैसी ही पेस्ट होती है।";
 "Pasted in position %lld" = "स्थान %lld पर पेस्ट होगा";
+"Encryption" = "एन्क्रिप्शन";
+"Encrypt the history on this Mac" = "इस Mac पर इतिहास एन्क्रिप्ट करें";
+"Your history and its contents are encrypted with a key kept in your macOS keychain: another app, or someone who copies the files, sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "आपका इतिहास और उसकी सामग्री आपकी macOS कीचेन में रखी कुंजी से एन्क्रिप्ट होती है: कोई दूसरा ऐप, या फ़ाइलें कॉपी करने वाला कोई व्यक्ति, कुछ भी पठनीय नहीं देखता। एक्सपोर्ट पठनीय JSON ही रहते हैं। इस Mac की कीचेन के बिना इतिहास पढ़ा नहीं जा सकता।";
+"History encrypted" = "इतिहास एन्क्रिप्ट हो गया";
+"History no longer encrypted" = "इतिहास अब एन्क्रिप्ट नहीं है";
+"Could not change the encryption: %@" = "एन्क्रिप्शन नहीं बदला जा सका: %@";
+"The history is encrypted, and its key is not in this Mac's keychain." = "इतिहास एन्क्रिप्टेड है, और उसकी कुंजी इस Mac की कीचेन में नहीं है।";
+"Store the history without encryption?" = "इतिहास बिना एन्क्रिप्शन के सहेजें?";
+"Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "तब आपके macOS खाते में चलने वाला कोई भी ऐप, या ये फ़ाइलें कॉपी करने वाला कोई भी व्यक्ति, आपकी कॉपी की हुई हर चीज़ पढ़ सकता है, बिना पहचाने गए पासवर्ड भी। इसे तभी बंद करें जब कोई और चीज़ इन फ़ाइलों को पहले से सुरक्षित रखती हो।";
+"Turn Off Encryption" = "एन्क्रिप्शन बंद करें";
