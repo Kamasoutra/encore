@@ -122,7 +122,8 @@ struct PeerStatus: Identifiable, Equatable {
             do { key = demo ? nil : try HistoryKey.read() } catch { keychainError = error.localizedDescription; throw error }
             let store = try Storage(root: root, key: key)
             storage = store
-            historyEncrypted = store.isEncrypted
+            // The demo shows encryption on, as a real install has it by default, without touching any keychain.
+            historyEncrypted = demo || store.isEncrypted
             library = try store.load()
             store.onError = { [weak self] message in
                 self?.storageError = message
