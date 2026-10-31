@@ -444,3 +444,4 @@
 "Delete after" = "Silme süresi";
 "Characters shown" = "Görünen karakterler";
 "A masked secret cannot be edited. It still pastes as it is." = "Gizlenmiş bir gizli bilgi düzenlenemez. Yine olduğu gibi yapıştırılır.";
+"Pasted in position %lld" = "%lld. sırada yapıştırılır";

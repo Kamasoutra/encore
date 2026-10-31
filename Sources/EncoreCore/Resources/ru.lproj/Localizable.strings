@@ -444,3 +444,4 @@
 "Delete after" = "Удалять через";
 "Characters shown" = "Видимые символы";
 "A masked secret cannot be edited. It still pastes as it is." = "Скрытый секрет нельзя изменить. Он по-прежнему вставляется как есть.";
+"Pasted in position %lld" = "Вставляется %lld-м";

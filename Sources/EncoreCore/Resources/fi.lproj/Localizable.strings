@@ -444,3 +444,4 @@
 "Delete after" = "Poista kuluttua";
 "Characters shown" = "Näkyvät merkit";
 "A masked secret cannot be edited. It still pastes as it is." = "Peitettyä salaisuutta ei voi muokata. Sen voi silti liittää sellaisenaan.";
+"Pasted in position %lld" = "Liitetään järjestyksessä %lld.";

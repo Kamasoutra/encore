@@ -511,6 +511,7 @@ struct ClipCard: View {
     private let now: Date
     private let remote: Bool
     private let renaming: Bool
+    private let order: Int?
     @Environment(\.colorScheme) private var scheme
     @State private var hovered = false
     private var dark: Bool { scheme == .dark }
@@ -524,6 +525,7 @@ struct ClipCard: View {
         now = model.displayTime
         remote = model.remotePeer != nil
         renaming = model.renamingID == clip.id
+        order = model.pasteOrder(of: clip.id)
     }
 
     var body: some View {
@@ -570,6 +572,19 @@ struct ClipCard: View {
         // A blurred halo fades smoothly instead of showing a hard-edged ring.
         .background { if selected { RoundedRectangle(cornerRadius: 14).fill(Palette.accent.opacity(dark ? 0.75 : 0.55)).padding(-3).blur(radius: 4) } }
         .shadow(color: .black.opacity(dark ? 0.22 : 0.06), radius: hovered ? 10 : 5, y: hovered ? 4 : 2)
+        // With several cards selected, each shows where it comes in the paste.
+        .overlay(alignment: .topLeading) {
+            if let order {
+                Text(Localization.number(order)).font(.system(size: 11 * scale, weight: .bold, design: .rounded)).monospacedDigit().foregroundStyle(.white)
+                    .frame(minWidth: 20 * scale, minHeight: 20 * scale).padding(.horizontal, order > 9 ? 4 : 0)
+                    .background(LinearGradient(colors: [Palette.accent, Color(red: 1, green: 0.36, blue: 0.55)], startPoint: .topLeading, endPoint: .bottomTrailing), in: Capsule())
+                    .overlay(Capsule().strokeBorder(Palette.card(dark), lineWidth: 2))
+                    .shadow(color: Palette.accent.opacity(0.5), radius: 4)
+                    .offset(x: -6, y: -6)
+                    .transition(.scale.combined(with: .opacity))
+                    .help(L("Pasted in position \(order)"))
+            }
+        }
         .modifier(MatchedCard(id: clip.id, namespace: namespace))
         .background { if cursor { GeometryReader { proxy in Color.clear.preference(key: CursorFrameKey.self, value: proxy.frame(in: .global)) } } }
         .contentShape(RoundedRectangle(cornerRadius: 12))
@@ -580,7 +595,7 @@ struct ClipCard: View {
         .onDrag { itemProvider() }
         .accessibilityElement(children: .combine)
         .accessibilityLabel(L("\(clip.kind.title), \(clip.displayTitle), \(clip.sourceName)"))
-        .accessibilityValue(selected ? L("Selected") : "")
+        .accessibilityValue(order.map { L("Pasted in position \($0)") } ?? (selected ? L("Selected") : ""))
         .accessibilityAddTraits(.isButton)
         .accessibilityAction { model.select(clip.id); model.paste([clip]) }
     }

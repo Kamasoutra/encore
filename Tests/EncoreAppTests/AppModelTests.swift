@@ -107,6 +107,37 @@ final class AppModelTests: XCTestCase {
         }
     }
 
+    @MainActor func testSeveralCardsPasteInTheOrderTheyWereSelected() async throws {
+        try withModel { model in
+            for value in ["E", "D", "C", "B", "A"] { model.addText(value) }
+            let ids = model.filtered.map(\.id)
+            XCTAssertEqual(model.filtered.map(\.text), ["A", "B", "C", "D", "E"])
+            // On the fourth card, ⇧← twice: the fourth comes first.
+            model.select(ids[3])
+            model.move(-1, extend: true); model.move(-1, extend: true)
+            XCTAssertEqual(model.selectedClips.map(\.text), ["D", "C", "B"])
+            XCTAssertEqual([ids[3], ids[2], ids[1]].map { model.pasteOrder(of: $0) }, [1, 2, 3])
+            // Going back shrinks the selection and keeps its order.
+            model.move(1, extend: true)
+            XCTAssertEqual(model.selectedClips.map(\.text), ["D", "C"])
+            // The other way round.
+            model.select(ids[1])
+            model.select(ids[3], modifiers: .shift)
+            XCTAssertEqual(model.selectedClips.map(\.text), ["B", "C", "D"])
+            // ⌘-clicks follow the clicks; removing one closes the gap.
+            model.select(ids[4]); model.select(ids[0], modifiers: .command); model.select(ids[2], modifiers: .command)
+            XCTAssertEqual(model.selectedClips.map(\.text), ["E", "A", "C"])
+            model.select(ids[0], modifiers: .command)
+            XCTAssertEqual(model.selectedClips.map(\.text), ["E", "C"])
+            XCTAssertEqual(model.pasteOrder(of: ids[2]), 2)
+            // A single card shows no number, and ⌘A falls back to board order.
+            model.select(ids[0])
+            XCTAssertNil(model.pasteOrder(of: ids[0]))
+            model.selection = Set(ids)
+            XCTAssertEqual(model.selectedClips.map(\.text), ["A", "B", "C", "D", "E"])
+        }
+    }
+
     @MainActor func testExpiringSelectedMiddleItemKeepsSelectionBesideTheGap() async throws {
         try withModel { model in
             let now = Date()

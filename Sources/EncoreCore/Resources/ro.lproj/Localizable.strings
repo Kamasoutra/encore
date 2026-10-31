@@ -444,3 +444,4 @@
 "Delete after" = "Ștergere după";
 "Characters shown" = "Caractere vizibile";
 "A masked secret cannot be edited. It still pastes as it is." = "Un secret mascat nu poate fi modificat. Se lipește în continuare așa cum este.";
+"Pasted in position %lld" = "Lipit pe poziția %lld";

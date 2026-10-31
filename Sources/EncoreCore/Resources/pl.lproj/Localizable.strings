@@ -444,3 +444,4 @@
 "Delete after" = "Usuń po";
 "Characters shown" = "Widoczne znaki";
 "A masked secret cannot be edited. It still pastes as it is." = "Zamaskowanego sekretu nie można edytować. Nadal wkleja się bez zmian.";
+"Pasted in position %lld" = "Wklejany jako %lld.";

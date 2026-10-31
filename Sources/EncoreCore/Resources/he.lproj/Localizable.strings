@@ -444,3 +444,4 @@
 "Delete after" = "מחיקה אחרי";
 "Characters shown" = "תווים גלויים";
 "A masked secret cannot be edited. It still pastes as it is." = "אי אפשר לערוך סוד מוסתר. הוא עדיין מודבק כמו שהוא.";
+"Pasted in position %lld" = "מודבק במקום %lld";

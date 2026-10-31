@@ -27,6 +27,8 @@ struct PeerStatus: Identifiable, Equatable {
     @Published var source: String? { didSet { resetSelection() } }
     @Published var board = "history" { didSet { loadRemote(); resetSelection() } }
     @Published var selection: Set<UUID> = []
+    /// The order the selected cards were picked in: several cards paste in this order, whatever their place on the board.
+    @Published var selectionOrder: [UUID] = []
     @Published var cursor: UUID?
     @Published var searchFocused = false
     @Published var expanded = false { didSet { if expanded != oldValue { quickLook = false; resizePanel?() } } }
@@ -165,7 +167,21 @@ struct PeerStatus: Identifiable, Equatable {
     var sideColumn: Bool { preferences.placement == "compact" }
     /// The column is on screen: the library opened from it replaces it until ↓ is held.
     var columnShown: Bool { sideColumn && !expanded }
-    var selectedClips: [Clip] { filtered.filter { selection.contains($0.id) } }
+    /// The selection in the order it was made; cards selected another way, like ⌘A, follow in board order.
+    var orderedSelection: [UUID] {
+        var seen = Set<UUID>()
+        let picked = selectionOrder.filter { selection.contains($0) && seen.insert($0).inserted }
+        return picked + filtered.map(\.id).filter { selection.contains($0) && !seen.contains($0) }
+    }
+    var selectedClips: [Clip] {
+        let byID = Dictionary(filtered.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
+        return orderedSelection.compactMap { byID[$0] }
+    }
+    /// The paste position of a selected card, from 1, when several are selected.
+    func pasteOrder(of id: UUID) -> Int? {
+        guard selection.count > 1, selection.contains(id) else { return nil }
+        return orderedSelection.firstIndex(of: id).map { $0 + 1 }
+    }
     var selected: Clip? { boardClips.first { $0.id == cursor } }
     var sources: [(String, String)] {
         var seen = Set<String>()
@@ -194,11 +210,15 @@ struct PeerStatus: Identifiable, Equatable {
     func select(_ id: UUID, modifiers: NSEvent.ModifierFlags = []) {
         let ids = filtered.map(\.id)
         if modifiers.contains(.shift), let anchor = selectionAnchor ?? cursor, let start = ids.firstIndex(of: anchor), let end = ids.firstIndex(of: id) {
-            selection = Set(ids[min(start, end)...max(start, end)])
+            // From the card the selection started on towards the one reached, in either direction.
+            let range = start <= end ? Array(ids[start...end]) : Array(ids[end...start].reversed())
+            selection = Set(range)
+            selectionOrder = range
         } else if modifiers.contains(.command) {
-            if selection.contains(id) { selection.remove(id) } else { selection.insert(id) }
+            if selection.contains(id) { selection.remove(id); selectionOrder.removeAll { $0 == id } }
+            else { selection.insert(id); selectionOrder = orderedSelection.filter { $0 != id } + [id] }
             selectionAnchor = id
-        } else { selection = [id]; selectionAnchor = id }
+        } else { selection = [id]; selectionOrder = [id]; selectionAnchor = id }
         cursor = id
         searchFocused = false
     }

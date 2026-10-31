@@ -444,3 +444,4 @@
 "Delete after" = "Hapus setelah";
 "Characters shown" = "Karakter terlihat";
 "A masked secret cannot be edited. It still pastes as it is." = "Rahasia yang disamarkan tidak bisa diedit. Tetap bisa ditempel apa adanya.";
+"Pasted in position %lld" = "Ditempel di urutan %lld";

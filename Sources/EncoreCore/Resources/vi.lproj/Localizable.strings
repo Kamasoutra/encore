@@ -444,3 +444,4 @@
 "Delete after" = "Xóa sau";
 "Characters shown" = "Ký tự hiển thị";
 "A masked secret cannot be edited. It still pastes as it is." = "Không thể sửa bí mật đã được che. Nó vẫn được dán nguyên trạng.";
+"Pasted in position %lld" = "Dán ở vị trí %lld";
