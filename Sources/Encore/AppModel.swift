@@ -1,4 +1,5 @@
 import AppKit
+import CryptoKit
 import SwiftUI
 import Vision
 import ImageIO
@@ -115,8 +116,11 @@ struct PeerStatus: Identifiable, Equatable {
         if demo { preferences.displayTarget = "primary" }
         do {
             let root = demo ? FileManager.default.temporaryDirectory.appendingPathComponent("Encore-Demo-\(ProcessInfo.processInfo.processIdentifier)") : FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].appendingPathComponent("Encore")
-            // The key is in the keychain only while the history is encrypted.
-            let store = try Storage(root: root, key: demo ? nil : try? HistoryKey.read())
+            // The key is in the keychain only while the history is encrypted. Only "no such item" means plain files:
+            // any other keychain error stops here, as guessing could start a conversion that loses the history.
+            var key: SymmetricKey?
+            do { key = demo ? nil : try HistoryKey.read() } catch { keychainError = error.localizedDescription; throw error }
+            let store = try Storage(root: root, key: key)
             storage = store
             historyEncrypted = store.isEncrypted
             library = try store.load()
@@ -136,7 +140,7 @@ struct PeerStatus: Identifiable, Equatable {
         resetSelection()
         if let notice = storage?.recoveryNotice { notify(notice) }
         // On by default: a history kept in plain files, new or from an earlier version, is encrypted unless the user turned it off.
-        if !demo, storageError == nil, !historyEncrypted, !preferences.historyEncryptionDeclined { setHistoryEncryption(true, confirmed: true) }
+        if !demo, storageError == nil, keychainError == nil, !historyEncrypted, !preferences.historyEncryptionDeclined { setHistoryEncryption(true, confirmed: true) }
         startPeers()
     }
 
@@ -316,12 +320,14 @@ struct PeerStatus: Identifiable, Equatable {
     func save() { storage?.save(library) }
 
     @Published private(set) var historyEncrypted = false
+    /// Set when the keychain could not be read at launch: encryption then cannot be changed, so nothing is converted on a guess.
+    @Published private(set) var keychainError: String?
     @Published private(set) var convertingHistory = false
 
     /// Encrypts the history on disk or turns it back to plain files. The key is created before any file is sealed,
     /// and removed only once every file is plain again: a conversion cut short leaves a history that still reads.
     func setHistoryEncryption(_ on: Bool, confirmed: Bool = false) {
-        guard !demo, let storage, !convertingHistory, on != historyEncrypted else { return }
+        guard !demo, let storage, storageError == nil, keychainError == nil, !convertingHistory, on != historyEncrypted else { return }
         if !on && !confirmed {
             NSApp.activate(ignoringOtherApps: true)
             let alert = NSAlert()
@@ -377,7 +383,7 @@ struct PeerStatus: Identifiable, Equatable {
         guard alert.runModal() == .alertSecondButtonReturn else { return }
         do {
             storage?.flush()
-            let next = try Storage(root: root, key: demo ? nil : try? HistoryKey.read())
+            let next = try Storage(root: root, key: demo ? nil : try HistoryKey.read())
             let restored = try next.load()
             next.onError = { [weak self] error in self?.storageError = error; self?.preferences.captureEnabled = false }
             storage = next; library = restored; storageError = nil

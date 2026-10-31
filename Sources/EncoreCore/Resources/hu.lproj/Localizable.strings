@@ -455,3 +455,4 @@
 "Store the history without encryption?" = "Titkosítás nélkül menti az előzményeket?";
 "Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "Bármely alkalmazás, amely a macOS-fiókja alatt fut, vagy bárki, aki lemásolja ezeket a fájlokat, elolvashatná mindazt, amit másolt, a fel nem ismert jelszavakat is. Csak akkor kapcsolja ki, ha más már védi ezeket a fájlokat.";
 "Turn Off Encryption" = "Titkosítás kikapcsolása";
+"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. The history is encrypted; exports stay readable JSON." = "A fájlokra csak hivatkozás történik, nem duplikálódnak. A méretük számít a szabályokban, de nem fogyasztja az encore keretét. Az előzmények titkosítva vannak; az exportok olvasható JSON-ok maradnak.";

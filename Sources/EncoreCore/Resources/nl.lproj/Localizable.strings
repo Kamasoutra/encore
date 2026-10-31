@@ -455,3 +455,4 @@
 "Store the history without encryption?" = "Geschiedenis opslaan zonder versleuteling?";
 "Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "Elke app onder je macOS-account, of iemand die deze bestanden kopieert, kan dan alles lezen wat je hebt gekopieerd, ook niet herkende wachtwoorden. Zet het alleen uit als iets anders deze bestanden al beschermt.";
 "Turn Off Encryption" = "Versleuteling uitzetten";
+"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. The history is encrypted; exports stay readable JSON." = "Er wordt naar bestanden verwezen; ze worden niet gedupliceerd. Hun grootte telt mee voor de regels, maar niet voor het budget van encore. De geschiedenis is versleuteld; exports blijven leesbare JSON.";

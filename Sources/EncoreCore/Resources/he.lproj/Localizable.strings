@@ -455,3 +455,4 @@
 "Store the history without encryption?" = "לשמור את ההיסטוריה בלי הצפנה?";
 "Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "כל יישום שרץ תחת חשבון ה-macOS שלך, או כל מי שמעתיק את הקבצים, יוכל לקרוא את כל מה שהעתקת, כולל סיסמאות שלא זוהו. כבה רק אם משהו אחר כבר מגן על הקבצים האלה.";
 "Turn Off Encryption" = "כיבוי ההצפנה";
+"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. The history is encrypted; exports stay readable JSON." = "הקבצים מקושרים ואינם משוכפלים. הגודל שלהם משמש לכללים, אך אינו נספר במכסה של encore. ההיסטוריה מוצפנת; הייצוא נשאר JSON קריא.";

@@ -53,7 +53,8 @@ public final class Storage: @unchecked Sendable {
                 let damaged = recovery.appendingPathComponent("Library-damaged-\(UUID().uuidString).json")
                 try FileManager.default.copyItem(at: url, to: damaged)
                 try FileManager.default.setAttributes([.posixPermissions: 0o600], ofItemAtPath: damaged.path)
-                try writeRaw(data, to: url)
+                // Written again under the current key, so a restored library is never left in plain files when the history is encrypted.
+                try write(open(data), to: url)
                 metadataDate = try url.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate
                 recoveredMessage = L("Library restored from backup. The damaged file was kept in Recovery.")
                 return library
@@ -137,6 +138,9 @@ public final class Storage: @unchecked Sendable {
                 for url in items where url.pathExtension == "json" { contents.append((url, try open(Data(contentsOf: url)))) }
                 let backup = root.appendingPathComponent("Library.backup.json")
                 if let data = try? Data(contentsOf: backup), let plain = try? open(data) { contents.append((backup, plain)) }
+                // Damaged libraries kept for recovery follow too, so no plain copy of the history is left behind.
+                let recovery = (try? FileManager.default.contentsOfDirectory(at: root.appendingPathComponent("Recovery"), includingPropertiesForKeys: nil)) ?? []
+                for url in recovery where url.pathExtension == "json" { if let plain = try? open(Data(contentsOf: url)) { contents.append((url, plain)) } }
                 key = newKey
                 for (url, plain) in contents { try write(plain, to: url) }
                 try write(encoder.encode(library), to: root.appendingPathComponent("Library.json"))

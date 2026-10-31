@@ -455,3 +455,4 @@
 "Store the history without encryption?" = "Tallennetaanko historia salaamatta?";
 "Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "Mikä tahansa macOS-tililläsi toimiva appi tai tiedostot kopioiva henkilö voisi silloin lukea kaiken kopioimasi, myös tunnistamatta jääneet salasanat. Poista käytöstä vain, jos jokin muu jo suojaa tiedostot.";
 "Turn Off Encryption" = "Poista salaus käytöstä";
+"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. The history is encrypted; exports stay readable JSON." = "Tiedostoihin viitataan, eikä niitä monisteta. Niiden koko lasketaan sääntöihin mutta ei encoren kiintiöön. Historia on salattu; viennit pysyvät luettavana JSONina.";

@@ -455,3 +455,4 @@
 "Store the history without encryption?" = "Simpan riwayat tanpa enkripsi?";
 "Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "Aplikasi apa pun yang berjalan di akun macOS-mu, atau siapa pun yang menyalin file ini, bisa membaca semua yang kamu salin, termasuk kata sandi yang tidak terdeteksi. Matikan hanya jika ada alat lain yang sudah melindungi file ini.";
 "Turn Off Encryption" = "Matikan enkripsi";
+"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. The history is encrypted; exports stay readable JSON." = "File dirujuk, bukan diduplikasi. Ukurannya digunakan untuk aturan, tetapi tidak memakai anggaran encore. Riwayat dienkripsi; ekspor tetap JSON yang terbaca.";

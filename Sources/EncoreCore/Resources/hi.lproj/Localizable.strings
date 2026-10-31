@@ -455,3 +455,4 @@
 "Store the history without encryption?" = "इतिहास बिना एन्क्रिप्शन के सहेजें?";
 "Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "तब आपके macOS खाते में चलने वाला कोई भी ऐप, या ये फ़ाइलें कॉपी करने वाला कोई भी व्यक्ति, आपकी कॉपी की हुई हर चीज़ पढ़ सकता है, बिना पहचाने गए पासवर्ड भी। इसे तभी बंद करें जब कोई और चीज़ इन फ़ाइलों को पहले से सुरक्षित रखती हो।";
 "Turn Off Encryption" = "एन्क्रिप्शन बंद करें";
+"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. The history is encrypted; exports stay readable JSON." = "फ़ाइलों को रेफ़र किया जाता है, उनकी डुप्लिकेट नहीं बनती। उनका आकार नियमों में गिना जाता है, पर encore के बजट में नहीं। इतिहास एन्क्रिप्टेड है; एक्सपोर्ट पठनीय JSON ही रहते हैं।";

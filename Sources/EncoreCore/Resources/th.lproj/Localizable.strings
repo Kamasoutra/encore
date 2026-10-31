@@ -455,3 +455,4 @@
 "Store the history without encryption?" = "บันทึกประวัติโดยไม่เข้ารหัสใช่ไหม";
 "Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "แอปใดก็ตามที่ทำงานภายใต้บัญชี macOS ของคุณ หรือใครก็ตามที่คัดลอกไฟล์เหล่านี้ จะอ่านทุกสิ่งที่คุณคัดลอกได้ รวมถึงรหัสผ่านที่ตรวจไม่พบ ปิดเฉพาะเมื่อมีเครื่องมืออื่นปกป้องไฟล์เหล่านี้อยู่แล้ว";
 "Turn Off Encryption" = "ปิดการเข้ารหัส";
+"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. The history is encrypted; exports stay readable JSON." = "ไฟล์จะถูกอ้างอิง ไม่ได้ทำสำเนา ขนาดไฟล์ใช้สำหรับกฎการเก็บรักษาแต่ไม่กินพื้นที่ของ encore ประวัติถูกเข้ารหัส ส่วนการส่งออกยังคงเป็น JSON ที่อ่านได้";

@@ -455,3 +455,4 @@
 "Store the history without encryption?" = "Lagre loggen uten kryptering?";
 "Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "Alle apper som kjører under macOS-kontoen din, eller den som kopierer filene, kan da lese alt du har kopiert, også passord som ikke ble oppdaget. Slå det bare av hvis noe annet allerede beskytter filene.";
 "Turn Off Encryption" = "Slå av kryptering";
+"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. The history is encrypted; exports stay readable JSON." = "Filer refereres til og dupliseres ikke. Størrelsen deres teller for reglene, men ikke mot budsjettet til encore. Loggen er kryptert; eksporter forblir lesbar JSON.";

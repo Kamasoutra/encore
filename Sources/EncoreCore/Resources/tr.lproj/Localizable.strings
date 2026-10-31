@@ -455,3 +455,4 @@
 "Store the history without encryption?" = "Geçmiş şifrelenmeden mi saklansın?";
 "Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "macOS hesabınızda çalışan herhangi bir uygulama ya da bu dosyaları kopyalayan biri, algılanmamış parolalar dahil kopyaladığınız her şeyi okuyabilir. Yalnızca bu dosyaları başka bir şey zaten koruyorsa kapatın.";
 "Turn Off Encryption" = "Şifrelemeyi kapat";
+"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. The history is encrypted; exports stay readable JSON." = "Dosyalara başvurulur, kopyaları oluşturulmaz. Boyutları kurallarda kullanılır ancak encore’un bütçesinden düşülmez. Geçmiş şifrelidir; dışa aktarılanlar okunabilir JSON olarak kalır.";

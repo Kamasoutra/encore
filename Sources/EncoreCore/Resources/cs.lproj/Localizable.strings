@@ -455,3 +455,4 @@
 "Store the history without encryption?" = "Ukládat historii bez šifrování?";
 "Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "Jakákoli aplikace běžící pod vaším účtem macOS nebo kdokoli, kdo zkopíruje tyto soubory, by pak mohl číst vše, co jste zkopírovali, včetně nerozpoznaných hesel. Vypněte ho, jen pokud tyto soubory už chrání něco jiného.";
 "Turn Off Encryption" = "Vypnout šifrování";
+"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. The history is encrypted; exports stay readable JSON." = "Na soubory se jen odkazuje, neduplikují se. Jejich velikost se uplatňuje v pravidlech, ale nečerpá limit encore. Historie je šifrovaná, exporty zůstávají čitelným JSON.";

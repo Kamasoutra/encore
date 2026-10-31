@@ -346,7 +346,7 @@ struct SettingsView: View {
                 described(L("Your history and its contents are encrypted with a key kept in your macOS keychain: another app, or someone who copies the files, sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read.")) {
                     HStack {
                         Toggle(L("Encrypt the history on this Mac"), isOn: Binding(get: { model.historyEncrypted }, set: { model.setHistoryEncryption($0) }))
-                            .disabled(model.demo || model.convertingHistory || model.storage == nil)
+                            .disabled(model.demo || model.convertingHistory || model.storage == nil || model.storageError != nil || model.keychainError != nil)
                         if model.convertingHistory { ProgressView().controlSize(.small) }
                     }
                 }
@@ -369,7 +369,7 @@ struct SettingsView: View {
                 }
                 InfoRow(L("Items"), value: Localization.number(model.library.clips.count))
                 InfoRow(L("Stored content"), value: Localization.bytes(Int64(model.totalBytes)))
-                caption(L("Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. Storage and backups are unencrypted."))
+                caption(model.historyEncrypted ? L("Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. The history is encrypted; exports stay readable JSON.") : L("Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. Storage and backups are unencrypted."))
                 HStack {
                     Button { model.exportLibrary() } label: { Label(L("Export…"), systemImage: "square.and.arrow.up") }
                     Button { model.importLibrary() } label: { Label(L("Import…"), systemImage: "square.and.arrow.down") }

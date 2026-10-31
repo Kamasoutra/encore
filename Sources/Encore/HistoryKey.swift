@@ -19,12 +19,12 @@ enum HistoryKey {
         return SymmetricKey(data: data)
     }
 
-    /// A new random key, stored before any file is encrypted with it.
+    /// A new random key, stored before any file is encrypted with it. It never replaces an existing key:
+    /// files sealed with that one would become unreadable.
     static func create() throws -> SymmetricKey {
         let key = SymmetricKey(size: .bits256)
         let data = key.withUnsafeBytes { Data($0) }
         let attributes = query.merging([kSecValueData as String: data, kSecAttrAccessible as String: kSecAttrAccessibleAfterFirstUnlock]) { $1 }
-        SecItemDelete(query as CFDictionary)
         let status = SecItemAdd(attributes as CFDictionary, nil)
         guard status == errSecSuccess else { throw KeychainError(status: status) }
         return key

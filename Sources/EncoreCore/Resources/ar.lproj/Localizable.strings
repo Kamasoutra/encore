@@ -455,3 +455,4 @@
 "Store the history without encryption?" = "حفظ السجل دون تشفير؟";
 "Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "عندها يمكن لأي تطبيق يعمل ضمن حساب macOS الخاص بك، أو لأي شخص ينسخ هذه الملفات، قراءة كل ما نسخته، بما في ذلك كلمات السر التي لم تُكتشف. لا تعطّله إلا إذا كانت أداة أخرى تحمي هذه الملفات بالفعل.";
 "Turn Off Encryption" = "إيقاف التشفير";
+"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. The history is encrypted; exports stay readable JSON." = "يُشار إلى الملفات دون نسخها. يُستخدم حجمها في القواعد، لكنه لا يُحتسب من سعة encore. السجل مشفّر، وتبقى الملفات المصدّرة بصيغة JSON مقروءة.";

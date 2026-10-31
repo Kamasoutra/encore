@@ -455,3 +455,4 @@
 "Store the history without encryption?" = "暗号化せずに履歴を保存しますか？";
 "Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "macOSアカウントで動くどのアプリも、これらのファイルをコピーした人も、検出されなかったパスワードを含め、コピーした内容をすべて読めるようになります。ほかの手段ですでに保護している場合にのみオフにしてください。";
 "Turn Off Encryption" = "暗号化をオフにする";
+"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. The history is encrypted; exports stay readable JSON." = "ファイルは複製されず、参照として保存されます。サイズは保持ルールに使用されますが、encoreの容量は消費しません。履歴は暗号化されています。書き出したファイルは読めるJSONのままです。";

@@ -455,3 +455,4 @@
 "Store the history without encryption?" = "要不加密儲存歷史記錄嗎？";
 "Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "這樣一來，在你的 macOS 帳號下執行的任何 App，或拷貝這些檔案的任何人，都能讀取你拷貝過的所有內容，包括未被偵測到的密碼。只有在其他工具已經保護這些檔案時才關閉。";
 "Turn Off Encryption" = "關閉加密";
+"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. The history is encrypted; exports stay readable JSON." = "檔案以參照方式保存，不會複製。檔案大小會用於保留規則，但不佔用 encore 的容量。歷史記錄已加密；輸出的檔案仍是可讀的 JSON。";

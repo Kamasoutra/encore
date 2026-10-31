@@ -455,3 +455,4 @@
 "Store the history without encryption?" = "Salvați istoricul fără criptare?";
 "Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "Orice aplicație care rulează sub contul dvs. macOS sau oricine copiază aceste fișiere ar putea citi tot ce ați copiat, inclusiv parolele nedetectate. Dezactivați-o doar dacă un alt instrument protejează deja aceste fișiere.";
 "Turn Off Encryption" = "Dezactivați criptarea";
+"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. The history is encrypted; exports stay readable JSON." = "Fișierele sunt referențiate, nu duplicate. Mărimea lor contează pentru regulile de păstrare, dar nu ocupă spațiul encore. Istoricul este criptat; exporturile rămân JSON lizibil.";

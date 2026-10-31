@@ -455,3 +455,4 @@
 "Store the history without encryption?" = "Store the history without encryption?";
 "Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files.";
 "Turn Off Encryption" = "Turn Off Encryption";
+"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. The history is encrypted; exports stay readable JSON." = "Files are referenced, not duplicated. Their size is used for retention rules but does not consume encore's budget. The history is encrypted; exports stay readable JSON.";

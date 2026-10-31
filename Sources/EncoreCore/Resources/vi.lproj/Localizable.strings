@@ -455,3 +455,4 @@
 "Store the history without encryption?" = "Lưu lịch sử mà không mã hóa?";
 "Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "Khi đó, bất kỳ ứng dụng nào chạy trong tài khoản macOS của bạn, hoặc người sao chép các tệp này, đều có thể đọc mọi thứ bạn đã sao chép, kể cả mật khẩu chưa được phát hiện. Chỉ tắt nếu đã có công cụ khác bảo vệ các tệp này.";
 "Turn Off Encryption" = "Tắt mã hóa";
+"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. The history is encrypted; exports stay readable JSON." = "Tệp được tham chiếu, không bị sao chép thêm. Kích thước tệp được dùng cho quy tắc lưu giữ nhưng không chiếm dung lượng của encore. Lịch sử đã được mã hóa; bản xuất vẫn là JSON đọc được.";

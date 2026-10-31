@@ -65,6 +65,18 @@ final class EncryptionTests: XCTestCase {
         XCTAssertNotNil(plain.payload(clips[3].id))
     }
 
+    func testCopiesKeptForRecoveryAreEncryptedToo() throws {
+        let store = try Storage(root: directory)
+        var library = Library(); library.clips = [Clip(kind: .text, text: "kept for recovery")]
+        store.save(library); store.flush()
+        let recovery = directory.appendingPathComponent("Recovery")
+        try FileManager.default.createDirectory(at: recovery, withIntermediateDirectories: true)
+        let damaged = recovery.appendingPathComponent("Library-damaged-test.json")
+        try JSONEncoder().encode(library).write(to: damaged)
+        try change(store, to: SymmetricKey(size: .bits256), library)
+        XCTAssertNil(try Data(contentsOf: damaged).range(of: Data("kept for recovery".utf8)))
+    }
+
     func testAHistoryHalfConvertedStaysReadable() throws {
         let plainStore = try Storage(root: directory)
         var library = Library()

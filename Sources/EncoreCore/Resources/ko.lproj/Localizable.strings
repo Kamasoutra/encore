@@ -455,3 +455,4 @@
 "Store the history without encryption?" = "기록을 암호화하지 않고 저장할까요?";
 "Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "macOS 계정에서 실행되는 모든 앱이나 이 파일을 복사한 사람이 감지되지 않은 암호를 포함해 복사한 모든 내용을 읽을 수 있게 됩니다. 다른 도구가 이미 이 파일을 보호하는 경우에만 끄세요.";
 "Turn Off Encryption" = "암호화 끄기";
+"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. The history is encrypted; exports stay readable JSON." = "파일은 복제되지 않고 참조로 저장됩니다. 파일 크기는 보존 규칙에 사용되지만 encore 용량을 차지하지 않습니다. 기록은 암호화되어 있으며, 내보낸 파일은 읽을 수 있는 JSON으로 유지됩니다.";

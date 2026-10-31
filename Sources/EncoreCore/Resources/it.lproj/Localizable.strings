@@ -455,3 +455,4 @@
 "Store the history without encryption?" = "Salvare la cronologia senza crittografia?";
 "Any app running under your macOS account, or anyone who copies these files, could then read everything you copied, including passwords that were not detected. Turn it off only if something else already protects these files." = "Qualsiasi app che gira con il tuo account macOS, o chi copia questi file, potrebbe leggere tutto ciò che hai copiato, comprese le password non rilevate. Disattivala solo se un altro strumento protegge già questi file.";
 "Turn Off Encryption" = "Disattiva crittografia";
+"Files are referenced, not duplicated. Their size is used for retention rules but does not consume Encore's budget. The history is encrypted; exports stay readable JSON." = "I file vengono referenziati, non duplicati. La loro dimensione conta per le regole di conservazione ma non occupa lo spazio di encore. La cronologia è cifrata; le esportazioni restano JSON leggibile.";
