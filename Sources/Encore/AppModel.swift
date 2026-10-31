@@ -126,6 +126,7 @@ struct PeerStatus: Identifiable, Equatable {
             store.onError = { [weak self] message in
                 self?.storageError = message
                 self?.preferences.captureEnabled = false
+                self?.updateAppearance?()
                 self?.notify(L("Save failed: \(message)"))
             }
         } catch {
@@ -532,7 +533,7 @@ struct PeerStatus: Identifiable, Equatable {
             storage?.flush()
             let next = try Storage(root: root, key: demo ? nil : try readHistoryKey())
             let restored = try next.load()
-            next.onError = { [weak self] error in self?.storageError = error; self?.preferences.captureEnabled = false }
+            next.onError = { [weak self] error in self?.storageError = error; self?.preferences.captureEnabled = false; self?.updateAppearance?() }
             if preferences.ephemeralHistory && !demo { next.setEphemeral(true, library: restored) { [weak self] error in self?.ephemeralFailed(error) } }
             storage = next; library = restored; storageError = nil; historyEncrypted = next.isEncrypted
             collecting = false; queue = []; deleted = []

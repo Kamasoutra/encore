@@ -195,6 +195,7 @@ RELEASES = {
                 ("new", "<b>Snippets in your order.</b> On the Snippets board, drag a snippet onto another to take its place in their group. New snippets arrive at the top, and the order follows your exports and paired Macs."),
                 ("better", "<b>Fast with 10,000 copies.</b> A click selects at once, without waiting for a possible double-click. Search, day sections and favorites stay quick with a history of 10,000 copies, and the history file is written at most once a second."),
                 ("better", "Every icon-only button has a name for VoiceOver, and selected cards say where they will be pasted."),
+                ("fix", "The compact window’s copies now open the same right-click menu as the cards, can be dragged into another app, and are read by VoiceOver."),
             ]),
             ("0.6.1", "2026-10-30", "secrets.mp4", "Passwords copied from a browser stay out of your history.", [
                 ("new", "<b>Cleared copies are forgotten.</b> When a password manager clears the clipboard after a copy, encore removes that copy from its history too. It covers browser extensions, which copy as the browser. In Bitwarden: Settings → Options → Clear clipboard, then pick a delay. On by default."),
@@ -289,6 +290,7 @@ RELEASES = {
                 ("new", "<b>Tes snippets dans ton ordre.</b> Dans le tableau Snippets, glisse un snippet sur un autre pour prendre sa place dans leur groupe. Les nouveaux arrivent en tête, et l’ordre suit tes exports et tes Mac appairés."),
                 ("better", "<b>Rapide avec 10 000 copies.</b> Un clic sélectionne aussitôt, sans attendre un éventuel double-clic. La recherche, les sections par jour et les favoris restent vifs avec un historique de 10 000 copies, et le fichier d’historique est écrit au plus une fois par seconde."),
                 ("better", "Chaque bouton fait d’une seule icône a un nom pour VoiceOver, et les cartes sélectionnées disent à quelle place elles seront collées."),
+                ("fix", "Les copies de la fenêtre compacte ouvrent maintenant le même menu au clic droit que les cartes, se glissent dans une autre app et sont lues par VoiceOver."),
             ]),
             ("0.6.1", "2026-10-30", "secrets.mp4", "Les mots de passe copiés depuis un navigateur restent hors de ton historique.", [
                 ("new", "<b>Les copies effacées sont oubliées.</b> Quand un gestionnaire de mots de passe vide le presse-papiers après une copie, encore retire aussi cette copie de son historique. Ça couvre les extensions de navigateur, qui copient au nom du navigateur. Dans Bitwarden : Paramètres → Options → Effacer le presse-papiers, puis choisis un délai. Activé par défaut."),

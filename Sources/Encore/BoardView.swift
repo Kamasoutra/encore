@@ -519,6 +519,19 @@ struct Selectable: ViewModifier {
     }
 }
 
+/// A copy dragged out of encore: its own contents for other apps, and its id for encore's collections and snippet order.
+@MainActor func clipItemProvider(model: AppModel, clip: Clip) -> NSItemProvider {
+    let provider = NSItemProvider()
+    provider.registerDataRepresentation(forTypeIdentifier: "local.kama.encore.clip-id", visibility: .ownProcess) { completion in completion(Data(clip.id.uuidString.utf8), nil); return nil }
+    if let payload = model.storage?.payload(clip.id), let item = payload.items.first {
+        for (type, data) in item.representations {
+            provider.registerDataRepresentation(forTypeIdentifier: type, visibility: .all) { completion in completion(data, nil); return nil }
+        }
+    }
+    provider.suggestedName = clip.displayTitle
+    return provider
+}
+
 struct ClipCard: View {
     // Not observed: a card only redraws when the values it shows change, not on every cursor move.
     // Observing the model made each arrow key rebuild and lay out every visible card, too slow on older Macs.
@@ -619,7 +632,7 @@ struct ClipCard: View {
         // One gesture reading macOS's click count: a separate double-click gesture made SwiftUI hold every click for the double-click delay.
         .onTapGesture { cardClick() }
         .contextMenu { ClipActions(model: model, clip: clip) }
-        .onDrag { itemProvider() }
+        .onDrag { clipItemProvider(model: model, clip: clip) }
         .onDrop(of: reorderable ? ["local.kama.encore.clip-id"] : [], isTargeted: $dropTarget) { providers in
             guard let provider = providers.first else { return false }
             provider.loadDataRepresentation(forTypeIdentifier: "local.kama.encore.clip-id") { data, _ in
@@ -672,17 +685,6 @@ struct ClipCard: View {
         }
     }
 
-    private func itemProvider() -> NSItemProvider {
-        let provider = NSItemProvider()
-        provider.registerDataRepresentation(forTypeIdentifier: "local.kama.encore.clip-id", visibility: .ownProcess) { completion in completion(Data(clip.id.uuidString.utf8), nil); return nil }
-        if let payload = model.storage?.payload(clip.id), let item = payload.items.first {
-            for (type, data) in item.representations {
-                provider.registerDataRepresentation(forTypeIdentifier: type, visibility: .all) { completion in completion(data, nil); return nil }
-            }
-        }
-        provider.suggestedName = clip.displayTitle
-        return provider
-    }
 }
 
 /// Asks for a snippet's {{fields}} over the panel, then pastes the filled-in text.
@@ -1139,7 +1141,12 @@ private struct SideRow: View {
             else { model.select(clip.id, modifiers: flags) }
         }
         .contextMenu { ClipActions(model: model, clip: clip) }
+        .onDrag { clipItemProvider(model: model, clip: clip) }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(L("\(clip.kind.title), \(clip.displayTitle), \(clip.sourceName)"))
         .accessibilityValue(order.map { L("Pasted in position \($0)") } ?? (selected ? L("Selected") : ""))
+        .accessibilityAddTraits(.isButton)
+        .accessibilityAction { model.select(clip.id); model.paste([clip]) }
         .help(clip.kind == .text ? String(clip.text.prefix(400)) : clip.displayTitle)
     }
 
