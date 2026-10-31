@@ -123,6 +123,17 @@ struct ClipSection: Identifiable {
     }
 }
 
+/// VoiceOver's way to reorder snippets, where dragging is out of reach.
+private struct SnippetMoveActions: ViewModifier {
+    let enabled: Bool
+    let move: (Int) -> Void
+    func body(content: Content) -> some View {
+        if enabled {
+            content.accessibilityAction(named: Text(L("Move earlier"))) { move(-1) }.accessibilityAction(named: Text(L("Move later"))) { move(1) }
+        } else { content }
+    }
+}
+
 struct BoardView: View {
     @ObservedObject var model: AppModel
     @FocusState private var searchFocus: Bool
@@ -524,8 +535,11 @@ struct ClipCard: View {
     private let remote: Bool
     private let renaming: Bool
     private let order: Int?
+    /// On the Snippets board, a snippet can be dragged onto another to take its place.
+    private let reorderable: Bool
     @Environment(\.colorScheme) private var scheme
     @State private var hovered = false
+    @State private var dropTarget = false
     private var dark: Bool { scheme == .dark }
     private var scale: Double { preferences.cardScale }
 
@@ -538,6 +552,7 @@ struct ClipCard: View {
         remote = model.remotePeer != nil
         renaming = model.renamingID == clip.id
         order = model.pasteOrder(of: clip.id)
+        reorderable = model.board == "snippets" && clip.snippet
     }
 
     var body: some View {
@@ -605,11 +620,21 @@ struct ClipCard: View {
         .onTapGesture { cardClick() }
         .contextMenu { ClipActions(model: model, clip: clip) }
         .onDrag { itemProvider() }
+        .onDrop(of: reorderable ? ["local.kama.encore.clip-id"] : [], isTargeted: $dropTarget) { providers in
+            guard let provider = providers.first else { return false }
+            provider.loadDataRepresentation(forTypeIdentifier: "local.kama.encore.clip-id") { data, _ in
+                guard let data, let value = String(data: data, encoding: .utf8), let id = UUID(uuidString: value) else { return }
+                DispatchQueue.main.async { withAnimation(.easeInOut(duration: 0.22)) { model.moveSnippet(id, to: clip.id) } }
+            }
+            return true
+        }
+        .overlay { if dropTarget && reorderable { RoundedRectangle(cornerRadius: 12).strokeBorder(Palette.accent, lineWidth: 2) } }
         .accessibilityElement(children: .combine)
         .accessibilityLabel(L("\(clip.kind.title), \(clip.displayTitle), \(clip.sourceName)"))
         .accessibilityValue(order.map { L("Pasted in position \($0)") } ?? (selected ? L("Selected") : ""))
         .accessibilityAddTraits(.isButton)
         .accessibilityAction { model.select(clip.id); model.paste([clip]) }
+        .modifier(SnippetMoveActions(enabled: reorderable) { step in withAnimation(.easeInOut(duration: 0.22)) { model.nudgeSnippet(clip.id, by: step) } })
     }
 
     /// A click selects at once; the second click of a double-click pastes. ⌘ is never a double-click, so a card can be ticked and unticked quickly.

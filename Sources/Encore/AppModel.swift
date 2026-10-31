@@ -161,15 +161,7 @@ struct PeerStatus: Identifiable, Equatable {
         let narrowing = !query.contains(":") && lastSearch.map { !$0.query.isEmpty && !$0.query.contains(":") && query.hasPrefix($0.query) } == true
         let matches = (narrowing ? lastSearch!.matches : boardClips).filter { search.matches($0) }
         lastSearch = (query, matches)
-        if board == "snippets" {
-            // Groups in alphabetical order, untagged last; most recent first inside a group.
-            return matches.enumerated().sorted { a, b in
-                let (left, right) = (a.element.snippetGroup, b.element.snippetGroup)
-                if left == right { return a.offset < b.offset }
-                if left.isEmpty || right.isEmpty { return right.isEmpty }
-                return left.localizedStandardCompare(right) == .orderedAscending
-            }.map(\.element)
-        }
+        if board == "snippets" { return Clip.snippetBoardOrder(matches) }
         let named = matches.filter(search.matchesName)
         return named.isEmpty ? matches : named + matches.filter { !search.matchesName($0) }
     }
@@ -655,7 +647,7 @@ struct PeerStatus: Identifiable, Equatable {
         var hasher = Hasher()
         for clip in library.clips where clip.isPinned || clip.favoriteChangedAt != nil || clip.snippetChangedAt != nil {
             hasher.combine(clip.fingerprint); hasher.combine(clip.favorite); hasher.combine(clip.snippet); hasher.combine(clip.name)
-            hasher.combine(clip.tags); hasher.combine(clip.language); hasher.combine(clip.favoriteChangedAt); hasher.combine(clip.snippetChangedAt)
+            hasher.combine(clip.tags); hasher.combine(clip.language); hasher.combine(clip.snippetOrder); hasher.combine(clip.favoriteChangedAt); hasher.combine(clip.snippetChangedAt)
         }
         hasher.combine(library.removedFavorites)
         hasher.combine(library.removedSnippets)
@@ -937,13 +929,43 @@ struct PeerStatus: Identifiable, Equatable {
     func updateSnippet(_ id: UUID, name: String, tags: [String], language: String?, snippet: Bool = false) {
         guard let index = library.clips.firstIndex(where: { $0.id == id }) else { return }
         let was = library.clips[index].snippet
+        let group = library.clips[index].snippetGroup
         library.clips[index].name = String(name.trimmingCharacters(in: .whitespacesAndNewlines).prefix(100))
         library.clips[index].tags = tags
         library.clips[index].language = language
+        // A snippet filed elsewhere starts at the top of its new group, like a new one.
+        if library.clips[index].snippetGroup != group { library.clips[index].snippetOrder = nil }
         if snippet || !library.clips[index].name.isEmpty || !tags.isEmpty { library.clips[index].snippet = true }
         library.changed(.snippets, index, was: was)
         save()
         reconcileSelection()
+    }
+
+    /// Moves a snippet to another one's place in its group on the Snippets board: after it when moving down, before it when moving up.
+    /// The whole group is numbered again, so paired Macs that sync snippets get the same order.
+    func moveSnippet(_ id: UUID, to target: UUID) {
+        guard id != target, let moving = library.clips.first(where: { $0.id == id }), moving.snippet else { return }
+        var ids = Clip.snippetBoardOrder(library.clips.filter { $0.snippet && $0.snippetGroup == moving.snippetGroup }).map(\.id)
+        guard let from = ids.firstIndex(of: id), let to = ids.firstIndex(of: target) else { return }
+        ids.remove(at: from); ids.insert(id, at: to)
+        let indices = Dictionary(library.clips.enumerated().map { ($0.element.id, $0.offset) }, uniquingKeysWith: { first, _ in first })
+        var snapshot = library
+        let now = Date()
+        for (position, clipID) in ids.enumerated() {
+            guard let index = indices[clipID], snapshot.clips[index].snippetOrder != Double(position) else { continue }
+            snapshot.clips[index].snippetOrder = Double(position)
+            snapshot.changed(.snippets, index, was: true, at: now)
+        }
+        library = snapshot
+        save()
+    }
+
+    /// Moves a snippet one place earlier or later in its group, for VoiceOver.
+    func nudgeSnippet(_ id: UUID, by step: Int) {
+        guard let moving = library.clips.first(where: { $0.id == id }) else { return }
+        let ids = Clip.snippetBoardOrder(library.clips.filter { $0.snippet && $0.snippetGroup == moving.snippetGroup }).map(\.id)
+        guard let from = ids.firstIndex(of: id), ids.indices.contains(from + step) else { return }
+        moveSnippet(id, to: ids[from + step])
     }
 
     /// A click on a selected card's header renames it, unless a second click turns it into a double-click.

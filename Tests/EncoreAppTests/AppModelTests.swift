@@ -15,6 +15,27 @@ final class AppModelTests: XCTestCase {
         try body(model)
     }
 
+    @MainActor func testSnippetsAreReorderedByDraggingAndKeepTheirPlace() throws {
+        try withModel { model in
+            for text in ["one", "two", "three"] { model.addText(text) }
+            for clip in model.library.clips { model.updateSnippet(clip.id, name: "", tags: ["work"], language: nil) }
+            model.board = "snippets"
+            @MainActor func shown() -> [String] { model.filtered.map(\.text) }
+            XCTAssertEqual(shown(), ["three", "two", "one"], "Never moved: newest first")
+            @MainActor func id(_ text: String) -> UUID { model.library.clips.first { $0.text == text }!.id }
+            model.moveSnippet(id("three"), to: id("one"))
+            XCTAssertEqual(shown(), ["two", "one", "three"], "Moving down lands after the target")
+            XCTAssertTrue(model.library.clips.allSatisfy { $0.snippetChangedAt != nil }, "Paired Macs learn the new order")
+            model.nudgeSnippet(id("three"), by: -1)
+            XCTAssertEqual(shown(), ["two", "three", "one"])
+            model.addText("four")
+            model.updateSnippet(id("four"), name: "", tags: ["work"], language: nil)
+            XCTAssertEqual(shown().first, "four", "A new snippet starts at the top of its group")
+            model.updateSnippet(id("one"), name: "", tags: ["home"], language: nil)
+            XCTAssertNil(model.library.clips.first { $0.text == "one" }?.snippetOrder, "Filed elsewhere, it starts over")
+        }
+    }
+
     @MainActor func testCollectionMembershipIsMultipleAndRemovingCollectionKeepsContent() async throws {
         try withModel { model in
             model.addText("Keep me")

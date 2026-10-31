@@ -2,6 +2,19 @@ import XCTest
 @testable import EncoreCore
 
 final class SnippetTests: XCTestCase {
+    func testBoardOrderPutsNewSnippetsFirstThenTheDraggedOrder() {
+        func snippet(_ text: String, tag: String, order: Double? = nil) -> Clip {
+            var clip = Clip(kind: .text, text: text); clip.snippet = true; clip.tags = [tag]; clip.snippetOrder = order
+            return clip
+        }
+        // Newest first, as in the library.
+        let clips = [snippet("new", tag: "work"), snippet("second", tag: "work", order: 1), snippet("other", tag: "home", order: 0),
+                     snippet("first", tag: "work", order: 0), snippet("untagged", tag: "")]
+        var untagged = clips[4]; untagged.tags = []
+        let ordered = Clip.snippetBoardOrder(Array(clips.prefix(4)) + [untagged]).map(\.text)
+        XCTAssertEqual(ordered, ["other", "new", "first", "second", "untagged"])
+    }
+
     func testLibrariesWithoutSnippetDetailsStillLoadAndNewDetailsRoundTrip() throws {
         // A clip as written by 0.4: no name, tags or language keys.
         var legacy = try JSONSerialization.jsonObject(with: JSONEncoder().encode(Clip(kind: .text, text: "hello"))) as! [String: Any]

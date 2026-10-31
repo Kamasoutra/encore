@@ -14,6 +14,24 @@ extension Clip {
         if let language, !language.isEmpty { return language }
         return tags.sorted().first.map { "#\($0)" } ?? ""
     }
+
+    /// Snippets, newest first, in the Snippets board's order: groups in alphabetical order, untagged last.
+    /// Inside a group, snippets never moved come first, newest first, then the order set by dragging.
+    public static func snippetBoardOrder(_ clips: [Clip]) -> [Clip] {
+        clips.enumerated().sorted { a, b in
+            let (left, right) = (a.element.snippetGroup, b.element.snippetGroup)
+            if left != right {
+                if left.isEmpty || right.isEmpty { return right.isEmpty }
+                return left.localizedStandardCompare(right) == .orderedAscending
+            }
+            switch (a.element.snippetOrder, b.element.snippetOrder) {
+            case let (x?, y?) where x != y: return x < y
+            case (nil, _?): return true
+            case (_?, nil): return false
+            default: return a.offset < b.offset
+            }
+        }.map(\.element)
+    }
 }
 
 /// A language a snippet can be filed under. Icons and colors come from the Seti icon theme (MIT), the default file icons of VS Code.
@@ -207,7 +225,7 @@ public struct SnippetFile: Codable, Equatable, Sendable {
 
     /// Snippets with text; images and files stay in the full backup.
     public init(library: Library) {
-        snippets = library.clips.filter { $0.snippet && [.text, .code, .link, .color].contains($0.kind) && !$0.text.isEmpty }
+        snippets = Clip.snippetBoardOrder(library.clips.filter { $0.snippet && [.text, .code, .link, .color].contains($0.kind) && !$0.text.isEmpty })
             .map { Entry(name: $0.name, text: $0.text, tags: $0.tags, language: $0.language) }
     }
 
@@ -217,10 +235,11 @@ public struct SnippetFile: Codable, Equatable, Sendable {
         var library = original
         var payloads: [(UUID, ClipPayload)] = []
         var indices = Dictionary(library.clips.enumerated().map { ($0.element.fingerprint, $0.offset) }, uniquingKeysWith: { first, _ in first })
-        for entry in snippets where !entry.text.isEmpty {
+        for (position, entry) in snippets.enumerated() where !entry.text.isEmpty {
             let payload = ClipPayload.text(entry.text)
             guard payload.byteCount <= PasteboardCapture.maxBytes else { throw CocoaError(.coderReadCorrupt) }
-            var clip = Clip(fingerprint: payload.fingerprint, kind: .detect(text: entry.text), text: entry.text, copiedAt: now, byteCount: payload.byteCount)
+            // A millisecond apart, so the file's order reads newest first on the board.
+            var clip = Clip(fingerprint: payload.fingerprint, kind: .detect(text: entry.text), text: entry.text, copiedAt: now.addingTimeInterval(-Double(position) / 1000), byteCount: payload.byteCount)
             clip.snippet = true
             clip.name = String(entry.name.prefix(100))
             clip.tags = Clip.tags(from: entry.tags.joined(separator: ","))

@@ -75,6 +75,8 @@ public struct Clip: Codable, Identifiable, Equatable, Sendable {
     public var language: String?
     /// Saved as a snippet: listed in its own board and kept forever, apart from favorites.
     public var snippet: Bool
+    /// Position in its group on the Snippets board, set by dragging. Snippets never moved have none and come first, newest first.
+    public var snippetOrder: Double?
     /// Last changes to the favorite, and to the snippet state or details, compared between Macs when syncing.
     public var favoriteChangedAt: Date?
     public var snippetChangedAt: Date?
@@ -103,7 +105,7 @@ public struct Clip: Codable, Identifiable, Equatable, Sendable {
     }
 
     private enum CodingKeys: String, CodingKey {
-        case id, fingerprint, kind, text, title, sourceName, sourceBundle, copiedAt, lastUsedAt, favorite, collectionIDs, recognizedText, byteCount, fileNames, firstCopiedAt, referencedFileBytes, name, tags, language, snippet, favoriteChangedAt, snippetChangedAt, secret
+        case id, fingerprint, kind, text, title, sourceName, sourceBundle, copiedAt, lastUsedAt, favorite, collectionIDs, recognizedText, byteCount, fileNames, firstCopiedAt, referencedFileBytes, name, tags, language, snippet, snippetOrder, favoriteChangedAt, snippetChangedAt, secret
     }
 
     /// Libraries written before snippets have no name, tags or language: they decode as empty.
@@ -130,6 +132,7 @@ public struct Clip: Codable, Identifiable, Equatable, Sendable {
         language = try values.decodeIfPresent(String.self, forKey: .language)
         // Development builds of snippets marked a named item as a favorite instead.
         snippet = try values.decodeIfPresent(Bool.self, forKey: .snippet) ?? !name.isEmpty
+        snippetOrder = try values.decodeIfPresent(Double.self, forKey: .snippetOrder)
         favoriteChangedAt = try values.decodeIfPresent(Date.self, forKey: .favoriteChangedAt)
         snippetChangedAt = try values.decodeIfPresent(Date.self, forKey: .snippetChangedAt)
         secret = try values.decodeIfPresent(SecretKind.self, forKey: .secret)

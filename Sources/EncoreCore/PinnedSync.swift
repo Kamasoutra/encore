@@ -22,6 +22,8 @@ public struct PinnedClip: Codable, Equatable, Sendable {
     public var name: String
     public var tags: [String]
     public var language: String?
+    /// Absent from Macs before 0.7.
+    public var snippetOrder: Double?
     public var snippetChangedAt: Date
 
     public init(_ clip: Clip, categories: Set<PinnedCategory>) {
@@ -34,6 +36,7 @@ public struct PinnedClip: Codable, Equatable, Sendable {
         name = snippets ? clip.name : ""
         tags = snippets ? clip.tags : []
         language = snippets ? clip.language : nil
+        snippetOrder = snippets ? clip.snippetOrder : nil
         snippetChangedAt = snippets ? clip.snippetChangedAt ?? .distantPast : .distantPast
     }
 }
@@ -59,7 +62,7 @@ extension Clip {
         case .favorites:
             favorite = item.favorite; favoriteChangedAt = item.favoriteChangedAt
         case .snippets:
-            snippet = item.snippet; name = item.name; tags = item.tags; language = item.language; snippetChangedAt = item.snippetChangedAt
+            snippet = item.snippet; name = item.name; tags = item.tags; language = item.language; snippetOrder = item.snippetOrder; snippetChangedAt = item.snippetChangedAt
         }
     }
 

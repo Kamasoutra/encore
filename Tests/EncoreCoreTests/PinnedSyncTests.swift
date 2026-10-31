@@ -27,6 +27,23 @@ final class PinnedSyncTests: XCTestCase {
         XCTAssertTrue(fetched.favorite)
     }
 
+    func testSnippetOrderTravelsWithTheNewerChange() throws {
+        let old = Date(timeIntervalSince1970: 1_000), new = Date(timeIntervalSince1970: 2_000)
+        var mine = Library(), theirs = Library()
+        mine.clips = [clip("a", snippet: true, snippetChanged: old)]
+        var moved = clip("a", snippet: true, snippetChanged: new)
+        moved.snippetOrder = 3
+        theirs.clips = [moved]
+        _ = mine.merge(theirs.pinnedState(categories: both, excluded: []), categories: both)
+        XCTAssertEqual(mine.clips[0].snippetOrder, 3)
+        // A Mac before 0.7 sends no order: decoding still works, and the item has none.
+        var state = try JSONSerialization.jsonObject(with: JSONEncoder().encode(theirs.pinnedState(categories: both, excluded: []))) as! [String: Any]
+        var items = state["items"] as! [[String: Any]]
+        items[0].removeValue(forKey: "snippetOrder"); state["items"] = items
+        let legacy = try JSONDecoder().decode(PinnedState.self, from: JSONSerialization.data(withJSONObject: state))
+        XCTAssertNil(legacy.items[0].snippetOrder)
+    }
+
     func testNewerChangeWinsEitherWay() {
         let old = Date(timeIntervalSince1970: 1_000), new = Date(timeIntervalSince1970: 2_000)
         var mine = Library(), theirs = Library()
