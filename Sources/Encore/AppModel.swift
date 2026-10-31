@@ -26,9 +26,11 @@ struct PeerStatus: Identifiable, Equatable {
     @Published var kind: ClipKind? { didSet { resetSelection() } }
     @Published var source: String? { didSet { resetSelection() } }
     @Published var board = "history" { didSet { loadRemote(); resetSelection() } }
-    @Published var selection: Set<UUID> = []
+    @Published var selection: Set<UUID> = [] { didSet { pasteOrders = nil } }
     /// The order the selected cards were picked in: several cards paste in this order, whatever their place on the board.
-    @Published var selectionOrder: [UUID] = []
+    @Published var selectionOrder: [UUID] = [] { didSet { pasteOrders = nil } }
+    /// Each card reads its number here: computing the order per card went through the whole history for every visible card.
+    private var pasteOrders: (count: Int, map: [UUID: Int])?
     @Published var cursor: UUID?
     @Published var searchFocused = false
     @Published var expanded = false { didSet { if expanded != oldValue { quickLook = false; resizePanel?() } } }
@@ -180,7 +182,11 @@ struct PeerStatus: Identifiable, Equatable {
     /// The paste position of a selected card, from 1, when several are selected.
     func pasteOrder(of id: UUID) -> Int? {
         guard selection.count > 1, selection.contains(id) else { return nil }
-        return orderedSelection.firstIndex(of: id).map { $0 + 1 }
+        if pasteOrders?.count != library.clips.count {
+            let ordered = orderedSelection
+            pasteOrders = (library.clips.count, Dictionary(ordered.enumerated().map { ($1, $0 + 1) }, uniquingKeysWith: { first, _ in first }))
+        }
+        return pasteOrders?.map[id]
     }
     var selected: Clip? { boardClips.first { $0.id == cursor } }
     var sources: [(String, String)] {
