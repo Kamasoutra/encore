@@ -169,7 +169,7 @@ PRIVACY = {
         },
         "blocks": [
             ("Everything stays on your Mac", [
-                "What you copy is kept in a single folder on your Mac: <code>~/Library/Application Support/Encore/</code>. Only your macOS account can open it. Since 0.7, you can also encrypt it with a key kept in your keychain, in Settings → Data: another app, or someone who copies the folder, then sees nothing readable. Changing Mac? Export your history first, or use Migration Assistant, which brings the keychain along: without it, an encrypted history cannot be read.",
+                "What you copy is kept in a single folder on your Mac: <code>~/Library/Application Support/Encore/</code>. Only your macOS account can open it.",
                 "No account to create, no usage statistics, no ads. encore does not even load the links you copy: it shows them as they are.",
                 "Text inside your images is recognized by macOS itself, on your Mac. Nothing is sent anywhere to be analyzed.",
             ], None, ""),
@@ -180,10 +180,11 @@ PRIVACY = {
                 "<small>Not every app marks its sensitive copies. When in doubt, exclude it.</small>",
             ], "privacy", "encore’s Privacy settings: confidential content ignored, text recognition on this Mac, password apps excluded"),
             ("You stay in control", [
+                "Since 0.7, you can encrypt your history, in Settings → Data, with a key kept in your keychain: another app, or someone who copies the folder, then sees nothing readable. It is off by default for now: until encore is signed by Apple, macOS would ask for your Mac password after each update. Once encore is signed, it will be on by default. Changing Mac? Export your history first, or use Migration Assistant, which brings the keychain along: without it, an encrypted history cannot be read.",
                 "By default a copy is kept 30 days, then deleted. You choose how long, and rules by size or type clean up sooner. Favorites and snippets stay as long as you keep them.",
                 "Export your whole history, import it on another Mac, export your snippets to a readable file, open the folder, or clear the history, all from Settings → Data.",
                 "To uninstall completely, delete the app, that folder and its settings file, <code>~/Library/Preferences/local.kama.Encore.plist</code>.",
-            ], "data", "encore’s Data settings: retention, export and import, open the folder, clear the history"),
+            ], "data", "encore’s Data settings: optional encryption, retention, export and import, open the folder, clear the history"),
             ("Between your Macs, without a cloud", [
                 "Sharing is off until you turn it on. To link two Macs, you pair them once: both screens show the same 6-digit code, and you confirm it matches. Nobody else can join.",
                 "Then your Macs talk to each other directly on your local network, without going through the internet or any server. Everything is end-to-end encrypted.",
@@ -240,7 +241,7 @@ PRIVACY = {
         },
         "blocks": [
             ("Tout reste sur ton Mac", [
-                "Ce que tu copies est rangé dans un seul dossier de ton Mac : <code>~/Library/Application Support/Encore/</code>. Seule ta session macOS peut l’ouvrir. Depuis la 0.7, tu peux aussi le chiffrer avec une clé gardée dans ton trousseau, dans Réglages → Données : une autre app, ou quelqu’un qui copie le dossier, ne voit alors rien de lisible. Tu changes de Mac ? Exporte d’abord ton historique, ou passe par l’Assistant migration, qui emporte aussi le trousseau : sans lui, un historique chiffré ne peut pas être lu.",
+                "Ce que tu copies est rangé dans un seul dossier de ton Mac : <code>~/Library/Application Support/Encore/</code>. Seule ta session macOS peut l’ouvrir.",
                 "Pas de compte à créer, pas de statistiques d’utilisation, pas de publicité. encore ne charge même pas les liens que tu copies : il les affiche tels quels.",
                 "Le texte de tes images est reconnu par macOS lui-même, sur ton Mac. Rien n’est envoyé ailleurs pour être analysé.",
             ], None, ""),
@@ -251,10 +252,11 @@ PRIVACY = {
                 "<small>Toutes les apps ne signalent pas leurs copies sensibles. Dans le doute, exclus-les.</small>",
             ], "privacy", "Les réglages Confidentialité d’encore : contenus confidentiels ignorés, reconnaissance du texte sur ce Mac, apps de mots de passe exclues"),
             ("Tu gardes la main", [
+                "Depuis la 0.7, tu peux chiffrer ton historique, dans Réglages → Données, avec une clé gardée dans ton trousseau : une autre app, ou quelqu’un qui copie le dossier, ne voit alors rien de lisible. C’est désactivé par défaut pour l’instant : tant qu’encore n’est pas signé par Apple, macOS demanderait le mot de passe de ton Mac après chaque mise à jour. Dès qu’encore sera signé, ce sera actif par défaut. Tu changes de Mac ? Exporte d’abord ton historique, ou passe par l’Assistant migration, qui emporte aussi le trousseau : sans lui, un historique chiffré ne peut pas être lu.",
                 "Par défaut, une copie est gardée 30 jours, puis effacée. Tu choisis la durée, et des règles par taille ou par type font le ménage plus tôt. Favoris et snippets restent tant que tu les gardes.",
                 "Exporte tout ton historique, réimporte-le sur un autre Mac, exporte tes snippets dans un fichier lisible, ouvre le dossier ou vide l’historique, depuis Réglages → Données.",
                 "Pour désinstaller complètement, supprime l’app, ce dossier et son fichier de réglages, <code>~/Library/Preferences/local.kama.Encore.plist</code>.",
-            ], "data", "Les réglages Données d’encore : conservation, export et import, ouverture du dossier, effacement de l’historique"),
+            ], "data", "Les réglages Données d’encore : chiffrement en option, conservation, export et import, ouverture du dossier, effacement de l’historique"),
             ("Entre tes Mac, sans cloud", [
                 "Le partage est désactivé tant que tu ne l’actives pas. Pour relier deux Mac, tu les appaires une seule fois : les deux écrans affichent le même code à 6 chiffres, et tu confirmes qu’ils correspondent. Personne d’autre ne peut s’inviter.",
                 "Ensuite, tes Mac se parlent directement sur ton réseau local, sans passer par internet ni par un serveur. Tout est chiffré de bout en bout.",
