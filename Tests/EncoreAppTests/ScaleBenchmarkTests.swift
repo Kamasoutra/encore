@@ -63,3 +63,41 @@ final class ScaleBenchmarkTests: XCTestCase {
         }
     }
 }
+
+/// Runs with every test pass: 10,000 items and generous limits, set well above normal timings even without optimizations,
+/// to catch a change that makes the work grow with the square of the history, as some did before 0.6.2.
+final class ScaleGuardTests: XCTestCase {
+    private func milliseconds(_ body: () -> Void) -> Double {
+        let start = Date()
+        body()
+        return Date().timeIntervalSince(start) * 1000
+    }
+
+    @MainActor func testTenThousandItemsStayResponsive() {
+        let pasteboard = NSPasteboard(name: .init("Encore-Guard-\(UUID())"))
+        let model = AppModel(demo: true, pasteboard: pasteboard)
+        defer { model.storage?.flush(); if let root = model.storage?.root { try? FileManager.default.removeItem(at: root) }; pasteboard.releaseGlobally() }
+        model.preferences.historyLimit = 0; model.preferences.retentionDays = 0
+        var library = Library(); library.clips = ScaleBenchmarkTests.history(10_000)
+        model.library = library
+        _ = model.filtered
+
+        let limits: [(String, Double, () -> Void)] = [
+            ("filtered list", 150, { model.library.clips[0].lastUsedAt = Date(); _ = model.filtered }),
+            ("day sections", 250, { model.library.clips[0].lastUsedAt = Date(); _ = model.sections }),
+            ("search, one word", 500, { model.query = "design"; _ = model.filtered; model.query = "" }),
+            ("search typed letter by letter", 1000, { for count in 1...6 { model.query = String("design".prefix(count)); _ = model.filtered }; model.query = "" }),
+            ("search with operators", 500, { model.query = "app:safari type:link"; _ = model.filtered; model.query = "" }),
+            ("selecting 10 cards with shift", 400, { model.resetSelection(); for _ in 0..<10 { model.move(1, extend: true) }; _ = model.selectedClips }),
+            ("numbering after ⌘A", 200, { model.selection = Set(model.filtered.map(\.id)); _ = model.pasteOrder(of: model.filtered[5].id) }),
+            ("favoriting all", 2000, { model.selection = Set(model.filtered.map(\.id)); model.toggleFavorite() }),
+            ("expiry check, run every second", 150, { _ = model.expiresWithinAMinute }),
+            ("pruning", 200, { model.prune() }),
+            ("a new copy", 400, { model.addText("Fresh copy \(UUID())") }),
+        ]
+        for (label, limit, body) in limits {
+            let elapsed = milliseconds(body)
+            XCTAssertLessThan(elapsed, limit, "\(label) took \(Int(elapsed)) ms with 10,000 items")
+        }
+    }
+}
