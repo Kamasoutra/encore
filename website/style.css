@@ -169,9 +169,12 @@ body::after { background: radial-gradient(closest-side, rgba(255, 92, 140, 0.22)
 .honest li { padding: 26px; border-radius: 20px; background: rgba(255, 92, 140, 0.07); border: 1px solid rgba(255, 92, 140, 0.4); }
 .honest li strong { display: block; margin-bottom: 8px; font-size: 19px; text-align: left; hyphens: manual; -webkit-hyphens: manual; text-wrap: balance; }
 /* A problem solved since: kept, struck through, and marked with the version that fixed it. */
-.honest li:has(.fixed) { background: rgba(154, 107, 255, 0.12); border-color: rgba(154, 107, 255, 0.6); box-shadow: 0 10px 40px rgba(154, 107, 255, 0.25); }
+.honest li:has(.era) { background: rgba(154, 107, 255, 0.12); border-color: rgba(154, 107, 255, 0.6); box-shadow: 0 10px 40px rgba(154, 107, 255, 0.25); }
 .honest li s { text-decoration-thickness: 2px; text-decoration-color: var(--violet); opacity: 0.7; }
-.honest .fixed { display: inline-block; margin-bottom: 12px; padding: 4px 12px; border-radius: 999px; background: linear-gradient(120deg, var(--violet), var(--pink)); color: #fff; font-size: 13px; font-weight: 700; }
+.era { display: inline-flex; gap: 2px; margin-bottom: 14px; padding: 3px; border-radius: 999px; background: rgba(255, 255, 255, 0.08); }
+.era[hidden] { display: none; }
+.era button { padding: 4px 12px; border: 0; border-radius: 999px; background: none; color: inherit; font: inherit; font-size: 13px; font-weight: 700; opacity: 0.65; cursor: pointer; }
+.era button[aria-pressed="true"] { background: linear-gradient(120deg, var(--violet), var(--pink)); color: #fff; opacity: 1; }
 .project { max-width: 1080px; margin-inline: auto; }
 .check { max-width: 820px; margin-inline: auto; }
 .project p:first-of-type { margin-top: 26px; }
@@ -277,7 +280,7 @@ kbd.key { font: 600 1em var(--sans); }
 .note { max-width: 36em; margin: 30px auto 0; }
 
 footer { padding: 50px 0 40px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; color: var(--faint); font-size: 15px; }
-footer nav { display: flex; gap: 20px; }
+footer nav { display: flex; flex-wrap: wrap; gap: 8px 20px; }
 footer a { text-decoration: none; } footer a:hover { color: var(--ink); }
 
 @media (max-width: 860px) {

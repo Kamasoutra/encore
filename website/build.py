@@ -20,6 +20,15 @@ SPONSORS = "https://github.com/sponsors/Kamasoutra"
 # Plain links only: Ko-fi's widget loads a third-party script that sets cookies.
 KOFI = "https://ko-fi.com/kamasoutra"
 
+
+def then_now(label, before_label, after_label, before, after):
+    """An honest card about a problem fixed since: the current text by default, the old one a click away (with JS)."""
+    return (f'<div class="era" role="group" aria-label="{label}" hidden>'
+            f'<button type="button" aria-pressed="false" data-era="before">{before_label}</button>'
+            f'<button type="button" aria-pressed="true" data-era="after">{after_label}</button></div>'
+            f'<div data-era-text="after">{after}</div><div data-era-text="before" hidden>{before}</div>')
+
+
 STRINGS = {
     "en": {
         "title": "encore, the clipboard your Mac should have shipped with",
@@ -175,7 +184,9 @@ PRIVACY = {
         "honest_title": "What is not perfect yet",
         "honest_lead": "I would rather tell you myself.",
         "honest": [
-            "<span class='fixed'>Encrypted since 0.7</span><strong><s>Your history is not encrypted on disk.</s></strong> Since 0.7, it is, by default, with a key kept in your keychain: a backup or a copy of the folder shows nothing readable. Exports stay readable JSON, so your data is never locked in: store them like any sensitive file. And while encore runs, it reads what you copy, so software that already controls your session could too, as with any clipboard manager.",
+            then_now("Before and after 0.7", "Before 0.7", "Since 0.7",
+                     "<strong>Your history is not encrypted on disk.</strong> It is protected by your macOS account, and by FileVault when it is on: check System Settings → Privacy & Security → FileVault. Software running under your account could read it, as with most clipboard managers. Encrypting it is on the list.",
+                     "<strong><s>Your history is not encrypted on disk.</s></strong> Since 0.7, it is, by default, with a key kept in your keychain: a backup or a copy of the folder shows nothing readable. Exports stay readable JSON, so your data is never locked in: store them like any sensitive file. And while encore runs, it reads what you copy, so software that already controls your session could too, as with any clipboard manager."),
             "<strong>encore is not notarized by Apple yet.</strong> To notarize an app, Apple asks for a developer membership at $99 a year. encore is a free personal project that earns me nothing, so until then the first launch needs “Open Anyway” in System Settings, once. If a small community gets behind it, that is the first thing its support will pay for, and the same account could also bring encore to the Mac App Store. You can <a href='" + SPONSORS + "'>support encore on GitHub Sponsors</a> or <a href='" + KOFI + "'>Ko-fi</a>.",
             "<strong>There is just me behind encore.</strong> I build it in the evenings, alongside my day job and my family life. There is no team and no guaranteed support: I fix things as fast as those evenings allow, starting with anything that touches security or your data. That is also why everything is open: anyone can report a problem, propose a fix on GitHub, or contribute.",
         ],
@@ -244,7 +255,9 @@ PRIVACY = {
         "honest_title": "Ce qui n’est pas encore parfait",
         "honest_lead": "Je préfère te le dire moi-même.",
         "honest": [
-            "<span class='fixed'>Chiffré depuis la 0.7</span><strong><s>Ton historique n’est pas chiffré sur le disque.</s></strong> Depuis la 0.7, il l’est, par défaut, avec une clé gardée dans ton trousseau : une sauvegarde ou une copie du dossier ne montre rien de lisible. Les exports restent du JSON lisible, pour que tes données ne soient jamais prisonnières : range-les comme n’importe quel fichier sensible. Et pendant qu’encore tourne, il lit ce que tu copies : un logiciel qui contrôle déjà ta session pourrait le faire aussi, comme avec tout gestionnaire de presse-papiers.",
+            then_now("Avant et depuis la 0.7", "Avant la 0.7", "Depuis la 0.7",
+                     "<strong>Ton historique n’est pas chiffré sur le disque.</strong> Il est protégé par ta session macOS, et par FileVault s’il est activé : vérifie dans Réglages Système → Confidentialité et sécurité → FileVault. Un logiciel qui tourne sous ta session pourrait le lire, comme avec la plupart des gestionnaires de presse-papiers. Le chiffrer est sur la liste.",
+                     "<strong><s>Ton historique n’est pas chiffré sur le disque.</s></strong> Depuis la 0.7, il l’est, par défaut, avec une clé gardée dans ton trousseau : une sauvegarde ou une copie du dossier ne montre rien de lisible. Les exports restent du JSON lisible, pour que tes données ne soient jamais prisonnières : range-les comme n’importe quel fichier sensible. Et pendant qu’encore tourne, il lit ce que tu copies : un logiciel qui contrôle déjà ta session pourrait le faire aussi, comme avec tout gestionnaire de presse-papiers."),
             "<strong>encore n’est pas encore notarisé par Apple.</strong> Pour notariser une app, Apple demande un abonnement développeur à 99 $ par an. encore est un projet personnel et gratuit qui ne me rapporte rien : en attendant, il faut passer une fois par « Ouvrir quand même » dans les Réglages Système. Si une petite communauté se forme autour du projet, c’est la première chose que son soutien financera, et le même compte permettrait aussi de le proposer sur le Mac App Store. Tu peux le <a href='" + SPONSORS + "'>soutenir sur GitHub Sponsors</a> ou <a href='" + KOFI + "'>Ko-fi</a>.",
             "<strong>Derrière encore, il n’y a que moi.</strong> Je le développe le soir, à côté de mon travail et de ma vie de famille. Il n’y a ni équipe ni support garanti : je corrige aussi vite que ces soirées le permettent, en commençant par tout ce qui touche à la sécurité ou à tes données. C’est aussi pour ça que tout est ouvert : n’importe qui peut signaler un problème, proposer une correction sur GitHub ou contribuer.",
         ],

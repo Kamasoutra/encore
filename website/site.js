@@ -49,3 +49,13 @@ if (topBar) {
   addEventListener("resize", measure);
   addEventListener("scroll", scrolled, { passive: true });
 }
+
+// Honest cards about a fixed problem: the current text, or how it was before.
+document.querySelectorAll(".era").forEach(group => {
+  const card = group.parentElement;
+  group.hidden = false;
+  group.querySelectorAll("button").forEach(button => button.addEventListener("click", () => {
+    group.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b === button));
+    card.querySelectorAll("[data-era-text]").forEach(text => { text.hidden = text.dataset.eraText !== button.dataset.era; });
+  }));
+});
