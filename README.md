@@ -43,6 +43,9 @@ Write `{{name}}` in a snippet and encore asks for the value before pasting. `{{c
 - **Several cards at once:** select them with ⌘-click or ⇧ and the arrows, each one shows its number, and they paste in the order you picked.
 - **A paste queue** pastes several items in order, one ⌘V at a time.
 - **Pause capture for a while** from the menu bar icon, for 5 minutes or an hour: it comes back on its own.
+- **Hidden from screen sharing:** encore's windows stay out of screen sharing, recordings and screenshots.
+- **Memory only:** keep everything but favorites, snippets and collections off the disk.
+- **Exclude an app from one of its cards**, and set retention rules per app.
 - **Snippets in your order:** drag one onto another on the Snippets board, and the order follows your paired Macs.
 - **Your own shortcut:** ⇧⌘V by default, or any combination you type in Settings.
 
@@ -110,7 +113,7 @@ Files are referenced rather than copied into encore, so a multi-gigabyte file us
 
 The full picture, including what encore does not do yet, is on the website: **[Your data, in plain words](https://kamasoutra.github.io/encore/privacy/)**.
 
-History lives in `~/Library/Application Support/Encore/` and never leaves your Mac unless you turn on sharing. There is no account, telemetry, or remote link preview. Since 0.7 the history can be **encrypted on disk** with a key kept in your keychain, in Settings → Data. It is off by default for now: encore is not signed by Apple yet, so macOS ties the key to each build and asks for your Mac password after every update. Once encore is signed, encryption will be on by default. Exported backups stay readable JSON.
+History lives in `~/Library/Application Support/Encore/` and never leaves your Mac unless you turn on sharing. There is no account, telemetry, or remote link preview. Since 0.7 the history can be **encrypted on disk** with a key kept in your keychain, in Settings → Data. It is off by default for now: encore is not signed by Apple yet, so macOS ties the key to each build and asks for your Mac password after every update. Once encore is signed, encryption will be on by default. Settings → Data can also keep the history in memory only, with only favorites, snippets and collections written to disk. Exported backups stay readable JSON.
 
 encore makes two kinds of network requests, both optional:
 
