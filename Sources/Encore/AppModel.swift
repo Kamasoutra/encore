@@ -20,12 +20,12 @@ struct PeerStatus: Identifiable, Equatable {
 }
 
 @MainActor final class AppModel: ObservableObject {
-    @Published var library = Library()
-    @Published var preferences: Preferences
-    @Published var query = "" { didSet { resetSelection() } }
-    @Published var kind: ClipKind? { didSet { resetSelection() } }
-    @Published var source: String? { didSet { resetSelection() } }
-    @Published var board = "history" { didSet { loadRemote(); resetSelection() } }
+    @Published var library = Library() { didSet { filteredCache = nil } }
+    @Published var preferences: Preferences { didSet { filteredCache = nil } }
+    @Published var query = "" { didSet { filteredCache = nil; resetSelection() } }
+    @Published var kind: ClipKind? { didSet { filteredCache = nil; resetSelection() } }
+    @Published var source: String? { didSet { filteredCache = nil; resetSelection() } }
+    @Published var board = "history" { didSet { filteredCache = nil; loadRemote(); resetSelection() } }
     @Published var selection: Set<UUID> = [] { didSet { pasteOrders = nil } }
     /// The order the selected cards were picked in: several cards paste in this order, whatever their place on the board.
     @Published var selectionOrder: [UUID] = [] { didSet { pasteOrders = nil } }
@@ -65,7 +65,7 @@ struct PeerStatus: Identifiable, Equatable {
     @Published var accessibilityGranted = AXIsProcessTrusted()
     @Published var storageError: String?
     @Published private(set) var installedExcludedBundleIDs: [String] = []
-    @Published private(set) var peers: [PeerStatus] = []
+    @Published private(set) var peers: [PeerStatus] = [] { didSet { filteredCache = nil } }
     @Published private(set) var nearbyMacs: [PeerDevice] = []
     @Published private(set) var pairing: PairingSession?
     @Published private(set) var pairingState: PairingSession.State?
@@ -100,7 +100,7 @@ struct PeerStatus: Identifiable, Equatable {
     private var selectionAnchor: UUID?
     private var statusTask: Task<Void, Never>?
     private var thumbnails: [UUID: NSImage] = [:]
-    @Published private(set) var remoteItems: [Clip] = []
+    @Published private(set) var remoteItems: [Clip] = [] { didSet { filteredCache = nil } }
     @Published private(set) var remoteLoading = false
     private var remoteRecords: [UUID: RemoteClip] = [:]
     private var remoteTask: Task<Void, Never>?
@@ -136,8 +136,18 @@ struct PeerStatus: Identifiable, Equatable {
         startPeers()
     }
 
+    /// Kept until the history, the search, a filter, the board or the peers change: one selection change read it about eight times.
+    private var filteredCache: [Clip]?
+
     /// Matching items in display order: snippets grouped by language or tag, name matches first while searching.
     var filtered: [Clip] {
+        if let filteredCache { return filteredCache }
+        let result = computeFiltered()
+        filteredCache = result
+        return result
+    }
+
+    private func computeFiltered() -> [Clip] {
         let search = ClipQuery(query: query, kind: kind, source: source, favorites: board == "favorites", snippets: board == "snippets", collectionID: UUID(uuidString: board))
         let matches = boardClips.filter { search.matches($0) }
         if board == "snippets" {
@@ -173,6 +183,7 @@ struct PeerStatus: Identifiable, Equatable {
     var orderedSelection: [UUID] {
         var seen = Set<UUID>()
         let picked = selectionOrder.filter { selection.contains($0) && seen.insert($0).inserted }
+        guard picked.count < selection.count else { return picked }
         return picked + filtered.map(\.id).filter { selection.contains($0) && !seen.contains($0) }
     }
     var selectedClips: [Clip] {
@@ -199,6 +210,7 @@ struct PeerStatus: Identifiable, Equatable {
         let first = filtered.first?.id
         cursor = first
         selection = Set(first.map { [$0] } ?? [])
+        selectionOrder = first.map { [$0] } ?? []
         selectionAnchor = first
     }
 
@@ -210,6 +222,7 @@ struct PeerStatus: Identifiable, Equatable {
         let next = items.isEmpty ? nil : items[min(position ?? 0, items.count - 1)].id
         cursor = next
         selection = Set(next.map { [$0] } ?? [])
+        selectionOrder = next.map { [$0] } ?? []
         selectionAnchor = next
     }
 
@@ -222,7 +235,7 @@ struct PeerStatus: Identifiable, Equatable {
             selectionOrder = range
         } else if modifiers.contains(.command) {
             if selection.contains(id) { selection.remove(id); selectionOrder.removeAll { $0 == id } }
-            else { selection.insert(id); selectionOrder = orderedSelection.filter { $0 != id } + [id] }
+            else { selection.insert(id); selectionOrder = selectionOrder.filter { selection.contains($0) && $0 != id } + [id] }
             selectionAnchor = id
         } else { selection = [id]; selectionOrder = [id]; selectionAnchor = id }
         cursor = id
