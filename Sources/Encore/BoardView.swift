@@ -126,9 +126,36 @@ struct ClipSection: Identifiable {
 /// With several cards selected, only the first one, numbered 1, can be dragged: it carries the others.
 private struct DragSource: ViewModifier {
     let enabled: Bool
+    let model: AppModel
+    let clip: Clip
     let provider: () -> NSItemProvider
     func body(content: Content) -> some View {
-        if enabled { content.onDrag(provider) } else { content }
+        if enabled { content.onDrag(provider) { DragPreview(model: model, clip: clip) } } else { content }
+    }
+}
+
+/// What follows the pointer while dragging, drawn whole with room around it: a snapshot of the card cut its number badge and its edges.
+private struct DragPreview: View {
+    @ObservedObject var model: AppModel
+    let clip: Clip
+    @Environment(\.colorScheme) private var scheme
+
+    var body: some View {
+        // Read when the drag starts: the card numbered 1 is not redrawn when more cards join the selection.
+        let count = model.selection.contains(clip.id) ? model.selection.count : 1
+        HStack(spacing: 9) {
+            Image(systemName: clip.kind.symbol).font(.system(size: 14, weight: .semibold)).foregroundStyle(Palette.accent(clip.kind, dark: scheme == .dark))
+            Text(clip.displayTitle).font(.system(size: 12.5, weight: .medium)).lineLimit(1).frame(maxWidth: 220, alignment: .leading)
+            if count > 1 {
+                Text(Localization.number(count)).font(.system(size: 11, weight: .bold, design: .rounded)).monospacedDigit().foregroundStyle(.white)
+                    .frame(minWidth: 20, minHeight: 20).padding(.horizontal, count > 9 ? 4 : 0)
+                    .background(LinearGradient(colors: [Palette.accent, Color(red: 1, green: 0.36, blue: 0.55)], startPoint: .topLeading, endPoint: .bottomTrailing), in: Capsule())
+            }
+        }
+        .padding(.horizontal, 12).padding(.vertical, 10)
+        .background(Palette.card(scheme == .dark), in: RoundedRectangle(cornerRadius: 12))
+        .overlay(RoundedRectangle(cornerRadius: 12).strokeBorder(Palette.accent.opacity(0.5), lineWidth: 1))
+        .padding(4)
     }
 }
 
@@ -567,6 +594,8 @@ struct ClipCard: View {
     private let order: Int?
     /// On the Snippets board, a snippet can be dragged onto another to take its place.
     private let reorderable: Bool
+    /// Kept with the card so it is redrawn when a second card is selected: only the one numbered 1 can then be dragged.
+    private let severalSelected: Bool
     @Environment(\.colorScheme) private var scheme
     @State private var hovered = false
     @State private var dropTarget = false
@@ -583,6 +612,7 @@ struct ClipCard: View {
         renaming = model.renamingID == clip.id
         order = model.pasteOrder(of: clip.id)
         reorderable = model.board == "snippets" && clip.snippet
+        severalSelected = model.selection.count > 1
     }
 
     var body: some View {
@@ -649,7 +679,7 @@ struct ClipCard: View {
         // One gesture reading macOS's click count: a separate double-click gesture made SwiftUI hold every click for the double-click delay.
         .onTapGesture { cardClick() }
         .contextMenu { ClipActions(model: model, clip: clip) }
-        .modifier(DragSource(enabled: model.selection.count <= 1 || order == 1) { clipItemProvider(model: model, clip: clip) })
+        .modifier(DragSource(enabled: !severalSelected || order == 1, model: model, clip: clip) { clipItemProvider(model: model, clip: clip) })
         .onDrop(of: reorderable ? ["local.kama.encore.clip-id"] : [], isTargeted: $dropTarget) { providers in
             guard let provider = providers.first else { return false }
             provider.loadDataRepresentation(forTypeIdentifier: "local.kama.encore.clip-id") { data, _ in
@@ -1158,7 +1188,7 @@ private struct SideRow: View {
             else { model.select(clip.id, modifiers: flags) }
         }
         .contextMenu { ClipActions(model: model, clip: clip) }
-        .modifier(DragSource(enabled: model.selection.count <= 1 || order == 1) { clipItemProvider(model: model, clip: clip) })
+        .modifier(DragSource(enabled: model.selection.count <= 1 || order == 1, model: model, clip: clip) { clipItemProvider(model: model, clip: clip) })
         .accessibilityElement(children: .combine)
         .accessibilityLabel(L("\(clip.kind.title), \(clip.displayTitle), \(clip.sourceName)"))
         .accessibilityValue(order.map { L("Pasted in position \($0)") } ?? (selected ? L("Selected") : ""))
