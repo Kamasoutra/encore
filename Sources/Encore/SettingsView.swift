@@ -204,7 +204,9 @@ struct SettingsView: View {
                 }
             }
             SettingsGroup(L("Everyday use")) {
-                Toggle(L("Save new clipboard items"), isOn: $model.preferences.captureEnabled).disabled(model.storage == nil || model.storageError != nil)
+                Toggle(L("Save new clipboard items"), isOn: Binding(get: { model.preferences.captureEnabled }, set: { model.setCapture($0) }))
+                    .disabled(model.storage == nil || model.storageError != nil)
+                if !model.preferences.captureEnabled, model.preferences.captureResumesAt != nil { caption(model.capturePausedLabel) }
                 if LoginItem.available {
                     Toggle(L("Launch at login"), isOn: $launchAtLogin).disabled(model.demo).onChanged(launchAtLogin) { value in
                         do { try LoginItem.set(value) }

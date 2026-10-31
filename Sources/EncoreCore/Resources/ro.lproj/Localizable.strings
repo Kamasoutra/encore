@@ -461,3 +461,8 @@
 "Off by default for now: until encore is signed by Apple, macOS asks for your Mac password after each update, before encore can read its key. Once encore is signed, encryption will be on by default, with no prompt." = "Dezactivat implicit deocamdată: până când encore este semnat de Apple, macOS cere parola Mac-ului după fiecare actualizare, înainte ca encore să-și poată citi cheia. După ce encore va fi semnat, criptarea va fi activă implicit, fără nicio solicitare.";
 "encore needs your permission to read its key in the keychain. Click %@, enter your Mac password, then choose Always Allow." = "encore are nevoie de permisiunea dvs. pentru a-și citi cheia din portchei. Faceți clic pe %@, introduceți parola Mac-ului, apoi alegeți Permite întotdeauna.";
 "Encrypts your history and its contents with a key kept in your macOS keychain: another app, or someone who copies the files, then sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "Criptează istoricul și conținutul său cu o cheie păstrată în portcheiul macOS: o altă aplicație sau cineva care copiază fișierele nu mai vede nimic lizibil. Exporturile rămân JSON lizibil. Fără portcheiul acestui Mac, istoricul nu poate fi citit.";
+"Paused until %@" = "În pauză până la %@";
+"Capture resumed" = "Capturare reluată";
+"For 5 minutes" = "Timp de 5 minute";
+"For 1 hour" = "Timp de 1 oră";
+"Until I resume it" = "Până o reiau";

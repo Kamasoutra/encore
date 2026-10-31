@@ -461,3 +461,8 @@
 "Off by default for now: until encore is signed by Apple, macOS asks for your Mac password after each update, before encore can read its key. Once encore is signed, encryption will be on by default, with no prompt." = "目前預設關閉：在 encore 取得 Apple 簽署之前，每次更新後，macOS 都會在 encore 讀取密鑰前要求輸入 Mac 密碼。encore 取得簽署後，加密將預設開啟，且不會再詢問。";
 "encore needs your permission to read its key in the keychain. Click %@, enter your Mac password, then choose Always Allow." = "encore 需要你的許可才能讀取鑰匙圈中的密鑰。按一下「%@」，輸入 Mac 密碼，然後選擇「永遠允許」。";
 "Encrypts your history and its contents with a key kept in your macOS keychain: another app, or someone who copies the files, then sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "以保存在 macOS 鑰匙圈中的密鑰加密你的歷史記錄及其內容：這樣，其他 App 或拷貝這些檔案的人都看不到任何可讀內容。輸出的檔案仍是可讀的 JSON。沒有這台 Mac 的鑰匙圈，就無法讀取歷史記錄。";
+"Paused until %@" = "暫停至 %@";
+"Capture resumed" = "已繼續記錄";
+"For 5 minutes" = "5 分鐘";
+"For 1 hour" = "1 小時";
+"Until I resume it" = "直到我手動繼續";

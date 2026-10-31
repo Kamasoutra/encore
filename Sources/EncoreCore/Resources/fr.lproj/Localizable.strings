@@ -461,3 +461,8 @@
 "Off by default for now: until encore is signed by Apple, macOS asks for your Mac password after each update, before encore can read its key. Once encore is signed, encryption will be on by default, with no prompt." = "Désactivé par défaut pour l’instant : tant qu’encore n’est pas signé par Apple, macOS demande le mot de passe de votre Mac après chaque mise à jour, avant qu’encore puisse lire sa clé. Une fois encore signé, le chiffrement sera actif par défaut, sans aucune demande.";
 "encore needs your permission to read its key in the keychain. Click %@, enter your Mac password, then choose Always Allow." = "encore a besoin de votre autorisation pour lire sa clé dans le trousseau. Cliquez sur %@, saisissez le mot de passe de votre Mac, puis choisissez Toujours autoriser.";
 "Encrypts your history and its contents with a key kept in your macOS keychain: another app, or someone who copies the files, then sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "Chiffre votre historique et ses contenus avec une clé gardée dans votre trousseau macOS : une autre app, ou quelqu’un qui copie les fichiers, ne voit alors rien de lisible. Les exports restent du JSON lisible. Sans le trousseau de ce Mac, l’historique ne peut pas être lu.";
+"Paused until %@" = "En pause jusqu’à %@";
+"Capture resumed" = "Capture reprise";
+"For 5 minutes" = "Pendant 5 minutes";
+"For 1 hour" = "Pendant 1 heure";
+"Until I resume it" = "Jusqu’à ce que je la reprenne";

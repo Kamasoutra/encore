@@ -461,3 +461,8 @@
 "Off by default for now: until encore is signed by Apple, macOS asks for your Mac password after each update, before encore can read its key. Once encore is signed, encryption will be on by default, with no prompt." = "Na razie domyślnie wyłączone: dopóki encore nie jest podpisany przez Apple, macOS po każdej aktualizacji prosi o hasło do Maca, zanim encore odczyta swój klucz. Gdy encore zostanie podpisany, szyfrowanie będzie domyślnie włączone, bez żadnych próśb.";
 "encore needs your permission to read its key in the keychain. Click %@, enter your Mac password, then choose Always Allow." = "encore potrzebuje Twojej zgody, aby odczytać swój klucz z pęku kluczy. Kliknij %@, wpisz hasło do Maca, a potem wybierz Zawsze pozwalaj.";
 "Encrypts your history and its contents with a key kept in your macOS keychain: another app, or someone who copies the files, then sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "Szyfruje historię i jej zawartość kluczem przechowywanym w pęku kluczy macOS: inna aplikacja ani ktoś, kto skopiuje pliki, nie zobaczy wtedy nic czytelnego. Eksporty pozostają czytelnym JSON-em. Bez pęku kluczy tego Maca historii nie da się odczytać.";
+"Paused until %@" = "Wstrzymane do %@";
+"Capture resumed" = "Wznowiono przechwytywanie";
+"For 5 minutes" = "Na 5 minut";
+"For 1 hour" = "Na 1 godzinę";
+"Until I resume it" = "Dopóki go nie wznowię";

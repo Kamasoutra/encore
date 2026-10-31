@@ -461,3 +461,8 @@
 "Off by default for now: until encore is signed by Apple, macOS asks for your Mac password after each update, before encore can read its key. Once encore is signed, encryption will be on by default, with no prompt." = "Şimdilik varsayılan olarak kapalı: encore Apple tarafından imzalanana kadar macOS her güncellemeden sonra, encore anahtarını okuyabilmeden önce Mac parolanızı ister. encore imzalandığında şifreleme varsayılan olarak açık olacak, hiçbir soru sorulmadan.";
 "encore needs your permission to read its key in the keychain. Click %@, enter your Mac password, then choose Always Allow." = "encore’un anahtar zincirindeki anahtarını okumak için izninize ihtiyacı var. %@ öğesine tıklayın, Mac parolanızı girin ve Her Zaman İzin Ver’i seçin.";
 "Encrypts your history and its contents with a key kept in your macOS keychain: another app, or someone who copies the files, then sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "Geçmişinizi ve içeriklerini macOS anahtar zincirinizdeki bir anahtarla şifreler: başka bir uygulama ya da dosyaları kopyalayan biri artık okunabilir hiçbir şey görmez. Dışa aktarılanlar okunabilir JSON olarak kalır. Bu Mac’in anahtar zinciri olmadan geçmiş okunamaz.";
+"Paused until %@" = "%@ saatine kadar duraklatıldı";
+"Capture resumed" = "Kayda devam edildi";
+"For 5 minutes" = "5 dakika";
+"For 1 hour" = "1 saat";
+"Until I resume it" = "Ben devam ettirene kadar";

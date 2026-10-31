@@ -48,6 +48,7 @@ public enum Localization {
     public static func keys(_ glyphs: String) -> String { "\u{2066}\(glyphs)\u{2069}" }
     public static func step(rightArrow: Bool, rightToLeft: Bool = isRightToLeft) -> Int { rightArrow != rightToLeft ? 1 : -1 }
     public static func date(_ date: Date, time: Bool = true) -> String { date.formatted(Date.FormatStyle(date: .numeric, time: time ? .standard : .omitted, locale: locale)) }
+    public static func time(_ date: Date) -> String { date.formatted(Date.FormatStyle(date: .omitted, time: .shortened, locale: locale)) }
     public static func bytes(_ count: Int64) -> String { count.formatted(.byteCount(style: .file).locale(locale)) }
     public static func number(_ value: Int) -> String { value.formatted(.number.locale(locale)) }
     public static func relative(_ date: Date, to now: Date) -> String {

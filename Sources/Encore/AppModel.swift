@@ -137,6 +137,7 @@ struct PeerStatus: Identifiable, Equatable {
         if demo { seedDemo() } else { refreshFileSizes(); prune() }
         resetSelection()
         if let notice = storage?.recoveryNotice { notify(notice) }
+        scheduleCaptureResume()
         startPeers()
     }
 
@@ -314,6 +315,43 @@ struct PeerStatus: Identifiable, Equatable {
     }
 
     func save() { storage?.save(library) }
+
+    private var captureResumeTimer: Timer?
+
+    /// What the shelf and the compact window say while capture is off.
+    var capturePausedLabel: String {
+        preferences.captureResumesAt.map { L("Paused until \(Localization.time($0))") } ?? L("Capture paused")
+    }
+
+    /// Turns capture on or off. A pause can last a while: capture then comes back on its own, even after a relaunch.
+    func setCapture(_ on: Bool, for duration: TimeInterval? = nil) {
+        preferences.captureEnabled = on
+        preferences.captureResumesAt = on ? nil : duration.map { Date().addingTimeInterval($0) }
+        preferencesChanged()
+        scheduleCaptureResume()
+    }
+
+    private func scheduleCaptureResume() {
+        captureResumeTimer?.invalidate(); captureResumeTimer = nil
+        guard let date = preferences.captureResumesAt, !preferences.captureEnabled else { return }
+        let timer = Timer(fire: max(date, Date()), interval: 0, repeats: false) { [weak self] _ in
+            Task { @MainActor in self?.resumeCaptureIfDue() }
+        }
+        RunLoop.main.add(timer, forMode: .common)
+        captureResumeTimer = timer
+    }
+
+    private func resumeCaptureIfDue() {
+        guard let date = preferences.captureResumesAt else { return }
+        guard date <= Date() else { return scheduleCaptureResume() }
+        // A storage failure pauses capture too: that pause is not lifted behind the user's back.
+        guard storage != nil, storageError == nil else {
+            preferences.captureResumesAt = nil
+            return preferencesChanged()
+        }
+        setCapture(true)
+        notify(L("Capture resumed"))
+    }
 
     @Published private(set) var historyEncrypted = false
     /// Set when the keychain could not be read at launch: encryption then cannot be changed, so nothing is converted on a guess.

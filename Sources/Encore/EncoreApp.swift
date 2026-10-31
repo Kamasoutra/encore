@@ -193,6 +193,8 @@ final class EncorePanel: NSPanel {
     private func applyAppearance() {
         let appearance = model.preferences.appearance
         NSApp.appearance = appearance == "dark" ? NSAppearance(named: .darkAqua) : appearance == "light" ? NSAppearance(named: .aqua) : nil
+        // A dimmed icon in the menu bar shows that capture is paused, without opening encore.
+        statusItem?.button?.appearsDisabled = !model.preferences.captureEnabled
     }
 
     private func positionPanel() {
@@ -325,7 +327,7 @@ final class EncorePanel: NSPanel {
             case "n":
                 if shift { openLibraryFromColumn(); model.createCollection() } else { newText() }
                 return nil
-            case "t": model.preferences.captureEnabled.toggle(); model.preferencesChanged(); return nil
+            case "t": model.setCapture(!model.preferences.captureEnabled); return nil
             case "e": model.inspector = model.selected; return nil
             // The compact window is too small to rename or make a snippet: these open the library first.
             case "r": if model.remotePeer == nil { openLibraryFromColumn(); model.renamingID = model.selected?.id }; return nil
@@ -501,6 +503,7 @@ final class EncorePanel: NSPanel {
         statusItem.button?.target = self
         statusItem.button?.action = #selector(statusClick)
         statusItem.button?.sendAction(on: [.leftMouseUp, .rightMouseUp])
+        statusItem.button?.appearsDisabled = !model.preferences.captureEnabled
     }
 
     /// The app icon reduced to a template: an outlined back card and a solid front card with the arrow cut out.
@@ -544,7 +547,18 @@ final class EncorePanel: NSPanel {
         if NSApp.currentEvent?.type == .rightMouseUp {
             let menu = NSMenu()
             menu.addItem(withTitle: L("Open Encore"), action: #selector(openBoard), keyEquivalent: "")
-            menu.addItem(withTitle: model.preferences.captureEnabled ? L("Pause capture") : L("Resume capture"), action: #selector(toggleCapture), keyEquivalent: "")
+            if model.preferences.captureEnabled {
+                // A pause for a while is easy to forget to undo: it comes back on its own.
+                let pause = NSMenu()
+                for (title, minutes) in [(L("For 5 minutes"), 5), (L("For 1 hour"), 60), (L("Until I resume it"), 0)] {
+                    let item = pause.addItem(withTitle: title, action: #selector(pauseCapture(_:)), keyEquivalent: "")
+                    item.tag = minutes; item.target = self
+                }
+                menu.addItem(withTitle: L("Pause capture"), action: nil, keyEquivalent: "").submenu = pause
+            } else {
+                menu.addItem(withTitle: L("Resume capture"), action: #selector(resumeCapture), keyEquivalent: "")
+                if model.preferences.captureResumesAt != nil { menu.addItem(withTitle: model.capturePausedLabel, action: nil, keyEquivalent: "").isEnabled = false }
+            }
             menu.addItem(withTitle: L("Clear history…"), action: #selector(clearHistory), keyEquivalent: "")
             menu.addItem(.separator())
             menu.addItem(withTitle: L("Settings…"), action: #selector(settingsAction), keyEquivalent: "")
@@ -568,7 +582,8 @@ final class EncorePanel: NSPanel {
     func application(_ application: NSApplication, open urls: [URL]) {
         for url in urls where url.scheme == "encore" && url.host == "clear-history" { model.clearHistory() }
     }
-    @objc private func toggleCapture() { model.preferences.captureEnabled.toggle(); model.preferencesChanged() }
+    @objc private func pauseCapture(_ item: NSMenuItem) { model.setCapture(false, for: item.tag > 0 ? TimeInterval(item.tag * 60) : nil) }
+    @objc private func resumeCapture() { model.setCapture(true) }
     @objc private func settingsAction() { openSettings() }
     @objc private func checkForUpdates() { Updates.shared.check() }
     @objc private func quit() { NSApp.terminate(nil) }

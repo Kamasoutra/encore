@@ -320,7 +320,7 @@ struct BoardView: View {
     private var footer: some View {
         HStack(spacing: 14) {
             Circle().fill(model.preferences.captureEnabled ? Color.green : Color.orange).frame(width: 6, height: 6)
-            Text(model.preferences.captureEnabled ? L("\(model.filtered.count) items") : L("Capture paused")).font(.system(size: 11, weight: .medium)).monospacedDigit()
+            Text(model.preferences.captureEnabled ? L("\(model.filtered.count) items") : model.capturePausedLabel).font(.system(size: 11, weight: .medium)).monospacedDigit()
             pasteSwitch
             layoutSwitch
             if model.preferences.pasteDirectly && !model.accessibilityGranted {
@@ -922,7 +922,7 @@ struct SideColumn<Search: View>: View {
             // The whole top strip, out to the window's edges, so a grab just above or beside the title still moves it.
             .overlay(WindowDragArea { model.compactMoved?() }.padding(.horizontal, -12).padding(.top, -12).padding(.bottom, -5).help(L("Drag to move")))
             .overlay(alignment: .trailing) {
-                if !model.preferences.captureEnabled { Image(systemName: "pause.circle.fill").foregroundStyle(.orange).help(L("Capture paused")).padding(.trailing, 4) }
+                if !model.preferences.captureEnabled { Image(systemName: "pause.circle.fill").foregroundStyle(.orange).help(model.capturePausedLabel).padding(.trailing, 4) }
             }
             search
             libraryBar

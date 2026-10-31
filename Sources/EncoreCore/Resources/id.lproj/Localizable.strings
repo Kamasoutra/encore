@@ -461,3 +461,8 @@
 "Off by default for now: until encore is signed by Apple, macOS asks for your Mac password after each update, before encore can read its key. Once encore is signed, encryption will be on by default, with no prompt." = "Mati secara default untuk saat ini: selama encore belum ditandatangani oleh Apple, macOS meminta kata sandi Mac-mu setelah setiap pembaruan, sebelum encore bisa membaca kuncinya. Setelah encore ditandatangani, enkripsi akan aktif secara default, tanpa permintaan apa pun.";
 "encore needs your permission to read its key in the keychain. Click %@, enter your Mac password, then choose Always Allow." = "encore perlu izinmu untuk membaca kuncinya di rantai kunci. Klik %@, masukkan kata sandi Mac-mu, lalu pilih Selalu Izinkan.";
 "Encrypts your history and its contents with a key kept in your macOS keychain: another app, or someone who copies the files, then sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "Mengenkripsi riwayatmu dan isinya dengan kunci yang disimpan di rantai kunci macOS: aplikasi lain, atau orang yang menyalin filenya, lalu tidak melihat apa pun yang terbaca. Ekspor tetap JSON yang terbaca. Tanpa rantai kunci Mac ini, riwayat tidak bisa dibaca.";
+"Paused until %@" = "Dijeda sampai %@";
+"Capture resumed" = "Perekaman dilanjutkan";
+"For 5 minutes" = "Selama 5 menit";
+"For 1 hour" = "Selama 1 jam";
+"Until I resume it" = "Sampai saya melanjutkannya";

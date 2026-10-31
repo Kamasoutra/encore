@@ -13,6 +13,27 @@ final class CaptureAndFeedbackTests: XCTestCase {
         try action(model, pb, root)
     }
 
+    @MainActor func testTimedPauseResumesCaptureOnItsOwn() throws {
+        try withModel { model, _, _ in
+            model.setCapture(false, for: 0.2)
+            XCTAssertFalse(model.preferences.captureEnabled)
+            XCTAssertNotNil(model.preferences.captureResumesAt)
+            XCTAssertNotEqual(model.capturePausedLabel, L("Capture paused"), "A timed pause says until when")
+            RunLoop.main.run(until: Date().addingTimeInterval(0.6))
+            XCTAssertTrue(model.preferences.captureEnabled, "The pause ends at its time")
+            XCTAssertNil(model.preferences.captureResumesAt)
+
+            model.setCapture(false)
+            XCTAssertNil(model.preferences.captureResumesAt, "A pause without a time lasts until resumed")
+            XCTAssertEqual(model.capturePausedLabel, L("Capture paused"))
+            model.setCapture(false, for: 0.2)
+            model.setCapture(true)
+            model.setCapture(false)
+            RunLoop.main.run(until: Date().addingTimeInterval(0.6))
+            XCTAssertFalse(model.preferences.captureEnabled, "Resuming by hand cancels the earlier timed pause")
+        }
+    }
+
     @MainActor func testScreenshotImportPreservesDateAndDoesNotReplaceClipboard() async throws {
         try withModel { model, pb, root in
             pb.clearContents(); pb.setString("Keep my clipboard", forType: .string)

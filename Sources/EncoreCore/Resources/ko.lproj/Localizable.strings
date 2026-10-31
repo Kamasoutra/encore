@@ -461,3 +461,8 @@
 "Off by default for now: until encore is signed by Apple, macOS asks for your Mac password after each update, before encore can read its key. Once encore is signed, encryption will be on by default, with no prompt." = "당분간 기본적으로 꺼짐: encore가 Apple의 서명을 받기 전까지는 업데이트할 때마다 encore가 키를 읽기 전에 macOS가 Mac 암호를 묻습니다. 서명을 받으면 암호화는 묻지 않고 기본적으로 켜집니다.";
 "encore needs your permission to read its key in the keychain. Click %@, enter your Mac password, then choose Always Allow." = "encore가 키체인에서 키를 읽으려면 허용이 필요합니다. '%@'을(를) 클릭하고 Mac 암호를 입력한 다음 '항상 허용'을 선택하세요.";
 "Encrypts your history and its contents with a key kept in your macOS keychain: another app, or someone who copies the files, then sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "기록과 그 내용을 macOS 키체인에 보관된 키로 암호화합니다. 그러면 다른 앱이나 파일을 복사한 사람은 읽을 수 있는 내용을 볼 수 없습니다. 내보낸 파일은 읽을 수 있는 JSON으로 유지됩니다. 이 Mac의 키체인이 없으면 기록을 읽을 수 없습니다.";
+"Paused until %@" = "%@까지 일시 정지됨";
+"Capture resumed" = "수집을 재개했습니다";
+"For 5 minutes" = "5분 동안";
+"For 1 hour" = "1시간 동안";
+"Until I resume it" = "직접 재개할 때까지";

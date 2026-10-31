@@ -461,3 +461,8 @@
 "Off by default for now: until encore is signed by Apple, macOS asks for your Mac password after each update, before encore can read its key. Once encore is signed, encryption will be on by default, with no prompt." = "Tạm thời tắt theo mặc định: cho đến khi encore được Apple ký, macOS sẽ hỏi mật khẩu máy Mac sau mỗi lần cập nhật, trước khi encore có thể đọc khóa của mình. Khi encore được ký, mã hóa sẽ bật theo mặc định mà không hỏi gì.";
 "encore needs your permission to read its key in the keychain. Click %@, enter your Mac password, then choose Always Allow." = "encore cần bạn cho phép để đọc khóa trong chuỗi khóa. Nhấp vào %@, nhập mật khẩu máy Mac, rồi chọn Luôn cho phép.";
 "Encrypts your history and its contents with a key kept in your macOS keychain: another app, or someone who copies the files, then sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "Mã hóa lịch sử và nội dung của bạn bằng khóa lưu trong chuỗi khóa macOS: khi đó ứng dụng khác, hay người sao chép các tệp, sẽ không thấy gì đọc được. Bản xuất vẫn là JSON đọc được. Không có chuỗi khóa của máy Mac này thì không thể đọc lịch sử.";
+"Paused until %@" = "Tạm dừng đến %@";
+"Capture resumed" = "Đã tiếp tục ghi";
+"For 5 minutes" = "Trong 5 phút";
+"For 1 hour" = "Trong 1 giờ";
+"Until I resume it" = "Cho đến khi tôi tiếp tục";

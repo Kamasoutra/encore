@@ -6,6 +6,8 @@ struct Preferences: Codable, Equatable {
     var historyLimit = 2000
     var storageLimitMB = 500
     var captureEnabled = true
+    /// A pause for a while: capture comes back on at this time, even if encore was quit in between.
+    var captureResumesAt: Date?
     var ignoreSensitive = true
     var recognizeImages = true
     private static let legacyDefaultExcludedBundleIDs = ["com.1password.1password", "com.agilebits.onepassword7", "com.bitwarden.desktop", "com.apple.keychainaccess", "org.keepassxc.keepassxc", "com.dashlane.Dashlane"]
@@ -44,7 +46,6 @@ struct Preferences: Codable, Equatable {
     var detectSecrets = false
     var secretLifetime: Double = 60
     var secretPreview = 3
-    /// Encryption is on by default; this remembers that the user turned it off, so it is not turned back on at the next launch.
     /// Merge favorites, and snippets, with paired Macs that sync them too, and keep them in step while connected.
     var syncFavorites = false
     var syncSnippets = false
@@ -56,7 +57,7 @@ struct Preferences: Codable, Equatable {
     init() {}
 
     private enum CodingKeys: String, CodingKey {
-        case retentionDays, historyLimit, storageLimitMB, captureEnabled, ignoreSensitive, recognizeImages
+        case retentionDays, historyLimit, storageLimitMB, captureEnabled, captureResumesAt, ignoreSensitive, recognizeImages
         case excludedBundleIDs, panelHeight, compact, placement, compactPosition, compactCount, appearance, shortcut, retentionRules, cardScale, importScreenshots, copyScreenshotsToClipboard, screenshotFolder
         case soundsEnabled, soundTheme, soundVolume, captureSoundPath, pasteSoundPath, displayTarget, stackShortcutEnabled, disabledDefaultExclusions, language, shareWithPeers, pasteDirectly, syncFavorites, syncSnippets, forgetClearedCopies, detectSecrets, secretLifetime, secretPreview
     }
@@ -68,6 +69,7 @@ struct Preferences: Codable, Equatable {
         historyLimit = try values.decodeIfPresent(Int.self, forKey: .historyLimit) ?? historyLimit
         storageLimitMB = try values.decodeIfPresent(Int.self, forKey: .storageLimitMB) ?? storageLimitMB
         captureEnabled = try values.decodeIfPresent(Bool.self, forKey: .captureEnabled) ?? captureEnabled
+        captureResumesAt = try values.decodeIfPresent(Date.self, forKey: .captureResumesAt)
         ignoreSensitive = try values.decodeIfPresent(Bool.self, forKey: .ignoreSensitive) ?? ignoreSensitive
         recognizeImages = try values.decodeIfPresent(Bool.self, forKey: .recognizeImages) ?? recognizeImages
         excludedBundleIDs = try values.decodeIfPresent([String].self, forKey: .excludedBundleIDs) ?? excludedBundleIDs

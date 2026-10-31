@@ -461,3 +461,8 @@
 "Off by default for now: until encore is signed by Apple, macOS asks for your Mac password after each update, before encore can read its key. Once encore is signed, encryption will be on by default, with no prompt." = "Zatiaľ predvolene vypnuté: kým encore nie je podpísaný spoločnosťou Apple, macOS po každej aktualizácii žiada heslo k vášmu Macu, než encore môže prečítať svoj kľúč. Keď bude encore podpísaný, šifrovanie bude predvolene zapnuté, bez akejkoľvek otázky.";
 "encore needs your permission to read its key in the keychain. Click %@, enter your Mac password, then choose Always Allow." = "encore potrebuje vaše povolenie na čítanie svojho kľúča v kľúčenke. Kliknite na %@, zadajte heslo k Macu a zvoľte Vždy povoliť.";
 "Encrypts your history and its contents with a key kept in your macOS keychain: another app, or someone who copies the files, then sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "Šifruje vašu históriu a jej obsah kľúčom uloženým vo vašej kľúčenke macOS: iná aplikácia ani niekto, kto skopíruje súbory, potom neuvidí nič čitateľné. Exporty zostávajú čitateľným JSON. Bez kľúčenky tohto Macu sa história nedá prečítať.";
+"Paused until %@" = "Pozastavené do %@";
+"Capture resumed" = "Zaznamenávanie obnovené";
+"For 5 minutes" = "Na 5 minút";
+"For 1 hour" = "Na 1 hodinu";
+"Until I resume it" = "Kým ho neobnovím";
