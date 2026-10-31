@@ -32,7 +32,7 @@ STRINGS = {
         "copy": "Copy", "copied": "Copied",
         "sound_on": "Turn sound on", "sound_off": "Mute",
         "video": "The encore launch video",
-        "new_tag": "New in 0.6.1", "new": "Safer passwords, and a way to help notarize encore",
+        "new_tag": "New in 0.7", "new": "Your history, encrypted on your disk",
         "snippets": ["Snippets", "On every Mac"],
         "snippets_text": "Press ⌘S on any card: a name, a language (encore guesses it among 85) and tags. Placeholders like {{name}} ask for a value before pasting. Your snippets and favorites stay in step between your paired Macs.",
         "snippets_video": "Snippets in encore 0.5",
@@ -81,7 +81,7 @@ STRINGS = {
         "copy": "Copier", "copied": "Copié",
         "sound_on": "Activer le son", "sound_off": "Couper le son",
         "video": "La vidéo de lancement d’encore",
-        "new_tag": "Nouveautés · 0.6.1", "new": "Mots de passe protégés, et ton aide pour notariser encore",
+        "new_tag": "Nouveautés · 0.7", "new": "Ton historique, chiffré sur ton disque",
         "snippets": ["Snippets", "Sur tous tes Mac"],
         "snippets_text": "⌘S sur n’importe quelle carte : un nom, un langage (encore le devine parmi 85) et des tags. Les placeholders comme {{nom}} te demandent une valeur avant de coller. Tes snippets et tes favoris restent synchronisés entre tes Mac appairés.",
         "snippets_video": "Les snippets dans encore 0.5",
@@ -175,7 +175,7 @@ PRIVACY = {
         "honest_title": "What is not perfect yet",
         "honest_lead": "I would rather tell you myself.",
         "honest": [
-            "<strong>Your exports are not encrypted.</strong> Since 0.7, the history itself is encrypted on disk, with a key kept in your keychain. Exports stay readable JSON, so your data is never locked in: store them like any sensitive file. And while encore runs, it reads what you copy, so software that already controls your session could too, as with any clipboard manager.",
+            "<span class='fixed'>Encrypted since 0.7</span><strong><s>Your history is not encrypted on disk.</s></strong> Since 0.7, it is, by default, with a key kept in your keychain: a backup or a copy of the folder shows nothing readable. Exports stay readable JSON, so your data is never locked in: store them like any sensitive file. And while encore runs, it reads what you copy, so software that already controls your session could too, as with any clipboard manager.",
             "<strong>encore is not notarized by Apple yet.</strong> To notarize an app, Apple asks for a developer membership at $99 a year. encore is a free personal project that earns me nothing, so until then the first launch needs “Open Anyway” in System Settings, once. If a small community gets behind it, that is the first thing its support will pay for, and the same account could also bring encore to the Mac App Store. You can <a href='" + SPONSORS + "'>support encore on GitHub Sponsors</a> or <a href='" + KOFI + "'>Ko-fi</a>.",
             "<strong>There is just me behind encore.</strong> I build it in the evenings, alongside my day job and my family life. There is no team and no guaranteed support: I fix things as fast as those evenings allow, starting with anything that touches security or your data. That is also why everything is open: anyone can report a problem, propose a fix on GitHub, or contribute.",
         ],
@@ -244,7 +244,7 @@ PRIVACY = {
         "honest_title": "Ce qui n’est pas encore parfait",
         "honest_lead": "Je préfère te le dire moi-même.",
         "honest": [
-            "<strong>Tes exports ne sont pas chiffrés.</strong> Depuis la 0.7, l’historique lui-même est chiffré sur le disque, avec une clé gardée dans ton trousseau. Les exports restent du JSON lisible, pour que tes données ne soient jamais prisonnières : range-les comme n’importe quel fichier sensible. Et pendant qu’encore tourne, il lit ce que tu copies : un logiciel qui contrôle déjà ta session pourrait le faire aussi, comme avec tout gestionnaire de presse-papiers.",
+            "<span class='fixed'>Chiffré depuis la 0.7</span><strong><s>Ton historique n’est pas chiffré sur le disque.</s></strong> Depuis la 0.7, il l’est, par défaut, avec une clé gardée dans ton trousseau : une sauvegarde ou une copie du dossier ne montre rien de lisible. Les exports restent du JSON lisible, pour que tes données ne soient jamais prisonnières : range-les comme n’importe quel fichier sensible. Et pendant qu’encore tourne, il lit ce que tu copies : un logiciel qui contrôle déjà ta session pourrait le faire aussi, comme avec tout gestionnaire de presse-papiers.",
             "<strong>encore n’est pas encore notarisé par Apple.</strong> Pour notariser une app, Apple demande un abonnement développeur à 99 $ par an. encore est un projet personnel et gratuit qui ne me rapporte rien : en attendant, il faut passer une fois par « Ouvrir quand même » dans les Réglages Système. Si une petite communauté se forme autour du projet, c’est la première chose que son soutien financera, et le même compte permettrait aussi de le proposer sur le Mac App Store. Tu peux le <a href='" + SPONSORS + "'>soutenir sur GitHub Sponsors</a> ou <a href='" + KOFI + "'>Ko-fi</a>.",
             "<strong>Derrière encore, il n’y a que moi.</strong> Je le développe le soir, à côté de mon travail et de ma vie de famille. Il n’y a ni équipe ni support garanti : je corrige aussi vite que ces soirées le permettent, en commençant par tout ce qui touche à la sécurité ou à tes données. C’est aussi pour ça que tout est ouvert : n’importe qui peut signaler un problème, proposer une correction sur GitHub ou contribuer.",
         ],
@@ -342,7 +342,7 @@ DOWNLOAD = f"""<!doctype html>
 CURRENT = ' aria-current="page"'
 
 HOME = Template("""<section class="wrap hero">
-  <a class="new" href="${base}${home}changelog/#v0.6.1"><b>$new_tag</b>$new<span aria-hidden="true">→</span></a>
+  <a class="new" href="${base}${home}changelog/#v0.7.0"><b>$new_tag</b>$new<span aria-hidden="true">→</span></a>
   <h1 class="slam hook">$hook</h1>
   <p class="lead">$lead</p>
   <div class="get">

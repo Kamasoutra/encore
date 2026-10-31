@@ -40,6 +40,7 @@ Write `{{name}}` in a snippet and encore asks for the value before pasting. `{{c
 - **Exclusions** keep password managers out, and content that apps mark as confidential is skipped.
 - **Passwords from browser extensions** leave the history when the extension clears the clipboard (in Bitwarden: Settings → Options → Clear clipboard). Optional detection masks copies that look like passwords, API keys, tokens or card numbers, and deletes them after a delay you choose.
 - **Clear the history** from the menu bar, from Settings, or with `open encore://clear-history`, keeping favorites and snippets or not.
+- **Several cards at once:** select them with ⌘-click or ⇧ and the arrows, each one shows its number, and they paste in the order you picked.
 - **A paste queue** pastes several items in order, one ⌘V at a time.
 - **Your own shortcut:** ⇧⌘V by default, or any combination you type in Settings.
 

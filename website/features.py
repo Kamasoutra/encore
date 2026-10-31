@@ -6,7 +6,7 @@ Each one says the version it arrived in: check it against `git tag --contains` w
 
 from html import escape
 
-LATEST = "0.6.1"
+LATEST = "0.7.0"
 
 # (key, version, media, title, text): media is an image or video in media/<lang>/, or None for the cards at the end.
 FEATURES = {
@@ -32,6 +32,8 @@ FEATURES = {
              "Pair two Macs on the same network with a 6-digit code, and each one appears as a tab: browse the other Mac's recent copies and paste them as if they were yours. Since 0.5, favorites and snippets can stay in step between your Macs. The connection is end-to-end encrypted, keys stay on each Mac, and there is no server or account."),
             ("privacy", "0.2", "settings-privacy.png", "Private by design",
              "Everything stays on your Mac: no account, no telemetry, no link loaded behind your back. Password managers are left out, and content that apps mark as confidential is never recorded. <a href='{privacy}'>Read how your data is handled, in plain words</a>."),
+            ("encryption", "0.7.0", "settings-data.png", "Encrypted on your disk",
+             "Your history is encrypted on your Mac, with a key kept in your keychain: another app reading the folder, a backup or a copy of your disk shows nothing readable. It is on from the first launch, and an existing history is converted in place. You can turn it off in Settings → Data, after a warning that says what it exposes. Exports stay readable JSON, so your data is never locked in."),
             ("passwords", "0.6.1", "secrets.png", "Your passwords stay out of it",
              "Browser extensions like Bitwarden in Firefox copy as the browser and mark nothing. When the extension clears the clipboard after a copy (Settings → Options → Clear clipboard), encore forgets that copy too. And if you turn on detection, copies that look like passwords, API keys, tokens or card numbers are masked, showing only their first characters, then deleted after the delay you choose. They still paste, and never reach your other Macs. It is a guess: an ordinary copy can be taken for a secret. When a card disappears, it dissolves into dust and its neighbors slide into place."),
             ("preview", "0.4", "preview.png", "See before you paste",
@@ -42,10 +44,16 @@ FEATURES = {
              "Retention rules by size and type clean up on their own: a 3 GB file for an hour, small texts forever. The first matching rule wins, every card tells you how long it stays, and you see what a change would remove before applying it. Favorites, snippets and collections are kept."),
             ("sounds", "0.2", "settings-sounds.png", "Quiet sounds, or yours",
              "A soft sound on copy and paste, so you know it worked without looking. Pick one of nine sets, preview each in one click, or use your own files and, since 0.6, the sounds that come with macOS."),
-            ("data", "0.2", "settings-data.png", "Your data, yours to take",
-             "Your history is stored in readable JSON files in one folder. Export all of it, import it on another Mac, export your snippets on their own, or clear the history while keeping favorites and collections."),
             ("keyboard", "0.2", "settings-shortcuts.png", "All from the keyboard",
              "Everything has a key: search, preview, favorite, rename, delete and undo, switch boards with <kbd>⌘←</kbd> <kbd>⌘→</kbd>, paste as plain text with <kbd>⇧↩</kbd>. Search understands <code>app:safari</code>, <code>type:image</code>, <code>tag:</code>, <code>lang:</code> and dates."),
+            ("order", "0.7.0", None, "Pasted in the order you pick",
+             "Select several cards with <kbd>⌘</kbd>-click or <kbd>⇧</kbd> and the arrows: each one shows its number, and they paste in that order, in the shelf, the library and the compact window."),
+            ("fast", "0.7.0", None, "Fast with 10,000 copies",
+             "A click selects at once, and search, day sections and favorites stay quick with a history of 10,000 copies."),
+            ("voiceover", "0.7.0", None, "Ready for VoiceOver",
+             "Every button has a name, and selected cards say where they will be pasted."),
+            ("data", "0.2", None, "Your data, yours to take",
+             "Export your whole history as readable JSON, import it on another Mac, export your snippets on their own, or clear the history while keeping favorites and collections."),
             ("favorites", "0.2", None, "Favorites and collections",
              "Keep addresses, templates and answers forever, and drag cards into your own collections."),
             ("queue", "0.2", None, "A paste queue",
@@ -90,6 +98,8 @@ FEATURES = {
              "Appaire deux Mac du même réseau avec un code à 6 chiffres, et chacun apparaît dans un onglet : parcours les dernières copies de l’autre Mac et colle-les comme si c’étaient les tiennes. Depuis la 0.5, favoris et snippets peuvent rester synchronisés entre tes Mac. La connexion est chiffrée de bout en bout, les clés restent sur chaque Mac, et il n’y a ni serveur ni compte."),
             ("privacy", "0.2", "settings-privacy.png", "Privé par conception",
              "Tout reste sur ton Mac : pas de compte, pas de télémétrie, aucun lien chargé dans ton dos. Les gestionnaires de mots de passe sont écartés, et ce que les apps marquent comme confidentiel n’est jamais enregistré. <a href='{privacy}'>Lis comment tes données sont traitées, sans jargon</a>."),
+            ("encryption", "0.7.0", "settings-data.png", "Chiffré sur ton disque",
+             "Ton historique est chiffré sur ton Mac, avec une clé gardée dans ton trousseau : une autre app qui lit le dossier, une sauvegarde ou une copie de ton disque ne voit rien de lisible. C’est actif dès le premier lancement, et un historique existant est converti sur place. Tu peux le désactiver dans Réglages → Données, après un avertissement qui dit ce que ça expose. Les exports restent du JSON lisible, pour que tes données ne soient jamais prisonnières."),
             ("passwords", "0.6.1", "secrets.png", "Tes mots de passe restent à l’écart",
              "Les extensions comme Bitwarden dans Firefox copient au nom du navigateur et ne signalent rien. Quand l’extension vide le presse-papiers après une copie (Paramètres → Options → Effacer le presse-papiers), encore oublie aussi cette copie. Et si tu actives la détection, les copies qui ressemblent à des mots de passe, clés d’API, jetons ou numéros de carte sont masquées, seuls leurs premiers caractères restent visibles, puis supprimées après le délai de ton choix. Elles se collent toujours et ne partent jamais vers tes autres Mac. C’est une estimation : une copie ordinaire peut être prise pour un secret. Quand une tuile disparaît, elle se désagrège en poussière et ses voisines referment l’espace."),
             ("preview", "0.4", "preview.png", "Voir avant de coller",
@@ -100,10 +110,16 @@ FEATURES = {
              "Des règles de rétention par taille et par type font le ménage toutes seules : un fichier de 3 Go pendant une heure, les petits textes pour toujours. La première règle qui correspond l’emporte, chaque carte indique combien de temps elle reste, et tu vois ce qu’un changement supprimerait avant de l’appliquer. Favoris, snippets et collections sont gardés."),
             ("sounds", "0.2", "settings-sounds.png", "Des sons discrets, ou les tiens",
              "Un son léger à la copie et au collage, pour savoir que c’est fait sans regarder. Choisis parmi neuf jeux, écoute chacun en un clic, ou utilise tes propres fichiers et, depuis la 0.6, les sons fournis avec macOS."),
-            ("data", "0.2", "settings-data.png", "Tes données, à emporter",
-             "Ton historique est rangé dans des fichiers JSON lisibles, dans un seul dossier. Exporte tout, importe-le sur un autre Mac, exporte tes snippets à part, ou vide l’historique en gardant favoris et collections."),
             ("keyboard", "0.2", "settings-shortcuts.png", "Tout au clavier",
              "Chaque action a sa touche : chercher, prévisualiser, mettre en favori, renommer, supprimer et annuler, changer de panneau avec <kbd>⌘←</kbd> <kbd>⌘→</kbd>, coller en texte brut avec <kbd>⇧↩</kbd>. La recherche comprend <code>app:safari</code>, <code>type:image</code>, <code>tag:</code>, <code>lang:</code> et les dates."),
+            ("order", "0.7.0", None, "Collé dans l’ordre choisi",
+             "Sélectionne plusieurs cartes avec <kbd>⌘</kbd>-clic ou <kbd>⇧</kbd> et les flèches : chacune affiche son numéro, et elles se collent dans cet ordre, dans le bandeau, la bibliothèque et la fenêtre compacte."),
+            ("fast", "0.7.0", None, "Rapide avec 10 000 copies",
+             "Un clic sélectionne aussitôt, et la recherche, les sections par jour et les favoris restent vifs avec un historique de 10 000 copies."),
+            ("voiceover", "0.7.0", None, "Prêt pour VoiceOver",
+             "Chaque bouton a un nom, et les cartes sélectionnées disent à quelle place elles seront collées."),
+            ("data", "0.2", None, "Tes données, à emporter",
+             "Exporte tout ton historique en JSON lisible, importe-le sur un autre Mac, exporte tes snippets à part, ou vide l’historique en gardant favoris et collections."),
             ("favorites", "0.2", None, "Favoris et collections",
              "Garde pour toujours adresses, modèles et réponses, et glisse tes cartes dans tes propres collections."),
             ("queue", "0.2", None, "Une file de collage",
@@ -143,6 +159,12 @@ RELEASES = {
         "pace": "{} versions in {} days",
         "latest": "Latest",
         "items": [
+            ("0.7.0", "2026-10-31", "settings-data.png", "Your history, encrypted on your disk.", [
+                ("new", "<b>Encrypted history.</b> Your history is encrypted on your Mac with ChaCha20-Poly1305, under a key kept in your keychain: a backup or a copy of the folder shows nothing readable. On by default, and an existing history is converted at the first launch. Settings → Data turns it off, after a warning. Exports stay readable JSON. To go back to 0.6, turn encryption off first."),
+                ("new", "<b>Pasted in the order you pick.</b> Select several cards with <kbd>⌘</kbd>-click or <kbd>⇧</kbd>: each one shows its number, and they paste in that order. The compact window selects several copies too, with <kbd>⇧↑</kbd> <kbd>⇧↓</kbd>."),
+                ("better", "<b>Fast with 10,000 copies.</b> A click selects at once, without waiting for a possible double-click. Search, day sections and favorites stay quick with a history of 10,000 copies, and the history file is written at most once a second."),
+                ("better", "Every icon-only button has a name for VoiceOver, and selected cards say where they will be pasted."),
+            ]),
             ("0.6.1", "2026-10-30", "secrets.mp4", "Passwords copied from a browser stay out of your history.", [
                 ("new", "<b>Cleared copies are forgotten.</b> When a password manager clears the clipboard after a copy, encore removes that copy from its history too. It covers browser extensions, which copy as the browser. In Bitwarden: Settings → Options → Clear clipboard, then pick a delay. On by default."),
                 ("new", "<b>Secret detection, off by default.</b> Copies that look like passwords, API keys, tokens, private keys or card numbers are masked, showing only their first characters, and deleted after the delay you choose. They still paste and are never shared with your other Macs. It is a guess: an ordinary copy can be taken for a secret, and a secret can be missed."),
@@ -224,6 +246,12 @@ RELEASES = {
         "pace": "{} versions en {} jours",
         "latest": "Dernière version",
         "items": [
+            ("0.7.0", "2026-10-31", "settings-data.png", "Ton historique, chiffré sur ton disque.", [
+                ("new", "<b>Historique chiffré.</b> Ton historique est chiffré sur ton Mac avec ChaCha20-Poly1305, sous une clé gardée dans ton trousseau : une sauvegarde ou une copie du dossier ne montre rien de lisible. Actif par défaut, et un historique existant est converti au premier lancement. Réglages → Données le désactive, après un avertissement. Les exports restent du JSON lisible. Pour revenir à la 0.6, désactive d’abord le chiffrement."),
+                ("new", "<b>Collé dans l’ordre choisi.</b> Sélectionne plusieurs cartes avec <kbd>⌘</kbd>-clic ou <kbd>⇧</kbd> : chacune affiche son numéro, et elles se collent dans cet ordre. La fenêtre compacte sélectionne aussi plusieurs copies, avec <kbd>⇧↑</kbd> <kbd>⇧↓</kbd>."),
+                ("better", "<b>Rapide avec 10 000 copies.</b> Un clic sélectionne aussitôt, sans attendre un éventuel double-clic. La recherche, les sections par jour et les favoris restent vifs avec un historique de 10 000 copies, et le fichier d’historique est écrit au plus une fois par seconde."),
+                ("better", "Chaque bouton fait d’une seule icône a un nom pour VoiceOver, et les cartes sélectionnées disent à quelle place elles seront collées."),
+            ]),
             ("0.6.1", "2026-10-30", "secrets.mp4", "Les mots de passe copiés depuis un navigateur restent hors de ton historique.", [
                 ("new", "<b>Les copies effacées sont oubliées.</b> Quand un gestionnaire de mots de passe vide le presse-papiers après une copie, encore retire aussi cette copie de son historique. Ça couvre les extensions de navigateur, qui copient au nom du navigateur. Dans Bitwarden : Paramètres → Options → Effacer le presse-papiers, puis choisis un délai. Activé par défaut."),
                 ("new", "<b>Détection des secrets, désactivée par défaut.</b> Les copies qui ressemblent à des mots de passe, clés d’API, jetons, clés privées ou numéros de carte sont masquées, seuls leurs premiers caractères restent visibles, et supprimées après le délai de ton choix. Elles se collent toujours et ne sont jamais partagées avec tes autres Mac. C’est une estimation : une copie ordinaire peut être prise pour un secret, et un secret peut passer inaperçu."),
