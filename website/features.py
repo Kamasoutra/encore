@@ -185,7 +185,7 @@ RELEASES = {
         "items": [
             ("0.7.0", "2026-10-31", "settings-data.png", "More privacy, and cards in your order.", [
                 ("new", "<b>Encrypted history, if you want.</b> Settings → Data encrypts your history on your Mac with ChaCha20-Poly1305, under a key kept in your keychain: a copy of the folder shows nothing readable. Off by default for now: until encore is signed by Apple, macOS asks for your Mac password after each update before encore can read its key, and encore is updated often. Once encore is signed, it will be on by default, with no prompt. Exports stay readable JSON. To go back to 0.6, turn encryption off first."),
-                ("new", "<b>Pasted in the order you pick.</b> Select several cards with <kbd>⌘</kbd>-click or <kbd>⇧</kbd>: each one shows its number, and they paste in that order. The compact window selects several copies too, with <kbd>⇧↑</kbd> <kbd>⇧↓</kbd>."),
+                ("new", "<b>Pasted in the order you pick.</b> Select several cards with <kbd>⌘</kbd>-click or <kbd>⇧</kbd>: each one shows its number, and they paste in that order. Drag the card numbered 1 into another app to drop them all, one per line. The compact window selects several copies too, with <kbd>⇧↑</kbd> <kbd>⇧↓</kbd>."),
                 ("new", "<b>Hidden from screen sharing.</b> encore’s windows are left out of screen sharing, recordings and screenshots: open your history during a call, and nobody else sees it. Settings → Privacy turns it off when you want a screenshot."),
                 ("new", "<b>Memory only.</b> Settings → Data can keep your history in memory only: favorites, snippets and collections are saved, everything else is never written to disk and is gone when encore quits."),
                 ("new", "<b>Forget a secret once pasted.</b> With secret detection on, a password leaves the history as soon as you paste it, and the clipboard is emptied 30 seconds later."),
@@ -195,6 +195,7 @@ RELEASES = {
                 ("new", "<b>Snippets in your order.</b> On the Snippets board, drag a snippet onto another to take its place in their group. New snippets arrive at the top, and the order follows your exports and paired Macs."),
                 ("better", "<b>Fast with 10,000 copies.</b> A click selects at once, without waiting for a possible double-click. Search, day sections and favorites stay quick with a history of 10,000 copies, and the history file is written at most once a second."),
                 ("better", "Every icon-only button has a name for VoiceOver, and selected cards say where they will be pasted."),
+                ("fix", "Several cards pasted together, or pasted as plain text, no longer give a detected secret’s masked text, but its real value."),
                 ("fix", "The compact window’s copies now open the same right-click menu as the cards, can be dragged into another app, and are read by VoiceOver."),
             ]),
             ("0.6.1", "2026-10-30", "secrets.mp4", "Passwords copied from a browser stay out of your history.", [
@@ -280,7 +281,7 @@ RELEASES = {
         "items": [
             ("0.7.0", "2026-10-31", "settings-data.png", "Plus de confidentialité, et tes cartes dans ton ordre.", [
                 ("new", "<b>Historique chiffré, si tu veux.</b> Réglages → Données chiffre ton historique sur ton Mac avec ChaCha20-Poly1305, sous une clé gardée dans ton trousseau : une copie du dossier ne montre rien de lisible. Désactivé par défaut pour l’instant : tant qu’encore n’est pas signé par Apple, macOS demande le mot de passe de ton Mac après chaque mise à jour avant qu’encore puisse lire sa clé, et encore en reçoit souvent. Dès qu’encore sera signé, ce sera actif par défaut, sans aucune demande. Les exports restent du JSON lisible. Pour revenir à la 0.6, désactive d’abord le chiffrement."),
-                ("new", "<b>Collé dans l’ordre choisi.</b> Sélectionne plusieurs cartes avec <kbd>⌘</kbd>-clic ou <kbd>⇧</kbd> : chacune affiche son numéro, et elles se collent dans cet ordre. La fenêtre compacte sélectionne aussi plusieurs copies, avec <kbd>⇧↑</kbd> <kbd>⇧↓</kbd>."),
+                ("new", "<b>Collé dans l’ordre choisi.</b> Sélectionne plusieurs cartes avec <kbd>⌘</kbd>-clic ou <kbd>⇧</kbd> : chacune affiche son numéro, et elles se collent dans cet ordre. Glisse la carte numéro 1 dans une autre app pour toutes les déposer, une par ligne. La fenêtre compacte sélectionne aussi plusieurs copies, avec <kbd>⇧↑</kbd> <kbd>⇧↓</kbd>."),
                 ("new", "<b>Masqué des partages d’écran.</b> Les fenêtres d’encore sont exclues des partages d’écran, enregistrements et captures : ouvre ton historique en pleine visio, personne d’autre ne le voit. Réglages → Confidentialité le désactive quand tu veux une capture."),
                 ("new", "<b>En mémoire seulement.</b> Réglages → Données peut garder ton historique en mémoire seulement : favoris, snippets et collections sont enregistrés, tout le reste n’est jamais écrit sur le disque et disparaît quand encore quitte."),
                 ("new", "<b>Un secret oublié une fois collé.</b> Avec la détection des secrets, un mot de passe quitte l’historique dès que tu le colles, et le presse-papiers est vidé 30 secondes plus tard."),
@@ -290,6 +291,7 @@ RELEASES = {
                 ("new", "<b>Tes snippets dans ton ordre.</b> Dans le tableau Snippets, glisse un snippet sur un autre pour prendre sa place dans leur groupe. Les nouveaux arrivent en tête, et l’ordre suit tes exports et tes Mac appairés."),
                 ("better", "<b>Rapide avec 10 000 copies.</b> Un clic sélectionne aussitôt, sans attendre un éventuel double-clic. La recherche, les sections par jour et les favoris restent vifs avec un historique de 10 000 copies, et le fichier d’historique est écrit au plus une fois par seconde."),
                 ("better", "Chaque bouton fait d’une seule icône a un nom pour VoiceOver, et les cartes sélectionnées disent à quelle place elles seront collées."),
+                ("fix", "Plusieurs cartes collées ensemble, ou collées en texte brut, ne donnent plus le texte masqué d’un secret détecté, mais sa vraie valeur."),
                 ("fix", "Les copies de la fenêtre compacte ouvrent maintenant le même menu au clic droit que les cartes, se glissent dans une autre app et sont lues par VoiceOver."),
             ]),
             ("0.6.1", "2026-10-30", "secrets.mp4", "Les mots de passe copiés depuis un navigateur restent hors de ton historique.", [

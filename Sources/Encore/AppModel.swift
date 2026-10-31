@@ -958,6 +958,12 @@ struct PeerStatus: Identifiable, Equatable {
         notify(L("Deletion undone"))
     }
 
+    /// The text a copy pastes as. A masked secret's card shows a few characters: its real value comes from its saved contents.
+    func plainText(of clip: Clip) -> String {
+        if clip.secret != nil, let data = storage?.payload(clip.id)?.items.first?.representations["public.utf8-plain-text"], let text = String(data: data, encoding: .utf8) { return text }
+        return clip.text.isEmpty ? clip.recognizedText : clip.text
+    }
+
     /// `fields` holds the values typed in the snippet form; without them a snippet with {{fields}} opens the form first.
     func paste(_ clips: [Clip]? = nil, plain: Bool = false, copyOnly: Bool = false, fields: [String: String]? = nil) {
         let values = clips ?? selectedClips
@@ -984,11 +990,11 @@ struct PeerStatus: Identifiable, Equatable {
             clipboard.write(.text(rendered.text), sourceBundle: origin)
             charactersAfterCursor = rendered.charactersAfterCursor
         } else if plain {
-            let text = values.map { $0.text.isEmpty ? $0.recognizedText : $0.text }.joined(separator: "\n")
+            let text = values.map(plainText(of:)).joined(separator: "\n")
             guard !text.isEmpty else { notify(L("This item does not contain text.")); return }
             clipboard.write(.text(text), sourceBundle: origin)
         } else if values.count > 1 && values.allSatisfy({ [.text, .code, .link, .color].contains($0.kind) }) {
-            clipboard.write(.text(values.map(\.text).joined(separator: "\n")), sourceBundle: origin)
+            clipboard.write(.text(values.map(plainText(of:)).joined(separator: "\n")), sourceBundle: origin)
         } else {
             clipboard.write(ClipPayload(items: payloads.flatMap(\.items)), sourceBundle: origin)
             exact = values.count == 1

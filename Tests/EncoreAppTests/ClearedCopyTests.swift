@@ -78,6 +78,31 @@ final class ClearedCopyTests: XCTestCase {
         }
     }
 
+    @MainActor func testSeveralCardsPasteAndDragTheirRealTextInSelectionOrder() throws {
+        try withModel { model, pb in
+            model.preferences.detectSecrets = true; model.preferences.forgetPastedSecrets = false
+            copy("first", to: pb); model.clipboard.poll()
+            copy("ghp_aB3dE5fG7hJ9kL1mN3pQ5rS7tU9vW1xY3zA5x", to: pb); model.clipboard.poll()
+            copy("third", to: pb); model.clipboard.poll()
+            let id = { (start: String) in model.library.clips.first { $0.text.hasPrefix(start) }!.id }
+            model.select(id("third")); model.select(id("first"), modifiers: .command); model.select(id("ghp"), modifiers: .command)
+            XCTAssertEqual(model.pasteOrder(of: id("third")), 1)
+            let expected = "third\nfirst\nghp_aB3dE5fG7hJ9kL1mN3pQ5rS7tU9vW1xY3zA5x"
+
+            let provider = clipItemProvider(model: model, clip: model.library.clips.first { $0.id == id("third") }!)
+            let loaded = expectation(description: "dragged text")
+            var dragged = ""
+            _ = provider.loadDataRepresentation(forTypeIdentifier: "public.utf8-plain-text") { data, _ in
+                dragged = data.flatMap { String(data: $0, encoding: .utf8) } ?? ""; loaded.fulfill()
+            }
+            wait(for: [loaded], timeout: 2)
+            XCTAssertEqual(dragged, expected, "The first card carries all of them, one per line, the secret unmasked")
+
+            model.paste(nil, copyOnly: true)
+            XCTAssertEqual(pb.string(forType: .string), expected)
+        }
+    }
+
     @MainActor func testConfidentialAndExcludedCopiesAreCountedWithoutBeingSaved() throws {
         try withModel { model, pb in
             let before = model.ignoredToday
