@@ -113,7 +113,7 @@ struct PeerStatus: Identifiable, Equatable {
         self.preferences = Preferences.load(demo: demo)
         Localization.language = preferences.language
         preferences.language = Localization.language
-        if demo { preferences.displayTarget = "primary" }
+        if demo { preferences.displayTarget = "primary"; preferences.plainTextApps = ["com.apple.Terminal"] }
         do {
             let root = demo ? FileManager.default.temporaryDirectory.appendingPathComponent("Encore-Demo-\(ProcessInfo.processInfo.processIdentifier)") : FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].appendingPathComponent("Encore")
             // The key is in the keychain only while the history is encrypted. Only "no such item" means plain files:
