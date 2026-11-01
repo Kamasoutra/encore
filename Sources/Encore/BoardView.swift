@@ -165,6 +165,8 @@ private struct DragPreview: View {
 /// and the time left counts down beside it, so nothing else in the footer moves.
 private struct CapturePauseButton: View {
     @ObservedObject var model: AppModel
+    /// The shelf and the library name it, like the switches beside it; the compact window has room for the icon only.
+    var labeled = false
 
     var body: some View {
         let paused = !model.preferences.captureEnabled
@@ -185,7 +187,11 @@ private struct CapturePauseButton: View {
                     Divider()
                     Button(L("Custom…")) { model.askCustomPause() }
                 } label: {
-                    Image(systemName: "pause.fill").font(.system(size: 9.5, weight: .bold)).frame(width: 24, height: 18)
+                    if labeled {
+                        Label(L("pause (footer)"), systemImage: "pause.fill").font(.system(size: 11, weight: .medium)).padding(.horizontal, 7).padding(.vertical, 2)
+                    } else {
+                        Image(systemName: "pause.fill").font(.system(size: 9.5, weight: .bold)).frame(width: 24, height: 18)
+                    }
                 }
                 .menuStyle(.borderlessButton).menuIndicator(.hidden).fixedSize()
                 // Borderless menus take the accent color; the footer's other switches are neutral.
@@ -434,7 +440,7 @@ struct BoardView: View {
             Text(L("\(model.filtered.count) items")).font(.system(size: 11, weight: .medium)).monospacedDigit()
             pasteSwitch
             layoutSwitch
-            CapturePauseButton(model: model)
+            CapturePauseButton(model: model, labeled: true)
             if model.preferences.pasteDirectly && !model.accessibilityGranted {
                 // Without Accessibility, Return can only copy: say so where the user looks.
                 Button { model.requestAccessibility() } label: {

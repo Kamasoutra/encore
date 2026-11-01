@@ -509,3 +509,4 @@
 "Custom…" = "사용자 지정…";
 "Pause capture for how long?" = "수집을 얼마 동안 일시 정지할까요?";
 "Pause" = "일시 정지";
+"pause (footer)" = "일시 정지";
