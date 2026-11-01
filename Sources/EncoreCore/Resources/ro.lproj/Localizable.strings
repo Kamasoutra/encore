@@ -463,9 +463,9 @@
 "Encrypts your history and its contents with a key kept in your macOS keychain: another app, or someone who copies the files, then sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "Criptează istoricul și conținutul său cu o cheie păstrată în portcheiul macOS: o altă aplicație sau cineva care copiază fișierele nu mai vede nimic lizibil. Exporturile rămân JSON lizibil. Fără portcheiul acestui Mac, istoricul nu poate fi citit.";
 "Paused until %@" = "În pauză până la %@";
 "Capture resumed" = "Capturare reluată";
-"For 5 minutes" = "Timp de 5 minute";
-"For 1 hour" = "Timp de 1 oră";
-"Until I resume it" = "Până o reiau";
+"For 5 minutes" = "5 minute";
+"For 1 hour" = "1 oră";
+"Until I resume it" = "Până la reluare";
 "Move earlier" = "Mută mai înainte";
 "Move later" = "Mută mai încolo";
 "Stop saving copies from %@" = "Nu mai salva copii din %@";
@@ -506,3 +506,6 @@
 "These copies have no text to merge." = "Aceste copii nu au text de unit.";
 "When encore pastes into these apps, fonts, colors and links are left out, as with ⇧↩. Useful for Terminal, a chat or a code editor." = "Când encore lipește în aceste aplicații, fonturile, culorile și linkurile sunt omise, ca la ⇧↩. Util pentru Terminal, un chat sau un editor de cod.";
 "{{uuid}} adds a unique identifier, and {{date:dd/MM/yyyy}} or {{time:HH:mm}} use your own format." = "{{uuid}} adaugă un identificator unic, iar {{date:dd/MM/yyyy}} sau {{time:HH:mm}} folosesc propriul dvs. format.";
+"Custom…" = "Personalizat…";
+"Pause capture for how long?" = "Pentru cât timp întrerupeți capturarea?";
+"Pause" = "Întrerupe";

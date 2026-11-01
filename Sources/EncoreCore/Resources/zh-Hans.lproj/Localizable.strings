@@ -465,7 +465,7 @@
 "Capture resumed" = "已继续记录";
 "For 5 minutes" = "5 分钟";
 "For 1 hour" = "1 小时";
-"Until I resume it" = "直到我手动继续";
+"Until I resume it" = "直到继续";
 "Move earlier" = "前移";
 "Move later" = "后移";
 "Stop saving copies from %@" = "停止保存来自“%@”的拷贝";
@@ -506,3 +506,6 @@
 "These copies have no text to merge." = "这些拷贝没有可合并的文本。";
 "When encore pastes into these apps, fonts, colors and links are left out, as with ⇧↩. Useful for Terminal, a chat or a code editor." = "encore 粘贴到这些 App 时，会像 ⇧↩ 一样去掉字体、颜色和链接。适用于终端、聊天或代码编辑器。";
 "{{uuid}} adds a unique identifier, and {{date:dd/MM/yyyy}} or {{time:HH:mm}} use your own format." = "{{uuid}} 会添加唯一标识符，{{date:dd/MM/yyyy}} 或 {{time:HH:mm}} 使用你自己的格式。";
+"Custom…" = "自定…";
+"Pause capture for how long?" = "要暂停记录多长时间？";
+"Pause" = "暂停";

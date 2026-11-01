@@ -465,7 +465,7 @@
 "Capture resumed" = "Kayda devam edildi";
 "For 5 minutes" = "5 dakika";
 "For 1 hour" = "1 saat";
-"Until I resume it" = "Ben devam ettirene kadar";
+"Until I resume it" = "Devam ettirilene kadar";
 "Move earlier" = "Öne taşı";
 "Move later" = "Arkaya taşı";
 "Stop saving copies from %@" = "%@ kopyalarını kaydetmeyi durdur";
@@ -506,3 +506,6 @@
 "These copies have no text to merge." = "Bu kopyalarda birleştirilecek metin yok.";
 "When encore pastes into these apps, fonts, colors and links are left out, as with ⇧↩. Useful for Terminal, a chat or a code editor." = "encore bu uygulamalara yapıştırdığında yazı tipleri, renkler ve bağlantılar ⇧↩ ile olduğu gibi dışarıda bırakılır. Terminal, bir sohbet ya da kod düzenleyici için kullanışlı.";
 "{{uuid}} adds a unique identifier, and {{date:dd/MM/yyyy}} or {{time:HH:mm}} use your own format." = "{{uuid}} benzersiz bir tanımlayıcı ekler; {{date:dd/MM/yyyy}} veya {{time:HH:mm}} kendi biçiminizi kullanır.";
+"Custom…" = "Özel…";
+"Pause capture for how long?" = "Kayıt ne kadar süre duraklatılsın?";
+"Pause" = "Duraklat";

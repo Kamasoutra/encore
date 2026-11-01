@@ -463,9 +463,9 @@
 "Encrypts your history and its contents with a key kept in your macOS keychain: another app, or someone who copies the files, then sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "Шифрує історію та її вміст ключем зі в’язки ключів macOS: інша програма чи той, хто скопіює файли, тоді не побачить нічого читабельного. Експорт лишається читабельним JSON. Без в’язки ключів цього Mac історію прочитати не можна.";
 "Paused until %@" = "Призупинено до %@";
 "Capture resumed" = "Запис відновлено";
-"For 5 minutes" = "На 5 хвилин";
-"For 1 hour" = "На 1 годину";
-"Until I resume it" = "Доки я його не відновлю";
+"For 5 minutes" = "5 хвилин";
+"For 1 hour" = "1 година";
+"Until I resume it" = "До відновлення";
 "Move earlier" = "Перемістити раніше";
 "Move later" = "Перемістити пізніше";
 "Stop saving copies from %@" = "Не зберігати копії з %@";
@@ -506,3 +506,6 @@
 "These copies have no text to merge." = "У цих копіях немає тексту для об’єднання.";
 "When encore pastes into these apps, fonts, colors and links are left out, as with ⇧↩. Useful for Terminal, a chat or a code editor." = "Коли encore вставляє в ці програми, шрифти, кольори й посилання пропускаються, як із ⇧↩. Зручно для Термінала, чату чи редактора коду.";
 "{{uuid}} adds a unique identifier, and {{date:dd/MM/yyyy}} or {{time:HH:mm}} use your own format." = "{{uuid}} додає унікальний ідентифікатор, а {{date:dd/MM/yyyy}} чи {{time:HH:mm}} використовують ваш формат.";
+"Custom…" = "Власний…";
+"Pause capture for how long?" = "На скільки призупинити запис?";
+"Pause" = "Призупинити";

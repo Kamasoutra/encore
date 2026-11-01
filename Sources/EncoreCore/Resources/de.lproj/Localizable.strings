@@ -463,9 +463,9 @@
 "Encrypts your history and its contents with a key kept in your macOS keychain: another app, or someone who copies the files, then sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "Verschlüsselt Ihren Verlauf und seine Inhalte mit einem Schlüssel aus Ihrem macOS-Schlüsselbund: Eine andere App oder jemand, der die Dateien kopiert, sieht dann nichts Lesbares. Exporte bleiben lesbares JSON. Ohne den Schlüsselbund dieses Macs kann der Verlauf nicht gelesen werden.";
 "Paused until %@" = "Pausiert bis %@";
 "Capture resumed" = "Aufzeichnung fortgesetzt";
-"For 5 minutes" = "Für 5 Minuten";
-"For 1 hour" = "Für 1 Stunde";
-"Until I resume it" = "Bis ich sie fortsetze";
+"For 5 minutes" = "5 Minuten";
+"For 1 hour" = "1 Stunde";
+"Until I resume it" = "Bis zur Fortsetzung";
 "Move earlier" = "Nach vorne verschieben";
 "Move later" = "Nach hinten verschieben";
 "Stop saving copies from %@" = "Keine Kopien mehr aus %@ sichern";
@@ -506,3 +506,6 @@
 "These copies have no text to merge." = "Diese Kopien enthalten keinen Text zum Zusammenführen.";
 "When encore pastes into these apps, fonts, colors and links are left out, as with ⇧↩. Useful for Terminal, a chat or a code editor." = "Wenn encore in diese Apps einfügt, bleiben Schriften, Farben und Links weg, wie mit ⇧↩. Praktisch für Terminal, einen Chat oder einen Code-Editor.";
 "{{uuid}} adds a unique identifier, and {{date:dd/MM/yyyy}} or {{time:HH:mm}} use your own format." = "{{uuid}} fügt eine eindeutige Kennung ein, und {{date:dd/MM/yyyy}} oder {{time:HH:mm}} folgen Ihrem eigenen Format.";
+"Custom…" = "Eigene Dauer …";
+"Pause capture for how long?" = "Wie lange soll die Aufzeichnung pausieren?";
+"Pause" = "Pausieren";

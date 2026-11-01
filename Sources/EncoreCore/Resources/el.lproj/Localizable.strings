@@ -463,9 +463,9 @@
 "Encrypts your history and its contents with a key kept in your macOS keychain: another app, or someone who copies the files, then sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "Κρυπτογραφεί το ιστορικό και τα περιεχόμενά του με κλειδί από την κλειδοθήκη του macOS: μια άλλη εφαρμογή ή κάποιος που αντιγράφει τα αρχεία δεν βλέπει τότε τίποτα αναγνώσιμο. Οι εξαγωγές παραμένουν αναγνώσιμο JSON. Χωρίς την κλειδοθήκη αυτού του Mac, το ιστορικό δεν διαβάζεται.";
 "Paused until %@" = "Σε παύση έως τις %@";
 "Capture resumed" = "Η καταγραφή συνεχίστηκε";
-"For 5 minutes" = "Για 5 λεπτά";
-"For 1 hour" = "Για 1 ώρα";
-"Until I resume it" = "Μέχρι να τη συνεχίσω";
+"For 5 minutes" = "5 λεπτά";
+"For 1 hour" = "1 ώρα";
+"Until I resume it" = "Μέχρι τη συνέχιση";
 "Move earlier" = "Μετακίνηση νωρίτερα";
 "Move later" = "Μετακίνηση αργότερα";
 "Stop saving copies from %@" = "Διακοπή αποθήκευσης αντιγράφων από %@";
@@ -506,3 +506,6 @@
 "These copies have no text to merge." = "Αυτά τα αντίγραφα δεν έχουν κείμενο για ένωση.";
 "When encore pastes into these apps, fonts, colors and links are left out, as with ⇧↩. Useful for Terminal, a chat or a code editor." = "Όταν το encore επικολλά σε αυτές τις εφαρμογές, οι γραμματοσειρές, τα χρώματα και οι σύνδεσμοι παραλείπονται, όπως με ⇧↩. Χρήσιμο για το Τερματικό, μια συνομιλία ή έναν επεξεργαστή κώδικα.";
 "{{uuid}} adds a unique identifier, and {{date:dd/MM/yyyy}} or {{time:HH:mm}} use your own format." = "Το {{uuid}} προσθέτει ένα μοναδικό αναγνωριστικό, και τα {{date:dd/MM/yyyy}} ή {{time:HH:mm}} ακολουθούν τη δική σας μορφή.";
+"Custom…" = "Προσαρμογή…";
+"Pause capture for how long?" = "Για πόση ώρα να γίνει παύση της καταγραφής;";
+"Pause" = "Παύση";

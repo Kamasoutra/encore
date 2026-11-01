@@ -326,6 +326,26 @@ struct PeerStatus: Identifiable, Equatable {
         scheduleCaptureResume()
     }
 
+    /// Asks how long to pause capture, in minutes or hours, up to a week.
+    func askCustomPause() {
+        NSApp.activate(ignoringOtherApps: true)
+        let alert = NSAlert()
+        alert.messageText = L("Pause capture for how long?")
+        let field = NSTextField(string: "30")
+        field.alignment = .right
+        field.translatesAutoresizingMaskIntoConstraints = false
+        field.widthAnchor.constraint(equalToConstant: 64).isActive = true
+        let unit = NSPopUpButton(frame: .zero, pullsDown: false)
+        unit.addItems(withTitles: [RetentionUnit.minutes.title(count: 30), RetentionUnit.hours.title(count: 30)])
+        let row = NSStackView(views: [field, unit])
+        row.frame = NSRect(x: 0, y: 0, width: 230, height: 26)
+        alert.accessoryView = row
+        alert.addButton(withTitle: L("Pause")); alert.addButton(withTitle: L("Cancel"))
+        alert.window.initialFirstResponder = field
+        guard alert.runModal() == .alertFirstButtonReturn, let value = Int(field.stringValue.trimmingCharacters(in: .whitespaces)), value > 0 else { return }
+        setCapture(false, for: min(Double(value) * (unit.indexOfSelectedItem == 0 ? 60 : 3600), 7 * 86_400))
+    }
+
     private func scheduleCaptureResume() {
         captureResumeTimer?.invalidate(); captureResumeTimer = nil
         guard let date = preferences.captureResumesAt, !preferences.captureEnabled else { return }

@@ -463,9 +463,9 @@
 "Encrypts your history and its contents with a key kept in your macOS keychain: another app, or someone who copies the files, then sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "Mengenkripsi riwayatmu dan isinya dengan kunci yang disimpan di rantai kunci macOS: aplikasi lain, atau orang yang menyalin filenya, lalu tidak melihat apa pun yang terbaca. Ekspor tetap JSON yang terbaca. Tanpa rantai kunci Mac ini, riwayat tidak bisa dibaca.";
 "Paused until %@" = "Dijeda sampai %@";
 "Capture resumed" = "Perekaman dilanjutkan";
-"For 5 minutes" = "Selama 5 menit";
-"For 1 hour" = "Selama 1 jam";
-"Until I resume it" = "Sampai saya melanjutkannya";
+"For 5 minutes" = "5 menit";
+"For 1 hour" = "1 jam";
+"Until I resume it" = "Sampai dilanjutkan";
 "Move earlier" = "Pindahkan ke depan";
 "Move later" = "Pindahkan ke belakang";
 "Stop saving copies from %@" = "Berhenti menyimpan salinan dari %@";
@@ -506,3 +506,6 @@
 "These copies have no text to merge." = "Salinan ini tidak memiliki teks untuk digabung.";
 "When encore pastes into these apps, fonts, colors and links are left out, as with ⇧↩. Useful for Terminal, a chat or a code editor." = "Saat encore menempel ke aplikasi ini, font, warna, dan tautan ditinggalkan, seperti dengan ⇧↩. Berguna untuk Terminal, aplikasi obrolan, atau editor kode.";
 "{{uuid}} adds a unique identifier, and {{date:dd/MM/yyyy}} or {{time:HH:mm}} use your own format." = "{{uuid}} menambahkan pengenal unik, dan {{date:dd/MM/yyyy}} atau {{time:HH:mm}} memakai formatmu sendiri.";
+"Custom…" = "Kustom…";
+"Pause capture for how long?" = "Jeda perekaman berapa lama?";
+"Pause" = "Jeda";

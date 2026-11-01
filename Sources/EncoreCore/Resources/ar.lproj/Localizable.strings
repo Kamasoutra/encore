@@ -463,9 +463,9 @@
 "Encrypts your history and its contents with a key kept in your macOS keychain: another app, or someone who copies the files, then sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "يشفّر سجلك ومحتوياته بمفتاح محفوظ في سلسلة مفاتيح macOS: عندها لا يرى تطبيق آخر، أو من ينسخ الملفات، أي شيء مقروء. تبقى الملفات المصدّرة بصيغة JSON مقروءة. ولا يمكن قراءة السجل من دون سلسلة مفاتيح هذا الـMac.";
 "Paused until %@" = "متوقف مؤقتًا حتى %@";
 "Capture resumed" = "تم استئناف الالتقاط";
-"For 5 minutes" = "لمدة 5 دقائق";
-"For 1 hour" = "لمدة ساعة";
-"Until I resume it" = "إلى أن أستأنفه";
+"For 5 minutes" = "5 دقائق";
+"For 1 hour" = "ساعة واحدة";
+"Until I resume it" = "حتى الاستئناف";
 "Move earlier" = "نقل إلى الأمام";
 "Move later" = "نقل إلى الخلف";
 "Stop saving copies from %@" = "إيقاف حفظ النسخ من %@";
@@ -506,3 +506,6 @@
 "These copies have no text to merge." = "لا تحتوي هذه النسخ على نص لدمجه.";
 "When encore pastes into these apps, fonts, colors and links are left out, as with ⇧↩. Useful for Terminal, a chat or a code editor." = "عندما يلصق encore في هذه التطبيقات، تُترك الخطوط والألوان والروابط، كما مع ⇧↩. مفيد لتطبيق Terminal أو تطبيق محادثة أو محرر شيفرات.";
 "{{uuid}} adds a unique identifier, and {{date:dd/MM/yyyy}} or {{time:HH:mm}} use your own format." = "يضيف {{uuid}} معرّفًا فريدًا، ويتبع {{date:dd/MM/yyyy}} أو {{time:HH:mm}} تنسيقك الخاص.";
+"Custom…" = "مخصص…";
+"Pause capture for how long?" = "إيقاف الالتقاط مؤقتًا لكم من الوقت؟";
+"Pause" = "إيقاف مؤقت";

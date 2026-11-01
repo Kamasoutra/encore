@@ -463,7 +463,7 @@
 "Encrypts your history and its contents with a key kept in your macOS keychain: another app, or someone who copies the files, then sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "履歴とその内容を、macOSのキーチェーンに保管された鍵で暗号化します。ほかのアプリやファイルをコピーした人には、読める内容は何も見えなくなります。書き出したファイルは読めるJSONのままです。このMacのキーチェーンがないと履歴は読めません。";
 "Paused until %@" = "%@まで一時停止中";
 "Capture resumed" = "記録を再開しました";
-"For 5 minutes" = "5分間";
+"For 5 minutes" = "5分";
 "For 1 hour" = "1時間";
 "Until I resume it" = "再開するまで";
 "Move earlier" = "前へ移動";
@@ -506,3 +506,6 @@
 "These copies have no text to merge." = "これらのコピーには結合できるテキストがありません。";
 "When encore pastes into these apps, fonts, colors and links are left out, as with ⇧↩. Useful for Terminal, a chat or a code editor." = "encoreがこれらのアプリにペーストするときは、⇧↩と同じくフォント、色、リンクを除きます。ターミナル、チャット、コードエディタに便利です。";
 "{{uuid}} adds a unique identifier, and {{date:dd/MM/yyyy}} or {{time:HH:mm}} use your own format." = "{{uuid}}は一意のIDを追加し、{{date:dd/MM/yyyy}}や{{time:HH:mm}}は指定した形式で入ります。";
+"Custom…" = "カスタム…";
+"Pause capture for how long?" = "記録をどのくらい一時停止しますか？";
+"Pause" = "一時停止";

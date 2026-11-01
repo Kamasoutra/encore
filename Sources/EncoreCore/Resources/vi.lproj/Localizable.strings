@@ -463,9 +463,9 @@
 "Encrypts your history and its contents with a key kept in your macOS keychain: another app, or someone who copies the files, then sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "Mã hóa lịch sử và nội dung của bạn bằng khóa lưu trong chuỗi khóa macOS: khi đó ứng dụng khác, hay người sao chép các tệp, sẽ không thấy gì đọc được. Bản xuất vẫn là JSON đọc được. Không có chuỗi khóa của máy Mac này thì không thể đọc lịch sử.";
 "Paused until %@" = "Tạm dừng đến %@";
 "Capture resumed" = "Đã tiếp tục ghi";
-"For 5 minutes" = "Trong 5 phút";
-"For 1 hour" = "Trong 1 giờ";
-"Until I resume it" = "Cho đến khi tôi tiếp tục";
+"For 5 minutes" = "5 phút";
+"For 1 hour" = "1 giờ";
+"Until I resume it" = "Đến khi tiếp tục";
 "Move earlier" = "Chuyển lên trước";
 "Move later" = "Chuyển ra sau";
 "Stop saving copies from %@" = "Ngừng lưu bản sao từ %@";
@@ -506,3 +506,6 @@
 "These copies have no text to merge." = "Các bản sao này không có văn bản để gộp.";
 "When encore pastes into these apps, fonts, colors and links are left out, as with ⇧↩. Useful for Terminal, a chat or a code editor." = "Khi encore dán vào các ứng dụng này, phông chữ, màu và liên kết được bỏ qua, như với ⇧↩. Hữu ích cho Terminal, ứng dụng chat hoặc trình soạn mã.";
 "{{uuid}} adds a unique identifier, and {{date:dd/MM/yyyy}} or {{time:HH:mm}} use your own format." = "{{uuid}} thêm một mã định danh duy nhất, còn {{date:dd/MM/yyyy}} hoặc {{time:HH:mm}} dùng định dạng của riêng bạn.";
+"Custom…" = "Tùy chỉnh…";
+"Pause capture for how long?" = "Tạm dừng ghi trong bao lâu?";
+"Pause" = "Tạm dừng";

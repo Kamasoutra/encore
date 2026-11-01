@@ -463,9 +463,9 @@
 "Encrypts your history and its contents with a key kept in your macOS keychain: another app, or someone who copies the files, then sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "Šifruje vaši historii a její obsah klíčem uloženým ve vaší klíčence macOS: jiná aplikace ani někdo, kdo zkopíruje soubory, pak neuvidí nic čitelného. Exporty zůstávají čitelným JSON. Bez klíčenky tohoto Macu nelze historii přečíst.";
 "Paused until %@" = "Pozastaveno do %@";
 "Capture resumed" = "Zaznamenávání obnoveno";
-"For 5 minutes" = "Na 5 minut";
-"For 1 hour" = "Na 1 hodinu";
-"Until I resume it" = "Dokud ho neobnovím";
+"For 5 minutes" = "5 minut";
+"For 1 hour" = "1 hodina";
+"Until I resume it" = "Do obnovení";
 "Move earlier" = "Přesunout dopředu";
 "Move later" = "Přesunout dozadu";
 "Stop saving copies from %@" = "Přestat ukládat kopie z %@";
@@ -506,3 +506,6 @@
 "These copies have no text to merge." = "Tyto kopie nemají text ke sloučení.";
 "When encore pastes into these apps, fonts, colors and links are left out, as with ⇧↩. Useful for Terminal, a chat or a code editor." = "Když encore vkládá do těchto aplikací, písma, barvy a odkazy se vynechají, jako s ⇧↩. Užitečné pro Terminál, chat nebo editor kódu.";
 "{{uuid}} adds a unique identifier, and {{date:dd/MM/yyyy}} or {{time:HH:mm}} use your own format." = "{{uuid}} přidá jedinečný identifikátor a {{date:dd/MM/yyyy}} nebo {{time:HH:mm}} použijí váš vlastní formát.";
+"Custom…" = "Vlastní…";
+"Pause capture for how long?" = "Na jak dlouho pozastavit zaznamenávání?";
+"Pause" = "Pozastavit";

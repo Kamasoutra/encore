@@ -465,7 +465,7 @@
 "Capture resumed" = "บันทึกต่อแล้ว";
 "For 5 minutes" = "5 นาที";
 "For 1 hour" = "1 ชั่วโมง";
-"Until I resume it" = "จนกว่าฉันจะสั่งบันทึกต่อ";
+"Until I resume it" = "จนกว่าจะบันทึกต่อ";
 "Move earlier" = "ย้ายไปก่อนหน้า";
 "Move later" = "ย้ายไปถัดไป";
 "Stop saving copies from %@" = "หยุดบันทึกสำเนาจาก %@";
@@ -506,3 +506,6 @@
 "These copies have no text to merge." = "สำเนาเหล่านี้ไม่มีข้อความให้รวม";
 "When encore pastes into these apps, fonts, colors and links are left out, as with ⇧↩. Useful for Terminal, a chat or a code editor." = "เมื่อ encore วางลงในแอปเหล่านี้ จะไม่ใส่แบบอักษร สี และลิงก์ เหมือนกับ ⇧↩ สะดวกสำหรับ Terminal แชท หรือโปรแกรมแก้ไขโค้ด";
 "{{uuid}} adds a unique identifier, and {{date:dd/MM/yyyy}} or {{time:HH:mm}} use your own format." = "{{uuid}} เพิ่มตัวระบุที่ไม่ซ้ำ และ {{date:dd/MM/yyyy}} หรือ {{time:HH:mm}} ใช้รูปแบบของคุณเอง";
+"Custom…" = "กำหนดเอง…";
+"Pause capture for how long?" = "หยุดการบันทึกชั่วคราวนานเท่าไร";
+"Pause" = "หยุดชั่วคราว";

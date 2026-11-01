@@ -463,9 +463,9 @@
 "Encrypts your history and its contents with a key kept in your macOS keychain: another app, or someone who copies the files, then sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "Krypterer din historik og dens indhold med en nøgle i din macOS-nøglering: en anden app, eller nogen der kopierer filerne, ser så intet læsbart. Eksporter forbliver læsbar JSON. Uden denne Macs nøglering kan historikken ikke læses.";
 "Paused until %@" = "Sat på pause til %@";
 "Capture resumed" = "Registrering genoptaget";
-"For 5 minutes" = "I 5 minutter";
-"For 1 hour" = "I 1 time";
-"Until I resume it" = "Indtil jeg genoptager den";
+"For 5 minutes" = "5 minutter";
+"For 1 hour" = "1 time";
+"Until I resume it" = "Indtil videre";
 "Move earlier" = "Flyt frem";
 "Move later" = "Flyt tilbage";
 "Stop saving copies from %@" = "Stop med at gemme kopier fra %@";
@@ -506,3 +506,6 @@
 "These copies have no text to merge." = "Disse kopier har ingen tekst at flette.";
 "When encore pastes into these apps, fonts, colors and links are left out, as with ⇧↩. Useful for Terminal, a chat or a code editor." = "Når encore indsætter i disse apps, udelades skrifttyper, farver og links, som med ⇧↩. Praktisk til Terminal, en chat eller en kodeeditor.";
 "{{uuid}} adds a unique identifier, and {{date:dd/MM/yyyy}} or {{time:HH:mm}} use your own format." = "{{uuid}} tilføjer en unik identifikator, og {{date:dd/MM/yyyy}} eller {{time:HH:mm}} følger dit eget format.";
+"Custom…" = "Tilpasset …";
+"Pause capture for how long?" = "Hvor længe skal registreringen sættes på pause?";
+"Pause" = "Sæt på pause";

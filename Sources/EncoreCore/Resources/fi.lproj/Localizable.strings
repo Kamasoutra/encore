@@ -463,9 +463,9 @@
 "Encrypts your history and its contents with a key kept in your macOS keychain: another app, or someone who copies the files, then sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "Salaa historiasi ja sen sisällön macOS-avainnipun avaimella: toinen appi tai tiedostot kopioiva henkilö ei silloin näe mitään luettavaa. Viennit pysyvät luettavana JSONina. Ilman tämän Macin avainnippua historiaa ei voi lukea.";
 "Paused until %@" = "Keskeytetty klo %@ asti";
 "Capture resumed" = "Tallennus jatkuu";
-"For 5 minutes" = "5 minuutiksi";
-"For 1 hour" = "1 tunniksi";
-"Until I resume it" = "Kunnes jatkan sitä";
+"For 5 minutes" = "5 minuuttia";
+"For 1 hour" = "1 tunti";
+"Until I resume it" = "Toistaiseksi";
 "Move earlier" = "Siirrä aiemmaksi";
 "Move later" = "Siirrä myöhemmäksi";
 "Stop saving copies from %@" = "Lopeta kopioiden tallennus apista %@";
@@ -506,3 +506,6 @@
 "These copies have no text to merge." = "Näissä kopioissa ei ole yhdistettävää tekstiä.";
 "When encore pastes into these apps, fonts, colors and links are left out, as with ⇧↩. Useful for Terminal, a chat or a code editor." = "Kun encore liittää näihin appeihin, fontit, värit ja linkit jätetään pois kuten ⇧↩-näppäimellä. Kätevä Terminaalissa, chatissa tai koodieditorissa.";
 "{{uuid}} adds a unique identifier, and {{date:dd/MM/yyyy}} or {{time:HH:mm}} use your own format." = "{{uuid}} lisää yksilöllisen tunnisteen, ja {{date:dd/MM/yyyy}} tai {{time:HH:mm}} käyttävät omaa muotoasi.";
+"Custom…" = "Muokattu…";
+"Pause capture for how long?" = "Kuinka pitkäksi aikaa tallennus keskeytetään?";
+"Pause" = "Keskeytä";

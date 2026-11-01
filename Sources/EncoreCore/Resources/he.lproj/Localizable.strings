@@ -463,9 +463,9 @@
 "Encrypts your history and its contents with a key kept in your macOS keychain: another app, or someone who copies the files, then sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "מצפין את ההיסטוריה ואת תוכנה במפתח שנשמר במחזיק המפתחות של macOS: יישום אחר, או מי שמעתיק את הקבצים, לא יראה אז שום דבר קריא. הייצוא נשאר JSON קריא. בלי מחזיק המפתחות של ה-Mac הזה אי אפשר לקרוא את ההיסטוריה.";
 "Paused until %@" = "מושהה עד %@";
 "Capture resumed" = "הלכידה חודשה";
-"For 5 minutes" = "ל-5 דקות";
-"For 1 hour" = "לשעה";
-"Until I resume it" = "עד שאחדש אותה";
+"For 5 minutes" = "5 דקות";
+"For 1 hour" = "שעה";
+"Until I resume it" = "עד לחידוש";
 "Move earlier" = "הזז קדימה";
 "Move later" = "הזז אחורה";
 "Stop saving copies from %@" = "הפסק לשמור העתקות מ-%@";
@@ -506,3 +506,6 @@
 "These copies have no text to merge." = "בהעתקות האלה אין טקסט למיזוג.";
 "When encore pastes into these apps, fonts, colors and links are left out, as with ⇧↩. Useful for Terminal, a chat or a code editor." = "כש-encore מדביק ביישומים האלה, גופנים, צבעים וקישורים מושמטים, כמו עם ⇧↩. שימושי ל-Terminal, לצ׳אט או לעורך קוד.";
 "{{uuid}} adds a unique identifier, and {{date:dd/MM/yyyy}} or {{time:HH:mm}} use your own format." = "‏{{uuid}} מוסיף מזהה ייחודי, ו-{{date:dd/MM/yyyy}} או {{time:HH:mm}} משתמשים בפורמט שלך.";
+"Custom…" = "מותאם אישית…";
+"Pause capture for how long?" = "להשהות את הלכידה לכמה זמן?";
+"Pause" = "השהה";

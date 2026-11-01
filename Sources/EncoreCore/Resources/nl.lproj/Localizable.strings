@@ -465,7 +465,7 @@
 "Capture resumed" = "Vastleggen hervat";
 "For 5 minutes" = "5 minuten";
 "For 1 hour" = "1 uur";
-"Until I resume it" = "Tot ik het hervat";
+"Until I resume it" = "Tot hervatten";
 "Move earlier" = "Naar voren";
 "Move later" = "Naar achteren";
 "Stop saving copies from %@" = "Geen kopieën uit %@ meer bewaren";
@@ -506,3 +506,6 @@
 "These copies have no text to merge." = "Deze kopieën hebben geen tekst om samen te voegen.";
 "When encore pastes into these apps, fonts, colors and links are left out, as with ⇧↩. Useful for Terminal, a chat or a code editor." = "Als encore in deze apps plakt, blijven lettertypen, kleuren en links weg, zoals met ⇧↩. Handig voor Terminal, een chat of een code-editor.";
 "{{uuid}} adds a unique identifier, and {{date:dd/MM/yyyy}} or {{time:HH:mm}} use your own format." = "{{uuid}} voegt een unieke id toe, en {{date:dd/MM/yyyy}} of {{time:HH:mm}} volgen je eigen notatie.";
+"Custom…" = "Aangepast…";
+"Pause capture for how long?" = "Hoelang het vastleggen pauzeren?";
+"Pause" = "Pauzeer";

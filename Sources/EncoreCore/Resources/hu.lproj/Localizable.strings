@@ -463,9 +463,9 @@
 "Encrypts your history and its contents with a key kept in your macOS keychain: another app, or someone who copies the files, then sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "Titkosítja az előzményeket és tartalmukat a macOS-kulcskarikájában tárolt kulccsal: egy másik alkalmazás vagy aki lemásolja a fájlokat, ekkor semmi olvashatót nem lát. Az exportok olvasható JSON-ok maradnak. A Mac kulcskarikája nélkül az előzmények nem olvashatók.";
 "Paused until %@" = "Szüneteltetve eddig: %@";
 "Capture resumed" = "Rögzítés folytatva";
-"For 5 minutes" = "5 percre";
-"For 1 hour" = "1 órára";
-"Until I resume it" = "Amíg nem folytatom";
+"For 5 minutes" = "5 perc";
+"For 1 hour" = "1 óra";
+"Until I resume it" = "Folytatásig";
 "Move earlier" = "Áthelyezés előrébb";
 "Move later" = "Áthelyezés hátrébb";
 "Stop saving copies from %@" = "Ne mentse többé a %@ másolatait";
@@ -506,3 +506,6 @@
 "These copies have no text to merge." = "Ezekben a másolatokban nincs egyesíthető szöveg.";
 "When encore pastes into these apps, fonts, colors and links are left out, as with ⇧↩. Useful for Terminal, a chat or a code editor." = "Amikor az encore ezekbe az alkalmazásokba illeszt be, a betűtípusok, színek és hivatkozások kimaradnak, mint a ⇧↩ esetén. Hasznos a Terminálhoz, csevegőhöz vagy kódszerkesztőhöz.";
 "{{uuid}} adds a unique identifier, and {{date:dd/MM/yyyy}} or {{time:HH:mm}} use your own format." = "A {{uuid}} egyedi azonosítót ad hozzá, a {{date:dd/MM/yyyy}} vagy {{time:HH:mm}} pedig a saját formátumát követi.";
+"Custom…" = "Egyéni…";
+"Pause capture for how long?" = "Mennyi időre szünetelteti a rögzítést?";
+"Pause" = "Szüneteltetés";

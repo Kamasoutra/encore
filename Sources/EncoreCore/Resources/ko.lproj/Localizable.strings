@@ -463,9 +463,9 @@
 "Encrypts your history and its contents with a key kept in your macOS keychain: another app, or someone who copies the files, then sees nothing readable. Exports stay readable JSON. Without this Mac's keychain, the history cannot be read." = "기록과 그 내용을 macOS 키체인에 보관된 키로 암호화합니다. 그러면 다른 앱이나 파일을 복사한 사람은 읽을 수 있는 내용을 볼 수 없습니다. 내보낸 파일은 읽을 수 있는 JSON으로 유지됩니다. 이 Mac의 키체인이 없으면 기록을 읽을 수 없습니다.";
 "Paused until %@" = "%@까지 일시 정지됨";
 "Capture resumed" = "수집을 재개했습니다";
-"For 5 minutes" = "5분 동안";
-"For 1 hour" = "1시간 동안";
-"Until I resume it" = "직접 재개할 때까지";
+"For 5 minutes" = "5분";
+"For 1 hour" = "1시간";
+"Until I resume it" = "재개할 때까지";
 "Move earlier" = "앞으로 이동";
 "Move later" = "뒤로 이동";
 "Stop saving copies from %@" = "%@의 복사본 저장 중단";
@@ -506,3 +506,6 @@
 "These copies have no text to merge." = "이 복사본에는 병합할 텍스트가 없습니다.";
 "When encore pastes into these apps, fonts, colors and links are left out, as with ⇧↩. Useful for Terminal, a chat or a code editor." = "encore가 이 앱에 붙여넣을 때는 ⇧↩처럼 서체, 색상, 링크를 제외합니다. 터미널, 채팅, 코드 편집기에 유용합니다.";
 "{{uuid}} adds a unique identifier, and {{date:dd/MM/yyyy}} or {{time:HH:mm}} use your own format." = "{{uuid}}는 고유 식별자를 추가하고, {{date:dd/MM/yyyy}} 또는 {{time:HH:mm}}은 직접 지정한 형식을 따릅니다.";
+"Custom…" = "사용자 지정…";
+"Pause capture for how long?" = "수집을 얼마 동안 일시 정지할까요?";
+"Pause" = "일시 정지";

@@ -161,32 +161,63 @@ private struct DragPreview: View {
     }
 }
 
-/// Pause capture for a while, or resume it, from the footer: the same choices as the menu bar icon.
+/// Pause capture for a while from the footer, with the menu bar icon's choices. Paused, the button resumes at once,
+/// and the time left counts down beside it, so nothing else in the footer moves.
 private struct CapturePauseButton: View {
     @ObservedObject var model: AppModel
 
     var body: some View {
         let paused = !model.preferences.captureEnabled
-        Menu {
+        HStack(spacing: 6) {
             if paused {
-                Button(L("Resume capture")) { model.setCapture(true) }
-                if model.preferences.captureResumesAt != nil { Text(model.capturePausedLabel) }
+                Button { model.setCapture(true) } label: {
+                    Image(systemName: "play.fill").font(.system(size: 9.5, weight: .bold)).foregroundStyle(.orange).frame(width: 24, height: 18)
+                }
+                .buttonStyle(.plain).padding(2).background(Color.orange.opacity(0.15), in: Capsule())
+                .help(L("Resume capture")).accessibilityLabel(L("Resume capture"))
+                PauseCountdown(until: model.preferences.captureResumesAt)
+                    .transition(.opacity.combined(with: .move(edge: .leading)))
             } else {
-                Button(L("For 5 minutes")) { model.setCapture(false, for: 5 * 60) }
-                Button(L("For 1 hour")) { model.setCapture(false, for: 60 * 60) }
-                Button(L("Until I resume it")) { model.setCapture(false) }
+                Menu {
+                    Button(L("For 5 minutes")) { model.setCapture(false, for: 5 * 60) }
+                    Button(L("For 1 hour")) { model.setCapture(false, for: 60 * 60) }
+                    Button(L("Until I resume it")) { model.setCapture(false) }
+                    Divider()
+                    Button(L("Custom…")) { model.askCustomPause() }
+                } label: {
+                    Image(systemName: "pause.fill").font(.system(size: 9.5, weight: .bold)).frame(width: 24, height: 18)
+                }
+                .menuStyle(.borderlessButton).menuIndicator(.hidden).fixedSize()
+                // Borderless menus take the accent color; the footer's other switches are neutral.
+                .tint(.secondary)
+                .padding(2).background(.primary.opacity(0.06), in: Capsule())
+                .help(L("Pause capture")).accessibilityLabel(L("Pause capture"))
             }
-        } label: {
-            Image(systemName: paused ? "play.fill" : "pause.fill").font(.system(size: 9.5, weight: .bold))
-                .foregroundStyle(paused ? AnyShapeStyle(Color.orange) : AnyShapeStyle(.primary.opacity(0.7)))
-                .frame(width: 24, height: 18)
         }
-        .menuStyle(.borderlessButton).menuIndicator(.hidden).fixedSize()
-        // Borderless menus take the accent color; the footer's other switches are neutral.
-        .tint(paused ? .orange : .secondary)
-        .padding(2).background(.primary.opacity(0.06), in: Capsule())
-        .help(paused ? model.capturePausedLabel : L("Pause capture"))
-        .accessibilityLabel(paused ? L("Resume capture") : L("Pause capture"))
+        .animation(.easeOut(duration: 0.2), value: paused)
+    }
+}
+
+/// The time left before capture comes back, by the second, or that it is paused until resumed by hand.
+private struct PauseCountdown: View {
+    let until: Date?
+
+    var body: some View {
+        Group {
+            if let until {
+                TimelineView(.periodic(from: Date(), by: 1)) { context in Text(Self.format(until.timeIntervalSince(context.date))) }
+            } else {
+                Text(L("Capture paused"))
+            }
+        }
+        .font(.system(size: 11, weight: .medium)).monospacedDigit().foregroundStyle(.orange)
+        .accessibilityLabel(until.map { L("Paused until \(Localization.time($0))") } ?? L("Capture paused"))
+    }
+
+    static func format(_ seconds: TimeInterval) -> String {
+        let total = max(0, Int(seconds.rounded(.up)))
+        let (hours, minutes, rest) = (total / 3600, total % 3600 / 60, total % 60)
+        return hours > 0 ? String(format: "%d:%02d:%02d", hours, minutes, rest) : String(format: "%d:%02d", minutes, rest)
     }
 }
 
@@ -400,7 +431,7 @@ struct BoardView: View {
     private var footer: some View {
         HStack(spacing: 14) {
             Circle().fill(model.preferences.captureEnabled ? Color.green : Color.orange).frame(width: 6, height: 6)
-            Text(model.preferences.captureEnabled ? L("\(model.filtered.count) items") : model.capturePausedLabel).font(.system(size: 11, weight: .medium)).monospacedDigit()
+            Text(L("\(model.filtered.count) items")).font(.system(size: 11, weight: .medium)).monospacedDigit()
             pasteSwitch
             layoutSwitch
             CapturePauseButton(model: model)

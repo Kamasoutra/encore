@@ -570,6 +570,8 @@ final class EncorePanel: NSPanel {
                     let item = pause.addItem(withTitle: title, action: #selector(pauseCapture(_:)), keyEquivalent: "")
                     item.tag = minutes; item.target = self
                 }
+                pause.addItem(.separator())
+                pause.addItem(withTitle: L("Custom…"), action: #selector(customPause), keyEquivalent: "").target = self
                 menu.addItem(withTitle: L("Pause capture"), action: nil, keyEquivalent: "").submenu = pause
             } else {
                 menu.addItem(withTitle: L("Resume capture"), action: #selector(resumeCapture), keyEquivalent: "")
@@ -600,6 +602,7 @@ final class EncorePanel: NSPanel {
     }
     @objc private func pauseCapture(_ item: NSMenuItem) { model.setCapture(false, for: item.tag > 0 ? TimeInterval(item.tag * 60) : nil) }
     @objc private func resumeCapture() { model.setCapture(true) }
+    @objc private func customPause() { model.askCustomPause() }
     @objc private func settingsAction() { openSettings() }
     @objc private func checkForUpdates() { Updates.shared.check() }
     @objc private func quit() { NSApp.terminate(nil) }
