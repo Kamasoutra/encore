@@ -10,8 +10,8 @@ extension View {
 enum Palette {
     static let accent = Color(red: 0.56, green: 0.37, blue: 0.96)
     static let collection: [Color] = [accent, .pink, .teal, .orange, .blue]
-    static func swatchText(_ hex: String, dark: Bool) -> Color {
-        guard let color = NSColor(Self.color(hex)).usingColorSpace(.sRGB) else { return .primary }
+    static func swatchText(_ text: String, dark: Bool) -> Color {
+        guard let color = NSColor(Self.color(text)).usingColorSpace(.sRGB) else { return .primary }
         let background = dark ? 0.14 : 1.0
         let channels = [color.redComponent, color.greenComponent, color.blueComponent].map { component -> Double in
             let value = Double(component * color.alphaComponent) + background * Double(1 - color.alphaComponent)
@@ -20,12 +20,14 @@ enum Palette {
         let luminance = channels[0] * 0.2126 + channels[1] * 0.7152 + channels[2] * 0.0722
         return luminance > 0.179 ? .black : .white
     }
-    static func color(_ hex: String) -> Color {
-        var value = hex.trimmingCharacters(in: .whitespacesAndNewlines).trimmingCharacters(in: CharacterSet(charactersIn: "#"))
-        if value.count == 3 || value.count == 4 { value = value.map { "\($0)\($0)" }.joined() }
-        let number = UInt64(value, radix: 16) ?? 0xA78BFA
-        if value.count == 8 { return Color(.sRGB, red: Double((number >> 24) & 255) / 255, green: Double((number >> 16) & 255) / 255, blue: Double((number >> 8) & 255) / 255, opacity: Double(number & 255) / 255) }
-        return Color(red: Double((number >> 16) & 255) / 255, green: Double((number >> 8) & 255) / 255, blue: Double(number & 255) / 255)
+    static func color(_ text: String) -> Color {
+        guard let (red, green, blue, alpha) = ColorFormat.components(text) else { return Color(red: 0.655, green: 0.545, blue: 0.98) }
+        return Color(.sRGB, red: red, green: green, blue: blue, opacity: alpha)
+    }
+    /// A color as written on its card: HEX in capitals, the other formats as they were copied.
+    static func colorLabel(_ text: String) -> String {
+        let value = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        return ColorFormat.of(value) == .hex ? value.uppercased() : value
     }
     /// Type colours: a light tone that reads on dark cards, a deeper one for light cards.
     static func accent(_ kind: ClipKind, dark: Bool = true) -> Color {
@@ -910,8 +912,9 @@ struct ClipContent: View {
         case .color:
             VStack(alignment: .leading, spacing: 2) {
                 Spacer(minLength: 0)
-                Text(clip.text.uppercased()).font(.system(size: (large ? 40 : 24) * scale, weight: .semibold, design: .rounded)).tracking(-0.5)
-                Text("HEX").font(.system(size: 11 * scale)).opacity(0.7)
+                Text(Palette.colorLabel(clip.text)).font(.system(size: (large ? 40 : 24) * scale, weight: .semibold, design: .rounded)).tracking(-0.5)
+                    .lineLimit(2).minimumScaleFactor(0.45)
+                Text(ColorFormat.of(clip.text)?.title ?? "HEX").font(.system(size: 11 * scale)).opacity(0.7)
             }.foregroundStyle(Palette.swatchText(clip.text, dark: scheme == .dark)).padding(12).frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
                 .background(Palette.color(clip.text), in: RoundedRectangle(cornerRadius: 8))
                 .overlay(RoundedRectangle(cornerRadius: 8).strokeBorder(.primary.opacity(0.1)))
@@ -1045,7 +1048,7 @@ struct ClipActions: View {
         Button { roomy { model.inspector = clip } } label: { Label(L("Preview and edit"), systemImage: "eye") }.keyboardShortcut("e")
         if clip.kind == .color {
             Menu {
-                ForEach(ColorFormat.allCases) { format in
+                ForEach(ColorFormat.allCases.filter { $0 != ColorFormat.of(clip.text) }) { format in
                     if let value = format.format(clip.text) { Button("\(format.title) · \(value)") { model.addColor(value, format: format) } }
                 }
             } label: { Label(L("Color in other formats"), systemImage: "eyedropper") }
@@ -1332,7 +1335,7 @@ private struct SideRow: View {
         case .code:
             Text(clip.text.trimmingCharacters(in: .whitespacesAndNewlines).prefix(300)).font(.system(size: 11.5, design: .monospaced)).lineLimit(2)
         case .color:
-            Text(clip.text.uppercased()).font(.system(size: 12.5, weight: .semibold, design: .rounded)).lineLimit(1)
+            Text(Palette.colorLabel(clip.text)).font(.system(size: 12.5, weight: .semibold, design: .rounded)).lineLimit(1)
         case .text:
             Text(clip.name.isEmpty ? String(clip.text.trimmingCharacters(in: .whitespacesAndNewlines).prefix(300)) : clip.name).font(.system(size: 12.5)).lineLimit(2)
         default:

@@ -33,4 +33,19 @@ final class TransformTests: XCTestCase {
         XCTAssertEqual(ColorFormat.hex.format("#FF000080"), "#FF000080")
         XCTAssertNil(ColorFormat.rgb.format("not a color"))
     }
+
+    func testColorsCopiedInAnyFormatAreColors() {
+        for (text, format) in [("#A78BFA", ColorFormat.hex), ("rgb(167, 139, 250)", .rgb), ("rgba(167 139 250 / 50%)", .rgb), ("hsl(255, 92%, 76%)", .hsl),
+                               ("HSLA(255deg 92% 76% / 0.5)", .hsl), ("Color(red: 0.655, green: 0.545, blue: 0.980)", .swiftUI), ("Color(.sRGB, red: 1, green: 0, blue: 0, opacity: 0.5)", .swiftUI)] {
+            XCTAssertEqual(ColorFormat.of(text), format, text)
+            XCTAssertEqual(ClipKind.detect(text: text), .color, text)
+        }
+        XCTAssertEqual(ColorFormat.hex.format("rgb(167, 139, 250)"), "#A78BFA")
+        XCTAssertEqual(ColorFormat.hex.format("hsl(255, 92%, 76%)"), "#A689FA")  // HSL in whole numbers rounds a little
+        XCTAssertEqual(ColorFormat.hex.format("Color(red: 0.655, green: 0.545, blue: 0.980)"), "#A78BFA")
+        XCTAssertEqual(ColorFormat.rgb.format("rgba(255, 0, 0, 50%)"), "rgba(255, 0, 0, 0.5)")
+        for text in ["rgb(300, 0, 0)", "rgb(1, 2)", "hsl(10, 200%, 50%)", "Color(red: 2, green: 0, blue: 0)", "#GGHHII", "rgb(1, 2, 3) and more", "call rgb(1,2,3)"] {
+            XCTAssertNil(ColorFormat.of(text), text)
+        }
+    }
 }

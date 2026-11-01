@@ -44,7 +44,7 @@ public enum ClipKind: String, Codable, CaseIterable, Identifiable, Sendable {
         if hasFiles { return .file }
         if hasImage { return .image }
         let value = text.trimmingCharacters(in: .whitespacesAndNewlines)
-        if value.range(of: "^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$", options: .regularExpression) != nil { return .color }
+        if ColorFormat.of(value) != nil { return .color }
         if !value.contains(where: \.isWhitespace), let url = URL(string: value), ["https", "http"].contains(url.scheme?.lowercased() ?? ""), url.host != nil { return .link }
         let patterns = ["^(import |func |class |struct |def |const |let |var |SELECT |#!/)", "[{};]\\s*\\n", "^\\s*[\\[{]\\s*\"", "^\\s*(curl |git |ssh |docker |npm |brew )"]
         if patterns.contains(where: { value.range(of: $0, options: .regularExpression) != nil }) { return .code }
@@ -253,7 +253,7 @@ public struct Library: Codable, Sendable {
     }
 }
 
-/// A hex color copied as text, written the ways designers and developers paste it elsewhere.
+/// A color copied as text, in the ways designers and developers write it.
 public enum ColorFormat: String, CaseIterable, Identifiable, Sendable {
     case hex, rgb, hsl, swiftUI
     public var id: String { rawValue }
@@ -266,20 +266,67 @@ public enum ColorFormat: String, CaseIterable, Identifiable, Sendable {
         }
     }
 
-    /// Red, green, blue and alpha from 0 to 1, read from #RGB, #RGBA, #RRGGBB or #RRGGBBAA.
-    public static func components(_ hex: String) -> (red: Double, green: Double, blue: Double, alpha: Double)? {
-        var digits = hex.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard digits.hasPrefix("#") else { return nil }
-        digits.removeFirst()
-        if digits.count == 3 || digits.count == 4 { digits = String(digits.flatMap { [$0, $0] }) }
-        guard digits.count == 6 || digits.count == 8, let value = UInt64(digits, radix: 16) else { return nil }
-        let full = digits.count == 8 ? value : value << 8 | 0xFF
-        let byte = { (shift: UInt64) in Double((full >> shift) & 0xFF) / 255 }
-        return (byte(24), byte(16), byte(8), byte(0))
+    /// The format a copied text is written in, when it is a color and nothing else.
+    public static func of(_ text: String) -> ColorFormat? { allCases.first { $0.read(text) != nil } }
+
+    /// Red, green, blue and alpha from 0 to 1, from a color in any of the formats.
+    public static func components(_ text: String) -> (red: Double, green: Double, blue: Double, alpha: Double)? {
+        allCases.lazy.compactMap { $0.read(text) }.first
     }
 
-    public func format(_ hex: String) -> String? {
-        guard let (r, g, b, a) = Self.components(hex) else { return nil }
+    /// #RGB, #RGBA, #RRGGBB, #RRGGBBAA; rgb() and rgba() with commas or spaces; hsl() and hsla(); SwiftUI's Color(red:green:blue:opacity:).
+    private func read(_ text: String) -> (red: Double, green: Double, blue: Double, alpha: Double)? {
+        let value = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        switch self {
+        case .hex:
+            guard value.hasPrefix("#") else { return nil }
+            var digits = String(value.dropFirst())
+            if digits.count == 3 || digits.count == 4 { digits = String(digits.flatMap { [$0, $0] }) }
+            guard digits.count == 6 || digits.count == 8, digits.allSatisfy(\.isHexDigit), let number = UInt64(digits, radix: 16) else { return nil }
+            let full = digits.count == 8 ? number : number << 8 | 0xFF
+            let byte = { (shift: UInt64) in Double((full >> shift) & 0xFF) / 255 }
+            return (byte(24), byte(16), byte(8), byte(0))
+        case .rgb:
+            guard let n = Self.numbers(in: value, function: "rgb"), n.count == 3 || n.count == 4, n[..<3].allSatisfy({ $0.value <= 255 }) else { return nil }
+            return (n[0].value / 255, n[1].value / 255, n[2].value / 255, Self.alpha(n))
+        case .hsl:
+            guard let n = Self.numbers(in: value, function: "hsl"), n.count == 3 || n.count == 4, n[1].value <= 100, n[2].value <= 100 else { return nil }
+            let hue = n[0].value.truncatingRemainder(dividingBy: 360) / 60, saturation = n[1].value / 100, lightness = n[2].value / 100
+            let chroma = (1 - abs(2 * lightness - 1)) * saturation, x = chroma * (1 - abs(hue.truncatingRemainder(dividingBy: 2) - 1)), m = lightness - chroma / 2
+            let (r, g, b) = [(chroma, x, 0.0), (x, chroma, 0), (0, chroma, x), (0, x, chroma), (x, 0, chroma), (chroma, 0, x)][min(Int(hue), 5)]
+            return (r + m, g + m, b + m, Self.alpha(n))
+        case .swiftUI:
+            let pattern = #"^Color\(\s*(?:\.sRGB\s*,\s*)?red:\s*([0-9.]+)\s*,\s*green:\s*([0-9.]+)\s*,\s*blue:\s*([0-9.]+)\s*(?:,\s*opacity:\s*([0-9.]+)\s*)?\)$"#
+            guard let match = try? NSRegularExpression(pattern: pattern).firstMatch(in: value, range: NSRange(value.startIndex..., in: value)) else { return nil }
+            let parts = (1...4).map { Range(match.range(at: $0), in: value).flatMap { Double(value[$0]) } }
+            guard let r = parts[0], let g = parts[1], let b = parts[2], [r, g, b, parts[3] ?? 1].allSatisfy({ (0...1).contains($0) }) else { return nil }
+            return (r, g, b, parts[3] ?? 1)
+        }
+    }
+
+    /// The numbers inside `rgb(…)` or `rgba(…)`, separated by commas, spaces or a slash; a % sign is kept aside for the alpha.
+    private static func numbers(in value: String, function: String) -> [(value: Double, percent: Bool)]? {
+        let lower = value.lowercased()
+        guard let open = lower.firstIndex(of: "("), lower.hasSuffix(")"), [function, function + "a"].contains(String(lower[..<open])) else { return nil }
+        let inner = lower[lower.index(after: open)..<lower.index(before: lower.endIndex)]
+        let tokens = inner.split(whereSeparator: { $0 == "," || $0 == "/" || $0.isWhitespace })
+        let numbers = tokens.map { token -> (value: Double, percent: Bool)? in
+            var text = String(token)
+            if text.hasSuffix("deg") { text.removeLast(3) }
+            let percent = text.hasSuffix("%")
+            if percent { text.removeLast() }
+            return Double(text).flatMap { $0 >= 0 ? ($0, percent) : nil }
+        }
+        return numbers.contains { $0 == nil } ? nil : numbers.compactMap { $0 }
+    }
+
+    private static func alpha(_ numbers: [(value: Double, percent: Bool)]) -> Double {
+        guard numbers.count == 4 else { return 1 }
+        return min(numbers[3].percent ? numbers[3].value / 100 : numbers[3].value, 1)
+    }
+
+    public func format(_ color: String) -> String? {
+        guard let (r, g, b, a) = Self.components(color) else { return nil }
         let opaque = a >= 1
         let alpha = String(format: "%.2g", a)
         let byte = { (value: Double) in Int((value * 255).rounded()) }

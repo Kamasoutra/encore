@@ -1530,6 +1530,14 @@ struct PeerStatus: Identifiable, Equatable {
                 accept(clip, payload: payload)
             }
         }
+        // `--demo --colors` adds colors in each format, for screenshots of the feature.
+        if CommandLine.arguments.contains("--colors") {
+            for (value, source, bundle, age) in [("#F97316", "Figma", "com.figma.Desktop", 10.0), ("rgb(56, 189, 248)", "Safari", "com.apple.Safari", 25),
+                                                 ("hsl(152, 69%, 45%)", "Visual Studio Code", "com.microsoft.VSCode", 40), ("Color(red: 0.925, green: 0.282, blue: 0.600)", "Xcode", "com.apple.dt.Xcode", 55)] {
+                let payload = ClipPayload.text(value)
+                accept(Clip(fingerprint: payload.fingerprint, kind: .detect(text: value), text: value, sourceName: source, sourceBundle: bundle, copiedAt: Date().addingTimeInterval(-age), byteCount: payload.byteCount), payload: payload)
+            }
+        }
         library.clips.sort { $0.copiedAt > $1.copiedAt }
         save()
     }
