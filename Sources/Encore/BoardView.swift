@@ -174,33 +174,58 @@ private struct CapturePauseButton: View {
             if paused {
                 Button { model.setCapture(true) } label: {
                     Image(systemName: "play.fill").font(.system(size: 9.5, weight: .bold)).foregroundStyle(.orange).frame(width: 24, height: 18)
+                        .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain).padding(2).background(Color.orange.opacity(0.15), in: Capsule())
                 .help(L("Resume capture")).accessibilityLabel(L("Resume capture"))
                 PauseCountdown(until: model.preferences.captureResumesAt)
                     .transition(.opacity.combined(with: .move(edge: .leading)))
             } else {
-                Menu {
-                    Button(L("For 5 minutes")) { model.setCapture(false, for: 5 * 60) }
-                    Button(L("For 1 hour")) { model.setCapture(false, for: 60 * 60) }
-                    Button(L("Until I resume it")) { model.setCapture(false) }
-                    Divider()
-                    Button(L("Custom…")) { model.askCustomPause() }
-                } label: {
-                    if labeled {
-                        Label(L("pause (footer)"), systemImage: "pause.fill").font(.system(size: 11, weight: .medium)).padding(.horizontal, 7).padding(.vertical, 2)
-                    } else {
-                        Image(systemName: "pause.fill").font(.system(size: 9.5, weight: .bold)).frame(width: 24, height: 18)
-                    }
+                // A plain button opening the menu: a SwiftUI menu draws its label in its own font, unlike the switches beside it.
+                Button { showPauseMenu() } label: {
+                    // The whole capsule takes the click, not only the thin bars of the symbol.
+                    Group {
+                        if labeled {
+                            Label(L("pause (footer)"), systemImage: "pause").font(.system(size: 11, weight: .medium)).padding(.horizontal, 7).padding(.vertical, 2)
+                        } else {
+                            Image(systemName: "pause").font(.system(size: 11, weight: .medium)).frame(width: 24, height: 18)
+                        }
+                    }.contentShape(Rectangle())
                 }
-                .menuStyle(.borderlessButton).menuIndicator(.hidden).fixedSize()
-                // Borderless menus take the accent color; the footer's other switches are neutral.
-                .tint(.secondary)
+                .buttonStyle(.plain).foregroundStyle(.primary.opacity(0.7))
                 .padding(2).background(.primary.opacity(0.06), in: Capsule())
                 .help(L("Pause capture")).accessibilityLabel(L("Pause capture"))
             }
         }
         .animation(.easeOut(duration: 0.2), value: paused)
+    }
+}
+
+/// A menu item running a closure, for menus built on the fly.
+private final class ActionMenuItem: NSMenuItem {
+    private let run: () -> Void
+    init(_ title: String, run: @escaping () -> Void) {
+        self.run = run
+        super.init(title: title, action: #selector(runAction), keyEquivalent: "")
+        target = self
+    }
+    required init(coder: NSCoder) { fatalError("init(coder:) is not used") }
+    @objc private func runAction() { run() }
+}
+
+extension CapturePauseButton {
+    /// The menu bar icon's choices, at the click.
+    @MainActor func showPauseMenu() {
+        let menu = NSMenu()
+        menu.addItem(ActionMenuItem(L("For 5 minutes")) { model.setCapture(false, for: 5 * 60) })
+        menu.addItem(ActionMenuItem(L("For 1 hour")) { model.setCapture(false, for: 60 * 60) })
+        menu.addItem(ActionMenuItem(L("Until I resume it")) { model.setCapture(false) })
+        menu.addItem(.separator())
+        menu.addItem(ActionMenuItem(L("Custom…")) { model.askCustomPause() })
+        // Anchored in the window under the pointer: encore's panels do not activate the app, and a menu with no window does not show.
+        let pointer = NSEvent.mouseLocation
+        guard let window = NSApp.windows.first(where: { $0.isVisible && $0.frame.contains(pointer) }), let view = window.contentView else { return }
+        menu.popUp(positioning: nil, at: view.convert(window.convertPoint(fromScreen: pointer), from: nil), in: view)
     }
 }
 
