@@ -13,7 +13,7 @@ import Darwin
             if bundle.pathExtension == "app" {
                 let config = NSWorkspace.OpenConfiguration()
                 config.activates = false; config.addsToRecentItems = false
-                if CommandLine.arguments.contains("--demo") { config.arguments = ["--demo"]; config.createsNewApplicationInstance = true }
+                if CommandLine.arguments.contains("--demo") { config.arguments = ["--demo", "--mcp"]; config.createsNewApplicationInstance = true }
                 NSWorkspace.shared.openApplication(at: bundle, configuration: config) { _, _ in }
                 let deadline = Date().addingTimeInterval(10)
                 repeat {
@@ -49,8 +49,9 @@ import Darwin
 @MainActor enum MCPConfiguration {
     static var executable: String { Bundle.main.executablePath ?? CommandLine.arguments[0] }
     static var claudeCode: String { "claude mcp add encore -- " + "'" + executable.replacingOccurrences(of: "'", with: "'\"'\"'") + "' mcp" }
+    /// Written by hand to read as Claude Desktop's documentation shows it: command before args, two-space indent.
     static var claudeDesktop: String {
-        let value = ["mcpServers": ["encore": ["command": executable, "args": ["mcp"]] as [String: Any]]]
-        return (try? JSONSerialization.data(withJSONObject: value, options: [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes])).flatMap { String(data: $0, encoding: .utf8) } ?? "{}"
+        let command = (try? JSONSerialization.data(withJSONObject: executable, options: [.fragmentsAllowed, .withoutEscapingSlashes])).flatMap { String(data: $0, encoding: .utf8) } ?? "\"\""
+        return "{\n  \"mcpServers\": {\n    \"encore\": {\n      \"command\": \(command),\n      \"args\": [\"mcp\"]\n    }\n  }\n}"
     }
 }

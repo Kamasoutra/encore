@@ -514,6 +514,7 @@
 "MCP" = "MCP";
 "Connect an assistant to your clipboard, on this Mac." = "Yhdistä avustaja tämän Macin leikepöytään.";
 "MCP Server" = "MCP-palvelin";
+"Access" = "Käyttöoikeus";
 "Let an assistant read your history, copy text and save snippets. Everything stays on this Mac. encore must be running and starts automatically." = "Avustaja voi lukea historiaasi, kopioida tekstiä ja tallentaa katkelmia. Kaikki pysyy tässä Macissa. encoren on oltava käynnissä, ja se käynnistyy automaattisesti.";
 "Connect an assistant" = "Yhdistä avustaja";
 "Detected secrets stay invisible unless you allow access. When allowed, assistants receive them in plain text." = "Tunnistetut salaisuudet pysyvät näkymättöminä ilman lupaasi. Kun sallit pääsyn, avustajat saavat ne selväkielisinä.";
@@ -522,7 +523,7 @@
 "The last 200 calls, without clipboard content." = "Viimeiset 200 kutsua ilman leikepöydän sisältöä.";
 "Clear access log" = "Tyhjennä loki";
 "No access yet" = "Ei käyttöä vielä";
-"Enable MCP Server in Settings → MCP." = "Ota MCP-palvelin käyttöön kohdassa Asetukset → MCP.";
+"Turn on “MCP Server” in Settings → MCP." = "Ota ”MCP-palvelin” käyttöön kohdassa Asetukset → MCP.";
 "encore could not start." = "encorea ei voitu käynnistää.";
 "Request refused" = "Pyyntö hylätty";
 "Results: %@" = "Tuloksia: %@";

@@ -514,6 +514,7 @@
 "MCP" = "MCP";
 "Connect an assistant to your clipboard, on this Mac." = "חיבור עוזר ללוח ההעתקה ב-Mac הזה.";
 "MCP Server" = "שרת MCP";
+"Access" = "גישה";
 "Let an assistant read your history, copy text and save snippets. Everything stays on this Mac. encore must be running and starts automatically." = "עוזר יכול לקרוא את ההיסטוריה, להעתיק טקסט ולשמור קטעים. הכול נשאר ב-Mac הזה. encore חייב לפעול ומופעל אוטומטית.";
 "Connect an assistant" = "חיבור עוזר";
 "Detected secrets stay invisible unless you allow access. When allowed, assistants receive them in plain text." = "סודות שזוהו נשארים בלתי נראים ללא אישורך. כשניתנת גישה, העוזרים מקבלים אותם כטקסט גלוי.";
@@ -522,7 +523,7 @@
 "The last 200 calls, without clipboard content." = "200 הקריאות האחרונות, ללא תוכן לוח ההעתקה.";
 "Clear access log" = "נקה יומן";
 "No access yet" = "עדיין אין גישה";
-"Enable MCP Server in Settings → MCP." = "יש להפעיל שרת MCP בהגדרות → MCP.";
+"Turn on “MCP Server” in Settings → MCP." = "יש להפעיל את „שרת MCP” בהגדרות → MCP.";
 "encore could not start." = "לא ניתן היה להפעיל את encore.";
 "Request refused" = "הבקשה נדחתה";
 "Results: %@" = "תוצאות: %@";

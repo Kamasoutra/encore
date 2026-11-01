@@ -514,6 +514,7 @@
 "MCP" = "MCP";
 "Connect an assistant to your clipboard, on this Mac." = "在這台 Mac 上將助理連接到剪貼簿。";
 "MCP Server" = "MCP 伺服器";
+"Access" = "存取";
 "Let an assistant read your history, copy text and save snippets. Everything stays on this Mac. encore must be running and starts automatically." = "助理可以讀取歷史記錄、複製文字及儲存片段。一切都留在這台 Mac 上。encore 必須執行，並會自動啟動。";
 "Connect an assistant" = "連接助理";
 "Detected secrets stay invisible unless you allow access. When allowed, assistants receive them in plain text." = "未經允許，偵測到的機密資訊始終不可見。允許存取後，助理將以明文接收這些資訊。";
@@ -522,7 +523,7 @@
 "The last 200 calls, without clipboard content." = "最近 200 次呼叫，不包含剪貼簿內容。";
 "Clear access log" = "清除記錄";
 "No access yet" = "尚無存取記錄";
-"Enable MCP Server in Settings → MCP." = "請在設定 → MCP 中啟用 MCP 伺服器。";
+"Turn on “MCP Server” in Settings → MCP." = "請在設定 → MCP 中開啟「MCP 伺服器」。";
 "encore could not start." = "encore 無法啟動。";
 "Request refused" = "請求遭拒";
 "Results: %@" = "結果：%@";

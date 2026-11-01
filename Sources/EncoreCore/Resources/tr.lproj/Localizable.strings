@@ -514,6 +514,7 @@
 "MCP" = "MCP";
 "Connect an assistant to your clipboard, on this Mac." = "Bu Mac’te bir asistanı panona bağla.";
 "MCP Server" = "MCP sunucusu";
+"Access" = "Erişim";
 "Let an assistant read your history, copy text and save snippets. Everything stays on this Mac. encore must be running and starts automatically." = "Bir asistan geçmişini okuyabilir, metin kopyalayabilir ve parçacık kaydedebilir. Her şey bu Mac’te kalır. encore çalışmalıdır ve otomatik başlar.";
 "Connect an assistant" = "Asistan bağla";
 "Detected secrets stay invisible unless you allow access. When allowed, assistants receive them in plain text." = "Algılanan sırlar iznin olmadan görünmez kalır. Erişim izni verildiğinde asistanlar bunları açık metin olarak alır.";
@@ -522,7 +523,7 @@
 "The last 200 calls, without clipboard content." = "Pano içeriği olmadan son 200 çağrı.";
 "Clear access log" = "Günlüğü temizle";
 "No access yet" = "Henüz erişim yok";
-"Enable MCP Server in Settings → MCP." = "Ayarlar → MCP bölümünde MCP sunucusunu etkinleştir.";
+"Turn on “MCP Server” in Settings → MCP." = "Ayarlar → MCP bölümünde “MCP sunucusu”nu etkinleştir.";
 "encore could not start." = "encore başlatılamadı.";
 "Request refused" = "İstek reddedildi";
 "Results: %@" = "Sonuçlar: %@";

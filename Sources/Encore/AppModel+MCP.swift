@@ -11,14 +11,15 @@ extension AppModel {
     }
 
     func startMCP() {
-        guard mcpListener == nil, storage != nil else { return }
+        // A demo instance, opened for screenshots, would answer for the real history: it listens only when asked to with --mcp.
+        guard mcpListener == nil, storage != nil, !demo || CommandLine.arguments.contains("--mcp") else { return }
         do {
             mcpListener = try MCPSocket.Listener(path: MCPSocket.path) { [weak self] line, session, reply in
                 Task { @MainActor in
                     guard let self else { reply(nil); return }
                     let result = session.handle(line) { name, arguments, client in try self.mcpCall(name, arguments: arguments, client: client) }
                     if !self.preferences.mcpEnabled, let result, let object = try? JSONSerialization.jsonObject(with: result) as? [String: Any], object["result"] != nil {
-                        reply(MCPServer.error(id: object["id"] ?? NSNull(), message: L("Enable MCP Server in Settings → MCP.")))
+                        reply(MCPServer.error(id: object["id"] ?? NSNull(), message: L("Turn on “MCP Server” in Settings → MCP.")))
                     } else { reply(result) }
                 }
             }
@@ -58,16 +59,16 @@ extension AppModel {
             mcpLog.append(MCPLogEntry(client: String(client.prefix(100)), tool: MCPTools.names.contains(name) ? name : "unknown", summary: summary))
             mcpLog = Array(mcpLog.suffix(200)); saveMCPLog()
         }
-        guard preferences.mcpEnabled else { throw MCPFailure(L("Enable MCP Server in Settings → MCP."), code: -32001) }
+        guard preferences.mcpEnabled else { throw MCPFailure(L("Turn on “MCP Server” in Settings → MCP."), code: -32001) }
         try MCPTools.validate(name, arguments: arguments)
         switch name {
         case "search_history", "recent_clips":
             let query = ClipQuery(query: arguments["query"] as? String ?? "", kind: (arguments["type"] as? String).flatMap(ClipKind.init(rawValue:)))
             let limit = arguments["limit"] as? Int ?? (name == "recent_clips" ? 10 : 20)
             let matches = library.clips.filter { clip in
-                guard mcpVisible(clip) else { return false }
+                // Matching first: the secret check reads every text, so it only runs on what would be returned.
                 var searchable = clip; searchable.text = plainText(of: clip)
-                return query.matches(searchable)
+                return query.matches(searchable) && mcpVisible(clip)
             }.sorted {
                 if name == "search_history", query.matchesName($0) != query.matchesName($1) { return query.matchesName($0) }
                 return $0.copiedAt > $1.copiedAt

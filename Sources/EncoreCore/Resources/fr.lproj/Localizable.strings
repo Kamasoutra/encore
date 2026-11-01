@@ -514,6 +514,7 @@
 "MCP" = "MCP";
 "Connect an assistant to your clipboard, on this Mac." = "Connecte un assistant à ton presse-papiers, sur ce Mac.";
 "MCP Server" = "Serveur MCP";
+"Access" = "Accès";
 "Let an assistant read your history, copy text and save snippets. Everything stays on this Mac. encore must be running and starts automatically." = "Un assistant peut lire ton historique, copier du texte et enregistrer des snippets. Tout reste sur ce Mac. encore doit tourner et se lance automatiquement.";
 "Connect an assistant" = "Connecter un assistant";
 "Detected secrets stay invisible unless you allow access. When allowed, assistants receive them in plain text." = "Les secrets détectés restent invisibles sans ton autorisation. Si tu autorises leur accès, les assistants les reçoivent en clair.";
@@ -522,7 +523,7 @@
 "The last 200 calls, without clipboard content." = "Les 200 derniers appels, sans le contenu des copies.";
 "Clear access log" = "Effacer le journal";
 "No access yet" = "Aucun accès pour le moment";
-"Enable MCP Server in Settings → MCP." = "Active Serveur MCP dans Réglages → MCP.";
+"Turn on “MCP Server” in Settings → MCP." = "Active « Serveur MCP » dans Réglages → MCP.";
 "encore could not start." = "encore n’a pas pu démarrer.";
 "Request refused" = "Requête refusée";
 "Results: %@" = "Résultats : %@";

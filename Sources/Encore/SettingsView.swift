@@ -477,50 +477,57 @@ struct SettingsView: View {
 
     private var mcp: some View {
         SettingsForm {
-            SettingsGroup(L("MCP Server")) {
+            SettingsGroup(L("Access")) {
                 described(L("Let an assistant read your history, copy text and save snippets. Everything stays on this Mac. encore must be running and starts automatically.")) {
                     Toggle(L("MCP Server"), isOn: $model.preferences.mcpEnabled)
                 }
-            }
-            SettingsGroup(L("Connect an assistant")) {
-                mcpConfiguration("Claude Code", value: MCPConfiguration.claudeCode)
-                mcpConfiguration("Claude Desktop", value: MCPConfiguration.claudeDesktop)
-            }
-            SettingsGroup(L("Passwords and secrets")) {
                 described(L("Detected secrets stay invisible unless you allow access. When allowed, assistants receive them in plain text.")) {
-                    Toggle(L("Allow access to detected secrets"), isOn: $model.preferences.mcpAllowSecrets)
+                    Toggle(L("Allow access to detected secrets"), isOn: $model.preferences.mcpAllowSecrets).disabled(!model.preferences.mcpEnabled)
                 }
             }
-            SettingsGroup(L("Access log")) {
-                HStack {
-                    caption(L("The last 200 calls, without clipboard content."))
-                    Spacer()
-                    Button(L("Clear access log")) { model.clearMCPLog() }.disabled(model.mcpLog.isEmpty)
+            if model.preferences.mcpEnabled {
+                SettingsGroup(L("Connect an assistant")) {
+                    mcpConfiguration("Claude Code", value: MCPConfiguration.claudeCode)
+                    mcpConfiguration("Claude Desktop", value: MCPConfiguration.claudeDesktop)
                 }
-                if model.mcpLog.isEmpty { caption(L("No access yet")) }
-                ForEach(model.mcpLog.reversed()) { entry in
-                    VStack(alignment: .leading, spacing: 3) {
-                        HStack {
-                            Text(Localization.time(entry.date)).foregroundStyle(.secondary)
-                            Text(entry.client).lineLimit(1)
-                            Spacer()
-                            Text(entry.tool).font(.system(size: 11, design: .monospaced))
-                        }
-                        Text(entry.summary).font(.system(size: 12)).foregroundStyle(.secondary)
-                    }.padding(.vertical, 3)
+            }
+            if model.preferences.mcpEnabled || !model.mcpLog.isEmpty {
+                SettingsGroup(L("Access log")) {
+                    HStack {
+                        caption(L("The last 200 calls, without clipboard content."))
+                        Spacer()
+                        Button(L("Clear access log")) { model.clearMCPLog() }.disabled(model.mcpLog.isEmpty)
+                    }
+                    if model.mcpLog.isEmpty { caption(L("No access yet")) }
+                    ForEach(model.mcpLog.reversed()) { entry in
+                        VStack(alignment: .leading, spacing: 3) {
+                            HStack {
+                                Text(Localization.time(entry.date)).foregroundStyle(.secondary).monospacedDigit()
+                                Text(entry.client).lineLimit(1)
+                                Spacer()
+                                Text(entry.tool).font(.system(size: 11, design: .monospaced)).foregroundStyle(.secondary)
+                            }
+                            Text(entry.summary).font(.system(size: 12)).foregroundStyle(.secondary)
+                        }.padding(.vertical, 3)
+                    }
                 }
             }
         }
     }
 
+    /// A configuration to copy: shown whole on one line per row, scrolling sideways rather than breaking the app's path.
     private func mcpConfiguration(_ name: String, value: String) -> some View {
-        VStack(alignment: .leading, spacing: 7) {
+        VStack(alignment: .leading, spacing: 8) {
             HStack {
                 Text(name).fontWeight(.medium)
                 Spacer()
-                Button(L("Copy")) { model.clipboard.write(.text(value)) }
+                Button { model.clipboard.write(.text(value)) } label: { Label(L("Copy"), systemImage: "doc.on.doc") }
             }
-            Text(value).font(.system(size: 11, design: .monospaced)).textSelection(.enabled).fixedSize(horizontal: false, vertical: true)
+            ScrollView(.horizontal, showsIndicators: false) {
+                Text(value).font(.system(size: 11, design: .monospaced)).textSelection(.enabled).fixedSize().padding(10)
+            }
+            .background(Color.primary.opacity(0.05), in: RoundedRectangle(cornerRadius: 7))
+            .overlay(RoundedRectangle(cornerRadius: 7).strokeBorder(Color.primary.opacity(0.08)))
         }.padding(.vertical, 4)
     }
 

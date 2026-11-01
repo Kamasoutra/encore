@@ -514,6 +514,7 @@
 "MCP" = "MCP";
 "Connect an assistant to your clipboard, on this Mac." = "Conecte um assistente à área de transferência neste Mac.";
 "MCP Server" = "Servidor MCP";
+"Access" = "Acesso";
 "Let an assistant read your history, copy text and save snippets. Everything stays on this Mac. encore must be running and starts automatically." = "Um assistente pode ler seu histórico, copiar texto e salvar trechos. Tudo fica neste Mac. O encore precisa estar aberto e inicia automaticamente.";
 "Connect an assistant" = "Conectar um assistente";
 "Detected secrets stay invisible unless you allow access. When allowed, assistants receive them in plain text." = "Os segredos detectados ficam invisíveis sem sua permissão. Se permitir o acesso, os assistentes os recebem em texto simples.";
@@ -522,7 +523,7 @@
 "The last 200 calls, without clipboard content." = "As últimas 200 chamadas, sem conteúdo da área de transferência.";
 "Clear access log" = "Limpar registro";
 "No access yet" = "Nenhum acesso ainda";
-"Enable MCP Server in Settings → MCP." = "Ative Servidor MCP em Ajustes → MCP.";
+"Turn on “MCP Server” in Settings → MCP." = "Ative “Servidor MCP” em Ajustes → MCP.";
 "encore could not start." = "Não foi possível iniciar o encore.";
 "Request refused" = "Solicitação recusada";
 "Results: %@" = "Resultados: %@";

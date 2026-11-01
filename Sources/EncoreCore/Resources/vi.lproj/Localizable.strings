@@ -514,6 +514,7 @@
 "MCP" = "MCP";
 "Connect an assistant to your clipboard, on this Mac." = "Kết nối trợ lý với bảng nhớ tạm trên máy Mac này.";
 "MCP Server" = "Máy chủ MCP";
+"Access" = "Quyền truy cập";
 "Let an assistant read your history, copy text and save snippets. Everything stays on this Mac. encore must be running and starts automatically." = "Trợ lý có thể đọc lịch sử, sao chép văn bản và lưu đoạn mẫu. Mọi thứ ở lại máy Mac này. encore phải chạy và sẽ tự khởi động.";
 "Connect an assistant" = "Kết nối trợ lý";
 "Detected secrets stay invisible unless you allow access. When allowed, assistants receive them in plain text." = "Bí mật được phát hiện luôn ẩn nếu bạn chưa cho phép. Khi được cấp quyền, trợ lý sẽ nhận chúng dưới dạng văn bản rõ.";
@@ -522,7 +523,7 @@
 "The last 200 calls, without clipboard content." = "200 lệnh gọi gần nhất, không chứa nội dung bảng nhớ tạm.";
 "Clear access log" = "Xóa nhật ký";
 "No access yet" = "Chưa có truy cập";
-"Enable MCP Server in Settings → MCP." = "Bật Máy chủ MCP trong Cài đặt → MCP.";
+"Turn on “MCP Server” in Settings → MCP." = "Bật “Máy chủ MCP” trong Cài đặt → MCP.";
 "encore could not start." = "Không thể khởi động encore.";
 "Request refused" = "Yêu cầu bị từ chối";
 "Results: %@" = "Kết quả: %@";

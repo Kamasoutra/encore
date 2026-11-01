@@ -514,6 +514,7 @@
 "MCP" = "MCP";
 "Connect an assistant to your clipboard, on this Mac." = "Připoj asistenta ke schránce na tomto Macu.";
 "MCP Server" = "Server MCP";
+"Access" = "Přístup";
 "Let an assistant read your history, copy text and save snippets. Everything stays on this Mac. encore must be running and starts automatically." = "Asistent může číst historii, kopírovat text a ukládat úryvky. Vše zůstává na tomto Macu. encore musí běžet a spouští se automaticky.";
 "Connect an assistant" = "Připojit asistenta";
 "Detected secrets stay invisible unless you allow access. When allowed, assistants receive them in plain text." = "Zjištěná tajemství zůstávají bez tvého svolení neviditelná. Po povolení přístupu je asistenti dostanou jako prostý text.";
@@ -522,7 +523,7 @@
 "The last 200 calls, without clipboard content." = "Posledních 200 volání bez obsahu schránky.";
 "Clear access log" = "Vymazat protokol";
 "No access yet" = "Zatím žádný přístup";
-"Enable MCP Server in Settings → MCP." = "Zapni Server MCP v Nastavení → MCP.";
+"Turn on “MCP Server” in Settings → MCP." = "Zapni „Server MCP“ v Nastavení → MCP.";
 "encore could not start." = "encore se nepodařilo spustit.";
 "Request refused" = "Požadavek odmítnut";
 "Results: %@" = "Výsledky: %@";
