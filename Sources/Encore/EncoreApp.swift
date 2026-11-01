@@ -4,6 +4,7 @@ import EncoreCore
 
 @main struct EncoreApp {
     @MainActor static func main() {
+        if CommandLine.arguments.dropFirst().first == "mcp" { MCPCommand.run(); return }
         let app = NSApplication.shared
         let delegate = AppDelegate()
         app.delegate = delegate
@@ -49,6 +50,7 @@ final class EncorePanel: NSPanel {
     func applicationDidFinishLaunching(_ notification: Notification) {
         let demo = CommandLine.arguments.contains("--demo")
         model = AppModel(demo: demo)
+        model.startMCP()
         screenshots = ScreenshotImporter(model: model)
         model.updateScreenshotCapture = { [weak self] in self?.screenshots.configure() }
         model.togglePanel = { [weak self] in self?.toggle() }
@@ -173,6 +175,7 @@ final class EncorePanel: NSPanel {
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool { show(); return true }
 
     func applicationWillTerminate(_ notification: Notification) {
+        model.mcpListener?.stop()
         model.clipboard.stop(); model.stackTap.stop(); hotkeys.stop()
         screenshots.stop()
         permissionTimer?.invalidate()

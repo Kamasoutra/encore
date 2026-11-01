@@ -510,3 +510,22 @@
 "Pause capture for how long?" = "कैप्चर कितनी देर के लिए रोकें?";
 "Pause" = "रोकें";
 "pause (footer)" = "रोकें";
+
+"MCP" = "MCP";
+"Connect an assistant to your clipboard, on this Mac." = "इस Mac पर किसी सहायक को अपने क्लिपबोर्ड से जोड़ें।";
+"MCP Server" = "MCP सर्वर";
+"Let an assistant read your history, copy text and save snippets. Everything stays on this Mac. encore must be running and starts automatically." = "सहायक आपका इतिहास पढ़ सकता है, टेक्स्ट कॉपी कर सकता है और स्निपेट सहेज सकता है। सब कुछ इसी Mac पर रहता है। encore का चलना ज़रूरी है और यह अपने आप शुरू होता है।";
+"Connect an assistant" = "सहायक जोड़ें";
+"Detected secrets stay invisible unless you allow access. When allowed, assistants receive them in plain text." = "आपकी अनुमति के बिना पहचाने गए रहस्य अदृश्य रहते हैं। अनुमति मिलने पर सहायकों को वे स्पष्ट टेक्स्ट में मिलते हैं।";
+"Allow access to detected secrets" = "पहचाने गए रहस्यों तक पहुँच की अनुमति दें";
+"Access log" = "पहुँच लॉग";
+"The last 200 calls, without clipboard content." = "पिछले 200 कॉल, बिना क्लिपबोर्ड सामग्री के।";
+"Clear access log" = "लॉग मिटाएँ";
+"No access yet" = "अभी तक कोई पहुँच नहीं";
+"Enable MCP Server in Settings → MCP." = "सेटिंग्ज़ → MCP में MCP सर्वर चालू करें।";
+"encore could not start." = "encore शुरू नहीं हो सका।";
+"Request refused" = "अनुरोध अस्वीकार किया गया";
+"Results: %@" = "परिणाम: %@";
+"Copy read" = "कॉपी पढ़ी गई";
+"Snippet saved" = "स्निपेट सहेजा गया";
+"Favorite updated" = "पसंदीदा अपडेट किया गया";

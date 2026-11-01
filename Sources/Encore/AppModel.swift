@@ -87,6 +87,8 @@ struct PeerStatus: Identifiable, Equatable {
     var clipboard: ClipboardService!
     var stackTap: StackTap!
     let demo: Bool
+    @Published var mcpLog: [MCPLogEntry] = []
+    var mcpListener: MCPSocket.Listener?
     var storage: Storage?
     let filePreviews = FilePreviews()
     private(set) var peerService: PeerService?
@@ -142,6 +144,7 @@ struct PeerStatus: Identifiable, Equatable {
         scheduleCaptureResume()
         refreshIgnoredDay()
         startPeers()
+        loadMCPLog()
     }
 
     /// Kept until the history, the search, a filter, the board or the peers change: one selection change read it about eight times.

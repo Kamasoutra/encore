@@ -510,3 +510,22 @@
 "Pause capture for how long?" = "Pausar a captura por quanto tempo?";
 "Pause" = "Pausar";
 "pause (footer)" = "pausar";
+
+"MCP" = "MCP";
+"Connect an assistant to your clipboard, on this Mac." = "Conecte um assistente à área de transferência neste Mac.";
+"MCP Server" = "Servidor MCP";
+"Let an assistant read your history, copy text and save snippets. Everything stays on this Mac. encore must be running and starts automatically." = "Um assistente pode ler seu histórico, copiar texto e salvar trechos. Tudo fica neste Mac. O encore precisa estar aberto e inicia automaticamente.";
+"Connect an assistant" = "Conectar um assistente";
+"Detected secrets stay invisible unless you allow access. When allowed, assistants receive them in plain text." = "Os segredos detectados ficam invisíveis sem sua permissão. Se permitir o acesso, os assistentes os recebem em texto simples.";
+"Allow access to detected secrets" = "Permitir acesso aos segredos detectados";
+"Access log" = "Registro de acessos";
+"The last 200 calls, without clipboard content." = "As últimas 200 chamadas, sem conteúdo da área de transferência.";
+"Clear access log" = "Limpar registro";
+"No access yet" = "Nenhum acesso ainda";
+"Enable MCP Server in Settings → MCP." = "Ative Servidor MCP em Ajustes → MCP.";
+"encore could not start." = "Não foi possível iniciar o encore.";
+"Request refused" = "Solicitação recusada";
+"Results: %@" = "Resultados: %@";
+"Copy read" = "Cópia lida";
+"Snippet saved" = "Trecho salvo";
+"Favorite updated" = "Favorito atualizado";

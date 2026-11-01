@@ -510,3 +510,22 @@
 "Pause capture for how long?" = "Mennyi időre szünetelteti a rögzítést?";
 "Pause" = "Szüneteltetés";
 "pause (footer)" = "szünet";
+
+"MCP" = "MCP";
+"Connect an assistant to your clipboard, on this Mac." = "Csatlakoztass egy asszisztenst a Mac vágólapjához.";
+"MCP Server" = "MCP-kiszolgáló";
+"Let an assistant read your history, copy text and save snippets. Everything stays on this Mac. encore must be running and starts automatically." = "Az asszisztens olvashatja az előzményeket, szöveget másolhat és részleteket menthet. Minden ezen a Macen marad. Az encore-nak futnia kell, és automatikusan elindul.";
+"Connect an assistant" = "Asszisztens csatlakoztatása";
+"Detected secrets stay invisible unless you allow access. When allowed, assistants receive them in plain text." = "A felismert titkok engedély nélkül láthatatlanok. Engedélyezett hozzáférés esetén az asszisztensek olvasható szövegként kapják meg őket.";
+"Allow access to detected secrets" = "Hozzáférés engedélyezése a felismert titkokhoz";
+"Access log" = "Hozzáférési napló";
+"The last 200 calls, without clipboard content." = "Az utolsó 200 hívás, vágólaptartalom nélkül.";
+"Clear access log" = "Napló törlése";
+"No access yet" = "Még nincs hozzáférés";
+"Enable MCP Server in Settings → MCP." = "Kapcsold be az MCP-kiszolgálót a Beállítások → MCP alatt.";
+"encore could not start." = "Az encore nem indult el.";
+"Request refused" = "Kérés elutasítva";
+"Results: %@" = "Találatok: %@";
+"Copy read" = "Másolat elolvasva";
+"Snippet saved" = "Részlet mentve";
+"Favorite updated" = "Kedvenc frissítve";

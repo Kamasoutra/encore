@@ -510,3 +510,22 @@
 "Pause capture for how long?" = "Pentru cât timp întrerupeți capturarea?";
 "Pause" = "Întrerupe";
 "pause (footer)" = "pauză";
+
+"MCP" = "MCP";
+"Connect an assistant to your clipboard, on this Mac." = "Conectează un asistent la clipboard pe acest Mac.";
+"MCP Server" = "Server MCP";
+"Let an assistant read your history, copy text and save snippets. Everything stays on this Mac. encore must be running and starts automatically." = "Un asistent poate citi istoricul, copia text și salva fragmente. Totul rămâne pe acest Mac. encore trebuie să ruleze și pornește automat.";
+"Connect an assistant" = "Conectează un asistent";
+"Detected secrets stay invisible unless you allow access. When allowed, assistants receive them in plain text." = "Secretele detectate rămân invizibile fără permisiunea ta. Dacă permiți accesul, asistenții le primesc în clar.";
+"Allow access to detected secrets" = "Permite accesul la secretele detectate";
+"Access log" = "Jurnal de acces";
+"The last 200 calls, without clipboard content." = "Ultimele 200 de apeluri, fără conținutul clipboardului.";
+"Clear access log" = "Șterge jurnalul";
+"No access yet" = "Niciun acces încă";
+"Enable MCP Server in Settings → MCP." = "Activează Server MCP în Configurări → MCP.";
+"encore could not start." = "encore nu a putut porni.";
+"Request refused" = "Cerere refuzată";
+"Results: %@" = "Rezultate: %@";
+"Copy read" = "Copie citită";
+"Snippet saved" = "Fragment salvat";
+"Favorite updated" = "Favorit actualizat";

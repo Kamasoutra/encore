@@ -510,3 +510,22 @@
 "Pause capture for how long?" = "Για πόση ώρα να γίνει παύση της καταγραφής;";
 "Pause" = "Παύση";
 "pause (footer)" = "παύση";
+
+"MCP" = "MCP";
+"Connect an assistant to your clipboard, on this Mac." = "Σύνδεσε έναν βοηθό με το πρόχειρο σε αυτό το Mac.";
+"MCP Server" = "Διακομιστής MCP";
+"Let an assistant read your history, copy text and save snippets. Everything stays on this Mac. encore must be running and starts automatically." = "Ένας βοηθός μπορεί να διαβάσει το ιστορικό, να αντιγράψει κείμενο και να αποθηκεύσει αποσπάσματα. Όλα μένουν σε αυτό το Mac. Το encore πρέπει να εκτελείται και ξεκινά αυτόματα.";
+"Connect an assistant" = "Σύνδεση βοηθού";
+"Detected secrets stay invisible unless you allow access. When allowed, assistants receive them in plain text." = "Τα εντοπισμένα μυστικά μένουν αόρατα χωρίς την άδειά σου. Αν επιτρέψεις πρόσβαση, οι βοηθοί τα λαμβάνουν σε απλό κείμενο.";
+"Allow access to detected secrets" = "Να επιτρέπεται πρόσβαση στα εντοπισμένα μυστικά";
+"Access log" = "Αρχείο προσβάσεων";
+"The last 200 calls, without clipboard content." = "Οι τελευταίες 200 κλήσεις, χωρίς περιεχόμενο προχείρου.";
+"Clear access log" = "Εκκαθάριση αρχείου";
+"No access yet" = "Καμία πρόσβαση ακόμα";
+"Enable MCP Server in Settings → MCP." = "Ενεργοποίησε τον Διακομιστή MCP στις Ρυθμίσεις → MCP.";
+"encore could not start." = "Δεν ήταν δυνατή η εκκίνηση του encore.";
+"Request refused" = "Το αίτημα απορρίφθηκε";
+"Results: %@" = "Αποτελέσματα: %@";
+"Copy read" = "Το αντίγραφο διαβάστηκε";
+"Snippet saved" = "Το απόσπασμα αποθηκεύτηκε";
+"Favorite updated" = "Το αγαπημένο ενημερώθηκε";

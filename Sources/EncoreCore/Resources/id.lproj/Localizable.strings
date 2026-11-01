@@ -510,3 +510,22 @@
 "Pause capture for how long?" = "Jeda perekaman berapa lama?";
 "Pause" = "Jeda";
 "pause (footer)" = "jeda";
+
+"MCP" = "MCP";
+"Connect an assistant to your clipboard, on this Mac." = "Hubungkan asisten ke papan klip di Mac ini.";
+"MCP Server" = "Server MCP";
+"Let an assistant read your history, copy text and save snippets. Everything stays on this Mac. encore must be running and starts automatically." = "Asisten dapat membaca riwayat, menyalin teks, dan menyimpan cuplikan. Semuanya tetap di Mac ini. encore harus berjalan dan dimulai otomatis.";
+"Connect an assistant" = "Hubungkan asisten";
+"Detected secrets stay invisible unless you allow access. When allowed, assistants receive them in plain text." = "Rahasia yang terdeteksi tetap tidak terlihat tanpa izinmu. Jika diizinkan, asisten menerimanya sebagai teks biasa.";
+"Allow access to detected secrets" = "Izinkan akses ke rahasia yang terdeteksi";
+"Access log" = "Log akses";
+"The last 200 calls, without clipboard content." = "200 panggilan terakhir, tanpa isi papan klip.";
+"Clear access log" = "Hapus log";
+"No access yet" = "Belum ada akses";
+"Enable MCP Server in Settings → MCP." = "Aktifkan Server MCP di Pengaturan → MCP.";
+"encore could not start." = "encore tidak dapat dimulai.";
+"Request refused" = "Permintaan ditolak";
+"Results: %@" = "Hasil: %@";
+"Copy read" = "Salinan dibaca";
+"Snippet saved" = "Cuplikan disimpan";
+"Favorite updated" = "Favorit diperbarui";

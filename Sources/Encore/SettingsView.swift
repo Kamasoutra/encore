@@ -5,13 +5,13 @@ import ServiceManagement
 import EncoreCore
 
 private enum SettingsSection: String, CaseIterable, Identifiable {
-    case general, privacy, retention, data, peers, shortcuts
+    case general, privacy, retention, data, peers, mcp, shortcuts
     var id: String { rawValue }
     var title: String {
-        switch self { case .general: L("General"); case .privacy: L("Privacy"); case .retention: L("Retention Rules"); case .data: L("Data"); case .peers: L("Other Macs"); case .shortcuts: L("Shortcuts") }
+        switch self { case .general: L("General"); case .privacy: L("Privacy"); case .retention: L("Retention Rules"); case .data: L("Data"); case .peers: L("Other Macs"); case .mcp: L("MCP"); case .shortcuts: L("Shortcuts") }
     }
     var symbol: String {
-        switch self { case .general: "slider.horizontal.3"; case .privacy: "hand.raised"; case .retention: "clock.arrow.circlepath"; case .data: "externaldrive"; case .peers: "laptopcomputer"; case .shortcuts: "keyboard" }
+        switch self { case .general: "slider.horizontal.3"; case .privacy: "hand.raised"; case .retention: "clock.arrow.circlepath"; case .data: "externaldrive"; case .peers: "laptopcomputer"; case .mcp: "terminal"; case .shortcuts: "keyboard" }
     }
     var subtitle: String {
         switch self {
@@ -20,6 +20,7 @@ private enum SettingsSection: String, CaseIterable, Identifiable {
         case .retention: L("Set retention by app, size and type. The first matching rule wins.")
         case .data: L("Retention, backups, and storage usage.")
         case .peers: L("Find what you copy on your other Macs. Direct over the local network, encrypted, no account.")
+        case .mcp: L("Connect an assistant to your clipboard, on this Mac.")
         case .shortcuts: L("Find, select, and paste. All from the keyboard.")
         }
     }
@@ -63,6 +64,7 @@ struct SettingsView: View {
                     case .retention: RetentionSettingsView(model: model)
                     case .data: data
                     case .peers: peers
+                    case .mcp: mcp
                     case .shortcuts: shortcuts
                     }
                 }.frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -471,6 +473,55 @@ struct SettingsView: View {
                 caption(L("Pairing happens once: check that both Macs show the same 6-digit code. The shared secret stays on each Mac, readable only by your account. Removing a Mac erases it."))
             }
         }
+    }
+
+    private var mcp: some View {
+        SettingsForm {
+            SettingsGroup(L("MCP Server")) {
+                described(L("Let an assistant read your history, copy text and save snippets. Everything stays on this Mac. encore must be running and starts automatically.")) {
+                    Toggle(L("MCP Server"), isOn: $model.preferences.mcpEnabled)
+                }
+            }
+            SettingsGroup(L("Connect an assistant")) {
+                mcpConfiguration("Claude Code", value: MCPConfiguration.claudeCode)
+                mcpConfiguration("Claude Desktop", value: MCPConfiguration.claudeDesktop)
+            }
+            SettingsGroup(L("Passwords and secrets")) {
+                described(L("Detected secrets stay invisible unless you allow access. When allowed, assistants receive them in plain text.")) {
+                    Toggle(L("Allow access to detected secrets"), isOn: $model.preferences.mcpAllowSecrets)
+                }
+            }
+            SettingsGroup(L("Access log")) {
+                HStack {
+                    caption(L("The last 200 calls, without clipboard content."))
+                    Spacer()
+                    Button(L("Clear access log")) { model.clearMCPLog() }.disabled(model.mcpLog.isEmpty)
+                }
+                if model.mcpLog.isEmpty { caption(L("No access yet")) }
+                ForEach(model.mcpLog.reversed()) { entry in
+                    VStack(alignment: .leading, spacing: 3) {
+                        HStack {
+                            Text(Localization.time(entry.date)).foregroundStyle(.secondary)
+                            Text(entry.client).lineLimit(1)
+                            Spacer()
+                            Text(entry.tool).font(.system(size: 11, design: .monospaced))
+                        }
+                        Text(entry.summary).font(.system(size: 12)).foregroundStyle(.secondary)
+                    }.padding(.vertical, 3)
+                }
+            }
+        }
+    }
+
+    private func mcpConfiguration(_ name: String, value: String) -> some View {
+        VStack(alignment: .leading, spacing: 7) {
+            HStack {
+                Text(name).fontWeight(.medium)
+                Spacer()
+                Button(L("Copy")) { model.clipboard.write(.text(value)) }
+            }
+            Text(value).font(.system(size: 11, design: .monospaced)).textSelection(.enabled).fixedSize(horizontal: false, vertical: true)
+        }.padding(.vertical, 4)
     }
 
     private var shortcuts: some View {

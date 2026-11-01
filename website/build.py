@@ -168,6 +168,9 @@ PRIVACY = {
             "server": ("An encore server", "It does not exist. No account, no cloud, no statistics: there is nowhere to send your data."),
         },
         "blocks": [
+            ("An assistant, only if you connect one", [
+                "The MCP connection is local and off by default. If you enable it in Settings → MCP, an assistant can read your history, copy text, save snippets and change favorites. encore must be running and starts automatically. Detected secrets remain inaccessible unless you allow access, even when secret detection for the clipboard is off. The last 200 calls are logged without clipboard content. What your assistant reads is also subject to its own data handling.",
+            ], None, ""),
             ("Everything stays on your Mac", [
                 "What you copy is kept in a single folder on your Mac: <code>~/Library/Application Support/Encore/</code>. Only your macOS account can open it.",
                 "No account to create, no usage statistics, no ads. encore does not even load the links you copy: it shows them as they are.",
@@ -244,6 +247,9 @@ PRIVACY = {
             "server": ("Un serveur encore", "Il n’existe pas. Pas de compte, pas de cloud, pas de statistiques : il n’y a nulle part où envoyer tes données."),
         },
         "blocks": [
+            ("Un assistant, seulement si tu le connectes", [
+                "La connexion MCP est locale et désactivée par défaut. Si tu l’actives dans Réglages → MCP, un assistant peut lire ton historique, copier du texte, enregistrer des snippets et changer les favoris. encore doit tourner et se lance automatiquement. Les secrets détectés restent inaccessibles sauf si tu l’autorises, même si la détection des secrets du presse-papiers est désactivée. Les 200 derniers appels sont consignés sans le contenu des copies. Ce que ton assistant lit dépend aussi de ses propres règles de traitement des données.",
+            ], None, ""),
             ("Tout reste sur ton Mac", [
                 "Ce que tu copies est rangé dans un seul dossier de ton Mac : <code>~/Library/Application Support/Encore/</code>. Seule ta session macOS peut l’ouvrir.",
                 "Pas de compte à créer, pas de statistiques d’utilisation, pas de publicité. encore ne charge même pas les liens que tu copies : il les affiche tels quels.",

@@ -510,3 +510,22 @@
 "Pause capture for how long?" = "להשהות את הלכידה לכמה זמן?";
 "Pause" = "השהה";
 "pause (footer)" = "השהיה";
+
+"MCP" = "MCP";
+"Connect an assistant to your clipboard, on this Mac." = "חיבור עוזר ללוח ההעתקה ב-Mac הזה.";
+"MCP Server" = "שרת MCP";
+"Let an assistant read your history, copy text and save snippets. Everything stays on this Mac. encore must be running and starts automatically." = "עוזר יכול לקרוא את ההיסטוריה, להעתיק טקסט ולשמור קטעים. הכול נשאר ב-Mac הזה. encore חייב לפעול ומופעל אוטומטית.";
+"Connect an assistant" = "חיבור עוזר";
+"Detected secrets stay invisible unless you allow access. When allowed, assistants receive them in plain text." = "סודות שזוהו נשארים בלתי נראים ללא אישורך. כשניתנת גישה, העוזרים מקבלים אותם כטקסט גלוי.";
+"Allow access to detected secrets" = "אפשר גישה לסודות שזוהו";
+"Access log" = "יומן גישה";
+"The last 200 calls, without clipboard content." = "200 הקריאות האחרונות, ללא תוכן לוח ההעתקה.";
+"Clear access log" = "נקה יומן";
+"No access yet" = "עדיין אין גישה";
+"Enable MCP Server in Settings → MCP." = "יש להפעיל שרת MCP בהגדרות → MCP.";
+"encore could not start." = "לא ניתן היה להפעיל את encore.";
+"Request refused" = "הבקשה נדחתה";
+"Results: %@" = "תוצאות: %@";
+"Copy read" = "העותק נקרא";
+"Snippet saved" = "הקטע נשמר";
+"Favorite updated" = "המועדף עודכן";

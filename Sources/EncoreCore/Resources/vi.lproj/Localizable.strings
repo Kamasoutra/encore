@@ -510,3 +510,22 @@
 "Pause capture for how long?" = "Tạm dừng ghi trong bao lâu?";
 "Pause" = "Tạm dừng";
 "pause (footer)" = "tạm dừng";
+
+"MCP" = "MCP";
+"Connect an assistant to your clipboard, on this Mac." = "Kết nối trợ lý với bảng nhớ tạm trên máy Mac này.";
+"MCP Server" = "Máy chủ MCP";
+"Let an assistant read your history, copy text and save snippets. Everything stays on this Mac. encore must be running and starts automatically." = "Trợ lý có thể đọc lịch sử, sao chép văn bản và lưu đoạn mẫu. Mọi thứ ở lại máy Mac này. encore phải chạy và sẽ tự khởi động.";
+"Connect an assistant" = "Kết nối trợ lý";
+"Detected secrets stay invisible unless you allow access. When allowed, assistants receive them in plain text." = "Bí mật được phát hiện luôn ẩn nếu bạn chưa cho phép. Khi được cấp quyền, trợ lý sẽ nhận chúng dưới dạng văn bản rõ.";
+"Allow access to detected secrets" = "Cho phép truy cập bí mật được phát hiện";
+"Access log" = "Nhật ký truy cập";
+"The last 200 calls, without clipboard content." = "200 lệnh gọi gần nhất, không chứa nội dung bảng nhớ tạm.";
+"Clear access log" = "Xóa nhật ký";
+"No access yet" = "Chưa có truy cập";
+"Enable MCP Server in Settings → MCP." = "Bật Máy chủ MCP trong Cài đặt → MCP.";
+"encore could not start." = "Không thể khởi động encore.";
+"Request refused" = "Yêu cầu bị từ chối";
+"Results: %@" = "Kết quả: %@";
+"Copy read" = "Đã đọc bản sao";
+"Snippet saved" = "Đã lưu đoạn mẫu";
+"Favorite updated" = "Đã cập nhật mục yêu thích";

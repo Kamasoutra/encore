@@ -55,6 +55,31 @@ Write `{{name}}` in a snippet and encore asks for the value before pasting. `{{c
 
 Pair two Macs on the same network with a 6-digit code, and each one appears as a tab in the shelf. Browse the other Mac's recent copies and paste them as if they were yours. Turn on sync and your favorites and snippets, each with its own setting, are merged and kept in step between your Macs. The connection is end-to-end encrypted, keys stay on each Mac, and there is no server or account involved.
 
+## Use it from an assistant (MCP)
+
+Enable **Settings → MCP → MCP Server** to let an assistant search your history, read copies, put text on the clipboard, save snippets and set favorites. encore must be running; the command starts it automatically. The connection stays on this Mac. Detected secrets are invisible by default, even when clipboard secret detection is off. Allowing secret access shares them in plain text. Settings shows the last 200 tool calls, without clipboard content. Your assistant's own data handling still applies to anything it reads.
+
+For Claude Code (adjust the app path if needed):
+
+```sh
+claude mcp add encore -- "/Applications/Encore.app/Contents/MacOS/Encore" mcp
+```
+
+For Claude Desktop, merge this into its configuration:
+
+```json
+{
+  "mcpServers": {
+    "encore": {
+      "command": "/Applications/Encore.app/Contents/MacOS/Encore",
+      "args": ["mcp"]
+    }
+  }
+}
+```
+
+Settings → MCP copies both configurations with the current app's actual path. MCP uses stdio, with no HTTP endpoint or network listener.
+
 ## Native, down to the details
 
 Built with SwiftUI and AppKit, not a web view. Light and dark appearances, 30 languages including right-to-left ones, a menu bar icon, quiet sound sets you can preview in one click, and signed updates straight from GitHub releases.

@@ -42,6 +42,8 @@ struct Preferences: Codable, Equatable {
     var pasteDirectly = true
     /// When an app clears the clipboard soon after a copy, as password managers can, the copy leaves the history too.
     var forgetClearedCopies = true
+    var mcpEnabled = false
+    var mcpAllowSecrets = false
     /// Mask copies that look like passwords, keys, tokens or card numbers, and delete them after `secretLifetime` seconds.
     var detectSecrets = false
     var secretLifetime: Double = 60
@@ -65,6 +67,7 @@ struct Preferences: Codable, Equatable {
     init() {}
 
     private enum CodingKeys: String, CodingKey {
+        case mcpEnabled, mcpAllowSecrets
         case retentionDays, historyLimit, storageLimitMB, captureEnabled, captureResumesAt, ignoreSensitive, recognizeImages
         case excludedBundleIDs, panelHeight, compact, placement, compactPosition, compactCount, appearance, shortcut, retentionRules, cardScale, importScreenshots, copyScreenshotsToClipboard, screenshotFolder
         case soundsEnabled, soundTheme, soundVolume, captureSoundPath, pasteSoundPath, displayTarget, stackShortcutEnabled, disabledDefaultExclusions, language, shareWithPeers, pasteDirectly, syncFavorites, syncSnippets, forgetClearedCopies, detectSecrets, secretLifetime, secretPreview, forgetPastedSecrets, hideFromScreenSharing, ephemeralHistory, plainTextApps
@@ -110,6 +113,8 @@ struct Preferences: Codable, Equatable {
         syncFavorites = try values.decodeIfPresent(Bool.self, forKey: .syncFavorites) ?? false
         syncSnippets = try values.decodeIfPresent(Bool.self, forKey: .syncSnippets) ?? false
         forgetClearedCopies = try values.decodeIfPresent(Bool.self, forKey: .forgetClearedCopies) ?? true
+        mcpEnabled = try values.decodeIfPresent(Bool.self, forKey: .mcpEnabled) ?? false
+        mcpAllowSecrets = try values.decodeIfPresent(Bool.self, forKey: .mcpAllowSecrets) ?? false
         detectSecrets = try values.decodeIfPresent(Bool.self, forKey: .detectSecrets) ?? false
         secretLifetime = min(86_400, max(10, try values.decodeIfPresent(Double.self, forKey: .secretLifetime) ?? 60))
         secretPreview = min(8, max(0, try values.decodeIfPresent(Int.self, forKey: .secretPreview) ?? 3))
