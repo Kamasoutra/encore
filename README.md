@@ -42,12 +42,12 @@ Write `{{name}}` in a snippet and encore asks for the value before pasting. `{{c
 - **Clear the history** from the menu bar, from Settings, or with `open encore://clear-history`, keeping favorites and snippets or not.
 - **Several cards at once:** select them with ⌘-click or ⇧ and the arrows, each one shows its number, and they paste in the order you picked.
 - **A paste queue** pastes several items in order, one ⌘V at a time.
-- **Pause capture for a while** from the menu bar icon, for 5 minutes or an hour: it comes back on its own.
+- **Pause capture for a while** from the footer or the menu bar icon: 5 minutes, 1 hour, a duration of your own, or until resumed. The time left counts down, and ⌘P pauses or resumes at once.
 - **Hidden from screen sharing:** encore's windows stay out of screen sharing, recordings and screenshots.
 - **Memory only:** keep everything but favorites, snippets and collections off the disk.
 - **Exclude an app from one of its cards**, and set retention rules per app.
 - **Plain text where you want it:** choose apps, like Terminal or a chat, that always get plain text.
-- **Merge a selection into one copy**, and get any color in HEX, RGB, HSL or SwiftUI.
+- **Merge a selection into one copy**, and get any color in HEX, RGB, HSL or SwiftUI: colors copied in any of these show as colors.
 - **Snippets in your order:** drag one onto another on the Snippets board, and the order follows your paired Macs.
 - **Your own shortcut:** ⇧⌘V by default, or any combination you type in Settings.
 
@@ -92,6 +92,7 @@ Quit any other clipboard app that uses ⇧⌘V. encore also lives in the menu ba
 | Make a snippet / rename | ⌘S / ⌘R |
 | Delete / undo | Delete / ⌘Z |
 | Card size | ⌘+ / ⌘− |
+| Pause / resume capture | ⌘P |
 
 Search understands `app:safari type:link`, `tag:mail`, `lang:swift`, `date:today`, `date:7d`, `date:30d`, and `after:2026-10-01 before:2026-11-01`. The optional global queue shortcut ⇧⌘C is off by default.
 

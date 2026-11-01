@@ -38,6 +38,8 @@ FEATURES = {
              "Browser extensions like Bitwarden in Firefox copy as the browser and mark nothing. When the extension clears the clipboard after a copy (Settings → Options → Clear clipboard), encore forgets that copy too. And if you turn on detection, copies that look like passwords, API keys, tokens or card numbers are masked, showing only their first characters, then deleted after the delay you choose. They still paste, and never reach your other Macs. It is a guess: an ordinary copy can be taken for a secret. When a card disappears, it dissolves into dust and its neighbors slide into place."),
             ("preview", "0.4", "preview.png", "See before you paste",
              "Press <kbd>Space</kbd> on a card for a large floating preview that follows your selection: long texts scroll, images and PDFs show in full, rich text keeps its layout."),
+            ("colors", "0.7.1", "colors.png", "Colors, every way",
+             "Copy a color as HEX, <code>rgb()</code>, <code>hsl()</code> or SwiftUI and its card shows it, swatch included. Right-click it for its other forms: each one becomes a copy, ready to paste in your CSS, your code or your design tool."),
             ("shortcut", "0.6.0", "settings-general.png", "Your shortcut, your rules",
              "<kbd>⇧⌘V</kbd> taken by another app, or just not your habit? Click the shortcut in Settings and type your own. encore refuses the combinations that would break your apps, like <kbd>⌘V</kbd> alone, and <kbd>⌃⌥⌘V</kbd> always works as a fallback."),
             ("retention", "0.2", "settings-retention.png", "Keep what matters, drop the heavy stuff",
@@ -60,10 +62,8 @@ FEATURES = {
              "Choose apps, like Terminal or a chat, that always get plain text: no fonts, colors or links."),
             ("merge", "0.7.1", None, "Merge into one copy",
              "Right-click a selection to make one new copy of it, in selection order, one per line."),
-            ("colors", "0.7.1", None, "Colors, every way",
-             "Right-click a color for its HEX, RGB, HSL and SwiftUI forms, ready to paste."),
             ("pause", "0.7.0", None, "Pause for a while",
-             "From the menu bar icon: 5 minutes, 1 hour, or until you resume. Capture comes back on its own, even after a relaunch."),
+             "From the footer or the menu bar icon: 5 minutes, 1 hour, your own duration, or until you resume with <kbd>⌘P</kbd>. Capture comes back on its own, even after a relaunch."),
             ("snippet-order", "0.7.0", None, "Snippets in your order",
              "Drag a snippet onto another to reorder its group. The order follows your exports and paired Macs."),
             ("fast", "0.7.0", None, "Fast with 10,000 copies",
@@ -122,6 +122,8 @@ FEATURES = {
              "Les extensions comme Bitwarden dans Firefox copient au nom du navigateur et ne signalent rien. Quand l’extension vide le presse-papiers après une copie (Paramètres → Options → Effacer le presse-papiers), encore oublie aussi cette copie. Et si tu actives la détection, les copies qui ressemblent à des mots de passe, clés d’API, jetons ou numéros de carte sont masquées, seuls leurs premiers caractères restent visibles, puis supprimées après le délai de ton choix. Elles se collent toujours et ne partent jamais vers tes autres Mac. C’est une estimation : une copie ordinaire peut être prise pour un secret. Quand une tuile disparaît, elle se désagrège en poussière et ses voisines referment l’espace."),
             ("preview", "0.4", "preview.png", "Voir avant de coller",
              "Appuie sur <kbd>Espace</kbd> sur une carte pour un grand aperçu flottant qui suit ta sélection : les longs textes défilent, images et PDF s’affichent en entier, le texte enrichi garde sa mise en page."),
+            ("colors", "0.7.1", "colors.png", "Les couleurs, sous toutes leurs formes",
+             "Copie une couleur en HEX, <code>rgb()</code>, <code>hsl()</code> ou SwiftUI, et sa carte l’affiche, avec sa teinte. Clic droit pour ses autres formes : chacune devient une copie, prête à coller dans ton CSS, ton code ou ton outil de design."),
             ("shortcut", "0.6.0", "settings-general.png", "Ton raccourci, tes règles",
              "<kbd>⇧⌘V</kbd> déjà pris par une autre app, ou pas dans tes habitudes ? Clique sur le raccourci dans les Réglages et tape le tien. encore refuse les combinaisons qui casseraient tes apps, comme <kbd>⌘V</kbd> seul, et <kbd>⌃⌥⌘V</kbd> marche toujours en secours."),
             ("retention", "0.2", "settings-retention.png", "Garder l’utile, jeter le lourd",
@@ -144,10 +146,8 @@ FEATURES = {
              "Choisis des apps, comme le Terminal ou une messagerie, qui reçoivent toujours du texte brut : ni polices, ni couleurs, ni liens."),
             ("merge", "0.7.1", None, "Fusionner en une copie",
              "Clic droit sur une sélection pour en faire une nouvelle copie, dans l’ordre de sélection, une par ligne."),
-            ("colors", "0.7.1", None, "Les couleurs, sous toutes leurs formes",
-             "Clic droit sur une couleur pour ses formes HEX, RGB, HSL et SwiftUI, prêtes à coller."),
             ("pause", "0.7.0", None, "Une pause, le temps qu’il faut",
-             "Depuis l’icône de la barre des menus : 5 minutes, 1 heure, ou jusqu’à ce que tu reprennes. La capture revient toute seule, même après un redémarrage."),
+             "Depuis le pied de fenêtre ou l’icône de la barre des menus : 5 minutes, 1 heure, la durée de ton choix, ou jusqu’à ce que tu reprennes avec <kbd>⌘P</kbd>. La capture revient toute seule, même après un redémarrage."),
             ("snippet-order", "0.7.0", None, "Tes snippets dans ton ordre",
              "Glisse un snippet sur un autre pour réordonner son groupe. L’ordre suit tes exports et tes Mac appairés."),
             ("fast", "0.7.0", None, "Rapide avec 10 000 copies",
@@ -198,7 +198,7 @@ RELEASES = {
             ("0.7.1", "2026-11-01", "settings-general.png", "Plain text where you want it, and a few handy additions.", [
                 ("new", "<b>Plain text where you want it.</b> Settings → General lists the apps that always get plain text when encore pastes into them, as <kbd>⇧↩</kbd> does: Terminal, a chat or a code editor get no fonts, colors or links."),
                 ("new", "<b>Merge into one copy.</b> Right-click a selection: its copies become one new copy, in selection order, one per line, ready to keep as a snippet or a favorite. Detected secrets stay out."),
-                ("new", "<b>Colors in other formats.</b> Right-click a color for its HEX, RGB, HSL and SwiftUI forms: each one becomes a copy, ready to paste."),
+                ("new", "<b>Colors in other formats.</b> A color copied as HEX, <code>rgb()</code>, <code>hsl()</code> or SwiftUI now shows as a color, swatch included. Right-click it for its other forms: each one becomes a copy, ready to paste."),
                 ("better", "<b>More snippet placeholders.</b> <code>{{uuid}}</code> adds a unique identifier, and <code>{{date:dd/MM/yyyy}}</code> or <code>{{time:HH:mm}}</code> take your own format."),
                 ("better", "<b>Pause from the footer.</b> A pause button sits next to the shelf and compact switch: 5 minutes, 1 hour, until resumed, or a duration of your own, also offered by the menu bar icon. While paused, the time left counts down beside it, and one click resumes. ⌘P now pauses and resumes from the shelf, in place of ⌘T."),
             ]),
@@ -301,7 +301,7 @@ RELEASES = {
             ("0.7.1", "2026-11-01", "settings-general.png", "Du texte brut là où tu veux, et quelques ajouts pratiques.", [
                 ("new", "<b>Du texte brut là où tu veux.</b> Réglages → Général liste les apps qui reçoivent toujours du texte brut quand encore y colle, comme avec <kbd>⇧↩</kbd> : le Terminal, une messagerie ou un éditeur de code n’ont ni polices, ni couleurs, ni liens."),
                 ("new", "<b>Fusionner en une copie.</b> Clic droit sur une sélection : ses copies deviennent une nouvelle copie, dans l’ordre de sélection, une par ligne, à garder en snippet ou en favori. Les secrets détectés restent à l’écart."),
-                ("new", "<b>Les couleurs dans d’autres formats.</b> Clic droit sur une couleur pour ses formes HEX, RGB, HSL et SwiftUI : chacune devient une copie, prête à coller."),
+                ("new", "<b>Les couleurs dans d’autres formats.</b> Une couleur copiée en HEX, <code>rgb()</code>, <code>hsl()</code> ou SwiftUI s’affiche désormais comme une couleur, avec sa teinte. Clic droit pour ses autres formes : chacune devient une copie, prête à coller."),
                 ("better", "<b>Plus de variables dans les snippets.</b> <code>{{uuid}}</code> ajoute un identifiant unique, et <code>{{date:dd/MM/yyyy}}</code> ou <code>{{time:HH:mm}}</code> suivent ton propre format."),
                 ("better", "<b>La pause depuis le pied de fenêtre.</b> Un bouton pause se trouve à côté du choix bandeau ou compact : 5 minutes, 1 heure, jusqu’à reprise, ou la durée de ton choix, aussi proposée par l’icône de la barre des menus. Pendant la pause, le temps restant défile à côté, et un clic reprend. ⌘P met désormais en pause et reprend depuis le bandeau, à la place de ⌘T."),
             ]),
@@ -392,7 +392,7 @@ RELEASES = {
 
 
 # Screens much wider than tall, shown across the page under their text.
-WIDE = {"shelf.png", "library.png"}
+WIDE = {"shelf.png", "library.png", "colors.png"}
 # Visuals made with the brand tools already sit on the violet backdrop; raw captures get it from the page.
 FRAMED = {"shelf.png", "library.png", "preview.png", "snippets.jpg", "snippets.mp4"}
 
