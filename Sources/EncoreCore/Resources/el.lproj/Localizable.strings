@@ -515,6 +515,13 @@
 "Connect an assistant to your clipboard, on this Mac." = "Σύνδεσε έναν βοηθό με το πρόχειρο σε αυτό το Mac.";
 "MCP Server" = "Διακομιστής MCP";
 "Access" = "Πρόσβαση";
+"Other" = "Άλλο";
+"Assistant" = "Βοηθός";
+"Run in Terminal." = "Εκτέλεσέ το στο Τερματικό.";
+"Add to Claude Desktop’s configuration: Settings → Developer → Edit Config." = "Πρόσθεσέ το στις ρυθμίσεις του Claude Desktop: Settings → Developer → Edit Config.";
+"Add to ~/.cursor/mcp.json." = "Πρόσθεσέ το στο ~/.cursor/mcp.json.";
+"Add to .vscode/mcp.json in a project, or to your user configuration." = "Πρόσθεσέ το στο .vscode/mcp.json ενός έργου ή στις ρυθμίσεις χρήστη σου.";
+"The command and its argument, for any other MCP client." = "Η εντολή και το όρισμά της, για οποιονδήποτε άλλο πελάτη MCP.";
 "Let an assistant read your history, copy text and save snippets. Everything stays on this Mac. encore must be running and starts automatically." = "Ένας βοηθός μπορεί να διαβάσει το ιστορικό, να αντιγράψει κείμενο και να αποθηκεύσει αποσπάσματα. Όλα μένουν σε αυτό το Mac. Το encore πρέπει να εκτελείται και ξεκινά αυτόματα.";
 "Connect an assistant" = "Σύνδεση βοηθού";
 "Detected secrets stay invisible unless you allow access. When allowed, assistants receive them in plain text." = "Τα εντοπισμένα μυστικά μένουν αόρατα χωρίς την άδειά σου. Αν επιτρέψεις πρόσβαση, οι βοηθοί τα λαμβάνουν σε απλό κείμενο.";

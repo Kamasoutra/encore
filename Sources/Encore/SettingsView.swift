@@ -46,6 +46,7 @@ struct SettingsView: View {
     @State private var shortcutRefused = false
     @State private var section = CommandLine.arguments.drop { $0 != "--settings" }.dropFirst().first.flatMap(SettingsSection.init(rawValue:)) ?? .general
     @State private var launchAtLogin = LoginItem.enabled
+    @State private var assistant = MCPConfiguration.claudeCode
 
     var body: some View {
         HStack(spacing: 0) {
@@ -487,8 +488,10 @@ struct SettingsView: View {
             }
             if model.preferences.mcpEnabled {
                 SettingsGroup(L("Connect an assistant")) {
-                    mcpConfiguration("Claude Code", value: MCPConfiguration.claudeCode)
-                    mcpConfiguration("Claude Desktop", value: MCPConfiguration.claudeDesktop)
+                    Picker(L("Assistant"), selection: $assistant) {
+                        ForEach(MCPConfiguration.allCases) { Text($0.title).tag($0) }
+                    }
+                    mcpConfiguration(assistant)
                 }
             }
             if model.preferences.mcpEnabled || !model.mcpLog.isEmpty {
@@ -515,16 +518,16 @@ struct SettingsView: View {
         }
     }
 
-    /// A configuration to copy: shown whole on one line per row, scrolling sideways rather than breaking the app's path.
-    private func mcpConfiguration(_ name: String, value: String) -> some View {
+    /// A configuration to copy: shown whole, scrolling sideways rather than breaking the app's path.
+    private func mcpConfiguration(_ assistant: MCPConfiguration) -> some View {
         VStack(alignment: .leading, spacing: 8) {
-            HStack {
-                Text(name).fontWeight(.medium)
+            HStack(alignment: .firstTextBaseline) {
+                caption(assistant.hint)
                 Spacer()
-                Button { model.clipboard.write(.text(value)) } label: { Label(L("Copy"), systemImage: "doc.on.doc") }
+                Button { model.clipboard.write(.text(assistant.value)) } label: { Label(L("Copy"), systemImage: "doc.on.doc") }
             }
             ScrollView(.horizontal, showsIndicators: false) {
-                Text(value).font(.system(size: 11, design: .monospaced)).textSelection(.enabled).fixedSize().padding(10)
+                Text(assistant.value).font(.system(size: 11, design: .monospaced)).textSelection(.enabled).fixedSize().padding(10)
             }
             .background(Color.primary.opacity(0.05), in: RoundedRectangle(cornerRadius: 7))
             .overlay(RoundedRectangle(cornerRadius: 7).strokeBorder(Color.primary.opacity(0.08)))

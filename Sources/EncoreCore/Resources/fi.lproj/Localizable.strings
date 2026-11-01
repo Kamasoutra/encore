@@ -515,6 +515,13 @@
 "Connect an assistant to your clipboard, on this Mac." = "Yhdistä avustaja tämän Macin leikepöytään.";
 "MCP Server" = "MCP-palvelin";
 "Access" = "Käyttöoikeus";
+"Other" = "Muu";
+"Assistant" = "Avustaja";
+"Run in Terminal." = "Suorita Päätteessä.";
+"Add to Claude Desktop’s configuration: Settings → Developer → Edit Config." = "Lisää Claude Desktopin määrityksiin: Settings → Developer → Edit Config.";
+"Add to ~/.cursor/mcp.json." = "Lisää tiedostoon ~/.cursor/mcp.json.";
+"Add to .vscode/mcp.json in a project, or to your user configuration." = "Lisää projektin tiedostoon .vscode/mcp.json tai käyttäjämäärityksiisi.";
+"The command and its argument, for any other MCP client." = "Komento ja sen argumentti mille tahansa muulle MCP-asiakkaalle.";
 "Let an assistant read your history, copy text and save snippets. Everything stays on this Mac. encore must be running and starts automatically." = "Avustaja voi lukea historiaasi, kopioida tekstiä ja tallentaa katkelmia. Kaikki pysyy tässä Macissa. encoren on oltava käynnissä, ja se käynnistyy automaattisesti.";
 "Connect an assistant" = "Yhdistä avustaja";
 "Detected secrets stay invisible unless you allow access. When allowed, assistants receive them in plain text." = "Tunnistetut salaisuudet pysyvät näkymättöminä ilman lupaasi. Kun sallit pääsyn, avustajat saavat ne selväkielisinä.";

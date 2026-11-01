@@ -515,6 +515,13 @@
 "Connect an assistant to your clipboard, on this Mac." = "اربط مساعدًا بالحافظة على هذا الـ Mac.";
 "MCP Server" = "خادم MCP";
 "Access" = "الوصول";
+"Other" = "أخرى";
+"Assistant" = "المساعد";
+"Run in Terminal." = "شغّله في الطرفية.";
+"Add to Claude Desktop’s configuration: Settings → Developer → Edit Config." = "أضفه إلى إعدادات Claude Desktop: Settings → Developer → Edit Config.";
+"Add to ~/.cursor/mcp.json." = "أضفه إلى ‎~/.cursor/mcp.json.";
+"Add to .vscode/mcp.json in a project, or to your user configuration." = "أضفه إلى ‎.vscode/mcp.json في مشروع، أو إلى إعدادات المستخدم.";
+"The command and its argument, for any other MCP client." = "الأمر ووسيطه، لأي عميل MCP آخر.";
 "Let an assistant read your history, copy text and save snippets. Everything stays on this Mac. encore must be running and starts automatically." = "يمكن للمساعد قراءة سجلك ونسخ النصوص وحفظ المقتطفات. يبقى كل شيء على هذا الـ Mac. يجب تشغيل encore، وهو يبدأ تلقائيًا.";
 "Connect an assistant" = "ربط مساعد";
 "Detected secrets stay invisible unless you allow access. When allowed, assistants receive them in plain text." = "تبقى الأسرار المكتشفة مخفية دون إذنك. عند السماح بالوصول، يتلقاها المساعدون كنص واضح.";

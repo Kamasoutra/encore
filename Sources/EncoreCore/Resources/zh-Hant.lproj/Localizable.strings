@@ -515,6 +515,13 @@
 "Connect an assistant to your clipboard, on this Mac." = "在這台 Mac 上將助理連接到剪貼簿。";
 "MCP Server" = "MCP 伺服器";
 "Access" = "存取";
+"Other" = "其他";
+"Assistant" = "助理";
+"Run in Terminal." = "在「終端機」中執行。";
+"Add to Claude Desktop’s configuration: Settings → Developer → Edit Config." = "加入 Claude Desktop 的設定：Settings → Developer → Edit Config。";
+"Add to ~/.cursor/mcp.json." = "加入 ~/.cursor/mcp.json。";
+"Add to .vscode/mcp.json in a project, or to your user configuration." = "加入專案中的 .vscode/mcp.json，或你的使用者設定。";
+"The command and its argument, for any other MCP client." = "適用於其他 MCP 用戶端的指令及其引數。";
 "Let an assistant read your history, copy text and save snippets. Everything stays on this Mac. encore must be running and starts automatically." = "助理可以讀取歷史記錄、複製文字及儲存片段。一切都留在這台 Mac 上。encore 必須執行，並會自動啟動。";
 "Connect an assistant" = "連接助理";
 "Detected secrets stay invisible unless you allow access. When allowed, assistants receive them in plain text." = "未經允許，偵測到的機密資訊始終不可見。允許存取後，助理將以明文接收這些資訊。";

@@ -515,6 +515,13 @@
 "Connect an assistant to your clipboard, on this Mac." = "Kết nối trợ lý với bảng nhớ tạm trên máy Mac này.";
 "MCP Server" = "Máy chủ MCP";
 "Access" = "Quyền truy cập";
+"Other" = "Khác";
+"Assistant" = "Trợ lý";
+"Run in Terminal." = "Chạy trong Terminal.";
+"Add to Claude Desktop’s configuration: Settings → Developer → Edit Config." = "Thêm vào cấu hình của Claude Desktop: Settings → Developer → Edit Config.";
+"Add to ~/.cursor/mcp.json." = "Thêm vào ~/.cursor/mcp.json.";
+"Add to .vscode/mcp.json in a project, or to your user configuration." = "Thêm vào .vscode/mcp.json trong dự án, hoặc vào cấu hình người dùng của bạn.";
+"The command and its argument, for any other MCP client." = "Lệnh và đối số của nó, cho mọi ứng dụng MCP khác.";
 "Let an assistant read your history, copy text and save snippets. Everything stays on this Mac. encore must be running and starts automatically." = "Trợ lý có thể đọc lịch sử, sao chép văn bản và lưu đoạn mẫu. Mọi thứ ở lại máy Mac này. encore phải chạy và sẽ tự khởi động.";
 "Connect an assistant" = "Kết nối trợ lý";
 "Detected secrets stay invisible unless you allow access. When allowed, assistants receive them in plain text." = "Bí mật được phát hiện luôn ẩn nếu bạn chưa cho phép. Khi được cấp quyền, trợ lý sẽ nhận chúng dưới dạng văn bản rõ.";

@@ -515,6 +515,13 @@
 "Connect an assistant to your clipboard, on this Mac." = "이 Mac의 클립보드에 어시스턴트를 연결하세요.";
 "MCP Server" = "MCP 서버";
 "Access" = "접근";
+"Other" = "기타";
+"Assistant" = "어시스턴트";
+"Run in Terminal." = "터미널에서 실행하세요.";
+"Add to Claude Desktop’s configuration: Settings → Developer → Edit Config." = "Claude Desktop 구성에 추가하세요: Settings → Developer → Edit Config.";
+"Add to ~/.cursor/mcp.json." = "~/.cursor/mcp.json에 추가하세요.";
+"Add to .vscode/mcp.json in a project, or to your user configuration." = "프로젝트의 .vscode/mcp.json 또는 사용자 구성에 추가하세요.";
+"The command and its argument, for any other MCP client." = "다른 MCP 클라이언트용 명령과 인수입니다.";
 "Let an assistant read your history, copy text and save snippets. Everything stays on this Mac. encore must be running and starts automatically." = "어시스턴트가 기록을 읽고 텍스트를 복사하고 스니펫을 저장할 수 있습니다. 모든 처리는 이 Mac에서 이루어집니다. encore가 실행 중이어야 하며 자동으로 시작됩니다.";
 "Connect an assistant" = "어시스턴트 연결";
 "Detected secrets stay invisible unless you allow access. When allowed, assistants receive them in plain text." = "접근을 허용하지 않으면 감지된 비밀 정보는 보이지 않습니다. 허용하면 어시스턴트가 일반 텍스트로 받습니다.";

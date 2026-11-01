@@ -515,6 +515,13 @@
 "Connect an assistant to your clipboard, on this Mac." = "Csatlakoztass egy asszisztenst a Mac vágólapjához.";
 "MCP Server" = "MCP-kiszolgáló";
 "Access" = "Hozzáférés";
+"Other" = "Egyéb";
+"Assistant" = "Asszisztens";
+"Run in Terminal." = "Futtasd a Terminálban.";
+"Add to Claude Desktop’s configuration: Settings → Developer → Edit Config." = "Add hozzá a Claude Desktop konfigurációjához: Settings → Developer → Edit Config.";
+"Add to ~/.cursor/mcp.json." = "Add hozzá a ~/.cursor/mcp.json fájlhoz.";
+"Add to .vscode/mcp.json in a project, or to your user configuration." = "Add hozzá egy projekt .vscode/mcp.json fájljához vagy a felhasználói konfigurációdhoz.";
+"The command and its argument, for any other MCP client." = "A parancs és argumentuma bármely más MCP-klienshez.";
 "Let an assistant read your history, copy text and save snippets. Everything stays on this Mac. encore must be running and starts automatically." = "Az asszisztens olvashatja az előzményeket, szöveget másolhat és részleteket menthet. Minden ezen a Macen marad. Az encore-nak futnia kell, és automatikusan elindul.";
 "Connect an assistant" = "Asszisztens csatlakoztatása";
 "Detected secrets stay invisible unless you allow access. When allowed, assistants receive them in plain text." = "A felismert titkok engedély nélkül láthatatlanok. Engedélyezett hozzáférés esetén az asszisztensek olvasható szövegként kapják meg őket.";

@@ -59,13 +59,15 @@ Pair two Macs on the same network with a 6-digit code, and each one appears as a
 
 Enable **Settings → MCP → MCP Server** to let an assistant search your history, read copies, put text on the clipboard, save snippets and set favorites. encore must be running; the command starts it automatically. The connection stays on this Mac. Detected secrets are invisible by default, even when clipboard secret detection is off. Allowing secret access shares them in plain text. Settings shows the last 200 tool calls, without clipboard content. Your assistant's own data handling still applies to anything it reads.
 
-For Claude Code (adjust the app path if needed):
+Settings → MCP shows the configuration for your assistant, with the app's actual path, ready to copy. With encore in Applications:
 
-```sh
-claude mcp add encore -- "/Applications/Encore.app/Contents/MacOS/Encore" mcp
-```
-
-For Claude Desktop, merge this into its configuration:
+| Assistant | Configuration |
+| --- | --- |
+| Claude Code | `claude mcp add encore -- /Applications/Encore.app/Contents/MacOS/Encore mcp` |
+| Codex | `codex mcp add encore -- /Applications/Encore.app/Contents/MacOS/Encore mcp` |
+| Claude Desktop, Cursor | The JSON below, in Claude Desktop's configuration or `~/.cursor/mcp.json` |
+| VS Code | The same under `"servers"` with `"type": "stdio"`, in `.vscode/mcp.json` |
+| Any other MCP client | Command `/Applications/Encore.app/Contents/MacOS/Encore`, argument `mcp` |
 
 ```json
 {
@@ -78,7 +80,7 @@ For Claude Desktop, merge this into its configuration:
 }
 ```
 
-Settings → MCP copies both configurations with the current app's actual path. MCP uses stdio, with no HTTP endpoint or network listener.
+MCP uses stdio, with no HTTP endpoint or network listener.
 
 ## Native, down to the details
 

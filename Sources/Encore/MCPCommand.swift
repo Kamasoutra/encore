@@ -46,12 +46,42 @@ import Darwin
     }
 }
 
-@MainActor enum MCPConfiguration {
+/// The assistants Settings → MCP shows a configuration for, each written the way its own documentation does.
+@MainActor enum MCPConfiguration: String, CaseIterable, Identifiable {
+    case claudeCode, claudeDesktop, codex, cursor, vsCode, other
+    var id: String { rawValue }
     static var executable: String { Bundle.main.executablePath ?? CommandLine.arguments[0] }
-    static var claudeCode: String { "claude mcp add encore -- " + "'" + executable.replacingOccurrences(of: "'", with: "'\"'\"'") + "' mcp" }
-    /// Written by hand to read as Claude Desktop's documentation shows it: command before args, two-space indent.
-    static var claudeDesktop: String {
-        let command = (try? JSONSerialization.data(withJSONObject: executable, options: [.fragmentsAllowed, .withoutEscapingSlashes])).flatMap { String(data: $0, encoding: .utf8) } ?? "\"\""
-        return "{\n  \"mcpServers\": {\n    \"encore\": {\n      \"command\": \(command),\n      \"args\": [\"mcp\"]\n    }\n  }\n}"
+
+    var title: String {
+        switch self {
+        case .claudeCode: "Claude Code"
+        case .claudeDesktop: "Claude Desktop"
+        case .codex: "Codex"
+        case .cursor: "Cursor"
+        case .vsCode: "VS Code"
+        case .other: L("Other")
+        }
+    }
+
+    var hint: String {
+        switch self {
+        case .claudeCode, .codex: L("Run in Terminal.")
+        case .claudeDesktop: L("Add to Claude Desktop’s configuration: Settings → Developer → Edit Config.")
+        case .cursor: L("Add to ~/.cursor/mcp.json.")
+        case .vsCode: L("Add to .vscode/mcp.json in a project, or to your user configuration.")
+        case .other: L("The command and its argument, for any other MCP client.")
+        }
+    }
+
+    var value: String {
+        let shell = "'" + Self.executable.replacingOccurrences(of: "'", with: "'\"'\"'") + "'"
+        let json = (try? JSONSerialization.data(withJSONObject: Self.executable, options: [.fragmentsAllowed, .withoutEscapingSlashes])).flatMap { String(data: $0, encoding: .utf8) } ?? "\"\""
+        switch self {
+        case .claudeCode: return "claude mcp add encore -- \(shell) mcp"
+        case .codex: return "codex mcp add encore -- \(shell) mcp"
+        case .claudeDesktop, .cursor: return "{\n  \"mcpServers\": {\n    \"encore\": {\n      \"command\": \(json),\n      \"args\": [\"mcp\"]\n    }\n  }\n}"
+        case .vsCode: return "{\n  \"servers\": {\n    \"encore\": {\n      \"type\": \"stdio\",\n      \"command\": \(json),\n      \"args\": [\"mcp\"]\n    }\n  }\n}"
+        case .other: return "command: \(Self.executable)\nargs: mcp"
+        }
     }
 }
