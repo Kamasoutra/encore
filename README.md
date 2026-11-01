@@ -30,7 +30,7 @@ Press **↑** and the shelf grows into a full library: every copy grouped by day
 
 Press **⌘S** on any card to make it a snippet: give it a name, pick its language among 85 (encore guesses it for you, with the icons you know from VS Code), and add tags. Snippets get their own board, grouped by language or tag, and never expire. **⌘R**, or a click on a card's header, renames it in place.
 
-Write `{{name}}` in a snippet and encore asks for the value before pasting. `{{clipboard}}`, `{{date}}` and `{{cursor}}` fill in by themselves. Find snippets with `tag:` and `lang:`, and export or import them as a readable JSON file.
+Write `{{name}}` in a snippet and encore asks for the value before pasting. `{{clipboard}}`, `{{date}}`, `{{time}}`, `{{uuid}}` and `{{cursor}}` fill in by themselves, and `{{date:dd/MM/yyyy}}` takes your own format. Find snippets with `tag:` and `lang:`, and export or import them as a readable JSON file.
 
 ## Built to keep only what matters
 
@@ -46,6 +46,8 @@ Write `{{name}}` in a snippet and encore asks for the value before pasting. `{{c
 - **Hidden from screen sharing:** encore's windows stay out of screen sharing, recordings and screenshots.
 - **Memory only:** keep everything but favorites, snippets and collections off the disk.
 - **Exclude an app from one of its cards**, and set retention rules per app.
+- **Plain text where you want it:** choose apps, like Terminal or a chat, that always get plain text.
+- **Merge a selection into one copy**, and get any color in HEX, RGB, HSL or SwiftUI.
 - **Snippets in your order:** drag one onto another on the Snippets board, and the order follows your paired Macs.
 - **Your own shortcut:** ⇧⌘V by default, or any combination you type in Settings.
 

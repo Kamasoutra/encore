@@ -41,7 +41,7 @@ STRINGS = {
         "copy": "Copy", "copied": "Copied",
         "sound_on": "Turn sound on", "sound_off": "Mute",
         "video": "The encore launch video",
-        "new_tag": "New in 0.7", "new": "More privacy: encryption, screen sharing, memory only",
+        "new_tag": "New in 0.7.1", "new": "Plain text where you want it, merged copies, colors every way",
         "snippets": ["Snippets", "On every Mac"],
         "snippets_text": "Press ⌘S on any card: a name, a language (encore guesses it among 85) and tags. Placeholders like {{name}} ask for a value before pasting. Your snippets and favorites stay in step between your paired Macs.",
         "snippets_video": "Snippets in encore 0.5",
@@ -95,7 +95,7 @@ STRINGS = {
         "copy": "Copier", "copied": "Copié",
         "sound_on": "Activer le son", "sound_off": "Couper le son",
         "video": "La vidéo de lancement d’encore",
-        "new_tag": "Nouveautés · 0.7", "new": "Plus de confidentialité : chiffrement, partage d’écran, mémoire seule",
+        "new_tag": "Nouveautés · 0.7.1", "new": "Texte brut là où tu veux, copies fusionnées, couleurs sous toutes leurs formes",
         "snippets": ["Snippets", "Sur tous tes Mac"],
         "snippets_text": "⌘S sur n’importe quelle carte : un nom, un langage (encore le devine parmi 85) et des tags. Les placeholders comme {{nom}} te demandent une valeur avant de coller. Tes snippets et tes favoris restent synchronisés entre tes Mac appairés.",
         "snippets_video": "Les snippets dans encore 0.5",
@@ -377,7 +377,7 @@ DOWNLOAD = f"""<!doctype html>
 CURRENT = ' aria-current="page"'
 
 HOME = Template("""<section class="wrap hero">
-  <a class="new" href="${base}${home}changelog/#v0.7.0"><b>$new_tag</b>$new<span aria-hidden="true">→</span></a>
+  <a class="new" href="${base}${home}changelog/#v0.7.1"><b>$new_tag</b>$new<span aria-hidden="true">→</span></a>
   <h1 class="slam hook">$hook</h1>
   <p class="lead">$lead</p>
   <div class="get">

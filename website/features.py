@@ -6,7 +6,7 @@ Each one says the version it arrived in: check it against `git tag --contains` w
 
 from html import escape
 
-LATEST = "0.7.0"
+LATEST = "0.7.1"
 
 # (key, version, media, title, text): media is an image or video in media/<lang>/, or None for the cards at the end.
 FEATURES = {
@@ -25,7 +25,7 @@ FEATURES = {
             ("library", "0.3", "library.png", "A library when you need to dig",
              "Press <kbd>↑</kbd> and the shelf grows into a full library: every copy grouped by day, filters by type, app and date, and a large preview with when it was first and last copied. Start typing to search, even the text inside your images, recognized on your Mac. Hold <kbd>↓</kbd> to come back."),
             ("snippets", "0.5", "snippets.mp4", "Snippets, ready when you are",
-             "Press <kbd>⌘S</kbd> on any card to make it a snippet: a name, a language among 85, guessed for you with the icons you know from VS Code, and tags. Snippets have their own board and never expire. Write <code>{{name}}</code> and encore asks for the value before pasting; <code>{{clipboard}}</code>, <code>{{date}}</code> and <code>{{cursor}}</code> fill in by themselves."),
+             "Press <kbd>⌘S</kbd> on any card to make it a snippet: a name, a language among 85, guessed for you with the icons you know from VS Code, and tags. Snippets have their own board and never expire. Write <code>{{name}}</code> and encore asks for the value before pasting; <code>{{clipboard}}</code>, <code>{{date}}</code>, <code>{{uuid}}</code> and <code>{{cursor}}</code> fill in by themselves, and <code>{{date:dd/MM/yyyy}}</code> takes your own format."),
             ("compact", "0.6.0", "compact.png", "A compact window, wherever you want it",
              "Prefer something smaller than the shelf? The compact window lists your latest copies in a narrow panel. Drag it anywhere: it is drawn to the corners, the middle of each edge and the center, and opens at the same spot next time, even on another screen. Choose how many copies it shows, from 3 to 10, scroll with the arrows, and press <kbd>↑</kbd> on the first one to open the library."),
             ("macs", "0.4", "settings-peers.png", "Your other Macs, without a cloud",
@@ -56,6 +56,12 @@ FEATURES = {
              "A detected password leaves the history when pasted, and the clipboard 30 seconds later."),
             ("exclude-card", "0.7.0", None, "Exclude from a card",
              "Right-click a copy to stop saving its app, and delete what it already left."),
+            ("plain-apps", "0.7.1", None, "Plain text where you want it",
+             "Choose apps, like Terminal or a chat, that always get plain text: no fonts, colors or links."),
+            ("merge", "0.7.1", None, "Merge into one copy",
+             "Right-click a selection to make one new copy of it, in selection order, one per line."),
+            ("colors", "0.7.1", None, "Colors, every way",
+             "Right-click a color for its HEX, RGB, HSL and SwiftUI forms, ready to paste."),
             ("pause", "0.7.0", None, "Pause for a while",
              "From the menu bar icon: 5 minutes, 1 hour, or until you resume. Capture comes back on its own, even after a relaunch."),
             ("snippet-order", "0.7.0", None, "Snippets in your order",
@@ -103,7 +109,7 @@ FEATURES = {
             ("library", "0.3", "library.png", "Une bibliothèque pour fouiller",
              "Appuie sur <kbd>↑</kbd> et le bandeau devient une bibliothèque complète : toutes tes copies rangées par jour, des filtres par type, app et date, et un grand aperçu avec la date de première et de dernière copie. Tape pour chercher, jusque dans le texte de tes images, reconnu sur ton Mac. Maintiens <kbd>↓</kbd> pour revenir."),
             ("snippets", "0.5", "snippets.mp4", "Des snippets, prêts quand tu l’es",
-             "Appuie sur <kbd>⌘S</kbd> sur n’importe quelle carte pour en faire un snippet : un nom, un langage parmi 85, deviné pour toi avec les icônes de VS Code, et des tags. Les snippets ont leur propre tableau et n’expirent jamais. Écris <code>{{nom}}</code> et encore te demande la valeur avant de coller ; <code>{{clipboard}}</code>, <code>{{date}}</code> et <code>{{cursor}}</code> se remplissent tout seuls."),
+             "Appuie sur <kbd>⌘S</kbd> sur n’importe quelle carte pour en faire un snippet : un nom, un langage parmi 85, deviné pour toi avec les icônes de VS Code, et des tags. Les snippets ont leur propre tableau et n’expirent jamais. Écris <code>{{nom}}</code> et encore te demande la valeur avant de coller ; <code>{{clipboard}}</code>, <code>{{date}}</code>, <code>{{uuid}}</code> et <code>{{cursor}}</code> se remplissent tout seuls, et <code>{{date:dd/MM/yyyy}}</code> suit ton propre format."),
             ("compact", "0.6.0", "compact.png", "Une fenêtre compacte, où tu veux",
              "Tu préfères plus discret que le bandeau ? La fenêtre compacte liste tes dernières copies dans un panneau étroit. Déplace-la où tu veux : elle est attirée par les coins, le milieu de chaque bord et le centre, et se rouvre au même endroit, même sur un autre écran. Choisis combien de copies elle affiche, de 3 à 10, fais défiler avec les flèches, et appuie sur <kbd>↑</kbd> sur la première pour ouvrir la bibliothèque."),
             ("macs", "0.4", "settings-peers.png", "Tes autres Mac, sans cloud",
@@ -134,6 +140,12 @@ FEATURES = {
              "Un mot de passe détecté quitte l’historique une fois collé, et le presse-papiers 30 secondes après."),
             ("exclude-card", "0.7.0", None, "Exclure depuis une carte",
              "Clic droit sur une copie pour ne plus enregistrer son app, et effacer ce qu’elle a déjà laissé."),
+            ("plain-apps", "0.7.1", None, "Du texte brut là où tu veux",
+             "Choisis des apps, comme le Terminal ou une messagerie, qui reçoivent toujours du texte brut : ni polices, ni couleurs, ni liens."),
+            ("merge", "0.7.1", None, "Fusionner en une copie",
+             "Clic droit sur une sélection pour en faire une nouvelle copie, dans l’ordre de sélection, une par ligne."),
+            ("colors", "0.7.1", None, "Les couleurs, sous toutes leurs formes",
+             "Clic droit sur une couleur pour ses formes HEX, RGB, HSL et SwiftUI, prêtes à coller."),
             ("pause", "0.7.0", None, "Une pause, le temps qu’il faut",
              "Depuis l’icône de la barre des menus : 5 minutes, 1 heure, ou jusqu’à ce que tu reprennes. La capture revient toute seule, même après un redémarrage."),
             ("snippet-order", "0.7.0", None, "Tes snippets dans ton ordre",
@@ -183,6 +195,13 @@ RELEASES = {
         "pace": "{} versions in {} days",
         "latest": "Latest",
         "items": [
+            ("0.7.1", "2026-11-01", "settings-general.png", "Plain text where you want it, and a few handy additions.", [
+                ("new", "<b>Plain text where you want it.</b> Settings → General lists the apps that always get plain text when encore pastes into them, as <kbd>⇧↩</kbd> does: Terminal, a chat or a code editor get no fonts, colors or links."),
+                ("new", "<b>Merge into one copy.</b> Right-click a selection: its copies become one new copy, in selection order, one per line, ready to keep as a snippet or a favorite. Detected secrets stay out."),
+                ("new", "<b>Colors in other formats.</b> Right-click a color for its HEX, RGB, HSL and SwiftUI forms: each one becomes a copy, ready to paste."),
+                ("better", "<b>More snippet placeholders.</b> <code>{{uuid}}</code> adds a unique identifier, and <code>{{date:dd/MM/yyyy}}</code> or <code>{{time:HH:mm}}</code> take your own format."),
+                ("better", "A pause button sits next to the shelf and compact switch, in the shelf and the compact window, with the same choices as the menu bar icon: 5 minutes, 1 hour, or until you resume."),
+            ]),
             ("0.7.0", "2026-10-31", "settings-data.png", "More privacy, and cards in your order.", [
                 ("new", "<b>Hidden from screen sharing.</b> encore’s windows are left out of screen sharing, recordings and screenshots: open your history during a call, and nobody else sees it. Settings → Privacy turns it off when you want a screenshot."),
                 ("new", "<b>Encrypted history, if you want.</b> Settings → Data encrypts your history on your Mac with ChaCha20-Poly1305, under a key kept in your keychain: a copy of the folder shows nothing readable. Off by default for now: until encore is signed by Apple, macOS asks for your Mac password after each update before encore can read its key, and encore is updated often. Once encore is signed, it will be on by default, with no prompt. Exports stay readable JSON. To go back to 0.6, turn encryption off first."),
@@ -279,6 +298,13 @@ RELEASES = {
         "pace": "{} versions en {} jours",
         "latest": "Dernière version",
         "items": [
+            ("0.7.1", "2026-11-01", "settings-general.png", "Du texte brut là où tu veux, et quelques ajouts pratiques.", [
+                ("new", "<b>Du texte brut là où tu veux.</b> Réglages → Général liste les apps qui reçoivent toujours du texte brut quand encore y colle, comme avec <kbd>⇧↩</kbd> : le Terminal, une messagerie ou un éditeur de code n’ont ni polices, ni couleurs, ni liens."),
+                ("new", "<b>Fusionner en une copie.</b> Clic droit sur une sélection : ses copies deviennent une nouvelle copie, dans l’ordre de sélection, une par ligne, à garder en snippet ou en favori. Les secrets détectés restent à l’écart."),
+                ("new", "<b>Les couleurs dans d’autres formats.</b> Clic droit sur une couleur pour ses formes HEX, RGB, HSL et SwiftUI : chacune devient une copie, prête à coller."),
+                ("better", "<b>Plus de variables dans les snippets.</b> <code>{{uuid}}</code> ajoute un identifiant unique, et <code>{{date:dd/MM/yyyy}}</code> ou <code>{{time:HH:mm}}</code> suivent ton propre format."),
+                ("better", "Un bouton pause se trouve à côté du choix bandeau ou compact, dans le bandeau et la fenêtre compacte, avec les mêmes choix que l’icône de la barre des menus : 5 minutes, 1 heure, ou jusqu’à reprise."),
+            ]),
             ("0.7.0", "2026-10-31", "settings-data.png", "Plus de confidentialité, et tes cartes dans ton ordre.", [
                 ("new", "<b>Masqué des partages d’écran.</b> Les fenêtres d’encore sont exclues des partages d’écran, enregistrements et captures : ouvre ton historique en pleine visio, personne d’autre ne le voit. Réglages → Confidentialité le désactive quand tu veux une capture."),
                 ("new", "<b>Historique chiffré, si tu veux.</b> Réglages → Données chiffre ton historique sur ton Mac avec ChaCha20-Poly1305, sous une clé gardée dans ton trousseau : une copie du dossier ne montre rien de lisible. Désactivé par défaut pour l’instant : tant qu’encore n’est pas signé par Apple, macOS demande le mot de passe de ton Mac après chaque mise à jour avant qu’encore puisse lire sa clé, et encore en reçoit souvent. Dès qu’encore sera signé, ce sera actif par défaut, sans aucune demande. Les exports restent du JSON lisible. Pour revenir à la 0.6, désactive d’abord le chiffrement."),
