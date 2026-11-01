@@ -149,7 +149,10 @@ struct AppPresentation {
         if let existing = cache[bundleID] { return existing }
         let names = ["com.1password.1password": "1Password", "com.agilebits.onepassword7": "1Password 7", "com.bitwarden.desktop": "Bitwarden", "com.apple.keychainaccess": L("Keychain Access"), "org.keepassxc.keepassxc": "KeePassXC", "com.dashlane.Dashlane": "Dashlane"]
         let value: AppPresentation
-        if let url = installedURL(bundleID) {
+        // Copies encore makes itself (a new text, a merge, a color, an assistant's text) have no source app: they show encore.
+        if bundleID.isEmpty || bundleID == Bundle.main.bundleIdentifier {
+            value = .init(name: "Encore", icon: NSApp.applicationIconImage)
+        } else if let url = installedURL(bundleID) {
             value = .init(name: FileManager.default.displayName(atPath: url.path).replacingOccurrences(of: ".app", with: ""), icon: NSWorkspace.shared.icon(forFile: url.path))
         } else {
             value = .init(name: names[bundleID] ?? bundleID.split(separator: ".").last.map(String.init) ?? L("App"), icon: NSImage(systemSymbolName: "app.dashed", accessibilityDescription: nil)!)

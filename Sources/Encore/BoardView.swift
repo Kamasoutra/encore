@@ -1261,10 +1261,8 @@ private struct SideRow: View {
                 }
                 .overlay(RoundedRectangle(cornerRadius: 8).strokeBorder(.primary.opacity(0.08)))
                 .overlay(alignment: .bottomTrailing) {
-                    if !clip.sourceBundle.isEmpty {
-                        Image(nsImage: ApplicationCatalog.app(clip.sourceBundle).icon).resizable().frame(width: 18, height: 18)
-                            .shadow(color: .black.opacity(0.25), radius: 1, y: 0.5).offset(x: 5, y: 5)
-                    }
+                    Image(nsImage: ApplicationCatalog.app(clip.sourceBundle).icon).resizable().frame(width: 18, height: 18)
+                        .shadow(color: .black.opacity(0.25), radius: 1, y: 0.5).offset(x: 5, y: 5)
                 }
             VStack(alignment: .leading, spacing: 3) {
                 content
