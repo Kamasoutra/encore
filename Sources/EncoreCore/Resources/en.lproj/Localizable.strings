@@ -496,3 +496,13 @@
 "Left out today" = "Left out today";
 "Nothing left out yet today." = "Nothing left out yet today.";
 "Counted on this Mac, without any of the content, and started again each day." = "Counted on this Mac, without any of the content, and started again each day.";
+"Always paste as plain text in" = "Always paste as plain text in";
+"Color in other formats" = "Color in other formats";
+"Copies merged into a new one" = "Copies merged into a new one";
+"Copies merged into a new one, without the secrets" = "Copies merged into a new one, without the secrets";
+"Merge into one copy" = "Merge into one copy";
+"No apps yet" = "No apps yet";
+"Stop pasting plain text in %@" = "Stop pasting plain text in %@";
+"These copies have no text to merge." = "These copies have no text to merge.";
+"When encore pastes into these apps, fonts, colors and links are left out, as with ⇧↩. Useful for Terminal, a chat or a code editor." = "When encore pastes into these apps, fonts, colors and links are left out, as with ⇧↩. Useful for Terminal, a chat or a code editor.";
+"{{uuid}} adds a unique identifier, and {{date:dd/MM/yyyy}} or {{time:HH:mm}} use your own format." = "{{uuid}} adds a unique identifier, and {{date:dd/MM/yyyy}} or {{time:HH:mm}} use your own format.";

@@ -496,3 +496,13 @@
 "Left out today" = "오늘 제외된 항목";
 "Nothing left out yet today." = "오늘은 아직 제외된 항목이 없습니다.";
 "Counted on this Mac, without any of the content, and started again each day." = "이 Mac에서 내용 없이 세며, 매일 새로 시작합니다.";
+"Always paste as plain text in" = "항상 일반 텍스트로 붙여넣을 앱";
+"Color in other formats" = "다른 형식의 색상";
+"Copies merged into a new one" = "복사본을 새 복사본 하나로 병합했습니다";
+"Copies merged into a new one, without the secrets" = "비밀을 제외하고 복사본을 새 복사본 하나로 병합했습니다";
+"Merge into one copy" = "하나의 복사본으로 병합";
+"No apps yet" = "아직 앱이 없습니다";
+"Stop pasting plain text in %@" = "%@에 일반 텍스트로 붙여넣기 중단";
+"These copies have no text to merge." = "이 복사본에는 병합할 텍스트가 없습니다.";
+"When encore pastes into these apps, fonts, colors and links are left out, as with ⇧↩. Useful for Terminal, a chat or a code editor." = "encore가 이 앱에 붙여넣을 때는 ⇧↩처럼 서체, 색상, 링크를 제외합니다. 터미널, 채팅, 코드 편집기에 유용합니다.";
+"{{uuid}} adds a unique identifier, and {{date:dd/MM/yyyy}} or {{time:HH:mm}} use your own format." = "{{uuid}}는 고유 식별자를 추가하고, {{date:dd/MM/yyyy}} 또는 {{time:HH:mm}}은 직접 지정한 형식을 따릅니다.";

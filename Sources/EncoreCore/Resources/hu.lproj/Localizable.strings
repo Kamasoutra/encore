@@ -496,3 +496,13 @@
 "Left out today" = "Ma kihagyva";
 "Nothing left out yet today." = "Ma még semmi sem maradt ki.";
 "Counted on this Mac, without any of the content, and started again each day." = "Ezen a Macen számolva, tartalom nélkül, és minden nap elölről kezdve.";
+"Always paste as plain text in" = "Mindig egyszerű szövegként illessze be ide:";
+"Color in other formats" = "Szín más formátumokban";
+"Copies merged into a new one" = "Másolatok egyesítve egy újba";
+"Copies merged into a new one, without the secrets" = "Másolatok egyesítve egy újba, a titkok nélkül";
+"Merge into one copy" = "Egyesítés egy másolatba";
+"No apps yet" = "Még nincs alkalmazás";
+"Stop pasting plain text in %@" = "Ne illesszen be egyszerű szöveget ide: %@";
+"These copies have no text to merge." = "Ezekben a másolatokban nincs egyesíthető szöveg.";
+"When encore pastes into these apps, fonts, colors and links are left out, as with ⇧↩. Useful for Terminal, a chat or a code editor." = "Amikor az encore ezekbe az alkalmazásokba illeszt be, a betűtípusok, színek és hivatkozások kimaradnak, mint a ⇧↩ esetén. Hasznos a Terminálhoz, csevegőhöz vagy kódszerkesztőhöz.";
+"{{uuid}} adds a unique identifier, and {{date:dd/MM/yyyy}} or {{time:HH:mm}} use your own format." = "A {{uuid}} egyedi azonosítót ad hozzá, a {{date:dd/MM/yyyy}} vagy {{time:HH:mm}} pedig a saját formátumát követi.";

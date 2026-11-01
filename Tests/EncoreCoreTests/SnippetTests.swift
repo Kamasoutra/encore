@@ -143,4 +143,16 @@ final class SnippetTests: XCTestCase {
         for filler in ["a-b ", "select ", "def x(", ".a .b ", "$x = ", "- k: "] { _ = CodeLanguage.detect(String(repeating: filler, count: 2_000)) }
         XCTAssertLessThan(Date().timeIntervalSince(start), 1)
     }
+
+    func testDatesTakeTheirOwnFormatAndUUIDsAreFresh() throws {
+        let template = try XCTUnwrap(SnippetTemplate("Le {{date:dd/MM/yyyy}} à {{time:HH:mm}}, {{uuid}} {{uuid}} pour {{nom}}"))
+        XCTAssertEqual(template.fields, ["nom"])
+        let now = try XCTUnwrap(ISO8601DateFormatter().date(from: "2026-11-01T09:05:00Z"))
+        let text = template.render(values: ["nom": "Sam"], clipboard: "", now: now, locale: Locale(identifier: "fr_FR")).text
+        let parts = text.components(separatedBy: ", ")
+        XCTAssertTrue(parts[0].hasPrefix("Le 01/11/2026 à "))
+        let ids = parts[1].replacingOccurrences(of: " pour Sam", with: "").split(separator: " ")
+        XCTAssertEqual(ids.count, 2); XCTAssertNotEqual(ids[0], ids[1])
+        XCTAssertNotNil(UUID(uuidString: String(ids[0])))
+    }
 }

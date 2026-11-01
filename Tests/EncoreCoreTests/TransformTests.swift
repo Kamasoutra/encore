@@ -23,4 +23,14 @@ final class TransformTests: XCTestCase {
         XCTAssertThrowsError(try TextAction.base64Decode.apply("%%%"))
         XCTAssertThrowsError(try TextAction.base64Decode.apply("/w=="))
     }
+
+    func testColorsConvertBetweenFormats() {
+        XCTAssertEqual(ColorFormat.rgb.format("#A78BFA"), "rgb(167, 139, 250)")
+        XCTAssertEqual(ColorFormat.hsl.format("#A78BFA"), "hsl(255, 92%, 76%)")
+        XCTAssertEqual(ColorFormat.swiftUI.format("#A78BFA"), "Color(red: 0.655, green: 0.545, blue: 0.980)")
+        XCTAssertEqual(ColorFormat.hex.format("#fff"), "#FFFFFF")
+        XCTAssertEqual(ColorFormat.rgb.format("#FF000080"), "rgba(255, 0, 0, 0.5)")
+        XCTAssertEqual(ColorFormat.hex.format("#FF000080"), "#FF000080")
+        XCTAssertNil(ColorFormat.rgb.format("not a color"))
+    }
 }

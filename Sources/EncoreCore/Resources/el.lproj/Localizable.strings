@@ -496,3 +496,13 @@
 "Left out today" = "Εκτός σήμερα";
 "Nothing left out yet today." = "Τίποτα εκτός ακόμη σήμερα.";
 "Counted on this Mac, without any of the content, and started again each day." = "Μετρημένα σε αυτό το Mac, χωρίς κανένα περιεχόμενο, και από την αρχή κάθε μέρα.";
+"Always paste as plain text in" = "Επικόλληση πάντα ως απλό κείμενο σε";
+"Color in other formats" = "Χρώμα σε άλλες μορφές";
+"Copies merged into a new one" = "Τα αντίγραφα ενώθηκαν σε ένα νέο";
+"Copies merged into a new one, without the secrets" = "Τα αντίγραφα ενώθηκαν σε ένα νέο, χωρίς τα μυστικά";
+"Merge into one copy" = "Ένωση σε ένα αντίγραφο";
+"No apps yet" = "Καμία εφαρμογή ακόμη";
+"Stop pasting plain text in %@" = "Διακοπή επικόλλησης απλού κειμένου σε %@";
+"These copies have no text to merge." = "Αυτά τα αντίγραφα δεν έχουν κείμενο για ένωση.";
+"When encore pastes into these apps, fonts, colors and links are left out, as with ⇧↩. Useful for Terminal, a chat or a code editor." = "Όταν το encore επικολλά σε αυτές τις εφαρμογές, οι γραμματοσειρές, τα χρώματα και οι σύνδεσμοι παραλείπονται, όπως με ⇧↩. Χρήσιμο για το Τερματικό, μια συνομιλία ή έναν επεξεργαστή κώδικα.";
+"{{uuid}} adds a unique identifier, and {{date:dd/MM/yyyy}} or {{time:HH:mm}} use your own format." = "Το {{uuid}} προσθέτει ένα μοναδικό αναγνωριστικό, και τα {{date:dd/MM/yyyy}} ή {{time:HH:mm}} ακολουθούν τη δική σας μορφή.";

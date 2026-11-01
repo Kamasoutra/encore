@@ -496,3 +496,13 @@
 "Left out today" = "Bỏ qua hôm nay";
 "Nothing left out yet today." = "Hôm nay chưa bỏ qua gì.";
 "Counted on this Mac, without any of the content, and started again each day." = "Được đếm trên máy Mac này, không kèm nội dung nào, và bắt đầu lại mỗi ngày.";
+"Always paste as plain text in" = "Luôn dán dưới dạng văn bản thuần vào";
+"Color in other formats" = "Màu ở định dạng khác";
+"Copies merged into a new one" = "Đã gộp các bản sao thành một bản mới";
+"Copies merged into a new one, without the secrets" = "Đã gộp các bản sao thành một bản mới, không kèm bí mật";
+"Merge into one copy" = "Gộp thành một bản sao";
+"No apps yet" = "Chưa có ứng dụng nào";
+"Stop pasting plain text in %@" = "Ngừng dán văn bản thuần vào %@";
+"These copies have no text to merge." = "Các bản sao này không có văn bản để gộp.";
+"When encore pastes into these apps, fonts, colors and links are left out, as with ⇧↩. Useful for Terminal, a chat or a code editor." = "Khi encore dán vào các ứng dụng này, phông chữ, màu và liên kết được bỏ qua, như với ⇧↩. Hữu ích cho Terminal, ứng dụng chat hoặc trình soạn mã.";
+"{{uuid}} adds a unique identifier, and {{date:dd/MM/yyyy}} or {{time:HH:mm}} use your own format." = "{{uuid}} thêm một mã định danh duy nhất, còn {{date:dd/MM/yyyy}} hoặc {{time:HH:mm}} dùng định dạng của riêng bạn.";

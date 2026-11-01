@@ -496,3 +496,13 @@
 "Left out today" = "Udeladt i dag";
 "Nothing left out yet today." = "Intet udeladt endnu i dag.";
 "Counted on this Mac, without any of the content, and started again each day." = "Talt på denne Mac, uden noget indhold, og nulstillet hver dag.";
+"Always paste as plain text in" = "Indsæt altid som ren tekst i";
+"Color in other formats" = "Farve i andre formater";
+"Copies merged into a new one" = "Kopier flettet til en ny";
+"Copies merged into a new one, without the secrets" = "Kopier flettet til en ny, uden hemmelighederne";
+"Merge into one copy" = "Flet til én kopi";
+"No apps yet" = "Ingen apps endnu";
+"Stop pasting plain text in %@" = "Stop med at indsætte ren tekst i %@";
+"These copies have no text to merge." = "Disse kopier har ingen tekst at flette.";
+"When encore pastes into these apps, fonts, colors and links are left out, as with ⇧↩. Useful for Terminal, a chat or a code editor." = "Når encore indsætter i disse apps, udelades skrifttyper, farver og links, som med ⇧↩. Praktisk til Terminal, en chat eller en kodeeditor.";
+"{{uuid}} adds a unique identifier, and {{date:dd/MM/yyyy}} or {{time:HH:mm}} use your own format." = "{{uuid}} tilføjer en unik identifikator, og {{date:dd/MM/yyyy}} eller {{time:HH:mm}} følger dit eget format.";

@@ -253,6 +253,60 @@ public struct Library: Codable, Sendable {
     }
 }
 
+/// A hex color copied as text, written the ways designers and developers paste it elsewhere.
+public enum ColorFormat: String, CaseIterable, Identifiable, Sendable {
+    case hex, rgb, hsl, swiftUI
+    public var id: String { rawValue }
+    public var title: String {
+        switch self {
+        case .hex: "HEX"
+        case .rgb: "RGB"
+        case .hsl: "HSL"
+        case .swiftUI: "SwiftUI"
+        }
+    }
+
+    /// Red, green, blue and alpha from 0 to 1, read from #RGB, #RGBA, #RRGGBB or #RRGGBBAA.
+    public static func components(_ hex: String) -> (red: Double, green: Double, blue: Double, alpha: Double)? {
+        var digits = hex.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard digits.hasPrefix("#") else { return nil }
+        digits.removeFirst()
+        if digits.count == 3 || digits.count == 4 { digits = String(digits.flatMap { [$0, $0] }) }
+        guard digits.count == 6 || digits.count == 8, let value = UInt64(digits, radix: 16) else { return nil }
+        let full = digits.count == 8 ? value : value << 8 | 0xFF
+        let byte = { (shift: UInt64) in Double((full >> shift) & 0xFF) / 255 }
+        return (byte(24), byte(16), byte(8), byte(0))
+    }
+
+    public func format(_ hex: String) -> String? {
+        guard let (r, g, b, a) = Self.components(hex) else { return nil }
+        let opaque = a >= 1
+        let alpha = String(format: "%.2g", a)
+        let byte = { (value: Double) in Int((value * 255).rounded()) }
+        switch self {
+        case .hex:
+            return String(format: "#%02X%02X%02X", byte(r), byte(g), byte(b)) + (opaque ? "" : String(format: "%02X", byte(a)))
+        case .rgb:
+            return opaque ? "rgb(\(byte(r)), \(byte(g)), \(byte(b)))" : "rgba(\(byte(r)), \(byte(g)), \(byte(b)), \(alpha))"
+        case .hsl:
+            let high = max(r, g, b), low = min(r, g, b), lightness = (high + low) / 2, delta = high - low
+            let saturation = delta == 0 ? 0 : delta / (1 - abs(2 * lightness - 1))
+            var hue = 0.0
+            if delta > 0 {
+                if high == r { hue = ((g - b) / delta).truncatingRemainder(dividingBy: 6) }
+                else if high == g { hue = (b - r) / delta + 2 }
+                else { hue = (r - g) / delta + 4 }
+                hue *= 60; if hue < 0 { hue += 360 }
+            }
+            let values = "\(Int(hue.rounded())), \(Int((saturation * 100).rounded()))%, \(Int((lightness * 100).rounded()))%"
+            return opaque ? "hsl(\(values))" : "hsla(\(values), \(alpha))"
+        case .swiftUI:
+            let three = { (value: Double) in String(format: "%.3f", value) }
+            return "Color(red: \(three(r)), green: \(three(g)), blue: \(three(b))" + (opaque ? ")" : ", opacity: \(alpha))")
+        }
+    }
+}
+
 public enum TextAction: String, CaseIterable, Identifiable {
     case trim, uppercase, lowercase, prettyJSON, compactJSON, decodeURL, cleanURL, base64Encode, base64Decode
     public var id: String { rawValue }

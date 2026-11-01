@@ -496,3 +496,13 @@
 "Left out today" = "Jätetty pois tänään";
 "Nothing left out yet today." = "Tänään ei ole vielä jätetty mitään pois.";
 "Counted on this Mac, without any of the content, and started again each day." = "Laskettu tällä Macilla ilman mitään sisältöä, ja aloitetaan alusta joka päivä.";
+"Always paste as plain text in" = "Liitä aina pelkkänä tekstinä appiin";
+"Color in other formats" = "Väri muissa muodoissa";
+"Copies merged into a new one" = "Kopiot yhdistetty uudeksi";
+"Copies merged into a new one, without the secrets" = "Kopiot yhdistetty uudeksi ilman salaisuuksia";
+"Merge into one copy" = "Yhdistä yhdeksi kopioksi";
+"No apps yet" = "Ei vielä appeja";
+"Stop pasting plain text in %@" = "Lopeta pelkän tekstin liittäminen appiin %@";
+"These copies have no text to merge." = "Näissä kopioissa ei ole yhdistettävää tekstiä.";
+"When encore pastes into these apps, fonts, colors and links are left out, as with ⇧↩. Useful for Terminal, a chat or a code editor." = "Kun encore liittää näihin appeihin, fontit, värit ja linkit jätetään pois kuten ⇧↩-näppäimellä. Kätevä Terminaalissa, chatissa tai koodieditorissa.";
+"{{uuid}} adds a unique identifier, and {{date:dd/MM/yyyy}} or {{time:HH:mm}} use your own format." = "{{uuid}} lisää yksilöllisen tunnisteen, ja {{date:dd/MM/yyyy}} tai {{time:HH:mm}} käyttävät omaa muotoasi.";

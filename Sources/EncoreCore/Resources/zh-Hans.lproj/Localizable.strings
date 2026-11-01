@@ -496,3 +496,13 @@
 "Left out today" = "今日略过";
 "Nothing left out yet today." = "今天还没有略过任何内容。";
 "Counted on this Mac, without any of the content, and started again each day." = "在这台 Mac 上计数，不含任何内容，每天重新开始。";
+"Always paste as plain text in" = "始终以纯文本粘贴到";
+"Color in other formats" = "其他格式的颜色";
+"Copies merged into a new one" = "已将拷贝合并为一个新拷贝";
+"Copies merged into a new one, without the secrets" = "已将拷贝合并为一个新拷贝，不含机密";
+"Merge into one copy" = "合并为一个拷贝";
+"No apps yet" = "还没有 App";
+"Stop pasting plain text in %@" = "停止以纯文本粘贴到“%@”";
+"These copies have no text to merge." = "这些拷贝没有可合并的文本。";
+"When encore pastes into these apps, fonts, colors and links are left out, as with ⇧↩. Useful for Terminal, a chat or a code editor." = "encore 粘贴到这些 App 时，会像 ⇧↩ 一样去掉字体、颜色和链接。适用于终端、聊天或代码编辑器。";
+"{{uuid}} adds a unique identifier, and {{date:dd/MM/yyyy}} or {{time:HH:mm}} use your own format." = "{{uuid}} 会添加唯一标识符，{{date:dd/MM/yyyy}} 或 {{time:HH:mm}} 使用你自己的格式。";

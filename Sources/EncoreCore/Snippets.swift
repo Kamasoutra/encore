@@ -160,18 +160,19 @@ public struct CodeLanguage: Hashable, Identifiable {
 /// Placeholders in a snippet: {{name}} asks for a value before pasting, {{date}}, {{time}} and {{clipboard}} fill themselves,
 /// {{cursor}} marks where the insertion point goes after pasting.
 public struct SnippetTemplate: Equatable, Sendable {
-    public static let builtIns: Set<String> = ["date", "time", "clipboard", "cursor"]
+    public static let builtIns: Set<String> = ["date", "time", "uuid", "clipboard", "cursor"]
     // NSRegularExpression rather than Swift regex literals, which need macOS 13.
-    private static let pattern = try! NSRegularExpression(pattern: #"\{\{\s*([\p{L}\p{N}_][\p{L}\p{N}_\- ]{0,39}?)\s*\}\}"#)
+    // A date or time can carry its own format after a colon: {{date:dd/MM/yyyy}}, {{time:HH:mm}}.
+    private static let pattern = try! NSRegularExpression(pattern: #"\{\{\s*([\p{L}\p{N}_][\p{L}\p{N}_\- ]{0,39}?)(?:\s*:\s*([^{}]{1,40}?))?\s*\}\}"#)
 
     public let text: String
-    /// Each placeholder with the range it covers and the field name inside.
-    private let matches: [(range: Range<String.Index>, field: String)]
+    /// Each placeholder with the range it covers, the field name inside and its format, if any.
+    private let matches: [(range: Range<String.Index>, field: String, format: String?)]
 
     public init?(_ text: String) {
-        let found = Self.pattern.matches(in: text, range: NSRange(text.startIndex..., in: text)).compactMap { match -> (Range<String.Index>, String)? in
+        let found = Self.pattern.matches(in: text, range: NSRange(text.startIndex..., in: text)).compactMap { match -> (Range<String.Index>, String, String?)? in
             guard let range = Range(match.range, in: text), let field = Range(match.range(at: 1), in: text) else { return nil }
-            return (range, String(text[field]))
+            return (range, String(text[field]), Range(match.range(at: 2), in: text).map { String(text[$0]) })
         }
         guard !found.isEmpty else { return nil }
         self.text = text
@@ -194,8 +195,13 @@ public struct SnippetTemplate: Equatable, Sendable {
         for match in matches {
             result += text[position..<match.range.lowerBound]
             switch match.field.lowercased() {
+            case "date" where match.format != nil, "time" where match.format != nil:
+                let formatter = DateFormatter()
+                formatter.locale = locale; formatter.dateFormat = match.format
+                result += formatter.string(from: now)
             case "date": result += now.formatted(Date.FormatStyle(date: .numeric, time: .omitted, locale: locale))
             case "time": result += now.formatted(Date.FormatStyle(date: .omitted, time: .shortened, locale: locale))
+            case "uuid": result += UUID().uuidString.lowercased()
             case "clipboard": result += clipboard
             case "cursor": if cursor == nil { cursor = result.count }
             default: result += values[match.field] ?? ""

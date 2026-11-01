@@ -1012,6 +1012,8 @@ struct PeerStatus: Identifiable, Equatable {
         }
         let payloads = values.compactMap { storage?.payload($0.id) }
         guard payloads.count == values.count else { notify(L("Content is unavailable on disk.")); return }
+        // Some apps always get plain text, when encore pastes into them itself.
+        let plain = plain || (!copyOnly && preferences.pasteDirectly && activateTarget?()?.bundleIdentifier.map(preferences.plainTextApps.contains) == true)
         let origin = values.count == 1 ? values[0].sourceBundle : ""
         var charactersAfterCursor: Int?
         var exact = false
@@ -1185,6 +1187,17 @@ struct PeerStatus: Identifiable, Equatable {
         if !accessibilityGranted { NSWorkspace.shared.open(URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility")!) }
     }
 
+    /// The selected copies as one new copy, in selection order, one per line, to keep as a snippet or a favorite.
+    /// Detected secrets stay out: in an ordinary copy, nothing would mask them or delete them early.
+    func mergeSelection() {
+        let clips = selectedClips
+        guard clips.count > 1 else { return }
+        let lines = clips.filter { $0.secret == nil }.map(plainText(of:)).filter { !$0.isEmpty }
+        guard !lines.isEmpty else { return notify(L("These copies have no text to merge.")) }
+        guard addText(lines.joined(separator: "\n")) else { return }
+        notify(clips.contains { $0.secret != nil } ? L("Copies merged into a new one, without the secrets") : L("Copies merged into a new one"))
+    }
+
     @discardableResult func addText(_ text: String, title: String = "") -> Bool {
         guard !text.isEmpty else { return false }
         let payload = ClipPayload.text(text)
@@ -1227,6 +1240,11 @@ struct PeerStatus: Identifiable, Equatable {
         storage?.save(library, payload: (id, payload), deleting: Array(removed))
         reconcileSelection()
         return true
+    }
+
+    /// A color written in another format becomes a new copy, ready to paste, as transforms do.
+    func addColor(_ value: String, format: ColorFormat) {
+        if addText(value) { notify(format.title) }
     }
 
     func transform(_ action: TextAction, clip: Clip) {

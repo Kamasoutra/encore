@@ -496,3 +496,13 @@
 "Left out today" = "Écarté aujourd’hui";
 "Nothing left out yet today." = "Rien d’écarté pour l’instant aujourd’hui.";
 "Counted on this Mac, without any of the content, and started again each day." = "Compté sur ce Mac, sans aucun contenu, et remis à zéro chaque jour.";
+"Always paste as plain text in" = "Toujours coller en texte brut dans";
+"Color in other formats" = "Couleur dans d’autres formats";
+"Copies merged into a new one" = "Copies fusionnées en une nouvelle";
+"Copies merged into a new one, without the secrets" = "Copies fusionnées en une nouvelle, sans les secrets";
+"Merge into one copy" = "Fusionner en une copie";
+"No apps yet" = "Aucune app pour l’instant";
+"Stop pasting plain text in %@" = "Ne plus coller en texte brut dans %@";
+"These copies have no text to merge." = "Ces copies n’ont pas de texte à fusionner.";
+"When encore pastes into these apps, fonts, colors and links are left out, as with ⇧↩. Useful for Terminal, a chat or a code editor." = "Quand encore colle dans ces apps, polices, couleurs et liens sont laissés de côté, comme avec ⇧↩. Pratique pour le Terminal, une messagerie ou un éditeur de code.";
+"{{uuid}} adds a unique identifier, and {{date:dd/MM/yyyy}} or {{time:HH:mm}} use your own format." = "{{uuid}} ajoute un identifiant unique, et {{date:dd/MM/yyyy}} ou {{time:HH:mm}} suivent votre propre format.";

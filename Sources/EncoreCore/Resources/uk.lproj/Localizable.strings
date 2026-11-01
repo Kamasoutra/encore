@@ -496,3 +496,13 @@
 "Left out today" = "Пропущено сьогодні";
 "Nothing left out yet today." = "Сьогодні ще нічого не пропущено.";
 "Counted on this Mac, without any of the content, and started again each day." = "Рахується на цьому Mac, без жодного вмісту, і обнуляється щодня.";
+"Always paste as plain text in" = "Завжди вставляти як простий текст у";
+"Color in other formats" = "Колір в інших форматах";
+"Copies merged into a new one" = "Копії об’єднано в нову";
+"Copies merged into a new one, without the secrets" = "Копії об’єднано в нову, без секретів";
+"Merge into one copy" = "Об’єднати в одну копію";
+"No apps yet" = "Поки немає програм";
+"Stop pasting plain text in %@" = "Не вставляти простий текст у %@";
+"These copies have no text to merge." = "У цих копіях немає тексту для об’єднання.";
+"When encore pastes into these apps, fonts, colors and links are left out, as with ⇧↩. Useful for Terminal, a chat or a code editor." = "Коли encore вставляє в ці програми, шрифти, кольори й посилання пропускаються, як із ⇧↩. Зручно для Термінала, чату чи редактора коду.";
+"{{uuid}} adds a unique identifier, and {{date:dd/MM/yyyy}} or {{time:HH:mm}} use your own format." = "{{uuid}} додає унікальний ідентифікатор, а {{date:dd/MM/yyyy}} чи {{time:HH:mm}} використовують ваш формат.";

@@ -161,6 +161,35 @@ private struct DragPreview: View {
     }
 }
 
+/// Pause capture for a while, or resume it, from the footer: the same choices as the menu bar icon.
+private struct CapturePauseButton: View {
+    @ObservedObject var model: AppModel
+
+    var body: some View {
+        let paused = !model.preferences.captureEnabled
+        Menu {
+            if paused {
+                Button(L("Resume capture")) { model.setCapture(true) }
+                if model.preferences.captureResumesAt != nil { Text(model.capturePausedLabel) }
+            } else {
+                Button(L("For 5 minutes")) { model.setCapture(false, for: 5 * 60) }
+                Button(L("For 1 hour")) { model.setCapture(false, for: 60 * 60) }
+                Button(L("Until I resume it")) { model.setCapture(false) }
+            }
+        } label: {
+            Image(systemName: paused ? "play.fill" : "pause.fill").font(.system(size: 9.5, weight: .bold))
+                .foregroundStyle(paused ? AnyShapeStyle(Color.orange) : AnyShapeStyle(.primary.opacity(0.7)))
+                .frame(width: 24, height: 18)
+        }
+        .menuStyle(.borderlessButton).menuIndicator(.hidden).fixedSize()
+        // Borderless menus take the accent color; the footer's other switches are neutral.
+        .tint(paused ? .orange : .secondary)
+        .padding(2).background(.primary.opacity(0.06), in: Capsule())
+        .help(paused ? model.capturePausedLabel : L("Pause capture"))
+        .accessibilityLabel(paused ? L("Resume capture") : L("Pause capture"))
+    }
+}
+
 /// VoiceOver's way to reorder snippets, where dragging is out of reach.
 private struct SnippetMoveActions: ViewModifier {
     let enabled: Bool
@@ -374,6 +403,7 @@ struct BoardView: View {
             Text(model.preferences.captureEnabled ? L("\(model.filtered.count) items") : model.capturePausedLabel).font(.system(size: 11, weight: .medium)).monospacedDigit()
             pasteSwitch
             layoutSwitch
+            CapturePauseButton(model: model)
             if model.preferences.pasteDirectly && !model.accessibilityGranted {
                 // Without Accessibility, Return can only copy: say so where the user looks.
                 Button { model.requestAccessibility() } label: {
@@ -945,11 +975,19 @@ struct ClipActions: View {
             Button { model.createCollection() } label: { Label(L("New collection…"), systemImage: "folder.badge.plus") }
         } label: { Label(L("Collections"), systemImage: "folder") }
         Button { model.enqueue(model.filtered.filter { ids.contains($0.id) }.map(\.id)) } label: { Label(L("Add to queue"), systemImage: "text.badge.plus") }
+        if ids.count > 1 { Button { model.mergeSelection() } label: { Label(L("Merge into one copy"), systemImage: "rectangle.stack.badge.plus") } }
         if !clip.sourceBundle.isEmpty, clip.sourceBundle != Bundle.main.bundleIdentifier {
             Button { model.excludeApp(of: clip) } label: { Label(L("Stop saving copies from \(clip.sourceName)"), systemImage: "nosign") }
         }
         Divider()
         Button { roomy { model.inspector = clip } } label: { Label(L("Preview and edit"), systemImage: "eye") }.keyboardShortcut("e")
+        if clip.kind == .color {
+            Menu {
+                ForEach(ColorFormat.allCases) { format in
+                    if let value = format.format(clip.text) { Button("\(format.title) · \(value)") { model.addColor(value, format: format) } }
+                }
+            } label: { Label(L("Color in other formats"), systemImage: "eyedropper") }
+        }
         if !clip.text.isEmpty {
             Menu { ForEach(TextAction.allCases) { action in Button(action.title) { model.transform(action, clip: clip) } } } label: { Label(L("Transform a copy"), systemImage: "wand.and.stars") }
         }
@@ -1048,6 +1086,7 @@ struct SideColumn<Search: View>: View {
                     guard shelf else { return }
                     model.preferences.placement = "bottom"; model.preferencesChanged(); model.resizePanel?()
                 }.help(L("Shelf or compact window"))
+                CapturePauseButton(model: model)
                 Spacer(minLength: 4)
                 footerHint("↑↓", L("choose"))
                 footerHint("↩", model.pastesDirectly ? L("paste") : L("copy"))

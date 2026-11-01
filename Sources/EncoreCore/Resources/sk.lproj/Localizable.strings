@@ -496,3 +496,13 @@
 "Left out today" = "Dnes vynechané";
 "Nothing left out yet today." = "Dnes zatiaľ nič vynechané.";
 "Counted on this Mac, without any of the content, and started again each day." = "Počítané na tomto Macu, bez akéhokoľvek obsahu, a každý deň od nuly.";
+"Always paste as plain text in" = "Vždy vkladať ako obyčajný text do";
+"Color in other formats" = "Farba v iných formátoch";
+"Copies merged into a new one" = "Kópie zlúčené do novej";
+"Copies merged into a new one, without the secrets" = "Kópie zlúčené do novej, bez tajomstiev";
+"Merge into one copy" = "Zlúčiť do jednej kópie";
+"No apps yet" = "Zatiaľ žiadne aplikácie";
+"Stop pasting plain text in %@" = "Prestať vkladať obyčajný text do %@";
+"These copies have no text to merge." = "Tieto kópie nemajú text na zlúčenie.";
+"When encore pastes into these apps, fonts, colors and links are left out, as with ⇧↩. Useful for Terminal, a chat or a code editor." = "Keď encore vkladá do týchto aplikácií, písma, farby a odkazy sa vynechajú, ako pri ⇧↩. Užitočné pre Terminál, chat alebo editor kódu.";
+"{{uuid}} adds a unique identifier, and {{date:dd/MM/yyyy}} or {{time:HH:mm}} use your own format." = "{{uuid}} pridá jedinečný identifikátor a {{date:dd/MM/yyyy}} alebo {{time:HH:mm}} použijú váš vlastný formát.";

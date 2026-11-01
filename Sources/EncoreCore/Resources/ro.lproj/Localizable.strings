@@ -496,3 +496,13 @@
 "Left out today" = "Omise azi";
 "Nothing left out yet today." = "Nimic omis deocamdată azi.";
 "Counted on this Mac, without any of the content, and started again each day." = "Numărat pe acest Mac, fără niciun conținut, și reluat de la zero în fiecare zi.";
+"Always paste as plain text in" = "Lipește mereu ca text simplu în";
+"Color in other formats" = "Culoare în alte formate";
+"Copies merged into a new one" = "Copii unite într-una nouă";
+"Copies merged into a new one, without the secrets" = "Copii unite într-una nouă, fără secrete";
+"Merge into one copy" = "Unește într-o singură copie";
+"No apps yet" = "Nicio aplicație încă";
+"Stop pasting plain text in %@" = "Nu mai lipi text simplu în %@";
+"These copies have no text to merge." = "Aceste copii nu au text de unit.";
+"When encore pastes into these apps, fonts, colors and links are left out, as with ⇧↩. Useful for Terminal, a chat or a code editor." = "Când encore lipește în aceste aplicații, fonturile, culorile și linkurile sunt omise, ca la ⇧↩. Util pentru Terminal, un chat sau un editor de cod.";
+"{{uuid}} adds a unique identifier, and {{date:dd/MM/yyyy}} or {{time:HH:mm}} use your own format." = "{{uuid}} adaugă un identificator unic, iar {{date:dd/MM/yyyy}} sau {{time:HH:mm}} folosesc propriul dvs. format.";

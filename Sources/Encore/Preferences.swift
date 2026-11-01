@@ -52,6 +52,8 @@ struct Preferences: Codable, Equatable {
     var hideFromScreenSharing = true
     /// Only favorites, snippets and collections are written to disk; other copies stay in memory until encore quits.
     var ephemeralHistory = false
+    /// Apps that always get plain text when encore pastes into them, as ⇧↩ does: no fonts, colors or links from the copy.
+    var plainTextApps: [String] = []
     /// Merge favorites, and snippets, with paired Macs that sync them too, and keep them in step while connected.
     var syncFavorites = false
     var syncSnippets = false
@@ -65,7 +67,7 @@ struct Preferences: Codable, Equatable {
     private enum CodingKeys: String, CodingKey {
         case retentionDays, historyLimit, storageLimitMB, captureEnabled, captureResumesAt, ignoreSensitive, recognizeImages
         case excludedBundleIDs, panelHeight, compact, placement, compactPosition, compactCount, appearance, shortcut, retentionRules, cardScale, importScreenshots, copyScreenshotsToClipboard, screenshotFolder
-        case soundsEnabled, soundTheme, soundVolume, captureSoundPath, pasteSoundPath, displayTarget, stackShortcutEnabled, disabledDefaultExclusions, language, shareWithPeers, pasteDirectly, syncFavorites, syncSnippets, forgetClearedCopies, detectSecrets, secretLifetime, secretPreview, forgetPastedSecrets, hideFromScreenSharing, ephemeralHistory
+        case soundsEnabled, soundTheme, soundVolume, captureSoundPath, pasteSoundPath, displayTarget, stackShortcutEnabled, disabledDefaultExclusions, language, shareWithPeers, pasteDirectly, syncFavorites, syncSnippets, forgetClearedCopies, detectSecrets, secretLifetime, secretPreview, forgetPastedSecrets, hideFromScreenSharing, ephemeralHistory, plainTextApps
     }
 
     init(from decoder: Decoder) throws {
@@ -114,6 +116,7 @@ struct Preferences: Codable, Equatable {
         forgetPastedSecrets = try values.decodeIfPresent(Bool.self, forKey: .forgetPastedSecrets) ?? true
         hideFromScreenSharing = try values.decodeIfPresent(Bool.self, forKey: .hideFromScreenSharing) ?? true
         ephemeralHistory = try values.decodeIfPresent(Bool.self, forKey: .ephemeralHistory) ?? false
+        plainTextApps = try values.decodeIfPresent([String].self, forKey: .plainTextApps) ?? []
     }
 
     static func load(demo: Bool) -> Preferences {

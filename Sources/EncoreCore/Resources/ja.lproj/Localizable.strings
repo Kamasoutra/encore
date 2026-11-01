@@ -496,3 +496,13 @@
 "Left out today" = "今日除外したもの";
 "Nothing left out yet today." = "今日はまだ何も除外していません。";
 "Counted on this Mac, without any of the content, and started again each day." = "このMacで内容を含めずに数え、毎日リセットします。";
+"Always paste as plain text in" = "常にプレーンテキストでペーストするアプリ";
+"Color in other formats" = "ほかの形式の色";
+"Copies merged into a new one" = "コピーを1つに結合しました";
+"Copies merged into a new one, without the secrets" = "シークレットを除いてコピーを1つに結合しました";
+"Merge into one copy" = "1つのコピーに結合";
+"No apps yet" = "まだアプリはありません";
+"Stop pasting plain text in %@" = "%@へのプレーンテキストのペーストをやめる";
+"These copies have no text to merge." = "これらのコピーには結合できるテキストがありません。";
+"When encore pastes into these apps, fonts, colors and links are left out, as with ⇧↩. Useful for Terminal, a chat or a code editor." = "encoreがこれらのアプリにペーストするときは、⇧↩と同じくフォント、色、リンクを除きます。ターミナル、チャット、コードエディタに便利です。";
+"{{uuid}} adds a unique identifier, and {{date:dd/MM/yyyy}} or {{time:HH:mm}} use your own format." = "{{uuid}}は一意のIDを追加し、{{date:dd/MM/yyyy}}や{{time:HH:mm}}は指定した形式で入ります。";

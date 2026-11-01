@@ -203,6 +203,24 @@ struct SettingsView: View {
                     caption(L("macOS has not authorized this version of Encore. If access was already granted, turn Encore off and on in Accessibility. If needed, remove the old entry and add the installed app. Ad-hoc signatures can invalidate access after an update."))
                 }
             }
+            SettingsGroup(L("Always paste as plain text in")) {
+                VStack(spacing: 0) {
+                    if model.preferences.plainTextApps.isEmpty { Text(L("No apps yet")).foregroundStyle(.secondary).padding(.vertical, 8) }
+                    ForEach(model.preferences.plainTextApps, id: \.self) { bundle in
+                        let app = ApplicationCatalog.app(bundle)
+                        HStack(spacing: 10) {
+                            Image(nsImage: app.icon).resizable().interpolation(.high).frame(width: 27, height: 27)
+                            Text(app.name).font(.system(size: 13))
+                            Spacer()
+                            Button(role: .destructive) { model.preferences.plainTextApps.removeAll { $0 == bundle } } label: { Image(systemName: "minus.circle").foregroundStyle(.secondary) }
+                                .buttonStyle(.plain).help(L("Stop pasting plain text in \(app.name)")).accessibilityLabel(L("Stop pasting plain text in \(app.name)"))
+                        }.padding(.vertical, 8).help(bundle)
+                        if bundle != model.preferences.plainTextApps.last { Divider() }
+                    }
+                }
+                Button { addPlainTextApp() } label: { Label(L("Add an app…"), systemImage: "plus") }
+                caption(L("When encore pastes into these apps, fonts, colors and links are left out, as with ⇧↩. Useful for Terminal, a chat or a code editor."))
+            }
             SettingsGroup(L("Everyday use")) {
                 Toggle(L("Save new clipboard items"), isOn: Binding(get: { model.preferences.captureEnabled }, set: { model.setCapture($0) }))
                     .disabled(model.storage == nil || model.storageError != nil)
@@ -526,6 +544,13 @@ struct SettingsView: View {
             Slider(value: value, in: range).labelsHidden().controlSize(.small).accessibilityLabel(title)
         }.padding(.vertical, 5)
     }
+    private func addPlainTextApp() {
+        let panel = NSOpenPanel()
+        panel.allowedContentTypes = [.application]; panel.directoryURL = URL(fileURLWithPath: "/Applications")
+        guard panel.runModal() == .OK, let url = panel.url, let bundle = Bundle(url: url)?.bundleIdentifier else { return }
+        if !model.preferences.plainTextApps.contains(bundle) { model.preferences.plainTextApps.append(bundle) }
+    }
+
     private func addExcludedApp() {
         let panel = NSOpenPanel()
         panel.allowedContentTypes = [.application]; panel.directoryURL = URL(fileURLWithPath: "/Applications")

@@ -496,3 +496,13 @@
 "Left out today" = "Vandaag weggelaten";
 "Nothing left out yet today." = "Vandaag nog niets weggelaten.";
 "Counted on this Mac, without any of the content, and started again each day." = "Geteld op deze Mac, zonder enige inhoud, en elke dag opnieuw begonnen.";
+"Always paste as plain text in" = "Altijd als platte tekst plakken in";
+"Color in other formats" = "Kleur in andere notaties";
+"Copies merged into a new one" = "Kopieën samengevoegd tot een nieuwe";
+"Copies merged into a new one, without the secrets" = "Kopieën samengevoegd tot een nieuwe, zonder de geheimen";
+"Merge into one copy" = "Samenvoegen tot één kopie";
+"No apps yet" = "Nog geen apps";
+"Stop pasting plain text in %@" = "Niet meer als platte tekst plakken in %@";
+"These copies have no text to merge." = "Deze kopieën hebben geen tekst om samen te voegen.";
+"When encore pastes into these apps, fonts, colors and links are left out, as with ⇧↩. Useful for Terminal, a chat or a code editor." = "Als encore in deze apps plakt, blijven lettertypen, kleuren en links weg, zoals met ⇧↩. Handig voor Terminal, een chat of een code-editor.";
+"{{uuid}} adds a unique identifier, and {{date:dd/MM/yyyy}} or {{time:HH:mm}} use your own format." = "{{uuid}} voegt een unieke id toe, en {{date:dd/MM/yyyy}} of {{time:HH:mm}} volgen je eigen notatie.";

@@ -496,3 +496,13 @@
 "Left out today" = "Dilewati hari ini";
 "Nothing left out yet today." = "Belum ada yang dilewati hari ini.";
 "Counted on this Mac, without any of the content, and started again each day." = "Dihitung di Mac ini, tanpa isi apa pun, dan dimulai lagi setiap hari.";
+"Always paste as plain text in" = "Selalu tempel sebagai teks biasa di";
+"Color in other formats" = "Warna dalam format lain";
+"Copies merged into a new one" = "Salinan digabung menjadi yang baru";
+"Copies merged into a new one, without the secrets" = "Salinan digabung menjadi yang baru, tanpa rahasia";
+"Merge into one copy" = "Gabungkan menjadi satu salinan";
+"No apps yet" = "Belum ada aplikasi";
+"Stop pasting plain text in %@" = "Berhenti menempel teks biasa di %@";
+"These copies have no text to merge." = "Salinan ini tidak memiliki teks untuk digabung.";
+"When encore pastes into these apps, fonts, colors and links are left out, as with ⇧↩. Useful for Terminal, a chat or a code editor." = "Saat encore menempel ke aplikasi ini, font, warna, dan tautan ditinggalkan, seperti dengan ⇧↩. Berguna untuk Terminal, aplikasi obrolan, atau editor kode.";
+"{{uuid}} adds a unique identifier, and {{date:dd/MM/yyyy}} or {{time:HH:mm}} use your own format." = "{{uuid}} menambahkan pengenal unik, dan {{date:dd/MM/yyyy}} atau {{time:HH:mm}} memakai formatmu sendiri.";

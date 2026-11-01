@@ -103,6 +103,20 @@ final class ClearedCopyTests: XCTestCase {
         }
     }
 
+    @MainActor func testMergingASelectionMakesOneCopyWithoutSecrets() throws {
+        try withModel { model, pb in
+            model.preferences.detectSecrets = true
+            copy("first", to: pb); model.clipboard.poll()
+            copy("ghp_aB3dE5fG7hJ9kL1mN3pQ5rS7tU9vW1xY3zA5x", to: pb); model.clipboard.poll()
+            copy("third", to: pb); model.clipboard.poll()
+            let id = { (start: String) in model.library.clips.first { $0.text.hasPrefix(start) }!.id }
+            model.select(id("third")); model.select(id("ghp"), modifiers: .command); model.select(id("first"), modifiers: .command)
+            model.mergeSelection()
+            XCTAssertEqual(model.library.clips.first?.text, "third\nfirst", "In selection order, the secret left out")
+            XCTAssertEqual(model.library.clips.count, 4, "The originals stay")
+        }
+    }
+
     @MainActor func testConfidentialAndExcludedCopiesAreCountedWithoutBeingSaved() throws {
         try withModel { model, pb in
             let before = model.ignoredToday

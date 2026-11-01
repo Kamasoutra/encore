@@ -72,6 +72,7 @@ struct InspectorView: View {
                 }
                     .onChanged(text) { _ in edited = true; onDirtyChange?(true) }
                 Text(L("In a snippet, {{name}} asks for a value when pasting. {{date}}, {{time}}, {{clipboard}} and {{cursor}} fill in by themselves.")).font(.system(size: 11)).foregroundStyle(.secondary)
+                Text(L("{{uuid}} adds a unique identifier, and {{date:dd/MM/yyyy}} or {{time:HH:mm}} use your own format.")).font(.system(size: 11)).foregroundStyle(.secondary)
                 HStack {
                     Text(L("\(text.count) characters")).font(.system(size: 11)).foregroundStyle(.secondary)
                     Spacer()

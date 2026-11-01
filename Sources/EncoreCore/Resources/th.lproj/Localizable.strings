@@ -496,3 +496,13 @@
 "Left out today" = "ไม่ได้เก็บวันนี้";
 "Nothing left out yet today." = "วันนี้ยังไม่มีรายการที่ไม่ได้เก็บ";
 "Counted on this Mac, without any of the content, and started again each day." = "นับบน Mac นี้ โดยไม่มีเนื้อหาใดๆ และเริ่มใหม่ทุกวัน";
+"Always paste as plain text in" = "วางเป็นข้อความธรรมดาเสมอใน";
+"Color in other formats" = "สีในรูปแบบอื่น";
+"Copies merged into a new one" = "รวมสำเนาเป็นสำเนาใหม่แล้ว";
+"Copies merged into a new one, without the secrets" = "รวมสำเนาเป็นสำเนาใหม่แล้ว โดยไม่รวมความลับ";
+"Merge into one copy" = "รวมเป็นสำเนาเดียว";
+"No apps yet" = "ยังไม่มีแอป";
+"Stop pasting plain text in %@" = "หยุดวางข้อความธรรมดาใน %@";
+"These copies have no text to merge." = "สำเนาเหล่านี้ไม่มีข้อความให้รวม";
+"When encore pastes into these apps, fonts, colors and links are left out, as with ⇧↩. Useful for Terminal, a chat or a code editor." = "เมื่อ encore วางลงในแอปเหล่านี้ จะไม่ใส่แบบอักษร สี และลิงก์ เหมือนกับ ⇧↩ สะดวกสำหรับ Terminal แชท หรือโปรแกรมแก้ไขโค้ด";
+"{{uuid}} adds a unique identifier, and {{date:dd/MM/yyyy}} or {{time:HH:mm}} use your own format." = "{{uuid}} เพิ่มตัวระบุที่ไม่ซ้ำ และ {{date:dd/MM/yyyy}} หรือ {{time:HH:mm}} ใช้รูปแบบของคุณเอง";

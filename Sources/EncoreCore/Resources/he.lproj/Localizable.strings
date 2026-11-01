@@ -496,3 +496,13 @@
 "Left out today" = "הושמט היום";
 "Nothing left out yet today." = "עדיין לא הושמט דבר היום.";
 "Counted on this Mac, without any of the content, and started again each day." = "נספר ב-Mac הזה, בלי שום תוכן, ומתחיל מחדש בכל יום.";
+"Always paste as plain text in" = "תמיד להדביק כטקסט פשוט ב";
+"Color in other formats" = "צבע בפורמטים אחרים";
+"Copies merged into a new one" = "ההעתקות מוזגו להעתקה חדשה";
+"Copies merged into a new one, without the secrets" = "ההעתקות מוזגו להעתקה חדשה, בלי הסודות";
+"Merge into one copy" = "מזג להעתקה אחת";
+"No apps yet" = "עדיין אין יישומים";
+"Stop pasting plain text in %@" = "הפסק להדביק טקסט פשוט ב-%@";
+"These copies have no text to merge." = "בהעתקות האלה אין טקסט למיזוג.";
+"When encore pastes into these apps, fonts, colors and links are left out, as with ⇧↩. Useful for Terminal, a chat or a code editor." = "כש-encore מדביק ביישומים האלה, גופנים, צבעים וקישורים מושמטים, כמו עם ⇧↩. שימושי ל-Terminal, לצ׳אט או לעורך קוד.";
+"{{uuid}} adds a unique identifier, and {{date:dd/MM/yyyy}} or {{time:HH:mm}} use your own format." = "‏{{uuid}} מוסיף מזהה ייחודי, ו-{{date:dd/MM/yyyy}} או {{time:HH:mm}} משתמשים בפורמט שלך.";

@@ -496,3 +496,13 @@
 "Left out today" = "Bugün dışarıda bırakılan";
 "Nothing left out yet today." = "Bugün henüz hiçbir şey dışarıda bırakılmadı.";
 "Counted on this Mac, without any of the content, and started again each day." = "Bu Mac’te, hiçbir içerik olmadan sayılır ve her gün sıfırlanır.";
+"Always paste as plain text in" = "Her zaman düz metin olarak yapıştır:";
+"Color in other formats" = "Başka biçimlerde renk";
+"Copies merged into a new one" = "Kopyalar yeni bir kopyada birleştirildi";
+"Copies merged into a new one, without the secrets" = "Kopyalar gizli bilgiler olmadan yeni bir kopyada birleştirildi";
+"Merge into one copy" = "Tek kopyada birleştir";
+"No apps yet" = "Henüz uygulama yok";
+"Stop pasting plain text in %@" = "%@ içine düz metin yapıştırmayı bırak";
+"These copies have no text to merge." = "Bu kopyalarda birleştirilecek metin yok.";
+"When encore pastes into these apps, fonts, colors and links are left out, as with ⇧↩. Useful for Terminal, a chat or a code editor." = "encore bu uygulamalara yapıştırdığında yazı tipleri, renkler ve bağlantılar ⇧↩ ile olduğu gibi dışarıda bırakılır. Terminal, bir sohbet ya da kod düzenleyici için kullanışlı.";
+"{{uuid}} adds a unique identifier, and {{date:dd/MM/yyyy}} or {{time:HH:mm}} use your own format." = "{{uuid}} benzersiz bir tanımlayıcı ekler; {{date:dd/MM/yyyy}} veya {{time:HH:mm}} kendi biçiminizi kullanır.";

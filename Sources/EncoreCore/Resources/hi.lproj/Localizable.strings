@@ -496,3 +496,13 @@
 "Left out today" = "आज छोड़ी गईं";
 "Nothing left out yet today." = "आज अभी तक कुछ नहीं छोड़ा गया।";
 "Counted on this Mac, without any of the content, and started again each day." = "इस Mac पर गिना गया, बिना किसी सामग्री के, और हर दिन नए सिरे से।";
+"Always paste as plain text in" = "इनमें हमेशा सादे टेक्स्ट के रूप में पेस्ट करें";
+"Color in other formats" = "रंग दूसरे फ़ॉर्मैट में";
+"Copies merged into a new one" = "कॉपी एक नई कॉपी में मिला दी गईं";
+"Copies merged into a new one, without the secrets" = "कॉपी एक नई कॉपी में मिला दी गईं, सीक्रेट के बिना";
+"Merge into one copy" = "एक कॉपी में मिलाएँ";
+"No apps yet" = "अभी कोई ऐप नहीं";
+"Stop pasting plain text in %@" = "%@ में सादा टेक्स्ट पेस्ट करना बंद करें";
+"These copies have no text to merge." = "इन कॉपी में मिलाने लायक टेक्स्ट नहीं है।";
+"When encore pastes into these apps, fonts, colors and links are left out, as with ⇧↩. Useful for Terminal, a chat or a code editor." = "जब encore इन ऐप में पेस्ट करता है, तो फ़ॉन्ट, रंग और लिंक छोड़ दिए जाते हैं, जैसे ⇧↩ के साथ। Terminal, चैट या कोड एडिटर के लिए उपयोगी।";
+"{{uuid}} adds a unique identifier, and {{date:dd/MM/yyyy}} or {{time:HH:mm}} use your own format." = "{{uuid}} एक अनोखा पहचानकर्ता जोड़ता है, और {{date:dd/MM/yyyy}} या {{time:HH:mm}} आपके अपने फ़ॉर्मैट का पालन करते हैं।";
