@@ -349,8 +349,9 @@ $support_dialog
 
 ARROW = '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3v11M5 9.5l5 5 5-5M4 17h12"/></svg>'
 
-# Sends French-speaking visitors to /fr/ on their first visit, unless they picked a language.
-DETECT = """<script>try{if(!localStorage.getItem("lang")&&/^fr\\b/i.test(navigator.language||""))location.replace("fr/")}catch(e){}</script>"""
+# Sends French-speaking visitors to the same page in French on their first visit, unless they picked a language.
+# The anchor follows, so a link to one version of the changelog lands on that version.
+DETECT = Template("""<script>try{if(!localStorage.getItem("lang")&&/^fr\\b/i.test(navigator.language||""))location.replace("$target"+location.hash)}catch(e){}</script>""")
 
 DOWNLOAD = f"""<!doctype html>
 <html lang="en">
@@ -465,7 +466,7 @@ def layout(lang, s, page, title, description, main):
         lang=lang, base=base, url=SITE + root + page, site=SITE, repo=REPO, home=root,
         title=e(title), description=e(description),
         alternates="\n".join(f'<link rel="alternate" hreflang="{c}" href="{SITE}{"" if c == "en" else "fr/"}{page}">' for c in ("en", "fr")),
-        detect=DETECT if lang == "en" and not page else "",
+        detect=DETECT.substitute(target=base + "fr/" + page) if lang == "en" else "",
         langs=langs, privacy_nav=e(s["privacy_nav"]), privacy_current=CURRENT if page == "privacy/" else "",
         features_nav=e(s["features_nav"]), features_current=CURRENT if page == "features/" else "",
         changelog_nav=e(s["changelog_nav"]), changelog_current=CURRENT if page == "changelog/" else "",
