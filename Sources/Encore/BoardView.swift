@@ -177,7 +177,7 @@ private struct CapturePauseButton: View {
                         .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain).padding(2).background(Color.orange.opacity(0.15), in: Capsule())
-                .help(L("Resume capture")).accessibilityLabel(L("Resume capture"))
+                .help(L("Resume capture") + " · " + Localization.keys("⌘P")).accessibilityLabel(L("Resume capture"))
                 PauseCountdown(until: model.preferences.captureResumesAt)
                     .transition(.opacity.combined(with: .move(edge: .leading)))
             } else {
@@ -194,7 +194,7 @@ private struct CapturePauseButton: View {
                 }
                 .buttonStyle(.plain).foregroundStyle(.primary.opacity(0.7))
                 .padding(2).background(.primary.opacity(0.06), in: Capsule())
-                .help(L("Pause capture")).accessibilityLabel(L("Pause capture"))
+                .help(L("Pause capture") + " · " + Localization.keys("⌘P")).accessibilityLabel(L("Pause capture"))
             }
         }
         .animation(.easeOut(duration: 0.2), value: paused)

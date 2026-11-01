@@ -341,7 +341,7 @@ final class EncorePanel: NSPanel {
             case "n":
                 if shift { openLibraryFromColumn(); model.createCollection() } else { newText() }
                 return nil
-            case "t": model.setCapture(!model.preferences.captureEnabled); return nil
+            case "p": model.setCapture(!model.preferences.captureEnabled); return nil
             case "e": model.inspector = model.selected; return nil
             // The compact window is too small to rename or make a snippet: these open the library first.
             case "r": if model.remotePeer == nil { openLibraryFromColumn(); model.renamingID = model.selected?.id }; return nil

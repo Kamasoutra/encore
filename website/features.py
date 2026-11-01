@@ -200,7 +200,7 @@ RELEASES = {
                 ("new", "<b>Merge into one copy.</b> Right-click a selection: its copies become one new copy, in selection order, one per line, ready to keep as a snippet or a favorite. Detected secrets stay out."),
                 ("new", "<b>Colors in other formats.</b> Right-click a color for its HEX, RGB, HSL and SwiftUI forms: each one becomes a copy, ready to paste."),
                 ("better", "<b>More snippet placeholders.</b> <code>{{uuid}}</code> adds a unique identifier, and <code>{{date:dd/MM/yyyy}}</code> or <code>{{time:HH:mm}}</code> take your own format."),
-                ("better", "<b>Pause from the footer.</b> A pause button sits next to the shelf and compact switch: 5 minutes, 1 hour, until resumed, or a duration of your own, also offered by the menu bar icon. While paused, the time left counts down beside it, and one click resumes."),
+                ("better", "<b>Pause from the footer.</b> A pause button sits next to the shelf and compact switch: 5 minutes, 1 hour, until resumed, or a duration of your own, also offered by the menu bar icon. While paused, the time left counts down beside it, and one click resumes. ⌘P now pauses and resumes from the shelf, in place of ⌘T."),
             ]),
             ("0.7.0", "2026-10-31", "settings-data.png", "More privacy, and cards in your order.", [
                 ("new", "<b>Hidden from screen sharing.</b> encore’s windows are left out of screen sharing, recordings and screenshots: open your history during a call, and nobody else sees it. Settings → Privacy turns it off when you want a screenshot."),
@@ -303,7 +303,7 @@ RELEASES = {
                 ("new", "<b>Fusionner en une copie.</b> Clic droit sur une sélection : ses copies deviennent une nouvelle copie, dans l’ordre de sélection, une par ligne, à garder en snippet ou en favori. Les secrets détectés restent à l’écart."),
                 ("new", "<b>Les couleurs dans d’autres formats.</b> Clic droit sur une couleur pour ses formes HEX, RGB, HSL et SwiftUI : chacune devient une copie, prête à coller."),
                 ("better", "<b>Plus de variables dans les snippets.</b> <code>{{uuid}}</code> ajoute un identifiant unique, et <code>{{date:dd/MM/yyyy}}</code> ou <code>{{time:HH:mm}}</code> suivent ton propre format."),
-                ("better", "<b>La pause depuis le pied de fenêtre.</b> Un bouton pause se trouve à côté du choix bandeau ou compact : 5 minutes, 1 heure, jusqu’à reprise, ou la durée de ton choix, aussi proposée par l’icône de la barre des menus. Pendant la pause, le temps restant défile à côté, et un clic reprend."),
+                ("better", "<b>La pause depuis le pied de fenêtre.</b> Un bouton pause se trouve à côté du choix bandeau ou compact : 5 minutes, 1 heure, jusqu’à reprise, ou la durée de ton choix, aussi proposée par l’icône de la barre des menus. Pendant la pause, le temps restant défile à côté, et un clic reprend. ⌘P met désormais en pause et reprend depuis le bandeau, à la place de ⌘T."),
             ]),
             ("0.7.0", "2026-10-31", "settings-data.png", "Plus de confidentialité, et tes cartes dans ton ordre.", [
                 ("new", "<b>Masqué des partages d’écran.</b> Les fenêtres d’encore sont exclues des partages d’écran, enregistrements et captures : ouvre ton historique en pleine visio, personne d’autre ne le voit. Réglages → Confidentialité le désactive quand tu veux une capture."),
