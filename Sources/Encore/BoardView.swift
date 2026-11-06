@@ -1373,7 +1373,13 @@ private struct SideRow: View {
         .accessibilityValue(order.map { L("Pasted in position \($0)") } ?? (selected ? L("Selected") : ""))
         .accessibilityAddTraits(.isButton)
         .accessibilityAction { model.select(clip.id); model.paste([clip]) }
-        .help(clip.kind == .text ? String(clip.text.prefix(400)) : clip.fileNames.count > 1 ? clip.fileNames.joined(separator: "\n") : clip.displayTitle)
+        .help(tooltip)
+    }
+
+    // Apart from body: inside it, this expression took the CI compiler too long to type-check.
+    private var tooltip: String {
+        if clip.kind == .text { return String(clip.text.prefix(400)) }
+        return clip.fileNames.count > 1 ? clip.fileNames.joined(separator: "\n") : clip.displayTitle
     }
 
     @ViewBuilder private var preview: some View {
