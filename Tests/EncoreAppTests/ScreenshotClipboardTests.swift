@@ -4,6 +4,37 @@ import EncoreCore
 @testable import Encore
 
 final class ScreenshotClipboardTests: XCTestCase {
+    func testNewScreenshotsAreFoundWithoutSpotlightAndOtherFilesAreIgnored() throws {
+        let folder = FileManager.default.temporaryDirectory.appendingPathComponent("encore-watch-\(UUID())")
+        try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        func file(_ name: String, marked: Bool) throws -> URL {
+            let url = folder.appendingPathComponent(name)
+            try Data("image".utf8).write(to: url)
+            if marked {
+                let mark = try PropertyListSerialization.data(fromPropertyList: true, format: .binary, options: 0)
+                XCTAssertEqual(mark.withUnsafeBytes { setxattr(url.path, "com.apple.metadata:kMDItemIsScreenCapture", $0.baseAddress, mark.count, 0, 0) }, 0)
+            }
+            return url
+        }
+        let old = try file("old.jpg", marked: true)
+        try FileManager.default.setAttributes([.creationDate: Date(timeIntervalSinceNow: -3600)], ofItemAtPath: old.path)
+
+        let arrived = expectation(description: "screenshot found")
+        arrived.assertForOverFulfill = false
+        let names = NSLock(); nonisolated(unsafe) var found = Set<String>()
+        let watcher = ScreenCaptureWatcher(folder: folder, since: Date(timeIntervalSinceNow: -5)) { url in
+            names.lock(); found.insert(url.lastPathComponent); names.unlock(); arrived.fulfill()
+        }
+        XCTAssertTrue(watcher.start()); defer { watcher.stop() }
+        _ = try file("download.jpg", marked: false)
+        _ = try file(".hidden.jpg", marked: true)
+        _ = try file("capture.jpg", marked: true)
+        wait(for: [arrived], timeout: 5)
+        names.lock(); defer { names.unlock() }
+        XCTAssertEqual(found, ["capture.jpg"], "Only a new, visible file carrying macOS's mark")
+    }
+
     @MainActor private func withModel(_ action: (AppModel, NSPasteboard, Data, URL) throws -> Void) throws {
         let pb = NSPasteboard(name: .init("Encore-Screenshot-Copy-\(UUID())"))
         let model = AppModel(demo: true, pasteboard: pb)

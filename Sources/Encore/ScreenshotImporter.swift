@@ -4,8 +4,7 @@ import ImageIO
 
 @MainActor final class ScreenshotImporter {
     private unowned let model: AppModel
-    private var query: NSMetadataQuery?
-    private var observers: [NSObjectProtocol] = []
+    private var watcher: ScreenCaptureWatcher?
     private var configuration = ""
     private var seen = Set<String>()
     private var generation = UUID()
@@ -25,33 +24,23 @@ import ImageIO
         guard signature != configuration else { return }
         stop(); configuration = signature
         guard enabled else { return }
-        let query = NSMetadataQuery()
-        query.searchScopes = [folder]
-        query.predicate = NSPredicate(format: "kMDItemIsScreenCapture == 1 AND kMDItemFSCreationDate >= %@", Date() as NSDate)
-        query.sortDescriptors = [NSSortDescriptor(key: NSMetadataItemFSCreationDateKey, ascending: true)]
-        for name in [Notification.Name.NSMetadataQueryDidFinishGathering, .NSMetadataQueryDidUpdate] {
-            observers.append(NotificationCenter.default.addObserver(forName: name, object: query, queue: .main) { [weak self] _ in
-                MainActor.assumeIsolated { self?.consume() }
-            })
+        var created: ScreenCaptureWatcher?
+        let watcher = ScreenCaptureWatcher(folder: URL(fileURLWithPath: folder)) { [weak self] url in
+            DispatchQueue.main.async {
+                MainActor.assumeIsolated {
+                    guard let self, self.watcher != nil, self.watcher === created else { return }
+                    self.enqueue(url)
+                }
+            }
         }
-        self.query = query
-        if !query.start() { model.notify(L("Screenshot monitoring is unavailable for this folder.")) }
+        created = watcher
+        self.watcher = watcher
+        if !watcher.start() { model.notify(L("Screenshot monitoring is unavailable for this folder.")) }
     }
 
     func stop() {
-        query?.stop(); query = nil
-        observers.forEach { NotificationCenter.default.removeObserver($0) }; observers = []
+        watcher?.stop(); watcher = nil
         generation = UUID(); seen = []
-    }
-
-    private func consume() {
-        guard let query else { return }
-        query.disableUpdates()
-        defer { query.enableUpdates() }
-        for index in 0..<query.resultCount {
-            guard let item = query.result(at: index) as? NSMetadataItem, let path = item.value(forAttribute: NSMetadataItemPathKey) as? String else { continue }
-            enqueue(URL(fileURLWithPath: path))
-        }
     }
 
     func enqueue(_ url: URL) {
@@ -95,5 +84,56 @@ import ImageIO
         guard currentRevision == expectedRevision || currentRevision == model.clipboard.automaticScreenshotRevision,
               model.clipboard.lastChangeAt <= capturedAt else { return }
         model.clipboard.write(payload, sourceBundle: "com.apple.screencaptureui", screenshotCapturedAt: capturedAt)
+    }
+}
+
+/// Finds new screenshots by watching their folder and reading the mark macOS writes on each file.
+/// Not through Spotlight: when its index stops updating, which macOS does not report, screenshots would silently stop arriving.
+final class ScreenCaptureWatcher: @unchecked Sendable {
+    private let folder: URL
+    private let since: Date
+    private let found: @Sendable (URL) -> Void
+    private let queue = DispatchQueue(label: "local.kama.Encore.screenshots.watch", qos: .utility)
+    private var source: DispatchSourceFileSystemObject?
+
+    init(folder: URL, since: Date = Date(), found: @escaping @Sendable (URL) -> Void) {
+        self.folder = folder; self.since = since; self.found = found
+    }
+
+    func start() -> Bool {
+        let descriptor = open(folder.path, O_EVTONLY)
+        guard descriptor >= 0 else { return false }
+        let source = DispatchSource.makeFileSystemObjectSource(fileDescriptor: descriptor, eventMask: .write, queue: queue)
+        source.setEventHandler { [weak self] in
+            guard let self else { return }
+            // The folder changes when the file appears, but not when its mark is written, just after: look again a little later.
+            for delay in [0.3, 2, 5] { self.queue.asyncAfter(deadline: .now() + delay) { [weak self] in self?.scan() } }
+        }
+        source.setCancelHandler { close(descriptor) }
+        source.resume()
+        self.source = source
+        return true
+    }
+
+    func stop() { source?.cancel(); source = nil }
+
+    private func scan() {
+        let keys: Set<URLResourceKey> = [.creationDateKey]
+        let urls = (try? FileManager.default.contentsOfDirectory(at: folder, includingPropertiesForKeys: Array(keys), options: .skipsHiddenFiles)) ?? []
+        let captures = urls.compactMap { url -> (url: URL, date: Date)? in
+            guard let date = (try? url.resourceValues(forKeys: keys))?.creationDate, date >= since, Self.isScreenCapture(url) else { return nil }
+            return (url, date)
+        }
+        for capture in captures.sorted(by: { $0.date < $1.date }) { found(capture.url) }
+    }
+
+    static func isScreenCapture(_ url: URL) -> Bool {
+        let name = "com.apple.metadata:kMDItemIsScreenCapture"
+        let size = getxattr(url.path, name, nil, 0, 0, 0)
+        guard size > 0 else { return false }
+        var data = Data(count: size)
+        let read = data.withUnsafeMutableBytes { getxattr(url.path, name, $0.baseAddress, size, 0, 0) }
+        guard read == size, let value = try? PropertyListSerialization.propertyList(from: data, format: nil) else { return false }
+        return (value as? NSNumber)?.boolValue == true
     }
 }
