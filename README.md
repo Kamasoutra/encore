@@ -2,7 +2,7 @@
 <h1 align="center">encore</h1>
 <p align="center"><strong>Your clipboard. Yours to keep.</strong></p>
 <p align="center">A native clipboard manager for macOS. Free, open source, and local.<br>No account, no subscription, no cloud.</p>
-<p align="center"><a href="https://github.com/Kamasoutra/encore/releases/latest/download/Encore-macOS.zip"><strong>Download for Mac ↓</strong></a> · <a href="https://kamasoutra.github.io/encore/">Website</a> · <a href="https://github.com/Kamasoutra/encore/releases">Releases</a></p>
+<p align="center"><a href="https://github.com/Kamasoutra/encore/releases/latest/download/Encore-macOS.zip"><strong>Download for Mac ↓</strong></a> · <a href="https://kamasoutra.github.io/encore/">Website</a> · <a href="https://kamasoutra.github.io/encore/how-it-works/">How it works</a> · <a href="https://github.com/Kamasoutra/encore/releases">Releases</a></p>
 <p align="center">macOS 12+ · Apple Silicon & Intel · 30 languages · MIT</p>
 
 <p align="center"><code>brew install --cask kamasoutra/tap/encore</code></p>
@@ -40,6 +40,7 @@ Write `{{name}}` in a snippet and encore asks for the value before pasting. `{{c
 - **Exclusions** keep password managers out, and content that apps mark as confidential is skipped.
 - **Passwords from browser extensions** leave the history when the extension clears the clipboard (in Bitwarden: Settings → Options → Clear clipboard). Optional detection masks copies that look like passwords, API keys, tokens or card numbers, and deletes them after a delay you choose.
 - **Clear the history** from the menu bar, from Settings, or with `open encore://clear-history`, keeping favorites and snippets or not.
+- **Paste what you copied:** copied files paste as their text and images into a document, while the Finder and attachments still get the files. A copy of several files shows, previews and drags them all.
 - **Several cards at once:** select them with ⌘-click or ⇧ and the arrows, each one shows its number, and they paste in the order you picked.
 - **A paste queue** pastes several items in order, one ⌘V at a time.
 - **Pause capture for a while** from the footer or the menu bar icon: 5 minutes, 1 hour, a duration of your own, or until resumed. The time left counts down, and ⌘P pauses or resumes at once.
@@ -143,7 +144,7 @@ Files are referenced rather than copied into encore, so a multi-gigabyte file us
 
 The full picture, including what encore does not do yet, is on the website: **[Your data, in plain words](https://kamasoutra.github.io/encore/privacy/)**.
 
-History lives in `~/Library/Application Support/Encore/` and never leaves your Mac unless you turn on sharing. There is no account, telemetry, or remote link preview. Since 0.7 the history can be **encrypted on disk** with a key kept in your keychain, in Settings → Data. It is off by default for now: encore is not signed by Apple yet, so macOS ties the key to each build and asks for your Mac password after every update. Once encore is signed, encryption will be on by default. Settings → Data can also keep the history in memory only, with only favorites, snippets and collections written to disk. Exported backups stay readable JSON.
+History lives in `~/Library/Application Support/Encore/` and never leaves your Mac unless you turn on sharing or connect an assistant (MCP). There is no account, telemetry, or remote link preview. Since 0.7 the history can be **encrypted on disk** with a key kept in your keychain, in Settings → Data. It is off by default for now: encore is not signed by Apple yet, so macOS ties the key to each build and asks for your Mac password after every update. Once encore is signed, encryption will be on by default. Settings → Data can also keep the history in memory only, with only favorites, snippets and collections written to disk. Exported backups stay readable JSON.
 
 encore makes two kinds of network requests, both optional:
 
@@ -165,6 +166,8 @@ open dist/Encore.app
 ```
 
 Use `open -n dist/Encore.app --args --demo` for a separate, synthetic library. Quit the normal instance first. Without the release certificate, the build script signs ad hoc.
+
+To see how the code fits together, follow a copy, a paste or a share step by step on the **[How it works](https://kamasoutra.github.io/encore/how-it-works/)** map, down to each file.
 
 encore is independently implemented and includes no code or assets from other clipboard apps. The default sound sets are synthesized by `scripts/sounds.py`. The Soft, Crisp and Wood sets are adapted from [Kenney's Interface Sounds](https://kenney.nl/assets/interface-sounds), released under CC0. Language icons come from [Seti UI](https://github.com/jesseweed/seti-ui), MIT.
 

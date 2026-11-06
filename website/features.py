@@ -6,13 +6,13 @@ Each one says the version it arrived in: check it against `git tag --contains` w
 
 from html import escape
 
-LATEST = "0.7.1"
+LATEST = "0.8.0"
 
 # (key, version, media, title, text): media is an image or video in media/<lang>/, or None for the cards at the end.
 FEATURES = {
     "en": {
         "page_title": "Features · encore",
-        "description": "Everything encore does: the shelf, the library, snippets, the compact window, your other Macs, and the details.",
+        "description": "Everything encore does: your clipboard in your AI assistant, the shelf, the library, snippets, the compact window, your other Macs, and the details.",
         "title": "Everything encore does",
         "lead": "A clipboard manager is a small thing you use a hundred times a day. Here is all of it, the big ideas first, each with the version that brought it.",
         "since": "Since {}",
@@ -20,6 +20,8 @@ FEATURES = {
         "more_title": "And the details",
         "changelog": "See every version",
         "items": [
+            ("mcp", "0.8.0", "settings-mcp.png", "Your clipboard, in your AI assistant",
+             "Connect Claude Code, Claude Desktop, Codex, Cursor, VS Code or another MCP assistant, and it can find what you copied this morning, read a copy, put text on your clipboard or save a snippet. Settings → MCP gives you the setup to copy for each one. It is off by default and local to this Mac, detected secrets stay hidden unless you allow access, and Settings show the last 200 calls, without clipboard content. What your assistant reads then follows its own data rules. encore must be running and starts automatically."),
             ("shelf", "0.2", "shelf.png", "Your clipboard, one shortcut away",
              "Press <kbd>⇧⌘V</kbd> wherever you type: your latest copies line up in a shelf at the bottom of the screen. Each card shows what it holds, the text, the image, the page of a PDF, the color, the code, and the app it came from. Pick one with the arrows, press <kbd>↩</kbd>, and it is pasted right where you were. <kbd>⌘1</kbd> to <kbd>⌘9</kbd> paste the first nine without moving."),
             ("library", "0.3", "library.png", "A library when you need to dig",
@@ -48,8 +50,10 @@ FEATURES = {
              "A soft sound on copy and paste, so you know it worked without looking. Pick one of nine sets, preview each in one click, or use your own files and, since 0.6, the sounds that come with macOS."),
             ("keyboard", "0.2", "settings-shortcuts.png", "All from the keyboard",
              "Everything has a key: search, preview, favorite, rename, delete and undo, switch boards with <kbd>⌘←</kbd> <kbd>⌘→</kbd>, paste as plain text with <kbd>⇧↩</kbd>. Search understands <code>app:safari</code>, <code>type:image</code>, <code>tag:</code>, <code>lang:</code> and dates."),
-            ("mcp", "0.8.0", None, "Your clipboard, from an assistant",
-             "Connect Claude Code, Claude Desktop, Codex, Cursor, VS Code or another MCP assistant to search your history, read a copy, put text on the clipboard or save a snippet. Off by default, local to this Mac, with detected secrets hidden unless you allow access. encore must be running and starts automatically. The last 200 calls appear in Settings, without clipboard content."),
+            ("paste-contents", "0.8.0", None, "Paste what you copied",
+             "Paste copied files into a document and you get their text and images, up to 25 MB in all, while the Finder and attachments still get the files. PDFs and archives stay files."),
+            ("several-files", "0.8.0", None, "Several files, one copy",
+             "A copy of several files says so on its card, shows them all in the preview with <kbd>Space</kbd> and in the compact window, and a drag takes them all."),
             ("order", "0.7.0", None, "Pasted in the order you pick",
              "Select several cards with <kbd>⌘</kbd>-click or <kbd>⇧</kbd> and the arrows: each one shows its number, and they paste in that order, in the shelf, the library and the compact window."),
             ("screen-sharing", "0.7.0", None, "Hidden from screen sharing",
@@ -106,6 +110,8 @@ FEATURES = {
         "more_title": "Et les détails",
         "changelog": "Voir toutes les versions",
         "items": [
+            ("mcp", "0.8.0", "settings-mcp.png", "Ton presse-papiers, dans ton assistant IA",
+             "Connecte Claude Code, Claude Desktop, Codex, Cursor, VS Code ou un autre assistant MCP : il peut retrouver ce que tu as copié ce matin, lire une copie, mettre du texte dans ton presse-papiers ou enregistrer un snippet. Réglages → MCP te donne la configuration à copier pour chacun. C’est désactivé par défaut et limité à ce Mac, les secrets détectés restent invisibles sauf si tu l’autorises, et les réglages montrent les 200 derniers appels, sans le contenu des copies. Ce que ton assistant lit suit ensuite ses propres règles. encore doit tourner et se lance automatiquement."),
             ("shelf", "0.2", "shelf.png", "Ton presse-papiers, à un raccourci",
              "Appuie sur <kbd>⇧⌘V</kbd> où que tu écrives : tes dernières copies s’alignent dans un bandeau en bas de l’écran. Chaque carte montre ce qu’elle contient, le texte, l’image, la page d’un PDF, la couleur, le code, et l’app d’où elle vient. Choisis avec les flèches, appuie sur <kbd>↩</kbd>, et c’est collé là où tu étais. <kbd>⌘1</kbd> à <kbd>⌘9</kbd> collent les neuf premières sans bouger."),
             ("library", "0.3", "library.png", "Une bibliothèque pour fouiller",
@@ -134,8 +140,10 @@ FEATURES = {
              "Un son léger à la copie et au collage, pour savoir que c’est fait sans regarder. Choisis parmi neuf jeux, écoute chacun en un clic, ou utilise tes propres fichiers et, depuis la 0.6, les sons fournis avec macOS."),
             ("keyboard", "0.2", "settings-shortcuts.png", "Tout au clavier",
              "Chaque action a sa touche : chercher, prévisualiser, mettre en favori, renommer, supprimer et annuler, changer de panneau avec <kbd>⌘←</kbd> <kbd>⌘→</kbd>, coller en texte brut avec <kbd>⇧↩</kbd>. La recherche comprend <code>app:safari</code>, <code>type:image</code>, <code>tag:</code>, <code>lang:</code> et les dates."),
-            ("mcp", "0.8.0", None, "Ton presse-papiers, depuis un assistant",
-             "Connecte Claude Code, Claude Desktop, Codex, Cursor, VS Code ou un autre assistant MCP pour retrouver une copie, la lire, mettre du texte dans le presse-papiers ou enregistrer un snippet. C’est désactivé par défaut, limité à ce Mac, et les secrets détectés restent invisibles sauf si tu l’autorises. encore doit tourner et se lance automatiquement. Les 200 derniers appels sont visibles dans les réglages, sans le contenu des copies."),
+            ("paste-contents", "0.8.0", None, "Colle ce que tu as copié",
+             "Colle des fichiers copiés dans un document et tu obtiens leur texte et leurs images, jusqu’à 25 Mo au total, pendant que le Finder et les pièces jointes reçoivent toujours les fichiers. Les PDF et les archives restent des fichiers."),
+            ("several-files", "0.8.0", None, "Plusieurs fichiers, une copie",
+             "Une copie de plusieurs fichiers l’indique sur sa tuile, les montre tous dans l’aperçu avec <kbd>Espace</kbd> et la fenêtre compacte, et un glisser les emporte tous."),
             ("order", "0.7.0", None, "Collé dans l’ordre choisi",
              "Sélectionne plusieurs cartes avec <kbd>⌘</kbd>-clic ou <kbd>⇧</kbd> et les flèches : chacune affiche son numéro, et elles se collent dans cet ordre, dans le bandeau, la bibliothèque et la fenêtre compacte."),
             ("screen-sharing", "0.7.0", None, "Masqué des partages d’écran",
@@ -199,6 +207,17 @@ RELEASES = {
         "pace": "{} versions in {} days",
         "latest": "Latest",
         "items": [
+            ("0.8.0", "2026-11-06", "settings-mcp.png", "Your clipboard in your AI assistant, and what you copied when you paste files.", [
+                ("new", "<b>Your clipboard, in your AI assistant.</b> Connect Claude Code, Claude Desktop, Codex, Cursor, VS Code or another MCP assistant: it can search your history, read a copy, put text on your clipboard, save a snippet or set a favorite. Off by default and local to this Mac. Settings → MCP gives you the setup to copy for each one."),
+                ("new", "<b>You stay in control.</b> Detected secrets stay hidden from assistants unless you allow access, and Settings show the last 200 calls, without clipboard content. What your assistant reads then follows its own data rules."),
+                ("new", "<b>Paste what you copied.</b> Paste copied files into a document and you get their text and images, up to 25 MB in all, while the Finder and attachments still get the files. PDFs and archives stay files."),
+                ("new", "<b><a href=\"../how-it-works/\">How it works</a>.</b> A new page of this site maps all of encore’s code and walks through what happens when you copy, paste or share, step by step, down to each file on GitHub."),
+                ("better", "<b>Several files, one copy.</b> The card says how many files a copy holds, the <kbd>Space</kbd> preview and the compact window show them all, and Open and Share act on all of them."),
+                ("better", "An assistant keeps working when encore restarts: its connection comes back, relaunching encore if needed."),
+                ("fix", "Dragging a copy of several files now takes every file, not just the first."),
+                ("fix", "New screenshots reach your history even when Spotlight has stopped indexing your Mac."),
+                ("fix", "Copies made by encore itself show its icon instead of an empty one."),
+            ]),
             ("0.7.1", "2026-11-01", "settings-general.png", "Plain text where you want it, and a few handy additions.", [
                 ("new", "<b>Plain text where you want it.</b> Settings → General lists the apps that always get plain text when encore pastes into them, as <kbd>⇧↩</kbd> does: Terminal, a chat or a code editor get no fonts, colors or links."),
                 ("new", "<b>Merge into one copy.</b> Right-click a selection: its copies become one new copy, in selection order, one per line, ready to keep as a snippet or a favorite. Detected secrets stay out."),
@@ -302,6 +321,17 @@ RELEASES = {
         "pace": "{} versions en {} jours",
         "latest": "Dernière version",
         "items": [
+            ("0.8.0", "2026-11-06", "settings-mcp.png", "Ton presse-papiers dans ton assistant IA, et ce que tu as copié quand tu colles des fichiers.", [
+                ("new", "<b>Ton presse-papiers, dans ton assistant IA.</b> Connecte Claude Code, Claude Desktop, Codex, Cursor, VS Code ou un autre assistant MCP : il peut chercher dans ton historique, lire une copie, mettre du texte dans ton presse-papiers, enregistrer un snippet ou marquer un favori. Désactivé par défaut et limité à ce Mac. Réglages → MCP te donne la configuration à copier pour chacun."),
+                ("new", "<b>Tu gardes la main.</b> Les secrets détectés restent invisibles pour les assistants sauf si tu l’autorises, et les réglages montrent les 200 derniers appels, sans le contenu des copies. Ce que ton assistant lit suit ensuite ses propres règles."),
+                ("new", "<b>Colle ce que tu as copié.</b> Colle des fichiers copiés dans un document et tu obtiens leur texte et leurs images, jusqu’à 25 Mo au total, pendant que le Finder et les pièces jointes reçoivent toujours les fichiers. Les PDF et les archives restent des fichiers."),
+                ("new", "<b><a href=\"../how-it-works/\">Comment ça marche</a>.</b> Une nouvelle page de ce site cartographie tout le code d’encore et montre ce qui se passe quand tu copies, colles ou partages, étape par étape, jusqu’à chaque fichier sur GitHub."),
+                ("better", "<b>Plusieurs fichiers, une copie.</b> La tuile indique combien de fichiers contient une copie, l’aperçu avec <kbd>Espace</kbd> et la fenêtre compacte les montrent tous, et Ouvrir et Partager agissent sur tous."),
+                ("better", "Un assistant continue de fonctionner quand encore redémarre : sa connexion revient, en relançant encore si besoin."),
+                ("fix", "Glisser une copie de plusieurs fichiers emporte maintenant tous les fichiers, pas seulement le premier."),
+                ("fix", "Les nouvelles captures d’écran arrivent dans ton historique même quand Spotlight n’indexe plus ton Mac."),
+                ("fix", "Les copies faites par encore lui-même affichent son icône au lieu d’une icône vide."),
+            ]),
             ("0.7.1", "2026-11-01", "settings-general.png", "Du texte brut là où tu veux, et quelques ajouts pratiques.", [
                 ("new", "<b>Du texte brut là où tu veux.</b> Réglages → Général liste les apps qui reçoivent toujours du texte brut quand encore y colle, comme avec <kbd>⇧↩</kbd> : le Terminal, une messagerie ou un éditeur de code n’ont ni polices, ni couleurs, ni liens."),
                 ("new", "<b>Fusionner en une copie.</b> Clic droit sur une sélection : ses copies deviennent une nouvelle copie, dans l’ordre de sélection, une par ligne, à garder en snippet ou en favori. Les secrets détectés restent à l’écart."),
