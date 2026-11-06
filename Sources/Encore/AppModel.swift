@@ -1,4 +1,5 @@
 import AppKit
+import UniformTypeIdentifiers
 import CryptoKit
 import SwiftUI
 import Vision
@@ -1018,6 +1019,50 @@ struct PeerStatus: Identifiable, Equatable {
         return nil
     }
 
+    /// The text or image of each file that has one, read when pasting, within the size allowed for a copy. Other files (a PDF, an archive) give nothing.
+    private func fileContents(_ urls: [URL]) -> [(text: String?, image: (data: Data, type: String)?)] {
+        var total = 0
+        return urls.compactMap { url in
+            let name = url.pathExtension.lowercased()
+            guard let type = UTType(filenameExtension: name), let size = (try? url.resourceValues(forKeys: [.fileSizeKey]))?.fileSize, total + size <= PasteboardCapture.maxBytes else { return nil }
+            let isImage = [UTType.png, .jpeg, .tiff, .heic, .gif].contains(type)
+            // RTF and HTML count as text, but their raw markup is not what was copied.
+            let isText = !isImage && !type.conforms(to: .rtf) && !type.conforms(to: .html) && (type.conforms(to: .text) || ["md", "markdown"].contains(name))
+            guard isImage || isText, let data = try? Data(contentsOf: url) else { return nil }
+            total += size
+            if isImage { return (nil, (data, type.identifier)) }
+            return String(data: data, encoding: .utf8).map { ($0, nil) }
+        }
+    }
+
+    /// Pasting files gives what was copied: their contents for the apps that take text or images, and still the files themselves
+    /// for those that take files, like the Finder or an attachment. Only the first item carries the contents, because many apps read no other.
+    func withFileContents(_ payload: ClipPayload) -> ClipPayload {
+        let parts = fileContents(payload.fileURLs)
+        guard !parts.isEmpty else { return payload }
+        let fileKey = "public.file-url"
+        // Finder's names and icons would compete with the contents.
+        var items = payload.items.map { item in PasteItem(item.representations.filter { $0.key == fileKey }) }
+        var contents = items[0].representations
+        let text = parts.compactMap(\.text).joined(separator: "\n")
+        if !text.isEmpty { contents["public.utf8-plain-text"] = Data(text.utf8) }
+        if parts.count == 1, let image = parts[0].image { contents[image.type] = image.data }
+        else if parts.contains(where: { $0.image != nil }) {
+            let rich = NSMutableAttributedString()
+            for (index, part) in parts.enumerated() {
+                if index > 0 { rich.append(NSAttributedString(string: "\n")) }
+                if let image = part.image {
+                    let file = FileWrapper(regularFileWithContents: image.data)
+                    file.preferredFilename = "image-\(index + 1).\(UTType(image.type)?.preferredFilenameExtension ?? "png")"
+                    rich.append(NSAttributedString(attachment: NSTextAttachment(fileWrapper: file)))
+                } else if let text = part.text { rich.append(NSAttributedString(string: text)) }
+            }
+            contents["com.apple.flat-rtfd"] = rich.rtfd(from: NSRange(location: 0, length: rich.length), documentAttributes: [.documentType: NSAttributedString.DocumentType.rtfd])
+        }
+        items[0] = PasteItem(contents)
+        return ClipPayload(items: items)
+    }
+
     /// `fields` holds the values typed in the snippet form; without them a snippet with {{fields}} opens the form first.
     func paste(_ clips: [Clip]? = nil, plain: Bool = false, copyOnly: Bool = false, fields: [String: String]? = nil) {
         let values = clips ?? selectedClips
@@ -1046,7 +1091,7 @@ struct PeerStatus: Identifiable, Equatable {
             clipboard.write(.text(rendered.text), sourceBundle: origin)
             charactersAfterCursor = rendered.charactersAfterCursor
         } else if plain {
-            let text = values.map(plainText(of:)).joined(separator: "\n")
+            let text = values.map { clip in fileContents(fileURLs(for: clip)).compactMap(\.text).joined(separator: "\n").nonEmpty ?? plainText(of: clip) }.joined(separator: "\n")
             guard !text.isEmpty else { notify(L("This item does not contain text.")); return }
             clipboard.write(.text(text), sourceBundle: origin)
         } else if values.count > 1 && values.allSatisfy({ [.text, .code, .link, .color].contains($0.kind) }) {
@@ -1054,7 +1099,8 @@ struct PeerStatus: Identifiable, Equatable {
         } else if values.count > 1 && values.allSatisfy({ [.text, .code, .link, .color, .image].contains($0.kind) }) && !values.allSatisfy({ $0.kind == .image }) {
             clipboard.write(combinedPayload(values), sourceBundle: origin)
         } else {
-            clipboard.write(ClipPayload(items: payloads.flatMap(\.items)), sourceBundle: origin)
+            let merged = ClipPayload(items: payloads.flatMap(\.items))
+            clipboard.write(values.allSatisfy { $0.kind == .file } ? withFileContents(merged) : merged, sourceBundle: origin)
             exact = values.count == 1
         }
         let pastedIDs = Set(values.map(\.id))
@@ -1499,6 +1545,11 @@ struct PeerStatus: Identifiable, Equatable {
                 accept(Clip(fingerprint: payload.fingerprint, kind: .file, text: "", sourceName: "Finder", sourceBundle: "com.apple.finder", copiedAt: Date().addingTimeInterval(-Double(240 + index * 70)), byteCount: payload.byteCount, fileNames: [url.lastPathComponent], referencedFileBytes: PasteboardCapture.referencedSize(of: [url])), payload: payload)
             }
         }
+        // --files adds a copy of several files at once, to show how it looks.
+        if CommandLine.arguments.contains("--files"), let root = storage?.root, let urls = try? DemoFixtures.create(in: root.appendingPathComponent("Examples")), urls.count > 1 {
+            let payload = ClipPayload(items: urls.map { .init([NSPasteboard.PasteboardType.fileURL.rawValue: Data($0.absoluteString.utf8)]) })
+            accept(Clip(fingerprint: payload.fingerprint, kind: .file, text: "", sourceName: "Finder", sourceBundle: "com.apple.finder", copiedAt: Date().addingTimeInterval(-30), byteCount: payload.byteCount, fileNames: urls.map(\.lastPathComponent), referencedFileBytes: PasteboardCapture.referencedSize(of: urls)), payload: payload)
+        }
         if let (text, payload) = try? DemoFixtures.richText() {
             accept(Clip(fingerprint: payload.fingerprint, kind: .text, text: text, sourceName: "Notes", sourceBundle: "com.apple.Notes", copiedAt: Date().addingTimeInterval(-90), byteCount: payload.byteCount), payload: payload)
         }
@@ -1541,7 +1592,21 @@ struct PeerStatus: Identifiable, Equatable {
                 accept(Clip(fingerprint: payload.fingerprint, kind: .detect(text: value), text: value, sourceName: source, sourceBundle: bundle, copiedAt: Date().addingTimeInterval(-age), byteCount: payload.byteCount), payload: payload)
             }
         }
+        // `--demo --mcp-log` turns the MCP server on with past accesses, for screenshots of its settings. It does not listen: that takes `--mcp`.
+        if CommandLine.arguments.contains("--mcp-log") {
+            preferences.mcpEnabled = true; preferences.hideFromScreenSharing = false
+            mcpLog = [("Cursor", "search_history", L("Results: \(Localization.number(4))"), 2400.0), ("Claude Code", "get_clip", L("Copy read"), 1500),
+                      ("Claude Code", "add_snippet", L("Snippet saved"), 900), ("Codex", "copy_to_clipboard", L("Copied to clipboard"), 300), ("Claude Code", "recent_clips", L("Results: \(Localization.number(10))"), 60)].map { client, tool, summary, age in
+                var entry = MCPLogEntry(client: client, tool: tool, summary: summary)
+                entry.date = Date().addingTimeInterval(-age)
+                return entry
+            }
+        }
         library.clips.sort { $0.copiedAt > $1.copiedAt }
         save()
     }
+}
+
+private extension String {
+    var nonEmpty: String? { isEmpty ? nil : self }
 }

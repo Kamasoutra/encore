@@ -170,6 +170,8 @@ final class EncorePanel: NSPanel {
             show()
         }
         if CommandLine.arguments.contains("--settings") { openSettings() }
+        // `--demo --preview` also opens the Space preview, for screenshots.
+        if model.demo, CommandLine.arguments.contains("--preview") { model.quickLook = true }
     }
 
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool { show(); return true }

@@ -5,59 +5,120 @@ import EncoreCore
 import UniformTypeIdentifiers
 
 @MainActor final class FilePreviews: ObservableObject {
-    @Published private(set) var images: [UUID: NSImage] = [:]
-    private var dates: [UUID: Date] = [:]
-    private var requests: [UUID: QLThumbnailGenerator.Request] = [:]
-    private var tokens: [UUID: UUID] = [:]
+    struct Key: Hashable { let id: UUID; let url: URL }
+    @Published private(set) var images: [Key: NSImage] = [:]
+    private var dates: [Key: Date] = [:]
+    private var requests: [Key: QLThumbnailGenerator.Request] = [:]
+    private var tokens: [Key: UUID] = [:]
 
-    func request(_ clip: Clip, urls: [URL]) {
-        guard let url = urls.first, url.isFileURL, dates[clip.id] != clip.copiedAt else { return }
-        if let old = requests.removeValue(forKey: clip.id) { QLThumbnailGenerator.shared.cancel(old) }
-        dates[clip.id] = clip.copiedAt
-        images.removeValue(forKey: clip.id)
+    func image(_ clip: Clip, url: URL) -> NSImage? { images[Key(id: clip.id, url: url)] }
+
+    func request(_ clip: Clip, url: URL) {
+        let key = Key(id: clip.id, url: url)
+        guard url.isFileURL, dates[key] != clip.copiedAt else { return }
+        if let old = requests.removeValue(forKey: key) { QLThumbnailGenerator.shared.cancel(old) }
+        dates[key] = clip.copiedAt
+        images.removeValue(forKey: key)
         let request = QLThumbnailGenerator.Request(fileAt: url, size: CGSize(width: 360, height: 360), scale: 2, representationTypes: .thumbnail)
-        requests[clip.id] = request
+        requests[key] = request
         let token = UUID()
-        tokens[clip.id] = token
+        tokens[key] = token
         QLThumbnailGenerator.shared.generateBestRepresentation(for: request) { [weak self] representation, _ in
             let cg = representation?.cgImage
             DispatchQueue.main.async {
-                guard let self, self.tokens[clip.id] == token else { return }
-                self.requests.removeValue(forKey: clip.id)
+                guard let self, self.tokens[key] == token else { return }
+                self.requests.removeValue(forKey: key)
                 guard let cg else { return }
-                if self.images.count >= 40, let id = self.images.keys.first { self.images.removeValue(forKey: id); self.dates.removeValue(forKey: id) }
-                self.images[clip.id] = NSImage(cgImage: cg, size: .zero)
+                if self.images.count >= 40, let oldest = self.images.keys.first { self.images.removeValue(forKey: oldest); self.dates.removeValue(forKey: oldest) }
+                self.images[key] = NSImage(cgImage: cg, size: .zero)
             }
         }
     }
 
     func remove(_ ids: Set<UUID>) {
-        for id in ids {
-            images.removeValue(forKey: id)
-            dates.removeValue(forKey: id)
-            tokens.removeValue(forKey: id)
-            if let request = requests.removeValue(forKey: id) { QLThumbnailGenerator.shared.cancel(request) }
+        images = images.filter { !ids.contains($0.key.id) }
+        dates = dates.filter { !ids.contains($0.key.id) }
+        tokens = tokens.filter { !ids.contains($0.key.id) }
+        for (key, request) in requests where ids.contains(key.id) {
+            requests.removeValue(forKey: key)
+            QLThumbnailGenerator.shared.cancel(request)
         }
     }
 }
 
+/// One file: its thumbnail, or its icon until there is one.
+private struct FileThumbnail: View {
+    @ObservedObject var previews: FilePreviews
+    let clip: Clip
+    let url: URL?
+    let fitContent: Bool
+    var body: some View {
+        ZStack {
+            Color(nsColor: .textBackgroundColor).opacity(0.5)
+            if let url, let image = previews.image(clip, url: url) {
+                if !fitContent {
+                    GeometryReader { geometry in Image(nsImage: image).resizable().scaledToFill().frame(width: geometry.size.width, height: geometry.size.height, alignment: .top).clipped() }
+                } else { Image(nsImage: image).resizable().scaledToFit().padding(8) }
+            }
+            else if let url { Image(nsImage: NSWorkspace.shared.icon(forFile: url.path)).resizable().scaledToFit().frame(maxWidth: 64, maxHeight: 64).padding(6) }
+            else { Image(systemName: "doc").font(.system(size: 42)).foregroundStyle(.secondary) }
+        }.task(id: clip.copiedAt) { if let url { previews.request(clip, url: url) } }
+    }
+}
+
+/// Every file of a copy: side by side on a card, and with their names where there is room.
 struct FilePreview: View {
     @ObservedObject var previews: FilePreviews
     let clip: Clip
     let urls: [URL]
     var fitContent = false
-    private var isImage: Bool { urls.first.flatMap { UTType(filenameExtension: $0.pathExtension) }?.conforms(to: .image) == true }
     var body: some View {
-        ZStack {
-            Color(nsColor: .textBackgroundColor).opacity(0.5)
-            if let image = previews.images[clip.id] {
-                if !fitContent {
-                    GeometryReader { geometry in Image(nsImage: image).resizable().scaledToFill().frame(width: geometry.size.width, height: geometry.size.height, alignment: .top).clipped() }
-                } else { Image(nsImage: image).resizable().scaledToFit().padding(8) }
+        if urls.count < 2 { FileThumbnail(previews: previews, clip: clip, url: urls.first, fitContent: fitContent) }
+        else if fitContent { gallery }
+        else { mosaic }
+    }
+
+    private func thumbnail(_ index: Int) -> some View {
+        FileThumbnail(previews: previews, clip: clip, url: urls[index], fitContent: false)
+    }
+
+    private var mosaic: some View {
+        VStack(spacing: 2) {
+            HStack(spacing: 2) { thumbnail(0); thumbnail(1) }
+            if urls.count > 2 {
+                HStack(spacing: 2) {
+                    thumbnail(2)
+                    if urls.count > 3 {
+                        thumbnail(3).overlay {
+                            if urls.count > 4 {
+                                ZStack {
+                                    Color.black.opacity(0.55)
+                                    Text("+\(Localization.number(urls.count - 3))").font(.system(size: 15, weight: .semibold, design: .rounded)).foregroundStyle(.white)
+                                }
+                            }
+                        }
+                    }
+                }
             }
-            else if let url = urls.first { Image(nsImage: NSWorkspace.shared.icon(forFile: url.path)).resizable().scaledToFit().frame(width: 64, height: 64) }
-            else { Image(systemName: "doc").font(.system(size: 42)).foregroundStyle(.secondary) }
-        }.task(id: clip.copiedAt) { previews.request(clip, urls: urls) }
+        }
+    }
+
+    private var gallery: some View {
+        GeometryReader { geometry in
+            let columns = min(urls.count, 3)
+            let rows = (urls.count + columns - 1) / columns
+            let height = rows == 1 ? geometry.size.height - 16 : max(180, (geometry.size.height - 26) / 2)
+            ScrollView(rows > 2 ? .vertical : []) {
+                LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: columns), spacing: 10) {
+                    ForEach(urls.indices, id: \.self) { index in
+                        VStack(spacing: 6) {
+                            FileThumbnail(previews: previews, clip: clip, url: urls[index], fitContent: true).clipShape(RoundedRectangle(cornerRadius: 8))
+                            Text(urls[index].lastPathComponent).font(.system(size: 11, weight: .medium)).lineLimit(1).truncationMode(.middle).help(urls[index].lastPathComponent)
+                        }.frame(height: height)
+                    }
+                }.padding(8)
+            }
+        }
     }
 }
 

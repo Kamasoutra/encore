@@ -537,3 +537,4 @@
 "Copy read" = "Odczytano kopię";
 "Snippet saved" = "Zapisano fragment";
 "Favorite updated" = "Zaktualizowano ulubione";
+"%@ files" = "Pliki: %@";

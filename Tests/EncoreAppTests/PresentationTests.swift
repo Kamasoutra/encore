@@ -2,8 +2,16 @@ import XCTest
 import AppKit
 import SwiftUI
 @testable import Encore
+import EncoreCore
 
 final class PresentationTests: XCTestCase {
+    func testACopyOfSeveralFilesIsTitledWithTheirCount() {
+        func title(_ names: [String]) -> String { Clip(fingerprint: "f", kind: .file, text: "", sourceName: "Finder", sourceBundle: "com.apple.finder", byteCount: 0, fileNames: names).typeTitle }
+        XCTAssertEqual(title(["a.png"]), ClipKind.image.itemTitle)
+        XCTAssertEqual(title(["a.png", "b.md"]), L("\(Localization.number(2)) files"))
+        XCTAssertTrue(title(["a.png", "b.md"]).contains(Localization.number(2)))
+    }
+
     func testGlobalQueueShortcutIsOptInAndItsPreferencePersists() throws {
         XCTAssertFalse(Preferences().stackShortcutEnabled)
         XCTAssertFalse(try JSONDecoder().decode(Preferences.self, from: Data("{}".utf8)).stackShortcutEnabled)

@@ -27,6 +27,56 @@ final class ClearedCopyTests: XCTestCase {
         }
     }
 
+    @MainActor func testDraggingFilesCarriesEveryFileAndAMixedSelectionStaysCombined() throws {
+        try withModel { model, pb in
+            let urls = ["a.png", "b.md"].map { URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent($0) }
+            let type = NSPasteboard.PasteboardType.fileURL
+            let payload = ClipPayload(items: urls.map { .init([type.rawValue: Data($0.absoluteString.utf8)]) })
+            let files = Clip(fingerprint: payload.fingerprint, kind: .file, text: "", sourceName: "Finder", sourceBundle: "com.apple.finder", byteCount: payload.byteCount, fileNames: urls.map(\.lastPathComponent))
+            model.accept(files, payload: payload)
+            let clip = try XCTUnwrap(model.library.clips.first { $0.kind == .file })
+
+            let items = clipDragItems(model: model, clip: clip)
+            XCTAssertEqual(items.compactMap { $0.string(forType: type) }, urls.map(\.absoluteString))
+            XCTAssertEqual(items[0].string(forType: .init("local.kama.encore.clip-id")), clip.id.uuidString, "encore's own drop targets read the first item")
+
+            copy("some text", to: pb); model.clipboard.poll()
+            let text = try XCTUnwrap(model.library.clips.first { $0.kind == .text })
+            model.select(clip.id); model.select(text.id, modifiers: .command)
+            let mixed = clipDragItems(model: model, clip: clip)
+            XCTAssertEqual(mixed.count, 1)
+            XCTAssertTrue(mixed[0].string(forType: .string)?.contains("some text") == true)
+        }
+    }
+
+    @MainActor func testPastingFilesGivesTheirContentsAndStillTheFiles() throws {
+        try withModel { model, pb in
+            let folder = FileManager.default.temporaryDirectory.appendingPathComponent("encore-paste-\(UUID())")
+            try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+            defer { try? FileManager.default.removeItem(at: folder) }
+            let png = folder.appendingPathComponent("a.png"), md = folder.appendingPathComponent("b.md"), zip = folder.appendingPathComponent("c.zip")
+            let bitmap = NSBitmapImageRep(bitmapDataPlanes: nil, pixelsWide: 2, pixelsHigh: 2, bitsPerSample: 8, samplesPerPixel: 4, hasAlpha: true, isPlanar: false, colorSpaceName: .deviceRGB, bytesPerRow: 0, bitsPerPixel: 0)!
+            let image = try XCTUnwrap(bitmap.representation(using: .png, properties: [:]))
+            try image.write(to: png); try Data("# Titre".utf8).write(to: md); try Data("zip".utf8).write(to: zip)
+            @MainActor func paste(_ urls: [URL]) throws {
+                let payload = ClipPayload(items: urls.map { .init(["public.file-url": Data($0.absoluteString.utf8), "public.utf8-plain-text": Data($0.lastPathComponent.utf8)]) })
+                model.accept(Clip(fingerprint: payload.fingerprint, kind: .file, text: "", sourceName: "Finder", sourceBundle: "com.apple.finder", byteCount: payload.byteCount, fileNames: urls.map(\.lastPathComponent)), payload: payload)
+                model.paste([try XCTUnwrap(model.library.clips.first { $0.fingerprint == payload.fingerprint })], copyOnly: true)
+                XCTAssertEqual(pb.pasteboardItems?.compactMap { $0.string(forType: .fileURL) }, urls.map(\.absoluteString), "The files stay, for the Finder and attachments")
+            }
+            try paste([md])
+            XCTAssertEqual(pb.string(forType: .string), "# Titre")
+            try paste([png])
+            XCTAssertEqual(pb.data(forType: .png), image)
+            XCTAssertNil(pb.string(forType: .string), "The file's name would compete with the image")
+            try paste([png, md])
+            XCTAssertEqual(pb.string(forType: .string), "# Titre")
+            XCTAssertNotNil(pb.data(forType: .init("com.apple.flat-rtfd")))
+            try paste([zip])
+            XCTAssertEqual(pb.string(forType: .string), "c.zip", "A file without readable contents pastes as before")
+        }
+    }
+
     @MainActor func testOnlyTheLastCopyIsForgottenAndProtectedOnesStay() throws {
         try withModel { model, pb in
             copy("First", to: pb); model.clipboard.poll()

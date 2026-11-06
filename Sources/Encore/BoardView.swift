@@ -132,8 +132,58 @@ private struct DragSource: ViewModifier {
     let clip: Clip
     let provider: () -> NSItemProvider
     func body(content: Content) -> some View {
-        if enabled { content.onDrag(provider) { DragPreview(model: model, clip: clip) } } else { content }
+        if !enabled { content }
+        else if clip.kind == .file { FileDragSource(content: content, model: model, clip: clip) }
+        else { content.onDrag(provider) { DragPreview(model: model, clip: clip) } }
     }
+}
+
+/// onDrag carries a single item, so a copy of several files would give only the first: file cards start an AppKit session, with one item per file.
+private struct FileDragSource<Content: View>: View {
+    let content: Content
+    let model: AppModel
+    let clip: Clip
+    @State private var view = FileDragView()
+    @State private var dragging = false
+
+    var body: some View {
+        content
+            .background(FileDragHost(view: view))
+            .simultaneousGesture(DragGesture(minimumDistance: 4).onChanged { _ in
+                guard !dragging, let event = NSApp.currentEvent, event.type == .leftMouseDragged else { return }
+                dragging = true
+                // The session keeps the mouse up to itself, so the gesture may never end: only the session says the drag is over.
+                view.begin(items: clipDragItems(model: model, clip: clip), icons: clipDragIcons(model: model, clip: clip), event: event) { dragging = false }
+            })
+    }
+}
+
+private struct FileDragHost: NSViewRepresentable {
+    let view: FileDragView
+    func makeNSView(context: Context) -> FileDragView { view }
+    func updateNSView(_ view: FileDragView, context: Context) {}
+}
+
+private final class FileDragView: NSView, NSDraggingSource {
+    private var ended: (() -> Void)?
+    override func hitTest(_ point: NSPoint) -> NSView? { nil }
+
+    func begin(items: [NSPasteboardItem], icons: [NSImage], event: NSEvent, ended: @escaping () -> Void) {
+        guard window != nil, !items.isEmpty else { ended(); return }
+        self.ended = ended
+        let origin = convert(event.locationInWindow, from: nil)
+        let session = beginDraggingSession(with: items.enumerated().map { index, item in
+            let dragged = NSDraggingItem(pasteboardWriter: item)
+            let offset = CGFloat(min(index, 3)) * 6
+            dragged.setDraggingFrame(NSRect(x: origin.x - 24 + offset, y: origin.y - 24 - offset, width: 48, height: 48), contents: icons.isEmpty ? nil : icons[min(index, icons.count - 1)])
+            return dragged
+        }, event: event, source: self)
+        session.draggingFormation = .pile
+    }
+
+    /// Copy only: dropping on a folder must never move the original files away.
+    func draggingSession(_ session: NSDraggingSession, sourceOperationMaskFor context: NSDraggingContext) -> NSDragOperation { .copy }
+    func draggingSession(_ session: NSDraggingSession, endedAt screenPoint: NSPoint, operation: NSDragOperation) { ended?(); ended = nil }
 }
 
 /// What follows the pointer while dragging, drawn whole with room around it: a snapshot of the card cut its number badge and its edges.
@@ -673,6 +723,25 @@ struct Selectable: ViewModifier {
     return provider
 }
 
+/// A file card dragged out: one item per file, across the selection when it holds only files. A selection mixing other copies
+/// keeps the combined text and images of clipItemProvider. The first item carries the ids for encore's own drop targets.
+@MainActor func clipDragItems(model: AppModel, clip: Clip) -> [NSPasteboardItem] {
+    let group = model.selection.count > 1 && model.selection.contains(clip.id) ? model.selectedClips : [clip]
+    let payloads = group.allSatisfy { $0.kind == .file } ? group.flatMap { model.storage?.payload($0.id)?.items ?? [] } : model.combinedPayload(group).items
+    let items = payloads.map { payload -> NSPasteboardItem in
+        let item = NSPasteboardItem()
+        for (type, data) in payload.representations { item.setData(data, forType: .init(type)) }
+        return item
+    }
+    items.first?.setData(Data(group.map(\.id.uuidString).joined(separator: "\n").utf8), forType: .init("local.kama.encore.clip-id"))
+    return items
+}
+
+@MainActor private func clipDragIcons(model: AppModel, clip: Clip) -> [NSImage] {
+    let group = model.selection.count > 1 && model.selection.contains(clip.id) ? model.selectedClips : [clip]
+    return group.flatMap { model.fileURLs(for: $0) }.map { NSWorkspace.shared.icon(forFile: $0.path) }
+}
+
 struct ClipCard: View {
     // Not observed: a card only redraws when the values it shows change, not on every cursor move.
     // Observing the model made each arrow key rebuild and lay out every visible card, too slow on older Macs.
@@ -787,7 +856,7 @@ struct ClipCard: View {
         }
         .overlay { if dropTarget && reorderable { RoundedRectangle(cornerRadius: 12).strokeBorder(Palette.accent, lineWidth: 2) } }
         .accessibilityElement(children: .combine)
-        .accessibilityLabel(L("\(clip.kind.title), \(clip.displayTitle), \(clip.sourceName)"))
+        .accessibilityLabel(L("\(clip.typeTitle), \(clip.displayTitle), \(clip.sourceName)"))
         .accessibilityValue(order.map { L("Pasted in position \($0)") } ?? (selected ? L("Selected") : ""))
         .accessibilityAddTraits(.isButton)
         .accessibilityAction { model.select(clip.id); model.paste([clip]) }
@@ -891,6 +960,7 @@ extension Clip {
     var typeTitle: String {
         if let secret { return secret.title }
         guard kind == .file, let name = fileNames.first else { return kind.itemTitle }
+        if fileNames.count > 1 { return L("\(Localization.number(fileNames.count)) files") }
         let ext = (name as NSString).pathExtension
         if ext.lowercased() == "pdf" { return "PDF" }
         if let type = UTType(filenameExtension: ext), type.conforms(to: .image) { return ClipKind.image.itemTitle }
@@ -948,9 +1018,12 @@ struct ClipContent: View {
             VStack(spacing: 0) {
                 FilePreview(previews: model.filePreviews, clip: clip, urls: model.fileURLs(for: clip), fitContent: large)
                 VStack(alignment: .leading, spacing: 2) {
-                    HStack(spacing: 4) {
-                        Text(clip.displayTitle).font(.system(size: 12 * scale, weight: .semibold)).lineLimit(large ? 3 : 1)
-                        if clip.fileNames.count > 1 { Text("+\(clip.fileNames.count - 1)").font(.system(size: 12 * scale, weight: .semibold)).foregroundStyle(.secondary) }
+                    // Large, the preview above already names every file.
+                    if !large || clip.fileNames.count < 2 || !clip.name.isEmpty {
+                        HStack(spacing: 4) {
+                            Text(clip.displayTitle).font(.system(size: 12 * scale, weight: .semibold)).lineLimit(large ? 3 : 1)
+                            if clip.fileNames.count > 1, clip.name.isEmpty { Text("+\(clip.fileNames.count - 1)").font(.system(size: 12 * scale, weight: .semibold)).foregroundStyle(.secondary) }
+                        }
                     }
                     if let bytes = clip.referencedFileBytes { Text(Localization.bytes(bytes)).font(.system(size: 11 * scale)).foregroundStyle(.secondary).monospacedDigit() }
                 }.padding(.horizontal, 12).padding(.vertical, 8).frame(maxWidth: .infinity, alignment: .leading)
@@ -1009,9 +1082,10 @@ struct ClipActions: View {
     }
 
     var body: some View {
-        if let file = model.fileURLs(for: clip).first {
-            Button { NSWorkspace.shared.open(file) } label: { Label(L("Open"), systemImage: "arrow.up.forward.app") }.keyboardShortcut("o")
-            if #available(macOS 13, *) { ShareLink(item: file) { Label(L("Share"), systemImage: "square.and.arrow.up") } }
+        let files = model.fileURLs(for: clip)
+        if !files.isEmpty {
+            Button { files.forEach { NSWorkspace.shared.open($0) } } label: { Label(L("Open"), systemImage: "arrow.up.forward.app") }.keyboardShortcut("o")
+            if #available(macOS 13, *) { ShareLink(items: files) { Label(L("Share"), systemImage: "square.and.arrow.up") } }
             Divider()
         } else if clip.kind == .link, let url = URL(string: clip.text) {
             Button { NSWorkspace.shared.open(url) } label: { Label(L("Open link"), systemImage: "arrow.up.forward.app") }.keyboardShortcut("o")
@@ -1295,11 +1369,11 @@ private struct SideRow: View {
         .contextMenu { ClipActions(model: model, clip: clip) }
         .modifier(DragSource(enabled: model.selection.count <= 1 || selected, model: model, clip: clip) { clipItemProvider(model: model, clip: clip) })
         .accessibilityElement(children: .combine)
-        .accessibilityLabel(L("\(clip.kind.title), \(clip.displayTitle), \(clip.sourceName)"))
+        .accessibilityLabel(L("\(clip.typeTitle), \(clip.displayTitle), \(clip.sourceName)"))
         .accessibilityValue(order.map { L("Pasted in position \($0)") } ?? (selected ? L("Selected") : ""))
         .accessibilityAddTraits(.isButton)
         .accessibilityAction { model.select(clip.id); model.paste([clip]) }
-        .help(clip.kind == .text ? String(clip.text.prefix(400)) : clip.displayTitle)
+        .help(clip.kind == .text ? String(clip.text.prefix(400)) : clip.fileNames.count > 1 ? clip.fileNames.joined(separator: "\n") : clip.displayTitle)
     }
 
     @ViewBuilder private var preview: some View {
@@ -1309,7 +1383,13 @@ private struct SideRow: View {
         case .color:
             Palette.color(clip.text)
         case .file:
-            if let url = model.fileURLs(for: clip).first { Image(nsImage: NSWorkspace.shared.icon(forFile: url.path)).resizable().scaledToFit().padding(4) } else { symbol }
+            let urls = model.fileURLs(for: clip)
+            if urls.count > 1 {
+                ZStack {
+                    Image(nsImage: NSWorkspace.shared.icon(forFile: urls[1].path)).resizable().scaledToFit().padding(7).offset(x: 6, y: -5)
+                    Image(nsImage: NSWorkspace.shared.icon(forFile: urls[0].path)).resizable().scaledToFit().padding(7).offset(x: -4, y: 4)
+                }
+            } else if let url = urls.first { Image(nsImage: NSWorkspace.shared.icon(forFile: url.path)).resizable().scaledToFit().padding(4) } else { symbol }
         default:
             symbol
         }
@@ -1334,6 +1414,11 @@ private struct SideRow: View {
             Text(clip.text.trimmingCharacters(in: .whitespacesAndNewlines).prefix(300)).font(.system(size: 11.5, design: .monospaced)).lineLimit(2)
         case .color:
             Text(Palette.colorLabel(clip.text)).font(.system(size: 12.5, weight: .semibold, design: .rounded)).lineLimit(1)
+        case .file where clip.fileNames.count > 1:
+            VStack(alignment: .leading, spacing: 1) {
+                Text(clip.typeTitle).font(.system(size: 12.5, weight: .semibold)).lineLimit(1)
+                Text(clip.fileNames.joined(separator: ", ")).font(.system(size: 11)).foregroundStyle(.secondary).lineLimit(1).truncationMode(.middle)
+            }
         case .text:
             Text(clip.name.isEmpty ? String(clip.text.trimmingCharacters(in: .whitespacesAndNewlines).prefix(300)) : clip.name).font(.system(size: 12.5)).lineLimit(2)
         default:
