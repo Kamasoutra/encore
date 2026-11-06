@@ -538,3 +538,10 @@
 "Snippet saved" = "Textbaustein gespeichert";
 "Favorite updated" = "Favorit aktualisiert";
 "%@ files" = "%@ Dateien";
+"Import from Maccy…" = "Aus Maccy importieren…";
+"Copies Maccy's history, pinned items as favorites, under the same rules as your own copies. Maccy's data is only read." = "Übernimmt den Verlauf von Maccy, angeheftete Einträge als Favoriten, nach denselben Regeln wie Ihre eigenen Kopien. Die Daten von Maccy werden nur gelesen.";
+"Choose Maccy's history, Storage.sqlite, in its Maccy folder." = "Wählen Sie den Verlauf von Maccy, Storage.sqlite, in seinem Maccy-Ordner.";
+"Maccy's history could not be read." = "Der Verlauf von Maccy konnte nicht gelesen werden.";
+"Nothing new to import from Maccy." = "Nichts Neues aus Maccy zu importieren.";
+"%@ copies imported from Maccy, %@ already expired under your retention rules" = "%@ Kopien aus Maccy importiert, %@ davon laut Ihren Aufbewahrungsregeln bereits abgelaufen";
+"%@ copies imported from Maccy" = "%@ Kopien aus Maccy importiert";

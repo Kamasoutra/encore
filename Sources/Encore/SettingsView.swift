@@ -427,6 +427,8 @@ struct SettingsView: View {
                     Button { model.importSnippets() } label: { Label(L("Import snippets…"), systemImage: "square.and.arrow.down") }
                 }
                 caption(L("Snippets with text, their names, languages and tags, as readable JSON to keep or share."))
+                Button { model.importFromMaccy() } label: { Label(L("Import from Maccy…"), systemImage: "square.and.arrow.down.on.square") }
+                caption(L("Copies Maccy's history, pinned items as favorites, under the same rules as your own copies. Maccy's data is only read."))
                 Button(L("Clear history…"), role: .destructive) { model.clearHistory() }
             }
             if updates.available {

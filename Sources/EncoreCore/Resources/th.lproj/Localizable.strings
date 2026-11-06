@@ -538,3 +538,10 @@
 "Snippet saved" = "บันทึกข้อความสำเร็จรูปแล้ว";
 "Favorite updated" = "อัปเดตรายการโปรดแล้ว";
 "%@ files" = "%@ ไฟล์";
+"Import from Maccy…" = "นำเข้าจาก Maccy…";
+"Copies Maccy's history, pinned items as favorites, under the same rules as your own copies. Maccy's data is only read." = "คัดลอกประวัติของ Maccy โดยรายการที่ปักหมุดจะเป็นรายการโปรด ตามกฎเดียวกับสำเนาของคุณเอง ข้อมูลของ Maccy จะถูกอ่านเท่านั้น";
+"Choose Maccy's history, Storage.sqlite, in its Maccy folder." = "เลือกประวัติของ Maccy คือ Storage.sqlite ในโฟลเดอร์ Maccy";
+"Maccy's history could not be read." = "ไม่สามารถอ่านประวัติของ Maccy ได้";
+"Nothing new to import from Maccy." = "ไม่มีอะไรใหม่ให้นำเข้าจาก Maccy";
+"%@ copies imported from Maccy, %@ already expired under your retention rules" = "นำเข้า %@ สำเนาจาก Maccy แล้ว โดย %@ รายการหมดอายุแล้วตามกฎการเก็บรักษาของคุณ";
+"%@ copies imported from Maccy" = "นำเข้า %@ สำเนาจาก Maccy แล้ว";

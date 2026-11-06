@@ -538,3 +538,10 @@
 "Snippet saved" = "Фрагмент сохранён";
 "Favorite updated" = "Избранное обновлено";
 "%@ files" = "Файлы: %@";
+"Import from Maccy…" = "Импортировать из Maccy…";
+"Copies Maccy's history, pinned items as favorites, under the same rules as your own copies. Maccy's data is only read." = "Копирует историю Maccy, закреплённые элементы — как избранное, по тем же правилам, что и ваши копии. Данные Maccy только читаются.";
+"Choose Maccy's history, Storage.sqlite, in its Maccy folder." = "Выберите историю Maccy, Storage.sqlite, в её папке Maccy.";
+"Maccy's history could not be read." = "Не удалось прочитать историю Maccy.";
+"Nothing new to import from Maccy." = "Нечего импортировать из Maccy.";
+"%@ copies imported from Maccy, %@ already expired under your retention rules" = "Импортировано из Maccy копий: %@, из них %@ уже истекли по вашим правилам хранения";
+"%@ copies imported from Maccy" = "Импортировано из Maccy копий: %@";

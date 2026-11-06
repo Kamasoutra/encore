@@ -538,3 +538,10 @@
 "Snippet saved" = "已保存片段";
 "Favorite updated" = "已更新收藏";
 "%@ files" = "%@ 个文件";
+"Import from Maccy…" = "从 Maccy 导入…";
+"Copies Maccy's history, pinned items as favorites, under the same rules as your own copies. Maccy's data is only read." = "复制 Maccy 的历史记录，固定的项目作为收藏，按与你自己的拷贝相同的规则处理。只读取 Maccy 的数据。";
+"Choose Maccy's history, Storage.sqlite, in its Maccy folder." = "在 Maccy 文件夹中选择 Maccy 的历史记录 Storage.sqlite。";
+"Maccy's history could not be read." = "无法读取 Maccy 的历史记录。";
+"Nothing new to import from Maccy." = "没有可从 Maccy 导入的新内容。";
+"%@ copies imported from Maccy, %@ already expired under your retention rules" = "已从 Maccy 导入 %@ 个拷贝，其中 %@ 个按你的保留规则已过期";
+"%@ copies imported from Maccy" = "已从 Maccy 导入 %@ 个拷贝";

@@ -538,3 +538,10 @@
 "Snippet saved" = "Úryvek uložen";
 "Favorite updated" = "Oblíbené aktualizováno";
 "%@ files" = "Soubory: %@";
+"Import from Maccy…" = "Importovat z Maccy…";
+"Copies Maccy's history, pinned items as favorites, under the same rules as your own copies. Maccy's data is only read." = "Zkopíruje historii Maccy, připnuté položky jako oblíbené, podle stejných pravidel jako vaše vlastní kopie. Data Maccy se jen čtou.";
+"Choose Maccy's history, Storage.sqlite, in its Maccy folder." = "Vyberte historii Maccy, Storage.sqlite, v jeho složce Maccy.";
+"Maccy's history could not be read." = "Historii Maccy se nepodařilo přečíst.";
+"Nothing new to import from Maccy." = "Z Maccy není co nového importovat.";
+"%@ copies imported from Maccy, %@ already expired under your retention rules" = "Z Maccy importováno kopií: %@, z toho %@ již vypršelo podle vašich pravidel uchovávání";
+"%@ copies imported from Maccy" = "Z Maccy importováno kopií: %@";

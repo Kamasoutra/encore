@@ -538,3 +538,10 @@
 "Snippet saved" = "הקטע נשמר";
 "Favorite updated" = "המועדף עודכן";
 "%@ files" = "%@ קבצים";
+"Import from Maccy…" = "ייבוא מ-Maccy…";
+"Copies Maccy's history, pinned items as favorites, under the same rules as your own copies. Maccy's data is only read." = "מעתיק את ההיסטוריה של Maccy, פריטים מוצמדים כמועדפים, לפי אותם כללים כמו העותקים שלך. הנתונים של Maccy נקראים בלבד.";
+"Choose Maccy's history, Storage.sqlite, in its Maccy folder." = "בחר את ההיסטוריה של Maccy, Storage.sqlite, בתיקיית Maccy.";
+"Maccy's history could not be read." = "לא ניתן היה לקרוא את ההיסטוריה של Maccy.";
+"Nothing new to import from Maccy." = "אין שום דבר חדש לייבא מ-Maccy.";
+"%@ copies imported from Maccy, %@ already expired under your retention rules" = "יובאו %@ עותקים מ-Maccy, מתוכם %@ כבר פגו לפי כללי השמירה שלך";
+"%@ copies imported from Maccy" = "יובאו %@ עותקים מ-Maccy";

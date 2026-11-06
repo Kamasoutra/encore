@@ -538,3 +538,10 @@
 "Snippet saved" = "Fragment salvat";
 "Favorite updated" = "Favorit actualizat";
 "%@ files" = "Fișiere: %@";
+"Import from Maccy…" = "Importă din Maccy…";
+"Copies Maccy's history, pinned items as favorites, under the same rules as your own copies. Maccy's data is only read." = "Copiază istoricul Maccy, elementele fixate ca favorite, după aceleași reguli ca propriile tale copii. Datele Maccy sunt doar citite.";
+"Choose Maccy's history, Storage.sqlite, in its Maccy folder." = "Alege istoricul Maccy, Storage.sqlite, din dosarul său Maccy.";
+"Maccy's history could not be read." = "Istoricul Maccy nu a putut fi citit.";
+"Nothing new to import from Maccy." = "Nimic nou de importat din Maccy.";
+"%@ copies imported from Maccy, %@ already expired under your retention rules" = "%@ copii importate din Maccy, dintre care %@ deja expirate conform regulilor tale de păstrare";
+"%@ copies imported from Maccy" = "%@ copii importate din Maccy";

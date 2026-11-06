@@ -538,3 +538,10 @@
 "Snippet saved" = "Tekstbit lagret";
 "Favorite updated" = "Favoritt oppdatert";
 "%@ files" = "%@ filer";
+"Import from Maccy…" = "Importer fra Maccy…";
+"Copies Maccy's history, pinned items as favorites, under the same rules as your own copies. Maccy's data is only read." = "Kopierer historikken fra Maccy, festede elementer som favoritter, etter de samme reglene som dine egne kopier. Dataene til Maccy blir bare lest.";
+"Choose Maccy's history, Storage.sqlite, in its Maccy folder." = "Velg historikken til Maccy, Storage.sqlite, i Maccy-mappen.";
+"Maccy's history could not be read." = "Historikken til Maccy kunne ikke leses.";
+"Nothing new to import from Maccy." = "Ingenting nytt å importere fra Maccy.";
+"%@ copies imported from Maccy, %@ already expired under your retention rules" = "%@ kopier importert fra Maccy, %@ av dem allerede utløpt etter oppbevaringsreglene dine";
+"%@ copies imported from Maccy" = "%@ kopier importert fra Maccy";

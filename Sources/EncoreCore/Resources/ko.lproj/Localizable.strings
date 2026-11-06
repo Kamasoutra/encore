@@ -538,3 +538,10 @@
 "Snippet saved" = "스니펫 저장됨";
 "Favorite updated" = "즐겨찾기 업데이트됨";
 "%@ files" = "파일 %@개";
+"Import from Maccy…" = "Maccy에서 가져오기…";
+"Copies Maccy's history, pinned items as favorites, under the same rules as your own copies. Maccy's data is only read." = "Maccy의 기록을, 고정한 항목은 즐겨찾기로, 내 복사본과 같은 규칙으로 가져옵니다. Maccy의 데이터는 읽기만 합니다.";
+"Choose Maccy's history, Storage.sqlite, in its Maccy folder." = "Maccy 폴더에서 Maccy의 기록인 Storage.sqlite를 선택하세요.";
+"Maccy's history could not be read." = "Maccy의 기록을 읽을 수 없습니다.";
+"Nothing new to import from Maccy." = "Maccy에서 가져올 새 항목이 없습니다.";
+"%@ copies imported from Maccy, %@ already expired under your retention rules" = "Maccy에서 복사본 %@개를 가져왔으며, 그중 %@개는 보관 규칙에 따라 이미 만료되었습니다";
+"%@ copies imported from Maccy" = "Maccy에서 복사본 %@개를 가져왔습니다";

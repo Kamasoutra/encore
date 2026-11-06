@@ -538,3 +538,10 @@
 "Snippet saved" = "Snippet saved";
 "Favorite updated" = "Favorite updated";
 "%@ files" = "%@ files";
+"Import from Maccy…" = "Import from Maccy…";
+"Copies Maccy's history, pinned items as favorites, under the same rules as your own copies. Maccy's data is only read." = "Copies Maccy's history, pinned items as favorites, under the same rules as your own copies. Maccy's data is only read.";
+"Choose Maccy's history, Storage.sqlite, in its Maccy folder." = "Choose Maccy's history, Storage.sqlite, in its Maccy folder.";
+"Maccy's history could not be read." = "Maccy's history could not be read.";
+"Nothing new to import from Maccy." = "Nothing new to import from Maccy.";
+"%@ copies imported from Maccy, %@ already expired under your retention rules" = "%@ copies imported from Maccy, %@ already expired under your retention rules";
+"%@ copies imported from Maccy" = "%@ copies imported from Maccy";

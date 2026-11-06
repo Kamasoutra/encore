@@ -538,3 +538,10 @@
 "Snippet saved" = "スニペットを保存しました";
 "Favorite updated" = "お気に入りを更新しました";
 "%@ files" = "%@個のファイル";
+"Import from Maccy…" = "Maccyから読み込む…";
+"Copies Maccy's history, pinned items as favorites, under the same rules as your own copies. Maccy's data is only read." = "Maccyの履歴を、ピン留めした項目はお気に入りとして、自分のコピーと同じルールで取り込みます。Maccyのデータは読み取るだけです。";
+"Choose Maccy's history, Storage.sqlite, in its Maccy folder." = "MaccyフォルダにあるMaccyの履歴、Storage.sqliteを選んでください。";
+"Maccy's history could not be read." = "Maccyの履歴を読み込めませんでした。";
+"Nothing new to import from Maccy." = "Maccyから読み込む新しい項目はありません。";
+"%@ copies imported from Maccy, %@ already expired under your retention rules" = "Maccyから%@件のコピーを読み込みました。うち%@件は保持ルールによりすでに期限切れです";
+"%@ copies imported from Maccy" = "Maccyから%@件のコピーを読み込みました";

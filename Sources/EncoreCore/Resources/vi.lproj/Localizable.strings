@@ -538,3 +538,10 @@
 "Snippet saved" = "Đã lưu đoạn mẫu";
 "Favorite updated" = "Đã cập nhật mục yêu thích";
 "%@ files" = "%@ tệp";
+"Import from Maccy…" = "Nhập từ Maccy…";
+"Copies Maccy's history, pinned items as favorites, under the same rules as your own copies. Maccy's data is only read." = "Sao chép lịch sử của Maccy, các mục đã ghim thành mục yêu thích, theo cùng quy tắc như các bản sao của bạn. Dữ liệu của Maccy chỉ được đọc.";
+"Choose Maccy's history, Storage.sqlite, in its Maccy folder." = "Chọn lịch sử của Maccy, Storage.sqlite, trong thư mục Maccy.";
+"Maccy's history could not be read." = "Không thể đọc lịch sử của Maccy.";
+"Nothing new to import from Maccy." = "Không có gì mới để nhập từ Maccy.";
+"%@ copies imported from Maccy, %@ already expired under your retention rules" = "Đã nhập %@ bản sao từ Maccy, trong đó %@ đã hết hạn theo quy tắc lưu giữ của bạn";
+"%@ copies imported from Maccy" = "Đã nhập %@ bản sao từ Maccy";
