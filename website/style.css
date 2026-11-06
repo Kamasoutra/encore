@@ -402,17 +402,26 @@ footer a { text-decoration: none; } footer a:hover { color: var(--ink); }
   .release li { grid-template-columns: minmax(0, 1fr); gap: 4px; }
 }
 
-@media (max-width: 760px) {
+/* The four pages no longer fit between the brand and the tools: they take their own row. */
+@media (max-width: 1060px) {
   .bar { grid-template-columns: 1fr auto; grid-template-areas: "brand tools" "nav nav"; padding: 10px 0 12px; min-height: 0; }
   .brand { grid-area: brand; }
   .tools { grid-area: tools; }
-  .pages-nav { grid-area: nav; justify-self: stretch; overflow-x: auto; scrollbar-width: none; }
-  .pages-nav a { flex: 1; padding: 8px 10px; font-size: 14px; }
+  .pages-nav { grid-area: nav; justify-self: center; }
+}
+
+@media (max-width: 760px) {
+  .pages-nav { justify-self: stretch; }
+  .pages-nav a { flex: 1; padding: 8px 10px; font-size: 14px; text-align: center; }
   .tools .gh { display: none; }
   /* Only the heart on phones: the footer spells it out. */
   .tools .sponsor { padding-inline: 12px; }
   .tools .sponsor .label { display: none; }
   .tools .sponsor span[aria-hidden] { margin-right: 0; }
+}
+
+@media (max-width: 560px) {
+  .pages-nav { display: grid; grid-template-columns: 1fr 1fr; border-radius: 22px; }
 }
 
 /* French body text is justified, with hyphenation so the spacing stays even. Centered lines keep their alignment. */

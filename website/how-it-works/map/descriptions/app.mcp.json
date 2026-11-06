@@ -1,0 +1,12 @@
+{
+  "files": {
+    "Sources/Encore/AppModel+MCP.swift": {
+      "name": "Réponses aux assistants",
+      "description": "Exécute les outils demandés par un assistant, écarte les secrets sauf réglage contraire et note chaque accès au journal."
+    },
+    "Sources/Encore/MCPCommand.swift": {
+      "name": "Commande pour les assistants",
+      "description": "Relaie les demandes d'un assistant vers l'app, la relance si besoin, et fournit la configuration à copier pour chaque client."
+    }
+  }
+}

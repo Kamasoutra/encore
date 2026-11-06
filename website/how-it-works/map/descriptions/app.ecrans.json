@@ -1,0 +1,36 @@
+{
+  "files": {
+    "Sources/Encore/BoardView.swift": {
+      "name": "Tuiles et liste compacte",
+      "description": "Dessine les cartes des copies, gère leurs actions et le glisser-déposer, y compris pour plusieurs fichiers."
+    },
+    "Sources/Encore/ClipDust.swift": {
+      "name": "Effet de poussière",
+      "description": "Anime la désintégration d'une carte en particules quand une copie est supprimée."
+    },
+    "Sources/Encore/CompactPlacement.swift": {
+      "name": "Position de la fenêtre compacte",
+      "description": "Calcule la taille de la fenêtre compacte, sa place sur l'écran et ses points d'aimantation."
+    },
+    "Sources/Encore/InspectorView.swift": {
+      "name": "Inspecteur",
+      "description": "Permet de modifier le contenu, le nom, les tags et le langage d'une copie."
+    },
+    "Sources/Encore/Previews.swift": {
+      "name": "Aperçus de fichiers",
+      "description": "Produit les vignettes des fichiers copiés, en mosaïque quand une copie en contient plusieurs."
+    },
+    "Sources/Encore/ResizeHandle.swift": {
+      "name": "Poignée de redimensionnement",
+      "description": "Permet de changer la taille de la fenêtre en tirant sur son bord."
+    },
+    "Sources/Encore/ScreenPlacement.swift": {
+      "name": "Choix de l'écran",
+      "description": "Détermine sur quel écran et à quel endroit placer une fenêtre."
+    },
+    "Sources/Encore/WorkspaceView.swift": {
+      "name": "Bibliothèque",
+      "description": "Déploie le bandeau en grille, avec ses filtres et le grand aperçu qui s'ouvre avec Espace."
+    }
+  }
+}

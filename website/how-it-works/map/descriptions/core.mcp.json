@@ -1,0 +1,12 @@
+{
+  "files": {
+    "Sources/EncoreCore/MCP.swift": {
+      "name": "Outils des assistants",
+      "description": "Liste les outils proposés aux assistants, contrôle leurs paramètres et décode leurs demandes."
+    },
+    "Sources/EncoreCore/MCPSocket.swift": {
+      "name": "Canal local",
+      "description": "Fait passer les messages par un canal sur le Mac, refusé à tout autre compte utilisateur."
+    }
+  }
+}

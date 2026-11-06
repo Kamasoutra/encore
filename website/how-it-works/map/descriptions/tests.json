@@ -1,0 +1,124 @@
+{
+  "files": {
+    "Tests/EncoreAppTests/AppModelTests.swift": {
+      "name": "Tests : le chef d'orchestre",
+      "description": "Vérifie automatiquement le chef d'orchestre."
+    },
+    "Tests/EncoreAppTests/CaptureAndFeedbackTests.swift": {
+      "name": "Tests : la capture et les sons",
+      "description": "Vérifie automatiquement la capture et les sons."
+    },
+    "Tests/EncoreAppTests/ClearedCopyTests.swift": {
+      "name": "Tests : les copies effacées, les secrets et le collage de fichiers",
+      "description": "Vérifie automatiquement les copies effacées, les secrets et le collage de fichiers."
+    },
+    "Tests/EncoreAppTests/CompactWindowTests.swift": {
+      "name": "Tests : la fenêtre compacte",
+      "description": "Vérifie automatiquement la fenêtre compacte."
+    },
+    "Tests/EncoreAppTests/HistoryKeyTests.swift": {
+      "name": "Tests : la clé de chiffrement",
+      "description": "Vérifie automatiquement la clé de chiffrement."
+    },
+    "Tests/EncoreAppTests/InstalledExclusionsTests.swift": {
+      "name": "Tests : les apps exclues de la capture",
+      "description": "Vérifie automatiquement les apps exclues de la capture."
+    },
+    "Tests/EncoreAppTests/MCPAppTests.swift": {
+      "name": "Tests : les réponses aux assistants",
+      "description": "Vérifie automatiquement les réponses aux assistants."
+    },
+    "Tests/EncoreAppTests/PeerImportTests.swift": {
+      "name": "Tests : l'import depuis un autre Mac",
+      "description": "Vérifie automatiquement l'import depuis un autre Mac."
+    },
+    "Tests/EncoreAppTests/PresentationTests.swift": {
+      "name": "Tests : les titres et l'affichage des copies",
+      "description": "Vérifie automatiquement les titres et l'affichage des copies."
+    },
+    "Tests/EncoreAppTests/ScaleBenchmarkTests.swift": {
+      "name": "Tests : la rapidité avec un gros historique",
+      "description": "Vérifie automatiquement la rapidité avec un gros historique."
+    },
+    "Tests/EncoreAppTests/ScreenshotClipboardTests.swift": {
+      "name": "Tests : l'import des captures d'écran",
+      "description": "Vérifie automatiquement l'import des captures d'écran."
+    },
+    "Tests/EncoreAppTests/SourceAndPreferencesTests.swift": {
+      "name": "Tests : l'app d'origine et les préférences",
+      "description": "Vérifie automatiquement l'app d'origine et les préférences."
+    },
+    "Tests/EncoreCoreTests/BackupTests.swift": {
+      "name": "Tests : les sauvegardes",
+      "description": "Vérifie automatiquement les sauvegardes."
+    },
+    "Tests/EncoreCoreTests/EncryptionTests.swift": {
+      "name": "Tests : le chiffrement de l'historique",
+      "description": "Vérifie automatiquement le chiffrement de l'historique."
+    },
+    "Tests/EncoreCoreTests/FileReferenceTests.swift": {
+      "name": "Tests : les copies de fichiers",
+      "description": "Vérifie automatiquement les copies de fichiers."
+    },
+    "Tests/EncoreCoreTests/LibraryTests.swift": {
+      "name": "Tests : l'historique",
+      "description": "Vérifie automatiquement l'historique."
+    },
+    "Tests/EncoreCoreTests/LocalizationTests.swift": {
+      "name": "Tests : les traductions",
+      "description": "Vérifie automatiquement les traductions."
+    },
+    "Tests/EncoreCoreTests/MCPSocketTests.swift": {
+      "name": "Tests : le canal local des assistants",
+      "description": "Vérifie automatiquement le canal local des assistants."
+    },
+    "Tests/EncoreCoreTests/MCPTests.swift": {
+      "name": "Tests : les outils des assistants",
+      "description": "Vérifie automatiquement les outils des assistants."
+    },
+    "Tests/EncoreCoreTests/PasteboardTests.swift": {
+      "name": "Tests : la lecture du presse-papiers",
+      "description": "Vérifie automatiquement la lecture du presse-papiers."
+    },
+    "Tests/EncoreCoreTests/PeerTests.swift": {
+      "name": "Tests : le partage entre Mac",
+      "description": "Vérifie automatiquement le partage entre Mac."
+    },
+    "Tests/EncoreCoreTests/PinnedSyncTests.swift": {
+      "name": "Tests : la synchro des favoris",
+      "description": "Vérifie automatiquement la synchro des favoris."
+    },
+    "Tests/EncoreCoreTests/RecoveryTests.swift": {
+      "name": "Tests : la récupération de données abîmées",
+      "description": "Vérifie automatiquement la récupération de données abîmées."
+    },
+    "Tests/EncoreCoreTests/RetentionTests.swift": {
+      "name": "Tests : les durées de conservation",
+      "description": "Vérifie automatiquement les durées de conservation."
+    },
+    "Tests/EncoreCoreTests/SearchTests.swift": {
+      "name": "Tests : la recherche",
+      "description": "Vérifie automatiquement la recherche."
+    },
+    "Tests/EncoreCoreTests/SecretTests.swift": {
+      "name": "Tests : la détection des secrets",
+      "description": "Vérifie automatiquement la détection des secrets."
+    },
+    "Tests/EncoreCoreTests/SnippetTests.swift": {
+      "name": "Tests : les snippets",
+      "description": "Vérifie automatiquement les snippets."
+    },
+    "Tests/EncoreCoreTests/StorageTests.swift": {
+      "name": "Tests : l'enregistrement sur disque",
+      "description": "Vérifie automatiquement l'enregistrement sur disque."
+    },
+    "Tests/EncoreCoreTests/TransformTests.swift": {
+      "name": "Tests : les transformations de texte",
+      "description": "Vérifie automatiquement les transformations de texte."
+    },
+    "Tests/EncoreCoreTests/WorkspaceSearchTests.swift": {
+      "name": "Tests : la recherche dans la bibliothèque",
+      "description": "Vérifie automatiquement la recherche dans la bibliothèque."
+    }
+  }
+}

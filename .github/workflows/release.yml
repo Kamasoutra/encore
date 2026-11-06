@@ -23,6 +23,8 @@ jobs:
           test "$(uname -m)" = arm64
           version=$(/usr/libexec/PlistBuddy -c 'Print CFBundleShortVersionString' Resources/Info.plist)
           test "$RELEASE_TAG" = "v$version"
+      - name: Check the How it works map
+        run: node website/how-it-works/check.mjs
       - name: Test
         run: swift test
       - name: Import signing identity

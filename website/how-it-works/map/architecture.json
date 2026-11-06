@@ -1,0 +1,870 @@
+{
+  "$schema": "floorplan/architecture@1",
+  "project": {
+    "name": "encore",
+    "summary": "Un gestionnaire de presse-papiers pour Mac : il garde tout ce que tu copies, le rend facile à retrouver et à recoller, et peut le partager avec tes autres Mac ou un assistant IA, sans passer par un serveur.",
+    "entrypoints": [
+      "Sources/Encore/EncoreApp.swift"
+    ]
+  },
+  "nodes": [
+    {
+      "id": "app",
+      "label": "L'app Mac",
+      "kind": "ui",
+      "summary": "Ce que tu vois et utilises : le bandeau, les réglages, les raccourcis, et le code qui orchestre tout.",
+      "paths": [
+        "Sources/Encore/**"
+      ]
+    },
+    {
+      "id": "app.ecrans",
+      "label": "Bandeau et aperçus",
+      "kind": "feature",
+      "parent": "app",
+      "summary": "Affiche les copies en tuiles ou en liste compacte, avec leurs aperçus, leur inspecteur et leurs animations.",
+      "paths": [
+        "Sources/Encore/BoardView.swift",
+        "Sources/Encore/WorkspaceView.swift",
+        "Sources/Encore/Previews.swift",
+        "Sources/Encore/InspectorView.swift",
+        "Sources/Encore/ClipDust.swift",
+        "Sources/Encore/ResizeHandle.swift",
+        "Sources/Encore/CompactPlacement.swift",
+        "Sources/Encore/ScreenPlacement.swift"
+      ]
+    },
+    {
+      "id": "app.cerveau",
+      "label": "Le chef d'orchestre",
+      "kind": "feature",
+      "parent": "app",
+      "summary": "Reçoit les nouvelles copies, tient l'historique à jour et exécute les actions comme coller ou supprimer.",
+      "paths": [
+        "Sources/Encore/AppModel.swift",
+        "Sources/Encore/ClipboardService.swift",
+        "Sources/Encore/ScreenshotImporter.swift",
+        "Sources/Encore/DemoFixtures.swift"
+      ]
+    },
+    {
+      "id": "app.reglages",
+      "label": "Réglages",
+      "kind": "feature",
+      "parent": "app",
+      "summary": "Les préférences de l'utilisateur et les fenêtres qui permettent de les changer, dont l'éditeur de snippets.",
+      "paths": [
+        "Sources/Encore/SettingsView.swift",
+        "Sources/Encore/RetentionSettingsView.swift",
+        "Sources/Encore/Preferences.swift",
+        "Sources/Encore/SnippetEditorView.swift"
+      ]
+    },
+    {
+      "id": "app.systeme",
+      "label": "Démarrage et système",
+      "kind": "feature",
+      "parent": "app",
+      "summary": "Lance l'app et la relie au Mac : raccourci global, clé de chiffrement, sons, mises à jour et compatibilité avec macOS.",
+      "paths": [
+        "Sources/Encore/EncoreApp.swift",
+        "Sources/Encore/Hotkeys.swift",
+        "Sources/Encore/HistoryKey.swift",
+        "Sources/Encore/FeedbackSounds.swift",
+        "Sources/Encore/Updates.swift",
+        "Sources/Encore/Compat.swift"
+      ]
+    },
+    {
+      "id": "app.mcp",
+      "label": "Accès des assistants",
+      "kind": "feature",
+      "parent": "app",
+      "summary": "Fait le lien entre un assistant IA et l'app, et décide ce que chaque demande a le droit de lire ou de modifier.",
+      "paths": [
+        "Sources/Encore/MCPCommand.swift",
+        "Sources/Encore/AppModel+MCP.swift"
+      ]
+    },
+    {
+      "id": "core",
+      "label": "Le moteur",
+      "kind": "library",
+      "summary": "Le code sans interface : ce qu'est une copie, comment elle est rangée, cherchée, protégée et partagée.",
+      "paths": [
+        "Sources/EncoreCore/**"
+      ]
+    },
+    {
+      "id": "core.copies",
+      "label": "Copies et recherche",
+      "kind": "library",
+      "parent": "core",
+      "summary": "Décrit une copie, la lit depuis le presse-papiers, reconnaît son langage et la retrouve lors d'une recherche.",
+      "paths": [
+        "Sources/EncoreCore/Clip.swift",
+        "Sources/EncoreCore/ClipboardOrigin.swift",
+        "Sources/EncoreCore/PasteboardCapture.swift",
+        "Sources/EncoreCore/LanguageDetection.swift",
+        "Sources/EncoreCore/Search.swift",
+        "Sources/EncoreCore/Snippets.swift",
+        "Sources/EncoreCore/Localization.swift"
+      ]
+    },
+    {
+      "id": "core.stockage",
+      "label": "Stockage",
+      "kind": "data",
+      "parent": "core",
+      "summary": "Enregistre l'historique sur le disque, applique les durées de conservation et gère les sauvegardes.",
+      "paths": [
+        "Sources/EncoreCore/Storage.swift",
+        "Sources/EncoreCore/Retention.swift",
+        "Sources/EncoreCore/Backup.swift"
+      ]
+    },
+    {
+      "id": "core.secrets",
+      "label": "Détection des secrets",
+      "kind": "library",
+      "parent": "core",
+      "summary": "Repère les mots de passe et les clés dans ce qui est copié pour pouvoir les traiter à part.",
+      "paths": [
+        "Sources/EncoreCore/Secrets.swift"
+      ]
+    },
+    {
+      "id": "core.partage",
+      "label": "Partage entre Mac",
+      "kind": "service",
+      "parent": "core",
+      "summary": "Trouve tes autres Mac, les associe et échange copies et éléments épinglés de façon chiffrée.",
+      "paths": [
+        "Sources/EncoreCore/Peer*.swift",
+        "Sources/EncoreCore/PinnedSync.swift"
+      ]
+    },
+    {
+      "id": "core.mcp",
+      "label": "Protocole des assistants",
+      "kind": "service",
+      "parent": "core",
+      "summary": "Définit les outils proposés aux assistants et le canal local, réservé à ton compte, qui les transporte.",
+      "paths": [
+        "Sources/EncoreCore/MCP.swift",
+        "Sources/EncoreCore/MCPSocket.swift"
+      ]
+    },
+    {
+      "id": "tests",
+      "label": "Tests",
+      "kind": "test",
+      "summary": "Vérifient automatiquement le moteur et le comportement de l'app.",
+      "paths": [
+        "Tests/**"
+      ]
+    },
+    {
+      "id": "site",
+      "label": "Site web",
+      "kind": "ui",
+      "summary": "Génère le site public dans toutes les langues : présentation, fonctionnalités, changelog, données personnelles et cette carte.",
+      "paths": [
+        "website/**"
+      ]
+    },
+    {
+      "id": "outils",
+      "label": "Fabrication et publication",
+      "kind": "infra",
+      "summary": "Construit l'app, prépare ses mises à jour et sa formule Homebrew, et produit son icône et ses sons.",
+      "paths": [
+        "scripts/**",
+        "Package.swift"
+      ]
+    },
+    {
+      "id": "ext.macos",
+      "label": "Presse-papiers de macOS",
+      "kind": "external",
+      "summary": "L'endroit où macOS dépose ce que tu copies ; encore le lit et y réécrit au moment de coller."
+    },
+    {
+      "id": "ext.disque",
+      "label": "Dossier de données",
+      "kind": "external",
+      "summary": "Le dossier du Mac où l'historique et le journal d'accès des assistants sont enregistrés."
+    },
+    {
+      "id": "ext.captures",
+      "label": "Dossier des captures",
+      "kind": "external",
+      "summary": "Le dossier où macOS enregistre les captures d'écran, surveillé pour les importer."
+    },
+    {
+      "id": "ext.ia",
+      "label": "Assistants IA",
+      "kind": "external",
+      "summary": "Claude Code, Codex, Cursor et d'autres, qui lancent la commande MCP d'encore sur le même Mac."
+    },
+    {
+      "id": "ext.mac",
+      "label": "Tes autres Mac",
+      "kind": "external",
+      "summary": "Les autres ordinateurs associés sur le réseau local, avec lesquels encore échange des copies."
+    },
+    {
+      "id": "ext.sparkle",
+      "label": "Sparkle",
+      "kind": "external",
+      "summary": "La bibliothèque qui télécharge et installe les mises à jour de l'app."
+    },
+    {
+      "id": "ext.github",
+      "label": "GitHub",
+      "kind": "external",
+      "summary": "Héberge le code, le site et les versions publiées, où Sparkle vérifie les mises à jour."
+    },
+    {
+      "id": "ext.trousseau",
+      "label": "Trousseau de macOS",
+      "kind": "external",
+      "summary": "Garde la clé qui chiffre l'historique quand l'option est active."
+    }
+  ],
+  "edges": [
+    {
+      "from": "ext.macos",
+      "to": "Sources/Encore/ClipboardService.swift",
+      "kind": "event",
+      "label": "nouvelle copie"
+    },
+    {
+      "from": "Sources/Encore/ClipboardService.swift",
+      "to": "Sources/Encore/AppModel.swift",
+      "kind": "call",
+      "label": "transmet la copie"
+    },
+    {
+      "from": "ext.captures",
+      "to": "Sources/Encore/ScreenshotImporter.swift",
+      "kind": "event",
+      "label": "nouvelle capture"
+    },
+    {
+      "from": "Sources/Encore/ScreenshotImporter.swift",
+      "to": "Sources/Encore/AppModel.swift",
+      "kind": "call",
+      "label": "ajoute la capture"
+    },
+    {
+      "from": "Sources/Encore/AppModel.swift",
+      "to": "Sources/EncoreCore/Storage.swift",
+      "kind": "data",
+      "label": "lit et enregistre"
+    },
+    {
+      "from": "Sources/EncoreCore/Storage.swift",
+      "to": "ext.disque",
+      "kind": "data",
+      "label": "fichiers"
+    },
+    {
+      "from": "Sources/Encore/AppModel.swift",
+      "to": "ext.macos",
+      "kind": "call",
+      "label": "écrit pour coller"
+    },
+    {
+      "from": "Sources/Encore/AppModel.swift",
+      "to": "Sources/EncoreCore/Search.swift",
+      "kind": "call",
+      "label": "cherche"
+    },
+    {
+      "from": "Sources/Encore/BoardView.swift",
+      "to": "Sources/Encore/AppModel.swift",
+      "kind": "call",
+      "label": "affiche et commande"
+    },
+    {
+      "from": "Sources/Encore/WorkspaceView.swift",
+      "to": "Sources/Encore/BoardView.swift",
+      "kind": "call",
+      "label": "contient"
+    },
+    {
+      "from": "Sources/Encore/SettingsView.swift",
+      "to": "Sources/Encore/Preferences.swift",
+      "kind": "data",
+      "label": "modifie"
+    },
+    {
+      "from": "Sources/Encore/EncoreApp.swift",
+      "to": "Sources/Encore/AppModel.swift",
+      "kind": "call",
+      "label": "démarre"
+    },
+    {
+      "from": "Sources/Encore/EncoreApp.swift",
+      "to": "Sources/Encore/MCPCommand.swift",
+      "kind": "call",
+      "label": "mode MCP"
+    },
+    {
+      "from": "Sources/Encore/Updates.swift",
+      "to": "ext.sparkle",
+      "kind": "call",
+      "label": "mise à jour"
+    },
+    {
+      "from": "ext.ia",
+      "to": "Sources/Encore/MCPCommand.swift",
+      "kind": "rpc",
+      "label": "demandes"
+    },
+    {
+      "from": "Sources/Encore/MCPCommand.swift",
+      "to": "Sources/EncoreCore/MCPSocket.swift",
+      "kind": "rpc",
+      "label": "canal local"
+    },
+    {
+      "from": "Sources/EncoreCore/MCPSocket.swift",
+      "to": "Sources/EncoreCore/MCP.swift",
+      "kind": "call",
+      "label": "traite"
+    },
+    {
+      "from": "Sources/EncoreCore/MCP.swift",
+      "to": "Sources/Encore/AppModel+MCP.swift",
+      "kind": "call",
+      "label": "appelle l'outil"
+    },
+    {
+      "from": "Sources/Encore/AppModel+MCP.swift",
+      "to": "Sources/Encore/AppModel.swift",
+      "kind": "call",
+      "label": "lit l'historique"
+    },
+    {
+      "from": "outils",
+      "to": "ext.github",
+      "kind": "call",
+      "label": "publie"
+    },
+    {
+      "from": "site",
+      "to": "ext.github",
+      "kind": "call",
+      "label": "publié sur"
+    },
+    {
+      "from": "tests",
+      "to": "core",
+      "kind": "import",
+      "label": "vérifie"
+    },
+    {
+      "from": "tests",
+      "to": "app",
+      "kind": "import",
+      "label": "vérifie"
+    },
+    {
+      "from": "Sources/Encore/HistoryKey.swift",
+      "to": "ext.trousseau",
+      "kind": "data",
+      "label": "garde la clé"
+    },
+    {
+      "from": "Sources/Encore/AppModel.swift",
+      "to": "Sources/Encore/HistoryKey.swift",
+      "kind": "call",
+      "label": "clé de chiffrement"
+    },
+    {
+      "from": "Sources/Encore/Hotkeys.swift",
+      "to": "Sources/Encore/AppModel.swift",
+      "kind": "event",
+      "label": "ouvre encore"
+    },
+    {
+      "from": "Sources/Encore/AppModel.swift",
+      "to": "Sources/EncoreCore/PeerShare.swift",
+      "kind": "call",
+      "label": "fournit l'historique"
+    },
+    {
+      "from": "Sources/EncoreCore/PeerShare.swift",
+      "to": "Sources/EncoreCore/PeerService.swift",
+      "kind": "call",
+      "label": "ce qui peut partir"
+    },
+    {
+      "from": "Sources/EncoreCore/PeerService.swift",
+      "to": "Sources/EncoreCore/PeerChannel.swift",
+      "kind": "call",
+      "label": "envoie"
+    },
+    {
+      "from": "Sources/EncoreCore/PeerChannel.swift",
+      "to": "Sources/EncoreCore/PeerCrypto.swift",
+      "kind": "call",
+      "label": "chiffre"
+    },
+    {
+      "from": "Sources/EncoreCore/PeerChannel.swift",
+      "to": "ext.mac",
+      "kind": "rpc",
+      "label": "réseau local, chiffré"
+    },
+    {
+      "from": "Sources/Encore/Updates.swift",
+      "to": "ext.github",
+      "kind": "http",
+      "label": "vérifie les mises à jour"
+    },
+    {
+      "from": "Sources/Encore/ClipboardService.swift",
+      "to": "Sources/EncoreCore/PasteboardCapture.swift",
+      "kind": "call",
+      "label": "lit le contenu"
+    },
+    {
+      "from": "Sources/Encore/ClipboardService.swift",
+      "to": "Sources/EncoreCore/Secrets.swift",
+      "kind": "call",
+      "label": "repère les secrets"
+    },
+    {
+      "from": "Sources/EncoreCore/Secrets.swift",
+      "to": "Sources/Encore/ClipboardService.swift",
+      "kind": "call",
+      "label": "résultat"
+    },
+    {
+      "from": "Sources/EncoreCore/PasteboardCapture.swift",
+      "to": "Sources/Encore/ClipboardService.swift",
+      "kind": "call",
+      "label": "la copie"
+    },
+    {
+      "from": "Sources/Encore/AppModel+MCP.swift",
+      "to": "Sources/EncoreCore/Secrets.swift",
+      "kind": "call",
+      "label": "écarte les secrets"
+    },
+    {
+      "from": "Sources/Encore/SettingsView.swift",
+      "to": "Sources/Encore/AppModel.swift",
+      "kind": "call",
+      "label": "active"
+    },
+    {
+      "from": "Sources/Encore/RetentionSettingsView.swift",
+      "to": "Sources/Encore/AppModel.swift",
+      "kind": "call",
+      "label": "règles"
+    },
+    {
+      "from": "Sources/Encore/AppModel.swift",
+      "to": "Sources/EncoreCore/Retention.swift",
+      "kind": "call",
+      "label": "décide"
+    },
+    {
+      "from": "Sources/EncoreCore/Retention.swift",
+      "to": "Sources/Encore/AppModel.swift",
+      "kind": "call",
+      "label": "décision"
+    },
+    {
+      "from": "Sources/Encore/AppModel.swift",
+      "to": "Sources/EncoreCore/Snippets.swift",
+      "kind": "call",
+      "label": "remplit"
+    },
+    {
+      "from": "Sources/EncoreCore/Snippets.swift",
+      "to": "Sources/Encore/AppModel.swift",
+      "kind": "call",
+      "label": "texte final"
+    },
+    {
+      "from": "Sources/Encore/Previews.swift",
+      "to": "Sources/Encore/BoardView.swift",
+      "kind": "call",
+      "label": "vignettes"
+    }
+  ],
+  "annotations": [
+    {
+      "path": "Sources/Encore/AppModel.swift",
+      "note": "Fichier central de 1 600 lignes : capture, collage, sélection et partage y passent presque tous.",
+      "tags": [
+        "hotspot"
+      ]
+    },
+    {
+      "path": "Sources/Encore/BoardView.swift",
+      "note": "Fichier d'interface de 1 400 lignes, qui réunit tuiles, liste compacte et glisser-déposer.",
+      "tags": [
+        "hotspot"
+      ]
+    }
+  ],
+  "flows": [
+    {
+      "id": "copie",
+      "title": "Quand tu copies quelque chose",
+      "description": "Ta copie reste sur ton Mac : pas de compte, pas de serveur, et le chiffrement de l’historique est en option.",
+      "steps": [
+        {
+          "node": "ext.macos",
+          "note": "Tu copies quelque chose dans n’importe quelle app."
+        },
+        {
+          "node": "Sources/Encore/ClipboardService.swift",
+          "note": "encore remarque le changement."
+        },
+        {
+          "node": "Sources/EncoreCore/PasteboardCapture.swift",
+          "note": "Il lit tous les formats de la copie."
+        },
+        {
+          "node": "Sources/Encore/ClipboardService.swift",
+          "note": "La copie est prête à rejoindre l’historique."
+        },
+        {
+          "node": "Sources/Encore/AppModel.swift",
+          "note": "Elle rejoint l’historique."
+        },
+        {
+          "node": "Sources/EncoreCore/Storage.swift",
+          "note": "Elle est enregistrée sur ton disque, chiffrée si tu as activé l’option."
+        },
+        {
+          "node": "ext.disque",
+          "note": "Elle reste disponible après un redémarrage."
+        }
+      ]
+    },
+    {
+      "id": "motdepasse",
+      "title": "Quand tu copies un mot de passe",
+      "description": "Depuis un champ de mot de passe ou un gestionnaire qui le signale, encore ne le garde pas.",
+      "steps": [
+        {
+          "node": "ext.macos",
+          "note": "Tu copies un mot de passe."
+        },
+        {
+          "node": "Sources/Encore/ClipboardService.swift",
+          "note": "encore vérifie si la copie vient d’un champ de mot de passe."
+        },
+        {
+          "node": "Sources/EncoreCore/PasteboardCapture.swift",
+          "note": "Il reconnaît aussi les copies que les gestionnaires signalent comme confidentielles : rien n’est enregistré."
+        }
+      ]
+    },
+    {
+      "id": "secret",
+      "title": "Quand une clé d’API passe dans tes copies",
+      "description": "Avec la détection activée, elle est masquée puis effacée après un délai. Après un collage, le presse-papiers se vide aussi.",
+      "steps": [
+        {
+          "node": "Sources/Encore/ClipboardService.swift",
+          "note": "Une copie de texte arrive. La détection est une option, désactivée par défaut."
+        },
+        {
+          "node": "Sources/EncoreCore/Secrets.swift",
+          "note": "encore reconnaît ce qui ressemble à une clé, une carte bancaire ou un mot de passe."
+        },
+        {
+          "node": "Sources/Encore/ClipboardService.swift",
+          "note": "La carte n’affiche que le début de la valeur."
+        },
+        {
+          "node": "Sources/Encore/AppModel.swift",
+          "note": "La copie est supprimée après le délai choisi, 60 secondes par défaut."
+        }
+      ]
+    },
+    {
+      "id": "chiffre",
+      "title": "Quand tu actives le chiffrement",
+      "description": "La clé va dans le trousseau de ton Mac, et tout l’historique est converti.",
+      "steps": [
+        {
+          "node": "Sources/Encore/SettingsView.swift",
+          "note": "Tu actives l’option dans les réglages."
+        },
+        {
+          "node": "Sources/Encore/AppModel.swift",
+          "note": "encore lance la conversion."
+        },
+        {
+          "node": "Sources/Encore/HistoryKey.swift",
+          "note": "Une clé aléatoire est créée avant de chiffrer le moindre fichier."
+        },
+        {
+          "node": "ext.trousseau",
+          "note": "Elle est gardée dans le trousseau de ton Mac."
+        }
+      ]
+    },
+    {
+      "id": "expire",
+      "title": "Quand une copie arrive à expiration",
+      "description": "Elle est supprimée du disque selon tes règles : durée, app, taille ou type.",
+      "steps": [
+        {
+          "node": "Sources/Encore/RetentionSettingsView.swift",
+          "note": "Tu choisis combien de temps garder tes copies."
+        },
+        {
+          "node": "Sources/Encore/AppModel.swift",
+          "note": "encore applique ces règles régulièrement."
+        },
+        {
+          "node": "Sources/EncoreCore/Retention.swift",
+          "note": "La règle qui correspond à chaque copie décide de sa date de fin."
+        },
+        {
+          "node": "Sources/Encore/AppModel.swift",
+          "note": "Les copies expirées sont retirées de l’historique."
+        },
+        {
+          "node": "Sources/EncoreCore/Storage.swift",
+          "note": "Leurs fichiers sont supprimés."
+        },
+        {
+          "node": "ext.disque",
+          "note": "Plus rien ne reste sur le disque."
+        }
+      ]
+    },
+    {
+      "id": "partage",
+      "title": "Quand tu partages avec ton autre Mac",
+      "description": "Désactivé par défaut. Deux Mac s’associent avec un code, puis tout est chiffré. Fichiers et secrets détectés ne partent pas.",
+      "steps": [
+        {
+          "node": "Sources/Encore/AppModel.swift",
+          "note": "Le partage est désactivé tant que tu ne l’as pas activé dans les réglages."
+        },
+        {
+          "node": "Sources/EncoreCore/PeerShare.swift",
+          "note": "Les fichiers et les secrets détectés sont écartés : ils ne quittent pas ce Mac."
+        },
+        {
+          "node": "Sources/EncoreCore/PeerService.swift",
+          "note": "Seul un Mac associé est servi, après comparaison d’un code sur les deux écrans."
+        },
+        {
+          "node": "Sources/EncoreCore/PeerChannel.swift",
+          "note": "Chaque message est chiffré avant de partir."
+        },
+        {
+          "node": "ext.mac",
+          "note": "Il arrive directement sur ton autre Mac, sans serveur entre les deux."
+        }
+      ]
+    },
+    {
+      "id": "assistant",
+      "title": "Quand un assistant lit ton historique",
+      "description": "Éteint par défaut et réservé à ton compte. Les secrets détectés sont écartés, sauf si tu l’autorises, et chaque accès est noté.",
+      "steps": [
+        {
+          "node": "ext.ia",
+          "note": "L’assistant envoie une demande. L’accès reste éteint tant que tu ne l’as pas activé."
+        },
+        {
+          "node": "Sources/Encore/MCPCommand.swift",
+          "note": "Une petite commande relaie la demande vers l’app et la relance si besoin."
+        },
+        {
+          "node": "Sources/EncoreCore/MCPSocket.swift",
+          "note": "La demande passe par un canal local réservé à ton compte."
+        },
+        {
+          "node": "Sources/EncoreCore/MCP.swift",
+          "note": "La demande est décodée et l’outil demandé est identifié."
+        },
+        {
+          "node": "Sources/Encore/AppModel+MCP.swift",
+          "note": "encore vérifie que l’accès est activé, écarte les secrets sauf réglage contraire et note l’accès au journal."
+        },
+        {
+          "node": "Sources/Encore/AppModel.swift",
+          "note": "La réponse est tirée de l’historique."
+        }
+      ]
+    },
+    {
+      "id": "coller",
+      "title": "Quand tu recolles une copie",
+      "description": "Tu choisis une tuile, et encore la colle dans l’app que tu utilisais.",
+      "steps": [
+        {
+          "node": "Sources/Encore/WorkspaceView.swift",
+          "note": "Le bandeau s’ouvre."
+        },
+        {
+          "node": "Sources/Encore/BoardView.swift",
+          "note": "Tu choisis une tuile."
+        },
+        {
+          "node": "Sources/Encore/AppModel.swift",
+          "note": "encore prépare ce qui sera collé."
+        },
+        {
+          "node": "ext.macos",
+          "note": "Le contenu est déposé dans le presse-papiers pour l’app active."
+        }
+      ]
+    },
+    {
+      "id": "fichiers",
+      "title": "Quand tu colles plusieurs fichiers",
+      "description": "Le texte et les images arrivent avec les fichiers, jusqu’à 25 Mo. Les PDF et les archives restent des fichiers.",
+      "steps": [
+        {
+          "node": "Sources/Encore/Previews.swift",
+          "note": "Tous les fichiers de la copie sont visibles en mosaïque."
+        },
+        {
+          "node": "Sources/Encore/BoardView.swift",
+          "note": "La tuile affiche leur nombre, et un glisser les emporte tous."
+        },
+        {
+          "node": "Sources/Encore/AppModel.swift",
+          "note": "Le contenu des fichiers texte et image s’ajoute aux fichiers."
+        },
+        {
+          "node": "ext.macos",
+          "note": "Chaque app prend ce qu’elle sait utiliser."
+        }
+      ]
+    },
+    {
+      "id": "capture",
+      "title": "Quand tu fais une capture d’écran",
+      "description": "Si l’option est activée, elle rejoint l’historique sans toucher au presse-papiers.",
+      "steps": [
+        {
+          "node": "ext.captures",
+          "note": "macOS enregistre la capture dans son dossier."
+        },
+        {
+          "node": "Sources/Encore/ScreenshotImporter.swift",
+          "note": "encore surveille ce dossier et reconnaît les captures à la marque laissée par macOS."
+        },
+        {
+          "node": "Sources/Encore/AppModel.swift",
+          "note": "La capture rejoint l’historique."
+        },
+        {
+          "node": "Sources/EncoreCore/Storage.swift",
+          "note": "Elle est enregistrée avec tes autres copies."
+        }
+      ]
+    },
+    {
+      "id": "recherche",
+      "title": "Quand tu cherches une ancienne copie",
+      "description": "Tout se passe sur ton Mac, avec des filtres comme app:, type: ou date:.",
+      "steps": [
+        {
+          "node": "Sources/Encore/BoardView.swift",
+          "note": "Tu tapes quelques mots dans la recherche."
+        },
+        {
+          "node": "Sources/Encore/AppModel.swift",
+          "note": "encore demande les copies qui correspondent."
+        },
+        {
+          "node": "Sources/EncoreCore/Search.swift",
+          "note": "Chaque copie est comparée à ta recherche, sans tenir compte des accents."
+        }
+      ]
+    },
+    {
+      "id": "snippet",
+      "title": "Quand tu utilises un snippet",
+      "description": "encore demande les valeurs manquantes, remplit la date et le presse-papiers, puis colle le résultat.",
+      "steps": [
+        {
+          "node": "Sources/Encore/BoardView.swift",
+          "note": "Tu choisis un snippet contenant des variables comme {{nom}}."
+        },
+        {
+          "node": "Sources/Encore/AppModel.swift",
+          "note": "encore te demande les valeurs à remplir."
+        },
+        {
+          "node": "Sources/EncoreCore/Snippets.swift",
+          "note": "Les variables sont remplacées, y compris {{date}} et {{clipboard}}."
+        },
+        {
+          "node": "Sources/Encore/AppModel.swift",
+          "note": "Le texte final est prêt."
+        },
+        {
+          "node": "ext.macos",
+          "note": "Il est déposé dans le presse-papiers pour être collé."
+        }
+      ]
+    },
+    {
+      "id": "maj",
+      "title": "Quand une mise à jour sort",
+      "description": "Sparkle vérifie sur GitHub si une nouvelle version existe, puis te la propose ou l’installe.",
+      "steps": [
+        {
+          "node": "Sources/Encore/Updates.swift",
+          "note": "encore demande à Sparkle de vérifier régulièrement."
+        },
+        {
+          "node": "ext.github",
+          "note": "Le flux des versions est hébergé avec les versions publiées sur GitHub."
+        }
+      ]
+    }
+  ],
+  "tour": [
+    {
+      "node": "app",
+      "title": "L'app que tu utilises",
+      "note": "Tout ce qui se voit à l'écran vit ici : le bandeau, les réglages et les raccourcis."
+    },
+    {
+      "node": "Sources/Encore/AppModel.swift",
+      "title": "Le chef d'orchestre",
+      "note": "Presque toutes les actions passent par ce fichier, ce qui en fait le plus gros et le plus sensible de l'app."
+    },
+    {
+      "node": "core",
+      "title": "Le moteur",
+      "note": "Le code sans interface, qui décrit, range, cherche et protège les copies."
+    },
+    {
+      "node": "core.partage",
+      "title": "Le partage entre Mac",
+      "note": "Les copies circulent directement d'un Mac à l'autre, chiffrées, sans serveur intermédiaire."
+    },
+    {
+      "node": "app.mcp",
+      "title": "L'accès des assistants",
+      "note": "Les assistants IA passent par ici, avec un réglage pour l'activer et un journal de ce qu'ils ont demandé."
+    },
+    {
+      "node": "outils",
+      "title": "La fabrication",
+      "note": "Ces scripts construisent l'app et publient ses mises à jour."
+    }
+  ]
+}

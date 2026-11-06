@@ -1,0 +1,20 @@
+{
+  "files": {
+    "Sources/Encore/AppModel.swift": {
+      "name": "Le chef d'orchestre",
+      "description": "Tient l'historique et exécute presque toutes les actions : enregistrer une copie, coller, supprimer, partager."
+    },
+    "Sources/Encore/ClipboardService.swift": {
+      "name": "Surveillance du presse-papiers",
+      "description": "Remarque chaque nouvelle copie, oublie celles qui sont effacées et vide le presse-papiers après un mot de passe collé."
+    },
+    "Sources/Encore/DemoFixtures.swift": {
+      "name": "Contenu de démonstration",
+      "description": "Remplit une instance de démo avec de fausses copies, dans la langue choisie, pour les captures d'écran."
+    },
+    "Sources/Encore/ScreenshotImporter.swift": {
+      "name": "Import des captures d'écran",
+      "description": "Surveille le dossier des captures et ajoute chaque nouvelle capture à l'historique, sans dépendre de Spotlight."
+    }
+  }
+}

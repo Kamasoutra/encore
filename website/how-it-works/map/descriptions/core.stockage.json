@@ -1,0 +1,16 @@
+{
+  "files": {
+    "Sources/EncoreCore/Backup.swift": {
+      "name": "Sauvegardes",
+      "description": "Définit le fichier d'export et d'import de l'historique."
+    },
+    "Sources/EncoreCore/Retention.swift": {
+      "name": "Durées de conservation",
+      "description": "Applique les règles qui disent combien de temps garder une copie, selon l'app ou la taille."
+    },
+    "Sources/EncoreCore/Storage.swift": {
+      "name": "Enregistrement sur disque",
+      "description": "Écrit l'historique et le contenu des copies, chiffrés si l'option est active, ou seulement en mémoire si demandé."
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "files": {
+    "Sources/EncoreCore/Clip.swift": {
+      "name": "Fiche d'une copie",
+      "description": "Décrit une copie et son contenu : type, app d'origine, dates, favori et formats conservés."
+    },
+    "Sources/EncoreCore/ClipboardOrigin.swift": {
+      "name": "Origine d'une copie",
+      "description": "Retient quelle app a produit le contenu du presse-papiers."
+    },
+    "Sources/EncoreCore/LanguageDetection.swift": {
+      "name": "Reconnaissance du langage",
+      "description": "Devine le langage d'un bout de code pour le présélectionner dans un snippet."
+    },
+    "Sources/EncoreCore/Localization.swift": {
+      "name": "Traductions",
+      "description": "Fournit les textes de l'app dans la langue choisie, parmi une trentaine."
+    },
+    "Sources/EncoreCore/PasteboardCapture.swift": {
+      "name": "Lecture du presse-papiers",
+      "description": "Lit tous les formats d'une copie et refuse celles de plus de 25 Mo."
+    },
+    "Sources/EncoreCore/Search.swift": {
+      "name": "Recherche",
+      "description": "Trouve les copies d'après leurs mots et des filtres comme l'app, le type ou la date, sans tenir compte des accents."
+    },
+    "Sources/EncoreCore/Snippets.swift": {
+      "name": "Snippets",
+      "description": "Range les snippets par langage et par tag, et remplit leurs variables comme {{clipboard}}."
+    }
+  }
+}

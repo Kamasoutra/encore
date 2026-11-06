@@ -1,0 +1,87 @@
+/* Map skinned for encore; viewer by Floorplan (c) Hayden Smith, MIT. */
+:root, :root[data-theme] {
+  --bar: 76px; --night: #0D0919; --violet: #9A6BFF; --pink: #FF5C8C; --mist: rgba(255,255,255,.72);
+  --sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, monospace;
+  --bg: #0D0919; --bg-rgb: 13, 9, 25; --grid: rgba(154, 107, 255, .16);
+  --surface: #171128; --surface-hover: #1E1735; --raise: #241C3D; --raise-2: #2D2449;
+  --elev: rgba(23, 17, 40, .86); --dir-bg: rgba(23, 17, 40, .7); --menu-solid: rgba(23, 17, 40, .96);
+  --palette-bg: rgba(27, 20, 48, .97); --modal-bg: rgba(27, 20, 48, .98); --well: rgba(0, 0, 0, .25);
+  --text: #fff; --text-2: rgba(255,255,255,.72); --text-3: rgba(255,255,255,.55); --text-4: rgba(255,255,255,.34);
+  --on: #9A6BFF; --on-hover: #B08CFF; --on-text: #fff; --ring: #9A6BFF; --focus: rgba(154,107,255,.28);
+  --k-import: rgba(255,255,255,.3); --k-http: #40D9BF; --k-call: #9A6BFF; --k-rpc: #FF5C8C; --k-event: #FF9E40; --k-data: #7399FF;
+  --n-ui: #FF5C8C; --n-service: #40D9BF; --n-feature: #9A6BFF; --n-library: #B380FF; --n-data: #7399FF; --n-test: rgba(255,255,255,.5); --n-infra: #FF9E40; --n-external: #40D9BF; --n-file: rgba(255,255,255,.55);
+}
+.brand .mark { display: none; }
+.row .rd { display: block; -webkit-line-clamp: unset; overflow: visible; }
+
+.desc[style*="--lines:1"], svg.lod-mid .desc[style*="--lines:1"] { -webkit-line-clamp: 1 !important; max-height: 19px; }
+.desc[style*="--lines:2"], svg.lod-mid .desc[style*="--lines:2"] { -webkit-line-clamp: 2 !important; max-height: 38px; }
+.desc[style*="--lines:3"], svg.lod-mid .desc[style*="--lines:3"] { -webkit-line-clamp: 3 !important; max-height: 57px; }
+.desc[style*="--lines:4"], svg.lod-mid .desc[style*="--lines:4"] { -webkit-line-clamp: 4 !important; max-height: 76px; }
+.desc[style*="--lines:5"], svg.lod-mid .desc[style*="--lines:5"] { -webkit-line-clamp: 5 !important; max-height: 95px; }
+.desc[style*="--lines:6"], svg.lod-mid .desc[style*="--lines:6"] { -webkit-line-clamp: 6 !important; max-height: 114px; }
+.desc[style*="--lines:7"], svg.lod-mid .desc[style*="--lines:7"] { -webkit-line-clamp: 7 !important; max-height: 133px; }
+.desc[style*="--lines:8"], svg.lod-mid .desc[style*="--lines:8"] { -webkit-line-clamp: 8 !important; max-height: 152px; }
+
+#stage { inset: var(--bar) 0 0 0; background-image: radial-gradient(var(--grid) 1px, transparent 1px), radial-gradient(60% 50% at 15% 10%, rgba(154,107,255,.20), transparent), radial-gradient(55% 50% at 90% 95%, rgba(255,92,140,.13), transparent) !important; background-size: 22px 22px, 100% 100%, 100% 100% !important; }
+#proj-name { font-weight: 800; letter-spacing: -.02em; }
+.site-top { position: fixed; inset: 0 0 auto 0; height: var(--bar); z-index: 30; background: rgba(13,9,25,.94); box-shadow: 0 1px 0 rgba(255,255,255,.08); font: 400 18px/1.55 var(--sans); color: #fff; }
+.st-bar { width: min(1180px, 100% - 32px); margin-inline: auto; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 12px 16px; min-height: 76px; }
+.st-brand { justify-self: start; display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 22px; letter-spacing: -.02em; text-decoration: none; color: #fff; }
+.st-brand img { width: 34px; height: 34px; }
+.st-nav, .st-tools { display: flex; gap: 2px; padding: 4px; border-radius: 999px; background: rgba(255,255,255,.05); box-shadow: inset 0 0 0 1px rgba(255,255,255,.1); }
+.st-tools { justify-self: end; align-items: center; }
+.st-nav a, .st-tools > a, .st-langs a { padding: 8px 17px; border-radius: 999px; font-size: 15px; font-weight: 600; line-height: 1.2; color: var(--mist); text-decoration: none; white-space: nowrap; }
+.st-tools > a, .st-langs a { padding: 8px 14px; }
+.st-nav a:hover, .st-tools > a:hover, .st-langs a:hover { color: #fff; background: rgba(255,255,255,.07); }
+.st-nav a[aria-current] { color: #fff; background: linear-gradient(120deg, rgba(154,107,255,.7), rgba(255,92,140,.5)); box-shadow: 0 6px 22px rgba(154,107,255,.35); }
+.st-langs { display: flex; gap: 2px; } .st-langs a { padding-inline: 10px; font-size: 13px; letter-spacing: .04em; } .st-langs a[aria-current] { color: #fff; background: rgba(255,255,255,.12); }
+.st-sponsor span[aria-hidden] { color: var(--pink); margin-right: 7px; }
+header { top: var(--bar); }
+#panel { top: calc(var(--bar) + var(--hh, 64px) + 4px); } #panel-resize { top: calc(var(--bar) + var(--hh, 64px) + 20px); }
+body.at-root #context { display: none; }
+.tone-data { --tone: #B08CFF; } .tone-daily { --tone: #40D9BF; }
+.hiw-panel { padding: 22px 20px 18px; color: #fff; }
+.hiw-panel h1 { margin: 0; font-size: 34px; line-height: .95; font-weight: 900; letter-spacing: -.02em; text-transform: uppercase; }
+.hiw-lead { margin: 12px 0 16px; font-size: 14px; line-height: 1.5; color: var(--mist); }
+html[lang=fr] .hiw-lead, html[lang=fr] .hiw-case span, html[lang=fr] .phone-page p { text-align: justify; hyphens: auto; }
+.hiw-ask { margin: 0 0 6px; font-size: 20px; font-weight: 800; letter-spacing: -.02em; }
+.hiw-panel h2 { margin: 14px 0 6px; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--tone); }
+.hiw-case { display: block; margin-bottom: 6px; padding: 10px 12px; border-radius: 12px; background: rgba(255,255,255,.05); box-shadow: inset 0 0 0 1px rgba(255,255,255,.08); text-decoration: none; color: inherit; cursor: pointer; }
+.hiw-case:hover { background: rgba(255,255,255,.09); box-shadow: inset 0 0 0 1px var(--tone); }
+.hiw-case b { display: flex; align-items: center; gap: 8px; font-size: 14.5px; line-height: 1.25; font-weight: 700; color: #fff; }
+.hiw-case i { margin-left: auto; font-style: normal; color: var(--tone); }
+.hiw-case em, .phone-case em { flex: none; padding: 1px 7px; border-radius: 999px; font-size: 10.5px; font-style: normal; font-weight: 700; color: #0D0919; background: linear-gradient(120deg, #B08CFF, #FF8FB0); white-space: nowrap; }
+.hiw-case span { display: block; margin-top: 4px; font-size: 12.5px; line-height: 1.4; color: var(--mist); }
+.hiw-credit { margin: 14px 0 0; font-size: 12px; line-height: 1.5; color: rgba(255,255,255,.5); } .hiw-credit a { color: var(--mist); }
+.phone-page { display: none; }
+/* Beside the panel, the map would be too small to read: below this width, the situations alone. */
+@media (max-width: 1060px) {
+  .st-bar { grid-template-columns: 1fr auto; grid-template-areas: "brand tools" "nav nav"; padding: 10px 0 12px; min-height: 0; }
+  .st-brand { grid-area: brand; } .st-tools { grid-area: tools; } .st-nav { grid-area: nav; justify-self: center; }
+}
+@media (max-width: 560px) {
+  .st-nav { display: grid; grid-template-columns: 1fr 1fr; border-radius: 22px; }
+}
+@media (max-width: 1060px) {
+  html, body { height: auto !important; overflow: auto !important; }
+  #stage, header, #panel, #panel-resize { display: none !important; }
+  .site-top { position: sticky; top: 0; height: auto; }
+  .phone-page { display: block; max-width: 760px; margin-inline: auto; padding: 28px 16px 40px; color: #fff; font-size: 16px; line-height: 1.5; }
+  .phone-page h1 { margin: 0; font-size: 42px; line-height: .95; font-weight: 900; text-transform: uppercase; letter-spacing: -.02em; }
+  .phone-page .lead { margin: 14px 0 20px; color: var(--mist); }
+  .phone-page .ask { margin: 0 0 4px; font-size: 22px; font-weight: 800; letter-spacing: -.02em; }
+  .phone-page h2 { margin: 18px 0 8px; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--tone); }
+  .phone-case { margin-bottom: 8px; padding: 14px 16px; border-radius: 14px; background: rgba(255,255,255,.05); box-shadow: inset 0 0 0 1px rgba(255,255,255,.1); }
+  .phone-case summary { font-weight: 700; cursor: pointer; } .phone-case p { margin: 10px 0 12px; color: var(--mist); font-size: 15px; }
+  .phone-case ol { margin: 0; padding-left: 20px; font-size: 15px; } .phone-case li { margin-bottom: 10px; } .phone-case li span { display: block; color: var(--mist); } .phone-case a { color: #fff; }
+  .phone-page .note, .phone-page .credit { margin-top: 18px; font-size: 14px; color: rgba(255,255,255,.55); text-align: center; } .phone-page .credit a { color: var(--mist); }
+}
+
+/* The viewer's --ink is an rgb triplet; the site's dialog expects the site's colour. */
+.support-dialog { --ink: #FFFFFF; --mist: rgba(255, 255, 255, 0.72); --pink: #FF5C8C; font: 400 18px/1.55 -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif; }
+@media (max-width: 760px) {
+  .st-nav { justify-self: stretch; }
+  .st-nav a { flex: 1; padding: 8px 10px; font-size: 14px; text-align: center; } .st-gh { display: none; } .st-sponsor { padding-inline: 12px !important; } .st-label { display: none; } .st-sponsor span[aria-hidden] { margin-right: 0; }
+}

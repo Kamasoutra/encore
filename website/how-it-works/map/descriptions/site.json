@@ -1,0 +1,52 @@
+{
+  "files": {
+    "website/build.py": {
+      "name": "Génération du site",
+      "description": "Produit une page par langue, le téléchargement et la page sur les données personnelles."
+    },
+    "website/features.py": {
+      "name": "Fonctionnalités et changelog",
+      "description": "Produit les pages des fonctionnalités et la frise des versions."
+    },
+    "website/site.js": {
+      "name": "Interactions du site",
+      "description": "Gère le bouton copier, le son et le souvenir de la langue choisie."
+    },
+    "website/style.css": {
+      "name": "Apparence du site",
+      "description": "Définit le fond nuit, les halos violets et roses, les touches et la typographie."
+    },
+    "website/how-it-works/build.mjs": {
+      "name": "Génération de cette page",
+      "description": "Habille la carte aux couleurs du site et l’adapte aux deux langues."
+    },
+    "website/how-it-works/cases.mjs": {
+      "name": "Les situations",
+      "description": "Raconte chaque situation étape par étape, en français et en anglais."
+    },
+    "website/how-it-works/check.mjs": {
+      "name": "Contrôle de la carte",
+      "description": "Bloque une version si la carte ne correspond plus au code."
+    },
+    "website/how-it-works/en.mjs": {
+      "name": "Texte anglais de la carte",
+      "description": "Traduit les parties et les fichiers de cette carte."
+    },
+    "website/how-it-works/map/encore-map.html": {
+      "name": "Carte générée",
+      "description": "L’export de Floorplan, produit à partir du code."
+    },
+    "website/how-it-works/refresh.sh": {
+      "name": "Mise à jour de la carte",
+      "description": "Refait la carte à partir du code à chaque version."
+    },
+    "website/how-it-works/split-column.js": {
+      "name": "Deux colonnes en quinconce",
+      "description": "Dédouble une colonne trop longue de la vue d’ensemble pour que la carte reste lisible."
+    },
+    "website/how-it-works/skin.css": {
+      "name": "Apparence de cette page",
+      "description": "Reprend les couleurs et la barre du site."
+    }
+  }
+}

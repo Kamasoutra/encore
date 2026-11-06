@@ -4,11 +4,11 @@
 python3 website/build.py            then  python3 -m http.server -d website/public 8000
 The copy follows encore-launch/brand/BRAND.md: slams in capitals without final period, tutoiement in French.
 """
-import html, shutil
+import html, shutil, subprocess
 from pathlib import Path
 from string import Template
 
-from features import FEATURES, RELEASES, changelog_main, features_main
+from features import FEATURES, LATEST, RELEASES, changelog_main, features_main
 
 ROOT = Path(__file__).resolve().parent
 OUT = ROOT / "public"
@@ -41,7 +41,7 @@ STRINGS = {
         "copy": "Copy", "copied": "Copied",
         "sound_on": "Turn sound on", "sound_off": "Mute",
         "video": "The encore launch video",
-        "new_tag": "New in 0.7.1", "new": "Plain text where you want it, merged copies, colors every way",
+        "new_tag": "New in 0.8", "new": "Your clipboard in your AI assistant, and what you copied when you paste files",
         "snippets": ["Snippets", "On every Mac"],
         "snippets_text": "Press ⌘S on any card: a name, a language (encore guesses it among 85) and tags. Placeholders like {{name}} ask for a value before pasting. Your snippets and favorites stay in step between your paired Macs.",
         "snippets_video": "Snippets in encore 0.5",
@@ -79,6 +79,9 @@ STRINGS = {
         "privacy_nav": "Your data",
         "features_nav": "Features",
         "changelog_nav": "What's new",
+        "how_nav": "How it works",
+        "how_title": "How it works · encore",
+        "how_description": "A map of encore's open code: pick a situation, like copying a password or an assistant reading your history, and follow it step by step down to the files on GitHub.",
         "trust": ["Stays on your Mac", "No account", "No telemetry", "Passwords left out"],
         "trust_ask": "Want to know more? Worried about your data, and whether it will last?",
         "trust_link": "We explain everything",
@@ -95,7 +98,7 @@ STRINGS = {
         "copy": "Copier", "copied": "Copié",
         "sound_on": "Activer le son", "sound_off": "Couper le son",
         "video": "La vidéo de lancement d’encore",
-        "new_tag": "Nouveautés · 0.7.1", "new": "Texte brut là où tu veux, copies fusionnées, couleurs sous toutes leurs formes",
+        "new_tag": "Nouveautés · 0.8", "new": "Ton presse-papiers dans ton assistant IA, et ce que tu as copié quand tu colles des fichiers",
         "snippets": ["Snippets", "Sur tous tes Mac"],
         "snippets_text": "⌘S sur n’importe quelle carte : un nom, un langage (encore le devine parmi 85) et des tags. Les placeholders comme {{nom}} te demandent une valeur avant de coller. Tes snippets et tes favoris restent synchronisés entre tes Mac appairés.",
         "snippets_video": "Les snippets dans encore 0.5",
@@ -133,6 +136,9 @@ STRINGS = {
         "privacy_nav": "Tes données",
         "features_nav": "Fonctionnalités",
         "changelog_nav": "Nouveautés",
+        "how_nav": "Comment ça marche",
+        "how_title": "Comment ça marche · encore",
+        "how_description": "La carte du code ouvert d’encore : choisis une situation, comme copier un mot de passe ou un assistant qui lit ton historique, et suis-la étape par étape jusqu’aux fichiers sur GitHub.",
         "trust": ["Reste sur ton Mac", "Sans compte", "Sans télémétrie", "Mots de passe ignorés"],
         "trust_ask": "Tu veux en savoir plus ? Tu te préoccupes de tes données et de leur pérennité ?",
         "trust_link": "On t’explique tout",
@@ -333,6 +339,7 @@ $detect
     <a href="${base}${home}features/"$features_current>$features_nav</a>
     <a href="${base}${home}changelog/"$changelog_current>$changelog_nav</a>
     <a href="${base}${home}privacy/"$privacy_current>$privacy_nav</a>
+    <a href="${base}${home}how-it-works/"$how_current>$how_nav</a>
   </nav>
   <div class="tools">
     <span class="langs">$langs</span>
@@ -345,7 +352,7 @@ $detect
 $main</main>
 <footer class="wrap">
   <span>encore · $license</span>
-  <nav><a href="${base}${home}features/">$features_nav</a><a href="${base}${home}changelog/">$changelog_nav</a><a href="$repo">GitHub</a><a href="$repo/releases">$releases</a><a class="sponsor" href="${base}${home}#support" data-support><span aria-hidden="true">♥</span>$sponsor</a></nav>
+  <nav><a href="${base}${home}features/">$features_nav</a><a href="${base}${home}changelog/">$changelog_nav</a><a href="${base}${home}how-it-works/">$how_nav</a><a href="$repo">GitHub</a><a href="$repo/releases">$releases</a><a class="sponsor" href="${base}${home}#support" data-support><span aria-hidden="true">♥</span>$sponsor</a></nav>
 </footer>
 $support_dialog
 <script src="${base}site.js"></script>
@@ -383,7 +390,7 @@ DOWNLOAD = f"""<!doctype html>
 CURRENT = ' aria-current="page"'
 
 HOME = Template("""<section class="wrap hero">
-  <a class="new" href="${base}${home}changelog/#v0.7.1"><b>$new_tag</b>$new<span aria-hidden="true">→</span></a>
+  <a class="new" href="${base}${home}changelog/#v0.8.0"><b>$new_tag</b>$new<span aria-hidden="true">→</span></a>
   <h1 class="slam hook">$hook</h1>
   <p class="lead">$lead</p>
   <div class="get">
@@ -476,6 +483,7 @@ def layout(lang, s, page, title, description, main):
         langs=langs, privacy_nav=e(s["privacy_nav"]), privacy_current=CURRENT if page == "privacy/" else "",
         features_nav=e(s["features_nav"]), features_current=CURRENT if page == "features/" else "",
         changelog_nav=e(s["changelog_nav"]), changelog_current=CURRENT if page == "changelog/" else "",
+        how_nav=e(s["how_nav"]), how_current=CURRENT if page == "how-it-works/" else "",
         releases=e(s["releases"]), license=e(s["license"]),
         sponsor=e(s["sponsor"]), sponsors=SPONSORS, main=main, support_dialog=support_dialog(s),
     )
@@ -609,6 +617,10 @@ def main():
         for page, builder in (("privacy", build_privacy), ("features", build_features), ("changelog", build_changelog)):
             (folder / page).mkdir()
             (folder / page / "index.html").write_text(builder(lang, STRINGS[lang]))
+        # The shell of the page: how-it-works/build.mjs takes its head, top bar and dialog, and puts the map around them.
+        (folder / "how-it-works").mkdir()
+        (folder / "how-it-works" / "index.html").write_text(layout(lang, STRINGS[lang], "how-it-works/", STRINGS[lang]["how_title"], STRINGS[lang]["how_description"], ""))
+    subprocess.run(["node", str(ROOT / "how-it-works" / "build.mjs"), str(OUT), LATEST], check=True)
     (OUT / "download" / "index.html").write_text(DOWNLOAD)
     (OUT / ".nojekyll").write_text("")
     print(OUT)

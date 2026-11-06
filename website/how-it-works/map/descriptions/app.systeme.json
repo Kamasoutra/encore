@@ -1,0 +1,28 @@
+{
+  "files": {
+    "Sources/Encore/Compat.swift": {
+      "name": "Compatibilité macOS",
+      "description": "Remplace par des équivalents les fonctions absentes des anciennes versions de macOS."
+    },
+    "Sources/Encore/EncoreApp.swift": {
+      "name": "Démarrage de l'app",
+      "description": "Lance l'app ou le mode assistant, et crée ses fenêtres, son menu et ses raccourcis."
+    },
+    "Sources/Encore/FeedbackSounds.swift": {
+      "name": "Sons",
+      "description": "Joue le son du thème choisi à chaque copie et à chaque collage."
+    },
+    "Sources/Encore/HistoryKey.swift": {
+      "name": "Clé de chiffrement",
+      "description": "Crée et garde dans le trousseau la clé qui chiffre l'historique, et ne remplace jamais une clé existante."
+    },
+    "Sources/Encore/Hotkeys.swift": {
+      "name": "Raccourci global",
+      "description": "Enregistre le raccourci qui fait apparaître encore et refuse ceux qui prendraient la place de ⌘V."
+    },
+    "Sources/Encore/Updates.swift": {
+      "name": "Mises à jour",
+      "description": "Vérifie et installe les nouvelles versions de l'app avec Sparkle."
+    }
+  }
+}

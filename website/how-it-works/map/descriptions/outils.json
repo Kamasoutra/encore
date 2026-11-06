@@ -1,0 +1,28 @@
+{
+  "files": {
+    "Package.swift": {
+      "name": "Recette du projet",
+      "description": "Déclare les parties de l'app, la version minimale de macOS et la dépendance à Sparkle."
+    },
+    "scripts/appcast.sh": {
+      "name": "Flux de mises à jour",
+      "description": "Écrit le fichier que Sparkle lit pour annoncer une nouvelle version."
+    },
+    "scripts/build.sh": {
+      "name": "Construction de l'app",
+      "description": "Compile l'app pour les Mac Apple Silicon et Intel, puis assemble Encore.app."
+    },
+    "scripts/cask.sh": {
+      "name": "Formule Homebrew",
+      "description": "Écrit le fichier qui permet d'installer une version avec Homebrew."
+    },
+    "scripts/icon.swift": {
+      "name": "Icône de l'app",
+      "description": "Dessine l'icône de l'app dans toutes les tailles nécessaires."
+    },
+    "scripts/sounds.py": {
+      "name": "Fabrique de sons",
+      "description": "Synthétise les jeux de sons livrés avec l'app, la copie plus discrète que le collage."
+    }
+  }
+}

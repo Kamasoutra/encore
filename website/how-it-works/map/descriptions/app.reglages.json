@@ -1,0 +1,20 @@
+{
+  "files": {
+    "Sources/Encore/Preferences.swift": {
+      "name": "Préférences",
+      "description": "Regroupe et enregistre tous les choix de l'utilisateur, comme les pauses de capture ou la forme du bandeau."
+    },
+    "Sources/Encore/RetentionSettingsView.swift": {
+      "name": "Règles de conservation",
+      "description": "Permet de décider combien de temps garder les copies, globalement ou par app."
+    },
+    "Sources/Encore/SettingsView.swift": {
+      "name": "Fenêtre de réglages",
+      "description": "Affiche tous les onglets de réglages, dont le partage entre Mac et l'accès des assistants."
+    },
+    "Sources/Encore/SnippetEditorView.swift": {
+      "name": "Éditeur de snippets",
+      "description": "Permet de créer et de ranger un snippet, avec l'icône et la couleur de son langage."
+    }
+  }
+}

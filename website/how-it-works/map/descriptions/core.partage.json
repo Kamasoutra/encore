@@ -1,0 +1,32 @@
+{
+  "files": {
+    "Sources/EncoreCore/PeerChannel.swift": {
+      "name": "Connexion entre Mac",
+      "description": "Envoie et reçoit les messages sur la connexion réseau avec un autre Mac."
+    },
+    "Sources/EncoreCore/PeerCrypto.swift": {
+      "name": "Chiffrement entre Mac",
+      "description": "Protège l'association de deux Mac et chiffre tout ce qu'ils s'échangent ensuite."
+    },
+    "Sources/EncoreCore/PeerProtocol.swift": {
+      "name": "Langage entre Mac",
+      "description": "Définit les messages que deux Mac s'envoient, comme la demande de liste ou l'envoi d'une copie."
+    },
+    "Sources/EncoreCore/PeerSecrets.swift": {
+      "name": "Secrets d'association",
+      "description": "Garde les secrets d'association dans un fichier lisible par toi seul, et reprend ceux de l'ancien trousseau."
+    },
+    "Sources/EncoreCore/PeerService.swift": {
+      "name": "Service de partage",
+      "description": "Trouve les autres Mac du réseau, gère l'association et répond à leurs demandes."
+    },
+    "Sources/EncoreCore/PeerShare.swift": {
+      "name": "Ce qui est partagé",
+      "description": "Décide ce qu'un Mac montre aux autres : les secrets détectés ne le quittent jamais."
+    },
+    "Sources/EncoreCore/PinnedSync.swift": {
+      "name": "Synchro des favoris",
+      "description": "Fusionne favoris et snippets entre Mac en les reconnaissant à leur contenu, en tenant compte des suppressions."
+    }
+  }
+}
