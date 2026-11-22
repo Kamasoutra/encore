@@ -1203,6 +1203,7 @@ struct ClipActions: View {
             Menu { ForEach(TextAction.allCases) { action in Button(action.title) { model.transform(action, clip: clip) } } } label: { Label(L("Transform a copy"), systemImage: "wand.and.stars") }
         }
         if clip.kind == .image {
+            Menu { ForEach(ImageAction.allCases) { action in Button(action.title) { model.retouch(action, clip: clip) } } } label: { Label(L("Touch up a copy"), systemImage: "photo.badge.plus") }
             Button { model.recognize(clip.id) } label: { Label(L("Recognize text"), systemImage: "text.viewfinder") }
             if !clip.recognizedText.isEmpty { Button { model.addText(clip.recognizedText) } label: { Label(L("Create text from image"), systemImage: "text.badge.plus") } }
         }

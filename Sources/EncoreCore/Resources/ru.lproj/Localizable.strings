@@ -545,6 +545,16 @@
 "Nothing new to import from Maccy." = "Нечего импортировать из Maccy.";
 "%@ copies imported from Maccy, %@ already expired under your retention rules" = "Импортировано из Maccy копий: %@, из них %@ уже истекли по вашим правилам хранения";
 "%@ copies imported from Maccy" = "Импортировано из Maccy копий: %@";
-"{{title:Mr|Ms}} offers a list of choices, and {{city:Paris}} a value already filled in." = "{{обращение:Господин|Госпожа}} предлагает список вариантов, а {{город:Казань}} — уже заполненное значение.";
 "The images and files were not dropped: a web page only takes the text of a mixed selection. Drag them on their own." = "Изображения и файлы не перенесены: веб-страница берёт из смешанного выделения только текст. Перетащите их отдельно.";
 "A web page may keep only part of a paste with several images or files: drag the cards to add them all." = "Веб-страница может сохранить лишь часть вставки из нескольких изображений или файлов: перетащите карточки, чтобы добавить все.";
+"{{title:Mr|Ms}} offers a list of choices, and {{city:Paris}} a value already filled in." = "{{обращение:Господин|Госпожа}} предлагает список вариантов, а {{город:Казань}} — уже заполненное значение.";
+"Reduce by half" = "Уменьшить вдвое";
+"Fit within 1920 pixels" = "Вписать в 1920 пикселей";
+"Convert to JPEG" = "Преобразовать в JPEG";
+"Convert to PNG" = "Преобразовать в PNG";
+"Remove metadata and location" = "Удалить метаданные и геопозицию";
+"This image could not be read." = "Не удалось прочитать изображение.";
+"This image is already within that size." = "Изображение уже укладывается в этот размер.";
+"Touch up a copy" = "Обработать копию";
+"Touch up" = "Обработать";
+"This image is too large to touch up." = "Изображение слишком большое для обработки.";

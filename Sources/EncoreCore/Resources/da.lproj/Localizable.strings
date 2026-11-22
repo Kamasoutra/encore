@@ -545,6 +545,16 @@
 "Nothing new to import from Maccy." = "Intet nyt at importere fra Maccy.";
 "%@ copies imported from Maccy, %@ already expired under your retention rules" = "%@ kopier importeret fra Maccy, heraf %@ allerede udløbet efter dine opbevaringsregler";
 "%@ copies imported from Maccy" = "%@ kopier importeret fra Maccy";
-"{{title:Mr|Ms}} offers a list of choices, and {{city:Paris}} a value already filled in." = "{{titel:Hr.|Fru}} giver en liste med valg, og {{by:Aarhus}} en værdi, der allerede er udfyldt.";
 "The images and files were not dropped: a web page only takes the text of a mixed selection. Drag them on their own." = "Billederne og filerne blev ikke sluppet: en webside tager kun teksten fra et blandet udvalg. Træk dem for sig.";
 "A web page may keep only part of a paste with several images or files: drag the cards to add them all." = "En webside beholder måske kun en del, når flere billeder eller filer indsættes: træk kortene for at tilføje dem alle.";
+"{{title:Mr|Ms}} offers a list of choices, and {{city:Paris}} a value already filled in." = "{{titel:Hr.|Fru}} giver en liste med valg, og {{by:Aarhus}} en værdi, der allerede er udfyldt.";
+"Reduce by half" = "Halvér";
+"Fit within 1920 pixels" = "Tilpas til 1920 pixels";
+"Convert to JPEG" = "Konvertér til JPEG";
+"Convert to PNG" = "Konvertér til PNG";
+"Remove metadata and location" = "Fjern metadata og placering";
+"This image could not be read." = "Billedet kunne ikke læses.";
+"This image is already within that size." = "Billedet er allerede inden for den størrelse.";
+"Touch up a copy" = "Retouchér en kopi";
+"Touch up" = "Retouchér";
+"This image is too large to touch up." = "Billedet er for stort til at blive retoucheret.";

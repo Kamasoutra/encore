@@ -545,6 +545,16 @@
 "Nothing new to import from Maccy." = "Tidak ada yang baru untuk diimpor dari Maccy.";
 "%@ copies imported from Maccy, %@ already expired under your retention rules" = "%@ salinan diimpor dari Maccy, %@ di antaranya sudah kedaluwarsa menurut aturan penyimpananmu";
 "%@ copies imported from Maccy" = "%@ salinan diimpor dari Maccy";
-"{{title:Mr|Ms}} offers a list of choices, and {{city:Paris}} a value already filled in." = "{{sapaan:Bapak|Ibu}} menawarkan daftar pilihan, dan {{kota:Bandung}} nilai yang sudah terisi.";
 "The images and files were not dropped: a web page only takes the text of a mixed selection. Drag them on their own." = "Gambar dan file tidak dilepas: halaman web hanya mengambil teks dari pilihan campuran. Seret secara terpisah.";
 "A web page may keep only part of a paste with several images or files: drag the cards to add them all." = "Halaman web mungkin hanya menyimpan sebagian saat menempel beberapa gambar atau file: seret kartunya untuk menambahkan semuanya.";
+"{{title:Mr|Ms}} offers a list of choices, and {{city:Paris}} a value already filled in." = "{{sapaan:Bapak|Ibu}} menawarkan daftar pilihan, dan {{kota:Bandung}} nilai yang sudah terisi.";
+"Reduce by half" = "Perkecil setengah";
+"Fit within 1920 pixels" = "Sesuaikan ke 1920 piksel";
+"Convert to JPEG" = "Konversi ke JPEG";
+"Convert to PNG" = "Konversi ke PNG";
+"Remove metadata and location" = "Hapus metadata dan lokasi";
+"This image could not be read." = "Gambar ini tidak dapat dibaca.";
+"This image is already within that size." = "Gambar ini sudah dalam ukuran tersebut.";
+"Touch up a copy" = "Sunting salinan";
+"Touch up" = "Sunting";
+"This image is too large to touch up." = "Gambar ini terlalu besar untuk disunting.";

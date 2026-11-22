@@ -545,6 +545,16 @@
 "Nothing new to import from Maccy." = "Niets nieuws om uit Maccy te importeren.";
 "%@ copies imported from Maccy, %@ already expired under your retention rules" = "%@ kopieën uit Maccy geïmporteerd, waarvan %@ al verlopen volgens je bewaarregels";
 "%@ copies imported from Maccy" = "%@ kopieën uit Maccy geïmporteerd";
-"{{title:Mr|Ms}} offers a list of choices, and {{city:Paris}} a value already filled in." = "{{aanhef:Dhr.|Mevr.}} biedt een keuzelijst, en {{stad:Utrecht}} een al ingevulde waarde.";
 "The images and files were not dropped: a web page only takes the text of a mixed selection. Drag them on their own." = "De afbeeldingen en bestanden zijn niet neergezet: een webpagina neemt van een gemengde selectie alleen de tekst. Sleep ze apart.";
 "A web page may keep only part of a paste with several images or files: drag the cards to add them all." = "Een webpagina houdt bij het plakken van meerdere afbeeldingen of bestanden mogelijk maar een deel: sleep de kaarten om ze allemaal toe te voegen.";
+"{{title:Mr|Ms}} offers a list of choices, and {{city:Paris}} a value already filled in." = "{{aanhef:Dhr.|Mevr.}} biedt een keuzelijst, en {{stad:Utrecht}} een al ingevulde waarde.";
+"Reduce by half" = "Halveren";
+"Fit within 1920 pixels" = "Passend maken binnen 1920 pixels";
+"Convert to JPEG" = "Omzetten naar JPEG";
+"Convert to PNG" = "Omzetten naar PNG";
+"Remove metadata and location" = "Metadata en locatie verwijderen";
+"This image could not be read." = "Deze afbeelding kon niet worden gelezen.";
+"This image is already within that size." = "Deze afbeelding past al binnen dat formaat.";
+"Touch up a copy" = "Kopie bewerken";
+"Touch up" = "Bewerken";
+"This image is too large to touch up." = "Deze afbeelding is te groot om te bewerken.";

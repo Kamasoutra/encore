@@ -265,7 +265,11 @@ struct LibraryPreview: View {
                     }
                     HStack(spacing: 8) {
                         Button { model.paste([clip], plain: true) } label: { Text(model.pastesDirectly ? L("Paste as plain text") : L("Copy as plain text")).lineLimit(1).frame(maxWidth: .infinity) }.disabled(clip.text.isEmpty)
-                        Menu(L("Transform")) { ForEach(TextAction.allCases) { action in Button(action.title) { model.transform(action, clip: clip) } } }.disabled(clip.text.isEmpty || model.remotePeer != nil)
+                        if clip.kind == .image {
+                            Menu(L("Touch up")) { ForEach(ImageAction.allCases) { action in Button(action.title) { model.retouch(action, clip: clip) } } }.disabled(model.remotePeer != nil)
+                        } else {
+                            Menu(L("Transform")) { ForEach(TextAction.allCases) { action in Button(action.title) { model.transform(action, clip: clip) } } }.disabled(clip.text.isEmpty || model.remotePeer != nil)
+                        }
                     }
                 }.controlSize(floating ? .small : .regular)
             } else {

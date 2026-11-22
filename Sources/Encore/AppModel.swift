@@ -1353,6 +1353,23 @@ struct PeerStatus: Identifiable, Equatable {
         catch { notify(error.localizedDescription) }
     }
 
+    /// A touched-up image becomes a new copy, at the top, as text transforms do. The original stays as it was.
+    func retouch(_ action: ImageAction, clip: Clip) {
+        guard let source = imageData(of: clip) else { notify(ImageAction.Failure.unreadable.localizedDescription); return }
+        do {
+            let result = try action.apply(source.data)
+            let pasteboard = NSPasteboard(name: .init("local.kama.Encore.retouch.\(UUID().uuidString)"))
+            defer { pasteboard.releaseGlobally() }
+            pasteboard.clearContents()
+            pasteboard.setData(result.data, forType: .init(result.type))
+            guard let capture = try PasteboardCapture.read(pasteboard, sourceName: "encore", sourceBundle: Bundle.main.bundleIdentifier ?? "", ignoreSensitive: false) else { return }
+            guard capture.payload.byteCount <= PasteboardCapture.maxBytes else { notify(L("Maximum 25 MiB per item.")); return }
+            var copy = capture.clip
+            copy.title = clip.title
+            if accept(copy, payload: capture.payload) { resetSelection(); notify(action.title) }
+        } catch { notify(error.localizedDescription) }
+    }
+
     func image(for clip: Clip) -> NSImage? {
         if let image = thumbnails[clip.id] { return image }
         if let data = remoteRecords[clip.id]?.thumbnail, let image = NSImage(data: data) { thumbnails[clip.id] = image; return image }

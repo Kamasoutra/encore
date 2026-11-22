@@ -545,6 +545,16 @@
 "Nothing new to import from Maccy." = "Maccy से इंपोर्ट करने के लिए कुछ नया नहीं है।";
 "%@ copies imported from Maccy, %@ already expired under your retention rules" = "Maccy से %@ कॉपियाँ इंपोर्ट हुईं, जिनमें से %@ आपके रखने के नियमों के अनुसार पहले ही समाप्त हो चुकी हैं";
 "%@ copies imported from Maccy" = "Maccy से %@ कॉपियाँ इंपोर्ट हुईं";
-"{{title:Mr|Ms}} offers a list of choices, and {{city:Paris}} a value already filled in." = "{{संबोधन:श्री|श्रीमती}} विकल्पों की सूची देता है, और {{शहर:पुणे}} पहले से भरा मान।";
 "The images and files were not dropped: a web page only takes the text of a mixed selection. Drag them on their own." = "छवियाँ और फ़ाइलें नहीं छोड़ी गईं: वेब पेज मिश्रित चयन से केवल टेक्स्ट लेता है। उन्हें अलग से खींचें।";
 "A web page may keep only part of a paste with several images or files: drag the cards to add them all." = "कई छवियाँ या फ़ाइलें पेस्ट करने पर वेब पेज केवल कुछ हिस्सा रख सकता है: सभी जोड़ने के लिए कार्ड खींचें।";
+"{{title:Mr|Ms}} offers a list of choices, and {{city:Paris}} a value already filled in." = "{{संबोधन:श्री|श्रीमती}} विकल्पों की सूची देता है, और {{शहर:पुणे}} पहले से भरा मान।";
+"Reduce by half" = "आधा करें";
+"Fit within 1920 pixels" = "1920 पिक्सेल में फ़िट करें";
+"Convert to JPEG" = "JPEG में बदलें";
+"Convert to PNG" = "PNG में बदलें";
+"Remove metadata and location" = "मेटाडेटा और स्थान हटाएँ";
+"This image could not be read." = "यह छवि पढ़ी नहीं जा सकी।";
+"This image is already within that size." = "यह छवि पहले से उस आकार में है।";
+"Touch up a copy" = "कॉपी सुधारें";
+"Touch up" = "सुधारें";
+"This image is too large to touch up." = "यह छवि सुधारने के लिए बहुत बड़ी है।";

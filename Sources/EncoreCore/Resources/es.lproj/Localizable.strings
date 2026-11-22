@@ -545,6 +545,16 @@
 "Nothing new to import from Maccy." = "Nada nuevo que importar desde Maccy.";
 "%@ copies imported from Maccy, %@ already expired under your retention rules" = "%@ copias importadas desde Maccy, %@ ya caducadas según tus reglas de conservación";
 "%@ copies imported from Maccy" = "%@ copias importadas desde Maccy";
-"{{title:Mr|Ms}} offers a list of choices, and {{city:Paris}} a value already filled in." = "{{tratamiento:Sr.|Sra.}} ofrece una lista de opciones, y {{ciudad:Madrid}} un valor ya rellenado.";
 "The images and files were not dropped: a web page only takes the text of a mixed selection. Drag them on their own." = "Las imágenes y archivos no se soltaron: una página web solo toma el texto de una selección mixta. Arrástralos por separado.";
 "A web page may keep only part of a paste with several images or files: drag the cards to add them all." = "Una página web puede quedarse solo con parte de un pegado de varias imágenes o archivos: arrastra las tarjetas para añadirlas todas.";
+"{{title:Mr|Ms}} offers a list of choices, and {{city:Paris}} a value already filled in." = "{{tratamiento:Sr.|Sra.}} ofrece una lista de opciones, y {{ciudad:Madrid}} un valor ya rellenado.";
+"Reduce by half" = "Reducir a la mitad";
+"Fit within 1920 pixels" = "Ajustar a 1920 píxeles";
+"Convert to JPEG" = "Convertir a JPEG";
+"Convert to PNG" = "Convertir a PNG";
+"Remove metadata and location" = "Quitar metadatos y ubicación";
+"This image could not be read." = "No se pudo leer esta imagen.";
+"This image is already within that size." = "Esta imagen ya cabe en ese tamaño.";
+"Touch up a copy" = "Retocar una copia";
+"Touch up" = "Retocar";
+"This image is too large to touch up." = "Esta imagen es demasiado grande para retocarla.";

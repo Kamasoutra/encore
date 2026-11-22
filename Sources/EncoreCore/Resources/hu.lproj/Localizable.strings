@@ -545,6 +545,16 @@
 "Nothing new to import from Maccy." = "Nincs új importálnivaló a Maccyból.";
 "%@ copies imported from Maccy, %@ already expired under your retention rules" = "%@ másolat importálva a Maccyból, ebből %@ a megőrzési szabályai szerint már lejárt";
 "%@ copies imported from Maccy" = "%@ másolat importálva a Maccyból";
-"{{title:Mr|Ms}} offers a list of choices, and {{city:Paris}} a value already filled in." = "A {{megszólítás:Úr|Asszony}} választólistát kínál, a {{város:Szeged}} pedig előre kitöltött értéket.";
 "The images and files were not dropped: a web page only takes the text of a mixed selection. Drag them on their own." = "A képek és fájlok nem kerültek át: egy weboldal vegyes kijelölésből csak a szöveget veszi át. Húzza át őket külön.";
 "A web page may keep only part of a paste with several images or files: drag the cards to add them all." = "Egy weboldal több kép vagy fájl beillesztéséből csak egy részt tarthat meg: húzza át a kártyákat, hogy mindet hozzáadja.";
+"{{title:Mr|Ms}} offers a list of choices, and {{city:Paris}} a value already filled in." = "A {{megszólítás:Úr|Asszony}} választólistát kínál, a {{város:Szeged}} pedig előre kitöltött értéket.";
+"Reduce by half" = "Felére kicsinyítés";
+"Fit within 1920 pixels" = "Igazítás 1920 képpontba";
+"Convert to JPEG" = "Konvertálás JPEG-be";
+"Convert to PNG" = "Konvertálás PNG-be";
+"Remove metadata and location" = "Metaadatok és hely eltávolítása";
+"This image could not be read." = "Ez a kép nem olvasható.";
+"This image is already within that size." = "Ez a kép már belefér ebbe a méretbe.";
+"Touch up a copy" = "Másolat retusálása";
+"Touch up" = "Retusálás";
+"This image is too large to touch up." = "Ez a kép túl nagy a retusáláshoz.";

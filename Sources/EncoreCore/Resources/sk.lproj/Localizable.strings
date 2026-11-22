@@ -545,6 +545,16 @@
 "Nothing new to import from Maccy." = "Z Maccy nie je čo nové importovať.";
 "%@ copies imported from Maccy, %@ already expired under your retention rules" = "Z Maccy importované kópie: %@, z toho %@ už vypršalo podľa vašich pravidiel uchovávania";
 "%@ copies imported from Maccy" = "Z Maccy importované kópie: %@";
-"{{title:Mr|Ms}} offers a list of choices, and {{city:Paris}} a value already filled in." = "{{oslovenie:Pán|Pani}} ponúkne zoznam možností a {{mesto:Košice}} vopred vyplnenú hodnotu.";
 "The images and files were not dropped: a web page only takes the text of a mixed selection. Drag them on their own." = "Obrázky a súbory neboli vložené: webová stránka berie zo zmiešaného výberu iba text. Presuňte ich samostatne.";
 "A web page may keep only part of a paste with several images or files: drag the cards to add them all." = "Webová stránka môže pri vložení viacerých obrázkov alebo súborov ponechať len časť: presuňte karty a pridajte všetky.";
+"{{title:Mr|Ms}} offers a list of choices, and {{city:Paris}} a value already filled in." = "{{oslovenie:Pán|Pani}} ponúkne zoznam možností a {{mesto:Košice}} vopred vyplnenú hodnotu.";
+"Reduce by half" = "Zmenšiť na polovicu";
+"Fit within 1920 pixels" = "Zmestiť do 1920 pixelov";
+"Convert to JPEG" = "Previesť na JPEG";
+"Convert to PNG" = "Previesť na PNG";
+"Remove metadata and location" = "Odstrániť metadáta a polohu";
+"This image could not be read." = "Obrázok sa nepodarilo prečítať.";
+"This image is already within that size." = "Obrázok sa už do tejto veľkosti zmestí.";
+"Touch up a copy" = "Upraviť kópiu";
+"Touch up" = "Upraviť";
+"This image is too large to touch up." = "Obrázok je príliš veľký na úpravu.";
