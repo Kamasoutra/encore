@@ -545,3 +545,4 @@
 "Nothing new to import from Maccy." = "Немає нічого нового для імпорту з Maccy.";
 "%@ copies imported from Maccy, %@ already expired under your retention rules" = "Імпортовано з Maccy копій: %@, з них %@ уже закінчилися за вашими правилами зберігання";
 "%@ copies imported from Maccy" = "Імпортовано з Maccy копій: %@";
+"{{title:Mr|Ms}} offers a list of choices, and {{city:Paris}} a value already filled in." = "{{звертання:Пан|Пані}} пропонує список варіантів, а {{місто:Львів}} — уже заповнене значення.";

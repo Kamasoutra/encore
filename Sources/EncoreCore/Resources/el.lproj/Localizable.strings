@@ -545,3 +545,4 @@
 "Nothing new to import from Maccy." = "Τίποτα νέο για εισαγωγή από το Maccy.";
 "%@ copies imported from Maccy, %@ already expired under your retention rules" = "Εισήχθησαν %@ αντίγραφα από το Maccy, %@ από αυτά έχουν ήδη λήξει σύμφωνα με τους κανόνες διατήρησης";
 "%@ copies imported from Maccy" = "Εισήχθησαν %@ αντίγραφα από το Maccy";
+"{{title:Mr|Ms}} offers a list of choices, and {{city:Paris}} a value already filled in." = "Το {{προσφώνηση:Κύριος|Κυρία}} προσφέρει λίστα επιλογών και το {{πόλη:Αθήνα}} μια ήδη συμπληρωμένη τιμή.";

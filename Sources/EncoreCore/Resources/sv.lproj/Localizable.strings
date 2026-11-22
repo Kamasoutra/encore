@@ -545,3 +545,4 @@
 "Nothing new to import from Maccy." = "Inget nytt att importera från Maccy.";
 "%@ copies imported from Maccy, %@ already expired under your retention rules" = "%@ kopior importerade från Maccy, varav %@ redan har gått ut enligt dina regler för lagring";
 "%@ copies imported from Maccy" = "%@ kopior importerade från Maccy";
+"{{title:Mr|Ms}} offers a list of choices, and {{city:Paris}} a value already filled in." = "{{titel:Herr|Fru}} ger en lista med val, och {{stad:Malmö}} ett redan ifyllt värde.";

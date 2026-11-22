@@ -913,9 +913,16 @@ struct SnippetFormView: View {
             VStack(alignment: .leading, spacing: 10) {
                 Text(form.clip.displayTitle).font(.system(size: 15, weight: .semibold)).lineLimit(1)
                 ForEach(form.fields, id: \.self) { field in
-                    TextField(field, text: Binding(get: { values[field, default: ""] }, set: { values[field] = $0 }))
-                        .textFieldStyle(.roundedBorder).focused($focus, equals: field)
-                        .onSubmit { advance(from: field) }
+                    if let options = form.choices[field] {
+                        Picker(field, selection: Binding(get: { values[field] ?? options[0] }, set: { values[field] = $0 })) {
+                            ForEach(options, id: \.self) { Text($0).tag($0) }
+                        }
+                        .pickerStyle(.menu)
+                    } else {
+                        TextField(field, text: Binding(get: { values[field, default: ""] }, set: { values[field] = $0 }))
+                            .textFieldStyle(.roundedBorder).focused($focus, equals: field)
+                            .onSubmit { advance(from: field) }
+                    }
                 }
                 HStack {
                     Spacer()
@@ -929,12 +936,16 @@ struct SnippetFormView: View {
         }
         .clipShape(RoundedRectangle(cornerRadius: 20))
         // Focus once the field exists; set during appearance it is ignored.
-        .onAppear { DispatchQueue.main.async { focus = form.fields.first } }
+        .onAppear {
+            values = form.defaults
+            DispatchQueue.main.async { focus = form.fields.first { form.choices[$0] == nil } }
+        }
     }
 
     /// Return moves to the next field, and pastes from the last one.
     private func advance(from field: String) {
-        if let index = form.fields.firstIndex(of: field), index + 1 < form.fields.count { focus = form.fields[index + 1] } else { paste() }
+        let typed = form.fields.filter { form.choices[$0] == nil }
+        if let index = typed.firstIndex(of: field), index + 1 < typed.count { focus = typed[index + 1] } else { paste() }
     }
 
     private func paste() {

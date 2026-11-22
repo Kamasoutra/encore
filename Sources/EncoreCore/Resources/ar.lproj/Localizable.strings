@@ -545,3 +545,4 @@
 "Nothing new to import from Maccy." = "لا شيء جديد للاستيراد من Maccy.";
 "%@ copies imported from Maccy, %@ already expired under your retention rules" = "تم استيراد %@ نسخة من Maccy، منها %@ منتهية الصلاحية بالفعل وفق قواعد الاحتفاظ";
 "%@ copies imported from Maccy" = "تم استيراد %@ نسخة من Maccy";
+"{{title:Mr|Ms}} offers a list of choices, and {{city:Paris}} a value already filled in." = "يقدّم {{اللقب:السيد|السيدة}} قائمة خيارات، و{{المدينة:القاهرة}} قيمة معبأة مسبقًا.";

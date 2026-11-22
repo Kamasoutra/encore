@@ -545,3 +545,4 @@
 "Nothing new to import from Maccy." = "Tidak ada yang baru untuk diimpor dari Maccy.";
 "%@ copies imported from Maccy, %@ already expired under your retention rules" = "%@ salinan diimpor dari Maccy, %@ di antaranya sudah kedaluwarsa menurut aturan penyimpananmu";
 "%@ copies imported from Maccy" = "%@ salinan diimpor dari Maccy";
+"{{title:Mr|Ms}} offers a list of choices, and {{city:Paris}} a value already filled in." = "{{sapaan:Bapak|Ibu}} menawarkan daftar pilihan, dan {{kota:Bandung}} nilai yang sudah terisi.";

@@ -155,4 +155,14 @@ final class SnippetTests: XCTestCase {
         XCTAssertEqual(ids.count, 2); XCTAssertNotEqual(ids[0], ids[1])
         XCTAssertNotNil(UUID(uuidString: String(ids[0])))
     }
+
+    func testChoicesOfferAListAndValuesCanBePrefilled() throws {
+        let template = try XCTUnwrap(SnippetTemplate("{{civilité:Monsieur|Madame | Docteur}} {{nom}}, à {{ville:Paris}}. Cordialement, {{civilité}}"))
+        XCTAssertEqual(template.fields, ["civilité", "nom", "ville"])
+        XCTAssertEqual(template.choices, ["civilité": ["Monsieur", "Madame", "Docteur"]])
+        XCTAssertEqual(template.defaults, ["civilité": "Monsieur", "ville": "Paris"])
+        XCTAssertEqual(template.render(values: ["nom": "Durand"], clipboard: "").text, "Monsieur Durand, à Paris. Cordialement, Monsieur")
+        XCTAssertEqual(template.render(values: ["civilité": "Madame", "nom": "Durand", "ville": "Lyon"], clipboard: "").text, "Madame Durand, à Lyon. Cordialement, Madame")
+        XCTAssertEqual(try XCTUnwrap(SnippetTemplate("{{date:dd/MM}}")).fields, [], "Dates keep their format, not a choice")
+    }
 }

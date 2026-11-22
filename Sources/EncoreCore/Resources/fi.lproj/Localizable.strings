@@ -545,3 +545,4 @@
 "Nothing new to import from Maccy." = "Maccysta ei ole mitään uutta tuotavaa.";
 "%@ copies imported from Maccy, %@ already expired under your retention rules" = "%@ kopiota tuotu Maccysta, joista %@ on jo vanhentunut säilytyssääntöjesi mukaan";
 "%@ copies imported from Maccy" = "%@ kopiota tuotu Maccysta";
+"{{title:Mr|Ms}} offers a list of choices, and {{city:Paris}} a value already filled in." = "{{titteli:Herra|Rouva}} tarjoaa valintaluettelon, ja {{kaupunki:Turku}} valmiiksi täytetyn arvon.";

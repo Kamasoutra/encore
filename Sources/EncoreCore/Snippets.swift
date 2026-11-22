@@ -158,12 +158,13 @@ public struct CodeLanguage: Hashable, Identifiable {
 }
 
 /// Placeholders in a snippet: {{name}} asks for a value before pasting, {{date}}, {{time}} and {{clipboard}} fill themselves,
-/// {{cursor}} marks where the insertion point goes after pasting.
+/// {{cursor}} marks where the insertion point goes after pasting. {{title:Mr|Ms}} offers a list of choices, the first one
+/// selected, and {{city:Paris}} a value already filled in.
 public struct SnippetTemplate: Equatable, Sendable {
     public static let builtIns: Set<String> = ["date", "time", "uuid", "clipboard", "cursor"]
     // NSRegularExpression rather than Swift regex literals, which need macOS 13.
-    // A date or time can carry its own format after a colon: {{date:dd/MM/yyyy}}, {{time:HH:mm}}.
-    private static let pattern = try! NSRegularExpression(pattern: #"\{\{\s*([\p{L}\p{N}_][\p{L}\p{N}_\- ]{0,39}?)(?:\s*:\s*([^{}]{1,40}?))?\s*\}\}"#)
+    // A date or time can carry its own format after a colon: {{date:dd/MM/yyyy}}, {{time:HH:mm}}. Other fields, their choices or value.
+    private static let pattern = try! NSRegularExpression(pattern: #"\{\{\s*([\p{L}\p{N}_][\p{L}\p{N}_\- ]{0,39}?)(?:\s*:\s*([^{}]{1,300}?))?\s*\}\}"#)
 
     public let text: String
     /// Each placeholder with the range it covers, the field name inside and its format, if any.
@@ -187,10 +188,33 @@ public struct SnippetTemplate: Equatable, Sendable {
         return matches.map(\.field).filter { !Self.builtIns.contains($0.lowercased()) && seen.insert($0).inserted }
     }
 
+    /// The choices offered for a field, from its first appearance that has some: {{title:Mr|Ms}}.
+    public var choices: [String: [String]] {
+        var result: [String: [String]] = [:]
+        for match in matches where !Self.builtIns.contains(match.field.lowercased()) && result[match.field] == nil {
+            guard let format = match.format, format.contains("|") else { continue }
+            let options = format.split(separator: "|").map { $0.trimmingCharacters(in: .whitespaces) }.filter { !$0.isEmpty }
+            if !options.isEmpty { result[match.field] = options }
+        }
+        return result
+    }
+
+    /// The value a field starts with: its first choice, or the value written after the colon, {{city:Paris}}.
+    public var defaults: [String: String] {
+        var result: [String: String] = [:]
+        for match in matches where !Self.builtIns.contains(match.field.lowercased()) && result[match.field] == nil {
+            guard let format = match.format else { continue }
+            if format.contains("|") { if let first = choices[match.field]?.first { result[match.field] = first } }
+            else { result[match.field] = format }
+        }
+        return result
+    }
+
     /// The text to paste, and how many characters follow the cursor mark, if there is one.
     public func render(values: [String: String], clipboard: String, now: Date = Date(), locale: Locale = Localization.locale) -> (text: String, charactersAfterCursor: Int?) {
         var result = ""
         var cursor: Int?
+        let defaults = defaults
         var position = text.startIndex
         for match in matches {
             result += text[position..<match.range.lowerBound]
@@ -204,7 +228,7 @@ public struct SnippetTemplate: Equatable, Sendable {
             case "uuid": result += UUID().uuidString.lowercased()
             case "clipboard": result += clipboard
             case "cursor": if cursor == nil { cursor = result.count }
-            default: result += values[match.field] ?? ""
+            default: result += values[match.field] ?? defaults[match.field] ?? ""
             }
             position = match.range.upperBound
         }

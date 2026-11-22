@@ -11,6 +11,8 @@ struct SnippetForm: Identifiable {
     let id = UUID()
     let clip: Clip
     let fields: [String]
+    var choices: [String: [String]] = [:]
+    var defaults: [String: String] = [:]
     let plain: Bool
     let copyOnly: Bool
 }
@@ -1086,7 +1088,7 @@ struct PeerStatus: Identifiable, Equatable {
         var charactersAfterCursor: Int?
         var exact = false
         if values.count == 1, values[0].snippet, let template = SnippetTemplate(values[0].text) {
-            if fields == nil, !template.fields.isEmpty { snippetForm = SnippetForm(clip: values[0], fields: template.fields, plain: plain, copyOnly: copyOnly); return }
+            if fields == nil, !template.fields.isEmpty { snippetForm = SnippetForm(clip: values[0], fields: template.fields, choices: template.choices, defaults: template.defaults, plain: plain, copyOnly: copyOnly); return }
             let rendered = template.render(values: fields ?? [:], clipboard: clipboard.currentText)
             clipboard.write(.text(rendered.text), sourceBundle: origin)
             charactersAfterCursor = rendered.charactersAfterCursor

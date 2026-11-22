@@ -545,3 +545,4 @@
 "Nothing new to import from Maccy." = "Không có gì mới để nhập từ Maccy.";
 "%@ copies imported from Maccy, %@ already expired under your retention rules" = "Đã nhập %@ bản sao từ Maccy, trong đó %@ đã hết hạn theo quy tắc lưu giữ của bạn";
 "%@ copies imported from Maccy" = "Đã nhập %@ bản sao từ Maccy";
+"{{title:Mr|Ms}} offers a list of choices, and {{city:Paris}} a value already filled in." = "{{danh xưng:Ông|Bà}} đưa ra danh sách lựa chọn, và {{thành phố:Huế}} một giá trị đã điền sẵn.";

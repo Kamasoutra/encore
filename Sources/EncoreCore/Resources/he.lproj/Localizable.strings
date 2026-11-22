@@ -545,3 +545,4 @@
 "Nothing new to import from Maccy." = "אין שום דבר חדש לייבא מ-Maccy.";
 "%@ copies imported from Maccy, %@ already expired under your retention rules" = "יובאו %@ עותקים מ-Maccy, מתוכם %@ כבר פגו לפי כללי השמירה שלך";
 "%@ copies imported from Maccy" = "יובאו %@ עותקים מ-Maccy";
+"{{title:Mr|Ms}} offers a list of choices, and {{city:Paris}} a value already filled in." = "{{פנייה:מר|גברת}} מציע רשימת אפשרויות, ו־{{עיר:חיפה}} ערך שכבר מולא.";

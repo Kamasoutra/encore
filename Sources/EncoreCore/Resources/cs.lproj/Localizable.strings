@@ -545,3 +545,4 @@
 "Nothing new to import from Maccy." = "Z Maccy není co nového importovat.";
 "%@ copies imported from Maccy, %@ already expired under your retention rules" = "Z Maccy importováno kopií: %@, z toho %@ již vypršelo podle vašich pravidel uchovávání";
 "%@ copies imported from Maccy" = "Z Maccy importováno kopií: %@";
+"{{title:Mr|Ms}} offers a list of choices, and {{city:Paris}} a value already filled in." = "{{oslovení:Pan|Paní}} nabídne seznam možností a {{město:Brno}} předvyplněnou hodnotu.";

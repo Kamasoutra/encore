@@ -545,3 +545,4 @@
 "Nothing new to import from Maccy." = "Maccy’den içe aktarılacak yeni bir şey yok.";
 "%@ copies imported from Maccy, %@ already expired under your retention rules" = "Maccy’den %@ kopya içe aktarıldı, bunlardan %@ tanesinin saklama kurallarınıza göre süresi zaten dolmuş";
 "%@ copies imported from Maccy" = "Maccy’den %@ kopya içe aktarıldı";
+"{{title:Mr|Ms}} offers a list of choices, and {{city:Paris}} a value already filled in." = "{{hitap:Bay|Bayan}} bir seçim listesi, {{şehir:İzmir}} ise önceden doldurulmuş bir değer sunar.";

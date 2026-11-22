@@ -545,3 +545,4 @@
 "Nothing new to import from Maccy." = "Nimic nou de importat din Maccy.";
 "%@ copies imported from Maccy, %@ already expired under your retention rules" = "%@ copii importate din Maccy, dintre care %@ deja expirate conform regulilor tale de păstrare";
 "%@ copies imported from Maccy" = "%@ copii importate din Maccy";
+"{{title:Mr|Ms}} offers a list of choices, and {{city:Paris}} a value already filled in." = "{{titlu:Dl.|Dna}} oferă o listă de opțiuni, iar {{oraș:Cluj}} o valoare deja completată.";

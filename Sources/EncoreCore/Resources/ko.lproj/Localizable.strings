@@ -545,3 +545,4 @@
 "Nothing new to import from Maccy." = "Maccy에서 가져올 새 항목이 없습니다.";
 "%@ copies imported from Maccy, %@ already expired under your retention rules" = "Maccy에서 복사본 %@개를 가져왔으며, 그중 %@개는 보관 규칙에 따라 이미 만료되었습니다";
 "%@ copies imported from Maccy" = "Maccy에서 복사본 %@개를 가져왔습니다";
+"{{title:Mr|Ms}} offers a list of choices, and {{city:Paris}} a value already filled in." = "{{호칭:님|씨}}은 선택 목록을, {{도시:부산}}은 미리 채워진 값을 제공합니다.";

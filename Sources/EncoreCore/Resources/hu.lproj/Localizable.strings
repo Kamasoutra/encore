@@ -545,3 +545,4 @@
 "Nothing new to import from Maccy." = "Nincs új importálnivaló a Maccyból.";
 "%@ copies imported from Maccy, %@ already expired under your retention rules" = "%@ másolat importálva a Maccyból, ebből %@ a megőrzési szabályai szerint már lejárt";
 "%@ copies imported from Maccy" = "%@ másolat importálva a Maccyból";
+"{{title:Mr|Ms}} offers a list of choices, and {{city:Paris}} a value already filled in." = "A {{megszólítás:Úr|Asszony}} választólistát kínál, a {{város:Szeged}} pedig előre kitöltött értéket.";

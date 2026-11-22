@@ -545,3 +545,4 @@
 "Nothing new to import from Maccy." = "沒有可從 Maccy 匯入的新內容。";
 "%@ copies imported from Maccy, %@ already expired under your retention rules" = "已從 Maccy 匯入 %@ 個拷貝，其中 %@ 個依你的保留規則已過期";
 "%@ copies imported from Maccy" = "已從 Maccy 匯入 %@ 個拷貝";
+"{{title:Mr|Ms}} offers a list of choices, and {{city:Paris}} a value already filled in." = "{{稱呼:先生|女士}} 提供選項列表，{{城市:台南}} 提供已填好的值。";
