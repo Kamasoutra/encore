@@ -49,6 +49,31 @@ final class ClearedCopyTests: XCTestCase {
         }
     }
 
+    @MainActor func testDraggingImagesGivesOneFileEach() throws {
+        try withModel { model, pb in
+            var images: [Clip] = []
+            for width in [2, 3] {
+                let bitmap = try XCTUnwrap(NSBitmapImageRep(bitmapDataPlanes: nil, pixelsWide: width, pixelsHigh: 2, bitsPerSample: 8, samplesPerPixel: 4, hasAlpha: true, isPlanar: false, colorSpaceName: .deviceRGB, bytesPerRow: 0, bitsPerPixel: 0))
+                let data = try XCTUnwrap(bitmap.representation(using: .png, properties: [:]))
+                let payload = ClipPayload(items: [.init(["public.png": data])])
+                model.accept(Clip(fingerprint: payload.fingerprint, kind: .image, text: "", byteCount: data.count), payload: payload)
+                images.append(try XCTUnwrap(model.library.clips.first { $0.fingerprint == payload.fingerprint }))
+            }
+            model.select(images[0].id); model.select(images[1].id, modifiers: .command)
+            let items = clipDragItems(model: model, clip: images[0])
+            XCTAssertEqual(items.count, 2)
+            let urls = items.compactMap { $0.string(forType: .fileURL).flatMap(URL.init(string:)) }
+            XCTAssertEqual(urls.count, 2, "A web page or Mail takes the files of a drop")
+            XCTAssertEqual(Set(urls.map(\.path)).count, 2)
+            for (url, item) in zip(urls, items) {
+                XCTAssertEqual(url.pathExtension, "png")
+                XCTAssertEqual(try Data(contentsOf: url), item.data(forType: .png), "The image data stays too, for apps that take it")
+            }
+            _ = clipDragItems(model: model, clip: images[0])
+            XCTAssertFalse(FileManager.default.fileExists(atPath: urls[0].path), "The previous drag's files go when the next one starts")
+        }
+    }
+
     @MainActor func testPastingFilesGivesTheirContentsAndStillTheFiles() throws {
         try withModel { model, pb in
             let folder = FileManager.default.temporaryDirectory.appendingPathComponent("encore-paste-\(UUID())")

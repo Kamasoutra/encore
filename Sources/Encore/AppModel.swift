@@ -1011,7 +1011,7 @@ struct PeerStatus: Identifiable, Equatable {
         return ClipPayload(items: [PasteItem(representations)])
     }
 
-    private func imageData(of clip: Clip) -> (data: Data, ext: String)? {
+    func imageData(of clip: Clip) -> (data: Data, ext: String)? {
         guard clip.kind == .image else { return nil }
         let representations = storage?.payload(clip.id)?.items.first?.representations ?? [:]
         for (type, ext) in [("public.png", "png"), ("public.jpeg", "jpg"), ("public.tiff", "tiff")] {
@@ -1129,24 +1129,54 @@ struct PeerStatus: Identifiable, Equatable {
         dismissPanel?()
         if accessibilityGranted, let target, !target.isTerminated {
             target.activate(options: [])
-            deliverPaste(to: target, attempts: 12, charactersAfterCursor: charactersAfterCursor ?? 0)
+            // A web page keeps only the first image of a paste, and only the text of a mixed one: the text goes first, in one paste,
+            // then each image on its own, and the clipboard then holds the whole selection again.
+            let images = zip(values, payloads).filter { $0.0.kind == .image }.map(\.1)
+            let texts = values.filter { $0.kind != .image }.map(plainText(of:))
+            let oneByOne = !plain && values.count > 1 && !images.isEmpty && WebTarget.isWeb(target)
+                && values.allSatisfy { [.text, .code, .link, .color, .image].contains($0.kind) }
+            if oneByOne {
+                let steps = (texts.isEmpty ? [] : [ClipPayload.text(texts.joined(separator: "\n"))]) + images
+                let whole = texts.isEmpty ? ClipPayload(items: images.flatMap(\.items)) : combinedPayload(values)
+                clipboard.write(steps[0], sourceBundle: origin)
+                deliverPaste(to: target, attempts: 12) { [weak self] in self?.pasteOneByOne(steps.dropFirst(), to: target, then: whole) }
+            } else {
+                deliverPaste(to: target, attempts: 12, charactersAfterCursor: charactersAfterCursor ?? 0)
+            }
+            // A web page keeps only the first file of a paste, and leaves images out of mixed text.
+            let attachments = values.reduce(0) { $0 + ($1.kind == .image ? 1 : $1.kind == .file ? max(1, fileURLs(for: $1).count) : 0) }
+            if !oneByOne, !plain, attachments > 0, attachments + values.filter({ $0.kind != .image && $0.kind != .file }).count > 1, WebTarget.isWeb(target) {
+                Toast.show(L("A web page may keep only part of a paste with several images or files: drag the cards to add them all."), hiddenFromSharing: preferences.hideFromScreenSharing)
+            }
         } else {
             notify(L("Copied · press ⌘V, or enable direct paste in Settings."))
         }
     }
 
     /// After ⌘V, a snippet's {{cursor}} is reached with ← presses, one per character pasted after it.
-    private func deliverPaste(to target: NSRunningApplication, attempts: Int, charactersAfterCursor: Int = 0) {
+    private func deliverPaste(to target: NSRunningApplication, attempts: Int, charactersAfterCursor: Int = 0, then next: (() -> Void)? = nil) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.04) { [weak self] in
             guard let self else { return }
             guard target.isActive else {
-                if attempts > 0 { self.deliverPaste(to: target, attempts: attempts - 1, charactersAfterCursor: charactersAfterCursor) }
+                if attempts > 0 { self.deliverPaste(to: target, attempts: attempts - 1, charactersAfterCursor: charactersAfterCursor, then: next) }
                 else { self.notify(L("Copied · click the destination app and press ⌘V.")) }
                 return
             }
             let source = CGEventSource(stateID: .combinedSessionState)
             Self.postKey(9, flags: .maskCommand, source: source)
             for _ in 0..<min(charactersAfterCursor, 2000) { Self.postKey(123, source: source) }
+            next?()
+        }
+    }
+
+    /// The next image goes on the clipboard only once the page has read the previous one, hence the pause. Leaving the app stops the series.
+    private func pasteOneByOne(_ rest: ArraySlice<ClipPayload>, to target: NSRunningApplication, then all: ClipPayload) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) { [weak self] in
+            guard let self else { return }
+            guard let payload = rest.first, target.isActive else { self.clipboard.write(all); return }
+            self.clipboard.write(payload)
+            Self.postKey(9, flags: .maskCommand, source: CGEventSource(stateID: .combinedSessionState))
+            self.pasteOneByOne(rest.dropFirst(), to: target, then: all)
         }
     }
 

@@ -546,3 +546,5 @@
 "%@ copies imported from Maccy, %@ already expired under your retention rules" = "Maccyから%@件のコピーを読み込みました。うち%@件は保持ルールによりすでに期限切れです";
 "%@ copies imported from Maccy" = "Maccyから%@件のコピーを読み込みました";
 "{{title:Mr|Ms}} offers a list of choices, and {{city:Paris}} a value already filled in." = "{{敬称:様|殿}} は選択肢のリストを、{{都市:京都}} は入力済みの値を用意します。";
+"The images and files were not dropped: a web page only takes the text of a mixed selection. Drag them on their own." = "画像とファイルはドロップされませんでした。Webページは混在した選択からテキストだけを受け取ります。別々にドラッグしてください。";
+"A web page may keep only part of a paste with several images or files: drag the cards to add them all." = "Webページでは、複数の画像やファイルをペーストすると一部しか残らないことがあります。すべて追加するにはカードをドラッグしてください。";

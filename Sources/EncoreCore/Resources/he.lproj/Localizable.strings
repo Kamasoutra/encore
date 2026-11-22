@@ -546,3 +546,5 @@
 "%@ copies imported from Maccy, %@ already expired under your retention rules" = "יובאו %@ עותקים מ-Maccy, מתוכם %@ כבר פגו לפי כללי השמירה שלך";
 "%@ copies imported from Maccy" = "יובאו %@ עותקים מ-Maccy";
 "{{title:Mr|Ms}} offers a list of choices, and {{city:Paris}} a value already filled in." = "{{פנייה:מר|גברת}} מציע רשימת אפשרויות, ו־{{עיר:חיפה}} ערך שכבר מולא.";
+"The images and files were not dropped: a web page only takes the text of a mixed selection. Drag them on their own." = "התמונות והקבצים לא שוחררו: דף אינטרנט לוקח מבחירה מעורבת רק את הטקסט. גררו אותם בנפרד.";
+"A web page may keep only part of a paste with several images or files: drag the cards to add them all." = "דף אינטרנט עשוי לשמור רק חלק מהדבקה של כמה תמונות או קבצים: גררו את הכרטיסים כדי להוסיף את כולם.";

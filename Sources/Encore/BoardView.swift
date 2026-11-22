@@ -133,12 +133,13 @@ private struct DragSource: ViewModifier {
     let provider: () -> NSItemProvider
     func body(content: Content) -> some View {
         if !enabled { content }
-        else if clip.kind == .file { FileDragSource(content: content, model: model, clip: clip) }
+        else if clip.kind == .file || clip.kind == .image || dragGroup(model: model, clip: clip).count > 1 { FileDragSource(content: content, model: model, clip: clip) }
         else { content.onDrag(provider) { DragPreview(model: model, clip: clip) } }
     }
 }
 
-/// onDrag carries a single item, so a copy of several files would give only the first: file cards start an AppKit session, with one item per file.
+/// onDrag carries a single item, so a copy of several files would give only the first: files, images and selections start an AppKit
+/// session, with one item per file or image, and its end tells where the drop landed.
 private struct FileDragSource<Content: View>: View {
     let content: Content
     let model: AppModel
@@ -153,7 +154,11 @@ private struct FileDragSource<Content: View>: View {
                 guard !dragging, let event = NSApp.currentEvent, event.type == .leftMouseDragged else { return }
                 dragging = true
                 // The session keeps the mouse up to itself, so the gesture may never end: only the session says the drag is over.
-                view.begin(items: clipDragItems(model: model, clip: clip), icons: clipDragIcons(model: model, clip: clip), event: event) { dragging = false }
+                let group = dragGroup(model: model, clip: clip)
+                view.begin(items: clipDragItems(model: model, clip: clip), icons: clipDragIcons(model: model, clip: clip), event: event) { point, operation in
+                    dragging = false
+                    reportDrop(model: model, group: group, at: point, operation: operation)
+                }
             })
     }
 }
@@ -165,11 +170,11 @@ private struct FileDragHost: NSViewRepresentable {
 }
 
 private final class FileDragView: NSView, NSDraggingSource {
-    private var ended: (() -> Void)?
+    private var ended: ((NSPoint, NSDragOperation) -> Void)?
     override func hitTest(_ point: NSPoint) -> NSView? { nil }
 
-    func begin(items: [NSPasteboardItem], icons: [NSImage], event: NSEvent, ended: @escaping () -> Void) {
-        guard window != nil, !items.isEmpty else { ended(); return }
+    func begin(items: [NSPasteboardItem], icons: [NSImage], event: NSEvent, ended: @escaping (NSPoint, NSDragOperation) -> Void) {
+        guard window != nil, !items.isEmpty else { ended(.zero, []); return }
         self.ended = ended
         let origin = convert(event.locationInWindow, from: nil)
         let session = beginDraggingSession(with: items.enumerated().map { index, item in
@@ -183,7 +188,7 @@ private final class FileDragView: NSView, NSDraggingSource {
 
     /// Copy only: dropping on a folder must never move the original files away.
     func draggingSession(_ session: NSDraggingSession, sourceOperationMaskFor context: NSDraggingContext) -> NSDragOperation { .copy }
-    func draggingSession(_ session: NSDraggingSession, endedAt screenPoint: NSPoint, operation: NSDragOperation) { ended?(); ended = nil }
+    func draggingSession(_ session: NSDraggingSession, endedAt screenPoint: NSPoint, operation: NSDragOperation) { ended?(screenPoint, operation); ended = nil }
 }
 
 /// What follows the pointer while dragging, drawn whole with room around it: a snapshot of the card cut its number badge and its edges.
@@ -705,9 +710,13 @@ struct Selectable: ViewModifier {
 
 /// A copy dragged out of encore: its own contents for other apps, and its id for encore's collections and snippet order.
 /// With several cards selected, any of them carries them all, in selection order, one per line, images included.
+@MainActor func dragGroup(model: AppModel, clip: Clip) -> [Clip] {
+    model.selection.count > 1 && model.selection.contains(clip.id) ? model.selectedClips : [clip]
+}
+
 @MainActor func clipItemProvider(model: AppModel, clip: Clip) -> NSItemProvider {
     let provider = NSItemProvider()
-    let group = model.selection.count > 1 && model.selection.contains(clip.id) ? model.selectedClips : [clip]
+    let group = dragGroup(model: model, clip: clip)
     let ids = Data(group.map(\.id.uuidString).joined(separator: "\n").utf8)
     provider.registerDataRepresentation(forTypeIdentifier: "local.kama.encore.clip-id", visibility: .ownProcess) { completion in completion(ids, nil); return nil }
     if group.count > 1 {
@@ -723,23 +732,75 @@ struct Selectable: ViewModifier {
     return provider
 }
 
-/// A file card dragged out: one item per file, across the selection when it holds only files. A selection mixing other copies
-/// keeps the combined text and images of clipItemProvider. The first item carries the ids for encore's own drop targets.
+/// Files and images dragged out: one item per file, and per image a file of its own, so that a web page, Mail or the Finder
+/// gets each of them. A selection mixing other copies keeps the combined text and images of clipItemProvider.
+/// The first item carries the ids for encore's own drop targets.
 @MainActor func clipDragItems(model: AppModel, clip: Clip) -> [NSPasteboardItem] {
-    let group = model.selection.count > 1 && model.selection.contains(clip.id) ? model.selectedClips : [clip]
-    let payloads = group.allSatisfy { $0.kind == .file } ? group.flatMap { model.storage?.payload($0.id)?.items ?? [] } : model.combinedPayload(group).items
-    let items = payloads.map { payload -> NSPasteboardItem in
-        let item = NSPasteboardItem()
-        for (type, data) in payload.representations { item.setData(data, forType: .init(type)) }
-        return item
+    let group = dragGroup(model: model, clip: clip)
+    var items: [NSPasteboardItem]
+    if group.allSatisfy({ $0.kind == .file || $0.kind == .image }) {
+        let folder = DragFiles.fresh()
+        items = group.enumerated().flatMap { index, clip -> [NSPasteboardItem] in
+            if clip.kind == .file { return (model.storage?.payload(clip.id)?.items ?? []).map(pasteboardItem) }
+            guard let payload = model.storage?.payload(clip.id)?.items.first else { return [] }
+            let item = pasteboardItem(payload)
+            if item.string(forType: .fileURL) == nil, let image = model.imageData(of: clip), let url = DragFiles.write(image, name: clip.displayTitle, index: index, in: folder) {
+                item.setString(url.absoluteString, forType: .fileURL)
+            }
+            return [item]
+        }
+    } else {
+        items = model.combinedPayload(group).items.map(pasteboardItem)
     }
     items.first?.setData(Data(group.map(\.id.uuidString).joined(separator: "\n").utf8), forType: .init("local.kama.encore.clip-id"))
     return items
 }
 
+private func pasteboardItem(_ payload: PasteItem) -> NSPasteboardItem {
+    let item = NSPasteboardItem()
+    for (type, data) in payload.representations { item.setData(data, forType: .init(type)) }
+    return item
+}
+
+/// A web page takes the files of a drop, or its text, never both: dropping a mixed selection there leaves the images and files out.
+@MainActor private func reportDrop(model: AppModel, group: [Clip], at point: NSPoint, operation: NSDragOperation) {
+    guard !operation.isEmpty, group.count > 1 else { return }
+    let left = group.filter { $0.kind == .file || $0.kind == .image }.count
+    guard left > 0, left < group.count, WebTarget.isWeb(WebTarget.app(at: point)) else { return }
+    Toast.show(L("The images and files were not dropped: a web page only takes the text of a mixed selection. Drag them on their own."),
+               near: point, hiddenFromSharing: model.preferences.hideFromScreenSharing)
+}
+
+/// Images dragged out are written as files for the time of the drop; the previous drop's files go when the next one starts.
+enum DragFiles {
+    static let root = FileManager.default.temporaryDirectory.appendingPathComponent("Encore-Drag", isDirectory: true)
+
+    static func fresh() -> URL {
+        try? FileManager.default.removeItem(at: root)
+        let folder = root.appendingPathComponent(UUID().uuidString, isDirectory: true)
+        try? FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        return folder
+    }
+
+    static func write(_ image: (data: Data, ext: String), name: String, index: Int, in folder: URL) -> URL? {
+        let base = name.components(separatedBy: CharacterSet(charactersIn: "/:\\\n\r\t")).joined(separator: " ").trimmingCharacters(in: .whitespaces)
+        let title = base.isEmpty ? "Image" : String(base.prefix(60))
+        // Each image gets its own folder, so that two images with the same title keep it.
+        let url = folder.appendingPathComponent("\(index)", isDirectory: true).appendingPathComponent(title).appendingPathExtension(image.ext)
+        do {
+            try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
+            try image.data.write(to: url)
+            return url
+        } catch { return nil }
+    }
+}
+
 @MainActor private func clipDragIcons(model: AppModel, clip: Clip) -> [NSImage] {
-    let group = model.selection.count > 1 && model.selection.contains(clip.id) ? model.selectedClips : [clip]
-    return group.flatMap { model.fileURLs(for: $0) }.map { NSWorkspace.shared.icon(forFile: $0.path) }
+    dragGroup(model: model, clip: clip).flatMap { clip -> [NSImage] in
+        if clip.kind == .file { return model.fileURLs(for: clip).map { NSWorkspace.shared.icon(forFile: $0.path) } }
+        if clip.kind == .image, let image = model.image(for: clip) { return [image] }
+        return [NSWorkspace.shared.icon(for: .plainText)]
+    }
 }
 
 struct ClipCard: View {
