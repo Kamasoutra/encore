@@ -49,6 +49,21 @@ export const cases=[
  [BV,'Tu choisis une tuile.','You pick a card.'],
  [AM,'encore prépare ce qui sera collé.','encore prepares what will be pasted.'],
  ['ext.macos','Le contenu est déposé dans le presse-papiers pour l’app active.','The content lands on the clipboard for the active app.']]},
+{id:'maccy',g:'data',since:'0.9',fr:['Quand tu importes depuis Maccy','encore lit une copie de la base de Maccy, sans jamais modifier celle de Maccy. Chaque copie suit les mêmes règles que si tu l’avais faite dans encore.'],en:['When you import from Maccy','encore reads a copy of Maccy’s database and never changes Maccy’s own. Each copy follows the same rules as if you had made it in encore.'],steps:[
+ [A+'SettingsView.swift','Tu choisis Importer depuis Maccy dans Réglages → Données.','You choose Import from Maccy in Settings → Data.'],
+ [C+'MaccyStore.swift','encore copie la base de Maccy à part et lit chaque copie avec ses formats.','encore copies Maccy’s database aside and reads each copy with its formats.'],
+ [A+'AppModel+Maccy.swift','Les apps exclues sont écartées, les secrets masqués, les épinglés deviennent favoris, et une copie déjà connue garde sa date la plus récente.','Excluded apps are skipped, secrets masked, pinned items become favorites, and a copy encore already has keeps its latest date.'],
+ [ST,'Tout est enregistré en une fois, puis tes durées de conservation s’appliquent.','Everything is saved at once, then your retention rules apply.']]},
+{id:'glisser',g:'daily',since:'0.9',fr:['Quand tu glisses plusieurs images','Chaque image arrive comme un fichier à part, dans une page web comme dans un mail. Collées dans une page web, elles arrivent l’une après l’autre, après le texte choisi avec elles. Si une page laisse quelque chose de côté, encore te le dit.'],en:['When you drag several images','Each image arrives as its own file, in a web page as in a mail. Pasted into a web page, they go in one after the other, after any text picked with them. If a page leaves something out, encore tells you.'],steps:[
+ [BV,'Tu choisis les images avec ⌘-clic, puis tu glisses l’une d’elles.','You pick the images with ⌘-click, then drag one of them.'],
+ [BV,'Chaque image est écrite dans un fichier temporaire, effacé au glisser suivant.','Each image is written to a temporary file, removed at the next drag.'],
+ ['ext.macos','L’app où tu déposes reçoit un fichier par image.','The app you drop into gets one file per image.'],
+ [A+'Toast.swift','Si une page web n’a pris que le texte, un message le dit par-dessus l’app.','If a web page took only the text, a message over the app says so.']]},
+{id:'retouche',g:'data',since:'0.9',fr:['Quand tu retouches une image','Une nouvelle copie est créée, sans les métadonnées ni la localisation de l’originale. L’originale ne change pas.'],en:['When you touch up an image','A new copy is made, without the original’s metadata and location. The original does not change.'],steps:[
+ [BV,'Clic droit sur une image, puis Retoucher une copie.','Right-click an image, then Touch up a copy.'],
+ [C+'ImageAction.swift','L’image est redessinée à la taille et au format choisis, sans ses métadonnées.','The image is drawn again at the chosen size and format, without its metadata.'],
+ [AM,'Le résultat rejoint l’historique comme une nouvelle copie, en tête.','The result joins the history as a new copy, at the top.'],
+ [ST,'Elle est enregistrée comme toute autre copie, chiffrée si l’option est active.','It is saved like any other copy, encrypted if that option is on.']]},
 {id:'fichiers',g:'daily',since:'0.8',fr:['Quand tu colles plusieurs fichiers','Le texte et les images arrivent avec les fichiers, jusqu’à 25 Mo. Les PDF et les archives restent des fichiers.'],en:['When you paste several files','Text and images arrive along with the files, up to 25 MB. PDFs and archives stay files.'],steps:[
  [A+'Previews.swift','Tous les fichiers de la copie sont visibles en mosaïque.','Every file in the copy shows in a mosaic.'],
  [BV,'La tuile affiche leur nombre, et un glisser les emporte tous.','The card shows how many there are, and a drag takes them all.'],

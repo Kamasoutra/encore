@@ -4,6 +4,10 @@
       "name": "Sauvegardes",
       "description": "Définit le fichier d'export et d'import de l'historique."
     },
+    "Sources/EncoreCore/MaccyStore.swift": {
+      "name": "Lecture de Maccy",
+      "description": "Lit une copie de la base de Maccy, jamais l'originale, pour en extraire chaque copie et ses formats."
+    },
     "Sources/EncoreCore/Retention.swift": {
       "name": "Durées de conservation",
       "description": "Applique les règles qui disent combien de temps garder une copie, selon l'app ou la taille."

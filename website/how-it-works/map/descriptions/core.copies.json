@@ -8,6 +8,10 @@
       "name": "Origine d'une copie",
       "description": "Retient quelle app a produit le contenu du presse-papiers."
     },
+    "Sources/EncoreCore/ImageAction.swift": {
+      "name": "Retouche d’image",
+      "description": "Réduit, convertit en JPEG ou en PNG, ou réencode une image sans ses métadonnées ni sa localisation, pour en faire une nouvelle copie."
+    },
     "Sources/EncoreCore/LanguageDetection.swift": {
       "name": "Reconnaissance du langage",
       "description": "Devine le langage d'un bout de code pour le présélectionner dans un snippet."

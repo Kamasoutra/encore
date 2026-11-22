@@ -28,6 +28,10 @@
       "name": "Tests : les réponses aux assistants",
       "description": "Vérifie automatiquement les réponses aux assistants."
     },
+    "Tests/EncoreAppTests/MaccyImportTests.swift": {
+      "name": "Tests : l'import depuis Maccy",
+      "description": "Vérifie automatiquement l'import depuis Maccy."
+    },
     "Tests/EncoreAppTests/PeerImportTests.swift": {
       "name": "Tests : l'import depuis un autre Mac",
       "description": "Vérifie automatiquement l'import depuis un autre Mac."
@@ -59,6 +63,10 @@
     "Tests/EncoreCoreTests/FileReferenceTests.swift": {
       "name": "Tests : les copies de fichiers",
       "description": "Vérifie automatiquement les copies de fichiers."
+    },
+    "Tests/EncoreCoreTests/ImageActionTests.swift": {
+      "name": "Tests : la retouche d'image",
+      "description": "Vérifie automatiquement la retouche d'image."
     },
     "Tests/EncoreCoreTests/LibraryTests.swift": {
       "name": "Tests : l'historique",

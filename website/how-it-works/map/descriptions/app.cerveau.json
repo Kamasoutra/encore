@@ -1,5 +1,9 @@
 {
   "files": {
+    "Sources/Encore/AppModel+Maccy.swift": {
+      "name": "Import depuis Maccy",
+      "description": "Ajoute l'historique de Maccy avec les mêmes règles qu'une copie faite dans encore : apps exclues, secrets, taille ; les éléments épinglés deviennent des favoris."
+    },
     "Sources/Encore/AppModel.swift": {
       "name": "Le chef d'orchestre",
       "description": "Tient l'historique et exécute presque toutes les actions : enregistrer une copie, coller, supprimer, partager."

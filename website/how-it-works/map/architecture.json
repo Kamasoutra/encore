@@ -31,7 +31,8 @@
         "Sources/Encore/ClipDust.swift",
         "Sources/Encore/ResizeHandle.swift",
         "Sources/Encore/CompactPlacement.swift",
-        "Sources/Encore/ScreenPlacement.swift"
+        "Sources/Encore/ScreenPlacement.swift",
+        "Sources/Encore/Toast.swift"
       ]
     },
     {
@@ -44,7 +45,8 @@
         "Sources/Encore/AppModel.swift",
         "Sources/Encore/ClipboardService.swift",
         "Sources/Encore/ScreenshotImporter.swift",
-        "Sources/Encore/DemoFixtures.swift"
+        "Sources/Encore/DemoFixtures.swift",
+        "Sources/Encore/AppModel+Maccy.swift"
       ]
     },
     {
@@ -108,7 +110,8 @@
         "Sources/EncoreCore/LanguageDetection.swift",
         "Sources/EncoreCore/Search.swift",
         "Sources/EncoreCore/Snippets.swift",
-        "Sources/EncoreCore/Localization.swift"
+        "Sources/EncoreCore/Localization.swift",
+        "Sources/EncoreCore/ImageAction.swift"
       ]
     },
     {
@@ -120,7 +123,8 @@
       "paths": [
         "Sources/EncoreCore/Storage.swift",
         "Sources/EncoreCore/Retention.swift",
-        "Sources/EncoreCore/Backup.swift"
+        "Sources/EncoreCore/Backup.swift",
+        "Sources/EncoreCore/MaccyStore.swift"
       ]
     },
     {

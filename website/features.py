@@ -6,7 +6,7 @@ Each one says the version it arrived in: check it against `git tag --contains` w
 
 from html import escape
 
-LATEST = "0.8.0"
+LATEST = "0.9.0"
 
 # (key, version, media, title, text): media is an image or video in media/<lang>/, or None for the cards at the end.
 FEATURES = {
@@ -26,6 +26,8 @@ FEATURES = {
              "Press <kbd>⇧⌘V</kbd> wherever you type: your latest copies line up in a shelf at the bottom of the screen. Each card shows what it holds, the text, the image, the page of a PDF, the color, the code, and the app it came from. Pick one with the arrows, press <kbd>↩</kbd>, and it is pasted right where you were. <kbd>⌘1</kbd> to <kbd>⌘9</kbd> paste the first nine without moving."),
             ("library", "0.3", "library.png", "A library when you need to dig",
              "Press <kbd>↑</kbd> and the shelf grows into a full library: every copy grouped by day, filters by type, app and date, and a large preview with when it was first and last copied. Start typing to search, even the text inside your images, recognized on your Mac. Hold <kbd>↓</kbd> to come back."),
+            ("drop", "0.9.0", "drop.png", "Several images, one drag",
+             "Pick a few images in the shelf with <kbd>⌘</kbd>-click and drag them into a chat, a mail or a web page: each one arrives as its own file. Pasted into a web page, which keeps only one image per paste, they go in one after the other; if a drop or a paste leaves something out, encore tells you so."),
             ("snippets", "0.5", "snippets.mp4", "Snippets, ready when you are",
              "Press <kbd>⌘S</kbd> on any card to make it a snippet: a name, a language among 85, guessed for you with the icons you know from VS Code, and tags. Snippets have their own board and never expire. Write <code>{{name}}</code> and encore asks for the value before pasting; <code>{{clipboard}}</code>, <code>{{date}}</code>, <code>{{uuid}}</code> and <code>{{cursor}}</code> fill in by themselves, and <code>{{date:dd/MM/yyyy}}</code> takes your own format."),
             ("compact", "0.6.0", "compact.png", "A compact window, wherever you want it",
@@ -46,10 +48,16 @@ FEATURES = {
              "<kbd>⇧⌘V</kbd> taken by another app, or just not your habit? Click the shortcut in Settings and type your own. encore refuses the combinations that would break your apps, like <kbd>⌘V</kbd> alone, and <kbd>⌃⌥⌘V</kbd> always works as a fallback."),
             ("retention", "0.2", "settings-retention.png", "Keep what matters, drop the heavy stuff",
              "Retention rules by app, size and type clean up on their own: a 3 GB file for an hour, small texts forever. The first matching rule wins, every card tells you how long it stays, and you see what a change would remove before applying it. Favorites, snippets and collections are kept."),
+            ("maccy", "0.9.0", "settings-maccy.png", "Coming from Maccy",
+             "Settings → Data imports Maccy’s history, pinned items as favorites, under the same rules as your own copies: excluded apps, detected secrets, sizes and retention. encore reads a copy of Maccy’s data and never changes it."),
             ("sounds", "0.2", "settings-sounds.png", "Quiet sounds, or yours",
              "A soft sound on copy and paste, so you know it worked without looking. Pick one of nine sets, preview each in one click, or use your own files and, since 0.6, the sounds that come with macOS."),
             ("keyboard", "0.2", "settings-shortcuts.png", "All from the keyboard",
              "Everything has a key: search, preview, favorite, rename, delete and undo, switch boards with <kbd>⌘←</kbd> <kbd>⌘→</kbd>, paste as plain text with <kbd>⇧↩</kbd>. Search understands <code>app:safari</code>, <code>type:image</code>, <code>tag:</code>, <code>lang:</code> and dates."),
+            ("choices", "0.9.0", None, "Choices in snippets",
+             "<code>{{title:Mr|Ms}}</code> becomes a menu in the snippet form, and <code>{{city:Paris}}</code> a field already filled in."),
+            ("touch-up", "0.9.0", None, "Touch up an image",
+             "Right-click an image to make a smaller copy, a JPEG or a PNG, or one without its metadata and location. The original stays as it was."),
             ("paste-contents", "0.8.0", None, "Paste what you copied",
              "Paste copied files into a document and you get their text and images, up to 25 MB in all, while the Finder and attachments still get the files. PDFs and archives stay files."),
             ("several-files", "0.8.0", None, "Several files, one copy",
@@ -116,6 +124,8 @@ FEATURES = {
              "Appuie sur <kbd>⇧⌘V</kbd> où que tu écrives : tes dernières copies s’alignent dans un bandeau en bas de l’écran. Chaque carte montre ce qu’elle contient, le texte, l’image, la page d’un PDF, la couleur, le code, et l’app d’où elle vient. Choisis avec les flèches, appuie sur <kbd>↩</kbd>, et c’est collé là où tu étais. <kbd>⌘1</kbd> à <kbd>⌘9</kbd> collent les neuf premières sans bouger."),
             ("library", "0.3", "library.png", "Une bibliothèque pour fouiller",
              "Appuie sur <kbd>↑</kbd> et le bandeau devient une bibliothèque complète : toutes tes copies rangées par jour, des filtres par type, app et date, et un grand aperçu avec la date de première et de dernière copie. Tape pour chercher, jusque dans le texte de tes images, reconnu sur ton Mac. Maintiens <kbd>↓</kbd> pour revenir."),
+            ("drop", "0.9.0", "drop.png", "Plusieurs images, un seul glisser",
+             "Choisis quelques images dans le bandeau avec <kbd>⌘</kbd>-clic et glisse-les dans une discussion, un mail ou une page web : chacune arrive comme un fichier à part. Collées dans une page web, qui ne garde qu’une image par collage, elles arrivent l’une après l’autre ; si un dépôt ou un collage laisse quelque chose de côté, encore te le dit."),
             ("snippets", "0.5", "snippets.mp4", "Des snippets, prêts quand tu l’es",
              "Appuie sur <kbd>⌘S</kbd> sur n’importe quelle carte pour en faire un snippet : un nom, un langage parmi 85, deviné pour toi avec les icônes de VS Code, et des tags. Les snippets ont leur propre tableau et n’expirent jamais. Écris <code>{{nom}}</code> et encore te demande la valeur avant de coller ; <code>{{clipboard}}</code>, <code>{{date}}</code>, <code>{{uuid}}</code> et <code>{{cursor}}</code> se remplissent tout seuls, et <code>{{date:dd/MM/yyyy}}</code> suit ton propre format."),
             ("compact", "0.6.0", "compact.png", "Une fenêtre compacte, où tu veux",
@@ -136,10 +146,16 @@ FEATURES = {
              "<kbd>⇧⌘V</kbd> déjà pris par une autre app, ou pas dans tes habitudes ? Clique sur le raccourci dans les Réglages et tape le tien. encore refuse les combinaisons qui casseraient tes apps, comme <kbd>⌘V</kbd> seul, et <kbd>⌃⌥⌘V</kbd> marche toujours en secours."),
             ("retention", "0.2", "settings-retention.png", "Garder l’utile, jeter le lourd",
              "Des règles de rétention par app, taille et type font le ménage toutes seules : un fichier de 3 Go pendant une heure, les petits textes pour toujours. La première règle qui correspond l’emporte, chaque carte indique combien de temps elle reste, et tu vois ce qu’un changement supprimerait avant de l’appliquer. Favoris, snippets et collections sont gardés."),
+            ("maccy", "0.9.0", "settings-maccy.png", "Tu viens de Maccy",
+             "Réglages → Données importe l’historique de Maccy, les éléments épinglés en favoris, avec les mêmes règles que tes propres copies : apps exclues, secrets détectés, tailles et conservation. encore lit une copie des données de Maccy et ne les modifie jamais."),
             ("sounds", "0.2", "settings-sounds.png", "Des sons discrets, ou les tiens",
              "Un son léger à la copie et au collage, pour savoir que c’est fait sans regarder. Choisis parmi neuf jeux, écoute chacun en un clic, ou utilise tes propres fichiers et, depuis la 0.6, les sons fournis avec macOS."),
             ("keyboard", "0.2", "settings-shortcuts.png", "Tout au clavier",
              "Chaque action a sa touche : chercher, prévisualiser, mettre en favori, renommer, supprimer et annuler, changer de panneau avec <kbd>⌘←</kbd> <kbd>⌘→</kbd>, coller en texte brut avec <kbd>⇧↩</kbd>. La recherche comprend <code>app:safari</code>, <code>type:image</code>, <code>tag:</code>, <code>lang:</code> et les dates."),
+            ("choices", "0.9.0", None, "Des choix dans les snippets",
+             "<code>{{civilité:M.|Mme}}</code> devient un menu dans le formulaire du snippet, et <code>{{ville:Paris}}</code> un champ déjà rempli."),
+            ("touch-up", "0.9.0", None, "Retoucher une image",
+             "Clic droit sur une image pour en faire une copie plus petite, en JPEG ou en PNG, ou sans ses métadonnées ni sa localisation. L’original reste tel quel."),
             ("paste-contents", "0.8.0", None, "Colle ce que tu as copié",
              "Colle des fichiers copiés dans un document et tu obtiens leur texte et leurs images, jusqu’à 25 Mo au total, pendant que le Finder et les pièces jointes reçoivent toujours les fichiers. Les PDF et les archives restent des fichiers."),
             ("several-files", "0.8.0", None, "Plusieurs fichiers, une copie",
@@ -207,6 +223,14 @@ RELEASES = {
         "pace": "{} versions in {} days",
         "latest": "Latest",
         "items": [
+            ("0.9.0", "2026-11-23", "drop.png", "Several images in one drag, choices in your snippets, image touch-ups, and your Maccy history.", [
+                ("new", "<b>Several images, one drag or one paste.</b> Pick images in the shelf with <kbd>⌘</kbd>-click and drag them into a chat, a mail or a web page: each one arrives as its own file, where a drop used to merge them. Pasted into a web page, or an app like Slack, ChatGPT or Claude, they go in one after the other, since such a page takes only one image per paste. Text picked along with them goes first."),
+                ("new", "<b>Told when something stays behind.</b> A web page takes only the text of a mixed drop, and one file per paste. When that happens, a short message over your app says what was left out, and how to add it."),
+                ("new", "<b>Choices in snippets.</b> <code>{{title:Mr|Ms}}</code> becomes a menu in the snippet form, the first choice selected, and <code>{{city:Paris}}</code> a field already filled in."),
+                ("new", "<b>Touch up an image.</b> Right-click an image: Reduce by half, Fit within 1920 pixels, Convert to JPEG or PNG, or Remove metadata and location. Each makes a new copy, without the original’s metadata; the original stays as it was."),
+                ("new", "<b>Import from Maccy.</b> Settings → Data → Import from Maccy… brings Maccy’s history into encore, pinned items as favorites, under the same rules as your own copies. Maccy’s data is only read."),
+                ("fix", "Copy and paste sounds no longer freeze encore. With an audio output slow to wake up, like a screen over HDMI or DisplayPort, Bluetooth headphones or AirPlay, a copy or a paste could hang encore for a second or two. The sound now plays on its own, and is skipped rather than played late."),
+            ]),
             ("0.8.0", "2026-11-06", "settings-mcp.png", "Your clipboard in your AI assistant, and what you copied when you paste files.", [
                 ("new", "<b>Your clipboard, in your AI assistant.</b> Connect Claude Code, Claude Desktop, Codex, Cursor, VS Code or another MCP assistant: it can search your history, read a copy, put text on your clipboard, save a snippet or set a favorite. Off by default and local to this Mac. Settings → MCP gives you the setup to copy for each one."),
                 ("new", "<b>You stay in control.</b> Detected secrets stay hidden from assistants unless you allow access, and Settings show the last 200 calls, without clipboard content. What your assistant reads then follows its own data rules."),
@@ -321,6 +345,14 @@ RELEASES = {
         "pace": "{} versions en {} jours",
         "latest": "Dernière version",
         "items": [
+            ("0.9.0", "2026-11-23", "drop.png", "Plusieurs images en un glisser, des choix dans tes snippets, la retouche d’images, et ton historique Maccy.", [
+                ("new", "<b>Plusieurs images, un seul glisser ou collage.</b> Choisis des images dans le bandeau avec <kbd>⌘</kbd>-clic et glisse-les dans une discussion, un mail ou une page web : chacune arrive comme un fichier à part, là où un dépôt les fusionnait. Collées dans une page web, ou une app comme Slack, ChatGPT ou Claude, elles arrivent l’une après l’autre, car une telle page ne prend qu’une image par collage. Le texte choisi avec elles passe en premier."),
+                ("new", "<b>Prévenu quand quelque chose reste de côté.</b> Une page web ne prend que le texte d’un dépôt mixte, et un seul fichier par collage. Quand ça arrive, un court message par-dessus ton app dit ce qui manque, et comment l’ajouter."),
+                ("new", "<b>Des choix dans les snippets.</b> <code>{{civilité:M.|Mme}}</code> devient un menu dans le formulaire du snippet, le premier choix sélectionné, et <code>{{ville:Paris}}</code> un champ déjà rempli."),
+                ("new", "<b>Retoucher une image.</b> Clic droit sur une image : Réduire de moitié, Tenir dans 1920 pixels, Convertir en JPEG ou en PNG, ou Retirer les métadonnées et la localisation. Chaque action crée une nouvelle copie, sans les métadonnées de l’originale ; l’originale reste telle quelle."),
+                ("new", "<b>Import depuis Maccy.</b> Réglages → Données → Importer depuis Maccy… reprend l’historique de Maccy dans encore, les éléments épinglés en favoris, avec les mêmes règles que tes propres copies. Les données de Maccy sont seulement lues."),
+                ("fix", "Les sons de copie et de collage ne figent plus encore. Avec une sortie audio lente à se réveiller, comme un écran en HDMI ou DisplayPort, un casque Bluetooth ou AirPlay, une copie ou un collage pouvait bloquer encore une à deux secondes. Le son est maintenant joué à part, et sauté plutôt que joué en retard."),
+            ]),
             ("0.8.0", "2026-11-06", "settings-mcp.png", "Ton presse-papiers dans ton assistant IA, et ce que tu as copié quand tu colles des fichiers.", [
                 ("new", "<b>Ton presse-papiers, dans ton assistant IA.</b> Connecte Claude Code, Claude Desktop, Codex, Cursor, VS Code ou un autre assistant MCP : il peut chercher dans ton historique, lire une copie, mettre du texte dans ton presse-papiers, enregistrer un snippet ou marquer un favori. Désactivé par défaut et limité à ce Mac. Réglages → MCP te donne la configuration à copier pour chacun."),
                 ("new", "<b>Tu gardes la main.</b> Les secrets détectés restent invisibles pour les assistants sauf si tu l’autorises, et les réglages montrent les 200 derniers appels, sans le contenu des copies. Ce que ton assistant lit suit ensuite ses propres règles."),
@@ -426,9 +458,9 @@ RELEASES = {
 
 
 # Screens much wider than tall, shown across the page under their text.
-WIDE = {"shelf.png", "library.png", "colors.png"}
+WIDE = {"shelf.png", "library.png", "colors.png", "drop.png"}
 # Visuals made with the brand tools already sit on the violet backdrop; raw captures get it from the page.
-FRAMED = {"shelf.png", "library.png", "preview.png", "snippets.jpg", "snippets.mp4"}
+FRAMED = {"shelf.png", "library.png", "preview.png", "snippets.jpg", "snippets.mp4", "drop.png"}
 
 
 def short(version):

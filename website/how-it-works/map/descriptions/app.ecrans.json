@@ -28,6 +28,10 @@
       "name": "Choix de l'écran",
       "description": "Détermine sur quel écran et à quel endroit placer une fenêtre."
     },
+    "Sources/Encore/Toast.swift": {
+      "name": "Messages par-dessus les apps",
+      "description": "Affiche un court message au-dessus de l'app où l'on dépose ou colle, quand une page web a laissé des images ou des fichiers de côté."
+    },
     "Sources/Encore/WorkspaceView.swift": {
       "name": "Bibliothèque",
       "description": "Déploie le bandeau en grille, avec ses filtres et le grand aperçu qui s'ouvre avec Espace."
